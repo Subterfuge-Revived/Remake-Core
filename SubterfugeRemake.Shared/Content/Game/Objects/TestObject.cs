@@ -19,9 +19,6 @@ namespace SubterfugeCore.Shared.Content.Game.Objects
         public override void update(GameTime gameTime)
         {
             Vector2 position = this.position;
-
-            GraphicsDeviceManager.
-
             this.position = new Vector2(position.X + 1, position.Y + 1);
         }
     }
