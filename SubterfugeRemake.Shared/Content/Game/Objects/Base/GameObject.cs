@@ -35,13 +35,9 @@ namespace SubterfugeCore.Shared.Content.Game.Objects.Base
 
         public abstract void update(GameTime gameTime);
 
-        public void draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public Texture2D getTexture()
         {
-            Rectangle drawLocation = new Rectangle((int)(this.position.X - (this.objectTexture.Width / 2)),
-                (int)(this.position.Y - (this.objectTexture.Height / 2)), this.objectTexture.Width,
-                height: this.objectTexture.Height);
-
-            spriteBatch.Draw(this.objectTexture, this.position, Microsoft.Xna.Framework.Color.White);
+            return this.objectTexture;
         }
 
         public RectangleF getBoundingBox()
@@ -58,6 +54,11 @@ namespace SubterfugeCore.Shared.Content.Game.Objects.Base
             }
 
             return false;
+        }
+
+        public Vector2 getPosition()
+        {
+            return this.position;
         }
 
     }

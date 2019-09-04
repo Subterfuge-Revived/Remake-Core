@@ -9,9 +9,9 @@ using SubterfugeCore.Shared.Content.Game.Objects.Base;
 
 namespace SubterfugeCore.Shared.Content.Game.Objects
 {
-    class TestObject : GameObject
+    class Sub : GameObject
     {
-        public TestObject(Texture2D objectTexture) : base(objectTexture)
+        public Sub() : base(SubterfugeCore.Shared.SubterfugeApp.SpriteLoader.getSprite("riot"))
         {
             this.position = new Vector2(0, 0);
         }

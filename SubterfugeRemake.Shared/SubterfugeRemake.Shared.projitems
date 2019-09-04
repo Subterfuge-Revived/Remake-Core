@@ -9,12 +9,20 @@
     <Import_RootNamespace>SubterfugeRemake.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Event.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\EventListener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\EventObserver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\EventType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Commands\BaseCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Commands\CommandType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Timing\GameTick.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Timing\NtpConnector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\Event.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\EventListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\EventObserver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\EventType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\Camera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\SpriteLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Objects\Base\GameObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Objects\TestObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Objects\Sub.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Match.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SubterfugeCore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -26,7 +34,7 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Animations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Audio\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\World\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

@@ -99,4 +99,15 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+  <AfterGenerateAndroidManifest>
+    $(AfterGenerateAndroidManifest);
+    CopyExtraConfigFiles;
+  </AfterGenerateAndroidManifest>
+  </PropertyGroup> 
+  <Target Name="CopyExtraConfigFiles">
+  <CopyIfChanged
+      SourceFiles="SubterfugeAndroid.dll.config"
+      DestinationFiles="$(MonoAndroidIntermediateAssemblyDir)SubterfugeAndroid.dll.config" />
+  </Target>
 </Project>

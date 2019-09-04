@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SubterfugeCore.Shared.Content.Game.Events;
 using SubterfugeCore.Shared.Content.Game.Objects;
+using SubterfugeRemake.Shared.Content.Game.Graphics;
+using SubterfugeRemake.Shared.Content.Game.World;
 
 #endregion
 
@@ -21,9 +23,10 @@ namespace SubterfugeCore.Shared
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         public static EventObserver eventObserver;
-        Texture2D texture;
+        private static SpriteLoader spriteLoader;
+        Match match;
 
-        private TestObject test;
+        internal static SpriteLoader SpriteLoader { get => spriteLoader; set => spriteLoader = value; }
 
         public SubterfugeApp()
         {
@@ -31,6 +34,7 @@ namespace SubterfugeCore.Shared
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = true;
             eventObserver = new EventObserver();
+            SpriteLoader = new SpriteLoader();
         }
 
         /// <summary>
@@ -43,6 +47,7 @@ namespace SubterfugeCore.Shared
         {
             // TODO: Add your initialization logic here
             base.Initialize();
+            match = new Match();
         }
 
         /// <summary>
@@ -53,8 +58,9 @@ namespace SubterfugeCore.Shared
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            texture = Content.Load<Texture2D>("Assets/Images/riot");
-            test = new TestObject(texture);
+
+            // Add all sprites to the sprite loader here.
+            SpriteLoader.addSprite("riot", Content.Load<Texture2D>("Assets/Images/riot"));
         }
 
         /// <summary>
@@ -74,7 +80,7 @@ namespace SubterfugeCore.Shared
             }
 #endif
             // TODO: Add your update logic here			
-            test.update(gameTime);
+            match.update(gameTime);
             base.Update(gameTime);
         }
 
@@ -86,7 +92,7 @@ namespace SubterfugeCore.Shared
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            test.draw(spriteBatch, gameTime);
+            match.render(spriteBatch, gameTime);
             spriteBatch.End();
 
             base.Draw(gameTime);
