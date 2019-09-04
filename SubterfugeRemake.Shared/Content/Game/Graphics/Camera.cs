@@ -37,38 +37,35 @@ namespace SubterfugeRemake.Shared.Content.Game.Graphics
 
         public void update()
         {
-            /**
             // Determine if the camera's position should be updated.
             touchCollection[0] = touchCollection[1];
             touchCollection[1] = TouchPanel.GetState();
 
             if (touchCollection[1].Count > 0)
             {
-                if(touchCollection[1][0].State == TouchLocationState.Moved)
+                if (touchCollection[1][0].State == TouchLocationState.Moved)
                 {
-                    // We want to get the difference between the most recent touch (last in the collection)
-                    // and the one before it.
-                    TouchLocation currentLocation = touchCollection[1][touchCollection[1].Count - 1];
-                    TouchLocation lastLocation = touchCollection[1][touchCollection[1].Count - 2];
+                    TouchLocation location = touchCollection[1][0];
+                    TouchLocation lastLocation = touchCollection[0][0];
+                    Vector2 delta = lastLocation.Position - location.Position;
 
-                    Vector2 delta = currentLocation.Position - lastLocation.Position;
-                } else
+                    // Update the camera based on the delta.
+                    Rectangle currentBounds = this.cameraBounds;
+                    this.cameraBounds = new Rectangle((int)Math.Round(currentBounds.X + delta.X), (int)Math.Round(currentBounds.Y + delta.Y), currentBounds.Width, currentBounds.Height);
+
+                }
+                else
                 {
                     touchCollection[0] = touchCollection[1];
                 }
-                
-                // Update the camera based on the delta.
-                Rectangle currentBounds = this.cameraBounds;
-                this.cameraBounds = new Rectangle((int)Math.Round(currentBounds.X + delta.X), (int)Math.Round(currentBounds.Y + delta.Y), currentBounds.Width, currentBounds.Height);
             }
-    **/
 
         }
 
         public void render(SpriteBatch spriteBatch, GameTime gameTime, List<GameObject> gameObjects)
         {
             // If the camera is not enabled, do not render.
-            if(!this.isActive)
+            if (!this.isActive)
             {
                 return;
             }
