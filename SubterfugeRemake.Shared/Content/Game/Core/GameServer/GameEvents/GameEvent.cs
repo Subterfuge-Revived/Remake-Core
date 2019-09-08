@@ -5,9 +5,9 @@ using System.Text;
 
 namespace SubterfugeRemake.Shared.Content.Game.Core.Commands
 {
-    abstract class BaseCommand
+    abstract class GameEvent
     {
-        private CommandType commandType;
+        private GameEventType commandType;
         private GameTick gameTick;
 
         /// <summary>
@@ -15,13 +15,13 @@ namespace SubterfugeRemake.Shared.Content.Game.Core.Commands
         /// This function will check all conditions required to perform the command as well as perform the command
         /// to show the outcome of the command.
         /// </summary>
-        public abstract void commandForwardAction();
+        public abstract void eventForwardAction();
 
         /// <summary>
         /// This function will be executed when going back in time in order to undo an action.
         /// For example, this will un-hire a specialist returning the hire point to the queen, or un-launch a sub returning the drillers to the owner.
         /// </summary>
-        public abstract void commandBackwardsAction();
+        public abstract void eventBackwardAction();
 
         public GameTick getTick()
         {

@@ -11,15 +11,9 @@ namespace SubterfugeCore.Shared.Content.Game.Objects
 {
     class Sub : GameObject
     {
-        public Sub() : base(SubterfugeCore.Shared.SubterfugeApp.SpriteLoader.getSprite("riot"))
+        public Sub() : base()
         {
             this.position = new Vector2(0, 0);
-        }
-
-        public override void update(GameTime gameTime)
-        {
-            Vector2 position = this.position;
-            this.position = new Vector2(position.X + 1, position.Y + 1);
         }
     }
 }

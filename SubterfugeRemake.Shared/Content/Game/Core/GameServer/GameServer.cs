@@ -1,0 +1,29 @@
+﻿using SubterfugeCore.Shared.Content.Game.Objects;
+using SubterfugeRemake.Shared.Content.Game.Core.Timing;
+using SubterfugeRemake.Shared.Content.Game.World;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace SubterfugeRemake.Shared.Content.Game.Core.GameServer
+{
+    /**
+     * This game server class will hold all of the game logic.
+     * This includes holding the game state, as well as being able to interpolate the locations of all a player's outposts, 
+     * subs, etc.
+     * 
+     * No graphics will be used within this object. The graphics engine will need to reference the objects within this class to
+     * determine how to draw.
+     */
+    class GameServer
+    {
+        private GameState state = new GameState();
+
+        public GameState GetGameState()
+        {
+            // Update the game state before sending it back
+            state.update();
+            return state;
+        }        
+    }
+}

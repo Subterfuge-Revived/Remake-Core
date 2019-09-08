@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SubterfugeRemake.Shared.Content.Game.Core.Commands
 {
-    enum CommandType
+    enum GameEventType
     {
         SubLaunch,
         PlayerJoin,

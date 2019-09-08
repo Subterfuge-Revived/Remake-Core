@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SubterfugeCore.Shared.Content.Game.Objects;
 using SubterfugeCore.Shared.Content.Game.Objects.Base;
+using SubterfugeRemake.Shared.Content.Game.Core.GameServer;
 using SubterfugeRemake.Shared.Content.Game.Graphics;
 using System;
 using System.Collections.Generic;
@@ -15,31 +16,24 @@ namespace SubterfugeRemake.Shared.Content.Game.World
     class Match
     {
         private Camera camera;
-        private GameState gameState;
-        private List<GameObject> gameObjects = new List<GameObject>();
+        private GameServer gameServer;
 
-        public Match()
+        public Match(GraphicsDevice device)
         {
-            this.gameState = new GameState();
-            this.camera = new Camera();
-            gameObjects.Add(new Sub());
+            this.gameServer = new GameServer();
+            this.camera = new Camera(device);
         }
 
 
         public void update(GameTime gameTime) {
+            this.gameServer.GetGameState();
             // Check to see if the camera has been moved.
             this.camera.update();
-
-            // Call the update function on all game objects.
-            foreach(GameObject gameObject in this.gameObjects)
-            {
-                gameObject.update(gameTime);
-            }
 
         }
         public void render(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            this.camera.render(spriteBatch, gameTime, gameObjects);
+            this.camera.render(spriteBatch, gameTime, gameServer.GetGameState().getSubList());
         }
     }
 }

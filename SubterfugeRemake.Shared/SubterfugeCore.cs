@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SubterfugeCore.Shared.Content.Game.Events;
 using SubterfugeCore.Shared.Content.Game.Objects;
+using SubterfugeRemake.Shared.Content.Game.Core.Timing;
 using SubterfugeRemake.Shared.Content.Game.Graphics;
 using SubterfugeRemake.Shared.Content.Game.World;
 
@@ -47,7 +48,7 @@ namespace SubterfugeCore.Shared
         {
             // TODO: Add your initialization logic here
             base.Initialize();
-            match = new Match();
+            match = new Match(graphics.GraphicsDevice);
         }
 
         /// <summary>
@@ -61,6 +62,8 @@ namespace SubterfugeCore.Shared
 
             // Add all sprites to the sprite loader here.
             SpriteLoader.addSprite("riot", Content.Load<Texture2D>("Assets/Images/riot"));
+
+            Console.WriteLine(NtpConnector.GetNetworkTime().ToLongDateString());
         }
 
         /// <summary>

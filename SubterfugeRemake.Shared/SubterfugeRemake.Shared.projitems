@@ -9,20 +9,24 @@
     <Import_RootNamespace>SubterfugeRemake.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Commands\BaseCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Commands\CommandType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Timing\GameTick.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Timing\NtpConnector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\GameEvents\GameEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\GameEvents\GameEventType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\GameServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\Timing\GameTick.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\Timing\NtpConnector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\Event.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\EventListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\EventObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\EventType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\Camera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\TexturedGameObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\TexturedSub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\SpriteLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Objects\Base\GameObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Objects\Sub.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\GameObjects\Base\GameObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\GameObjects\Sub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Match.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\TextureFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SubterfugeCore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -30,11 +34,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\riot.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Animations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Audio\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\GameObjects\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

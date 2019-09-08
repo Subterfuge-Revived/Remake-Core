@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 using SubterfugeCore.Shared.Content.Game.Objects.Base;
+using SubterfugeRemake.Shared.Content.Game.Graphics.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,10 +20,10 @@ namespace SubterfugeRemake.Shared.Content.Game.Graphics
         TouchCollection[] touchCollection = new TouchCollection[2];
 
 
-        public Camera()
+        public Camera(GraphicsDevice device)
         {
             this.isActive = true;
-            this.cameraBounds = new Rectangle(0, 0, 480, 920);
+            this.cameraBounds = new Rectangle(0, 0, device.Viewport.Width, device.Viewport.Height);
         }
 
         public Rectangle getCameraBounds()
@@ -72,18 +73,22 @@ namespace SubterfugeRemake.Shared.Content.Game.Graphics
             // Call the render function on all game objects
             foreach (GameObject gameObject in gameObjects)
             {
-                spriteBatch.Draw(gameObject.getTexture(), this.getRelativeLocation(gameObject), Microsoft.Xna.Framework.Color.White);
+                TexturedGameObject texturedObject = TextureFactory.getTexturedObject(gameObject);
+                if (cameraBounds.Contains(this.getRelativeLocation(texturedObject)))
+                {
+                    spriteBatch.Draw(texturedObject.getTexture(), this.getRelativeLocation(texturedObject), Microsoft.Xna.Framework.Color.White);
+                }
             }
         }
 
         // Determines the gameObject's relative location on the screen based on the camera's position.
-        private Rectangle getRelativeLocation(GameObject gameObject)
+        private Rectangle getRelativeLocation(TexturedGameObject gameObject)
         {
-            Rectangle drawLocation = new Rectangle((int)(gameObject.getPosition().X - (gameObject.getTexture().Width / 2)),
-    (int)(gameObject.getPosition().Y - (gameObject.getTexture().Height / 2)), gameObject.getTexture().Width,
-    height: gameObject.getTexture().Height);
+            Rectangle drawLocation = new Rectangle((int)(gameObject.getPosition().X - (gameObject.Width / 2)),
+    (int)(gameObject.getPosition().Y - (gameObject.Height / 2)), gameObject.Width,
+    height: gameObject.Height);
 
-            return new Rectangle(drawLocation.X - this.cameraBounds.X, drawLocation.Y - this.cameraBounds.Y, drawLocation.Height, drawLocation.Width);
+            return new Rectangle(drawLocation.X - this.cameraBounds.X, drawLocation.Y - this.cameraBounds.Y, gameObject.Height, gameObject.Width);
         }
 
         public void setActive()
