@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using SubterfugeCore.Shared.Content.Game.Objects.Base;
 
 namespace SubterfugeCore.Shared.Content.Game.Objects

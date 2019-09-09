@@ -1,9 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
+﻿using Microsoft.Xna.Framework;
 
 namespace SubterfugeCore.Shared.Content.Game.Objects.Base
 {

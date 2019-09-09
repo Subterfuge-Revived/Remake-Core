@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\SubterfugeRemake.Shared\Content\Game\Core\GameServer\**\*.*">
+        <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="..\SubterfugeRemake.Shared\Content\Game\Core\GameServer\README.txt" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\SubterfugeRemake.Shared\Content\Game\Core\GameServer\README.txt" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.Portable" Version="3.7.1.189" />
+  </ItemGroup>
+
+</Project>
