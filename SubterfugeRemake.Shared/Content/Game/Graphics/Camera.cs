@@ -5,13 +5,18 @@ using SubterfugeCore.Shared.Content.Game.Objects.Base;
 using SubterfugeRemake.Shared.Content.Game.Graphics.GameObjects;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
+using SubterfugeCore.Shared;
+using Color = Microsoft.Xna.Framework.Color;
+using Point = Microsoft.Xna.Framework.Point;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace SubterfugeRemake.Shared.Content.Game.Graphics
 {
     class Camera
     {
-        protected Rectangle cameraBounds = new Rectangle(); //The area on the map that is visible
+        protected static Rectangle cameraBounds = new Rectangle(); //The area on the map that is visible
         protected Rectangle cameraScreenLocation = new Rectangle(); //The area of the screen the camera takes up
         private double widthRatio;
         private double heightRatio;
@@ -23,12 +28,12 @@ namespace SubterfugeRemake.Shared.Content.Game.Graphics
         public Camera(GraphicsDevice device)
         {
             this.isActive = true;
-            this.cameraBounds = new Rectangle(0, 0, device.Viewport.Width, device.Viewport.Height);
+            cameraBounds = new Rectangle(0, 0, device.Viewport.Width, device.Viewport.Height);
         }
 
         public Rectangle getCameraBounds()
         {
-            return this.cameraBounds;
+            return cameraBounds;
         }
 
         public Rectangle getScreenLocation()
@@ -51,8 +56,8 @@ namespace SubterfugeRemake.Shared.Content.Game.Graphics
                     Vector2 delta = lastLocation.Position - location.Position;
 
                     // Update the camera based on the delta.
-                    Rectangle currentBounds = this.cameraBounds;
-                    this.cameraBounds = new Rectangle((int)Math.Round(currentBounds.X + delta.X), (int)Math.Round(currentBounds.Y + delta.Y), currentBounds.Width, currentBounds.Height);
+                    Rectangle currentBounds = cameraBounds;
+                    cameraBounds = new Rectangle((int)Math.Round(currentBounds.X + delta.X), (int)Math.Round(currentBounds.Y + delta.Y), currentBounds.Width, currentBounds.Height);
 
                 }
                 else
@@ -65,6 +70,12 @@ namespace SubterfugeRemake.Shared.Content.Game.Graphics
 
         public void render(SpriteBatch spriteBatch, GameTime gameTime, List<GameObject> gameObjects)
         {
+
+            // Draw the background.
+            spriteBatch.Draw(
+                texture: SubterfugeApp.SpriteLoader.getSprite("Sea"),
+                destinationRectangle: new Rectangle(0, 0, cameraBounds.Width, cameraBounds.Height), color: Color.Cyan);
+
             // If the camera is not enabled, do not render.
             if (!this.isActive)
             {
@@ -73,22 +84,24 @@ namespace SubterfugeRemake.Shared.Content.Game.Graphics
             // Call the render function on all game objects
             foreach (GameObject gameObject in gameObjects)
             {
-                TexturedGameObject texturedObject = TextureFactory.getTexturedObject(gameObject);
-                if (cameraBounds.Contains(this.getRelativeLocation(texturedObject)))
+                if (cameraBounds.Contains(new Point((int)gameObject.getPosition().X, (int)gameObject.getPosition().Y)))
                 {
-                    spriteBatch.Draw(texturedObject.getTexture(), this.getRelativeLocation(texturedObject), Microsoft.Xna.Framework.Color.White);
+                    TexturedGameObject texturedObject = TextureFactory.getTexturedObject(gameObject);
+                    texturedObject.render(spriteBatch);
                 }
             }
         }
 
         // Determines the gameObject's relative location on the screen based on the camera's position.
-        private Rectangle getRelativeLocation(TexturedGameObject gameObject)
+        public static Rectangle getRelativeLocation(TexturedGameObject gameObject)
         {
-            Rectangle drawLocation = new Rectangle((int)(gameObject.getPosition().X - (gameObject.Width / 2)),
-    (int)(gameObject.getPosition().Y - (gameObject.Height / 2)), gameObject.Width,
-    height: gameObject.Height);
+            return new Rectangle((int)gameObject.getPosition().X - cameraBounds.X, (int)gameObject.getPosition().Y - cameraBounds.Y, gameObject.Width, gameObject.Height);
+        }
 
-            return new Rectangle(drawLocation.X - this.cameraBounds.X, drawLocation.Y - this.cameraBounds.Y, gameObject.Height, gameObject.Width);
+        // Determines the gameObject's relative location on the screen based on the camera's position.
+        public static Vector2 getRelativePosition(Vector2 objectPosition)
+        {
+            return new Vector2(objectPosition.X - cameraBounds.X, objectPosition.Y - cameraBounds.Y);
         }
 
         public void setActive()

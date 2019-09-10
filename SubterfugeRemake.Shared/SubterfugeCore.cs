@@ -24,10 +24,12 @@ namespace SubterfugeCore.Shared
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         public static EventObserver eventObserver;
-        private static SpriteLoader spriteLoader;
+        private static SpriteLoader spriteLoader = new SpriteLoader();
+        private static FontLoader fontLoader = new FontLoader();
         Match match;
 
         internal static SpriteLoader SpriteLoader { get => spriteLoader; set => spriteLoader = value; }
+        internal static FontLoader FontLoader { get => fontLoader; set => fontLoader = value; }
 
         public SubterfugeApp()
         {
@@ -35,7 +37,6 @@ namespace SubterfugeCore.Shared
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = true;
             eventObserver = new EventObserver();
-            SpriteLoader = new SpriteLoader();
         }
 
         /// <summary>
@@ -60,8 +61,8 @@ namespace SubterfugeCore.Shared
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Add all sprites to the sprite loader here.
-            SpriteLoader.addSprite("riot", Content.Load<Texture2D>("Assets/Images/riot"));
+            SpriteLoader.loadSprites(Content);
+            FontLoader.loadFonts(Content);
 
             Console.WriteLine(NtpConnector.GetNetworkTime().ToLongDateString());
         }

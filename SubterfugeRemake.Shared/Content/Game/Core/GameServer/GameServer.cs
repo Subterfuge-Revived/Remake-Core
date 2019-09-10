@@ -19,6 +19,6 @@ namespace SubterfugeRemake.Shared.Content.Game.Core.GameServer
             // Update the game state before sending it back
             state.update();
             return state;
-        }        
+        }       
     }
 }

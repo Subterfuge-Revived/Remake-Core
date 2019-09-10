@@ -1,22 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Android.Webkit;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SubterfugeCore.Shared;
+using SubterfugeCore.Shared.Content.Game.Objects;
 using SubterfugeCore.Shared.Content.Game.Objects.Base;
 
 namespace SubterfugeRemake.Shared.Content.Game.Graphics.GameObjects
 {
     class TexturedSub : TexturedGameObject
     {
-        public TexturedSub(GameObject gameObject) : base(gameObject, SubterfugeApp.SpriteLoader.getSprite("riot"), 64, 64)
+
+        public TexturedSub(GameObject gameObject) : base(gameObject, SubterfugeApp.SpriteLoader.getSprite("SubFill"),
+            100, 100)
         {
+            this.rotation = (float)Math.PI / 4f;
         }
 
-        public override void update(GameTime gameTime)
+        public override void render(SpriteBatch spriteBatch)
         {
-            // TODO: convert gameTime to a dateTime
+
+            spriteBatch.Draw(
+                texture: this.getTexture(),
+                destinationRectangle: Camera.getRelativeLocation(this),
+                color: Color.Blue,
+                origin: this.getTexture().Bounds.Size.ToVector2() / 2f,
+                rotation: this.rotation + (float)(Math.PI / 2f));
+
+            SpriteFont font = SubterfugeApp.FontLoader.getFont("Arial");
+            string drillerCount = ((Sub) this.gameObject).getDrillerCount().ToString();
+            Vector2 stringSize = font.MeasureString(drillerCount);
+
+
+            spriteBatch.DrawString(
+                spriteFont: SubterfugeApp.FontLoader.getFont("Arial"),
+                text: drillerCount,
+                position: Camera.getRelativePosition(this.getPosition()),
+                color: Color.White,
+                rotation: (float)(this.rotation),
+                origin: stringSize / 2f,
+                layerDepth: 1f,
+                scale: 1.5f,
+                effects: SpriteEffects.None);
         }
     }
 }

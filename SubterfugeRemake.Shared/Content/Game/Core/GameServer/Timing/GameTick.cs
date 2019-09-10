@@ -12,7 +12,7 @@ namespace SubterfugeRemake.Shared.Content.Game.Core.Timing
             this.startTime = startTime;
             this.tickNumber = tickNumber;
         }
-
+        
         public static GameTick fromDate(DateTime startDate, DateTime dateTime)
         {
             // Determine the delta

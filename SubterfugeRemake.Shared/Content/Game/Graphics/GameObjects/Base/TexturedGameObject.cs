@@ -8,7 +8,6 @@ namespace SubterfugeRemake.Shared.Content.Game.Graphics.GameObjects
     abstract class TexturedGameObject
     {
         protected GameObject gameObject;
-        protected RectangleF boundingBox;
         protected Texture2D objectTexture;
         protected float rotation = 0f;
         public int Height { get; set; }
@@ -21,27 +20,14 @@ namespace SubterfugeRemake.Shared.Content.Game.Graphics.GameObjects
             this.Height = height;
             this.gameObject = gameObject;
             this.objectTexture = texture;
-            this.boundingBox = new RectangleF(this.gameObject.getPosition().X - (this.Width / 2), this.gameObject.getPosition().Y - (this.Height / 2), this.Width, this.Height);
         }
 
+        public abstract void render(SpriteBatch spriteBatch);
 
-        private void updateObject(GameTime gameTime)
-        {
-            // Update the position of the bounding box
-            if (this.objectTexture != null)
-            {
-                this.boundingBox = new RectangleF(this.gameObject.getPosition().X - (this.Width / 2), this.gameObject.getPosition().Y - (this.Height / 2), this.Width, this.Height);
-            }
-
-            // Call object's update function
-            this.update(gameTime);
-        }
-
-        public abstract void update(GameTime gameTime);
 
         public RectangleF getBoundingBox()
         {
-            return this.boundingBox;
+            return new RectangleF(this.gameObject.getPosition().X - (this.Width / 2), this.gameObject.getPosition().Y - (this.Height / 2), this.Width, this.Height);
         }
 
         public Texture2D getTexture()

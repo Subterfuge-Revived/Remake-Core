@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\EventObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\EventType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\Camera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\FontLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\TexturedGameObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\TexturedSub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\SpriteLoader.cs" />
@@ -33,17 +34,55 @@
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\riot.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\FactoryFill.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\GeneratorFill.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Admiral.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Assassin.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Diplomat.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\DoubleAgent.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Engineer.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Foreman.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\General.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Helmsman.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Hypnotist.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Infiltrator.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Inspector.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\IntelligenceOfficer.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\King.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Lieutenant.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Martyr.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\MinisterOfEnergy.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Navigator.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Pirate.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Princess.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Queen.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\ReveredElder.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Saboteur.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\SecurityChief.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Sentry.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Smuggler.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Thief.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Tinkerer.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Tycoon.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\WarHero.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\Gift.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\MineFill.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Sea.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\SubFill.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\TrajectoryMask.png" />
     <Content Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Animations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Audio\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Core\GameServer\GameObjects\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\Assets\Fonts\Arial.spritefont" />
     <None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
 </Project>

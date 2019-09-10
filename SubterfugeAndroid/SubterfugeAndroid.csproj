@@ -36,6 +36,7 @@
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
     <BundleAssemblies>false</BundleAssemblies>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -100,14 +101,12 @@
   </Target>
   -->
   <PropertyGroup>
-  <AfterGenerateAndroidManifest>
+    <AfterGenerateAndroidManifest>
     $(AfterGenerateAndroidManifest);
     CopyExtraConfigFiles;
   </AfterGenerateAndroidManifest>
-  </PropertyGroup> 
+  </PropertyGroup>
   <Target Name="CopyExtraConfigFiles">
-  <CopyIfChanged
-      SourceFiles="SubterfugeAndroid.dll.config"
-      DestinationFiles="$(MonoAndroidIntermediateAssemblyDir)SubterfugeAndroid.dll.config" />
+    <CopyIfChanged SourceFiles="SubterfugeAndroid.dll.config" DestinationFiles="$(MonoAndroidIntermediateAssemblyDir)SubterfugeAndroid.dll.config" />
   </Target>
 </Project>
