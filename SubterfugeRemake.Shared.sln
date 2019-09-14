@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SubterfugeRemake.Shared", "SubterfugeRemake.Shared\SubterfugeRemake.Shared.shproj", "{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SubterfugeFrontend.Shared", "SubterfugeRemake.Shared\SubterfugeFrontend.Shared.shproj", "{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubterfugeAndroid", "SubterfugeAndroid\SubterfugeAndroid.csproj", "{40BAD8D2-6233-4756-9C77-74ED117C91F1}"
 	ProjectSection(ProjectDependencies) = postProject

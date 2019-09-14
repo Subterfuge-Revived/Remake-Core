@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SubterfugeRemake.Shared.Content.Game.Graphics
+namespace SubterfugeFrontend.Shared.Content.Game.Graphics
 {
     class FontLoader
     {

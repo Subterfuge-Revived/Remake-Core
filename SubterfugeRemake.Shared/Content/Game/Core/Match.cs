@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SubterfugeCore;
-using SubterfugeRemake.Shared.Content.Game.Graphics;
+using SubterfugeFrontend.Shared.Content.Game.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SubterfugeRemake.Shared.Content.Game.World
+namespace SubterfugeFrontend.Shared.Content.Game.World
 {
     /// <summary>
     ///  This class represents a single game within the application. It holds the game state, players list, and much more.

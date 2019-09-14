@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SubterfugeCore.GameObjects.Base;
 using System.Drawing;
 
-namespace SubterfugeRemake.Shared.Content.Game.Graphics.GameObjects
+namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
 {
     abstract class TexturedGameObject
     {

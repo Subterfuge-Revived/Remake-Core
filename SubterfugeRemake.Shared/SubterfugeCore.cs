@@ -4,14 +4,14 @@ using Android.OS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SubterfugeCore.Shared.Content.Game.Events;
-using SubterfugeRemake.Shared.Content.Game.Graphics;
-using SubterfugeRemake.Shared.Content.Game.World;
+using SubterfugeFrontend.Shared.Content.Game.Events;
+using SubterfugeFrontend.Shared.Content.Game.Graphics;
+using SubterfugeFrontend.Shared.Content.Game.World;
 using SubterfugeCore.Timing;
 
 #endregion
 
-namespace SubterfugeCore.Shared
+namespace SubterfugeFrontend.Shared
 {
     /// <summary>
     /// This is the main type for your game.

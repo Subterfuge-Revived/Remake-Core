@@ -6,7 +6,7 @@
     <SharedGUID>7d2e3726-b80c-49bf-a7c8-e03794503405</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>SubterfugeRemake.Shared</Import_RootNamespace>
+    <Import_RootNamespace>SubterfugeFrontend.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\Event.cs" />

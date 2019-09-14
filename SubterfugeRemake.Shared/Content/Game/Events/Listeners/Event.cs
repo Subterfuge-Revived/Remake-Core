@@ -1,6 +1,6 @@
-﻿using SubterfugeCore.Shared.Content.Game.Events.Base;
+﻿using SubterfugeFrontend.Shared.Content.Game.Events.Base;
 
-namespace SubterfugeCore.Shared.Content.Game.Events
+namespace SubterfugeFrontend.Shared.Content.Game.Events
 {
     public abstract class Event
     {

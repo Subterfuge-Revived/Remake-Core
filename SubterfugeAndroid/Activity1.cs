@@ -3,7 +3,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 
-using SubterfugeCore.Shared;
+using SubterfugeFrontend.Shared;
 
 namespace SubterfugeAndroid
 {

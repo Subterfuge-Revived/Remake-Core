@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SubterfugeCore.GameObjects;
 using SubterfugeCore.GameObjects.Base;
-using SubterfugeCore.Shared;
+using SubterfugeFrontend.Shared;
 
-namespace SubterfugeRemake.Shared.Content.Game.Graphics.GameObjects
+namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
 {
     class TexturedSub : TexturedGameObject
     {

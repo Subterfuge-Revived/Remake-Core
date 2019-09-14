@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 
-namespace SubterfugeRemake.Shared.Content.Game.Graphics
+namespace SubterfugeFrontend.Shared.Content.Game.Graphics
 {
     class SpriteLoader
     {

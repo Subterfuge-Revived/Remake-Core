@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SubterfugeCore.Shared.Content.Game.Events
+namespace SubterfugeFrontend.Shared.Content.Game.Events
 {
     public class EventObserver
     {

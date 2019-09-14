@@ -1,8 +1,8 @@
 ﻿using SubterfugeCore.GameObjects;
 using SubterfugeCore.GameObjects.Base;
-using SubterfugeRemake.Shared.Content.Game.Graphics.GameObjects;
+using SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects;
 
-namespace SubterfugeRemake.Shared.Content.Game.Graphics
+namespace SubterfugeFrontend.Shared.Content.Game.Graphics
 {
     class TextureFactory
     {
