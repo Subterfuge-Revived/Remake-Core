@@ -6,10 +6,26 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SubterfugeRemake.Shared", "SubterfugeRemake.Shared\SubterfugeRemake.Shared.shproj", "{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubterfugeAndroid", "SubterfugeAndroid\SubterfugeAndroid.csproj", "{40BAD8D2-6233-4756-9C77-74ED117C91F1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A4267273-6451-45BD-995E-CBBC5AAAC9FF} = {A4267273-6451-45BD-995E-CBBC5AAAC9FF}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubterfugeiOS", "SubterfugeiOS\SubterfugeiOS.csproj", "{9B3772B5-2508-4BF3-AEC2-742206E648A8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A4267273-6451-45BD-995E-CBBC5AAAC9FF} = {A4267273-6451-45BD-995E-CBBC5AAAC9FF}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubterfugeCore", "SubterfugeCore\SubterfugeCore.csproj", "{A4267273-6451-45BD-995E-CBBC5AAAC9FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubterfugeCore", "SubterfugeCore\SubterfugeCore.csproj", "{A4267273-6451-45BD-995E-CBBC5AAAC9FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{02D8F824-D135-469E-882E-FABE8E31BAC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{475A73F7-CA29-4C28-B3D2-D39BC9E6934F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{B0FD622D-BA4B-4B31-B1BF-40736F911E89}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Localization", "Localization", "{0A93E09B-3E55-4A07-BD63-5D661FBB0D21}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{CE009997-0A83-4EE7-A07A-AFC036A3127A}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -115,6 +131,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A0CDBD0E-3A41-42B7-9425-A838BC2C7383} = {CE009997-0A83-4EE7-A07A-AFC036A3127A}
+		{40BAD8D2-6233-4756-9C77-74ED117C91F1} = {02D8F824-D135-469E-882E-FABE8E31BAC3}
+		{9B3772B5-2508-4BF3-AEC2-742206E648A8} = {02D8F824-D135-469E-882E-FABE8E31BAC3}
+		{A4267273-6451-45BD-995E-CBBC5AAAC9FF} = {B0FD622D-BA4B-4B31-B1BF-40736F911E89}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CE4380E-1D17-4F42-8398-6FF7F6F14244}

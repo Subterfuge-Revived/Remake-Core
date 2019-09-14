@@ -90,6 +90,12 @@
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SubterfugeCore\SubterfugeCore.csproj">
+      <Project>{a4267273-6451-45bd-995e-cbbc5aaac9ff}</Project>
+      <Name>SubterfugeCore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\SubterfugeRemake.Shared\SubterfugeRemake.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

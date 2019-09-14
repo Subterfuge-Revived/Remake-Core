@@ -1,17 +1,18 @@
-﻿using Microsoft.Xna.Framework;
-using SubterfugeCore.Shared.Content.Game.Objects;
-using SubterfugeCore.Shared.Content.Game.Objects.Base;
-using SubterfugeRemake.Shared.Content.Game.Core.Commands;
-using SubterfugeRemake.Shared.Content.Game.Core.Timing;
+﻿using SubterfugeCore.GameObjects;
+using SubterfugeCore.GameObjects.Base;
+using SubterfugeCore.GameEvents;
+using SubterfugeCore.Timing;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
+using Microsoft.Xna.Framework;
 
-namespace SubterfugeRemake.Shared.Content.Game.World
+namespace SubterfugeCore
 {
     /// <summary>
     /// This class holds information about a game's current state.
     /// </summary>
-    class GameState
+    public class GameState
     {
 
         private Queue<GameEvent> pastEventQueue = new Queue<GameEvent>();

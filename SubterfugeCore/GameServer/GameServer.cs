@@ -1,6 +1,5 @@
-﻿using SubterfugeRemake.Shared.Content.Game.World;
-
-namespace SubterfugeRemake.Shared.Content.Game.Core.GameServer
+﻿
+namespace SubterfugeCore
 {
     /**
      * This game server class will hold all of the game logic.
@@ -10,7 +9,7 @@ namespace SubterfugeRemake.Shared.Content.Game.Core.GameServer
      * No graphics will be used within this object. The graphics engine will need to reference the objects within this class to
      * determine how to draw.
      */
-    class GameServer
+    public class GameServer
     {
         private GameState state = new GameState();
 

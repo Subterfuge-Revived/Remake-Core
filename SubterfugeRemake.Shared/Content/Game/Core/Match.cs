@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SubterfugeCore.Shared.Content.Game.Objects;
-using SubterfugeCore.Shared.Content.Game.Objects.Base;
-using SubterfugeRemake.Shared.Content.Game.Core.GameServer;
+using SubterfugeCore;
 using SubterfugeRemake.Shared.Content.Game.Graphics;
 using System;
 using System.Collections.Generic;

@@ -1,16 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
-using SubterfugeCore.Shared.Content.Game.Objects.Base;
 using SubterfugeRemake.Shared.Content.Game.Graphics.GameObjects;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
 using SubterfugeCore.Shared;
 using Color = Microsoft.Xna.Framework.Color;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using SubterfugeCore.GameObjects.Base;
 
 namespace SubterfugeRemake.Shared.Content.Game.Graphics
 {

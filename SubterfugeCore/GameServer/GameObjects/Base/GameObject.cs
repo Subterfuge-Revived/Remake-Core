@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace SubterfugeCore.Shared.Content.Game.Objects.Base
+namespace SubterfugeCore.GameObjects.Base
 {
-    abstract class GameObject
+    public abstract class GameObject
     {
         protected Vector2 position;
         public GameObject()

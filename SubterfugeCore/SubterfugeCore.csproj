@@ -1,25 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <Compile Include="..\SubterfugeRemake.Shared\Content\Game\Core\GameServer\**\*.*">
-        <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
-    </Compile>
+    <None Remove="GameServer\README.txt" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <Compile Remove="..\SubterfugeRemake.Shared\Content\Game\Core\GameServer\README.txt" />
+    <Content Include="GameServer\README.txt" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <None Include="..\SubterfugeRemake.Shared\Content\Game\Core\GameServer\README.txt" />
-  </ItemGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.Portable" Version="3.7.1.189" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="GameServer\GameEvents\GameEvent.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="GameServer\GameEvents\GameEventType.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="GameServer\GameObjects\Base\GameObject.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="GameServer\GameObjects\Sub.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="GameServer\GameServer.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="GameServer\GameState.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="GameServer\Timing\GameTick.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="GameServer\Timing\NtpConnector.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 
 </Project>

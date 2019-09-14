@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Android.Webkit;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SubterfugeCore.GameObjects;
+using SubterfugeCore.GameObjects.Base;
 using SubterfugeCore.Shared;
-using SubterfugeCore.Shared.Content.Game.Objects;
-using SubterfugeCore.Shared.Content.Game.Objects.Base;
 
 namespace SubterfugeRemake.Shared.Content.Game.Graphics.GameObjects
 {

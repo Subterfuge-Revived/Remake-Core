@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using SubterfugeCore.Shared.Content.Game.Objects.Base;
+using SubterfugeCore.GameObjects.Base;
 
-namespace SubterfugeCore.Shared.Content.Game.Objects
+namespace SubterfugeCore.GameObjects
 {
-    class Sub : GameObject
+    public class Sub : GameObject
     {
         private int drillerCount = 42;
 

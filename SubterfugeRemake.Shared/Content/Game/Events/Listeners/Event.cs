@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework.Input.Touch;
-using SubterfugeCore.Shared.Content.Game.Events.Base;
+﻿using SubterfugeCore.Shared.Content.Game.Events.Base;
 
 namespace SubterfugeCore.Shared.Content.Game.Events
 {

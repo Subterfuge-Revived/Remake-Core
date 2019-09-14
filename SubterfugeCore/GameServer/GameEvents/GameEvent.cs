@@ -1,8 +1,8 @@
-﻿using SubterfugeRemake.Shared.Content.Game.Core.Timing;
+﻿using SubterfugeCore.Timing;
 
-namespace SubterfugeRemake.Shared.Content.Game.Core.Commands
+namespace SubterfugeCore.GameEvents
 {
-    abstract class GameEvent
+    public abstract class GameEvent
     {
         private GameEventType commandType;
         private GameTick gameTick;

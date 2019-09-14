@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SubterfugeRemake.Shared.Content.Game.Core.Timing
+namespace SubterfugeCore.Timing
 {
-    class GameTick
+    public class GameTick
     {
         public const int MINUTES_PER_TICK = 15;
         private DateTime startTime;

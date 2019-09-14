@@ -1,9 +1,6 @@
-﻿using SubterfugeCore.Shared.Content.Game.Objects;
-using SubterfugeCore.Shared.Content.Game.Objects.Base;
+﻿using SubterfugeCore.GameObjects;
+using SubterfugeCore.GameObjects.Base;
 using SubterfugeRemake.Shared.Content.Game.Graphics.GameObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SubterfugeRemake.Shared.Content.Game.Graphics
 {

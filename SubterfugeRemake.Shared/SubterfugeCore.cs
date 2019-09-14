@@ -2,15 +2,12 @@
 using System;
 using Android.OS;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-// using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
 using SubterfugeCore.Shared.Content.Game.Events;
-using SubterfugeCore.Shared.Content.Game.Objects;
-using SubterfugeRemake.Shared.Content.Game.Core.Timing;
 using SubterfugeRemake.Shared.Content.Game.Graphics;
 using SubterfugeRemake.Shared.Content.Game.World;
+using SubterfugeCore.Timing;
 
 #endregion
 
