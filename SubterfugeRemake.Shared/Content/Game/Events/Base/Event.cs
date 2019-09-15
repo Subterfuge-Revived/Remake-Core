@@ -10,7 +10,6 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events
         public Event(EventType eventType)
         {
             this.eventType = eventType;
-            
         }
 
         public EventType getEventType()

@@ -8,11 +8,15 @@ using SubterfugeFrontend.Shared;
 using Color = Microsoft.Xna.Framework.Color;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
-using SubterfugeCore.GameObjects.Base;
+using SubterfugeCore.Entities.Base;
+using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
+using SubterfugeFrontend.Shared.Content.Game.Events;
+using SubterfugeFrontend.Shared.Content.Game.Events.Events;
+using SubterfugeFrontend.Shared.Content.Game.Events.Base;
 
 namespace SubterfugeFrontend.Shared.Content.Game.Graphics
 {
-    class Camera
+    class Camera : EventListener
     {
         protected static Rectangle cameraBounds = new Rectangle(); //The area on the map that is visible
         protected Rectangle cameraScreenLocation = new Rectangle(); //The area of the screen the camera takes up
@@ -39,41 +43,17 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
             return this.cameraScreenLocation;
         }
 
-        public void update()
+        public void startRender(SpriteBatch spriteBatch)
         {
-            // Determine if the camera's position should be updated.
-            touchCollection[0] = touchCollection[1];
-            touchCollection[1] = TouchPanel.GetState();
-
-            if (touchCollection[1].Count > 0)
-            {
-                if (touchCollection[1][0].State == TouchLocationState.Moved)
-                {
-                    TouchLocation location = touchCollection[1][0];
-                    TouchLocation lastLocation = touchCollection[0][0];
-                    Vector2 delta = lastLocation.Position - location.Position;
-
-                    // Update the camera based on the delta.
-                    Rectangle currentBounds = cameraBounds;
-                    cameraBounds = new Rectangle((int)Math.Round(currentBounds.X + delta.X), (int)Math.Round(currentBounds.Y + delta.Y), currentBounds.Width, currentBounds.Height);
-
-                }
-                else
-                {
-                    touchCollection[0] = touchCollection[1];
-                }
-            }
-
-        }
-
-        public void render(SpriteBatch spriteBatch, GameTime gameTime, List<GameObject> gameObjects)
-        {
-
             // Draw the background.
             spriteBatch.Draw(
                 texture: SubterfugeApp.SpriteLoader.getSprite("Sea"),
                 destinationRectangle: new Rectangle(0, 0, cameraBounds.Width, cameraBounds.Height), color: Color.Cyan);
 
+        }
+
+        public void render(SpriteBatch spriteBatch, GameTime gameTime, List<GameObject> gameObjects)
+        {
             // If the camera is not enabled, do not render.
             if (!this.isActive)
             {
@@ -102,6 +82,11 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
             return new Vector2(objectPosition.X - cameraBounds.X, objectPosition.Y - cameraBounds.Y);
         }
 
+        public static Vector2 getAbsoluePosition(Vector2 relativePosition)
+        {
+            return new Vector2(relativePosition.X + cameraBounds.X, relativePosition.Y + cameraBounds.Y);
+        }
+
         public void setActive()
         {
             this.isActive = true;
@@ -112,5 +97,17 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
             this.isActive = false;
         }
 
+        public override void onEvent(Event e)
+        {
+            if(e.getEventType() == EventType.OnDragEvent)
+            {
+                DragEvent touchEvent = (DragEvent)e;
+                Vector2 delta = touchEvent.getDelta();
+
+                // Update the camera based on the delta.
+                Rectangle currentBounds = cameraBounds;
+                cameraBounds = new Rectangle((int)Math.Round(currentBounds.X + delta.X), (int)Math.Round(currentBounds.Y + delta.Y), currentBounds.Width, currentBounds.Height);
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ using SubterfugeFrontend.Shared.Content.Game.Events;
 using SubterfugeFrontend.Shared.Content.Game.Graphics;
 using SubterfugeFrontend.Shared.Content.Game.World;
 using SubterfugeCore.Timing;
+using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
 
 #endregion
 
@@ -20,6 +21,7 @@ namespace SubterfugeFrontend.Shared
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        InputListener inputListener = new InputListener();
         public static EventObserver eventObserver;
         private static SpriteLoader spriteLoader = new SpriteLoader();
         private static FontLoader fontLoader = new FontLoader();
@@ -81,6 +83,7 @@ namespace SubterfugeFrontend.Shared
             }
 #endif
             // TODO: Add your update logic here			
+            inputListener.listen();
             match.update(gameTime);
             base.Update(gameTime);
         }

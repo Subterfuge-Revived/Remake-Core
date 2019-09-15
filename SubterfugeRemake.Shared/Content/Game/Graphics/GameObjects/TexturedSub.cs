@@ -1,9 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SubterfugeCore.GameObjects;
-using SubterfugeCore.GameObjects.Base;
-using SubterfugeFrontend.Shared;
+using SubterfugeCore.Entities;
+using SubterfugeCore.Entities.Base;
 
 namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
 {

@@ -8,5 +8,8 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events.Base
     {
         OnSubLaunch,
         OnSubCombat,
+        OnTouchPressEvent,
+        OnTouchReleaseEvent,
+        OnDragEvent,
     }
 }

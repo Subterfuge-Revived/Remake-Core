@@ -9,13 +9,18 @@
     <Import_RootNamespace>SubterfugeFrontend.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\Event.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\EventListener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\EventObserver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\EventType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\Event.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\EventListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\EventObserver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\EventType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\DragEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\TouchPressEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\TouchReleaseEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\FontLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\TexturedGameObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\TexturedOutpost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\TexturedSub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\SpriteLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Match.cs" />
@@ -68,7 +73,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Audio\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\" />
   </ItemGroup>
   <ItemGroup>
