@@ -23,10 +23,10 @@
     <Compile Update="GameServer\GameEvents\GameEventType.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="GameServer\GameObjects\Base\GameObject.cs">
+    <Compile Update="GameServer\Entities\Base\GameObject.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="GameServer\GameObjects\Sub.cs">
+    <Compile Update="GameServer\Entities\Sub.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Update="GameServer\GameServer.cs">

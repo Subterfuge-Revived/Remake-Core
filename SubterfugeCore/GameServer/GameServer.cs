@@ -1,4 +1,6 @@
 ﻿
+using SubterfugeCore.Entities;
+
 namespace SubterfugeCore
 {
     /**
@@ -19,5 +21,10 @@ namespace SubterfugeCore
             state.update();
             return state;
         }       
+
+        public void sendSub(Outpost source, Outpost destination)
+        {
+
+        }
     }
 }

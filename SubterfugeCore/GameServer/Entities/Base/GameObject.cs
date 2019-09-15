@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace SubterfugeCore.GameObjects.Base
+namespace SubterfugeCore.Entities.Base
 {
     public abstract class GameObject
     {
@@ -24,6 +24,5 @@ namespace SubterfugeCore.GameObjects.Base
         {
             this.position = newPosition;
         }
-
     }
 }

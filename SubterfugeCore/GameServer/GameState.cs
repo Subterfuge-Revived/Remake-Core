@@ -1,5 +1,5 @@
-﻿using SubterfugeCore.GameObjects;
-using SubterfugeCore.GameObjects.Base;
+﻿using SubterfugeCore.Entities;
+using SubterfugeCore.Entities.Base;
 using SubterfugeCore.GameEvents;
 using SubterfugeCore.Timing;
 using System;
@@ -18,13 +18,16 @@ namespace SubterfugeCore
         private Queue<GameEvent> pastEventQueue = new Queue<GameEvent>();
         private Queue<GameEvent> futureEventQueue = new Queue<GameEvent>();
         private List<GameObject> activeSubs = new List<GameObject>();
+        private List<GameObject> outposts = new List<GameObject>();
         private GameTick currentTick;
         private GameTick startTime;
 
         public GameState()
         {
             this.currentTick = new GameTick(new DateTime(), 0);
-            activeSubs.Add(new Sub());
+            activeSubs.Add(new Sub(new Vector2(0, 0), new Vector2(1, 1)));
+            outposts.Add(new Outpost(new Vector2(100, 100)));
+            outposts.Add(new Outpost(new Vector2(800, 800)));
         }
 
         public void interpolateTick(int tick)
@@ -50,6 +53,11 @@ namespace SubterfugeCore
         public List<GameObject> getSubList()
         {
             return this.activeSubs;
+        }
+
+        public List<GameObject> getOutposts()
+        {
+            return this.outposts;
         }
 
         public void update()
