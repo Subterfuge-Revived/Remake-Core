@@ -10,6 +10,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events.Listeners
     {
 
         private TouchCollection[] touchCollection = new TouchCollection[2];
+        private bool isTouch = false;
         public void listen()
         {
             // Determine if the camera's position should be updated.
@@ -26,13 +27,17 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events.Listeners
                 {
                     touchCollection[0] = touchCollection[1];
                 }
-                if(touchCollection[1][0].State == TouchLocationState.Pressed)
+                if(touchCollection[1][0].State == TouchLocationState.Pressed && !this.isTouch)
                 {
+                    Console.WriteLine("Touched");
+                    this.isTouch = true;
                     new TouchPressEvent(touchCollection[1][0]);
                 }
                 if (touchCollection[1][0].State == TouchLocationState.Released)
                 {
+                    Console.WriteLine("Released Touch");
                     new TouchReleaseEvent(touchCollection[1][0]);
+                    this.isTouch = false;
                 }
             }
         }

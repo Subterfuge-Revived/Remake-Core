@@ -13,10 +13,12 @@ using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
 using SubterfugeFrontend.Shared.Content.Game.Events;
 using SubterfugeFrontend.Shared.Content.Game.Events.Events;
 using SubterfugeFrontend.Shared.Content.Game.Events.Base;
+using SubterfugeCore;
+using SubterfugeCore.Timing;
 
 namespace SubterfugeFrontend.Shared.Content.Game.Graphics
 {
-    class Camera : EventListener
+    class Camera : IListener
     {
         protected static Rectangle cameraBounds = new Rectangle(); //The area on the map that is visible
         protected Rectangle cameraScreenLocation = new Rectangle(); //The area of the screen the camera takes up
@@ -31,6 +33,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
         {
             this.isActive = true;
             cameraBounds = new Rectangle(0, 0, device.Viewport.Width, device.Viewport.Height);
+            this.registerListener();
         }
 
         public Rectangle getCameraBounds()
@@ -52,7 +55,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
 
         }
 
-        public void render(SpriteBatch spriteBatch, GameTime gameTime, List<GameObject> gameObjects)
+        public void render(SpriteBatch spriteBatch, GameTime gameTime, GameServer gameServer)
         {
             // If the camera is not enabled, do not render.
             if (!this.isActive)
@@ -60,7 +63,16 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
                 return;
             }
             // Call the render function on all game objects
-            foreach (GameObject gameObject in gameObjects)
+            foreach (GameObject gameObject in gameServer.GetGameState().getOutposts())
+            {
+                if (cameraBounds.Contains(new Point((int)gameObject.getPosition().X, (int)gameObject.getPosition().Y)))
+                {
+                    TexturedGameObject texturedObject = TextureFactory.getTexturedObject(gameObject);
+                    texturedObject.render(spriteBatch);
+                }
+            }
+            // Call the render function on all game objects
+            foreach (GameObject gameObject in gameServer.GetGameState().getSubList())
             {
                 if (cameraBounds.Contains(new Point((int)gameObject.getPosition().X, (int)gameObject.getPosition().Y)))
                 {
@@ -97,7 +109,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
             this.isActive = false;
         }
 
-        public override void onEvent(Event e)
+        public void onEvent(Event e)
         {
             if(e.getEventType() == EventType.OnDragEvent)
             {
@@ -108,6 +120,16 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
                 Rectangle currentBounds = cameraBounds;
                 cameraBounds = new Rectangle((int)Math.Round(currentBounds.X + delta.X), (int)Math.Round(currentBounds.Y + delta.Y), currentBounds.Width, currentBounds.Height);
             }
+        }
+
+        public void registerListener()
+        {
+            EventObserver.addEventHandler(this);
+        }
+
+        public void unregisterListener()
+        {
+            EventObserver.removeEventHandler(this);
         }
     }
 }

@@ -24,15 +24,14 @@ namespace SubterfugeFrontend.Shared.Content.Game.World
 
 
         public void update(GameTime gameTime) {
-            this.gameServer.GetGameState();
+            this.gameServer.GetGameState().update();
             // Check to see if the camera has been moved.
 
         }
         public void render(SpriteBatch spriteBatch, GameTime gameTime)
         {
             this.camera.startRender(spriteBatch);
-            this.camera.render(spriteBatch, gameTime, gameServer.GetGameState().getSubList());
-            this.camera.render(spriteBatch, gameTime, gameServer.GetGameState().getOutposts());
+            this.camera.render(spriteBatch, gameTime, gameServer);
         }
     }
 }

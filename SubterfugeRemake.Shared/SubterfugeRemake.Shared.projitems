@@ -10,9 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\Event.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\EventListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\EventObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\EventType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\IListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\DragEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\TouchPressEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\TouchReleaseEvent.cs" />
@@ -73,7 +73,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Audio\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\" />
   </ItemGroup>
   <ItemGroup>

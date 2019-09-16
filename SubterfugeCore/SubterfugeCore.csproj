@@ -17,10 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="GameServer\GameEvents\GameEvent.cs">
+    <Compile Update="GameServer\GameEvents\Base\GameEvent.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="GameServer\GameEvents\GameEventType.cs">
+    <Compile Update="GameServer\GameEvents\Base\GameEventType.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Update="GameServer\Entities\Base\GameObject.cs">

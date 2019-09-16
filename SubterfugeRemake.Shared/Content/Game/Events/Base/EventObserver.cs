@@ -1,4 +1,5 @@
-﻿using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
+﻿using SubterfugeFrontend.Shared.Content.Game.Events.Base;
+using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
 
 namespace SubterfugeFrontend.Shared.Content.Game.Events
 {
@@ -16,12 +17,12 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events
             eventListener(e);
         }
 
-        public static void addEventHandler(EventListener listener)
+        public static void addEventHandler(IListener listener)
         {
             eventListener += listener.onEvent;
         }
 
-        public static void removeEventHandler(EventListener listener)
+        public static void removeEventHandler(IListener listener)
         {
             eventListener -= listener.onEvent;
         }

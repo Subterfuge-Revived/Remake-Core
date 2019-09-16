@@ -40,6 +40,20 @@ namespace SubterfugeCore.Timing
             return new GameTick(this.startTime.AddMinutes(-MINUTES_PER_TICK), this.tickNumber - 1);
         }
 
+        public GameTick advance(int ticks)
+        {
+            return new GameTick(this.startTime.AddMinutes(ticks * MINUTES_PER_TICK), this.tickNumber + ticks);
+        }
+
+        public GameTick rewind(int ticks)
+        {
+            if (this.tickNumber >= ticks)
+            {
+                return new GameTick(this.startTime.AddMinutes(ticks * -MINUTES_PER_TICK), this.tickNumber - ticks);
+            }
+            return null;
+        }
+
         public DateTime getDate()
         {
             return this.startTime;
@@ -58,6 +72,16 @@ namespace SubterfugeCore.Timing
         public static bool operator <(GameTick firstArg, GameTick secondArg)
         {
             return firstArg.getTick() < secondArg.getTick();
+        }
+
+        public static int operator -(GameTick firstArg, GameTick secondArg)
+        {
+            return firstArg.getTick() - secondArg.getTick();
+        }
+
+        public static int operator +(GameTick firstArg, GameTick secondArg)
+        {
+            return firstArg.getTick() + secondArg.getTick();
         }
 
     }

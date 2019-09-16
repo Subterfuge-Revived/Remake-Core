@@ -1,17 +1,51 @@
 ﻿using System;
+using System.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input.Touch;
+using SubterfugeCore.Entities;
 using SubterfugeCore.Entities.Base;
-using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
+using SubterfugeFrontend.Shared.Content.Game.Events;
+using SubterfugeFrontend.Shared.Content.Game.Events.Base;
+using SubterfugeFrontend.Shared.Content.Game.Events.Events;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
 {
-    class TexturedOutpost : TexturedGameObject
+    class TexturedOutpost : TexturedGameObject, IListener
     {
 
         public TexturedOutpost(GameObject gameObject) : base(gameObject, SubterfugeApp.SpriteLoader.getSprite("GeneratorFill"),
             100, 100)
         {
+            this.registerListener();
+        }
+
+
+        public void onEvent(Event e)
+        {
+            if(e.getEventType() == EventType.OnTouchPressEvent)
+            {
+                TouchPressEvent touchPress = (TouchPressEvent) e;
+
+                // Get the absolut position of the press
+                TouchLocation location = touchPress.getTouchLocation();
+                Vector2 absolutePosition = Camera.getAbsoluePosition(location.Position);
+
+                // Determine if the press was on the outpost.
+                if (this.getBoundingBox().Contains(new PointF((int)absolutePosition.X, (int)absolutePosition.Y)))
+                {
+                    // Set the selected outpost and wait for a release event.
+                    Console.WriteLine("Outpost Selected!!!");
+
+                }
+                
+            }
+        }
+
+        public void registerListener()
+        {
+            EventObserver.addEventHandler(this);
         }
 
         public override void render(SpriteBatch spriteBatch)
@@ -21,6 +55,27 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
                 destinationRectangle: Camera.getRelativeLocation(this),
                 color: Color.Blue,
                 origin: this.getTexture().Bounds.Size.ToVector2() / 2f);
+
+            SpriteFont font = SubterfugeApp.FontLoader.getFont("Arial");
+            string drillerCount = ((Outpost)this.gameObject).getDrillersAtOutpost().ToString();
+            Vector2 stringSize = font.MeasureString(drillerCount);
+
+
+            spriteBatch.DrawString(
+                spriteFont: SubterfugeApp.FontLoader.getFont("Arial"),
+                text: drillerCount,
+                position: Camera.getRelativePosition(this.getPosition()),
+                color: Color.White,
+                rotation: 0,
+                origin: stringSize / 2f,
+                layerDepth: 1f,
+                scale: 1.5f,
+                effects: SpriteEffects.None);
+        }
+
+        public void unregisterListener()
+        {
+            EventObserver.removeEventHandler(this);
         }
     }
 }

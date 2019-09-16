@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SubterfugeCore.Timing;
 
 namespace SubterfugeCore.Entities.Base
 {
@@ -15,14 +16,6 @@ namespace SubterfugeCore.Entities.Base
             this.position = position;
         }
 
-        public Vector2 getPosition()
-        {
-            return this.position;
-        }
-
-        public void setPosition(Vector2 newPosition)
-        {
-            this.position = newPosition;
-        }
+        public abstract Vector2 getPosition();
     }
 }

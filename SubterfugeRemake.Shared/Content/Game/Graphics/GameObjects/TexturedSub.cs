@@ -23,7 +23,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
                 destinationRectangle: Camera.getRelativeLocation(this),
                 color: Color.Blue,
                 origin: this.getTexture().Bounds.Size.ToVector2() / 2f,
-                rotation: this.rotation + (float)(Math.PI / 2f));
+                rotation: this.rotation + (float)((Sub)gameObject).getRotation());
 
             SpriteFont font = SubterfugeApp.FontLoader.getFont("Arial");
             string drillerCount = ((Sub) this.gameObject).getDrillerCount().ToString();

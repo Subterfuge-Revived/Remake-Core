@@ -20,9 +20,6 @@ namespace SubterfugeCore.GameEvents
         /// </summary>
         public abstract void eventBackwardAction();
 
-        public GameTick getTick()
-        {
-            return this.gameTick;
-        }
+        public abstract GameTick getTick();
     }
 }

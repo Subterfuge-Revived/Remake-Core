@@ -1,5 +1,6 @@
 ﻿
 using SubterfugeCore.Entities;
+using SubterfugeCore.Timing;
 
 namespace SubterfugeCore
 {
@@ -13,18 +14,13 @@ namespace SubterfugeCore
      */
     public class GameServer
     {
-        private GameState state = new GameState();
+        public static GameState state = new GameState();
 
         public GameState GetGameState()
         {
             // Update the game state before sending it back
             state.update();
             return state;
-        }       
-
-        public void sendSub(Outpost source, Outpost destination)
-        {
-
         }
     }
 }

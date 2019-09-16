@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SubterfugeCore.Entities.Base;
+using SubterfugeCore.Timing;
 using System.Drawing;
 
 namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
