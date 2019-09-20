@@ -1,6 +1,9 @@
-﻿using SubterfugeCore.Components.Outpost;
+﻿using Microsoft.Xna.Framework;
+using SubterfugeCore.Components.Outpost;
 using SubterfugeCore.Entities;
 using SubterfugeCore.Timing;
+using System;
+using System.Collections.Generic;
 
 namespace SubterfugeCore.GameEvents
 {
@@ -45,6 +48,11 @@ namespace SubterfugeCore.GameEvents
             }
         }
 
+        public Vector2 getLaunchDirection()
+        {
+            return this.getDestination().getPosition() - this.getSourceOutpost().getPosition();
+        }
+
         public override GameTick getTick()
         {
             return this.launchTime;
@@ -58,6 +66,42 @@ namespace SubterfugeCore.GameEvents
         public Outpost getDestination()
         {
             return this.destination;
+        }
+
+        public Outpost getSourceOutpost()
+        {
+            return this.sourceOutpost;
+        }
+
+        public int getDrillerCount()
+        {
+            return this.drillerCount;
+        }
+
+        public override List<GameEvent> getResultingEvents()
+        {
+            List<GameEvent> resultEvents = new List<GameEvent>();
+
+
+            // Determine the expected arrival time.
+            // Get the sub's current speed
+            double subSpeed = 0.25;
+            if(this.getActiveSub() != null)
+            {
+                // Use player's speed buff or default.
+                subSpeed = this.getActiveSub().getSpeed();
+            }
+
+            // Get the magnitude of the destination
+            Vector2 destination = this.getLaunchDirection();
+            double distance = destination.Length();
+
+            // distance is total travel time. Divide by sub speed to determine the number of ticks to arrival
+            int ticksToArrive = (int)Math.Ceiling(distance / subSpeed);
+
+            SubArriveEvent arrivalEvent = new SubArriveEvent(this, this.launchTime.advance(ticksToArrive));
+            resultEvents.Add(arrivalEvent);
+            return resultEvents;
         }
     }
 }

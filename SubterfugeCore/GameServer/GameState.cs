@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Microsoft.Xna.Framework;
+using SubterfugeCore.Timing.PriorityQueue;
 
 namespace SubterfugeCore
 {
@@ -14,8 +15,8 @@ namespace SubterfugeCore
     /// </summary>
     public class GameState
     {
-        private Queue<GameEvent> pastEventQueue = new Queue<GameEvent>();
-        private Queue<GameEvent> futureEventQueue = new Queue<GameEvent>();
+        private PriorityQueue<GameEvent> pastEventQueue = new PriorityQueue<GameEvent>();
+        private PriorityQueue<GameEvent> futureEventQueue = new PriorityQueue<GameEvent>();
         private List<GameObject> activeSubs = new List<GameObject>();
         private List<GameObject> outposts = new List<GameObject>();
         public static GameTick currentTick;
@@ -42,16 +43,16 @@ namespace SubterfugeCore
             SubLaunchEvent launchEvent8 = new SubLaunchEvent(currentTick.advance(800), outpost3, 8, outpost2);
             SubLaunchEvent launchEvent9 = new SubLaunchEvent(currentTick.advance(900), outpost3, 9, outpost4);
 
-            this.futureEventQueue.Enqueue(launchEvent1);
-            this.futureEventQueue.Enqueue(launchEvent2);
-            this.futureEventQueue.Enqueue(launchEvent3);
+            this.addEvent(launchEvent1);
+            this.addEvent(launchEvent2);
+            this.addEvent(launchEvent3);
 
-            this.futureEventQueue.Enqueue(launchEvent4);
-            this.futureEventQueue.Enqueue(launchEvent5);
-            this.futureEventQueue.Enqueue(launchEvent6);
-            this.futureEventQueue.Enqueue(launchEvent7);
-            this.futureEventQueue.Enqueue(launchEvent8);
-            this.futureEventQueue.Enqueue(launchEvent9);
+            this.addEvent(launchEvent4);
+            this.addEvent(launchEvent5);
+            this.addEvent(launchEvent6);
+            this.addEvent(launchEvent7);
+            this.addEvent(launchEvent8);
+            this.addEvent(launchEvent9);
 
             //activeSubs.Add(new Sub(new Vector2(0, 0), new Vector2(1, 1), new GameTick(new DateTime(), 0)));
             outposts.Add(outpost1);
@@ -68,7 +69,7 @@ namespace SubterfugeCore
                 while (evaluating)
                 {
 
-                    if (futureEventQueue.Count > 0)
+                    if (futureEventQueue.Count() > 0)
                     {
                         if (futureEventQueue.Peek().getTick() < tick)
                         {
@@ -87,7 +88,7 @@ namespace SubterfugeCore
                 bool evaluating = true;
                 while (evaluating)
                 {
-                    if (pastEventQueue.Count > 0)
+                    if (pastEventQueue.Count() > 0)
                     {
                         if (pastEventQueue.Peek().getTick() > tick)
                         {
@@ -127,6 +128,12 @@ namespace SubterfugeCore
         public GameTick getStartTick()
         {
             return this.startTime;
+        }
+
+        public void addEvent(GameEvent gameEvent)
+        {
+            this.futureEventQueue.Enqueue(gameEvent);
+            gameEvent.getResultingEvents().ForEach(resultEvent => { this.futureEventQueue.Enqueue(resultEvent); });
         }
     }
 }

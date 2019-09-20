@@ -13,7 +13,6 @@ namespace SubterfugeCore.Entities
         private Vector2 initialPosition;
         private Vector2 destination;
         private GameTick launchTime;
-        private GameTick arrivalTime;
         private float speed = 0.25f;
         private Player owner;
 
@@ -23,7 +22,6 @@ namespace SubterfugeCore.Entities
             this.destination = destination;
             this.launchTime = launchTime;
             this.drillerCount = drillerCount;
-            this.arrivalTime = launchTime.advance(1000);
         }
 
         public Player getOwner()
@@ -42,14 +40,12 @@ namespace SubterfugeCore.Entities
             int elapsedTicks = GameState.getCurrentTick() - this.launchTime;
 
             // Determine direction vector
-            Vector2 direction = this.destination - this.initialPosition;
-
-            // Determine ratio of arrival. Value from 0-1.
-            float interpolated = elapsedTicks / ((this.arrivalTime - this.launchTime) * 1.0f);
+            Vector2 direction = (this.destination - this.initialPosition);
+            direction.Normalize();
 
             if(elapsedTicks > 0)
             {
-                return this.initialPosition + (direction * interpolated);
+                return this.initialPosition + (direction * (int)(elapsedTicks * this.getSpeed()));
             }
             else
             {
@@ -75,6 +71,11 @@ namespace SubterfugeCore.Entities
             // Gotta get the targeter's poly & determine shortest route.
             // Deteremine if, by the time you reach the location they have past it or not.
             throw new System.NotImplementedException();
+        }
+
+        public double getSpeed()
+        {
+            return this.speed;
         }
     }
 }
