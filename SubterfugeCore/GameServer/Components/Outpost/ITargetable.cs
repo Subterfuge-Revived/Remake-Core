@@ -8,6 +8,6 @@ namespace SubterfugeCore.Components.Outpost
 {
     public interface ITargetable
     {
-        Vector2 getTargetLocation(GameObject targeter);
+        Vector2 getTargetLocation(Vector2 targetFrom, double speed);
     }
 }

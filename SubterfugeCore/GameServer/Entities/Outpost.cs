@@ -7,7 +7,7 @@ using SubterfugeCore.Timing;
 
 namespace SubterfugeCore.Entities
 {
-    public class Outpost : GameObject, IOwnable, ITargetable
+    public class Outpost : GameObject, Components.IOwnable, Components.Outpost.ITargetable
     {
         private Player outpostOwner;
         int drillerCount;
@@ -52,7 +52,7 @@ namespace SubterfugeCore.Entities
             this.drillerCount -= drillers;
         }
 
-        public Vector2 getTargetLocation(GameObject targeter)
+        public Vector2 getTargetLocation(Vector2 targetFrom, double speed)
         {
             return this.getPosition();
         }

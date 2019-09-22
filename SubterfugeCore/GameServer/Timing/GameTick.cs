@@ -13,10 +13,10 @@ namespace SubterfugeCore.Timing
             this.tickNumber = tickNumber;
         }
         
-        public static GameTick fromDate(DateTime startDate, DateTime dateTime)
+        public static GameTick fromDate(DateTime dateTime)
         {
             // Determine the delta
-            TimeSpan dateDelta = dateTime.Subtract(startDate);
+            TimeSpan dateDelta = dateTime.Subtract(GameServer.state.getStartTick().getDate());
             // Get seconds elapsed
             double minutesElapsed = dateDelta.TotalMinutes;
             // Determine the number of ticks past
@@ -25,9 +25,9 @@ namespace SubterfugeCore.Timing
             return new GameTick(dateTime, ticksElapsed);
         }
 
-        public GameTick fromTickNumber(DateTime startDate, int tickNumber)
+        public static GameTick fromTickNumber(int tickNumber)
         {
-            return new GameTick(startDate.AddMinutes(tickNumber * GameTick.MINUTES_PER_TICK), tickNumber);
+            return GameServer.state.getStartTick().advance(tickNumber);
         }
 
         public GameTick getNextTick()
@@ -37,7 +37,11 @@ namespace SubterfugeCore.Timing
 
         public GameTick getPreviousTick()
         {
-            return new GameTick(this.startTime.AddMinutes(-MINUTES_PER_TICK), this.tickNumber - 1);
+            if (this.tickNumber > 0)
+            {
+                return new GameTick(this.startTime.AddMinutes(-MINUTES_PER_TICK), this.tickNumber - 1);
+            }
+            return null;
         }
 
         public GameTick advance(int ticks)

@@ -12,12 +12,12 @@ namespace SubterfugeCore.Timing
     /// <summary>
     /// Priority Queue data structure
     /// </summary>
-    public class PriorityQueue<T>
+    public class ReversePriorityQueue<T>
         where T : IComparable
     {
         protected List<T> storedValues;
 
-        public PriorityQueue()
+        public ReversePriorityQueue()
         {
             //Initialize the array that will hold the values
             storedValues = new List<T>();
@@ -159,7 +159,7 @@ namespace SubterfugeCore.Timing
             if (childCell == 1)
                 return false; //top of heap, no parent
             else
-                return storedValues[childCell / 2].CompareTo(storedValues[childCell]) > 0;
+                return storedValues[childCell / 2].CompareTo(storedValues[childCell]) <= 0;
             //return storedNodes[childCell / 2].Key > storedNodes[childCell].Key;
         }
 
@@ -172,7 +172,7 @@ namespace SubterfugeCore.Timing
             if (2 * parentCell >= storedValues.Count)
                 return false; //out of bounds
             else
-                return storedValues[2 * parentCell].CompareTo(storedValues[parentCell]) < 0;
+                return storedValues[2 * parentCell].CompareTo(storedValues[parentCell]) >= 0;
             //return storedNodes[2 * parentCell].Key < storedNodes[parentCell].Key;
         }
 
@@ -185,7 +185,7 @@ namespace SubterfugeCore.Timing
             if (2 * parentCell + 1 >= storedValues.Count)
                 return false; //out of bounds
             else
-                return storedValues[2 * parentCell + 1].CompareTo(storedValues[parentCell]) < 0;
+                return storedValues[2 * parentCell + 1].CompareTo(storedValues[parentCell]) >= 0;
             //return storedNodes[2 * parentCell + 1].Key < storedNodes[parentCell].Key;
         }
 
@@ -210,7 +210,7 @@ namespace SubterfugeCore.Timing
                     T rightValue = this.storedValues[rightChild];
 
                     //Compare the values of the children
-                    if (leftValue.CompareTo(rightValue) <= 0)
+                    if (leftValue.CompareTo(rightValue) > 0)
                         return -1; //left child is smaller
                     else
                         return 1; //right child is smaller

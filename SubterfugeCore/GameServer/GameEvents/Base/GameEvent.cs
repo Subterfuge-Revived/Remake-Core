@@ -24,8 +24,6 @@ namespace SubterfugeCore.GameEvents
 
         public abstract GameTick getTick();
 
-        public abstract List<GameEvent> getResultingEvents();
-
         public int CompareTo(object obj)
         {
             GameEvent comparedEvent = obj as GameEvent;

@@ -1,4 +1,5 @@
-﻿using SubterfugeCore.Entities;
+﻿using SubterfugeCore.Components.Outpost;
+using SubterfugeCore.Entities;
 using SubterfugeCore.GameEvents;
 using SubterfugeCore.Timing;
 using System;
@@ -8,50 +9,48 @@ namespace SubterfugeCore.GameEvents
 {
     class SubArriveEvent : GameEvent
     {
-        private SubLaunchEvent launchEvent;
-        private Sub landedSub;
+        private Sub arrivingSub;
         private GameTick arrivalTime;
-        public SubArriveEvent(SubLaunchEvent subLaunch, GameTick arrivalTime)
+        private ITargetable destination;
+        public SubArriveEvent(Sub arrivingSub, ITargetable destination, GameTick arrivalTime)
         {
-            this.launchEvent = subLaunch;
+            this.arrivingSub = arrivingSub;
             this.arrivalTime = arrivalTime;
+            this.destination = destination;
         }
 
         public override void eventBackwardAction()
         {
             // GameServer.state.getSubList().Add(new Sub(this.launchEvent.getDestination))
-            Sub sub = new Sub(this.launchEvent.getSourceOutpost().getPosition(), this.launchEvent.getDestination().getPosition(), this.launchEvent.getTick(), this.landedSub.getDrillerCount());
+            Sub sub = this.arrivingSub;
 
             GameServer.state.getSubList().Add(sub);
 
-            this.launchEvent.getDestination().addDrillers(sub.getDrillerCount());
+            if (this.destination.GetType().Equals(typeof(Outpost)))
+            {
+                Outpost arrivalOutpost = (Outpost)this.destination;
+                if (arrivalOutpost.hasDrillers(this.arrivingSub.getDrillerCount()))
+                {
+                    arrivalOutpost.removeDrillers(this.arrivingSub.getDrillerCount());
+                }
+            }
         }
 
         public override void eventForwardAction()
         {
-            // Ensure the sub launched to begin with
-            if (this.launchEvent.getActiveSub() != null)
+            if(arrivingSub != null)
             {
-                // Save the state of the sub that landed with the event.
-                this.landedSub = this.launchEvent.getActiveSub();
-
                 // Remove the sub from the game
-                GameServer.state.getSubList().Remove(this.launchEvent.getActiveSub());
+                GameServer.state.getSubList().Remove(this.arrivingSub);
 
-                // if(this.launchEvent.getDestination().getOwner() == this.launchEvent.getActiveSub().getOwner())
-                // {
-                this.launchEvent.getDestination().addDrillers(this.launchEvent.getActiveSub().getDrillerCount());
-                // } else
-                // {
-                // this.launchEvent.getDestination().removeDrillers(this.launchEvent.getActiveSub().getDrillerCount());
-                // }
-            }
-            
-        }
+                if (this.destination.GetType().Equals(typeof(Outpost)))
+                {
+                    Outpost arrivalOutpost = (Outpost)this.destination;
 
-        public override List<GameEvent> getResultingEvents()
-        {
-            throw new NotImplementedException();
+                    // check outpost owner.
+                    arrivalOutpost.addDrillers(this.arrivingSub.getDrillerCount());
+                }
+            }            
         }
 
         public override GameTick getTick()
