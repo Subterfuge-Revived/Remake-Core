@@ -64,7 +64,7 @@ namespace SubterfugeCoreTest
 
             // Ensure you cannot dequeue an empty queue
             queue.Dequeue();
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => queue.Dequeue());
+            queue.Dequeue();
         }
 
         [TestMethod]
