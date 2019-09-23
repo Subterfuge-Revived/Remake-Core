@@ -39,6 +39,9 @@ namespace SubterfugeCore.GameEvents
 
                 sourceOutpost.removeDrillers(drillerCount);
                 state.getSubList().Add(launchedSub);
+
+                SubArriveEvent expectedArrival = new SubArriveEvent(launchedSub, this.destination, launchedSub.getExpectedArrival());
+                GameServer.state.addEvent(expectedArrival);
             }
         }
 

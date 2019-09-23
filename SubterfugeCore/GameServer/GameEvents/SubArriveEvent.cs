@@ -33,6 +33,9 @@ namespace SubterfugeCore.GameEvents
                 {
                     arrivalOutpost.removeDrillers(this.arrivingSub.getDrillerCount());
                 }
+            } else
+            {
+                Console.WriteLine("Sub Combat");
             }
         }
 
@@ -49,6 +52,9 @@ namespace SubterfugeCore.GameEvents
 
                     // check outpost owner.
                     arrivalOutpost.addDrillers(this.arrivingSub.getDrillerCount());
+                } else
+                {
+                    Console.WriteLine("Sub Combat");
                 }
             }            
         }

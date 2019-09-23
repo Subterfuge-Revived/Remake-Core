@@ -17,7 +17,6 @@ namespace SubterfugeCore.Entities
         private GameTick launchTime;
         private float speed = 0.25f;
         private Player owner;
-        private SubArriveEvent expectedArrival;
 
         public Sub(Vector2 source, ITargetable destination, GameTick launchTime, int drillerCount) : base()
         {
@@ -25,8 +24,7 @@ namespace SubterfugeCore.Entities
             this.destination = destination;
             this.launchTime = launchTime;
             this.drillerCount = drillerCount;
-            this.expectedArrival = new SubArriveEvent(this, this.destination, this.getExpectedArrival());
-            GameServer.state.addEvent(this.expectedArrival);
+            this.position = source;
         }
 
         public Player getOwner()
@@ -36,11 +34,19 @@ namespace SubterfugeCore.Entities
 
         public GameTick getExpectedArrival()
         {
+            GameTick baseTick;
+            if(GameServer.state.getCurrentTick() < this.launchTime)
+            {
+                baseTick = this.launchTime;
+            } else
+            {
+                baseTick = GameServer.state.getCurrentTick();
+            }
             // Determine direction vector
             Vector2 direction = (this.destination.getTargetLocation(this.position, this.getSpeed()) - this.initialPosition);
             // Determine the number of ticks to arrive
             int ticksToArrive = (int)Math.Floor(direction.Length() / this.getSpeed());
-            return GameServer.state.getCurrentTick().advance(ticksToArrive);
+            return baseTick.advance(ticksToArrive);
         }
 
         public int getDrillerCount()
@@ -55,7 +61,7 @@ namespace SubterfugeCore.Entities
             int elapsedTicks = GameServer.state.getCurrentTick() - this.launchTime;
 
             // Determine direction vector
-            Vector2 direction = (this.destination.getTargetLocation(this.initialPosition, this.getSpeed()) - this.initialPosition);
+            Vector2 direction = (this.destination.getTargetLocation(this.position, this.getSpeed()) - this.initialPosition);
             direction.Normalize();
 
             if(elapsedTicks > 0)
@@ -104,7 +110,60 @@ namespace SubterfugeCore.Entities
 
         public Vector2 getTargetLocation(Vector2 targetFrom, double speed)
         {
-            throw new NotImplementedException();
+            if (targetFrom == this.getPosition())
+                return targetFrom;
+
+            if (speed == 0)
+                return targetFrom;
+
+            // Determine target's distance to travel to destination:
+            Vector2 targetDestination = this.getDestination();
+
+            // Check if the chaser can get there before it.
+            Vector2 chaserDestination = targetDestination - targetFrom;
+
+            if(Vector2.Multiply(targetDestination, (float)(1.0/this.getSpeed())).Length() > Vector2.Multiply(chaserDestination, (float)(1.0 / speed)).Length())
+            {
+                // Can intercept.
+                // Determine interception point.
+
+                int scalar = 1;
+                bool searching = true;
+                while (searching)
+                {
+                    Vector2 destination = this.getDestination();
+                    destination.Normalize();
+
+                    Vector2 runnerLocation = this.getPosition() + (destination * scalar);
+                    Vector2 chaserDirection = runnerLocation - targetFrom;
+                    chaserDirection.Normalize();
+                    Vector2 chaserPosition = targetFrom + (chaserDirection * scalar);
+
+                    if((chaserPosition - runnerLocation).Length() < 1)
+                    {
+                        return chaserPosition;
+                    }
+                    if(runnerLocation.Length() > this.getDestination().Length())
+                    {
+                        return targetFrom;
+                    }
+                    scalar = scalar + 1;
+                }
+                return targetFrom;
+
+                // Interception will occur at a distance 'd' where the "ticksToArrive" at that distance are the same.
+
+                // If both arrive at the same time,
+                // tta1 = tta1
+                // The ticks required to arrive at a location is given by:
+                // tta = distanceToLocation / speed
+                // Thus, DistanceFromRunner / RunnerSpeed = DistanceFromChaser / ChaserSpeed
+                // Thus, ChaserSpeed / RunnerSpeed = DistanceFromChaser / DistanceFromRunner
+                // The distance from the chaser is given as the magnitude of: targetFrom - this.Position()
+                // Of course, the position of the runner changes based on the ticks to arrive.
+
+            }
+            return targetFrom;
         }
 
         public void setOwner(Player newOwner)

@@ -5,9 +5,9 @@
         string playerName;
         int playerId;
 
-        public Player()
+        public Player(int playerId)
         {
-
+            this.playerId = playerId;
         }
     }
 }
