@@ -1,21 +1,23 @@
 ﻿using Microsoft.Xna.Framework;
 using SubterfugeCore.Components;
 using SubterfugeCore.Components.Outpost;
+using SubterfugeCore.Core.Components.Outpost;
 using SubterfugeCore.Entities.Base;
 using SubterfugeCore.Players;
 using SubterfugeCore.Timing;
 
 namespace SubterfugeCore.Entities
 {
-    public class Outpost : GameObject, Components.IOwnable, Components.Outpost.ITargetable
+    public class Outpost : GameObject, IOwnable, ITargetable, IHasDrillers
     {
         private Player outpostOwner;
         int drillerCount;
 
-        public Outpost(Vector2 outpostLocation)
+        public Outpost(Vector2 outpostLocation, Player outpostOwner)
         {
             this.position = outpostLocation;
             this.drillerCount = 42;
+            this.outpostOwner = outpostOwner;
         }
 
         public override Vector2 getPosition()
@@ -33,16 +35,6 @@ namespace SubterfugeCore.Entities
             return this.outpostOwner;
         }
 
-        public int getDrillersAtOutpost()
-        {
-            return this.drillerCount;
-        }
-
-        public bool hasDrillers(int drillers)
-        {
-            return this.drillerCount >= drillers;
-        }
-
         public void addDrillers(int drillers)
         {
             this.drillerCount += drillers;
@@ -55,6 +47,26 @@ namespace SubterfugeCore.Entities
         public Vector2 getTargetLocation(Vector2 targetFrom, double speed)
         {
             return this.getPosition();
+        }
+
+        public Vector2 getCurrentLocation()
+        {
+            return this.getPosition();
+        }
+
+        public int getDrillerCount()
+        {
+            return this.drillerCount;
+        }
+
+        public void setDrillerCount(int drillerCount)
+        {
+            this.drillerCount = drillerCount;
+        }
+
+        public bool hasDrillers(int drillers)
+        {
+            return this.drillerCount >= drillers;
         }
     }
 }

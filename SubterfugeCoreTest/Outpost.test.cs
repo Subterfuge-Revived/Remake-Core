@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using SubterfugeCore.Components;
 using SubterfugeCore.Components.Outpost;
 using SubterfugeCore.Entities;
+using SubterfugeCore.Players;
 
 namespace SubterfugeCoreTest
 {
@@ -16,7 +17,7 @@ namespace SubterfugeCoreTest
         public void setup()
         {
             this.outpostLocation = new Vector2(0, 0);
-            this.outpost = new Outpost(outpostLocation);
+            this.outpost = new Outpost(outpostLocation, new Player(1));
         }
 
         [TestMethod]

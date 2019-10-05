@@ -6,7 +6,6 @@ namespace SubterfugeCore.GameEvents
 {
     public abstract class GameEvent : IComparable
     {
-        private GameEventType commandType;
         private GameTick gameTick;
 
         /// <summary>

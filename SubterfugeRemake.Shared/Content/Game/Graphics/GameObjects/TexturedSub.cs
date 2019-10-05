@@ -17,11 +17,26 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
 
         public override void render(SpriteBatch spriteBatch)
         {
+            Color playerColor;
+
+            switch (((Sub)this.gameObject).getOwner().getId())
+            {
+                case 1:
+                    playerColor = Color.Blue;
+                    break;
+                case 2:
+                    playerColor = Color.Red;
+                    break;
+                default:
+                    playerColor = Color.White;
+                    break;
+            }
+
 
             spriteBatch.Draw(
                 texture: this.getTexture(),
                 destinationRectangle: Camera.getRelativeLocation(this),
-                color: Color.Blue,
+                color: playerColor,
                 origin: this.getTexture().Bounds.Size.ToVector2() / 2f,
                 rotation: this.rotation + (float)((Sub)gameObject).getRotation());
 

@@ -73,9 +73,19 @@ namespace SubterfugeCore.Timing
             return firstArg.getTick() > secondArg.getTick();
         }
 
+        public static bool operator >=(GameTick firstArg, GameTick secondArg)
+        {
+            return firstArg.getTick() >= secondArg.getTick();
+        }
+
         public static bool operator <(GameTick firstArg, GameTick secondArg)
         {
             return firstArg.getTick() < secondArg.getTick();
+        }
+
+        public static bool operator <=(GameTick firstArg, GameTick secondArg)
+        {
+            return firstArg.getTick() <= secondArg.getTick();
         }
 
         public static int operator -(GameTick firstArg, GameTick secondArg)

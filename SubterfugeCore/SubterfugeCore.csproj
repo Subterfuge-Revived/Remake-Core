@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="GameServer\README.txt" />
+    <None Remove="Core\README.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="GameServer\README.txt" />
+    <Content Include="Core\README.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,28 +17,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="GameServer\GameEvents\Base\GameEvent.cs">
+    <Compile Update="Core\GameEvents\Base\GameEvent.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Update="GameServer\GameEvents\Base\GameEventType.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="GameServer\Entities\Base\GameObject.cs">
+    <Compile Update="Core\Entities\Base\GameObject.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="GameServer\Entities\Sub.cs">
+    <Compile Update="Core\Entities\Sub.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="GameServer\GameServer.cs">
+    <Compile Update="Core\GameServer.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="GameServer\GameState.cs">
+    <Compile Update="Core\GameState.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="GameServer\Timing\GameTick.cs">
+    <Compile Update="Core\Timing\GameTick.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="GameServer\Timing\NtpConnector.cs">
+    <Compile Update="Core\Timing\NtpConnector.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>

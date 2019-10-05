@@ -9,5 +9,6 @@ namespace SubterfugeCore.Components.Outpost
     public interface ITargetable
     {
         Vector2 getTargetLocation(Vector2 targetFrom, double speed);
+        Vector2 getCurrentLocation();
     }
 }

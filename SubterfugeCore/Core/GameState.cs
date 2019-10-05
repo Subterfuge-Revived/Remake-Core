@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Microsoft.Xna.Framework;
+using SubterfugeCore.Players;
+using SubterfugeCore.Components.Outpost;
 
 namespace SubterfugeCore
 {
@@ -18,12 +20,14 @@ namespace SubterfugeCore
         private PriorityQueue<GameEvent> futureEventQueue = new PriorityQueue<GameEvent>();
         private List<GameObject> activeSubs = new List<GameObject>();
         private List<GameObject> outposts = new List<GameObject>();
+        private List<Player> players = new List<Player>();
         public GameTick currentTick;
         private GameTick startTime;
 
         // Temp
         private bool forward = true;
         private bool setup = false;
+        private bool addedEvent = false;
 
         public GameState()
         {
@@ -60,7 +64,7 @@ namespace SubterfugeCore
                 {
                     if (pastEventQueue.Count > 0)
                     {
-                        if (pastEventQueue.Peek().getTick() > tick)
+                        if (pastEventQueue.Peek().getTick() >= tick)
                         {
                             // Move commands from the past to the future
                             GameEvent pastToFuture = pastEventQueue.Dequeue();
@@ -85,37 +89,43 @@ namespace SubterfugeCore
             return this.outposts;
         }
 
+        public List<Player> getPlayers()
+        {
+            return this.players;
+        }
+
         public void update()
         {
             if (!setup)
             {
+                Player player1 = new Player(1);
+                Player player2 = new Player(2);
 
-                Outpost outpost1 = new Outpost(new Vector2(100, 100));
-                Outpost outpost2 = new Outpost(new Vector2(800, 800));
-                Outpost outpost3 = new Outpost(new Vector2(600, 1200));
-                Outpost outpost4 = new Outpost(new Vector2(400, 1000));
+                this.players.Add(player1);
+                this.players.Add(player2);
+
+                Outpost outpost1 = new Outpost(new Vector2(100, 100), player1);
+                Outpost outpost2 = new Outpost(new Vector2(300, 100), player2);
+                Outpost outpost3 = new Outpost(new Vector2(100, 300), player1);
+
+                Outpost outpost4 = new Outpost(new Vector2(300, 300), player2);
 
                 outposts.Add(outpost1);
                 outposts.Add(outpost2);
                 outposts.Add(outpost3);
                 outposts.Add(outpost4);
 
-                SubLaunchEvent launchEvent1 = new SubLaunchEvent(currentTick.advance(100), outpost1, 1, outpost2);
-                SubLaunchEvent launchEvent2 = new SubLaunchEvent(currentTick.advance(200), outpost1, 2, outpost3);
-                SubLaunchEvent launchEvent3 = new SubLaunchEvent(currentTick.advance(300), outpost1, 3, outpost4);
-
-                SubLaunchEvent launchEvent4 = new SubLaunchEvent(currentTick.advance(400), outpost2, 4, outpost1);
-                // SubLaunchEvent launchEvent5 = new SubLaunchEvent(currentTick.advance(500), outpost2, 5, outpost3);
-                // SubLaunchEvent launchEvent6 = new SubLaunchEvent(currentTick.advance(600), outpost2, 6, outpost4);
-
-                // SubLaunchEvent launchEvent8 = new SubLaunchEvent(currentTick.advance(800), outpost3, 8, outpost2);
-                // SubLaunchEvent launchEvent9 = new SubLaunchEvent(currentTick.advance(900), outpost3, 9, outpost4);
-                // SubLaunchEvent launchEvent7 = new SubLaunchEvent(currentTick.advance(901), outpost3, 7, outpost1);
-
+                SubLaunchEvent launchEvent1 = new SubLaunchEvent(currentTick.advance(100), outpost1, 30, outpost2);
                 this.addEvent(launchEvent1);
+
+                SubLaunchEvent launchEvent2 = new SubLaunchEvent(currentTick.advance(101), outpost2, 1, outpost1);
                 this.addEvent(launchEvent2);
+
+                SubLaunchEvent launchEvent3 = new SubLaunchEvent(currentTick.advance(101), outpost3, 30, outpost2);
                 this.addEvent(launchEvent3);
-                this.addEvent(launchEvent4);
+
+                // this.addEvent(launchEvent3);
+                // this.addEvent(launchEvent4);
                 // this.addEvent(launchEvent5);
                 // this.addEvent(launchEvent6);
                 // this.addEvent(launchEvent7);
@@ -124,14 +134,19 @@ namespace SubterfugeCore
 
                 setup = true;
             }
-            if(currentTick.getTick() > 5000)
+            if(currentTick.getTick() > 2000)
             {
                 forward = false;
             }
-            if(currentTick.getTick() == 406)
+            if(currentTick.getTick() == 108 && !addedEvent)
             {
+                SubLaunchEvent launchEvent4 = new SubLaunchEvent(currentTick.advance(2), (Outpost)this.getOutposts()[this.getOutposts().Count - 1], 5, (Sub)GameServer.state.getSubList()[GameServer.state.getSubList().Count - 1]);
+                this.addEvent(launchEvent4);
+                addedEvent = true;
                 // Testing pirates
-                SubLaunchEvent launchEvent10 = new SubLaunchEvent(currentTick.advance(1), (Outpost)GameServer.state.getOutposts()[GameServer.state.getOutposts().Count - 1], 1, (Sub)GameServer.state.getSubList()[GameServer.state.getSubList().Count - 3]);
+                /*
+                SubLaunchEvent launchEvent10 = new SubLaunchEvent(currentTick.a
+                dvance(1), (Outpost)GameServer.state.getOutposts()[GameServer.state.getOutposts().Count - 1], 1, (Sub)GameServer.state.getSubList()[GameServer.state.getSubList().Count - 3]);
                 SubLaunchEvent launchEvent12 = new SubLaunchEvent(currentTick.advance(100), (Outpost)GameServer.state.getOutposts()[GameServer.state.getOutposts().Count - 1], 1, (Sub)GameServer.state.getSubList()[GameServer.state.getSubList().Count - 3]);
                 SubLaunchEvent launchEvent11 = new SubLaunchEvent(currentTick.advance(600), (Outpost)GameServer.state.getOutposts()[GameServer.state.getOutposts().Count - 1], 1, (Sub)GameServer.state.getSubList()[GameServer.state.getSubList().Count - 3]);
                 SubLaunchEvent launchEvent13 = new SubLaunchEvent(currentTick.advance(1200), (Outpost)GameServer.state.getOutposts()[GameServer.state.getOutposts().Count - 1], 1, (Sub)GameServer.state.getSubList()[GameServer.state.getSubList().Count - 3]);
@@ -163,6 +178,7 @@ namespace SubterfugeCore
                 this.addEvent(launchEvent19);
                 this.addEvent(launchEvent20);
                 this.addEvent(launchEvent21);
+                */
             }
             if (currentTick.getTick() == 0)
             {
@@ -190,6 +206,36 @@ namespace SubterfugeCore
         public void addEvent(GameEvent gameEvent)
         {
             this.futureEventQueue.Enqueue(gameEvent);
+        }
+
+        public void goTo(GameEvent eventOfInterest)
+        {
+            this.interpolateTick(eventOfInterest.getTick());
+        }
+
+        public List<Sub> getSubsOnPath(Outpost source, Outpost destination)
+        {
+            List<Sub> subsOnPath = new List<Sub>();
+
+            // Check if a sub is on that path
+            foreach(Sub sub in this.activeSubs){
+           
+
+                if (sub.getDestination() == destination || sub.getDestination() == source)
+                {
+                    if(sub.getSourceOutpost() == source || sub.getSourceOutpost() == destination)
+                    {
+                        // Sub is on the path.
+                        subsOnPath.Add(sub);
+                    }
+                }
+            }
+            return subsOnPath;
+        }
+
+        public bool subExists(Sub sub)
+        {
+            return this.activeSubs.Contains(sub);
         }
     }
 }
