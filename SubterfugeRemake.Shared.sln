@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Localization", "Localizatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{CE009997-0A83-4EE7-A07A-AFC036A3127A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubterfugeCoreTest", "SubterfugeCoreTest\SubterfugeCoreTest.csproj", "{28CFF0CB-5DAB-4F50-84CC-FD5C99816517}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubterfugeCoreTest", "SubterfugeCoreTest\SubterfugeCoreTest.csproj", "{28CFF0CB-5DAB-4F50-84CC-FD5C99816517}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A4267273-6451-45BD-995E-CBBC5AAAC9FF} = {A4267273-6451-45BD-995E-CBBC5AAAC9FF}
 	EndProjectSection
