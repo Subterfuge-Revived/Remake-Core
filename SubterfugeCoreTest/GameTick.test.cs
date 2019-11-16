@@ -19,6 +19,7 @@ namespace SubterfugeCoreTest
             time = new DateTime();
             tickNumber = 0;
             tick = new GameTick(time, tickNumber);
+            GameServer server = new GameServer();
 
         }
 

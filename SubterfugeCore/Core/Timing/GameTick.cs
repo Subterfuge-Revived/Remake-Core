@@ -12,6 +12,19 @@ namespace SubterfugeCore.Timing
             this.startTime = startTime;
             this.tickNumber = tickNumber;
         }
+
+        public GameTick()
+        {
+            this.startTime = new DateTime();
+            this.tickNumber = 0;
+        }
+
+        // Copy sconstructor
+        public GameTick(GameTick tick)
+        {
+            this.startTime = tick.getDate();
+            this.tickNumber = tick.getTick();
+        }
         
         public static GameTick fromDate(DateTime dateTime)
         {

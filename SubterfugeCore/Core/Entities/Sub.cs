@@ -18,6 +18,8 @@ namespace SubterfugeCore.Entities
         private GameTick launchTime;
         private float speed = 0.25f;
         private Player owner;
+        private Outpost sourceOutpost;
+        private Player player;
 
         public Sub(Outpost source, ITargetable destination, GameTick launchTime, int drillerCount, Player owner) : base()
         {

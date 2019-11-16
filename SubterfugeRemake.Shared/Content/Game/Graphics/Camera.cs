@@ -55,7 +55,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
 
         }
 
-        public void render(SpriteBatch spriteBatch, GameTime gameTime, GameServer gameServer)
+        public void render(SpriteBatch spriteBatch, GameTime gameTime)
         {
             // If the camera is not enabled, do not render.
             if (!this.isActive)
@@ -63,7 +63,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
                 return;
             }
             // Call the render function on all game objects
-            foreach (GameObject gameObject in gameServer.GetGameState().getOutposts())
+            foreach (GameObject gameObject in GameServer.state.getOutposts())
             {
                 if (cameraBounds.Contains(new Point((int)gameObject.getPosition().X, (int)gameObject.getPosition().Y)))
                 {
@@ -72,7 +72,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
                 }
             }
             // Call the render function on all game objects
-            foreach (GameObject gameObject in gameServer.GetGameState().getSubList())
+            foreach (GameObject gameObject in GameServer.state.getSubList())
             {
                 if (cameraBounds.Contains(new Point((int)gameObject.getPosition().X, (int)gameObject.getPosition().Y)))
                 {

@@ -25,6 +25,7 @@ namespace SubterfugeCoreTest
             outpost = new Outpost(location, new Player(1));
             tick = new GameTick(new DateTime(), 10);
             sub = new Sub(outpost, outpost, tick, 0, new Player(1));
+            GameServer server = new GameServer();
         }
 
         [TestMethod]

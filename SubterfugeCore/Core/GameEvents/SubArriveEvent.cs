@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace SubterfugeCore.GameEvents
 {
-    class SubArriveEvent : GameEvent
+    public class SubArriveEvent : GameEvent
     {
         private Sub arrivingSub;
         private GameTick arrivalTime;
@@ -33,7 +33,7 @@ namespace SubterfugeCore.GameEvents
                 // GameServer.state.getSubList().Add(new Sub(this.launchEvent.getDestination))
                 Sub sub = this.arrivingSub;
 
-                GameServer.state.getSubList().Add(sub);
+                GameServer.state.addSub(sub);
 
                 if (this.destination.GetType().Equals(typeof(Outpost)))
                 {
@@ -53,10 +53,10 @@ namespace SubterfugeCore.GameEvents
         public override void eventForwardAction()
         {
             // Check if the sub is still alive
-            if(GameServer.state.getSubList().Contains(arrivingSub))
+            if(GameServer.state.subExists(arrivingSub))
             {
                 // Remove the sub from the game
-                GameServer.state.getSubList().Remove(this.arrivingSub);
+                GameServer.state.removeSub(this.arrivingSub);
                 subArrived = true;
 
                 if (this.destination.GetType().Equals(typeof(Outpost)))

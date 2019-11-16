@@ -120,6 +120,7 @@
     </MonoGameContentReference>
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Default.png" />

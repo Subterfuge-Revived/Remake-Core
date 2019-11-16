@@ -33,6 +33,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
         public void loadFonts(ContentManager content)
         {
             this.addFont("Arial", content.Load<SpriteFont>("Assets/Fonts/Arial"));
+            this.addFont("defaultFont", content.Load<SpriteFont>("Assets/Fonts/defaultFont"));
         }
     }
 }

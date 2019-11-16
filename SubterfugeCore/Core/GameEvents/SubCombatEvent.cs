@@ -7,7 +7,7 @@ using SubterfugeCore.Timing;
 
 namespace SubterfugeCore.GameEvents
 {
-    class SubCombatEvent : GameEvent
+    public class SubCombatEvent : GameEvent
     {
         private GameTick eventTick;
         private Vector2 combatLocation;
@@ -29,18 +29,18 @@ namespace SubterfugeCore.GameEvents
             // Determine winner
             if (sub1DrillersOnCombat == sub2DrillersOnCombat)
             {
-                GameServer.state.getSubList().Add(sub1);
-                GameServer.state.getSubList().Add(sub2);
+                GameServer.state.addSub(sub1);
+                GameServer.state.addSub(sub2);
             }
             else if (sub1DrillersOnCombat > sub2DrillersOnCombat)
             {
                 sub1.addDrillers(sub2DrillersOnCombat);
-                GameServer.state.getSubList().Add(sub2);
+                GameServer.state.addSub(sub2);
             }
             else
             {
                 sub2.addDrillers(sub1DrillersOnCombat);
-                GameServer.state.getSubList().Add(sub1);
+                GameServer.state.addSub(sub1);
 
             }
         }
@@ -53,16 +53,16 @@ namespace SubterfugeCore.GameEvents
             // Determine winnter
             if(sub1DrillersOnCombat == sub2DrillersOnCombat)
             {
-                GameServer.state.getSubList().Remove(sub1);
-                GameServer.state.getSubList().Remove(sub2);
+                GameServer.state.removeSub(sub1);
+                GameServer.state.removeSub(sub2);
             } else if(sub1DrillersOnCombat > sub2DrillersOnCombat)
             {
                 sub1.removeDrillers(sub2.getDrillerCount());
-                GameServer.state.getSubList().Remove(sub2);
+                GameServer.state.removeSub(sub2);
             } else
             {
                 sub2.removeDrillers(sub1.getDrillerCount());
-                GameServer.state.getSubList().Remove(sub1);
+                GameServer.state.removeSub(sub1);
 
             }
         }

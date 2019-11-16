@@ -69,7 +69,12 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
                 texture: this.getTexture(),
                 destinationRectangle: Camera.getRelativeLocation(this),
                 color: playerColor,
+                sourceRectangle: this.getTexture().Bounds,
+                effects: new SpriteEffects(),
+                layerDepth: 1,
+                rotation: 0,
                 origin: this.getTexture().Bounds.Size.ToVector2() / 2f);
+
 
             SpriteFont font = SubterfugeApp.FontLoader.getFont("Arial");
             string drillerCount = ((Outpost)this.gameObject).getDrillerCount().ToString();

@@ -9,6 +9,10 @@ using SubterfugeFrontend.Shared.Content.Game.Graphics;
 using SubterfugeFrontend.Shared.Content.Game.World;
 using SubterfugeCore.Timing;
 using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
+using SubterfugeFrontend.Shared.Content.Game.UI;
+using MonoGame.Extended.Gui;
+using MonoGame.Extended.ViewportAdapters;
+using MonoGame.Extended.BitmapFonts;
 
 #endregion
 
@@ -25,13 +29,17 @@ namespace SubterfugeFrontend.Shared
         public static EventObserver eventObserver;
         private static SpriteLoader spriteLoader = new SpriteLoader();
         private static FontLoader fontLoader = new FontLoader();
+        // private GuiSystem guiSystem;
+
         Match match;
 
         internal static SpriteLoader SpriteLoader { get => spriteLoader; set => spriteLoader = value; }
         internal static FontLoader FontLoader { get => fontLoader; set => fontLoader = value; }
+        internal Match Match { get => match; set => match = value; }
 
         public SubterfugeApp()
         {
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = true;
@@ -46,7 +54,6 @@ namespace SubterfugeFrontend.Shared
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             base.Initialize();
             match = new Match(graphics.GraphicsDevice);
         }
@@ -57,6 +64,18 @@ namespace SubterfugeFrontend.Shared
         /// </summary>
         protected override void LoadContent()
         {
+            /* 
+             * 
+             * Code for when we add Monogame.Extended.Gui library
+             * 
+            // var viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
+            // var guiRenderer = new GuiSpriteBatchRenderer(GraphicsDevice, () => Matrix.Identity);
+
+            // Create a new screen
+            // Screen screen = new MainMenu();
+            // this.guiSystem = new GuiSystem(viewportAdapter, guiRenderer) { ActiveScreen = screen };
+            */
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -85,6 +104,7 @@ namespace SubterfugeFrontend.Shared
             // TODO: Add your update logic here			
             inputListener.listen();
             match.update(gameTime);
+            // guiSystem.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -94,10 +114,11 @@ namespace SubterfugeFrontend.Shared
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             match.render(spriteBatch, gameTime);
             spriteBatch.End();
+            // guiSystem.Draw(gameTime);
 
             base.Draw(gameTime);
         }

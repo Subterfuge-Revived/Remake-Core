@@ -3,11 +3,10 @@ using SubterfugeCore.Components.Outpost;
 using SubterfugeCore.Entities;
 using SubterfugeCore.Timing;
 using System;
-using System.Collections.Generic;
 
 namespace SubterfugeCore.GameEvents
 {
-    class SubLaunchEvent : GameEvent
+    public class SubLaunchEvent : GameEvent
     {
         private GameTick launchTime;
         private Outpost sourceOutpost;
@@ -25,13 +24,13 @@ namespace SubterfugeCore.GameEvents
             if (destination.GetType().Equals(typeof(Outpost)))
             {
                 SubArriveEvent arrivalEvent = new SubArriveEvent(launchedSub, this.destination, launchedSub.getExpectedArrival());
-                GameServer.state.addEvent(arrivalEvent);
+                GameServer.timeMachine.addEvent(arrivalEvent);
             } else
             {
                 Vector2 targetLocation = this.destination.getTargetLocation(sourceOutpost.getPosition(), this.launchedSub.getSpeed());
                 GameTick arrival = this.launchTime.advance((int)Math.Floor((targetLocation - sourceOutpost.getPosition()).Length() / this.launchedSub.getSpeed()));
                 SubCombatEvent combatEvent = new SubCombatEvent(this.launchedSub, (Sub)destination, arrival,  targetLocation);
-                GameServer.state.addEvent(combatEvent);
+                GameServer.timeMachine.addEvent(combatEvent);
             }
             this.createCombatEvents();
         }
@@ -41,7 +40,7 @@ namespace SubterfugeCore.GameEvents
             GameState state = GameServer.state;
 
             sourceOutpost.addDrillers(this.drillerCount);
-            state.getSubList().Remove(this.launchedSub);
+            state.removeSub(this.launchedSub);
         }
 
         public override void eventForwardAction()
@@ -51,7 +50,7 @@ namespace SubterfugeCore.GameEvents
                 GameState state = GameServer.state;
 
                 sourceOutpost.removeDrillers(drillerCount);
-                state.getSubList().Add(launchedSub);
+                state.addSub(launchedSub);
             }
         }
 
@@ -62,11 +61,10 @@ namespace SubterfugeCore.GameEvents
             if (this.destination.GetType().Equals(typeof(Outpost)))
             {
                 // Interpolate to launch time to determine combats!
-                GameTick currentTick = GameServer.state.getCurrentTick();
-                GameServer.state.goTo(this);
+                GameState interpolatedState = GameServer.timeMachine.getStateAtTick(this.getTick());
 
 
-                foreach (Sub sub in GameServer.state.getSubsOnPath(this.sourceOutpost, (Outpost)this.destination))
+                foreach (Sub sub in interpolatedState.getSubsOnPath(this.sourceOutpost, (Outpost)this.destination))
                 {
                     // Don't combat with yourself
                     if(sub == this.getActiveSub())
@@ -100,14 +98,10 @@ namespace SubterfugeCore.GameEvents
                             Vector2 combatLocation = Vector2.Multiply(this.getActiveSub().getDirection(), (float)ticksUntilCombat);
 
                             SubCombatEvent combatEvent = new SubCombatEvent(sub, this.getActiveSub(), GameServer.state.getCurrentTick().advance(ticksUntilCombat), combatLocation);
-                            GameServer.state.addEvent(combatEvent);
+                            GameServer.timeMachine.addEvent(combatEvent);
                         }
                     }
                 }
-
-
-                // Go back to original time.
-                GameServer.state.interpolateTick(currentTick);
             }
         }
 
