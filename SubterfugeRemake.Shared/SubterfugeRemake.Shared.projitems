@@ -25,7 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\SpriteLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Match.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\TextureFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\MainMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Network\Api.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SubterfugeCore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +75,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\UI\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\NewFolder\" />
   </ItemGroup>
   <ItemGroup>

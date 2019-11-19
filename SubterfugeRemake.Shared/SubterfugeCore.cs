@@ -9,10 +9,6 @@ using SubterfugeFrontend.Shared.Content.Game.Graphics;
 using SubterfugeFrontend.Shared.Content.Game.World;
 using SubterfugeCore.Timing;
 using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
-using SubterfugeFrontend.Shared.Content.Game.UI;
-using MonoGame.Extended.Gui;
-using MonoGame.Extended.ViewportAdapters;
-using MonoGame.Extended.BitmapFonts;
 
 #endregion
 
