@@ -39,12 +39,12 @@ namespace SubterfugeCore.Entities
         public GameTick getExpectedArrival()
         {
             GameTick baseTick;
-            if(GameServer.state.getCurrentTick() < this.launchTime)
+            if(GameServer.timeMachine.getState().getCurrentTick() < this.launchTime)
             {
                 baseTick = this.launchTime;
             } else
             {
-                baseTick = GameServer.state.getCurrentTick();
+                baseTick = GameServer.timeMachine.getState().getCurrentTick();
             }
             // Determine direction vector
             Vector2 direction = (this.destination.getTargetLocation(this.position, this.getSpeed()) - this.source.getCurrentLocation());
@@ -62,7 +62,7 @@ namespace SubterfugeCore.Entities
         {
 
             // Determine number of ticks after launch:
-            int elapsedTicks = GameServer.state.getCurrentTick() - this.launchTime;
+            int elapsedTicks = GameServer.timeMachine.getState().getCurrentTick() - this.launchTime;
 
             // Determine direction vector
             Vector2 direction = (this.destination.getTargetLocation(this.position, this.getSpeed()) - this.source.getCurrentLocation());

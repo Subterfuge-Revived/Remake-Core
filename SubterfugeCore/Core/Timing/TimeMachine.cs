@@ -30,21 +30,12 @@ namespace SubterfugeCore.Core.Timing
 
         public GameState getState()
         {
-            return gameState;
+            return this.gameState;
         }
 
         public void addEvent(GameEvent gameEvent)
         {
             this.futureEventQueue.Enqueue(gameEvent);
-        }
-
-        public GameState getStateAtTick(GameTick tick)
-        {
-            GameTick startTick = this.currentTick;
-            this.goTo(tick);
-            GameState stateAtTick = new GameState(this.gameState); // Use copy constructor to create a new gamestate.
-            this.goTo(startTick);   // return back to original tick while keeping a reference to the original state.
-            return stateAtTick;
         }
 
         public void goTo(GameTick tick)
@@ -88,7 +79,8 @@ namespace SubterfugeCore.Core.Timing
                     evaluating = false;
                 }
             }
-            currentTick = tick;
+            this.currentTick = tick;
+            this.gameState.currentTick = tick;
         }
 
         public GameTick getCurrentTick()

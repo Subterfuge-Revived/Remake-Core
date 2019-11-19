@@ -18,18 +18,11 @@ namespace SubterfugeCore.Timing
             this.startTime = new DateTime();
             this.tickNumber = 0;
         }
-
-        // Copy sconstructor
-        public GameTick(GameTick tick)
-        {
-            this.startTime = tick.getDate();
-            this.tickNumber = tick.getTick();
-        }
         
         public static GameTick fromDate(DateTime dateTime)
         {
             // Determine the delta
-            TimeSpan dateDelta = dateTime.Subtract(GameServer.state.getStartTick().getDate());
+            TimeSpan dateDelta = dateTime.Subtract(GameServer.timeMachine.getState().getStartTick().getDate());
             // Get seconds elapsed
             double minutesElapsed = dateDelta.TotalMinutes;
             // Determine the number of ticks past
@@ -40,7 +33,7 @@ namespace SubterfugeCore.Timing
 
         public static GameTick fromTickNumber(int tickNumber)
         {
-            return GameServer.state.getStartTick().advance(tickNumber);
+            return GameServer.timeMachine.getState().getStartTick().advance(tickNumber);
         }
 
         public GameTick getNextTick()

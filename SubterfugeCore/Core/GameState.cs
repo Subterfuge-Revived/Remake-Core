@@ -46,16 +46,6 @@ namespace SubterfugeCore
             outposts.Add(outpost4);
         }
 
-        // Copy Constructor
-        public GameState(GameState state)
-        {
-            this.activeSubs = new List<Sub>(state.activeSubs);
-            this.outposts = new List<Outpost>(state.outposts);
-            this.players = new List<Player>(state.players);
-            this.currentTick = new GameTick(state.currentTick);
-            this.startTime = new GameTick(state.startTime);
-        }
-
         public GameTick getCurrentTick()
         {
             return this.currentTick;
@@ -94,14 +84,9 @@ namespace SubterfugeCore
         }
 
         // Launch a sub
-        public bool addSub(Sub sub)
+        public void addSub(Sub sub)
         {
-            if (sub.getSourceOutpost().hasDrillers(sub.getDrillerCount()))
-            {
                 this.activeSubs.Add(sub);
-                return true;
-            }
-            return false;
         }
 
         // Remove a sub from the game.

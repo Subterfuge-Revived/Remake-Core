@@ -13,6 +13,7 @@ namespace SubterfugeCore.GameEvents
         private ITargetable destination;
         private int drillerCount;
         private Sub launchedSub;
+
         public SubLaunchEvent(GameTick launchTime, Outpost sourceOutpost, int drillerCount, ITargetable destination)
         {
             this.launchTime = launchTime;
@@ -37,7 +38,7 @@ namespace SubterfugeCore.GameEvents
 
         public override void eventBackwardAction()
         {
-            GameState state = GameServer.state;
+            GameState state = GameServer.timeMachine.getState();
 
             sourceOutpost.addDrillers(this.drillerCount);
             state.removeSub(this.launchedSub);
@@ -47,10 +48,10 @@ namespace SubterfugeCore.GameEvents
         {
             if (sourceOutpost.hasDrillers(drillerCount))
             {
-                GameState state = GameServer.state;
+                GameState state = GameServer.timeMachine.getState();
 
                 sourceOutpost.removeDrillers(drillerCount);
-                state.addSub(launchedSub);
+                state.addSub(this.launchedSub);
             }
         }
 
@@ -61,7 +62,9 @@ namespace SubterfugeCore.GameEvents
             if (this.destination.GetType().Equals(typeof(Outpost)))
             {
                 // Interpolate to launch time to determine combats!
-                GameState interpolatedState = GameServer.timeMachine.getStateAtTick(this.getTick());
+                GameTick currentTick = GameServer.timeMachine.getCurrentTick();
+                GameServer.timeMachine.goTo(this.getTick());
+                GameState interpolatedState = GameServer.timeMachine.getState();
 
 
                 foreach (Sub sub in interpolatedState.getSubsOnPath(this.sourceOutpost, (Outpost)this.destination))
@@ -97,11 +100,13 @@ namespace SubterfugeCore.GameEvents
                             // Determine collision location:
                             Vector2 combatLocation = Vector2.Multiply(this.getActiveSub().getDirection(), (float)ticksUntilCombat);
 
-                            SubCombatEvent combatEvent = new SubCombatEvent(sub, this.getActiveSub(), GameServer.state.getCurrentTick().advance(ticksUntilCombat), combatLocation);
+                            SubCombatEvent combatEvent = new SubCombatEvent(sub, this.getActiveSub(), GameServer.timeMachine.getState().getCurrentTick().advance(ticksUntilCombat), combatLocation);
                             GameServer.timeMachine.addEvent(combatEvent);
                         }
                     }
                 }
+                // Go back to the original point in time.
+                GameServer.timeMachine.goTo(currentTick);
             }
         }
 

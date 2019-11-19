@@ -33,7 +33,7 @@ namespace SubterfugeCore.GameEvents
                 // GameServer.state.getSubList().Add(new Sub(this.launchEvent.getDestination))
                 Sub sub = this.arrivingSub;
 
-                GameServer.state.addSub(sub);
+                GameServer.timeMachine.getState().addSub(sub);
 
                 if (this.destination.GetType().Equals(typeof(Outpost)))
                 {
@@ -53,10 +53,10 @@ namespace SubterfugeCore.GameEvents
         public override void eventForwardAction()
         {
             // Check if the sub is still alive
-            if(GameServer.state.subExists(arrivingSub))
+            if(GameServer.timeMachine.getState().subExists(arrivingSub))
             {
                 // Remove the sub from the game
-                GameServer.state.removeSub(this.arrivingSub);
+                GameServer.timeMachine.getState().removeSub(this.arrivingSub);
                 subArrived = true;
 
                 if (this.destination.GetType().Equals(typeof(Outpost)))

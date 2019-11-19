@@ -63,7 +63,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
                 return;
             }
             // Call the render function on all game objects
-            foreach (GameObject gameObject in GameServer.state.getOutposts())
+            foreach (GameObject gameObject in GameServer.timeMachine.getState().getOutposts())
             {
                 if (cameraBounds.Contains(new Point((int)gameObject.getPosition().X, (int)gameObject.getPosition().Y)))
                 {
@@ -72,7 +72,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
                 }
             }
             // Call the render function on all game objects
-            foreach (GameObject gameObject in GameServer.state.getSubList())
+            foreach (GameObject gameObject in GameServer.timeMachine.getState().getSubList())
             {
                 if (cameraBounds.Contains(new Point((int)gameObject.getPosition().X, (int)gameObject.getPosition().Y)))
                 {
