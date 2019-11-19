@@ -12,7 +12,6 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events.Events
         public TouchReleaseEvent(TouchLocation touchLocation) : base(Base.EventType.OnTouchReleaseEvent)
         {
             this.touch = touchLocation;
-            EventObserver.triggerEvent(this);
         }
 
         public TouchLocation getTouchLocation()

@@ -8,44 +8,36 @@ using SubterfugeCore.Entities.Base;
 using SubterfugeFrontend.Shared.Content.Game.Events;
 using SubterfugeFrontend.Shared.Content.Game.Events.Base;
 using SubterfugeFrontend.Shared.Content.Game.Events.Events;
+using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
 {
-    class TexturedOutpost : TexturedGameObject, IListener
+    class TexturedOutpost : TexturedGameObject
     {
 
         public TexturedOutpost(GameObject gameObject) : base(gameObject, SubterfugeApp.SpriteLoader.getSprite("GeneratorFill"),
             100, 100)
         {
-            this.registerListener();
+            InputListener.Press += onPress;
         }
 
-
-        public void onEvent(Event e)
+        public void onPress(object sender, EventArgs e)
         {
-            if(e.getEventType() == EventType.OnTouchPressEvent)
+            TouchPressEvent touchPress = (TouchPressEvent)e;
+
+            // Get the absolut position of the press
+            TouchLocation location = touchPress.getTouchLocation();
+            Vector2 absolutePosition = Camera.getAbsoluePosition(location.Position);
+
+            // Determine if the press was on the outpost.
+            if (this.getBoundingBox().Contains(new PointF((int)absolutePosition.X, (int)absolutePosition.Y)))
             {
-                TouchPressEvent touchPress = (TouchPressEvent) e;
+                // Set the selected outpost and wait for a release event.
+                Console.WriteLine("Outpost Selected!!!");
 
-                // Get the absolut position of the press
-                TouchLocation location = touchPress.getTouchLocation();
-                Vector2 absolutePosition = Camera.getAbsoluePosition(location.Position);
-
-                // Determine if the press was on the outpost.
-                if (this.getBoundingBox().Contains(new PointF((int)absolutePosition.X, (int)absolutePosition.Y)))
-                {
-                    // Set the selected outpost and wait for a release event.
-                    Console.WriteLine("Outpost Selected!!!");
-
-                }
-                
             }
-        }
 
-        public void registerListener()
-        {
-            EventObserver.addEventHandler(this);
         }
 
         public override void render(SpriteBatch spriteBatch)
@@ -91,11 +83,6 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
                 layerDepth: 1f,
                 scale: 1.5f,
                 effects: SpriteEffects.None);
-        }
-
-        public void unregisterListener()
-        {
-            EventObserver.removeEventHandler(this);
         }
     }
 }

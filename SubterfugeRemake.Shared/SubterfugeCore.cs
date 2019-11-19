@@ -9,6 +9,8 @@ using SubterfugeFrontend.Shared.Content.Game.Graphics;
 using SubterfugeFrontend.Shared.Content.Game.World;
 using SubterfugeCore.Timing;
 using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
+using SubterfugeFrontend.Shared.Content.Game.UI;
+using System.Collections.Generic;
 
 #endregion
 
@@ -22,9 +24,9 @@ namespace SubterfugeFrontend.Shared
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         InputListener inputListener = new InputListener();
-        public static EventObserver eventObserver;
         private static SpriteLoader spriteLoader = new SpriteLoader();
         private static FontLoader fontLoader = new FontLoader();
+        private List<IGuiComponent> guiComponents = new List<IGuiComponent>();
         // private GuiSystem guiSystem;
 
         Match match;
@@ -39,7 +41,6 @@ namespace SubterfugeFrontend.Shared
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = true;
-            eventObserver = new EventObserver();
         }
 
         /// <summary>
@@ -79,6 +80,16 @@ namespace SubterfugeFrontend.Shared
             FontLoader.loadFonts(Content);
 
             Console.WriteLine(NtpConnector.GetNetworkTime().ToLongDateString());
+
+            Button button = new Button("Click Me!", fontLoader.getFont("Arial"), SpriteLoader.getSprite("Sea"), Color.Blue, new Rectangle(200, 200, 200, 200));
+            button.Click += onClick;
+
+            guiComponents.Add(button); ;
+        }
+
+        public void onClick(object sender, EventArgs e)
+        {
+            Console.WriteLine("Button Clicked");
         }
 
         /// <summary>
@@ -100,6 +111,7 @@ namespace SubterfugeFrontend.Shared
             // TODO: Add your update logic here			
             inputListener.listen();
             match.update(gameTime);
+
             // guiSystem.Update(gameTime);
             base.Update(gameTime);
         }
@@ -113,6 +125,10 @@ namespace SubterfugeFrontend.Shared
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             match.render(spriteBatch, gameTime);
+            foreach (IGuiComponent component in this.guiComponents)
+            {
+                component.Draw(spriteBatch, gameTime);
+            }
             spriteBatch.End();
             // guiSystem.Draw(gameTime);
 

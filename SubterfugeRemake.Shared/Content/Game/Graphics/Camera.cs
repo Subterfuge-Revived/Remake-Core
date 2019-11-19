@@ -18,7 +18,7 @@ using SubterfugeCore.Timing;
 
 namespace SubterfugeFrontend.Shared.Content.Game.Graphics
 {
-    class Camera : IListener
+    class Camera
     {
         protected static Rectangle cameraBounds = new Rectangle(); //The area on the map that is visible
         protected Rectangle cameraScreenLocation = new Rectangle(); //The area of the screen the camera takes up
@@ -33,7 +33,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
         {
             this.isActive = true;
             cameraBounds = new Rectangle(0, 0, device.Viewport.Width, device.Viewport.Height);
-            this.registerListener();
+            InputListener.Drag += onDrag;
         }
 
         public Rectangle getCameraBounds()
@@ -109,27 +109,14 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
             this.isActive = false;
         }
 
-        public void onEvent(Event e)
+        public void onDrag(object sender, EventArgs e)
         {
-            if(e.getEventType() == EventType.OnDragEvent)
-            {
-                DragEvent touchEvent = (DragEvent)e;
-                Vector2 delta = touchEvent.getDelta();
+            DragEvent touchEvent = (DragEvent)e;
+            Vector2 delta = touchEvent.getDelta();
 
-                // Update the camera based on the delta.
-                Rectangle currentBounds = cameraBounds;
-                cameraBounds = new Rectangle((int)Math.Round(currentBounds.X + delta.X), (int)Math.Round(currentBounds.Y + delta.Y), currentBounds.Width, currentBounds.Height);
-            }
-        }
-
-        public void registerListener()
-        {
-            EventObserver.addEventHandler(this);
-        }
-
-        public void unregisterListener()
-        {
-            EventObserver.removeEventHandler(this);
+            // Update the camera based on the delta.
+            Rectangle currentBounds = cameraBounds;
+            cameraBounds = new Rectangle((int)Math.Round(currentBounds.X + delta.X), (int)Math.Round(currentBounds.Y + delta.Y), currentBounds.Width, currentBounds.Height);
         }
     }
 }

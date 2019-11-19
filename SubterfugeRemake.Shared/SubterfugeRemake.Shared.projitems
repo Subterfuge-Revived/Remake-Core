@@ -10,9 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\Event.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\EventObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\EventType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\IListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\DragEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\TouchPressEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\TouchReleaseEvent.cs" />
@@ -26,6 +24,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Match.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\TextureFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Network\Api.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Buttons\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Base\IGuiComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Buttons\ButtonFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SubterfugeCore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +76,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\UI\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\UI\Base\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\NewFolder\" />
   </ItemGroup>
   <ItemGroup>

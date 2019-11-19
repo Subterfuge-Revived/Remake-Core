@@ -11,6 +11,12 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events.Listeners
 
         private TouchCollection[] touchCollection = new TouchCollection[2];
         private bool isTouch = false;
+
+        // Event delegates to allow components to listen to inputs.
+        public static event EventHandler Press;
+        public static event EventHandler Release;
+        public static event EventHandler Drag;
+
         public void listen()
         {
             // Determine if the camera's position should be updated.
@@ -21,7 +27,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events.Listeners
             {
                 if (touchCollection[1][0].State == TouchLocationState.Moved)
                 {
-                    new DragEvent(touchCollection);
+                    Drag?.Invoke(this, new DragEvent(touchCollection));
                 }
                 else
                 {
@@ -30,13 +36,13 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events.Listeners
                 if(touchCollection[1][0].State == TouchLocationState.Pressed && !this.isTouch)
                 {
                     Console.WriteLine("Touched");
+                    Press?.Invoke(this, new TouchPressEvent(touchCollection[1][0]));
                     this.isTouch = true;
-                    new TouchPressEvent(touchCollection[1][0]);
                 }
                 if (touchCollection[1][0].State == TouchLocationState.Released)
                 {
                     Console.WriteLine("Released Touch");
-                    new TouchReleaseEvent(touchCollection[1][0]);
+                    Release?.Invoke(this, new TouchReleaseEvent(touchCollection[1][0]));
                     this.isTouch = false;
                 }
             }

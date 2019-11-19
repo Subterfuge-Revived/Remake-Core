@@ -12,7 +12,6 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events.Events
         public DragEvent(TouchCollection[] touchCollection) : base(Base.EventType.OnDragEvent)
         {
             this.touchCollection = touchCollection;
-            EventObserver.triggerEvent(this);
         }
 
         public Vector2 getDelta()
