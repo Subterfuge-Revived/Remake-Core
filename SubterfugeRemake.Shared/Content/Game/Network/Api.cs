@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -7,21 +8,16 @@ namespace SubterfugeFrontend.Shared.Content.Game.Network
 {
     class Api
     {
-        private static Api singleton = null;
         static readonly HttpClient client = new HttpClient();
-        String baseUrl = "http://localhost/";
+        String baseUrl = "http://10.0.2.2:80/subterfuge-backend/sandbox";
 
         String SESSION_ID = null;
 
         public Api()
         {
-            if (singleton == null)
-            {
-                singleton = new Api();
-            }
         }
 
-        public async Task register(String username, String email, String password)
+        public async Task<HttpResponseMessage> register(String username, String email, String password)
         {
             try
             {
@@ -32,39 +28,45 @@ namespace SubterfugeFrontend.Shared.Content.Game.Network
 
                 HttpContent postContent = new StringContent(jsonObject.ToString());
 
-                HttpResponseMessage response = await client.PostAsync(this.baseUrl + "/register.php", postContent);
+                HttpResponseMessage response = await client.PostAsync(this.baseUrl + "/register_reworked.php", postContent);
 
                 // Get the session ID
                 Console.WriteLine(response.Content);
+                return response;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                return null;
             }
         }
 
-        public async Task login(String username, String password)
+        public async Task<HttpResponseMessage> login(String username, String password)
         {
             try
             {
-                JObject jsonObject = new JObject();
-                jsonObject.Add("username", username);
-                jsonObject.Add("password", password);
+                var formContent = new FormUrlEncodedContent(new []
+                {
+                    new KeyValuePair<string, string>("player_name", username),
+                    new KeyValuePair<string, string>("password", password)
+                });
 
-                HttpContent postContent = new StringContent(jsonObject.ToString());
-
-                HttpResponseMessage response = await client.PostAsync(this.baseUrl + "/login.php", postContent);
+                HttpResponseMessage response = await client.PostAsync(this.baseUrl + "/login_reworked.php", formContent);
 
                 // Get the session ID
-                Console.WriteLine(response.Content);
+                string responseContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(responseContent);
+
+                return response;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                return null;
             }
         }
 
-        public async Task joinRoom(int room_id)
+        public async Task<HttpResponseMessage> joinRoom(int room_id)
         {
             try
             {
@@ -74,14 +76,16 @@ namespace SubterfugeFrontend.Shared.Content.Game.Network
 
                 HttpContent postContent = new StringContent(jsonObject.ToString());
 
-                HttpResponseMessage response = await client.PostAsync(this.baseUrl + "/join_room.php", postContent);
+                HttpResponseMessage response = await client.PostAsync(this.baseUrl + "/join_room_reworked.php", postContent);
 
                 // Get the session ID
                 Console.WriteLine(response.Content);
+                return response;
             }
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
+                return null;
             }
         }
 

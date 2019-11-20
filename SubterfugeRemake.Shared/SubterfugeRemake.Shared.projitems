@@ -27,6 +27,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Buttons\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Base\IGuiComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Buttons\ButtonFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Gui\ApplicationState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Gui\Scenes\GameScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Gui\Scenes\MenuScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Gui\Scenes\Scene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SubterfugeCore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +78,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Animations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Audio\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Gui\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\UI\Base\" />

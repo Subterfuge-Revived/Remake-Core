@@ -11,6 +11,7 @@ using SubterfugeCore.Timing;
 using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
 using SubterfugeFrontend.Shared.Content.Game.UI;
 using System.Collections.Generic;
+using SubterfugeFrontend.Shared.Content.Gui;
 
 #endregion
 
@@ -21,20 +22,15 @@ namespace SubterfugeFrontend.Shared
     /// </summary>
     public class SubterfugeApp : Game
     {
-        GraphicsDeviceManager graphics;
+        public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        InputListener inputListener = new InputListener();
+        ApplicationState applicationState;
         private static SpriteLoader spriteLoader = new SpriteLoader();
         private static FontLoader fontLoader = new FontLoader();
-        private List<IGuiComponent> guiComponents = new List<IGuiComponent>();
-        // private GuiSystem guiSystem;
 
-        Match match;
 
         internal static SpriteLoader SpriteLoader { get => spriteLoader; set => spriteLoader = value; }
         internal static FontLoader FontLoader { get => fontLoader; set => fontLoader = value; }
-        internal Match Match { get => match; set => match = value; }
-
         public SubterfugeApp()
         {
 
@@ -52,7 +48,6 @@ namespace SubterfugeFrontend.Shared
         protected override void Initialize()
         {
             base.Initialize();
-            match = new Match(graphics.GraphicsDevice);
         }
 
         /// <summary>
@@ -79,12 +74,8 @@ namespace SubterfugeFrontend.Shared
             SpriteLoader.loadSprites(Content);
             FontLoader.loadFonts(Content);
 
+            applicationState = new ApplicationState();
             Console.WriteLine(NtpConnector.GetNetworkTime().ToLongDateString());
-
-            Button button = new Button("Click Me!", fontLoader.getFont("Arial"), SpriteLoader.getSprite("Sea"), Color.Blue, new Rectangle(200, 200, 200, 200));
-            button.Click += onClick;
-
-            guiComponents.Add(button); ;
         }
 
         public void onClick(object sender, EventArgs e)
@@ -109,8 +100,7 @@ namespace SubterfugeFrontend.Shared
             }
 #endif
             // TODO: Add your update logic here			
-            inputListener.listen();
-            match.update(gameTime);
+            applicationState.Update(gameTime);
 
             // guiSystem.Update(gameTime);
             base.Update(gameTime);
@@ -124,13 +114,8 @@ namespace SubterfugeFrontend.Shared
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            match.render(spriteBatch, gameTime);
-            foreach (IGuiComponent component in this.guiComponents)
-            {
-                component.Draw(spriteBatch, gameTime);
-            }
+            applicationState.Draw(spriteBatch, gameTime);
             spriteBatch.End();
-            // guiSystem.Draw(gameTime);
 
             base.Draw(gameTime);
         }

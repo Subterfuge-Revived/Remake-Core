@@ -71,6 +71,8 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
             this.addSprite("MineFill", content.Load<Texture2D>("Assets/Images/Locations/MineFill"));
 
             this.addSprite("Sea", content.Load<Texture2D>("Assets/Images/Sea"));
+
+            this.addSprite("blue-button", content.Load<Texture2D>("Assets/Images/Gui/blue-button"));
         }
 
     }
