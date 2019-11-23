@@ -11,11 +11,16 @@ using SubterfugeCore.Timing;
 
 namespace SubterfugeCore.Entities
 {
-    public class Outpost : GameObject, IOwnable, ITargetable, IDrillerCarrier, ILaunchable, ICombatable
+    public class Outpost : GameObject, IOwnable, ITargetable, IDrillerCarrier, ILaunchable, ICombatable, IShieldable
     {
         private Player outpostOwner;
         private SpecialistManager specialistManager;
         int drillerCount;
+
+        int shields;
+        bool shieldActive;
+        int shieldCapacity;
+        // shield recharge rate when implemented
 
         public Outpost(Vector2 outpostLocation, Player outpostOwner)
         {
@@ -23,6 +28,9 @@ namespace SubterfugeCore.Entities
             this.drillerCount = 42;
             this.outpostOwner = outpostOwner;
             this.specialistManager = new SpecialistManager(100);
+            this.shieldActive = true;
+            this.shieldCapacity = 10;
+            this.shields = 10;
         }
 
         public override Vector2 getPosition()
@@ -115,6 +123,65 @@ namespace SubterfugeCore.Entities
         public SpecialistManager getSpecialistManager()
         {
             return this.specialistManager;
+        }
+
+        public int getShields()
+        {
+            return this.shields;
+        }
+
+        public void setShields(int shieldValue)
+        {
+            if(shieldValue > this.shieldCapacity)
+            {
+                this.shields = this.shieldCapacity;
+            } else
+            {
+                this.shields = shieldValue;
+            }
+        }
+
+        public void removeShields(int shieldsToRemove)
+        {
+            if (this.shields - shieldsToRemove < 0)
+            {
+                this.shields = 0;
+            }
+            else
+            {
+                this.shields -= shieldsToRemove;
+            }
+        }
+
+        public void toggleShield()
+        {
+            this.shieldActive = !this.shieldActive;
+        }
+
+        public bool isShieldActive()
+        {
+            return this.shieldActive;
+        }
+
+        public void addShield(int shields)
+        {
+            if(this.shields + shields > this.shieldCapacity)
+            {
+                this.shields = this.shieldCapacity;
+            } else
+            {
+                this.shields += shields;
+            }
+        }
+
+        public int getShieldCapacity()
+        {
+            return this.shieldCapacity;
+        }
+
+        public void setShieldCapacity(int capactiy)
+        {
+            this.shieldCapacity = capactiy;
         }
     }
 }
