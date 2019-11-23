@@ -1,5 +1,5 @@
 ﻿//====================================================
-//| Downloaded From                                  |
+//| Modified From                                    |
 //| Visual C# Kicks - http://www.vcskicks.com/       |
 //| License - http://www.vcskicks.com/license.html   |
 //====================================================
@@ -159,7 +159,7 @@ namespace SubterfugeCore.Timing
             if (childCell == 1)
                 return false; //top of heap, no parent
             else
-                return storedValues[childCell / 2].CompareTo(storedValues[childCell]) <= 0;
+                return storedValues[childCell / 2].CompareTo(storedValues[childCell]) < 0;
             //return storedNodes[childCell / 2].Key > storedNodes[childCell].Key;
         }
 
@@ -172,7 +172,7 @@ namespace SubterfugeCore.Timing
             if (2 * parentCell >= storedValues.Count)
                 return false; //out of bounds
             else
-                return storedValues[2 * parentCell].CompareTo(storedValues[parentCell]) >= 0;
+                return storedValues[2 * parentCell].CompareTo(storedValues[parentCell]) > 0;
             //return storedNodes[2 * parentCell].Key < storedNodes[parentCell].Key;
         }
 
@@ -185,7 +185,7 @@ namespace SubterfugeCore.Timing
             if (2 * parentCell + 1 >= storedValues.Count)
                 return false; //out of bounds
             else
-                return storedValues[2 * parentCell + 1].CompareTo(storedValues[parentCell]) >= 0;
+                return storedValues[2 * parentCell + 1].CompareTo(storedValues[parentCell]) > 0;
             //return storedNodes[2 * parentCell + 1].Key < storedNodes[parentCell].Key;
         }
 
@@ -222,6 +222,31 @@ namespace SubterfugeCore.Timing
             }
             else
                 return 0; //both children are bigger or don't exist
+        }
+
+        public bool remove(T item)
+        {
+            int index = this.storedValues.IndexOf(item);
+            if (index != -1)
+            {
+                T lastValue = this.storedValues[storedValues.Count - 1];
+
+                // Swap the last item.
+                this.storedValues[index] = lastValue;
+                this.storedValues.RemoveAt(storedValues.Count - 1);
+
+                //Determine to bubble down or percolate up
+                if (IsParentBigger(index))
+                {
+                    this.BubbleUp(index);
+                    return true;
+                } else if (IsLeftChildSmaller(index) || IsRightChildSmaller(index))
+                {
+                    this.BubbleDown(index);
+                    return true;
+                }
+            }
+            return false;
         }
 
     }

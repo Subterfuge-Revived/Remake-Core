@@ -1,65 +1,67 @@
 ﻿using Microsoft.Xna.Framework;
 using SubterfugeCore.Components.Outpost;
+using SubterfugeCore.Core.Components.Outpost;
+using SubterfugeCore.Core.Interfaces.Outpost;
 using SubterfugeCore.Entities;
 using SubterfugeCore.Timing;
 using System;
+using System.Collections.Generic;
 
 namespace SubterfugeCore.GameEvents
 {
-    public class SubLaunchEvent : GameEvent
+    public class LaunchEvent : GameEvent
     {
         private GameTick launchTime;
-        private Outpost sourceOutpost;
-        private ITargetable destination;
+        private ILaunchable source;
+        private ICombatable destination;
         private int drillerCount;
-        private Sub launchedSub;
 
-        public SubLaunchEvent(GameTick launchTime, Outpost sourceOutpost, int drillerCount, ITargetable destination)
+        private Sub launchedSub;
+        List<CombatEvent> combatEvents = new List<CombatEvent>();
+
+        public LaunchEvent(GameTick launchTime, ILaunchable source, int drillerCount, ICombatable destination)
         {
             this.launchTime = launchTime;
-            this.sourceOutpost = sourceOutpost;
+            this.source = source;
             this.drillerCount = drillerCount;
             this.destination = destination;
-            this.launchedSub = new Sub(sourceOutpost, destination, launchTime, drillerCount, sourceOutpost.getOwner());
-
-            if (destination.GetType().Equals(typeof(Outpost)))
-            {
-                SubArriveEvent arrivalEvent = new SubArriveEvent(launchedSub, this.destination, launchedSub.getExpectedArrival());
-                GameServer.timeMachine.addEvent(arrivalEvent);
-            } else
-            {
-                Vector2 targetLocation = this.destination.getTargetLocation(sourceOutpost.getPosition(), this.launchedSub.getSpeed());
-                GameTick arrival = this.launchTime.advance((int)Math.Floor((targetLocation - sourceOutpost.getPosition()).Length() / this.launchedSub.getSpeed()));
-                SubCombatEvent combatEvent = new SubCombatEvent(this.launchedSub, (Sub)destination, arrival,  targetLocation);
-                GameServer.timeMachine.addEvent(combatEvent);
-            }
-            this.createCombatEvents();
         }
 
         public override void eventBackwardAction()
         {
-            GameState state = GameServer.timeMachine.getState();
-
-            sourceOutpost.addDrillers(this.drillerCount);
-            state.removeSub(this.launchedSub);
+            if (this.eventSuccess)
+            {
+                this.source.undoLaunch(this.launchedSub);
+                this.removeCombatEvents();
+            }
         }
 
         public override void eventForwardAction()
         {
-            if (sourceOutpost.hasDrillers(drillerCount))
+            this.launchedSub = source.launchSub(drillerCount, destination);
+            if (launchedSub != null)
             {
-                GameState state = GameServer.timeMachine.getState();
-
-                sourceOutpost.removeDrillers(drillerCount);
-                state.addSub(this.launchedSub);
+                this.createCombatEvents();
+                this.eventSuccess = true;
+            } else
+            {
+                this.eventSuccess = false;
             }
         }
 
         public void createCombatEvents()
         {
+            // Create the combat event for arrival
+            Vector2 targetLocation = this.destination.getTargetLocation(source.getCurrentLocation(), this.launchedSub.getSpeed());
+            GameTick arrival = this.launchTime.advance((int)Math.Floor((targetLocation - source.getCurrentLocation()).Length() / this.launchedSub.getSpeed()));
+
+            CombatEvent arriveCombat = new CombatEvent(this.launchedSub, this.destination, arrival, targetLocation);
+            GameServer.timeMachine.addEvent(arriveCombat);
+
             // Determine any combat events that may exist along the way.
             // First determine if any subs are on the same path.
-            if (this.destination.GetType().Equals(typeof(Outpost)))
+            // Subs will only be on the same path if it is outpost to outpost
+            if (this.destination.GetType().Equals(typeof(Outpost)) && this.source.GetType().Equals(typeof(Outpost)))
             {
                 // Interpolate to launch time to determine combats!
                 GameTick currentTick = GameServer.timeMachine.getCurrentTick();
@@ -67,7 +69,7 @@ namespace SubterfugeCore.GameEvents
                 GameState interpolatedState = GameServer.timeMachine.getState();
 
 
-                foreach (Sub sub in interpolatedState.getSubsOnPath(this.sourceOutpost, (Outpost)this.destination))
+                foreach (Sub sub in interpolatedState.getSubsOnPath((Outpost)this.source, (Outpost)this.destination))
                 {
                     // Don't combat with yourself
                     if(sub == this.getActiveSub())
@@ -100,13 +102,20 @@ namespace SubterfugeCore.GameEvents
                             // Determine collision location:
                             Vector2 combatLocation = Vector2.Multiply(this.getActiveSub().getDirection(), (float)ticksUntilCombat);
 
-                            SubCombatEvent combatEvent = new SubCombatEvent(sub, this.getActiveSub(), GameServer.timeMachine.getState().getCurrentTick().advance(ticksUntilCombat), combatLocation);
+                            CombatEvent combatEvent = new CombatEvent(sub, this.getActiveSub(), GameServer.timeMachine.getState().getCurrentTick().advance(ticksUntilCombat), combatLocation);
                             GameServer.timeMachine.addEvent(combatEvent);
                         }
                     }
                 }
                 // Go back to the original point in time.
                 GameServer.timeMachine.goTo(currentTick);
+            }
+        }
+
+        public void removeCombatEvents()
+        {
+            foreach(CombatEvent combatEvent in this.combatEvents){
+                GameServer.timeMachine.removeEvent(combatEvent);
             }
         }
 
@@ -125,9 +134,9 @@ namespace SubterfugeCore.GameEvents
             return this.destination;
         }
 
-        public Outpost getSourceOutpost()
+        public ILaunchable getSource()
         {
-            return this.sourceOutpost;
+            return this.source;
         }
 
         public int getDrillerCount()

@@ -2,26 +2,28 @@
 using SubterfugeCore.Components;
 using SubterfugeCore.Components.Outpost;
 using SubterfugeCore.Core.Components.Outpost;
+using SubterfugeCore.Core.Entities.Specialists;
+using SubterfugeCore.Core.Interfaces.Outpost;
 using SubterfugeCore.Entities.Base;
 using SubterfugeCore.GameEvents;
 using SubterfugeCore.Players;
 using SubterfugeCore.Timing;
 using System;
+using System.Collections.Generic;
 
 namespace SubterfugeCore.Entities
 {
-    public class Sub : GameObject, ITargetable, IOwnable, IHasDrillers
+    public class Sub : GameObject, ITargetable, IDrillerCarrier, ISpecialistCarrier, ICombatable
     {
         private int drillerCount;
-        private Outpost source;
+        private ILaunchable source;
         private ITargetable destination;
         private GameTick launchTime;
         private float speed = 0.25f;
         private Player owner;
-        private Outpost sourceOutpost;
-        private Player player;
+        private SpecialistManager specialistManager;
 
-        public Sub(Outpost source, ITargetable destination, GameTick launchTime, int drillerCount, Player owner) : base()
+        public Sub(ILaunchable source, ITargetable destination, GameTick launchTime, int drillerCount, Player owner) : base()
         {
             this.source = source;
             this.destination = destination;
@@ -29,6 +31,12 @@ namespace SubterfugeCore.Entities
             this.drillerCount = drillerCount;
             this.position = source.getCurrentLocation();
             this.owner = owner;
+            this.specialistManager = new SpecialistManager(3);
+        }
+
+        public SpecialistManager getSpecialistManager()
+        {
+            return this.specialistManager;
         }
 
         public Player getOwner()
@@ -195,7 +203,7 @@ namespace SubterfugeCore.Entities
             return direction;
         }
 
-        public Outpost getSourceOutpost()
+        public ILaunchable getSource()
         {
             return this.source;
         }
@@ -218,6 +226,16 @@ namespace SubterfugeCore.Entities
         public bool hasDrillers(int drillers)
         {
             return this.drillerCount >= drillers;
+        }
+
+        public Sub launchSub(int drillerCount, ITargetable destination)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void undoLaunch(Sub sub)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -32,14 +32,23 @@ namespace SubterfugeCore
             Outpost outpost3 = timeMachine.getState().getOutposts()[2];
 
             // Temporary. Sets up some initial time machine events
-            SubLaunchEvent launchEvent1 = new SubLaunchEvent(timeMachine.getState().getCurrentTick().advance(100), outpost1, 30, outpost2);
+            LaunchEvent launchEvent1 = new LaunchEvent(timeMachine.getState().getCurrentTick().advance(100), outpost1, 30, outpost2);
             timeMachine.addEvent(launchEvent1);
 
-            SubLaunchEvent launchEvent2 = new SubLaunchEvent(timeMachine.getState().getCurrentTick().advance(101), outpost2, 1, outpost1);
+            LaunchEvent launchEvent2 = new LaunchEvent(timeMachine.getState().getCurrentTick().advance(101), outpost2, 1, outpost1);
             timeMachine.addEvent(launchEvent2);
 
-            SubLaunchEvent launchEvent3 = new SubLaunchEvent(timeMachine.getState().getCurrentTick().advance(101), outpost3, 30, outpost2);
+            LaunchEvent launchEvent3 = new LaunchEvent(timeMachine.getState().getCurrentTick().advance(450), outpost3, 30, outpost2);
             timeMachine.addEvent(launchEvent3);
+
+            LaunchEvent launchEvent4 = new LaunchEvent(timeMachine.getState().getCurrentTick().advance(250), outpost1, 5, outpost3);
+            timeMachine.addEvent(launchEvent4);
+
+            LaunchEvent launchEvent5 = new LaunchEvent(timeMachine.getState().getCurrentTick().advance(101), outpost2, 1, outpost3);
+            timeMachine.addEvent(launchEvent5);
+
+            LaunchEvent launchEvent6 = new LaunchEvent(timeMachine.getState().getCurrentTick().advance(150), outpost3, 1, outpost2);
+            timeMachine.addEvent(launchEvent6);
         }
 
         // Creates a new game.
@@ -84,8 +93,8 @@ namespace SubterfugeCore
             if (timeMachine.getState().currentTick.getTick() == 108 && !addedEvents)
             {
                 addedEvents = true;
-                SubLaunchEvent launchEvent4 = new SubLaunchEvent(timeMachine.getState().currentTick.advance(2), timeMachine.getState().getOutposts()[timeMachine.getState().getOutposts().Count - 1], 5, timeMachine.getState().getSubList()[timeMachine.getState().getSubList().Count - 1]);
-                timeMachine.addEvent(launchEvent4);
+                // LaunchEvent launchEvent4 = new LaunchEvent(timeMachine.getState().currentTick.advance(2), timeMachine.getState().getOutposts()[timeMachine.getState().getOutposts().Count - 1], 5, timeMachine.getState().getSubList()[timeMachine.getState().getSubList().Count - 1]);
+                // timeMachine.addEvent(launchEvent4);
             }
             if (timeMachine.getState().currentTick.getTick() == 0)
             {

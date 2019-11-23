@@ -38,6 +38,11 @@ namespace SubterfugeCore.Core.Timing
             this.futureEventQueue.Enqueue(gameEvent);
         }
 
+        public void removeEvent(GameEvent gameEvent)
+        {
+            this.futureEventQueue.remove(gameEvent);
+        }
+
         public void goTo(GameTick tick)
         {
             if (tick > currentTick)
@@ -67,7 +72,7 @@ namespace SubterfugeCore.Core.Timing
                 {
                     if (pastEventQueue.Count > 0)
                     {
-                        if (pastEventQueue.Peek().getTick() >= tick)
+                        if (pastEventQueue.Peek().getTick() > tick)
                         {
                             // Move commands from the past to the future
                             GameEvent pastToFuture = pastEventQueue.Dequeue();

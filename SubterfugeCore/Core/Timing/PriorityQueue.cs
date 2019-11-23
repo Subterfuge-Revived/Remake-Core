@@ -1,5 +1,5 @@
 ﻿//====================================================
-//| Downloaded From                                  |
+//| Modified From                                    |
 //| Visual C# Kicks - http://www.vcskicks.com/       |
 //| License - http://www.vcskicks.com/license.html   |
 //====================================================
@@ -222,6 +222,32 @@ namespace SubterfugeCore.Timing
             }
             else
                 return 0; //both children are bigger or don't exist
+        }
+
+        public bool remove(T item)
+        {
+            int index = this.storedValues.IndexOf(item);
+            if (index != -1)
+            {
+                T lastValue = this.storedValues[storedValues.Count - 1];
+
+                // Swap the last item.
+                this.storedValues[index] = lastValue;
+                this.storedValues.RemoveAt(storedValues.Count - 1);
+
+                //Determine to bubble down or percolate up
+                if (IsParentBigger(index))
+                {
+                    this.BubbleUp(index);
+                    return true;
+                }
+                else if (IsLeftChildSmaller(index) || IsRightChildSmaller(index))
+                {
+                    this.BubbleDown(index);
+                    return true;
+                }
+            }
+            return false;
         }
 
     }

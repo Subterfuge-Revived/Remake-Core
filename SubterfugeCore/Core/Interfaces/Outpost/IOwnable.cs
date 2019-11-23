@@ -1,4 +1,6 @@
-﻿namespace SubterfugeCore.Components
+﻿using SubterfugeCore.Core.Interfaces.Outpost;
+
+namespace SubterfugeCore.Components
 {
     public interface IOwnable
     {

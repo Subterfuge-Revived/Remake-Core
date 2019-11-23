@@ -7,6 +7,7 @@ namespace SubterfugeCore.GameEvents
     public abstract class GameEvent : IComparable
     {
         private GameTick gameTick;
+        protected bool eventSuccess;
 
         /// <summary>
         /// This function will be executed when determing the game's state for the time machine.
@@ -32,7 +33,14 @@ namespace SubterfugeCore.GameEvents
                 return 1;
             } else if (this.getTick() == comparedEvent.getTick())
             {
-                return 0;
+                // Do further comparison. The game events should NEVER be the same!
+                if(this.getTick().getDate() > comparedEvent.getTick().getDate())
+                {
+                    return 1;
+                } else
+                {
+                    return -1;
+                }
             } else
             {
                 return -1;

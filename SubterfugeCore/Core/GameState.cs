@@ -86,7 +86,7 @@ namespace SubterfugeCore
         // Launch a sub
         public void addSub(Sub sub)
         {
-                this.activeSubs.Add(sub);
+            this.activeSubs.Add(sub);
         }
 
         // Remove a sub from the game.
@@ -101,12 +101,15 @@ namespace SubterfugeCore
             List<Sub> subsOnPath = new List<Sub>();
 
             // Check if a sub is on that path
+
+            // This logic is not nessicarily true..
+            // If a sub has a navigator this logic kind of falls apart.
             foreach (Sub sub in this.activeSubs)
             {
 
                 if (sub.getDestination() == destination || sub.getDestination() == source)
                 {
-                    if (sub.getSourceOutpost() == source || sub.getSourceOutpost() == destination)
+                    if (sub.getSource() == source || sub.getSource() == destination)
                     {
                         // Sub is on the path.
                         subsOnPath.Add(sub);
