@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SubterfugeCore.Core.Entities.Specialists
+namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
-    interface IScalableEffect
+    public interface IScalableEffect
     {
-        void scale(int factor);
+        void scale(int scale);
     }
 }

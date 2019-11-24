@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SubterfugeFrontend.Shared.Content.Game.Events.Events;
 using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
+using SubterfugeFrontend.Shared.Content.Game.UI.Base;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -34,8 +35,8 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI
             this._font = font;
 
             // Input listeners
-            InputListener.Release += Released;
-            InputListener.Press += Pressed;
+            InputListener.touchListener.Release += Released;
+            InputListener.touchListener.Press += Pressed;
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -93,7 +94,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI
         {
             // Determine if the clicked location was this button.
             TouchPressEvent press = (TouchPressEvent)e;
-            if (this.buttonBounds.Contains(press.getTouchLocation().Position))
+            if (this.buttonBounds.Contains(press.touch.Position))
             {
                 // Button was pressed.
                 this._isHovering = true;
@@ -106,7 +107,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI
             TouchReleaseEvent release = (TouchReleaseEvent)e;
             if (_isHovering)
             {
-                if (this.buttonBounds.Contains(release.getTouchLocation().Position))
+                if (this.buttonBounds.Contains(release.touch.Position))
                 {
                     // Press release was on the button. Emit event.
                     Click?.Invoke(this, new EventArgs());

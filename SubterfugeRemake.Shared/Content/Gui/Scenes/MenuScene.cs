@@ -16,8 +16,8 @@ namespace SubterfugeFrontend.Shared.Content.Gui.Scenes
 
         public MenuScene() : base("Main Menu")
         {
-            Button playButton = new Button("Play Game", SubterfugeApp.FontLoader.getFont("Arial"), SubterfugeApp.SpriteLoader.getSprite("blue-button"), Color.Blue, new Rectangle(200, 200, 600, 200));
-            Button checkNetworkButton = new Button("Check Network", SubterfugeApp.FontLoader.getFont("Arial"), SubterfugeApp.SpriteLoader.getSprite("blue-button"), Color.Blue, new Rectangle(200, 500, 600, 200));
+            Button playButton = new Button("Play Game", SubterfugeApp.FontLoader.getFont("Arial"), SubterfugeApp.SpriteLoader.getSprite("blue-button"), Color.Blue, new Rectangle(100, 100, 400, 200));
+            Button checkNetworkButton = new Button("Check Network", SubterfugeApp.FontLoader.getFont("Arial"), SubterfugeApp.SpriteLoader.getSprite("blue-button"), Color.Blue, new Rectangle(100, 300, 400, 200));
             playButton.Click += onPlayClicked;
             checkNetworkButton.Click += checkNetwork;
 

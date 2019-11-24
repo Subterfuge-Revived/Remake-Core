@@ -230,6 +230,7 @@ namespace SubterfugeCore.Entities
 
         public Sub launchSub(int drillerCount, ITargetable destination)
         {
+            // Determine any specialist effects if a specialist left the sub.
             throw new NotImplementedException();
         }
 

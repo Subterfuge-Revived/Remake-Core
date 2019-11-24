@@ -4,12 +4,12 @@ using System;
 
 namespace SubterfugeFrontend.Shared.Content.Game.Events.Events
 {
-    public class DragEvent : Event
+    public class TouchDragEvent : EventArgs
     {
 
-        private TouchCollection[] touchCollection;
+        public TouchCollection[] touchCollection { get; }
 
-        public DragEvent(TouchCollection[] touchCollection) : base(Base.EventType.OnDragEvent)
+        public TouchDragEvent(TouchCollection[] touchCollection)
         {
             this.touchCollection = touchCollection;
         }

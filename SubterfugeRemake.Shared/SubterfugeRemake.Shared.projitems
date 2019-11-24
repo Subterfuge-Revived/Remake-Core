@@ -9,12 +9,20 @@
     <Import_RootNamespace>SubterfugeFrontend.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\Event.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Base\EventType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\DragEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\TouchPressEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\TouchReleaseEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\KeyboardEvents\KeyDownEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\KeyboardEvents\KeyUpEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\MouseEvents\MouseButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\MouseEvents\MouseButtonEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\MouseEvents\MouseDragEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\MouseEvents\MouseMoveEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\TouchEvents\TouchDragEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\TouchEvents\TouchPressEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\TouchEvents\TouchReleaseEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\IListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\KeyboardListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\MouseListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\TouchListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\FontLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\TexturedGameObject.cs" />
@@ -24,9 +32,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Match.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\TextureFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Network\Api.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Alignment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Base\GuiComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Buttons\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Base\IGuiComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Buttons\ButtonFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Layouts\GridLayout.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Text.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Gui\ApplicationState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Gui\Scenes\GameScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Gui\Scenes\MenuScene.cs" />
@@ -37,6 +49,9 @@
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Fonts\Capsuula.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\FactoryFill.png" />
     <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\GeneratorFill.png" />
     <Content Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Specialists\Admiral.png" />
@@ -80,8 +95,9 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Gui\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\UI\Base\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Input\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\NewFolder\" />
   </ItemGroup>
   <ItemGroup>

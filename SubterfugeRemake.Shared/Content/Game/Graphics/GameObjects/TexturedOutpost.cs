@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Input.Touch;
 using SubterfugeCore.Entities;
 using SubterfugeCore.Entities.Base;
 using SubterfugeFrontend.Shared.Content.Game.Events;
-using SubterfugeFrontend.Shared.Content.Game.Events.Base;
 using SubterfugeFrontend.Shared.Content.Game.Events.Events;
 using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
 using Color = Microsoft.Xna.Framework.Color;
@@ -19,7 +18,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
         public TexturedOutpost(GameObject gameObject) : base(gameObject, SubterfugeApp.SpriteLoader.getSprite("GeneratorFill"),
             100, 100)
         {
-            InputListener.Press += onPress;
+            InputListener.touchListener.Press += onPress;
         }
 
         public void onPress(object sender, EventArgs e)
@@ -27,7 +26,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
             TouchPressEvent touchPress = (TouchPressEvent)e;
 
             // Get the absolut position of the press
-            TouchLocation location = touchPress.getTouchLocation();
+            TouchLocation location = touchPress.touch;
             Vector2 absolutePosition = Camera.getAbsoluePosition(location.Position);
 
             // Determine if the press was on the outpost.

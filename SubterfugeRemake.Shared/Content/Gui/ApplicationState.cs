@@ -10,6 +10,7 @@ namespace SubterfugeFrontend.Shared.Content.Gui
     {
         private InputListener inputListener = new InputListener();
         public static Scenes.Scene currentScene;
+        DisplayMode currentDisplay = SubterfugeApp.graphics.GraphicsDevice.DisplayMode;
 
         public ApplicationState()
         {

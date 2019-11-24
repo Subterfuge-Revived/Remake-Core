@@ -110,16 +110,6 @@ namespace SubterfugeCore.Entities
             throw new System.NotImplementedException();
         }
 
-        public void attack(ICombatable combatable)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void undoAttack(ICombatable combatable)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public SpecialistManager getSpecialistManager()
         {
             return this.specialistManager;

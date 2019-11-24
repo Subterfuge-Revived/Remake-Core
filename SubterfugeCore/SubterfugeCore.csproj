@@ -50,7 +50,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Entities\Specialists\Effects\Modifier\" />
     <Folder Include="Core\Timing\Commands\" />
   </ItemGroup>
 

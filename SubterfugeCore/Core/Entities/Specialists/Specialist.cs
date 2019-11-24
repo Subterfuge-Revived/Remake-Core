@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SubterfugeCore.Components;
+using SubterfugeCore.Core.Entities.Specialists.Effects;
 using SubterfugeCore.Core.Interfaces.Outpost;
 using SubterfugeCore.Players;
 using System;
@@ -13,7 +14,12 @@ namespace SubterfugeCore.Core.Entities.Specialists
         int priority;
         String specialistName;
         Player owner;
+        SpecialistEffectListener effectListener = new SpecialistEffectListener();
         List<ISpecialistEffect> specialistEffects = new List<ISpecialistEffect>();
+
+
+        // Event delegates for Effects to listen to
+        public event EventHandler Combat;
 
         public Specialist(String name, int priority, Player owner)
         {
@@ -69,6 +75,11 @@ namespace SubterfugeCore.Core.Entities.Specialists
         public void setOwner(Player newOwner)
         {
             this.owner = newOwner;
+        }
+
+        public void invoke(EffectTrigger trigger)
+        {
+            effectListener.invoke(trigger);
         }
     }
 }

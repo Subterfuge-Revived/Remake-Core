@@ -8,43 +8,28 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events.Listeners
 {
     class InputListener
     {
+        private List<IListener> listeners = new List<IListener>();
+        public static TouchListener touchListener { get; } = new TouchListener();
+        public static KeyboardListener keyboardListener { get; } = new KeyboardListener();
+        public static MouseListener mouseListener { get; } = new MouseListener();
 
-        private TouchCollection[] touchCollection = new TouchCollection[2];
-        private bool isTouch = false;
+        public InputListener()
+        {
+            this.listeners.Add(touchListener);
+            this.listeners.Add(keyboardListener);
+            this.listeners.Add(mouseListener);
+        }
 
-        // Event delegates to allow components to listen to inputs.
-        public static event EventHandler Press;
-        public static event EventHandler Release;
-        public static event EventHandler Drag;
+        public void addListener(IListener listener)
+        {
+            this.listeners.Add(listener);
+        }
 
         public void listen()
         {
-            // Determine if the camera's position should be updated.
-            touchCollection[0] = touchCollection[1];
-            touchCollection[1] = TouchPanel.GetState();
-
-            if (touchCollection[1].Count > 0)
+            foreach(IListener listener in this.listeners)
             {
-                if (touchCollection[1][0].State == TouchLocationState.Moved)
-                {
-                    Drag?.Invoke(this, new DragEvent(touchCollection));
-                }
-                else
-                {
-                    touchCollection[0] = touchCollection[1];
-                }
-                if(touchCollection[1][0].State == TouchLocationState.Pressed && !this.isTouch)
-                {
-                    Console.WriteLine("Touched");
-                    Press?.Invoke(this, new TouchPressEvent(touchCollection[1][0]));
-                    this.isTouch = true;
-                }
-                if (touchCollection[1][0].State == TouchLocationState.Released)
-                {
-                    Console.WriteLine("Released Touch");
-                    Release?.Invoke(this, new TouchReleaseEvent(touchCollection[1][0]));
-                    this.isTouch = false;
-                }
+                listener.listen();
             }
         }
     }

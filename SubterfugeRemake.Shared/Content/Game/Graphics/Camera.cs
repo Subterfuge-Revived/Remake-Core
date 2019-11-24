@@ -12,9 +12,9 @@ using SubterfugeCore.Entities.Base;
 using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
 using SubterfugeFrontend.Shared.Content.Game.Events;
 using SubterfugeFrontend.Shared.Content.Game.Events.Events;
-using SubterfugeFrontend.Shared.Content.Game.Events.Base;
 using SubterfugeCore;
 using SubterfugeCore.Timing;
+using System.Drawing;
 
 namespace SubterfugeFrontend.Shared.Content.Game.Graphics
 {
@@ -33,7 +33,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
         {
             this.isActive = true;
             cameraBounds = new Rectangle(0, 0, device.Viewport.Width, device.Viewport.Height);
-            InputListener.Drag += onDrag;
+            InputListener.touchListener.Drag += onDrag;
         }
 
         public Rectangle getCameraBounds()
@@ -51,6 +51,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
             // Draw the background.
             spriteBatch.Draw(
                 texture: SubterfugeApp.SpriteLoader.getSprite("Sea"),
+                sourceRectangle: SubterfugeApp.SpriteLoader.getSprite("Sea").Bounds,
                 destinationRectangle: new Rectangle(0, 0, cameraBounds.Width, cameraBounds.Height), color: Color.Cyan);
 
         }
@@ -65,18 +66,22 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
             // Call the render function on all game objects
             foreach (GameObject gameObject in GameServer.timeMachine.getState().getOutposts())
             {
-                if (cameraBounds.Contains(new Point((int)gameObject.getPosition().X, (int)gameObject.getPosition().Y)))
+                TexturedGameObject texturedObject = TextureFactory.getTexturedObject(gameObject);
+                RectangleF boudningBox = texturedObject.getBoundingBox();
+                Rectangle RectBox = new Rectangle((int)boudningBox.X, (int)boudningBox.Y, (int)boudningBox.Width, (int)boudningBox.Height);
+                if (cameraBounds.Contains(RectBox) || cameraBounds.Intersects(RectBox))
                 {
-                    TexturedGameObject texturedObject = TextureFactory.getTexturedObject(gameObject);
                     texturedObject.render(spriteBatch);
                 }
             }
             // Call the render function on all game objects
             foreach (GameObject gameObject in GameServer.timeMachine.getState().getSubList())
             {
-                if (cameraBounds.Contains(new Point((int)gameObject.getPosition().X, (int)gameObject.getPosition().Y)))
+                TexturedGameObject texturedObject = TextureFactory.getTexturedObject(gameObject);
+                RectangleF boudningBox = texturedObject.getBoundingBox();
+                Rectangle RectBox = new Rectangle((int)boudningBox.X, (int)boudningBox.Y, (int)boudningBox.Width, (int)boudningBox.Height);
+                if (cameraBounds.Contains(RectBox) || cameraBounds.Intersects(RectBox))
                 {
-                    TexturedGameObject texturedObject = TextureFactory.getTexturedObject(gameObject);
                     texturedObject.render(spriteBatch);
                 }
             }
@@ -109,10 +114,9 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
             this.isActive = false;
         }
 
-        public void onDrag(object sender, EventArgs e)
+        public void onDrag(object sender, TouchDragEvent e)
         {
-            DragEvent touchEvent = (DragEvent)e;
-            Vector2 delta = touchEvent.getDelta();
+            Vector2 delta = e.getDelta();
 
             // Update the camera based on the delta.
             Rectangle currentBounds = cameraBounds;

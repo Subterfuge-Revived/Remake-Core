@@ -9,5 +9,6 @@ namespace SubterfugeCore.Core.Entities.Specialists
     {
         void forwardEffect(ICombatable combatant);
         void backwardEffect(ICombatable combatant);
+        EffectTrigger getEffectTrigger();
     }
 }

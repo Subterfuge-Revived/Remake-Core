@@ -10,8 +10,6 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\packages\MonoGame.Extended.Content.Pipeline.3.7.0\lib\netstandard2.0\MonoGame.Extended.Content.Pipeline.dll
-
 #---------------------------------- Content ---------------------------------#
 
 #begin Assets/Fonts/Arial.spritefont
@@ -20,6 +18,9 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Assets/Fonts/Arial.spritefont
+
+#begin Assets/Fonts/Capsuula.ttf
+/copy:Assets/Fonts/Capsuula.ttf
 
 #begin Assets/Fonts/defaultFont.spritefont
 /importer:FontDescriptionImporter
