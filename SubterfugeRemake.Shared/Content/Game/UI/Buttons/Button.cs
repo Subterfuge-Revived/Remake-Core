@@ -18,10 +18,8 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI
         private Rectangle buttonBounds;
 
         // Button State
-        private MouseState _currentMouse;
         private SpriteFont _font;
         private bool _isHovering = false;
-        private MouseState _previousState;
 
         // Event delegate to register click functions.
         public event EventHandler Click;

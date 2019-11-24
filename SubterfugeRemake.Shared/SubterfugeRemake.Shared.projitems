@@ -95,7 +95,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Gui\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Events\Events\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Input\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\NewFolder\" />

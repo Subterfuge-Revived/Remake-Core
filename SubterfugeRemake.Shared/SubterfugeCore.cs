@@ -27,7 +27,7 @@ namespace SubterfugeFrontend.Shared
         SpriteBatch spriteBatch;
         ApplicationState applicationState;
         Vector2 baseScreenSize = new Vector2(750, 1334); // This is the targeted resolution for the game.
-        private Matrix globalTransformation;            // THis is the transform matrix that spriteBatch will apply to properly draw
+        public static Matrix globalTransformation;            // THis is the transform matrix that spriteBatch will apply to properly draw
         private static SpriteLoader spriteLoader = new SpriteLoader();
         private static FontLoader fontLoader = new FontLoader();
 
@@ -109,7 +109,10 @@ namespace SubterfugeFrontend.Shared
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(transformMatrix: globalTransformation);
+
+            // Applying a transformation matrix breaks my imput listeners for some reason :(
+            // spriteBatch.Begin(transformMatrix: globalTransformation);
+            spriteBatch.Begin();
             applicationState.Draw(spriteBatch, gameTime);
             base.Draw(gameTime);
             spriteBatch.End();

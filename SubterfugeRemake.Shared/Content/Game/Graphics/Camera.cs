@@ -33,6 +33,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
         {
             this.isActive = true;
             cameraBounds = new Rectangle(0, 0, device.Viewport.Width, device.Viewport.Height);
+            cameraScreenLocation = new Rectangle(0, 0, device.Viewport.Width, device.Viewport.Height);
             InputListener.touchListener.Drag += onDrag;
         }
 
@@ -52,7 +53,8 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
             spriteBatch.Draw(
                 texture: SubterfugeApp.SpriteLoader.getSprite("Sea"),
                 sourceRectangle: SubterfugeApp.SpriteLoader.getSprite("Sea").Bounds,
-                destinationRectangle: new Rectangle(0, 0, cameraBounds.Width, cameraBounds.Height), color: Color.Cyan);
+                destinationRectangle: cameraScreenLocation,
+                color: Color.Cyan);
 
         }
 
