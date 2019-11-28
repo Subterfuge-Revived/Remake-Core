@@ -30,5 +30,10 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI.Layouts
             }
             throw new NotImplementedException();
         }
+
+        public override void unregisterEvents()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

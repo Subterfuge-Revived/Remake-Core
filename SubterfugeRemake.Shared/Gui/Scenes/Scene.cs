@@ -23,5 +23,7 @@ namespace SubterfugeFrontend.Shared.Content.Gui.Scenes
         public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime);
 
         public abstract void Update(GameTime gameTime);
+
+        public abstract void unloadEventListeners();
     }
 }

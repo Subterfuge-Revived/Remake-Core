@@ -11,5 +11,6 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI
     {
 
         void Draw(SpriteBatch spriteBatch, GameTime gameTime);
+        void unregisterEvents();
     }
 }

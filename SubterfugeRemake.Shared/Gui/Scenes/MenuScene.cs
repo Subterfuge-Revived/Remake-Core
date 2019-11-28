@@ -14,10 +14,14 @@ namespace SubterfugeFrontend.Shared.Content.Gui.Scenes
 
         List<IGuiComponent> renderables = new List<IGuiComponent>();
 
+        private EventHandler playClick;
+        private EventHandler networkClick;
+
         public MenuScene() : base("Main Menu")
         {
             Button playButton = new Button("Play Game", SubterfugeApp.FontLoader.getFont("Arial"), SubterfugeApp.SpriteLoader.getSprite("blue-button"), Color.Blue, new Rectangle(100, 100, 400, 200));
             Button checkNetworkButton = new Button("Check Network", SubterfugeApp.FontLoader.getFont("Arial"), SubterfugeApp.SpriteLoader.getSprite("blue-button"), Color.Blue, new Rectangle(100, 300, 400, 200));
+
             playButton.Click += onPlayClicked;
             checkNetworkButton.Click += checkNetwork;
 
@@ -47,6 +51,14 @@ namespace SubterfugeFrontend.Shared.Content.Gui.Scenes
         public override void Update(GameTime gameTime)
         {
 
+        }
+
+        public override void unloadEventListeners()
+        {
+            foreach(IGuiComponent guiComponent in this.renderables)
+            {
+                guiComponent.unregisterEvents();
+            }
         }
     }
 }

@@ -30,6 +30,7 @@ namespace SubterfugeFrontend.Shared.Content.Gui
 
         public static void setScene(Scenes.Scene scene)
         {
+            currentScene.unloadEventListeners();
             currentScene = scene;
         }
 

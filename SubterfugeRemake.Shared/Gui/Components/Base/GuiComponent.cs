@@ -27,5 +27,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI.Base
         }
 
         public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime);
+
+        public abstract void unregisterEvents();
     }
 }

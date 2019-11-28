@@ -20,5 +20,10 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI
         {
             throw new NotImplementedException();
         }
+
+        public void unregisterEvents()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

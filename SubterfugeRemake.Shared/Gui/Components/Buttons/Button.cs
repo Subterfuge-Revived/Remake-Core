@@ -92,7 +92,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI
         {
             // Determine if the clicked location was this button.
             TouchPressEvent press = (TouchPressEvent)e;
-            if (this.buttonBounds.Contains(press.touch.Position))
+            if (this.buttonBounds.Contains(DeviceCamera.getWorldLocation(press.touch.Position)))
             {
                 // Button was pressed.
                 this._isHovering = true;
@@ -105,13 +105,21 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI
             TouchReleaseEvent release = (TouchReleaseEvent)e;
             if (_isHovering)
             {
-                if (this.buttonBounds.Contains(release.touch.Position))
+                if (this.buttonBounds.Contains(DeviceCamera.getWorldLocation(release.touch.Position)))
                 {
                     // Press release was on the button. Emit event.
                     Click?.Invoke(this, new EventArgs());
                 }
             }
             this._isHovering = false;
+        }
+
+        public void unregisterEvents()
+        {
+            foreach (Delegate d in Click.GetInvocationList())
+            {
+                Click -= (EventHandler)d;
+            }
         }
     }
 }

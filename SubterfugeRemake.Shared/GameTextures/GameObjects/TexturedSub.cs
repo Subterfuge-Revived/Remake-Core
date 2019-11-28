@@ -35,7 +35,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
 
             spriteBatch.Draw(
                 texture: this.getTexture(),
-                destinationRectangle: Camera.getRelativeLocation(this),
+                destinationRectangle: Camera.getRelativeScreenBoundary(this),
                 sourceRectangle: this.getTexture().Bounds,
                 effects: new SpriteEffects(),
                 layerDepth: 1,
@@ -52,7 +52,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
             spriteBatch.DrawString(
                 spriteFont: SubterfugeApp.FontLoader.getFont("Arial"),
                 text: drillerCount,
-                position: Camera.getRelativePosition(this.getPosition()),
+                position: Camera.getRelativeScreenPosition(this.getPosition()),
                 color: Color.White,
                 rotation: (float)(this.rotation),
                 origin: stringSize / 2f,

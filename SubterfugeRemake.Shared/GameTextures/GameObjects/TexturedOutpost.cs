@@ -21,22 +21,28 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
             InputListener.touchListener.Press += onPress;
         }
 
-        public void onPress(object sender, EventArgs e)
+        public void onPress(object sender, TouchPressEvent touchPress)
         {
-            TouchPressEvent touchPress = (TouchPressEvent)e;
+            /*
+            // Get the screen position of the touch.
 
-            // Get the absolut position of the press
-            TouchLocation location = touchPress.touch;
-            Vector2 absolutePosition = Camera.getAbsoluePosition(location.Position);
+            // This is slightly confusing so I will explain it here.
+            // THis first call is calling the DeviceCamera class to translate the user's touch location to the actual position that the player
+            // clicked on the screen. Because the user's device can be of any size, this converts the points to the right location based on the device size.
+            Microsoft.Xna.Framework.Point location = DeviceCamera.getWorldLocation(touchPress.touch.Position);
+
+            // This second translation moves the actual touch location to the position in the world map.
+            // This location is the final position which can be compared to the outpost's actual location.
+            Vector2 worldLocation = Camera.getWorldPosition(new Vector2(location.X, location.Y));
 
             // Determine if the press was on the outpost.
-            if (this.getBoundingBox().Contains(new PointF((int)absolutePosition.X, (int)absolutePosition.Y)))
+            if (this.getBoundingBox().Contains(new PointF((int)worldLocation.X, (int)worldLocation.Y)))
             {
                 // Set the selected outpost and wait for a release event.
                 Console.WriteLine("Outpost Selected!!!");
 
             }
-
+            */
         }
 
         public override void render(SpriteBatch spriteBatch)
@@ -58,7 +64,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
 
             spriteBatch.Draw(
                 texture: this.getTexture(),
-                destinationRectangle: Camera.getRelativeLocation(this),
+                destinationRectangle: Camera.getRelativeScreenBoundary(this),
                 color: playerColor,
                 sourceRectangle: this.getTexture().Bounds,
                 effects: new SpriteEffects(),
@@ -75,7 +81,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
             spriteBatch.DrawString(
                 spriteFont: SubterfugeApp.FontLoader.getFont("Arial"),
                 text: drillerCount,
-                position: Camera.getRelativePosition(this.getPosition()),
+                position: Camera.getRelativeScreenPosition(this.getPosition()),
                 color: Color.White,
                 rotation: 0,
                 origin: stringSize / 2f,

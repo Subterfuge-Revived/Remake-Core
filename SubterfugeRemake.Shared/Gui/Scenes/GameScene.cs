@@ -25,5 +25,9 @@ namespace SubterfugeFrontend.Shared.Content.Gui.Scenes
         {
             match.update(gameTime);
         }
+
+        public override void unloadEventListeners()
+        {
+        }
     }
 }

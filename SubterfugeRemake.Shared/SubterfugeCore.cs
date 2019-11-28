@@ -23,11 +23,10 @@ namespace SubterfugeFrontend.Shared
     /// </summary>
     public class SubterfugeApp : Game
     {
+        DeviceCamera deviceCamera;
+
         public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        ApplicationState applicationState;
-        Vector2 baseScreenSize = new Vector2(750, 1334); // This is the targeted resolution for the game.
-        public static Matrix globalTransformation;            // THis is the transform matrix that spriteBatch will apply to properly draw
         private static SpriteLoader spriteLoader = new SpriteLoader();
         private static FontLoader fontLoader = new FontLoader();
 
@@ -65,19 +64,8 @@ namespace SubterfugeFrontend.Shared
             SpriteLoader.loadSprites(Content);
             FontLoader.loadFonts(Content);
 
-            applicationState = new ApplicationState();
             // Console.WriteLine(NtpConnector.GetNetworkTime().ToLongDateString());
-
-            //Work out how much we need to scale our graphics to fill the screen
-            float horScaling = GraphicsDevice.PresentationParameters.BackBufferWidth / baseScreenSize.X;
-            float verScaling = GraphicsDevice.PresentationParameters.BackBufferHeight / baseScreenSize.Y;
-            Vector3 screenScalingFactor = new Vector3(horScaling, verScaling, 1);
-            globalTransformation = Matrix.CreateScale(screenScalingFactor);
-        }
-
-        public void onClick(object sender, EventArgs e)
-        {
-            Console.WriteLine("Button Clicked");
+            deviceCamera = new DeviceCamera(GraphicsDevice);
         }
 
         /// <summary>
@@ -98,7 +86,7 @@ namespace SubterfugeFrontend.Shared
             }
 #endif
             // TODO: Add your update logic here			
-            applicationState.Update(gameTime);
+            deviceCamera.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -109,17 +97,8 @@ namespace SubterfugeFrontend.Shared
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // Applying a transformation matrix breaks my imput listeners for some reason :(
-            //spriteBatch.Begin(transformMatrix: globalTransformation);
-
-
-            spriteBatch.Begin();
-            applicationState.Draw(spriteBatch, gameTime);
             base.Draw(gameTime);
-            spriteBatch.End();
-
-            base.Draw(gameTime);
+            deviceCamera.Draw(spriteBatch, gameTime);
         }
     }
 }

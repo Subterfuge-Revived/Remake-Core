@@ -35,6 +35,9 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events.Listeners
         public void listen()
         {
             _currentState = Mouse.GetState();
+
+            // Translate the mouse location to world coordinates
+
             CheckButtonPressed(s => s.LeftButton, MouseButton.Left);
             CheckButtonPressed(s => s.MiddleButton, MouseButton.Middle);
             CheckButtonPressed(s => s.RightButton, MouseButton.Right);

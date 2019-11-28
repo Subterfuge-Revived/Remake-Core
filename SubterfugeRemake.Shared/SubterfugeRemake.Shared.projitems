@@ -9,6 +9,7 @@
     <Import_RootNamespace>SubterfugeFrontend.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceCamera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\KeyboardEvents\KeyDownEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\KeyboardEvents\KeyUpEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\MouseEvents\MouseButton.cs" />

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SubterfugeFrontend.Shared.Content.Game.Events.Listeners.InputEvents.MouseEvents
 {
-    class MouseButtonEvent
+    class MouseButtonEvent : EventArgs
     {
         public MouseState previousState { get; }
         public MouseState currentState { get; }
@@ -21,6 +21,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Events.Listeners.InputEvents.Mo
 
         public Point getMouseLocation()
         {
+            // Scale the point based on the device scaling!
             return this.currentState.Position;
         }
     }

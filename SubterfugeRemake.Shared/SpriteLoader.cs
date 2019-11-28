@@ -30,7 +30,6 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
 
         public void loadSprites(ContentManager content)
         {
-
             // Add all sprites to the sprite loader here.
             this.addSprite("SubFill", content.Load<Texture2D>("Assets/Images/Subs/SubFill"));
             this.addSprite("Gift", content.Load<Texture2D>("Assets/Images/Subs/Gift"));
