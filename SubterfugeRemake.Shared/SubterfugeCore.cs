@@ -66,7 +66,7 @@ namespace SubterfugeFrontend.Shared
             FontLoader.loadFonts(Content);
 
             applicationState = new ApplicationState();
-            Console.WriteLine(NtpConnector.GetNetworkTime().ToLongDateString());
+            // Console.WriteLine(NtpConnector.GetNetworkTime().ToLongDateString());
 
             //Work out how much we need to scale our graphics to fill the screen
             float horScaling = GraphicsDevice.PresentationParameters.BackBufferWidth / baseScreenSize.X;
@@ -111,7 +111,9 @@ namespace SubterfugeFrontend.Shared
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // Applying a transformation matrix breaks my imput listeners for some reason :(
-            // spriteBatch.Begin(transformMatrix: globalTransformation);
+            //spriteBatch.Begin(transformMatrix: globalTransformation);
+
+
             spriteBatch.Begin();
             applicationState.Draw(spriteBatch, gameTime);
             base.Draw(gameTime);

@@ -9,40 +9,40 @@
     <Import_RootNamespace>SubterfugeFrontend.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\KeyboardEvents\KeyDownEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\KeyboardEvents\KeyUpEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\MouseEvents\MouseButton.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\MouseEvents\MouseButtonEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\MouseEvents\MouseDragEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\MouseEvents\MouseMoveEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\TouchEvents\TouchDragEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\TouchEvents\TouchPressEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputEvents\TouchEvents\TouchReleaseEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\IListener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\InputListener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\KeyboardListener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\MouseListener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Events\Listeners\TouchListener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\Camera.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\FontLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\TexturedGameObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\TexturedOutpost.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\TexturedSub.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\SpriteLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Core\Match.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\TextureFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\Network\Api.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Alignment.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Base\GuiComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Buttons\Button.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Base\IGuiComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Buttons\ButtonFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Layouts\GridLayout.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Game\UI\Text.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Gui\ApplicationState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Gui\Scenes\GameScene.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Gui\Scenes\MenuScene.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Gui\Scenes\Scene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\KeyboardEvents\KeyDownEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\KeyboardEvents\KeyUpEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\MouseEvents\MouseButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\MouseEvents\MouseButtonEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\MouseEvents\MouseDragEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\MouseEvents\MouseMoveEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\TouchEvents\TouchDragEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\TouchEvents\TouchPressEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\TouchEvents\TouchReleaseEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\IListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\KeyboardListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\MouseListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\TouchListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameTextures\Camera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FontLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameTextures\GameObjects\Base\TexturedGameObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameTextures\GameObjects\TexturedOutpost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameTextures\GameObjects\TexturedSub.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SpriteLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameTextures\Match.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameTextures\TextureFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Network\Api.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Alignment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Base\GuiComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Buttons\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Base\IGuiComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Buttons\ButtonFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Layouts\GridLayout.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Text.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\ApplicationState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Scenes\GameScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Scenes\MenuScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Scenes\Scene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SubterfugeCore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -95,9 +95,10 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Locations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Gui\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Game\Graphics\GameObjects\Base\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Input\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\NewFolder\" />
+    <Folder Include="$(MSBuildThisFileDirectory)GameTextures\GameObjects\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Gui\Components\" />
+    <Folder Include="$(MSBuildThisFileDirectory)InputHandlers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)GameTextures\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\Assets\Fonts\Arial.spritefont" />
