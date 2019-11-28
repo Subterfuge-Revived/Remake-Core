@@ -14,6 +14,5 @@ namespace SubterfugeCore.Core.Interfaces.Outpost
         void addShield(int shields);
         int getShieldCapacity();
         void setShieldCapacity(int capactiy);
-
     }
 }

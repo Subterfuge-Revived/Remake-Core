@@ -38,7 +38,7 @@ namespace SubterfugeCoreTest
             Outpost outpost = new Outpost(new Vector2(0, 0), player1);
             outpost.addDrillers(10);
             Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
-            SubArriveEvent arriveEvent = new SubArriveEvent(sub, outpost, new GameTick());
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(), outpost.getTargetLocation(sub.getCurrentLocation(), sub.getSpeed()));
 
             timeMachine.addEvent(arriveEvent);
         }

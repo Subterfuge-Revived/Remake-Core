@@ -9,9 +9,14 @@ namespace SubterfugeCore.Core.Entities.Specialists
         private int capacity;
         List<Specialist> specialists = new List<Specialist>();
 
-        public SpecialistManager(int capacity)
+        public SpecialistManager()
         {
             this.capacity = 3;  // default capacity
+        }
+
+        public SpecialistManager(int capacity)
+        {
+            this.capacity = capacity;
         }
 
         public List<Specialist> getSpecialists()
@@ -26,17 +31,35 @@ namespace SubterfugeCore.Core.Entities.Specialists
 
         public void addSpecialist(Specialist specialist)
         {
-            this.specialists.Add(specialist);
+            if(this.specialists.Count < capacity)
+                this.specialists.Add(specialist);
         }
 
         public void addSpecialists(List<Specialist> specialists)
         {
-            this.specialists.AddRange(specialists);
+            foreach(Specialist s in specialists)
+            {
+                if(this.specialists.Count < capacity)
+                {
+                    this.specialists.Add(s);
+                }
+            }
         }
 
         public void removeSpecialist(Specialist specialist)
         {
             this.specialists.Remove(specialist);
+        }
+
+        public void removeSpecialists(List<Specialist> specialists)
+        {
+            foreach(Specialist s in specialists)
+            {
+                if (this.specialists.Contains(s))
+                {
+                    this.specialists.Remove(s);
+                }
+            }
         }
 
         public int getCapacity()

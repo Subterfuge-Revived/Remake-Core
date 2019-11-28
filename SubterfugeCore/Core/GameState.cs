@@ -146,5 +146,15 @@ namespace SubterfugeCore
             }
             return playerOutposts;
         }
+
+        public bool outpostExists(Outpost outpost)
+        {
+            return this.outposts.Contains(outpost);
+        }
+
+        public bool playerExists(Player player)
+        {
+            return this.players.Contains(player);
+        }
     }
 }

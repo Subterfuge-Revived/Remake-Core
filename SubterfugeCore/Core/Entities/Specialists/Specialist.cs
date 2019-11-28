@@ -14,7 +14,6 @@ namespace SubterfugeCore.Core.Entities.Specialists
         int priority;
         String specialistName;
         Player owner;
-        SpecialistEffectListener effectListener = new SpecialistEffectListener();
         List<ISpecialistEffect> specialistEffects = new List<ISpecialistEffect>();
 
 
@@ -79,7 +78,8 @@ namespace SubterfugeCore.Core.Entities.Specialists
 
         public void invoke(EffectTrigger trigger)
         {
-            effectListener.invoke(trigger);
+           // Loop through specialist effects.
+           // Determine if the effect should be triggered.
         }
     }
 }
