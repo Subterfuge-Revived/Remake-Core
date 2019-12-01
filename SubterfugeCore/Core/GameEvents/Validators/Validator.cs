@@ -54,7 +54,7 @@ namespace SubterfugeCore.Core.GameEvents.Validators
                 return false;
             if (outpost.getSpecialistManager().getSpecialistCount() > outpost.getSpecialistManager().getCapacity())
                 return false;
-            if (!GameServer.timeMachine.getState().playerExists(outpost.getOwner()))
+            if (!(outpost.getOwner() == null && !GameServer.timeMachine.getState().playerExists(outpost.getOwner())))
                 return false;
             return true;
         }

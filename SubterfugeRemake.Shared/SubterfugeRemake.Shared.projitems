@@ -10,6 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)DeviceCamera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Base\IRectangular.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Base\Thickness.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gui\Helper\DrawHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\KeyboardEvents\KeyDownEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\KeyboardEvents\KeyUpEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InputHandlers\InputEvents\MouseEvents\MouseButton.cs" />
@@ -39,7 +42,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Base\IGuiComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Buttons\ButtonFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Layouts\GridLayout.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Gui\Components\Text.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Gui\ApplicationState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Gui\Scenes\GameScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Gui\Scenes\MenuScene.cs" />
@@ -97,7 +99,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Gui\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Assets\Images\Subs\" />
     <Folder Include="$(MSBuildThisFileDirectory)GameTextures\GameObjects\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Gui\Components\" />
     <Folder Include="$(MSBuildThisFileDirectory)InputHandlers\" />
     <Folder Include="$(MSBuildThisFileDirectory)GameTextures\" />
   </ItemGroup>

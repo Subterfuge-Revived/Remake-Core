@@ -16,7 +16,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
     {
 
         public TexturedOutpost(GameObject gameObject) : base(gameObject, SubterfugeApp.SpriteLoader.getSprite("GeneratorFill"),
-            100, 100)
+            70, 70)
         {
             InputListener.touchListener.Press += onPress;
         }
@@ -49,17 +49,42 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
         {
             Color playerColor;
 
-            switch (((Outpost)this.gameObject).getOwner().getId())
+            if(((Outpost)this.gameObject).getOwner() != null)
             {
-                case 1:
-                    playerColor = Color.Blue;
-                    break;
-                case 2:
-                    playerColor = Color.Red;
-                    break;
-                default:
-                    playerColor = Color.White;
-                    break;
+                switch (((Outpost)this.gameObject).getOwner().getId())
+                {
+                    case 1:
+                        playerColor = Color.Blue;
+                        break;
+                    case 2:
+                        playerColor = Color.Red;
+                        break;
+                    case 3:
+                        playerColor = Color.Teal;
+                        break;
+                    case 4:
+                        playerColor = Color.Purple;
+                        break;
+                    case 5:
+                        playerColor = Color.Green;
+                        break;
+                    case 6:
+                        playerColor = Color.Orange;
+                        break;
+                    case 7:
+                        playerColor = Color.Yellow;
+                        break;
+                    case 8:
+                        playerColor = Color.Black;
+                        break;
+                    default:
+                        playerColor = Color.DarkGray;
+                        break;
+                }
+            } else
+            {
+
+                playerColor = Color.DarkGray;
             }
 
             spriteBatch.Draw(

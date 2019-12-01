@@ -12,13 +12,13 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI.Layouts
         int cols;
         int rows;
 
-        public GridLayout(int cols, int rows) : base(Alignment.CENTER)
+        public GridLayout(int cols, int rows)
         {
             this.cols = cols;
             this.rows = rows;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             int counter = 0;
             foreach(GuiComponent child in this.children)

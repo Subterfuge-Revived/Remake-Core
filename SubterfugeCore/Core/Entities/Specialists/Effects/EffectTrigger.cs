@@ -6,14 +6,6 @@ namespace SubterfugeCore.Core.Entities.Specialists
 {
     public enum EffectTrigger
     {
-        // Global event triggers allow specialists to listen for any event on the map.
-        GLOBAL_SUB_LAUNCH,
-        GLOBAL_SUB_COMBAT,
-        GLOBAL_COMBAT_LOSS,
-        GLOBAL_COMBAT_VICTORY,
-        GLOBAL_SUB_ARRIVE,
-        GLOBAL_SPECIALIST_HIRE,
-
         // Local event triggers allow specialists to listen for any events that occur at the outpost but do not involve the specialist itself.
         LOCAL_SUB_LAUNCH,       // a sub launched from the outpost this specialist is at
         LOCAL_SUB_ARRIVE,       // a sub has arrived at the outpost this specialist is at

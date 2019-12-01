@@ -30,10 +30,19 @@ namespace SubterfugeCore
             // Setup some initial settings for the game state.
             Player player1 = new Player(1);
             Player player2 = new Player(2);
+            Player player3 = new Player(3);
+            Player player4 = new Player(4);
+            Player player5 = new Player(5);
+            Player player6 = new Player(6);
 
             this.players.Add(player1);
             this.players.Add(player2);
+            this.players.Add(player3);
+            this.players.Add(player4);
+            this.players.Add(player5);
+            this.players.Add(player6);
 
+            /*
             Outpost outpost1 = new Outpost(new Vector2(100, 100), player1);
             Outpost outpost2 = new Outpost(new Vector2(300, 100), player2);
             Outpost outpost3 = new Outpost(new Vector2(100, 300), player1);
@@ -44,6 +53,7 @@ namespace SubterfugeCore
             outposts.Add(outpost2);
             outposts.Add(outpost3);
             outposts.Add(outpost4);
+            */
         }
 
         public GameTick getCurrentTick()

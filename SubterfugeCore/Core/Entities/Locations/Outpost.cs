@@ -22,15 +22,26 @@ namespace SubterfugeCore.Entities
         int shieldCapacity;
         // shield recharge rate when implemented
 
+        public Outpost(Vector2 outpostLocation)
+        {
+            this.position = outpostLocation;
+            this.drillerCount = 0;
+            this.outpostOwner = null;
+            this.specialistManager = new SpecialistManager(100);
+            this.shieldActive = true;
+            this.shieldCapacity = 10;
+            this.shields = 0;
+        }
+
         public Outpost(Vector2 outpostLocation, Player outpostOwner)
         {
             this.position = outpostLocation;
-            this.drillerCount = 42;
+            this.drillerCount = outpostOwner == null ? 0 : 40;
             this.outpostOwner = outpostOwner;
             this.specialistManager = new SpecialistManager(100);
             this.shieldActive = true;
             this.shieldCapacity = 10;
-            this.shields = 10;
+            this.shields = 0;
         }
 
         public override Vector2 getPosition()

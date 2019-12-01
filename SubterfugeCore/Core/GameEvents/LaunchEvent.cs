@@ -102,7 +102,7 @@ namespace SubterfugeCore.GameEvents
                             // Determine collision location:
                             Vector2 combatLocation = Vector2.Multiply(this.getActiveSub().getDirection(), (float)ticksUntilCombat);
 
-                            CombatEvent combatEvent = new CombatEvent(sub, this.getActiveSub(), GameServer.timeMachine.getState().getCurrentTick().advance(ticksUntilCombat), combatLocation);
+                            CombatEvent combatEvent = new CombatEvent(sub, this.getActiveSub(), this.launchTime.advance(ticksUntilCombat), combatLocation);
                             GameServer.timeMachine.addEvent(combatEvent);
                         }
                     }

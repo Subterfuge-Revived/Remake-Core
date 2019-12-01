@@ -26,7 +26,7 @@ namespace SubterfugeCore
         {
             // Temporary. This will probably use some .fromJson methods.
             this.newGame();
-
+            /*
             Outpost outpost1 = timeMachine.getState().getOutposts()[0];
             Outpost outpost2 = timeMachine.getState().getOutposts()[1];
             Outpost outpost3 = timeMachine.getState().getOutposts()[2];
@@ -49,6 +49,7 @@ namespace SubterfugeCore
 
             LaunchEvent launchEvent6 = new LaunchEvent(timeMachine.getState().getCurrentTick().advance(150), outpost3, 1, outpost2);
             timeMachine.addEvent(launchEvent6);
+            */
         }
 
         // Creates a new game.
@@ -57,6 +58,10 @@ namespace SubterfugeCore
             // Will do map generation here.
             GameState state = new GameState();
             timeMachine = new TimeMachine(state);
+
+            MapGenerator mapGenerator = new MapGenerator(45454545);  // send a random seed.
+            mapGenerator.SetData(state.getPlayers().Count, 5, 5, 75, 250);  // Setup the map generation parameters
+            state.getOutposts().AddRange(mapGenerator.GenerateMap()); // Generate the map and add the returned list of outposts to the map!
 
         }
 

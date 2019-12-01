@@ -27,12 +27,12 @@ namespace SubterfugeCore.Core.GameEvents
             if (eventSuccess)
             {
                 // Add any removed subs back.
-                if (combatant1 is Sub && combatant1.getDrillerCount() < 0 || (combatant1.getDrillerCount() == 0 && combatant1.getSpecialistManager().getSpecialistCount() == 0))
+                if (combatant1 is Sub && (combatant1.getDrillerCount() < 0 || (combatant1.getDrillerCount() == 0 && combatant1.getSpecialistManager().getSpecialistCount() == 0)))
                 {
                     GameServer.timeMachine.getState().addSub((Sub)combatant1);
                 }
 
-                if (combatant2 is Sub && combatant2.getDrillerCount() < 0 || (combatant2.getDrillerCount() == 0 && combatant2.getSpecialistManager().getSpecialistCount() == 0))
+                if (combatant2 is Sub && (combatant2.getDrillerCount() < 0 || (combatant2.getDrillerCount() == 0 && combatant2.getSpecialistManager().getSpecialistCount() == 0)))
                 {
                     GameServer.timeMachine.getState().addSub((Sub)combatant2);
                 }
@@ -51,12 +51,12 @@ namespace SubterfugeCore.Core.GameEvents
             combatant2.removeDrillers(preCombatDrillers1);
 
             // Remove any subs that should be removed after combat.
-            if (combatant1 is Sub && combatant1.getDrillerCount() < 0 || (combatant1.getDrillerCount() == 0 && combatant1.getSpecialistManager().getSpecialistCount() == 0))
+            if (combatant1 is Sub && (combatant1.getDrillerCount() < 0 || (combatant1.getDrillerCount() == 0 && combatant1.getSpecialistManager().getSpecialistCount() == 0)))
             {
                 GameServer.timeMachine.getState().removeSub((Sub)combatant1);
             }
 
-            if (combatant2 is Sub && combatant2.getDrillerCount() < 0 || (combatant2.getDrillerCount() == 0 && combatant2.getSpecialistManager().getSpecialistCount() == 0))
+            if (combatant2 is Sub && (combatant2.getDrillerCount() < 0 || (combatant2.getDrillerCount() == 0 && combatant2.getSpecialistManager().getSpecialistCount() == 0)))
             {
                 GameServer.timeMachine.getState().removeSub((Sub)combatant2);
             }

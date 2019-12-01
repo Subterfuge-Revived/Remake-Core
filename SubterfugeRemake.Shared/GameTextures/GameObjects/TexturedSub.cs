@@ -19,6 +19,11 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
         {
             Color playerColor;
 
+            if (((Sub)this.gameObject).getOwner() == null)
+            {
+                return;
+            }
+
             switch (((Sub)this.gameObject).getOwner().getId())
             {
                 case 1:
@@ -27,10 +32,29 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
                 case 2:
                     playerColor = Color.Red;
                     break;
+                case 3:
+                    playerColor = Color.Teal;
+                    break;
+                case 4:
+                    playerColor = Color.Purple;
+                    break;
+                case 5:
+                    playerColor = Color.Green;
+                    break;
+                case 6:
+                    playerColor = Color.Orange;
+                    break;
+                case 7:
+                    playerColor = Color.Yellow;
+                    break;
+                case 8:
+                    playerColor = Color.Black;
+                    break;
                 default:
-                    playerColor = Color.White;
+                    playerColor = Color.DarkGray;
                     break;
             }
+
 
 
             spriteBatch.Draw(
@@ -54,7 +78,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
                 text: drillerCount,
                 position: Camera.getRelativeScreenPosition(this.getPosition()),
                 color: Color.White,
-                rotation: (float)(this.rotation),
+                rotation: this.rotation + (float)((Sub)gameObject).getRotation() + (float)(Math.PI / 2),
                 origin: stringSize / 2f,
                 layerDepth: 1f,
                 scale: 1.5f,

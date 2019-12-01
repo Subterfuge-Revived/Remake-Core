@@ -47,17 +47,23 @@ namespace SubterfugeCore.Entities
         public GameTick getExpectedArrival()
         {
             GameTick baseTick;
+            Vector2 direction;
+            int ticksToArrive;
             if(GameServer.timeMachine.getState().getCurrentTick() < this.launchTime)
             {
                 baseTick = this.launchTime;
+                // Determine direction vector
+                direction = (this.destination.getTargetLocation(this.position, this.getSpeed()) - this.source.getCurrentLocation());
+                // Determine the number of ticks to arrive
+                ticksToArrive = (int)Math.Floor(direction.Length() / this.getSpeed());
             } else
             {
                 baseTick = GameServer.timeMachine.getState().getCurrentTick();
+                // Determine direction vector
+                direction = (this.destination.getTargetLocation(this.position, this.getSpeed()) - this.getCurrentLocation());
+                // Determine the number of ticks to arrive
+                ticksToArrive = (int)Math.Floor(direction.Length() / this.getSpeed());
             }
-            // Determine direction vector
-            Vector2 direction = (this.destination.getTargetLocation(this.position, this.getSpeed()) - this.source.getCurrentLocation());
-            // Determine the number of ticks to arrive
-            int ticksToArrive = (int)Math.Floor(direction.Length() / this.getSpeed());
             return baseTick.advance(ticksToArrive);
         }
 

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using SubterfugeFrontend.Shared.Content.Game.Events.Events;
 using SubterfugeFrontend.Shared.Content.Game.Events.Listeners;
 using SubterfugeFrontend.Shared.Content.Game.UI.Base;
+using SubterfugeFrontend.Shared.Gui.Helper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -39,6 +40,8 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            DrawHelper.DrawBorder(spriteBatch, this.buttonBounds, 4, Color.Red);
+
             Color color = Color.White;
 
             if (_isHovering)
@@ -120,6 +123,26 @@ namespace SubterfugeFrontend.Shared.Content.Game.UI
             {
                 Click -= (EventHandler)d;
             }
+        }
+
+        public void addChild()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void removeChild()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void getOffset()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<IGuiComponent> getChildren()
+        {
+            throw new NotImplementedException();
         }
     }
 }

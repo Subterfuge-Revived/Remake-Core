@@ -24,8 +24,6 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
     {
         protected static Rectangle cameraBounds = new Rectangle(); //The area on the map that is visible
         protected Rectangle cameraScreenLocation = new Rectangle(); //The area of the screen the camera takes up
-        private double widthRatio;
-        private double heightRatio;
         private bool isActive;
 
         private bool _isTouchingGameObject = false;
@@ -100,18 +98,18 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics
         // Determines the gameObject's relative location on the screen based on the camera's position.
         public static Rectangle getRelativeScreenBoundary(TexturedGameObject gameObject)
         {
-            return new Rectangle((int)gameObject.getPosition().X - cameraBounds.X, (int)gameObject.getPosition().Y - cameraBounds.Y, gameObject.Width, gameObject.Height);
+            return new Rectangle((int)((gameObject.getPosition().X - cameraBounds.X)), (int)((gameObject.getPosition().Y - cameraBounds.Y)), gameObject.Width, gameObject.Height);
         }
 
         // Determines the gameObject's relative location on the screen based on the camera's position.
         public static Vector2 getRelativeScreenPosition(Vector2 objectPosition)
         {
-            return new Vector2(objectPosition.X - cameraBounds.X, objectPosition.Y - cameraBounds.Y);
+            return new Vector2((float)((objectPosition.X - cameraBounds.X)), (float)((objectPosition.Y - cameraBounds.Y)));
         }
 
         public static Vector2 getWorldPosition(Vector2 relativePosition)
         {
-            return new Vector2(relativePosition.X + cameraBounds.X, relativePosition.Y + cameraBounds.Y);
+            return new Vector2((int)((relativePosition.X) + cameraBounds.X), (int)((relativePosition.Y) + cameraBounds.Y));
         }
 
         public void setActive()
