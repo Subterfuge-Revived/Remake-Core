@@ -1,8 +1,11 @@
 ﻿
+using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Entities;
 using SubterfugeCore.GameEvents;
 using SubterfugeCore.Timing;
+using System.Collections.Generic;
 
 namespace SubterfugeCore
 {
@@ -61,7 +64,14 @@ namespace SubterfugeCore
 
             MapGenerator mapGenerator = new MapGenerator(45454545);  // send a random seed.
             mapGenerator.SetData(state.getPlayers().Count, 5, 5, 75, 250);  // Setup the map generation parameters
-            state.getOutposts().AddRange(mapGenerator.GenerateMap()); // Generate the map and add the returned list of outposts to the map!
+            List<Outpost> outpostsToGenerate = mapGenerator.GenerateMap();
+            foreach(Outpost o in outpostsToGenerate)
+            {
+                if (o.getOutpostType() == OutpostType.FACTORY) {
+                    timeMachine.addEvent(new FactoryProduceDrillersEvent(o, state.getCurrentTick().advance(36)));
+                }
+            }
+            state.getOutposts().AddRange(outpostsToGenerate); // Generate the map and add the returned list of outposts to the map!
 
         }
 

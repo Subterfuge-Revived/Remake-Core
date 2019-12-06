@@ -3,6 +3,7 @@ using System.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
+using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Entities;
 using SubterfugeCore.Entities.Base;
 using SubterfugeFrontend.Shared.Content.Game.Events;
@@ -19,6 +20,29 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
             70, 70)
         {
             InputListener.touchListener.Press += onPress;
+            Outpost outpost = gameObject as Outpost;
+            if (outpost != null)
+            {
+                switch (outpost.getOutpostType())
+                {
+                    case OutpostType.GENERATOR:
+                        this.objectTexture = SubterfugeApp.SpriteLoader.getSprite("GeneratorFill");
+                        break;
+                    case OutpostType.FACTORY:
+                        this.objectTexture = SubterfugeApp.SpriteLoader.getSprite("FactoryFill");
+                        break;
+                    case OutpostType.MINE:
+                        this.objectTexture = SubterfugeApp.SpriteLoader.getSprite("MineFill");
+                        break;
+                    case OutpostType.DESTROYED:
+                        this.objectTexture = SubterfugeApp.SpriteLoader.getSprite("Admiral");
+                        break;
+                    case OutpostType.WATCHTOWER:
+                        this.objectTexture = SubterfugeApp.SpriteLoader.getSprite("IntelligenceOfficer");
+                        break;
+
+                }
+            }
         }
 
         public void onPress(object sender, TouchPressEvent touchPress)

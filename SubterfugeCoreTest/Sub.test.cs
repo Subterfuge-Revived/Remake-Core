@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using SubterfugeCore;
 using SubterfugeCore.Components;
 using SubterfugeCore.Components.Outpost;
+using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Entities;
 using SubterfugeCore.Players;
 using SubterfugeCore.Timing;
@@ -22,7 +23,7 @@ namespace SubterfugeCoreTest
         public void setup()
         {
             location = new Vector2(0, 0);
-            outpost = new Outpost(location, new Player(1));
+            outpost = new Outpost(location, new Player(1), OutpostType.GENERATOR);
             tick = new GameTick(new DateTime(), 10);
             sub = new Sub(outpost, outpost, tick, 0, new Player(1));
             GameServer server = new GameServer();

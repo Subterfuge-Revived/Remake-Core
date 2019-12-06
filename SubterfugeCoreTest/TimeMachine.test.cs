@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
 using SubterfugeCore;
+using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Entities;
 using SubterfugeCore.GameEvents;
@@ -35,7 +36,7 @@ namespace SubterfugeCoreTest
         public void addEvent()
         {
             Player player1 = new Player(1);
-            Outpost outpost = new Outpost(new Vector2(0, 0), player1);
+            Outpost outpost = new Outpost(new Vector2(0, 0), player1, OutpostType.GENERATOR);
             outpost.addDrillers(10);
             Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(), outpost.getTargetLocation(sub.getCurrentLocation(), sub.getSpeed()));

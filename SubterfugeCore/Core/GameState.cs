@@ -41,19 +41,6 @@ namespace SubterfugeCore
             this.players.Add(player4);
             this.players.Add(player5);
             this.players.Add(player6);
-
-            /*
-            Outpost outpost1 = new Outpost(new Vector2(100, 100), player1);
-            Outpost outpost2 = new Outpost(new Vector2(300, 100), player2);
-            Outpost outpost3 = new Outpost(new Vector2(100, 300), player1);
-
-            Outpost outpost4 = new Outpost(new Vector2(300, 300), player2);
-
-            outposts.Add(outpost1);
-            outposts.Add(outpost2);
-            outposts.Add(outpost3);
-            outposts.Add(outpost4);
-            */
         }
 
         public GameTick getCurrentTick()

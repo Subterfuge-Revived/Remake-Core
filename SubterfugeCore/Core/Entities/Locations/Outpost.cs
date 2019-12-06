@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using SubterfugeCore.Components;
 using SubterfugeCore.Components.Outpost;
 using SubterfugeCore.Core.Components.Outpost;
+using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Interfaces.Outpost;
 using SubterfugeCore.Entities.Base;
@@ -16,6 +17,7 @@ namespace SubterfugeCore.Entities
         private Player outpostOwner;
         private SpecialistManager specialistManager;
         int drillerCount;
+        OutpostType type;
 
         int shields;
         bool shieldActive;
@@ -33,7 +35,19 @@ namespace SubterfugeCore.Entities
             this.shields = 0;
         }
 
-        public Outpost(Vector2 outpostLocation, Player outpostOwner)
+        public Outpost(Vector2 outpostLocation, OutpostType type)
+        {
+            this.position = outpostLocation;
+            this.drillerCount = 0;
+            this.outpostOwner = null;
+            this.specialistManager = new SpecialistManager(100);
+            this.shieldActive = true;
+            this.shieldCapacity = 10;
+            this.shields = 0;
+            this.type = type;
+        }
+
+        public Outpost(Vector2 outpostLocation, Player outpostOwner, OutpostType type)
         {
             this.position = outpostLocation;
             this.drillerCount = outpostOwner == null ? 0 : 40;
@@ -42,6 +56,7 @@ namespace SubterfugeCore.Entities
             this.shieldActive = true;
             this.shieldCapacity = 10;
             this.shields = 0;
+            this.type = type;
         }
 
         public override Vector2 getPosition()
@@ -183,6 +198,11 @@ namespace SubterfugeCore.Entities
         public void setShieldCapacity(int capactiy)
         {
             this.shieldCapacity = capactiy;
+        }
+
+        public OutpostType getOutpostType()
+        {
+            return this.type;
         }
     }
 }

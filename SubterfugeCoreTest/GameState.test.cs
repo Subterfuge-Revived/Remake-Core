@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
 using SubterfugeCore;
+using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Entities;
 using SubterfugeCore.Players;
 using SubterfugeCore.Timing;
@@ -21,7 +22,7 @@ namespace SubterfugeCoreTest
         {
             state = new GameState();
             player1 = new Player(1);
-            outpost = new Outpost(new Vector2(0, 0), player1);
+            outpost = new Outpost(new Vector2(0, 0), player1, OutpostType.GENERATOR);
             outpost.addDrillers(10);
             tempSub = new Sub(outpost, outpost, new GameTick(), 10, player1);
         }

@@ -9,7 +9,7 @@ namespace SubterfugeFrontend.Shared.Content.Game.Graphics.GameObjects
     abstract class TexturedGameObject
     {
         public GameObject gameObject { get; }
-        protected Texture2D objectTexture;
+        protected Texture2D objectTexture { get; set; }
         protected float rotation = 0f;
         public int Height { get; set; }
         public int Width { get; set; }

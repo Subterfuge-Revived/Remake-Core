@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using static SubterfugeCore.GameServer;
 using SubterfugeCore.Timing;
 using SubterfugeCore.Players;
+using SubterfugeCore.Core.Entities.Locations;
 
 namespace SubterfugeCore
 {
@@ -65,7 +66,7 @@ namespace SubterfugeCore
                 newPosition.Y = (float)result_y;
                 newPosition += translation;
 
-                translatedOutposts.Add(new Outpost(newPosition, outpost.getOwner()));
+                translatedOutposts.Add(new Outpost(newPosition, outpost.getOwner(), outpost.getOutpostType()));
             }
             return translatedOutposts;
         }
@@ -88,6 +89,7 @@ namespace SubterfugeCore
                 // calculate the new outposts location within allowable raidius
                 distance = this.randomGenerator.nextRand(minOutpostDistance, maxSeedDistance);
                 direction = this.randomGenerator.nextDouble() * Math.PI * 2;
+                OutpostType type = (OutpostType)this.randomGenerator.nextRand(0, 5);
                 //convert vector into X and Y
                 x = Convert.ToInt32(Math.Cos(direction) * distance);
                 y = Convert.ToInt32(Math.Sin(direction) * distance);
@@ -111,7 +113,7 @@ namespace SubterfugeCore
                 }
                 if (usableLocation || playerOutposts.Count == 0)
                 {
-                    currentOutpost = new Outpost(currentOutpostLocation);
+                    currentOutpost = new Outpost(currentOutpostLocation, type);
                     playerOutposts.Add(currentOutpost);
                 }
             }
