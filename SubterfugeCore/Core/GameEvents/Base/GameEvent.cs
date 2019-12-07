@@ -8,6 +8,7 @@ namespace SubterfugeCore.GameEvents
     {
         private GameTick gameTick;
         protected bool eventSuccess;
+        public string eventName;
 
         /// <summary>
         /// This function will be executed when determing the game's state for the time machine.
@@ -21,6 +22,11 @@ namespace SubterfugeCore.GameEvents
         /// For example, this will un-hire a specialist returning the hire point to the queen, or un-launch a sub returning the drillers to the owner.
         /// </summary>
         public abstract void eventBackwardAction();
+
+        public string getEventName()
+        {
+            return this.eventName;
+        }
 
         public abstract GameTick getTick();
 

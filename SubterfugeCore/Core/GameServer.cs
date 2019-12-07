@@ -75,54 +75,5 @@ namespace SubterfugeCore
 
         }
 
-        // Moves the game to the next game tick.
-        public void advanceTick()
-        {
-            // Should send a network request here before moving the player's game ahead.
-            // New events can get added to the time machine before moving forward.
-
-            // Advance the time machine
-            timeMachine.goTo(timeMachine.getState().getCurrentTick().getNextTick());
-        }
-
-        // Moves the game to the next game tick.
-        public void rewindTick()
-        {
-            // Should send a network request here before moving the player's game ahead.
-            // New events can get added to the time machine before moving forward.
-
-            // Advance the time machine
-            timeMachine.goTo(timeMachine.getState().getCurrentTick().getPreviousTick());
-        }
-
-
-        // THIS IS JUST FOR TESTING.
-        // THE UPDATE LOOP CALLS THIS FUNCTION.
-        // USING THIS TO ADVANCE THE GAME WHILE WE HAVE NO GUI.
-        public void update()
-        {
-            if (timeMachine.getState().currentTick.getTick() > 2000)
-            {
-                forward = false;
-            }
-            if (timeMachine.getState().currentTick.getTick() == 108 && !addedEvents)
-            {
-                addedEvents = true;
-                // LaunchEvent launchEvent4 = new LaunchEvent(timeMachine.getState().currentTick.advance(2), timeMachine.getState().getOutposts()[timeMachine.getState().getOutposts().Count - 1], 5, timeMachine.getState().getSubList()[timeMachine.getState().getSubList().Count - 1]);
-                // timeMachine.addEvent(launchEvent4);
-            }
-            if (timeMachine.getState().currentTick.getTick() == 0)
-            {
-                forward = true;
-            }
-            if (forward)
-            {
-                advanceTick();
-            }
-            else
-            {
-                rewindTick();
-            }
-        }
     }
 }

@@ -26,6 +26,11 @@ namespace SubterfugeCore.Timing
             storedValues.Add(default(T));
         }
 
+        public List<T> getQueue()
+        {
+            return this.storedValues;
+        }
+
         /// <summary>
         /// Gets the number of values stored within the Priority Queue
         /// </summary>

@@ -103,5 +103,23 @@ namespace SubterfugeCore.Core.Timing
             this.goTo(eventOfInterest.getTick());
         }
 
+        // For debugging
+        public void advance(int ticks)
+        {
+            GameTick tick = this.getCurrentTick().advance(ticks);
+            this.goTo(tick);
+        }
+
+        // For debugging
+        public void rewind(int ticks)
+        {
+            GameTick tick = this.getCurrentTick().rewind(ticks);
+            this.goTo(tick);
+        }
+
+        public List<GameEvent> getQueuedEvents()
+        {
+            return this.futureEventQueue.getQueue();
+        }
     }
 }

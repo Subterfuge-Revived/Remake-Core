@@ -16,10 +16,6 @@ namespace SubterfugeCore.Core.Entities.Specialists
         Player owner;
         List<ISpecialistEffect> specialistEffects = new List<ISpecialistEffect>();
 
-
-        // Event delegates for Effects to listen to
-        public event EventHandler Combat;
-
         public Specialist(String name, int priority, Player owner)
         {
             this.specialistName = name;
@@ -45,19 +41,19 @@ namespace SubterfugeCore.Core.Entities.Specialists
             specialistEffects.Add(effect);
         }
 
-        public void applyEffect(ICombatable combatable)
+        public void applyEffect(ICombatable friendly, ICombatable enemy)
         {
             foreach(ISpecialistEffect effect in this.specialistEffects)
             {
-                effect.forwardEffect(combatable);
+                effect.forwardEffect(friendly, enemy);
             }
         }
 
-        public void undoEffect(ICombatable combatable)
+        public void undoEffect(ICombatable friendly, ICombatable enemy)
         {
             foreach (ISpecialistEffect effect in this.specialistEffects)
             {
-                effect.backwardEffect(combatable);
+                effect.backwardEffect(friendly, enemy);
             }
         }
 
@@ -78,8 +74,15 @@ namespace SubterfugeCore.Core.Entities.Specialists
 
         public void invoke(EffectTrigger trigger)
         {
-           // Loop through specialist effects.
-           // Determine if the effect should be triggered.
+            // Loop through specialist effects.
+            // Determine if the effect should be triggered.
+            foreach (ISpecialistEffect specialistEffect in this.specialistEffects)
+            {
+                if (specialistEffect.getEffectTrigger() == trigger)
+                {
+                    // specialistEffect.forwardEffect();
+                }
+            }
         }
     }
 }

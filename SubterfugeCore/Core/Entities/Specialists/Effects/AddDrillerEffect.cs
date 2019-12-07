@@ -1,38 +1,30 @@
-﻿using System;
+﻿using SubterfugeCore.Core.Interfaces.Outpost;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using SubterfugeCore.Core.Entities.Specialists.Effects;
-using SubterfugeCore.Core.Interfaces.Outpost;
 
-namespace SubterfugeCore.Core.Entities.Specialists
+namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
-    class DestroyDrillerEffect : ISpecialistEffect, IScalableEffect
+    class AddDrillerEffect : ISpecialistEffect, IScalableEffect
     {
-        private bool killsFriendly;
         private int drillerCount;
         EffectTrigger trigger;
         int scaleFactor = 1;
 
-        public DestroyDrillerEffect(int drillerCount, EffectTrigger trigger)
+        public AddDrillerEffect(int drillerCount, EffectTrigger trigger)
         {
             this.drillerCount = drillerCount;
-            this.killsFriendly = false;
             this.trigger = trigger;
-        }
-
-        public void destroysFriendly()
-        {
-            this.killsFriendly = true;
         }
 
         public void forwardEffect(ICombatable friendly, ICombatable enemy)
         {
-            enemy.removeDrillers(drillerCount * scaleFactor);
+            friendly.addDrillers(drillerCount * scaleFactor);
         }
 
         public void backwardEffect(ICombatable friendly, ICombatable enemy)
         {
-            enemy.addDrillers(drillerCount * scaleFactor);
+            friendly.removeDrillers(drillerCount * scaleFactor);
         }
 
         public EffectTrigger getEffectTrigger()

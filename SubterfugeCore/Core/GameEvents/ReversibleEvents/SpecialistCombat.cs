@@ -45,7 +45,8 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                 }
                 // Apply the specialist effect to the enemey.
                 ICombatable enemy = combatant1.getOwner() == lowPriority.getOwner() ? combatant2 : combatant1;
-                lowPriority.undoEffect(enemy);
+                ICombatable friendly = combatant1.getOwner() == lowPriority.getOwner() ? combatant1 : combatant2;
+                lowPriority.undoEffect(friendly, enemy);
             }
             return true;
         }
@@ -77,7 +78,8 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                 }
                 // Apply the specialist effect to the enemey.
                 ICombatable enemy = combatant1.getOwner() == topPriority.getOwner() ? combatant2 : combatant1;
-                topPriority.applyEffect(enemy);
+                ICombatable friendly = combatant1.getOwner() == topPriority.getOwner() ? combatant1 : combatant2;
+                topPriority.applyEffect(friendly, enemy);
             }
             return true;
         }

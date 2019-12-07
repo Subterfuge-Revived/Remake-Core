@@ -25,6 +25,7 @@ namespace SubterfugeCore.GameEvents
             this.source = source;
             this.drillerCount = drillerCount;
             this.destination = destination;
+            this.eventName = "Launch Event";
         }
 
         public override void eventBackwardAction()

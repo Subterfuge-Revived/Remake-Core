@@ -20,6 +20,7 @@ namespace SubterfugeCore.Core.GameEvents
         {
             this.outpost = outpost;
             this.productionTick = tick;
+            this.eventName = "Factory Production Event";
         }
         public override void eventBackwardAction()
         {
@@ -38,7 +39,7 @@ namespace SubterfugeCore.Core.GameEvents
                     // After this cycle is produced, add another production event.
                     if (!addedNextProduction)
                     {
-                        GameServer.timeMachine.addEvent(new FactoryProduceDrillersEvent(this.outpost, this.productionTick.advance(6 * 36)));
+                        GameServer.timeMachine.addEvent(new FactoryProduceDrillersEvent(this.outpost, this.productionTick.advance(40)));
                         this.addedNextProduction = true;
                     }
                     outpost.addDrillers(6);

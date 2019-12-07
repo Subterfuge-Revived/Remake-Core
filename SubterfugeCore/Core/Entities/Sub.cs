@@ -19,7 +19,7 @@ namespace SubterfugeCore.Entities
         private ILaunchable source;
         private ITargetable destination;
         private GameTick launchTime;
-        private float speed = 0.25f;
+        private float speed = 1f;
         private Player owner;
         private SpecialistManager specialistManager;
 

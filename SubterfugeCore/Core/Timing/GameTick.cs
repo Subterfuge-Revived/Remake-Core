@@ -47,7 +47,7 @@ namespace SubterfugeCore.Timing
             {
                 return new GameTick(this.startTime.AddMinutes(-MINUTES_PER_TICK), this.tickNumber - 1);
             }
-            return null;
+            return this;
         }
 
         public GameTick advance(int ticks)
@@ -61,7 +61,7 @@ namespace SubterfugeCore.Timing
             {
                 return new GameTick(this.startTime.AddMinutes(ticks * -MINUTES_PER_TICK), this.tickNumber - ticks);
             }
-            return null;
+            return this.rewind(this.getTick());
         }
 
         public DateTime getDate()

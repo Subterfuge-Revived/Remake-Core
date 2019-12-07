@@ -22,11 +22,6 @@ namespace SubterfugeFrontend.Shared.Content.Game.World
             this.camera = new Camera(device);
         }
 
-        public void update(GameTime gameTime) {
-            this.gameServer.update();
-            // Check to see if the camera has been moved.
-
-        }
         public void render(SpriteBatch spriteBatch, GameTime gameTime)
         {
             this.camera.startRender(spriteBatch);

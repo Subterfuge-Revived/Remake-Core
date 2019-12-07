@@ -28,6 +28,7 @@ namespace SubterfugeCore.GameEvents
             this.combatant2 = combatant2;
             this.eventTick = tick;
             this.combatLocation = combatLocation;
+            this.eventName = "Combat Event";
         }
         public override void eventBackwardAction()
         {
