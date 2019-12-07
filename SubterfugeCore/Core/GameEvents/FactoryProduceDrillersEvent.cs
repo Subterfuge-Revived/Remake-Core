@@ -15,6 +15,7 @@ namespace SubterfugeCore.Core.GameEvents
         GameTick productionTick;
         bool eventSuccess = false;
         bool addedNextProduction = false;
+        GameEvent nextEvent;
 
         public FactoryProduceDrillersEvent(Outpost outpost, GameTick tick)
         {
@@ -27,6 +28,8 @@ namespace SubterfugeCore.Core.GameEvents
             if (eventSuccess)
             {
                 outpost.removeDrillers(6);
+                GameServer.timeMachine.removeEvent(this.nextEvent);
+                this.nextEvent = null;
             }
         }
 
@@ -36,12 +39,8 @@ namespace SubterfugeCore.Core.GameEvents
             {
                 if(this.outpost.getOwner() != null && this.outpost.getOutpostType() == OutpostType.FACTORY)
                 {
-                    // After this cycle is produced, add another production event.
-                    if (!addedNextProduction)
-                    {
-                        GameServer.timeMachine.addEvent(new FactoryProduceDrillersEvent(this.outpost, this.productionTick.advance(40)));
-                        this.addedNextProduction = true;
-                    }
+                    this.nextEvent = new FactoryProduceDrillersEvent(this.outpost, this.productionTick.advance(40));
+                    GameServer.timeMachine.addEvent(this.nextEvent);
                     outpost.addDrillers(6);
                     eventSuccess = true;
                 }

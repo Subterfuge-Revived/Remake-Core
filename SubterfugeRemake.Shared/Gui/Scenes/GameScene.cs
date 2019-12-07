@@ -56,12 +56,11 @@ namespace SubterfugeFrontend.Shared.Content.Gui.Scenes
                 effects: SpriteEffects.None);
 
             String events = "";
-            foreach(GameEvent gameEvent in GameServer.timeMachine.getQueuedEvents())
+            List<GameEvent> gameEvents = GameServer.timeMachine.getQueuedEvents();
+            gameEvents.Sort((a, b) => a.getTick() - b.getTick());
+            foreach (GameEvent gameEvent in gameEvents)
             {
-                if (gameEvent != null)
-                {
-                    events += gameEvent.getTick().getTick().ToString() + ": " + gameEvent.getEventName() + "\n";
-                }
+                events += gameEvent.getTick().getTick().ToString() + ": " + gameEvent.getEventName() + "\n";
             }
             StringSize = font.MeasureString(events);
 

@@ -235,6 +235,12 @@ namespace SubterfugeCore.Timing
             if (index != -1)
             {
                 T lastValue = this.storedValues[storedValues.Count - 1];
+                if(lastValue.Equals(item))
+                {
+                    // No swap nessecary, just remove and exit.
+                    this.storedValues.RemoveAt(storedValues.Count - 1);
+                    return true;
+                }
 
                 // Swap the last item.
                 this.storedValues[index] = lastValue;

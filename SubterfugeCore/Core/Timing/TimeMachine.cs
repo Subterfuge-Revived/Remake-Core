@@ -119,7 +119,13 @@ namespace SubterfugeCore.Core.Timing
 
         public List<GameEvent> getQueuedEvents()
         {
-            return this.futureEventQueue.getQueue();
+            List<GameEvent> gameEvents = new List<GameEvent>();
+            foreach(GameEvent gameEvent in this.futureEventQueue.getQueue()){
+                if (gameEvent != null){
+                    gameEvents.Add(gameEvent);
+                }
+            }
+            return gameEvents;
         }
     }
 }

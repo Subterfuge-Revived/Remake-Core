@@ -57,6 +57,7 @@ namespace SubterfugeCore.GameEvents
             GameTick arrival = this.launchTime.advance((int)Math.Floor((targetLocation - source.getCurrentLocation()).Length() / this.launchedSub.getSpeed()));
 
             CombatEvent arriveCombat = new CombatEvent(this.launchedSub, this.destination, arrival, targetLocation);
+            combatEvents.Add(arriveCombat);
             GameServer.timeMachine.addEvent(arriveCombat);
 
             // Determine any combat events that may exist along the way.
@@ -104,6 +105,7 @@ namespace SubterfugeCore.GameEvents
                             Vector2 combatLocation = Vector2.Multiply(this.getActiveSub().getDirection(), (float)ticksUntilCombat);
 
                             CombatEvent combatEvent = new CombatEvent(sub, this.getActiveSub(), this.launchTime.advance(ticksUntilCombat), combatLocation);
+                            combatEvents.Add(combatEvent);
                             GameServer.timeMachine.addEvent(combatEvent);
                         }
                     }
