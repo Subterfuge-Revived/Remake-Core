@@ -37,7 +37,9 @@ namespace SubterfugeFrontend.Shared.Content.Gui.Scenes
         public async void checkNetwork(object sender, EventArgs e)
         {
             Api api = new Api();
-            HttpResponseMessage response = await api.login("Test", "$2y$10$gAPTQXr.bwRRgjXoJQM7kOa3hAAAfQngaDVGWcOTJqvfBdgl.uILK");
+            HttpResponseMessage response = await api.login("abcdefg", "abcdefg");
+
+            // Decode JSON response
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
