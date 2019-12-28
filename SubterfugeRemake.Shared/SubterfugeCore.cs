@@ -24,6 +24,7 @@ namespace SubterfugeFrontend.Shared
     public class SubterfugeApp : Game
     {
         DeviceCamera deviceCamera;
+        public static SubterfugeApp self;
 
         public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -39,6 +40,7 @@ namespace SubterfugeFrontend.Shared
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = true;
+            self = this;
         }
 
         /// <summary>

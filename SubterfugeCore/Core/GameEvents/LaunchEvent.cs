@@ -9,6 +9,9 @@ using System.Collections.Generic;
 
 namespace SubterfugeCore.GameEvents
 {
+    /// <summary>
+    /// Sub launch event
+    /// </summary>
     public class LaunchEvent : GameEvent
     {
         private GameTick launchTime;
@@ -19,6 +22,13 @@ namespace SubterfugeCore.GameEvents
         private Sub launchedSub;
         List<CombatEvent> combatEvents = new List<CombatEvent>();
 
+        /// <summary>
+        /// Constructor for a sub launch event.
+        /// </summary>
+        /// <param name="launchTime">The time of the launch</param>
+        /// <param name="source">The source</param>
+        /// <param name="drillerCount">The number of drillers to send</param>
+        /// <param name="destination">The destination</param>
         public LaunchEvent(GameTick launchTime, ILaunchable source, int drillerCount, ICombatable destination)
         {
             this.launchTime = launchTime;
@@ -28,6 +38,9 @@ namespace SubterfugeCore.GameEvents
             this.eventName = "Launch Event";
         }
 
+        /// <summary>
+        /// Performs the backwards event
+        /// </summary>
         public override void eventBackwardAction()
         {
             if (this.eventSuccess)
@@ -37,6 +50,9 @@ namespace SubterfugeCore.GameEvents
             }
         }
 
+        /// <summary>
+        /// Performs the forward event
+        /// </summary>
         public override void eventForwardAction()
         {
             this.launchedSub = source.launchSub(drillerCount, destination);
@@ -50,6 +66,9 @@ namespace SubterfugeCore.GameEvents
             }
         }
 
+        /// <summary>
+        /// Creates any combat events that will result in the launch.
+        /// </summary>
         public void createCombatEvents()
         {
             // Create the combat event for arrival
@@ -115,6 +134,9 @@ namespace SubterfugeCore.GameEvents
             }
         }
 
+        /// <summary>
+        /// Removes remaining combat events from the time machine to prevent ghost combats
+        /// </summary>
         public void removeCombatEvents()
         {
             foreach(CombatEvent combatEvent in this.combatEvents){
@@ -122,29 +144,22 @@ namespace SubterfugeCore.GameEvents
             }
         }
 
+        /// <summary>
+        /// Gets the tick of the launch
+        /// </summary>
+        /// <returns>The time of the launch</returns>
         public override GameTick getTick()
         {
             return this.launchTime;
         }
 
+        /// <summary>
+        /// Gets the sub instance of the launch
+        /// </summary>
+        /// <returns>The sub that was launched</returns>
         public Sub getActiveSub()
         {
             return this.launchedSub;
-        }
-
-        public ITargetable getDestination()
-        {
-            return this.destination;
-        }
-
-        public ILaunchable getSource()
-        {
-            return this.source;
-        }
-
-        public int getDrillerCount()
-        {
-            return this.drillerCount;
         }
     }
 }

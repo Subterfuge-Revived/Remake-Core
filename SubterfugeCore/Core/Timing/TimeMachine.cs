@@ -9,7 +9,7 @@ namespace SubterfugeCore.Core.Timing
 {
     public class TimeMachine
     {
-        // List of known evnets
+        // List of known events
         private ReversePriorityQueue<GameEvent> pastEventQueue = new ReversePriorityQueue<GameEvent>();
         private PriorityQueue<GameEvent> futureEventQueue = new PriorityQueue<GameEvent>();
 
@@ -20,7 +20,10 @@ namespace SubterfugeCore.Core.Timing
         public GameTick currentTick;
         private GameTick startTime;
 
-        // Constructor for the time machine.
+        /// <summary>
+        /// Time Machine constructor.
+        /// </summary>
+        /// <param name="state">The starting GameState</param>
         public TimeMachine(GameState state)
         {
             startTime = state.getStartTick();
@@ -28,21 +31,37 @@ namespace SubterfugeCore.Core.Timing
             gameState = state;
         }
 
+        /// <summary>
+        /// Get the time machine's current state
+        /// </summary>
+        /// <returns>The GameState at the current time of the TimeMachine</returns>
         public GameState getState()
         {
             return this.gameState;
         }
 
+        /// <summary>
+        /// Adds an event to the future event queue
+        /// </summary>
+        /// <param name="gameEvent">The game event to add to the Queue</param>
         public void addEvent(GameEvent gameEvent)
         {
             this.futureEventQueue.Enqueue(gameEvent);
         }
-
+        
+        /// <summary>
+        /// Removes a GameEvent from the future event queue
+        /// </summary>
+        /// <param name="gameEvent">The GameEvent to remove from the queue</param>
         public void removeEvent(GameEvent gameEvent)
         {
             this.futureEventQueue.remove(gameEvent);
         }
 
+        /// <summary>
+        /// Jumps to a specific GameTick
+        /// </summary>
+        /// <param name="tick">The GameTick to jump to</param>
         public void goTo(GameTick tick)
         {
             if (tick > currentTick)
@@ -88,35 +107,49 @@ namespace SubterfugeCore.Core.Timing
             this.gameState.currentTick = tick;
         }
 
+        /// <summary>
+        /// Gets the GameTick that the time machine is currently representing.
+        /// </summary>
+        /// <returns>The GameTick that the timeMachine is showing</returns>
         public GameTick getCurrentTick()
         {
             return this.currentTick;
         }
 
-        public GameTick getStartTick()
-        {
-            return this.startTime;
-        }
-
+        
+        /// <summary>
+        /// Jumps to a specific GameEvent
+        /// </summary>
+        /// <param name="eventOfInterest">The GameEvent to jump to</param>
         public void goTo(GameEvent eventOfInterest)
         {
             this.goTo(eventOfInterest.getTick());
         }
-
-        // For debugging
+        
+        /// <summary>
+        /// For debugging. Advances the timeMachine by a specified number of ticks.
+        /// </summary>
+        /// <param name="ticks">The number of ticks to advance</param>
         public void advance(int ticks)
         {
             GameTick tick = this.getCurrentTick().advance(ticks);
             this.goTo(tick);
         }
 
-        // For debugging
+        /// <summary>
+        /// For debugging. Rewinds the timeMachine by a specified number of ticks.
+        /// </summary>
+        /// <param name="ticks">The number of ticks to rewind</param>
         public void rewind(int ticks)
         {
             GameTick tick = this.getCurrentTick().rewind(ticks);
             this.goTo(tick);
         }
 
+        /// <summary>
+        /// Gets a list of the queued events
+        /// </summary>
+        /// <returns>A list of the events in the future event queue</returns>
         public List<GameEvent> getQueuedEvents()
         {
             List<GameEvent> gameEvents = new List<GameEvent>();

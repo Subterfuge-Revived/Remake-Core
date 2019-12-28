@@ -1,6 +1,7 @@
 ﻿using SubterfugeCore.Timing;
 using System;
 using System.Collections.Generic;
+using SubterfugeCore.Core.GameEvents;
 
 namespace SubterfugeCore.GameEvents
 {
@@ -23,13 +24,26 @@ namespace SubterfugeCore.GameEvents
         /// </summary>
         public abstract void eventBackwardAction();
 
+        /// <summary>
+        /// Gets the event's name
+        /// </summary>
+        /// <returns>The event name</returns>
         public string getEventName()
         {
             return this.eventName;
         }
 
+        /// <summary>
+        /// Get the tick the event happens on
+        /// </summary>
+        /// <returns>The tick of the event</returns>
         public abstract GameTick getTick();
 
+        /// <summary>
+        /// Comparison override for the priority queue sorting
+        /// </summary>
+        /// <param name="obj">The object to compare to</param>
+        /// <returns>if the object is before, after another event</returns>
         public int CompareTo(object obj)
         {
             GameEvent comparedEvent = obj as GameEvent;
@@ -52,5 +66,6 @@ namespace SubterfugeCore.GameEvents
                 return -1;
             }
         }
+        
     }
 }

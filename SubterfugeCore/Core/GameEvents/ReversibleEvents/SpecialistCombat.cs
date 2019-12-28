@@ -7,6 +7,9 @@ using System.Text;
 
 namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {
+    /// <summary>
+    /// Performs specialist combat
+    /// </summary>
     public class SpecialistCombat : IReversible
     {
         ICombatable combatant1;
@@ -16,12 +19,22 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         List<Specialist> combatant1Specialists = new List<Specialist>();
         List<Specialist> combatant2Specialists = new List<Specialist>();
 
+        /// <summary>
+        /// Constructor for a specialist combat
+        /// </summary>
+        /// <param name="combatant1">Combatant 1</param>
+        /// <param name="combatant2">Combatant 2</param>
         public SpecialistCombat(ICombatable combatant1, ICombatable combatant2)
         {
             this.combatant1 = combatant1;
             this.combatant2 = combatant2;
 
         }
+        
+        /// <summary>
+        /// Undoes the specialist combat
+        /// </summary>
+        /// <returns>If the event was undone</returns>
         public bool backwardAction()
         {
             if (!eventSuccess)
@@ -51,6 +64,10 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             return true;
         }
 
+        /// <summary>
+        /// Applies the specialist combat
+        /// </summary>
+        /// <returns>If the event was successful</returns>
         public bool forwardAction()
         {
             this.combatant1Specialists = combatant1.getSpecialistManager().getSpecialists();

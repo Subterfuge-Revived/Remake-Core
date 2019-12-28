@@ -9,6 +9,9 @@ using System.Text;
 
 namespace SubterfugeCore.Core.GameEvents
 {
+    /// <summary>
+    /// Driller production event
+    /// </summary>
     class FactoryProduceDrillersEvent : GameEvent
     {
         Outpost outpost;
@@ -17,12 +20,21 @@ namespace SubterfugeCore.Core.GameEvents
         bool addedNextProduction = false;
         GameEvent nextEvent;
 
+        /// <summary>
+        /// Constructor for the driller production event
+        /// </summary>
+        /// <param name="outpost">The outpost to produce drillers at</param>
+        /// <param name="tick">The gameTick to produce them at</param>
         public FactoryProduceDrillersEvent(Outpost outpost, GameTick tick)
         {
             this.outpost = outpost;
             this.productionTick = tick;
             this.eventName = "Factory Production Event";
         }
+        
+        /// <summary>
+        /// Undo a production event
+        /// </summary>
         public override void eventBackwardAction()
         {
             if (eventSuccess)
@@ -33,6 +45,9 @@ namespace SubterfugeCore.Core.GameEvents
             }
         }
 
+        /// <summary>
+        /// Forward production event
+        /// </summary>
         public override void eventForwardAction()
         {
             if (Validator.validateOutpost(outpost))
@@ -46,7 +61,11 @@ namespace SubterfugeCore.Core.GameEvents
                 }
             }
         }
-
+        
+        /// <summary>
+        /// Get the tick of the production
+        /// </summary>
+        /// <returns>The production event's tick</returns>
         public override GameTick getTick()
         {
             return this.productionTick;

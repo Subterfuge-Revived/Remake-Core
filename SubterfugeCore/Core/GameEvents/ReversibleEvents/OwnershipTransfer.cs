@@ -9,6 +9,9 @@ using System.Text;
 
 namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {
+    /// <summary>
+    /// Transfers ownership of an outpost after combat
+    /// </summary>
     public class OwnershipTransfer : IReversible
     {
         Outpost outpost;
@@ -20,12 +23,21 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         Player originalOutpostOwner;
         int originalDrillerCount;
 
+        /// <summary>
+        /// Constructor to transfer ownership
+        /// </summary>
+        /// <param name="combatant1">Combatant 1</param>
+        /// <param name="combatant2">Combatant 2</param>
         public OwnershipTransfer(ICombatable combatant1, ICombatable combatant2)
         {
             this.sub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
             this.outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);
         }
 
+        /// <summary>
+        /// Undoes the ownership transfer
+        /// </summary>
+        /// <returns>If the event was undone</returns>
         public bool backwardAction()
         {
             if (eventSuccess)
@@ -43,6 +55,9 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             return eventSuccess;
         }
 
+        /// <summary>
+        /// Switches the control of the outpost to the owner of the sub
+        /// </summary>
         public void transferOwnership()
         {
             outpost.setOwner(sub.getOwner());
@@ -51,6 +66,9 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             wasOwnershipTransferred = true;
         }
 
+        /// <summary>
+        /// Switches control of the outpost back to the original owner.
+        /// </summary>
         public void unTransferOwnership()
         {
 
@@ -58,6 +76,10 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             outpost.setDrillerCount(originalDrillerCount);
             GameServer.timeMachine.getState().addSub(sub);
         }
+        
+        /// <summary>
+        /// Removes a sub from the game and captures it
+        /// </summary>
 
         public void captureSub()
         {
@@ -65,6 +87,10 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             GameServer.timeMachine.getState().removeSub(sub);
             wasSubCaptured = true;
         }
+        
+        /// <summary>
+        /// Uncaptures a sub
+        /// </summary>
 
         public void uncaptureSub()
         {
@@ -72,6 +98,10 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             GameServer.timeMachine.getState().addSub(sub);
         }
 
+        /// <summary>
+        /// Transfers ownership between outpost or specialists.
+        /// </summary>
+        /// <returns>If the event was successful</returns>
         public bool forwardAction()
         {
             originalOutpostOwner = outpost.getOwner();

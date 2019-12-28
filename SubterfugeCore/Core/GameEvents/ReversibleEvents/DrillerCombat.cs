@@ -7,6 +7,9 @@ using System.Text;
 
 namespace SubterfugeCore.Core.GameEvents
 {
+    /// <summary>
+    /// Driller combat action
+    /// </summary>
     public class DrillerCombat : IReversible
     {
         ICombatable combatant1;
@@ -16,12 +19,21 @@ namespace SubterfugeCore.Core.GameEvents
         int preCombatDrillers1;
         int preCombatDrillers2;
 
+        /// <summary>
+        /// Driller combat constructor
+        /// </summary>
+        /// <param name="combatant1">Combatant 1</param>
+        /// <param name="combatant2">Combatant 2</param>
         public DrillerCombat(ICombatable combatant1, ICombatable combatant2)
         {
             this.combatant1 = combatant1;
             this.combatant2 = combatant2;
         }
 
+        /// <summary>
+        /// Performs the reverse action of the driller combat to undo.
+        /// </summary>
+        /// <returns>if the event was reversed</returns>
         public bool backwardAction()
         {
             if (eventSuccess)
@@ -43,6 +55,10 @@ namespace SubterfugeCore.Core.GameEvents
             return eventSuccess;
         }
 
+        /// <summary>
+        /// Performs driller combat between two subs
+        /// </summary>
+        /// <returns>If the event was succesfull</returns>
         public bool forwardAction()
         {
             preCombatDrillers1 = combatant1.getDrillerCount();

@@ -6,6 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using Android.App;
+using Android.Content;
+using Android.Views;
+using Android.Views.InputMethods;
+using Microsoft.Xna.Framework.Input;
 
 namespace SubterfugeFrontend.Shared.Content.Gui.Scenes
 {
@@ -37,7 +42,13 @@ namespace SubterfugeFrontend.Shared.Content.Gui.Scenes
         public async void checkNetwork(object sender, EventArgs e)
         {
             Api api = new Api();
-            HttpResponseMessage response = await api.login("abcdefg", "abcdefg");
+            // HttpResponseMessage response = await api.login("abcdefg", "abcdefg");
+
+            var result = await KeyboardInput.Show("Test", "Test Description", "Test Text", false);
+            if(result != null)
+            {
+                Console.WriteLine(result);
+            }
 
             // Decode JSON response
         }

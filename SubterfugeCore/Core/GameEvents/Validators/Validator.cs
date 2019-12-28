@@ -7,8 +7,17 @@ using System.Text;
 
 namespace SubterfugeCore.Core.GameEvents.Validators
 {
+    /// <summary>
+    /// Validation object to ensure that objects exists and are properly created.
+    /// To prevent hacks
+    /// </summary>
     public class Validator
     {
+        /// <summary>
+        /// Validates an ICombatable
+        /// </summary>
+        /// <param name="combatable">The ICombatable to validate</param>
+        /// <returns></returns>
         public static bool validateICombatable(ICombatable combatable)
         {
             if(combatable is Outpost)
@@ -20,7 +29,12 @@ namespace SubterfugeCore.Core.GameEvents.Validators
             }
             return false;
         }
-
+        
+        /// <summary>
+        /// Validates a sub
+        /// </summary>
+        /// <param name="sub">The sub to validate</param>
+        /// <returns>If the sub is valid</returns>
         public static bool validateSub(Sub sub)
         {
             if (sub == null)
@@ -40,6 +54,11 @@ namespace SubterfugeCore.Core.GameEvents.Validators
             return true;
         }
 
+        /// <summary>
+        /// Validates an outpost
+        /// </summary>
+        /// <param name="outpost">The outpost to validate</param>
+        /// <returns>If the outpost is valid</returns>
         public static bool validateOutpost(Outpost outpost)
         {
             if (outpost == null)
@@ -59,6 +78,12 @@ namespace SubterfugeCore.Core.GameEvents.Validators
             return true;
         }
 
+        
+        /// <summary>
+        /// Validates a specialist
+        /// </summary>
+        /// <param name="specialist">The specialist to validate</param>
+        /// <returns>If the specialist is valid</returns>
         public static bool validateSpecialist(Specialist specialist)
         {
             if (specialist.getOwner() == null)

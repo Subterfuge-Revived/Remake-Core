@@ -13,6 +13,9 @@ using System.Collections.Generic;
 
 namespace SubterfugeCore.Entities
 {
+    /// <summary>
+    /// An instance of a Sub
+    /// </summary>
     public class Sub : GameObject, ITargetable, IDrillerCarrier, ISpecialistCarrier, ICombatable
     {
         private int drillerCount;
@@ -23,6 +26,14 @@ namespace SubterfugeCore.Entities
         private Player owner;
         private SpecialistManager specialistManager;
 
+        /// <summary>
+        /// Sub constructor
+        /// </summary>
+        /// <param name="source">The initial location of the sub</param>
+        /// <param name="destination">The destination of the sub</param>
+        /// <param name="launchTime">The time of launch</param>
+        /// <param name="drillerCount">The amount of drillers to launch</param>
+        /// <param name="owner">The owner</param>
         public Sub(ILaunchable source, ITargetable destination, GameTick launchTime, int drillerCount, Player owner) : base()
         {
             this.source = source;
@@ -34,16 +45,28 @@ namespace SubterfugeCore.Entities
             this.specialistManager = new SpecialistManager(3);
         }
 
+        /// <summary>
+        /// Gets the specialist manager of the sub
+        /// </summary>
+        /// <returns>The specialist manager</returns>
         public SpecialistManager getSpecialistManager()
         {
             return this.specialistManager;
         }
 
+        /// <summary>
+        /// Returns the sub's owner
+        /// </summary>
+        /// <returns>The sub's owner</returns>
         public Player getOwner()
         {
             return this.owner;
         }
 
+        /// <summary>
+        /// Gets the estimated arrival time based on known information
+        /// </summary>
+        /// <returns>The estimated arrival time</returns>
         public GameTick getExpectedArrival()
         {
             GameTick baseTick;
@@ -67,11 +90,19 @@ namespace SubterfugeCore.Entities
             return baseTick.advance(ticksToArrive);
         }
 
+        /// <summary>
+        /// Get the number of drillers
+        /// </summary>
+        /// <returns>The number of drillers</returns>
         public int getDrillerCount()
         {
             return this.drillerCount;
         }
 
+        /// <summary>
+        /// Gets the position of the current sub
+        /// </summary>
+        /// <returns>The sub's position</returns>
         public override Vector2 getPosition()
         {
 
@@ -92,7 +123,11 @@ namespace SubterfugeCore.Entities
                 return new Vector2();
             }
         }
-
+        
+        /// <summary>
+        /// Gets the rotation of the sub
+        /// </summary>
+        /// <returns>Gets the angle of the sub's path</returns>
         public double getRotation()
         {
             // Determine direction vector
@@ -105,32 +140,58 @@ namespace SubterfugeCore.Entities
             }
             return Math.Atan(direction.Y / direction.X) + Math.PI/4.0f + extraRotation;
         }
-
+        
+        /// <summary>
+        /// Gets the speed of the sub
+        /// </summary>
+        /// <returns>The sub's speed</returns>
         public double getSpeed()
         {
             return this.speed;
         }
 
+        /// <summary>
+        /// Gets the initial position of the sub
+        /// </summary>
+        /// <returns>Gets the subs initial position</returns>
         public Vector2 getInitialPosition()
         {
             return this.source.getCurrentLocation();
         }
 
+        /// <summary>
+        /// Gets the position of the sub's destination
+        /// </summary>
+        /// <returns>The destination of the sub</returns>
         public Vector2 getDestinationLocation()
         {
             return this.destination.getTargetLocation(this.getPosition(), this.getSpeed());
         }
-
+        
+        /// <summary>
+        /// Get the destination
+        /// </summary>
+        /// <returns>The sub's destination</returns>
         public ITargetable getDestination()
         {
             return this.destination;
         }
 
+        /// <summary>
+        /// Get the tick the sub launched
+        /// </summary>
+        /// <returns>The tick the sub launched</returns>
         public GameTick getLaunchTick()
         {
             return this.launchTime;
         }
 
+        /// <summary>
+        /// Get the combat location if this object is targeted by another
+        /// </summary>
+        /// <param name="targetFrom">The location that this sub is being targeted from</param>
+        /// <param name="speed">The speed this is being targeted by</param>
+        /// <returns>The location of combat</returns>
         public Vector2 getTargetLocation(Vector2 targetFrom, double speed)
         {
             if (targetFrom == this.getPosition())
@@ -176,32 +237,33 @@ namespace SubterfugeCore.Entities
                     scalar = scalar + 1;
                 }
                 return targetFrom;
-
-                // Interception will occur at a distance 'd' where the "ticksToArrive" at that distance are the same.
-
-                // If both arrive at the same time,
-                // tta1 = tta1
-                // The ticks required to arrive at a location is given by:
-                // tta = distanceToLocation / speed
-                // Thus, DistanceFromRunner / RunnerSpeed = DistanceFromChaser / ChaserSpeed
-                // Thus, ChaserSpeed / RunnerSpeed = DistanceFromChaser / DistanceFromRunner
-                // The distance from the chaser is given as the magnitude of: targetFrom - this.Position()
-                // Of course, the position of the runner changes based on the ticks to arrive.
-
             }
             return targetFrom;
         }
+        
+        /// <summary>
+        /// Set the owner
+        /// </summary>
+        /// <param name="newOwner">The new owner</param>
 
         public void setOwner(Player newOwner)
         {
             this.owner = newOwner;
         }
 
+        /// <summary>
+        /// Get the current location
+        /// </summary>
+        /// <returns>The sub's current location</returns>
         public Vector2 getCurrentLocation()
         {
             return this.getPosition();
         }
 
+        /// <summary>
+        /// The subs direction
+        /// </summary>
+        /// <returns>The sub's direction vector</returns>
         public Vector2 getDirection()
         {
             Vector2 direction = this.getDestinationLocation() - this.source.getCurrentLocation();
@@ -209,37 +271,70 @@ namespace SubterfugeCore.Entities
             return direction;
         }
 
+        /// <summary>
+        /// Get the launch source
+        /// </summary>
+        /// <returns>The source of the sub launch</returns>
         public ILaunchable getSource()
         {
             return this.source;
         }
-
+        
+        /// <summary>
+        /// Set the driller count
+        /// </summary>
+        /// <param name="drillerCount">The number of drillers to set</param>
         public void setDrillerCount(int drillerCount)
         {
             this.drillerCount = drillerCount;
         }
 
+        /// <summary>
+        /// Adds drillers to the sub
+        /// </summary>
+        /// <param name="drillersToAdd">The number of drillers to add</param>
         public void addDrillers(int drillersToAdd)
         {
             this.drillerCount += drillersToAdd;
         }
-
+        
+        /// <summary>
+        /// Removes drillers from the sub
+        /// </summary>
+        /// <param name="drillersToRemove">The number of drillers to remove</param>
         public void removeDrillers(int drillersToRemove)
         {
             this.drillerCount -= drillersToRemove;
         }
-
+        
+        /// <summary>
+        /// If the sub has the specified number of drillers
+        /// </summary>
+        /// <param name="drillers">The number of drillers to check for</param>
+        /// <returns>If the sub has the specified number of drillers</returns>
         public bool hasDrillers(int drillers)
         {
             return this.drillerCount >= drillers;
         }
 
+        /// <summary>
+        /// Launches a sub from this object
+        /// </summary>
+        /// <param name="drillerCount"></param>
+        /// <param name="destination"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Sub launchSub(int drillerCount, ITargetable destination)
         {
             // Determine any specialist effects if a specialist left the sub.
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Undoes launching a sub from this object
+        /// </summary>
+        /// <param name="sub"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void undoLaunch(Sub sub)
         {
             throw new NotImplementedException();
