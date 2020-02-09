@@ -1,15 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using SubterfugeCore.Components;
-using SubterfugeCore.Components.Outpost;
+﻿using SubterfugeCore.Components.Outpost;
 using SubterfugeCore.Core.Components.Outpost;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Interfaces.Outpost;
 using SubterfugeCore.Entities.Base;
-using SubterfugeCore.GameEvents;
 using SubterfugeCore.Players;
 using SubterfugeCore.Timing;
 using System;
-using System.Collections.Generic;
+using System.Numerics;
 
 namespace SubterfugeCore.Entities
 {
@@ -111,7 +108,7 @@ namespace SubterfugeCore.Entities
 
             // Determine direction vector
             Vector2 direction = (this.destination.getTargetLocation(this.position, this.getSpeed()) - this.source.getCurrentLocation());
-            direction.Normalize();
+            direction = Vector2.Normalize(direction);
 
             if(elapsedTicks > 0)
             {
@@ -219,11 +216,11 @@ namespace SubterfugeCore.Entities
                 while (searching)
                 {
                     Vector2 destination = this.getDestinationLocation() - this.getPosition();
-                    destination.Normalize();
+                    destination = Vector2.Normalize(destination);
 
                     Vector2 runnerLocation = this.getPosition() + (destination * scalar);
                     Vector2 chaserDirection = runnerLocation - targetFrom;
-                    chaserDirection.Normalize();
+                    chaserDirection = Vector2.Normalize(chaserDestination);
                     Vector2 chaserPosition = targetFrom + (chaserDirection * scalar);
 
                     if((chaserPosition - runnerLocation).Length() < 1)
@@ -267,7 +264,7 @@ namespace SubterfugeCore.Entities
         public Vector2 getDirection()
         {
             Vector2 direction = this.getDestinationLocation() - this.source.getCurrentLocation();
-            direction.Normalize();
+            direction = Vector2.Normalize(direction);
             return direction;
         }
 

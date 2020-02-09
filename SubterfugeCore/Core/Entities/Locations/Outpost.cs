@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using System.Numerics;
 using SubterfugeCore.Components;
 using SubterfugeCore.Components.Outpost;
 using SubterfugeCore.Core.Components.Outpost;
@@ -8,7 +7,6 @@ using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Interfaces.Outpost;
 using SubterfugeCore.Entities.Base;
 using SubterfugeCore.Players;
-using SubterfugeCore.Timing;
 
 namespace SubterfugeCore.Entities
 {

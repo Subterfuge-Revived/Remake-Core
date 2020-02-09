@@ -1,8 +1,5 @@
 ﻿using SubterfugeCore.Components;
 using SubterfugeCore.Core.Interfaces.Outpost;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SubterfugeCore.Core.Components.Outpost
 {

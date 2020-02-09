@@ -1,11 +1,7 @@
 ﻿using SubterfugeCore.Entities;
-using SubterfugeCore.Entities.Base;
-using SubterfugeCore.GameEvents;
 using SubterfugeCore.Timing;
 using System.Collections.Generic;
 using SubterfugeCore.Players;
-using SubterfugeCore.Core.Timing;
-using Microsoft.Xna.Framework;
 using System;
 
 namespace SubterfugeCore

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
-using SubterfugeCore.Core.Components.Outpost;
-using SubterfugeCore.Core.Entities.Specialists;
+﻿using System.Collections.Generic;
+using System.Numerics;
 using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.GameEvents.Validators;

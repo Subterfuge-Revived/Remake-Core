@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using SubterfugeCore.Timing;
+﻿using System.Numerics;
 
 namespace SubterfugeCore.Entities.Base
 {

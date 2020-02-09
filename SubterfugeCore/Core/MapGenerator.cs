@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using SubterfugeCore.Components.Outpost;
+using System.Diagnostics;
+using System.Numerics;
 using SubterfugeCore.Entities;
-using Microsoft.Xna.Framework;
-using static SubterfugeCore.GameServer;
 using SubterfugeCore.Timing;
 using SubterfugeCore.Players;
 using SubterfugeCore.Core.Entities.Locations;

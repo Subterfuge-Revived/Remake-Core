@@ -1,11 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using SubterfugeCore.Components.Outpost;
-using SubterfugeCore.Core.Components.Outpost;
+﻿using SubterfugeCore.Core.Components.Outpost;
 using SubterfugeCore.Core.Interfaces.Outpost;
 using SubterfugeCore.Entities;
 using SubterfugeCore.Timing;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace SubterfugeCore.GameEvents
 {

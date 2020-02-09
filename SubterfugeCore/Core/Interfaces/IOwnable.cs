@@ -1,6 +1,4 @@
-﻿using SubterfugeCore.Core.Interfaces.Outpost;
-
-namespace SubterfugeCore.Components
+﻿namespace SubterfugeCore.Components
 {
     /// <summary>
     /// Anything that can be owned by a player

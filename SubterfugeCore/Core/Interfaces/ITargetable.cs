@@ -1,10 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using SubterfugeCore.Core.Components.Outpost;
+﻿using System.Numerics;
 using SubterfugeCore.Core.Interfaces.Outpost;
-using SubterfugeCore.Entities.Base;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SubterfugeCore.Components.Outpost
 {

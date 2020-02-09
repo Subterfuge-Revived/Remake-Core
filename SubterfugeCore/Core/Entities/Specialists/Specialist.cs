@@ -1,11 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using SubterfugeCore.Components;
-using SubterfugeCore.Core.Entities.Specialists.Effects;
+﻿using SubterfugeCore.Components;
 using SubterfugeCore.Core.Interfaces.Outpost;
 using SubterfugeCore.Players;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SubterfugeCore.Core.Entities.Specialists
 {
