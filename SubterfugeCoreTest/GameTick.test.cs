@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore;
-using SubterfugeCore.Timing;
 using System;
+using SubterfugeCore.Core;
+using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCoreTest
 {

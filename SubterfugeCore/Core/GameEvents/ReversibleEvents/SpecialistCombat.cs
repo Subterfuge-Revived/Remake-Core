@@ -1,9 +1,9 @@
 ﻿using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.GameEvents.Validators;
-using SubterfugeCore.Core.Interfaces.Outpost;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {

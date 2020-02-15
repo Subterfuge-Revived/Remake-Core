@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace SubterfugeCore.Entities.Base
+namespace SubterfugeCore.Core.Entities.Base
 {
     public abstract class GameObject
     {

@@ -1,10 +1,8 @@
 ﻿using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SubterfugeCore.Components;
-using SubterfugeCore.Components.Outpost;
 using SubterfugeCore.Core.Entities.Locations;
-using SubterfugeCore.Entities;
-using SubterfugeCore.Players;
+using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCoreTest
 {

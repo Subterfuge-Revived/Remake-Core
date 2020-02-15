@@ -1,4 +1,4 @@
-﻿namespace SubterfugeCore.Core.Interfaces.Outpost
+﻿namespace SubterfugeCore.Core.Interfaces
 {
     /// <summary>
     /// Anything that can be shielded

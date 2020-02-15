@@ -1,0 +1,8 @@
+pages:
+  image: erothejoker/docker-docfx:latest
+  script:
+    - docfx SubterfugeCore/docfx.json
+    - mv SubterfugeCore/_site public
+  artifacts:
+    paths:
+      - public

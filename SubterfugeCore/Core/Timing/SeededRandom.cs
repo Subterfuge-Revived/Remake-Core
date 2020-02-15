@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SubterfugeCore.Timing
+namespace SubterfugeCore.Core.Timing
 {
     /// <summary>
     /// Seeded random class to ensure that all randomization is done from the same randomizer

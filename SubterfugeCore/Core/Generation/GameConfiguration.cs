@@ -1,4 +1,4 @@
-﻿namespace SubterfugeCore
+﻿namespace SubterfugeCore.Core.Generation
 {
     public class GameConfiguration
     {

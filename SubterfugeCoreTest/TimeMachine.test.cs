@@ -2,12 +2,12 @@
 using SubterfugeCore;
 using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Entities;
-using SubterfugeCore.GameEvents;
-using SubterfugeCore.Players;
-using SubterfugeCore.Timing;
 using System;
 using System.Numerics;
+using SubterfugeCore.Core;
+using SubterfugeCore.Core.Entities;
+using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCoreTest
 {

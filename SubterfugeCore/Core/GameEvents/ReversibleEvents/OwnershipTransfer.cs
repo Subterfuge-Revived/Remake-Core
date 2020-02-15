@@ -1,11 +1,11 @@
-﻿using SubterfugeCore.Components;
-using SubterfugeCore.Core.GameEvents.Validators;
-using SubterfugeCore.Core.Interfaces.Outpost;
-using SubterfugeCore.Entities;
-using SubterfugeCore.Players;
+﻿using SubterfugeCore.Core.GameEvents.Validators;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SubterfugeCore.Core.Entities;
+using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {

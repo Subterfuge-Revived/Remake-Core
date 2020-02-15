@@ -353,3 +353,12 @@ MigrationBackup/
 
 # Rider
 .idea/
+
+# docXF
+/**/DROP/
+/**/TEMP/
+/**/packages/
+/**/bin/
+/**/obj/
+/SubterfugeCore/_site
+/SubterfugeCore/api

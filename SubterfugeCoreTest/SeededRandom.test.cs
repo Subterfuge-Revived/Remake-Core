@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SubterfugeCore.Timing;
+using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCoreTest
 {

@@ -1,7 +1,6 @@
-﻿using SubterfugeCore.Components;
-using SubterfugeCore.Core.Entities.Specialists;
+﻿using SubterfugeCore.Core.Entities.Specialists;
 
-namespace SubterfugeCore.Core.Interfaces.Outpost
+namespace SubterfugeCore.Core.Interfaces
 {
     /// <summary>
     /// Anything that is able to carry specialists

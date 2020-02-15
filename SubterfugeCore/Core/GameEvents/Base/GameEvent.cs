@@ -1,9 +1,7 @@
-﻿using SubterfugeCore.Timing;
-using System;
-using System.Collections.Generic;
-using SubterfugeCore.Core.GameEvents;
+﻿using System;
+using SubterfugeCore.Core.Timing;
 
-namespace SubterfugeCore.GameEvents
+namespace SubterfugeCore.Core.GameEvents.Base
 {
     public abstract class GameEvent : IComparable
     {

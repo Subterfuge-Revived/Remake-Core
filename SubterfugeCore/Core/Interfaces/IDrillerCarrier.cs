@@ -1,7 +1,4 @@
-﻿using SubterfugeCore.Components;
-using SubterfugeCore.Core.Interfaces.Outpost;
-
-namespace SubterfugeCore.Core.Components.Outpost
+﻿namespace SubterfugeCore.Core.Interfaces
 {
     /// <summary>
     /// Anything that can hold drillers

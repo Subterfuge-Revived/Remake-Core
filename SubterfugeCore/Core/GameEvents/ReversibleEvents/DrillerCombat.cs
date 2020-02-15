@@ -1,11 +1,7 @@
-﻿using SubterfugeCore.Core.GameEvents.Validators;
-using SubterfugeCore.Core.Interfaces.Outpost;
-using SubterfugeCore.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SubterfugeCore.Core.Entities;
+using SubterfugeCore.Core.Interfaces;
 
-namespace SubterfugeCore.Core.GameEvents
+namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {
     /// <summary>
     /// Driller combat action

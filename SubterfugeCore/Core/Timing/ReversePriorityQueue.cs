@@ -3,11 +3,11 @@
 //| Visual C# Kicks - http://www.vcskicks.com/       |
 //| License - http://www.vcskicks.com/license.html   |
 //====================================================
+
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace SubterfugeCore.Timing
+namespace SubterfugeCore.Core.Timing
 {
     /// <summary>
     /// Priority Queue data structure

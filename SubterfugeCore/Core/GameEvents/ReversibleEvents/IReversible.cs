@@ -1,4 +1,4 @@
-﻿namespace SubterfugeCore.Core.GameEvents
+﻿namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {
     /// <summary>
     /// Any reversible action

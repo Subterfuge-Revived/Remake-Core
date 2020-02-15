@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.GameEvents.Validators;
-using SubterfugeCore.Core.Interfaces.Outpost;
-using SubterfugeCore.Entities;
-using SubterfugeCore.Timing;
+using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Timing;
 
-namespace SubterfugeCore.GameEvents
+namespace SubterfugeCore.Core.GameEvents
 {
     /// <summary>
     /// CombatEvent. It is considered a 'combat; if you arrive at any outpost, even your own.

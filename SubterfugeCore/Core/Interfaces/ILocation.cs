@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace SubterfugeCore.Core.Interfaces.Outpost
+namespace SubterfugeCore.Core.Interfaces
 {
     /// <summary>
     /// Anything that has a location

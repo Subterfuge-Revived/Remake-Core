@@ -1,11 +1,10 @@
 ﻿using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Core.GameEvents.Validators;
-using SubterfugeCore.Entities;
-using SubterfugeCore.GameEvents;
-using SubterfugeCore.Timing;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SubterfugeCore.Core.GameEvents.Base;
+using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core.GameEvents
 {

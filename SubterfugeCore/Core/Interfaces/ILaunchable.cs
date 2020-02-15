@@ -1,8 +1,6 @@
-﻿using SubterfugeCore.Components.Outpost;
-using SubterfugeCore.Core.Interfaces.Outpost;
-using SubterfugeCore.Entities;
+﻿using SubterfugeCore.Core.Entities;
 
-namespace SubterfugeCore.Core.Components.Outpost
+namespace SubterfugeCore.Core.Interfaces
 {
     /// <summary>
     /// Anything that can launch subs from its location

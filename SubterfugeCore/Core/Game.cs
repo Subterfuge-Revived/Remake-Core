@@ -1,13 +1,10 @@
-﻿
+﻿using System.Collections.Generic;
 using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Entities;
-using SubterfugeCore.GameEvents;
-using SubterfugeCore.Timing;
-using System.Collections.Generic;
 
-namespace SubterfugeCore
+namespace SubterfugeCore.Core
 {
     /**
      * This game server class will hold all of the game logic.

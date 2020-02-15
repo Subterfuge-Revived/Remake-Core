@@ -1,4 +1,4 @@
-﻿namespace SubterfugeCore.Players
+﻿namespace SubterfugeCore.Core.Players
 {
     /// <summary>
     /// An instance of a player

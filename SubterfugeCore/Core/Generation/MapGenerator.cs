@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Numerics;
-using SubterfugeCore.Entities;
-using SubterfugeCore.Timing;
-using SubterfugeCore.Players;
 using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Players;
+using SubterfugeCore.Core.Timing;
 
-namespace SubterfugeCore
+namespace SubterfugeCore.Core.Generation
 {
     public class MapGenerator
     {

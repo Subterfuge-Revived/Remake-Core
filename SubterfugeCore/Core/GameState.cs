@@ -1,10 +1,11 @@
-﻿using SubterfugeCore.Entities;
-using SubterfugeCore.Timing;
+﻿using System;
 using System.Collections.Generic;
-using SubterfugeCore.Players;
-using System;
+using SubterfugeCore.Core.Entities;
+using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Players;
+using SubterfugeCore.Core.Timing;
 
-namespace SubterfugeCore
+namespace SubterfugeCore.Core
 {
     /// <summary>
     /// This class holds only the nessecary information that is needed at a single point in time.

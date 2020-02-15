@@ -1,8 +1,9 @@
-﻿using SubterfugeCore.Core.Interfaces.Outpost;
-using SubterfugeCore.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SubterfugeCore.Core.Entities;
+using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {

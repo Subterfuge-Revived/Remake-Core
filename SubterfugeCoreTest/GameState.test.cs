@@ -1,10 +1,11 @@
 ﻿using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore;
+using SubterfugeCore.Core;
+using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Locations;
-using SubterfugeCore.Entities;
-using SubterfugeCore.Players;
-using SubterfugeCore.Timing;
+using SubterfugeCore.Core.Players;
+using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCoreTest
 {

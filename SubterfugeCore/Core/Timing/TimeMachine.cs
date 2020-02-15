@@ -1,9 +1,5 @@
-﻿using SubterfugeCore.Entities.Base;
-using SubterfugeCore.GameEvents;
-using SubterfugeCore.Timing;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using SubterfugeCore.Core.GameEvents.Base;
 
 namespace SubterfugeCore.Core.Timing
 {

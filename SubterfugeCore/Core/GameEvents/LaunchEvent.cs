@@ -1,12 +1,13 @@
-﻿using SubterfugeCore.Core.Components.Outpost;
-using SubterfugeCore.Core.Interfaces.Outpost;
-using SubterfugeCore.Entities;
-using SubterfugeCore.Timing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using SubterfugeCore.Core.Entities;
+using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.GameEvents.Base;
+using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Timing;
 
-namespace SubterfugeCore.GameEvents
+namespace SubterfugeCore.Core.GameEvents
 {
     /// <summary>
     /// Sub launch event

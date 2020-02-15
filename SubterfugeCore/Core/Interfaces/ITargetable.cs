@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
-using SubterfugeCore.Core.Interfaces.Outpost;
 
-namespace SubterfugeCore.Components.Outpost
+namespace SubterfugeCore.Core.Interfaces
 {
     /// <summary>
     /// Anything that can be targeted by a sub

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SubterfugeCore.Timing
+namespace SubterfugeCore.Core.Timing
 {
     /// <summary>
     /// GameTick class to more easily go to and from the current DateTime/TimeStamp to in-game ticks

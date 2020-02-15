@@ -1,14 +1,12 @@
-﻿using SubterfugeCore.Components.Outpost;
-using SubterfugeCore.Core.Components.Outpost;
-using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.Interfaces.Outpost;
-using SubterfugeCore.Entities.Base;
-using SubterfugeCore.Players;
-using SubterfugeCore.Timing;
-using System;
+﻿using System;
 using System.Numerics;
+using SubterfugeCore.Core.Entities.Base;
+using SubterfugeCore.Core.Entities.Specialists;
+using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Players;
+using SubterfugeCore.Core.Timing;
 
-namespace SubterfugeCore.Entities
+namespace SubterfugeCore.Core.Entities
 {
     /// <summary>
     /// An instance of a Sub

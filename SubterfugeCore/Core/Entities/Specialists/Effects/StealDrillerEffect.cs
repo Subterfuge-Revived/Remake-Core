@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SubterfugeCore.Core.Interfaces.Outpost;
+using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {

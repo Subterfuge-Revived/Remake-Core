@@ -1,4 +1,4 @@
-﻿namespace SubterfugeCore.Components
+﻿namespace SubterfugeCore.Core.Interfaces
 {
     /// <summary>
     /// Anything that can be owned by a player

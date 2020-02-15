@@ -1,7 +1,4 @@
-﻿using SubterfugeCore.Components.Outpost;
-using SubterfugeCore.Core.Components.Outpost;
-
-namespace SubterfugeCore.Core.Interfaces.Outpost
+﻿namespace SubterfugeCore.Core.Interfaces
 {
     /// <summary>
     /// Anything that can perform combat

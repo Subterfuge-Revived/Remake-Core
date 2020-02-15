@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SubterfugeCore.Core.Components
+namespace SubterfugeCore.Core.Interfaces
 {
     /// <summary>
     /// Anything that needs to be sent to the server or parsed from the server

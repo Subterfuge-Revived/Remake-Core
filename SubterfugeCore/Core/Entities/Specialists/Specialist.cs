@@ -1,8 +1,8 @@
-﻿using SubterfugeCore.Components;
-using SubterfugeCore.Core.Interfaces.Outpost;
-using SubterfugeCore.Players;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SubterfugeCore.Core.Entities.Specialists.Effects;
+using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Entities.Specialists
 {
