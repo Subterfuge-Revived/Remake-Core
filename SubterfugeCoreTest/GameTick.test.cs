@@ -19,7 +19,7 @@ namespace SubterfugeCoreTest
             time = new DateTime();
             tickNumber = 0;
             tick = new GameTick(time, tickNumber);
-            GameServer server = new GameServer();
+            Game server = new Game();
 
         }
 
@@ -45,7 +45,7 @@ namespace SubterfugeCoreTest
             // Check cannot go back before the first tick
             GameTick previousTick = tick.getPreviousTick();
 
-            Assert.AreEqual(null, previousTick);
+            Assert.AreEqual(tick, previousTick);
 
             // Advance and then come back
             GameTick startingTick = tick.getNextTick().getPreviousTick();
@@ -72,7 +72,7 @@ namespace SubterfugeCoreTest
             GameTick TenTicksBefore = tick.rewind(ticksToReverse);
 
             // Should not be able to reverse 
-            Assert.AreEqual(null, TenTicksBefore);
+            Assert.AreEqual(true, TenTicksBefore == tick);
 
             // Advance and then go back
             GameTick startingTick = tick.advance(ticksToReverse).rewind(ticksToReverse);

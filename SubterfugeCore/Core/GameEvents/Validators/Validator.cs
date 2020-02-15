@@ -39,7 +39,7 @@ namespace SubterfugeCore.Core.GameEvents.Validators
         {
             if (sub == null)
                 return false;
-            if (!GameServer.timeMachine.getState().subExists(sub))
+            if (!Game.timeMachine.getState().subExists(sub))
                 return false;
             if (sub.getDrillerCount() < 0)
                 return false;
@@ -49,7 +49,7 @@ namespace SubterfugeCore.Core.GameEvents.Validators
                 return false;
             if (sub.getSpecialistManager().getSpecialistCount() > sub.getSpecialistManager().getCapacity())
                 return false;
-            if (!GameServer.timeMachine.getState().playerExists(sub.getOwner()))
+            if (!Game.timeMachine.getState().playerExists(sub.getOwner()))
                 return false;
             return true;
         }
@@ -63,7 +63,7 @@ namespace SubterfugeCore.Core.GameEvents.Validators
         {
             if (outpost == null)
                 return false;
-            if (!GameServer.timeMachine.getState().outpostExists(outpost))
+            if (!Game.timeMachine.getState().outpostExists(outpost))
                 return false;
             if (outpost.getDrillerCount() < 0)
                 return false;
@@ -73,7 +73,7 @@ namespace SubterfugeCore.Core.GameEvents.Validators
                 return false;
             if (outpost.getSpecialistManager().getSpecialistCount() > outpost.getSpecialistManager().getCapacity())
                 return false;
-            if (outpost.getOwner() != null && !GameServer.timeMachine.getState().playerExists(outpost.getOwner()))
+            if (outpost.getOwner() != null && !Game.timeMachine.getState().playerExists(outpost.getOwner()))
                 return false;
             return true;
         }

@@ -62,7 +62,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         {
             outpost.setOwner(sub.getOwner());
             outpost.setDrillerCount(sub.getDrillerCount());
-            GameServer.timeMachine.getState().removeSub(sub);
+            Game.timeMachine.getState().removeSub(sub);
             wasOwnershipTransferred = true;
         }
 
@@ -74,7 +74,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 
             outpost.setOwner(originalOutpostOwner);
             outpost.setDrillerCount(originalDrillerCount);
-            GameServer.timeMachine.getState().addSub(sub);
+            Game.timeMachine.getState().addSub(sub);
         }
         
         /// <summary>
@@ -84,7 +84,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         public void captureSub()
         {
             // capture sub.
-            GameServer.timeMachine.getState().removeSub(sub);
+            Game.timeMachine.getState().removeSub(sub);
             wasSubCaptured = true;
         }
         
@@ -95,7 +95,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         public void uncaptureSub()
         {
             // capture sub.
-            GameServer.timeMachine.getState().addSub(sub);
+            Game.timeMachine.getState().addSub(sub);
         }
 
         /// <summary>

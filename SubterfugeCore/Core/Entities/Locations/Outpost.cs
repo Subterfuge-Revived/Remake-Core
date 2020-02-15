@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using SubterfugeCore.Components;
 using SubterfugeCore.Components.Outpost;
 using SubterfugeCore.Core.Components.Outpost;
@@ -15,6 +16,7 @@ namespace SubterfugeCore.Entities
     /// </summary>
     public class Outpost : GameObject, IOwnable, ITargetable, IDrillerCarrier, ILaunchable, ICombatable, IShieldable
     {
+        private Guid guid;
         private Player outpostOwner;
         private SpecialistManager specialistManager;
         int drillerCount;
@@ -31,6 +33,7 @@ namespace SubterfugeCore.Entities
         /// <param name="outpostLocation">The location of the outpost</param>
         public Outpost(Vector2 outpostLocation)
         {
+            this.guid = Guid.NewGuid();
             this.position = outpostLocation;
             this.drillerCount = 0;
             this.outpostOwner = null;
@@ -47,6 +50,7 @@ namespace SubterfugeCore.Entities
         /// <param name="type">The type of outpost to create</param>
         public Outpost(Vector2 outpostLocation, OutpostType type)
         {
+            this.guid = Guid.NewGuid();
             this.position = outpostLocation;
             this.drillerCount = 0;
             this.outpostOwner = null;
@@ -65,6 +69,7 @@ namespace SubterfugeCore.Entities
         /// <param name="type">The type of outpost to create</param>
         public Outpost(Vector2 outpostLocation, Player outpostOwner, OutpostType type)
         {
+            this.guid = Guid.NewGuid();
             this.position = outpostLocation;
             this.drillerCount = outpostOwner == null ? 0 : 40;
             this.outpostOwner = outpostOwner;
@@ -180,8 +185,8 @@ namespace SubterfugeCore.Entities
             if (this.hasDrillers(drillerCount))
             {
                 this.removeDrillers(drillerCount);
-                Sub launchedSub = new Sub(this, destination, GameServer.timeMachine.currentTick, drillerCount, this.getOwner());
-                GameServer.timeMachine.getState().addSub(launchedSub);
+                Sub launchedSub = new Sub(this, destination, Game.timeMachine.currentTick, drillerCount, this.getOwner());
+                Game.timeMachine.getState().addSub(launchedSub);
                 return launchedSub;
             }
             return null;
@@ -194,7 +199,7 @@ namespace SubterfugeCore.Entities
         public void undoLaunch(Sub sub)
         {
             this.addDrillers(sub.getDrillerCount());
-            GameServer.timeMachine.getState().removeSub(sub);
+            Game.timeMachine.getState().removeSub(sub);
         }
 
         /// <summary>
@@ -303,6 +308,15 @@ namespace SubterfugeCore.Entities
         public OutpostType getOutpostType()
         {
             return this.type;
+        }
+
+        /// <summary>
+        /// Gets the globally unique indentifier for the Outpost.
+        /// </summary>
+        /// <returns>The Outpost's Guid</returns>
+        public Guid getGuid()
+        {
+            return this.guid;
         }
     }
 }

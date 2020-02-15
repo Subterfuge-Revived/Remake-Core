@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Xna.Framework;
+﻿using System.Numerics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore;
 using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Entities;
@@ -55,15 +55,15 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void getOutposts()
         {
-            //Ensure that the outpost list has been generated
-            Assert.IsTrue(state.getOutposts().Count > 0);
+            // Ensure that no outposts are generated from a default state
+            Assert.IsTrue(state.getOutposts().Count == 0);
         }
 
         [TestMethod]
         public void getPlayers()
         {
-            //Ensure the player list has been populated
-            Assert.IsTrue(state.getPlayers().Count > 0);
+            // Ensure that no players are added in a default state
+            Assert.IsTrue(state.getPlayers().Count == 0);
         }
 
         [TestMethod]

@@ -76,7 +76,7 @@ namespace SubterfugeCore.GameEvents
 
             CombatEvent arriveCombat = new CombatEvent(this.launchedSub, this.destination, arrival, targetLocation);
             combatEvents.Add(arriveCombat);
-            GameServer.timeMachine.addEvent(arriveCombat);
+            Game.timeMachine.addEvent(arriveCombat);
 
             // Determine any combat events that may exist along the way.
             // First determine if any subs are on the same path.
@@ -84,9 +84,9 @@ namespace SubterfugeCore.GameEvents
             if (this.destination.GetType().Equals(typeof(Outpost)) && this.source.GetType().Equals(typeof(Outpost)))
             {
                 // Interpolate to launch time to determine combats!
-                GameTick currentTick = GameServer.timeMachine.getCurrentTick();
-                GameServer.timeMachine.goTo(this.getTick());
-                GameState interpolatedState = GameServer.timeMachine.getState();
+                GameTick currentTick = Game.timeMachine.getCurrentTick();
+                Game.timeMachine.goTo(this.getTick());
+                GameState interpolatedState = Game.timeMachine.getState();
 
 
                 foreach (Sub sub in interpolatedState.getSubsOnPath((Outpost)this.source, (Outpost)this.destination))
@@ -124,12 +124,12 @@ namespace SubterfugeCore.GameEvents
 
                             CombatEvent combatEvent = new CombatEvent(sub, this.getActiveSub(), this.launchTime.advance(ticksUntilCombat), combatLocation);
                             combatEvents.Add(combatEvent);
-                            GameServer.timeMachine.addEvent(combatEvent);
+                            Game.timeMachine.addEvent(combatEvent);
                         }
                     }
                 }
                 // Go back to the original point in time.
-                GameServer.timeMachine.goTo(currentTick);
+                Game.timeMachine.goTo(currentTick);
             }
         }
 
@@ -139,7 +139,7 @@ namespace SubterfugeCore.GameEvents
         public void removeCombatEvents()
         {
             foreach(CombatEvent combatEvent in this.combatEvents){
-                GameServer.timeMachine.removeEvent(combatEvent);
+                Game.timeMachine.removeEvent(combatEvent);
             }
         }
 

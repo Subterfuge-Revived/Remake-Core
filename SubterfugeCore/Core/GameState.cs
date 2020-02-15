@@ -31,21 +31,6 @@ namespace SubterfugeCore
             // Set the start time to the time the game was initialized at and set the current tick
             this.startTime = new GameTick(new DateTime(), 0);
             this.currentTick = this.startTime;
-
-            // Setup some initial settings for the game state.
-            Player player1 = new Player(1);
-            Player player2 = new Player(2);
-            Player player3 = new Player(3);
-            Player player4 = new Player(4);
-            Player player5 = new Player(5);
-            Player player6 = new Player(6);
-
-            this.players.Add(player1);
-            this.players.Add(player2);
-            this.players.Add(player3);
-            this.players.Add(player4);
-            this.players.Add(player5);
-            this.players.Add(player6);
         }
 
         /// <summary>
@@ -196,6 +181,43 @@ namespace SubterfugeCore
                 }
             }
             return playerOutposts;
+        }
+
+        /// <summary>
+        /// Gets an outpost by its GUID
+        /// </summary>
+        /// <param name="guid">The Guid of the outpost you want to obtain.</param>
+        /// <returns>The outpost matching the input Guid. Null if no results.</returns>
+        public Outpost getOutpostByGuid(Guid guid)
+        {
+            foreach (Outpost outpost in this.outposts)
+            {
+                if (outpost.getGuid() == guid)
+                {
+                    return outpost;
+                }
+            }
+
+            return null;
+        }
+
+
+
+        /// <summary>
+        /// Gets a sub by its Guid
+        /// </summary>
+        /// <param name="guid">The guid of a sub to find.</param>
+        /// <returns>The sub with the specified guid. Null if no sub exists with the specified Guid.</returns>
+        public Sub getSubByGuid(Guid guid)
+        {
+            foreach (Sub sub in this.activeSubs)
+            {
+                if (sub.getGuid() == guid)
+                {
+                    return sub;
+                }
+            }
+            return null;
         }
 
         /// <summary>

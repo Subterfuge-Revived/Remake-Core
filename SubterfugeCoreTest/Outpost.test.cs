@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Xna.Framework;
+﻿using System.Numerics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Components;
 using SubterfugeCore.Components.Outpost;
 using SubterfugeCore.Core.Entities.Locations;

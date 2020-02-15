@@ -40,7 +40,7 @@ namespace SubterfugeCore.Core.GameEvents
             if (eventSuccess)
             {
                 outpost.removeDrillers(6);
-                GameServer.timeMachine.removeEvent(this.nextEvent);
+                Game.timeMachine.removeEvent(this.nextEvent);
                 this.nextEvent = null;
             }
         }
@@ -55,7 +55,7 @@ namespace SubterfugeCore.Core.GameEvents
                 if(this.outpost.getOwner() != null && this.outpost.getOutpostType() == OutpostType.FACTORY)
                 {
                     this.nextEvent = new FactoryProduceDrillersEvent(this.outpost, this.productionTick.advance(40));
-                    GameServer.timeMachine.addEvent(this.nextEvent);
+                    Game.timeMachine.addEvent(this.nextEvent);
                     outpost.addDrillers(6);
                     eventSuccess = true;
                 }

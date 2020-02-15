@@ -15,6 +15,7 @@ namespace SubterfugeCore.Entities
     /// </summary>
     public class Sub : GameObject, ITargetable, IDrillerCarrier, ISpecialistCarrier, ICombatable
     {
+        private Guid guid;
         private int drillerCount;
         private ILaunchable source;
         private ITargetable destination;
@@ -33,6 +34,7 @@ namespace SubterfugeCore.Entities
         /// <param name="owner">The owner</param>
         public Sub(ILaunchable source, ITargetable destination, GameTick launchTime, int drillerCount, Player owner) : base()
         {
+            this.guid = Guid.NewGuid();
             this.source = source;
             this.destination = destination;
             this.launchTime = launchTime;
@@ -69,7 +71,7 @@ namespace SubterfugeCore.Entities
             GameTick baseTick;
             Vector2 direction;
             int ticksToArrive;
-            if(GameServer.timeMachine.getState().getCurrentTick() < this.launchTime)
+            if(Game.timeMachine.getState().getCurrentTick() < this.launchTime)
             {
                 baseTick = this.launchTime;
                 // Determine direction vector
@@ -78,7 +80,7 @@ namespace SubterfugeCore.Entities
                 ticksToArrive = (int)Math.Floor(direction.Length() / this.getSpeed());
             } else
             {
-                baseTick = GameServer.timeMachine.getState().getCurrentTick();
+                baseTick = Game.timeMachine.getState().getCurrentTick();
                 // Determine direction vector
                 direction = (this.destination.getTargetLocation(this.position, this.getSpeed()) - this.getCurrentLocation());
                 // Determine the number of ticks to arrive
@@ -104,7 +106,7 @@ namespace SubterfugeCore.Entities
         {
 
             // Determine number of ticks after launch:
-            int elapsedTicks = GameServer.timeMachine.getState().getCurrentTick() - this.launchTime;
+            int elapsedTicks = Game.timeMachine.getState().getCurrentTick() - this.launchTime;
 
             // Determine direction vector
             Vector2 direction = (this.destination.getTargetLocation(this.position, this.getSpeed()) - this.source.getCurrentLocation());
@@ -335,6 +337,15 @@ namespace SubterfugeCore.Entities
         public void undoLaunch(Sub sub)
         {
             throw new NotImplementedException();
+        }
+        
+        /// <summary>
+        /// Gets the globally unique indentifier for the Sub.
+        /// </summary>
+        /// <returns>The Sub's Guid</returns>
+        public Guid getGuid()
+        {
+            return this.guid;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         {
             this.outpost.removeDrillers(this.arrivingSub.getDrillerCount());
             this.outpost.getSpecialistManager().removeSpecialists(this.arrivingSub.getSpecialistManager().getSpecialists());
-            GameServer.timeMachine.getState().addSub(this.arrivingSub);
+            Game.timeMachine.getState().addSub(this.arrivingSub);
             return true;
         }
 
@@ -45,7 +45,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         {
             this.outpost.addDrillers(this.arrivingSub.getDrillerCount());
             this.outpost.getSpecialistManager().addSpecialists(this.arrivingSub.getSpecialistManager().getSpecialists());
-            GameServer.timeMachine.getState().removeSub(this.arrivingSub);
+            Game.timeMachine.getState().removeSub(this.arrivingSub);
             return true;
         }
     }

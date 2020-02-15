@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Xna.Framework;
 using SubterfugeCore;
 using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Core.Timing;
@@ -8,6 +7,7 @@ using SubterfugeCore.GameEvents;
 using SubterfugeCore.Players;
 using SubterfugeCore.Timing;
 using System;
+using System.Numerics;
 
 namespace SubterfugeCoreTest
 {

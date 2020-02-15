@@ -1,5 +1,4 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Xna.Framework;
 using SubterfugeCore;
 using SubterfugeCore.Components;
 using SubterfugeCore.Components.Outpost;
@@ -8,6 +7,7 @@ using SubterfugeCore.Entities;
 using SubterfugeCore.Players;
 using SubterfugeCore.Timing;
 using System;
+using System.Numerics;
 
 namespace SubterfugeCoreTest
 {
@@ -26,7 +26,7 @@ namespace SubterfugeCoreTest
             outpost = new Outpost(location, new Player(1), OutpostType.GENERATOR);
             tick = new GameTick(new DateTime(), 10);
             sub = new Sub(outpost, outpost, tick, 0, new Player(1));
-            GameServer server = new GameServer();
+            Game server = new Game();
         }
 
         [TestMethod]

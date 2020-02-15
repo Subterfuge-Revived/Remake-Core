@@ -22,26 +22,15 @@ namespace SubterfugeCore
         /// Map Generation constructor to seed map generation
         /// </summary>
         /// <param name="seed">The seed to set the random number generator</param>
-        public MapGenerator(int seed)
+        public MapGenerator(GameConfiguration gameConfiguration)
         {
-            this.randomGenerator = new SeededRandom(seed);
-        }
+            this.randomGenerator = new SeededRandom(gameConfiguration.seed);
 
-        /// <summary>
-        /// Sets the map generation configuration settings
-        /// </summary>
-        /// <param name="numPlayersPram">Number of players</param>
-        /// <param name="outpostsPerPlayerPram">Number of starting outposts per player</param>
-        /// <param name="dormantsPerPlayer">Number of dormant outposts to generate per player</param>
-        /// <param name="minOutpostDistancePram">The minimum distance between outposts</param>
-        /// <param name="maxSeedDistancePram">The maximum distance between outposts</param>
-        public void SetData(int numPlayersPram, int outpostsPerPlayerPram, int dormantsPerPlayer, int minOutpostDistancePram, int maxSeedDistancePram)
-        {
-            this.dormantsPerPlayer = dormantsPerPlayer;
-            this.numPlayers = numPlayersPram;
-            this.outpostsPerPlayer = outpostsPerPlayerPram;
-            this.minOutpostDistance = minOutpostDistancePram;
-            this.maxSeedDistance = maxSeedDistancePram;
+            this.dormantsPerPlayer = gameConfiguration.dormantsPerPlayer;
+            this.numPlayers = gameConfiguration.numPlayers;
+            this.outpostsPerPlayer = gameConfiguration.outpostsPerPlayer;
+            this.minOutpostDistance = gameConfiguration.minimumOutpostDistance;
+            this.maxSeedDistance = gameConfiguration.maxiumumOutpostDistance;
         }
 
         /// <summary>
@@ -221,7 +210,7 @@ namespace SubterfugeCore
             List<Outpost> firstPlayerOutposts = this.generatePlayerOutposts();
             
             // Set the ownership of the central X generated outposts to the first player. 
-            this.setOutpostOwner(firstPlayerOutposts, GameServer.timeMachine.getState().getPlayers()[0]);
+            this.setOutpostOwner(firstPlayerOutposts, Game.timeMachine.getState().getPlayers()[0]);
 
             // Tile the outposts based on the # of players on a 2xn grid
             // Example:
@@ -257,7 +246,7 @@ namespace SubterfugeCore
                         foreach (Outpost o in translatedOutposts)
                         {
                             if(o.getOwner() != null)
-                                o.setOwner(GameServer.timeMachine.getState().getPlayers()[(widthCounter - 1) * 2 + (heightCounter - 1)]);
+                                o.setOwner(Game.timeMachine.getState().getPlayers()[(widthCounter - 1) * 2 + (heightCounter - 1)]);
                         }
 
                         // Add the outposts to the generated list.

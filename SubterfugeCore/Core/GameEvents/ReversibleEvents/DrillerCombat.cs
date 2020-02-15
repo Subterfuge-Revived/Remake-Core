@@ -41,12 +41,12 @@ namespace SubterfugeCore.Core.GameEvents
                 // Add any removed subs back.
                 if (combatant1 is Sub && (combatant1.getDrillerCount() < 0 || (combatant1.getDrillerCount() == 0 && combatant1.getSpecialistManager().getSpecialistCount() == 0)))
                 {
-                    GameServer.timeMachine.getState().addSub((Sub)combatant1);
+                    Game.timeMachine.getState().addSub((Sub)combatant1);
                 }
 
                 if (combatant2 is Sub && (combatant2.getDrillerCount() < 0 || (combatant2.getDrillerCount() == 0 && combatant2.getSpecialistManager().getSpecialistCount() == 0)))
                 {
-                    GameServer.timeMachine.getState().addSub((Sub)combatant2);
+                    Game.timeMachine.getState().addSub((Sub)combatant2);
                 }
                 // Restore driller counts.
                 combatant1.setDrillerCount(preCombatDrillers1);
@@ -69,12 +69,12 @@ namespace SubterfugeCore.Core.GameEvents
             // Remove any subs that should be removed after combat.
             if (combatant1 is Sub && (combatant1.getDrillerCount() < 0 || (combatant1.getDrillerCount() == 0 && combatant1.getSpecialistManager().getSpecialistCount() == 0)))
             {
-                GameServer.timeMachine.getState().removeSub((Sub)combatant1);
+                Game.timeMachine.getState().removeSub((Sub)combatant1);
             }
 
             if (combatant2 is Sub && (combatant2.getDrillerCount() < 0 || (combatant2.getDrillerCount() == 0 && combatant2.getSpecialistManager().getSpecialistCount() == 0)))
             {
-                GameServer.timeMachine.getState().removeSub((Sub)combatant2);
+                Game.timeMachine.getState().removeSub((Sub)combatant2);
             }
 
             this.eventSuccess = true;

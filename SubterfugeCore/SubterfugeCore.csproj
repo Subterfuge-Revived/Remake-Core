@@ -25,7 +25,7 @@
     <Compile Update="Core\Entities\Sub.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="Core\GameServer.cs">
+    <Compile Update="Core\Game.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Update="Core\GameState.cs">

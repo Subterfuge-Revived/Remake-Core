@@ -39,14 +39,14 @@ namespace SubterfugeCore.Timing
         public static GameTick fromDate(DateTime dateTime)
         {
             // Determine the delta between the game's start and the passed datetime
-            TimeSpan dateDelta = dateTime.Subtract(GameServer.timeMachine.getState().getStartTick().getDate());
+            TimeSpan dateDelta = dateTime.Subtract(Game.timeMachine.getState().getStartTick().getDate());
             // Get minutes elapsed
             double minutesElapsed = dateDelta.TotalMinutes;
             // Determine the number of ticks past
             int ticksElapsed = (int)Math.Ceiling(minutesElapsed / GameTick.MINUTES_PER_TICK);
 
             // Return a new gametick relative to the start time.
-            return GameServer.timeMachine.getState().getStartTick().advance(ticksElapsed);
+            return Game.timeMachine.getState().getStartTick().advance(ticksElapsed);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace SubterfugeCore.Timing
         /// <returns>A GameTick relative to the start time of the game</returns>
         public static GameTick fromTickNumber(int tickNumber)
         {
-            return GameServer.timeMachine.getState().getStartTick().advance(tickNumber);
+            return Game.timeMachine.getState().getStartTick().advance(tickNumber);
         }
 
         /// <summary>
@@ -149,6 +149,16 @@ namespace SubterfugeCore.Timing
         public static bool operator <=(GameTick firstArg, GameTick secondArg)
         {
             return firstArg.getTick() <= secondArg.getTick();
+        }
+        
+        public static bool operator ==(GameTick firstArg, GameTick secondArg)
+        {
+            return firstArg.getTick() == secondArg.getTick();
+        }
+        
+        public static bool operator !=(GameTick firstArg, GameTick secondArg)
+        {
+            return firstArg.getTick() != secondArg.getTick();
         }
 
         public static int operator -(GameTick firstArg, GameTick secondArg)
