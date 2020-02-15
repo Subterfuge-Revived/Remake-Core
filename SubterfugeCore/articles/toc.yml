@@ -1,2 +1,4 @@
-- name: Introduction
+- name: Game and GameState
   href: intro.md
+- name: Time Machine Shenanigans
+  href: Timing.md
