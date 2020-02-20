@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 
@@ -23,15 +24,21 @@ namespace SubterfugeCore.Core
         // current time and start time
         public GameTick currentTick;
         private GameTick startTime;
-
+        
         /// <summary>
-        /// Constructor of a gamestate. Initializes an empty game.
+        /// Constructs a gamestate from a GameConfiguration
         /// </summary>
-        public GameState()
+        public GameState(GameConfiguration configuration)
         {
             // Set the start time to the time the game was initialized at and set the current tick
             this.startTime = new GameTick(new DateTime(), 0);
             this.currentTick = this.startTime;
+            
+            // Create players
+            while (players.Count < configuration.players.Count)
+            {
+                players.Add(new Player(players.Count + 1));
+            }
         }
 
         /// <summary>

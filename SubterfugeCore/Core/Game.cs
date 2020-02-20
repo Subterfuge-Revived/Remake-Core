@@ -2,6 +2,7 @@
 using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.Generation;
+using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core
@@ -22,19 +23,29 @@ namespace SubterfugeCore.Core
         // temporary control for time machine.
         private bool forward = true;
         private bool addedEvents = false;
+        private GameConfiguration configuration = null;
 
         // Creates an empty game with no players, no outposts.
         public Game()
         {
+            // Create a generic game configuration
+            List<Player> players = new List<Player>();
+            players.Add(new Player(1));
+            players.Add(new Player(2));
+            players.Add(new Player(3));
+            players.Add(new Player(4));
+            players.Add(new Player(5));
+            players.Add(new Player(6));
+            configuration = new GameConfiguration(players);
             // Creates a new game state and makes a time machine to reference the state
-            GameState state = new GameState();
+            GameState state = new GameState(configuration);
             timeMachine = new TimeMachine(state);
         }
 
         public Game(GameConfiguration gameConfiguration)
         {
             // Creates a new game state and makes a time machine to reference the state
-            GameState state = new GameState();
+            GameState state = new GameState(gameConfiguration);
             timeMachine = new TimeMachine(state);
 
             // Creates the map generator with a random seed

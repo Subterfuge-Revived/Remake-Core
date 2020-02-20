@@ -1,9 +1,11 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore;
 using SubterfugeCore.Core;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 
@@ -21,8 +23,13 @@ namespace SubterfugeCoreTest
         [TestInitialize]
         public void setup()
         {
-            state = new GameState();
             player1 = new Player(1);
+            List<Player> players = new List<Player>();
+            
+            GameConfiguration config = new GameConfiguration(players);
+            Assert.IsNotNull(config);
+            
+            state = new GameState(config);
             outpost = new Outpost(new Vector2(0, 0), player1, OutpostType.GENERATOR);
             outpost.addDrillers(10);
             tempSub = new Sub(outpost, outpost, new GameTick(), 10, player1);

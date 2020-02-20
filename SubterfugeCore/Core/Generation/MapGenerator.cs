@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 
@@ -11,6 +12,8 @@ namespace SubterfugeCore.Core.Generation
     {
         // Generation parameters
         public int numPlayers, outpostsPerPlayer, minOutpostDistance, maxSeedDistance, dormantsPerPlayer;
+        // List of players in the game
+        public List<Player> players = new List<Player>();
         // List of the generated outposts
         public List<Outpost> Outposts = new List<Outpost>();
         // Seeded Random for number generation
@@ -25,7 +28,8 @@ namespace SubterfugeCore.Core.Generation
             this.randomGenerator = new SeededRandom(gameConfiguration.seed);
 
             this.dormantsPerPlayer = gameConfiguration.dormantsPerPlayer;
-            this.numPlayers = gameConfiguration.numPlayers;
+            this.players = gameConfiguration.players;
+            this.numPlayers = gameConfiguration.players.Count;
             this.outpostsPerPlayer = gameConfiguration.outpostsPerPlayer;
             this.minOutpostDistance = gameConfiguration.minimumOutpostDistance;
             this.maxSeedDistance = gameConfiguration.maxiumumOutpostDistance;
@@ -38,7 +42,7 @@ namespace SubterfugeCore.Core.Generation
         /// <param name="outposts">A list of outposts to translate</param>
         /// <param name="translation">The translation to apply</param>
         /// <returns>A list of translated outposts</returns>
-        public List<Outpost> translateOutposts(List<Outpost> outposts, Vector2 translation)
+        private List<Outpost> translateOutposts(List<Outpost> outposts, Vector2 translation)
         {
             // Generate a random rotation of 0/90/180/270 so the map doesn't appear to be tiled.
             double rotation = randomGenerator.nextRand(0, 3) * Math.PI / 2;
@@ -208,7 +212,7 @@ namespace SubterfugeCore.Core.Generation
             List<Outpost> firstPlayerOutposts = this.generatePlayerOutposts();
             
             // Set the ownership of the central X generated outposts to the first player. 
-            this.setOutpostOwner(firstPlayerOutposts, Game.timeMachine.getState().getPlayers()[0]);
+            this.setOutpostOwner(firstPlayerOutposts, players[0]);
 
             // Tile the outposts based on the # of players on a 2xn grid
             // Example:
@@ -241,10 +245,13 @@ namespace SubterfugeCore.Core.Generation
                         List<Outpost> translatedOutposts = this.translateOutposts(firstPlayerOutposts, new Vector2(this.maxSeedDistance * widthCounter * 2, this.maxSeedDistance * heightCounter * 2));
 
                         // Update the owner to the new player
+                        bool queenGenerated = false;
                         foreach (Outpost o in translatedOutposts)
                         {
+                            if(!queenGenerated)
+                                o.getSpecialistManager().addSpecialist(new Queen(o.getOwner()));
                             if(o.getOwner() != null)
-                                o.setOwner(Game.timeMachine.getState().getPlayers()[(widthCounter - 1) * 2 + (heightCounter - 1)]);
+                                o.setOwner(players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
                         }
 
                         // Add the outposts to the generated list.

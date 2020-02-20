@@ -3,10 +3,12 @@ using SubterfugeCore;
 using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Core.Timing;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using SubterfugeCore.Core;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCoreTest
@@ -21,7 +23,11 @@ namespace SubterfugeCoreTest
         [TestInitialize]
         public void setup()
         {
-            state = new GameState();
+            List<Player> players = new List<Player>();
+            players.Add(new Player(1));
+            
+            GameConfiguration config = new GameConfiguration(players);
+            state = new GameState(config);
             timeMachine = new TimeMachine(state);
 
         }

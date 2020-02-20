@@ -16,6 +16,17 @@
         {
             this.playerId = playerId;
         }
+        
+        /// <summary>
+        /// Constructor to create an instance of a player based off of their player Id and name
+        /// </summary>
+        /// <param name="playerId">The player's ID in the database</param>
+        /// <param name="name">The player's name</param>
+        public Player(int playerId, string name)
+        {
+            this.playerId = playerId;
+            this.playerName = name;
+        }
 
         /// <summary>
         /// Gets the player's id

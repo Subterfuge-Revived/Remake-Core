@@ -6,14 +6,14 @@ using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Entities.Specialists
 {
-    public class Specialist : IOwnable
+    public abstract class Specialist : IOwnable
     {
         int priority;
         String specialistName;
         Player owner;
         List<ISpecialistEffect> specialistEffects = new List<ISpecialistEffect>();
 
-        public Specialist(String name, int priority, Player owner)
+        protected Specialist(String name, int priority, Player owner)
         {
             this.specialistName = name;
             this.priority = priority;
@@ -53,6 +53,8 @@ namespace SubterfugeCore.Core.Entities.Specialists
                 effect.backwardEffect(friendly, enemy);
             }
         }
+
+        public abstract string getEffectAsText(ISpecialistEffect effect);
 
         public int getPriority()
         {
