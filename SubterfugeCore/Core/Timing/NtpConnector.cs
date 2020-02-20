@@ -11,6 +11,11 @@ namespace SubterfugeCore.Core.Timing
     public class NtpConnector
     {
 
+        /// <summary>
+        /// Gets the current network time. Use this method whenever you want to get the current date, as the NTP
+        /// server will ensure all users are using the exact same time.
+        /// </summary>
+        /// <returns>The current network time</returns>
         public static DateTime GetNetworkTime()
         {
             //default Windows time server
@@ -62,7 +67,11 @@ namespace SubterfugeCore.Core.Timing
             return networkDateTime.ToLocalTime();
         }
 
-        // stackoverflow.com/a/3294698/162671
+        /// <summary>
+        /// Do not use. Only used in the getNetworkTime function to parse the datetime. From stackoverflow.com/a/3294698/162671
+        /// </summary>
+        /// <param name="x">unsigned integer representing the retrieved bytes from the server</param>
+        /// <returns>Bytes that have been swapped based on the server's Endianness</returns>
         static uint SwapEndianness(ulong x)
         {
             return (uint)(((x & 0x000000ff) << 24) +

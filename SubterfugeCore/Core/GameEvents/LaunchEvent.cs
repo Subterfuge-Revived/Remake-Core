@@ -10,16 +10,38 @@ using SubterfugeCore.Core.Timing;
 namespace SubterfugeCore.Core.GameEvents
 {
     /// <summary>
-    /// Sub launch event
+    /// The event to launch a new sub. Create a new instance and add it to the time machine with `Game.timeMachine.add()`
     /// </summary>
     public class LaunchEvent : GameEvent
     {
+        /// <summary>
+        /// The time the event will occur
+        /// </summary>
         private GameTick launchTime;
+        
+        /// <summary>
+        /// The location the sub is to be launched from
+        /// </summary>
         private ILaunchable source;
+        
+        /// <summary>
+        /// The destination for the sub
+        /// </summary>
         private ICombatable destination;
+        
+        /// <summary>
+        /// How many drillers should be launched.
+        /// </summary>
         private int drillerCount;
 
+        /// <summary>
+        /// A reference to the sub once it is launched
+        /// </summary>
         private Sub launchedSub;
+        
+        /// <summary>
+        /// Any combat events that are generated because of the launch.
+        /// </summary>
         List<CombatEvent> combatEvents = new List<CombatEvent>();
 
         /// <summary>

@@ -3,10 +3,24 @@ using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core.GameEvents.Base
 {
+    /// <summary>
+    /// An instave of a GameEvent that can be added to the TimeMachine.
+    /// </summary>
     public abstract class GameEvent : IComparable
     {
+        /// <summary>
+        /// The time when the event occurs
+        /// </summary>
         private GameTick gameTick;
+        
+        /// <summary>
+        /// If the event was successfully triggered
+        /// </summary>
         protected bool eventSuccess;
+        
+        /// <summary>
+        /// The name of the event
+        /// </summary>
         public string eventName;
 
         /// <summary>

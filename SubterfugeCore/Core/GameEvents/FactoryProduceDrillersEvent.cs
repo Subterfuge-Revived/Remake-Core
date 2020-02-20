@@ -13,10 +13,29 @@ namespace SubterfugeCore.Core.GameEvents
     /// </summary>
     class FactoryProduceDrillersEvent : GameEvent
     {
+        /// <summary>
+        /// The outpost producing the drillers
+        /// </summary>
         Outpost outpost;
+        
+        /// <summary>
+        /// The tick the outpost is expected to produce drillers on
+        /// </summary>
         GameTick productionTick;
+        
+        /// <summary>
+        /// If the event was successful
+        /// </summary>
         bool eventSuccess = false;
+        
+        /// <summary>
+        /// If the net production event was added to the time machine
+        /// </summary>
         bool addedNextProduction = false;
+        
+        /// <summary>
+        /// A reference to the next production event.
+        /// </summary>
         GameEvent nextEvent;
 
         /// <summary>

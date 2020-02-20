@@ -10,15 +10,34 @@ using SubterfugeCore.Core.Timing;
 namespace SubterfugeCore.Core.GameEvents
 {
     /// <summary>
-    /// CombatEvent. It is considered a 'combat; if you arrive at any outpost, even your own.
+    /// CombatEvent. It is considered a 'combat' if you arrive at any outpost, even your own.
     /// </summary>
     public class CombatEvent : GameEvent
     {
-        private GameTick eventTick;    // the tick combat occurs
-        private Vector2 combatLocation; // The combat location
-        private ICombatable combatant1; // combat participant
-        private ICombatable combatant2; // combat participany
-        private List<IReversible> actions = new List<IReversible>();  // combat actions
+        /// <summary>
+        /// The tick the combat occurs on
+        /// </summary>
+        private GameTick eventTick;
+        
+        /// <summary>
+        /// Where the combat occurs
+        /// </summary>
+        private Vector2 combatLocation;
+        
+        /// <summary>
+        /// One of the two combat participants
+        /// </summary>
+        private ICombatable combatant1;
+        
+        /// <summary>
+        /// One of the two combat participants
+        /// </summary>
+        private ICombatable combatant2;
+        
+        /// <summary>
+        /// A list of combat actions that will occur when the event is triggered.
+        /// </summary>
+        private List<IReversible> actions = new List<IReversible>();
 
         /// <summary>
         /// Constructor for the combat event

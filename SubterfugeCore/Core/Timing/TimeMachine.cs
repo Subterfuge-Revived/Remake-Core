@@ -17,9 +17,10 @@ namespace SubterfugeCore.Core.Timing
         private GameTick startTime;
 
         /// <summary>
-        /// Time Machine constructor.
+        /// Creates a new instance of the TimeMachine. You will likely never need to call this as this is created in the
+        /// `Game` object when the game is created.
         /// </summary>
-        /// <param name="state">The starting GameState</param>
+        /// <param name="state">The initial GameState</param>
         public TimeMachine(GameState state)
         {
             startTime = state.getStartTick();

@@ -13,13 +13,44 @@ namespace SubterfugeCore.Core.Entities
     /// </summary>
     public class Sub : GameObject, ITargetable, IDrillerCarrier, ISpecialistCarrier, ICombatable
     {
+        /// <summary>
+        /// Unique identifier for each sub
+        /// </summary>
         private Guid guid;
+        
+        /// <summary>
+        /// How many drillers are on the sub
+        /// </summary>
         private int drillerCount;
+        
+        /// <summary>
+        /// Where the sub is travelling from
+        /// </summary>
         private ILaunchable source;
+        
+        /// <summary>
+        /// Where the sub is travelling to
+        /// </summary>
         private ITargetable destination;
+        
+        /// <summary>
+        /// The time the sub launched from its source
+        /// </summary>
         private GameTick launchTime;
+        
+        /// <summary>
+        /// The sub's speed
+        /// </summary>
         private float speed = 1f;
+        
+        /// <summary>
+        /// The owner of the sub
+        /// </summary>
         private Player owner;
+        
+        /// <summary>
+        /// Specialist manager for the sub
+        /// </summary>
         private SpecialistManager specialistManager;
 
         /// <summary>

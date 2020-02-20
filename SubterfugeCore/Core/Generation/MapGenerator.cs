@@ -248,8 +248,11 @@ namespace SubterfugeCore.Core.Generation
                         bool queenGenerated = false;
                         foreach (Outpost o in translatedOutposts)
                         {
-                            if(!queenGenerated)
+                            if (!queenGenerated)
+                            {
                                 o.getSpecialistManager().addSpecialist(new Queen(o.getOwner()));
+                                queenGenerated = true;
+                            }
                             if(o.getOwner() != null)
                                 o.setOwner(players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
                         }
