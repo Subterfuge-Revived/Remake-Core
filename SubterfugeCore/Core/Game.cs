@@ -23,7 +23,7 @@ namespace SubterfugeCore.Core
         // temporary control for time machine.
         private bool forward = true;
         private bool addedEvents = false;
-        private GameConfiguration configuration = null;
+        public GameConfiguration configuration { get; } = null;
 
         // Creates an empty game with no players, no outposts.
         public Game()
