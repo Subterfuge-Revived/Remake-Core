@@ -350,3 +350,15 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Rider
+.idea/
+
+# docXF
+/**/DROP/
+/**/TEMP/
+/**/packages/
+/**/bin/
+/**/obj/
+/SubterfugeCore/_site
+/SubterfugeCore/api
