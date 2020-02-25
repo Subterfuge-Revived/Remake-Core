@@ -100,5 +100,14 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             }
             return true;
         }
+        
+        /// <summary>
+        /// Determines if the event was successful.
+        /// </summary>
+        /// <returns>If the event is successful</returns>
+        public bool wasEventSuccessful()
+        {
+            return this.eventSuccess;
+        }
     }
 }

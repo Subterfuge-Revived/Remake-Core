@@ -16,5 +16,11 @@
         /// </summary>
         /// <returns>If the backward action was successful</returns>
         bool backwardAction();
+
+        /// <summary>
+        /// Function to verify if the event was successful during launch.
+        /// </summary>
+        /// <returns>If the event occured</returns>
+        bool wasEventSuccessful();
     }
 }

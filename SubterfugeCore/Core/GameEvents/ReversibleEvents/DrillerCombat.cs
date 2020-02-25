@@ -1,4 +1,5 @@
 ﻿using SubterfugeCore.Core.Entities;
+using SubterfugeCore.Core.GameEvents.Validators;
 using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
@@ -57,24 +58,41 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// <returns>If the event was succesfull</returns>
         public bool forwardAction()
         {
-            preCombatDrillers1 = combatant1.getDrillerCount();
-            preCombatDrillers2 = combatant2.getDrillerCount();
-            combatant1.removeDrillers(preCombatDrillers2);
-            combatant2.removeDrillers(preCombatDrillers1);
-
-            // Remove any subs that should be removed after combat.
-            if (combatant1 is Sub && (combatant1.getDrillerCount() < 0 || (combatant1.getDrillerCount() == 0 && combatant1.getSpecialistManager().getSpecialistCount() == 0)))
+            if (Validator.validateICombatable(combatant1) && Validator.validateICombatable(combatant2))
             {
-                Game.timeMachine.getState().removeSub((Sub)combatant1);
+                preCombatDrillers1 = combatant1.getDrillerCount();
+                preCombatDrillers2 = combatant2.getDrillerCount();
+                combatant1.removeDrillers(preCombatDrillers2);
+                combatant2.removeDrillers(preCombatDrillers1);
+
+                // Remove any subs that should be removed after combat.
+                if (combatant1 is Sub && (combatant1.getDrillerCount() < 0 || (combatant1.getDrillerCount() == 0 && combatant1.getSpecialistManager().getSpecialistCount() == 0)))
+                {
+                    Game.timeMachine.getState().removeSub((Sub)combatant1);
+                }
+
+                if (combatant2 is Sub && (combatant2.getDrillerCount() < 0 || (combatant2.getDrillerCount() == 0 && combatant2.getSpecialistManager().getSpecialistCount() == 0)))
+                {
+                    Game.timeMachine.getState().removeSub((Sub)combatant2);
+                }
+
+                this.eventSuccess = true; 
+            }
+            else
+            {
+                this.eventSuccess = false;
             }
 
-            if (combatant2 is Sub && (combatant2.getDrillerCount() < 0 || (combatant2.getDrillerCount() == 0 && combatant2.getSpecialistManager().getSpecialistCount() == 0)))
-            {
-                Game.timeMachine.getState().removeSub((Sub)combatant2);
-            }
-
-            this.eventSuccess = true;
-            return true;
+            return this.eventSuccess;
+        }
+        
+        /// <summary>
+        /// Determines if the event was successful.
+        /// </summary>
+        /// <returns>If the event is successful</returns>
+        public bool wasEventSuccessful()
+        {
+            return this.eventSuccess;
         }
     }
 }

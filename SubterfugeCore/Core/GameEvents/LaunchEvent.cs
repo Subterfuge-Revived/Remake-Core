@@ -63,19 +63,26 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// Performs the backwards event
         /// </summary>
-        public override void eventBackwardAction()
+        public override bool backwardAction()
         {
             if (this.eventSuccess)
             {
                 this.source.undoLaunch(this.launchedSub);
                 this.removeCombatEvents();
             }
+
+            return this.eventSuccess;
+        }
+
+        public override bool wasEventSuccessful()
+        {
+            return this.eventSuccess;
         }
 
         /// <summary>
         /// Performs the forward event
         /// </summary>
-        public override void eventForwardAction()
+        public override bool forwardAction()
         {
             this.launchedSub = source.launchSub(drillerCount, destination);
             if (launchedSub != null)
@@ -86,12 +93,14 @@ namespace SubterfugeCore.Core.GameEvents
             {
                 this.eventSuccess = false;
             }
+
+            return this.eventSuccess;
         }
 
         /// <summary>
         /// Creates any combat events that will result in the launch.
         /// </summary>
-        public void createCombatEvents()
+        private void createCombatEvents()
         {
             // Create the combat event for arrival
             Vector2 targetLocation = this.destination.getTargetLocation(source.getCurrentLocation(), this.launchedSub.getSpeed());
@@ -159,7 +168,7 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// Removes remaining combat events from the time machine to prevent ghost combats
         /// </summary>
-        public void removeCombatEvents()
+        private void removeCombatEvents()
         {
             foreach(CombatEvent combatEvent in this.combatEvents){
                 Game.timeMachine.removeEvent(combatEvent);

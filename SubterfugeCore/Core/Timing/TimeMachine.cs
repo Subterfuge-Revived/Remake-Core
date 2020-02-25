@@ -73,7 +73,7 @@ namespace SubterfugeCore.Core.Timing
                         {
                             // Move commands from the future to the past
                             GameEvent futureToPast = futureEventQueue.Dequeue();
-                            futureToPast.eventForwardAction();
+                            futureToPast.forwardAction();
                             pastEventQueue.Enqueue(futureToPast);
                             continue;
                         }
@@ -92,7 +92,7 @@ namespace SubterfugeCore.Core.Timing
                         {
                             // Move commands from the past to the future
                             GameEvent pastToFuture = pastEventQueue.Dequeue();
-                            pastToFuture.eventBackwardAction();
+                            pastToFuture.backwardAction();
                             futureEventQueue.Enqueue(pastToFuture);
                             continue;
                         }

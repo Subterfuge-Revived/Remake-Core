@@ -56,6 +56,15 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         }
 
         /// <summary>
+        /// Determines if the event was successful.
+        /// </summary>
+        /// <returns>If the event is successful</returns>
+        public bool wasEventSuccessful()
+        {
+            return this.eventSuccess;
+        }
+
+        /// <summary>
         /// Switches the control of the outpost to the owner of the sub
         /// </summary>
         public void transferOwnership()

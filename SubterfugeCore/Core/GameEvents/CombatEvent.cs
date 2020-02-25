@@ -58,7 +58,7 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// Performs the reverse operation of the event
         /// </summary>
-        public override void eventBackwardAction()
+        public override bool backwardAction()
         {
             if (eventSuccess)
             {
@@ -68,17 +68,24 @@ namespace SubterfugeCore.Core.GameEvents
                     this.actions[i].backwardAction();
                 }
             }
+
+            return this.eventSuccess;
+        }
+
+        public override bool wasEventSuccessful()
+        {
+            return this.eventSuccess;
         }
 
         /// <summary>
         /// Performs the forward operation of the event
         /// </summary>
-        public override void eventForwardAction()
+        public override bool forwardAction()
         {
             if (!Validator.validateICombatable(combatant1) || !Validator.validateICombatable(combatant2))
             {
                 this.eventSuccess = false;
-                return;
+                return false;
             }
 
             // Determine additional events that should be triggered for this particular combat.
@@ -102,6 +109,7 @@ namespace SubterfugeCore.Core.GameEvents
                 action.forwardAction();
             }
             this.eventSuccess = true;
+            return true;
         }
         
         /// <summary>

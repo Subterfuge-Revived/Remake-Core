@@ -25,8 +25,17 @@ namespace SubterfugeCore.Core.Generation
         /// <param name="seed">The seed to set the random number generator</param>
         public MapGenerator(GameConfiguration gameConfiguration)
         {
-            this.randomGenerator = new SeededRandom(gameConfiguration.seed);
+            if (gameConfiguration.players.Count <= 0)
+            {
+                throw new PlayerCountException("A game must have at least one player.");
+            }
 
+            if (gameConfiguration.outpostsPerPlayer <= 0)
+            {
+                throw new OutpostPerPlayerException("outpostsPerPlayer must be greater than or equal to one.");
+            }
+            
+            this.randomGenerator = new SeededRandom(gameConfiguration.seed);
             this.dormantsPerPlayer = gameConfiguration.dormantsPerPlayer;
             this.players = gameConfiguration.players;
             this.numPlayers = gameConfiguration.players.Count;
@@ -211,8 +220,9 @@ namespace SubterfugeCore.Core.Generation
             // Generate a set of a single player's outposts:
             List<Outpost> firstPlayerOutposts = this.generatePlayerOutposts();
             
-            // Set the ownership of the central X generated outposts to the first player. 
-            this.setOutpostOwner(firstPlayerOutposts, players[0]);
+            // Set the ownership of the central X generated outposts to the first player.
+            if (outpostsPerPlayer > 0 && players.Count > 0)
+                this.setOutpostOwner(firstPlayerOutposts, players[0]);
 
             // Tile the outposts based on the # of players on a 2xn grid
             // Example:
@@ -238,7 +248,7 @@ namespace SubterfugeCore.Core.Generation
                 while (heightCounter <= height)
                 {
                     // Stop early if there is an odd number of players. Ex. w/ 7 players we don't want to generate the 8th grid.
-                    if (playersGenerated < this.numPlayers)
+                    if (playersGenerated < this.players.Count)
                     {
                         // Translate the first player's outposts based on the width/height counter for this player.
                         // Function also applies a random rotation.
@@ -276,6 +286,22 @@ namespace SubterfugeCore.Core.Generation
 
             // Return a list of the generated outposts.
             return this.Outposts;
+        }
+    }
+
+    public class PlayerCountException : Exception
+    {
+        public PlayerCountException(string exception) : base(exception)
+        {
+            
+        }
+    }
+
+    public class OutpostPerPlayerException : Exception
+    {
+        public OutpostPerPlayerException(string message) : base(message)
+        {
+            
         }
     }
 }

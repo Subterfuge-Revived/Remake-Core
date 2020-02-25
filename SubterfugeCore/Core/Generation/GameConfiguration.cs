@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Generation
@@ -19,21 +20,21 @@ namespace SubterfugeCore.Core.Generation
             // Requires a list of players so that map generation can get the appropriate map & link ownership when generated.
             this.players = players;
         }
-        
+
         /// <summary>
         /// A list of players in the game 
         /// </summary>
         public List<Player> players { get; }
-        
+
         /// <summary>
         /// The number of outposts that each player should be assigned when the map is generated
         /// </summary>
-        public int outpostsPerPlayer { get; set; }
-        
+        public int outpostsPerPlayer { get; set; } = 5;
+
         /// <summary>
         /// The seed to be used for the random number generator when creating the map.
         /// </summary>
-        public int seed { get; set; }
+        public int seed { get; set; } = 0;
         
         /// <summary>
         /// The closest possible distance that two outposts can be together before trying to re-evaluate a new position.
@@ -46,7 +47,7 @@ namespace SubterfugeCore.Core.Generation
         /// of a player's territory is up to 200x200
         /// </summary>
         public int maxiumumOutpostDistance { get; set; }
-        
+
         /// <summary>
         /// The number of dormant outposts to generate within each player's outposts. These are additional un-owned
         /// outposts that are generated within the player's territory. These outposts are still generated using the
@@ -54,6 +55,6 @@ namespace SubterfugeCore.Core.Generation
         /// dormantsPerPlayer + outpostsPerPlayer. The dormants are assigned to the farthest outposts from the center
         /// of the player's territory.
         /// </summary>
-        public int dormantsPerPlayer { get; set; }
+        public int dormantsPerPlayer { get; set; } = 1;
     }
 }
