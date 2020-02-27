@@ -1,8 +1,21 @@
+variables:
+    test: "SubterfugeCoreTest"
+
 build:
+  image: microsoft/dotnet:latest
   stage: build
+  before_script:
+    - "cd src"
+    - "dotnet restore"
   script:
+    - "dotnet build"
     - C:\Tools\nuget.exe restore
     - cmd.exe /C " "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /p:Configuration=Release /t:Clean;Build SubterfugeRemake.Shared.sln " && exit %%ERRORLEVEL%%
+test:
+    stage: test
+    script: 
+        - "cd $test"
+        - "dotnet test"
 pages:
   image: erothejoker/docker-docfx:latest
   script:
