@@ -10,16 +10,13 @@ build:
 test:
     stage: test
     script:
-        - cd ..
         - cd SubterfugeCoreTest
         - dotnet test
 pages:
+  image: erothejoker/docker-docfx:latest
   script:
-    - cd ..
-    - cd SubterfugeCore
-    - choco install docfx
-    - docfx docfx.json
-    - mv _site public
+    - docfx SubterfugeCore/docfx.json
+    - mv SubterfugeCore/_site public
   artifacts:
     paths:
       - public
