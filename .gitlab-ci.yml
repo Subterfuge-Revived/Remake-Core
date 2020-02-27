@@ -15,7 +15,11 @@ test:
         - dotnet test
 pages:
   script:
-    - mv SubterfugeCore/_site public
+    - cd ..
+    - cd SubterfugeCore
+    - choco install docfx
+    - docfx docfx.json
+    - mv _site public
   artifacts:
     paths:
       - public
