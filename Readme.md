@@ -1,8 +1,13 @@
 ## Subterfuge Core
 
-### Wiki
+## Using the API
 
-The Wiki has a guide to getting started using the dll.
+### API Documentation
+
+To start making use of the SubterfugeCore.dll, take a look at the [API documentation found here](https://subterfugeremake.gitlab.io/subterfuge-frontend/).
+There are a few guides as well as auto-generated documentation that show the avaliable methods, paramteres, classes and more that you can make use of.
+
+## Contributing
 
 ### Setup
 
