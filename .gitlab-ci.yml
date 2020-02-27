@@ -1,0 +1,22 @@
+image: microsoft/dotnet:latest
+
+build:
+  stage: build
+  before_script:
+    - cd SubterfugeCore
+    - dotnet restore
+  script:
+    - dotnet build
+test:
+    stage: test
+    script:
+        - cd SubterfugeCoreTest
+        - dotnet test
+pages:
+  image: erothejoker/docker-docfx:latest
+  script:
+    - docfx SubterfugeCore/docfx.json
+    - mv SubterfugeCore/_site public
+  artifacts:
+    paths:
+      - public

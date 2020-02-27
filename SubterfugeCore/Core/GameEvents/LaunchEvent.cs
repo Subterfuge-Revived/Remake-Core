@@ -10,16 +10,38 @@ using SubterfugeCore.Core.Timing;
 namespace SubterfugeCore.Core.GameEvents
 {
     /// <summary>
-    /// Sub launch event
+    /// The event to launch a new sub. Create a new instance and add it to the time machine with `Game.timeMachine.add()`
     /// </summary>
     public class LaunchEvent : GameEvent
     {
+        /// <summary>
+        /// The time the event will occur
+        /// </summary>
         private GameTick launchTime;
+        
+        /// <summary>
+        /// The location the sub is to be launched from
+        /// </summary>
         private ILaunchable source;
+        
+        /// <summary>
+        /// The destination for the sub
+        /// </summary>
         private ICombatable destination;
+        
+        /// <summary>
+        /// How many drillers should be launched.
+        /// </summary>
         private int drillerCount;
 
+        /// <summary>
+        /// A reference to the sub once it is launched
+        /// </summary>
         private Sub launchedSub;
+        
+        /// <summary>
+        /// Any combat events that are generated because of the launch.
+        /// </summary>
         List<CombatEvent> combatEvents = new List<CombatEvent>();
 
         /// <summary>
@@ -41,19 +63,26 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// Performs the backwards event
         /// </summary>
-        public override void eventBackwardAction()
+        public override bool backwardAction()
         {
             if (this.eventSuccess)
             {
                 this.source.undoLaunch(this.launchedSub);
                 this.removeCombatEvents();
             }
+
+            return this.eventSuccess;
+        }
+
+        public override bool wasEventSuccessful()
+        {
+            return this.eventSuccess;
         }
 
         /// <summary>
         /// Performs the forward event
         /// </summary>
-        public override void eventForwardAction()
+        public override bool forwardAction()
         {
             this.launchedSub = source.launchSub(drillerCount, destination);
             if (launchedSub != null)
@@ -64,12 +93,14 @@ namespace SubterfugeCore.Core.GameEvents
             {
                 this.eventSuccess = false;
             }
+
+            return this.eventSuccess;
         }
 
         /// <summary>
         /// Creates any combat events that will result in the launch.
         /// </summary>
-        public void createCombatEvents()
+        private void createCombatEvents()
         {
             // Create the combat event for arrival
             Vector2 targetLocation = this.destination.getTargetLocation(source.getCurrentLocation(), this.launchedSub.getSpeed());
@@ -137,7 +168,7 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// Removes remaining combat events from the time machine to prevent ghost combats
         /// </summary>
-        public void removeCombatEvents()
+        private void removeCombatEvents()
         {
             foreach(CombatEvent combatEvent in this.combatEvents){
                 Game.timeMachine.removeEvent(combatEvent);

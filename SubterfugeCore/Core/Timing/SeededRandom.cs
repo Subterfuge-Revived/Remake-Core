@@ -3,7 +3,8 @@
 namespace SubterfugeCore.Core.Timing
 {
     /// <summary>
-    /// Seeded random class to ensure that all randomization is done from the same randomizer
+    /// Seeded random class to ensure that all randomization within the game is done from the same randomizer.
+    /// This ensures that all randomly calculated values are calculated the same for all users.
     /// </summary>
     public class SeededRandom
     {
@@ -11,7 +12,7 @@ namespace SubterfugeCore.Core.Timing
         private int currentRand;
 
         /// <summary>
-        /// Seeded random contrsutor
+        /// Seeded random constructor.
         /// </summary>
         /// <param name="seed">The seed to generate random numbers from</param>
         public SeededRandom(int seed)

@@ -3,19 +3,29 @@
 In order to create a new game, you can use a combination of the `Game` and `GameConfiguration` objects.
 First, create a new `GameConfiguration` object to load specific information about the game's generation parameters.
 Once the `GameConfiguration` object has been created, you can pass it into the `Game` constructor to create a new
-game based off of the configuration parameters.
+game based off of the configuration parameters. It is important to note that a `GameConfiguration` object requires a player list.
 
-```
-// Create a configuration object
-GameConfiguration configuration = new GameConfiguration();
+```cs
+// Create a list of players for the game
+List<Player> players = new List<Player>();
+players.Add(new Player(1));
+players.Add(new Player(2));
+players.Add(new Player(3));
+players.Add(new Player(4));
+// Add more if needed
+            
+// pass in players to GameConfiguration constructor
+GameConfiguration config = new GameConfiguration(players);
 
-// Set the configuration items
-configuration.numPlayers = 6; // Number of players.
-configuration.seed = 454545; // The seed for random generation
-configuration.dormantsPerPlayer = 4;
+// Configure the map generation as required with the GameConfiguration object.
+config.seed = 1234;
+config.dormantsPerPlayer = 3;
+config.maxiumumOutpostDistance = 100;
+config.minimumOutpostDistance = 5;
+config.outpostsPerPlayer = 7;     
 
-// Construct the game:
-Game game = new Game(configuration);
+// Pass the game config to the game
+Game game = new Game(config)
 ```
 
 Once the game has been created, most interaction will be done through the `TimeMachine` class. This class manages the
@@ -24,7 +34,7 @@ tick.
 
 The `TimeMachine` is globally accessible and can be obtained anywhere after a `Game` has been created 
 by using the following snippet:
-```
+```cs
 TimeMachine timeMachine = Game.timeMachine
 ```
 
@@ -32,7 +42,7 @@ Once you have access to the `TimeMachine` object, you can get the current game's
 The GameState lets you access anything related to the game. For example, all subs, all outposts, all players,
 all specialists, and more. The following code snippet shows how you can use the `GameState` to get some basic info.
 
-```
+```cs
 GameState currentState = Game.timeMachine.getState()
 
 // Get all outposts

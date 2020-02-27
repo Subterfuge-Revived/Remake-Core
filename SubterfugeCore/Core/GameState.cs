@@ -9,8 +9,9 @@ using SubterfugeCore.Core.Timing;
 namespace SubterfugeCore.Core
 {
     /// <summary>
-    /// This class holds only the nessecary information that is needed at a single point in time.
-    /// This class has nothing to do with time.
+    /// This class holds only the nessecary information that is needed to render the map at any given point in time.
+    /// This class contains a list of all subs, outposts, and players in the game. Get an instance of this class by
+    /// using `Game.timeMachine.getState()` to get the current state of the game.
     /// </summary>
     public class GameState
     {
@@ -26,25 +27,25 @@ namespace SubterfugeCore.Core
         private GameTick startTime;
         
         /// <summary>
-        /// Constructs a gamestate from a GameConfiguration
+        /// Constructs a new instance of a GameState to represent the game.
+        /// Generally, the `Game` and `TimeMachine` objects will handle the creation and management of the GameState
+        /// you will likely never need to use this constructor.
         /// </summary>
+        /// <param name="configuration">The Game configuration used to create the game. Required to setup the player list.</param>
         public GameState(GameConfiguration configuration)
         {
             // Set the start time to the time the game was initialized at and set the current tick
             this.startTime = new GameTick(new DateTime(), 0);
             this.currentTick = this.startTime;
             
-            // Create players
-            while (players.Count < configuration.players.Count)
-            {
-                players.Add(new Player(players.Count + 1));
-            }
+            // Set the players.
+            this.players = configuration.players;
         }
 
         /// <summary>
-        /// Gets the GameState's current game tick.
+        /// Gets the GameTick that this GameState object is representing.
         /// </summary>
-        /// <returns>The current game tick</returns>
+        /// <returns>The GameTick that the GameState represents.</returns>
         public GameTick getCurrentTick()
         {
             return this.currentTick;
@@ -60,9 +61,9 @@ namespace SubterfugeCore.Core
         }
         
         /// <summary>
-        /// Advances the gamestate by one tick. Does NOT apply any time machine actions.
+        /// Advances the GameState by one tick. IMPORTANT: This does NOT apply any time machine actions.
         /// </summary>
-        /// <returns>The next tick</returns>
+        /// <returns>The next GameTick</returns>
         public GameTick goToNextTick()
         {
             this.currentTick = this.currentTick.getNextTick();

@@ -14,6 +14,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
     {
         Sub arrivingSub;
         Outpost outpost;
+        private bool eventSuccess = false;
 
         /// <summary>
         /// Friendly sub arrival event
@@ -32,10 +33,18 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// <returns>If the event was undone</returns>
         public bool backwardAction()
         {
-            this.outpost.removeDrillers(this.arrivingSub.getDrillerCount());
-            this.outpost.getSpecialistManager().removeSpecialists(this.arrivingSub.getSpecialistManager().getSpecialists());
-            Game.timeMachine.getState().addSub(this.arrivingSub);
-            return true;
+            if (this.eventSuccess)
+            {
+                this.outpost.removeDrillers(this.arrivingSub.getDrillerCount());
+                this.outpost.getSpecialistManager()
+                    .removeSpecialists(this.arrivingSub.getSpecialistManager().getSpecialists());
+                Game.timeMachine.getState().addSub(this.arrivingSub);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -44,10 +53,27 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// <returns>If the event was successful</returns>
         public bool forwardAction()
         {
-            this.outpost.addDrillers(this.arrivingSub.getDrillerCount());
-            this.outpost.getSpecialistManager().addSpecialists(this.arrivingSub.getSpecialistManager().getSpecialists());
-            Game.timeMachine.getState().removeSub(this.arrivingSub);
-            return true;
+            if (Game.timeMachine.getState().subExists(this.arrivingSub))
+            {
+                this.outpost.addDrillers(this.arrivingSub.getDrillerCount());
+                this.outpost.getSpecialistManager().addSpecialists(this.arrivingSub.getSpecialistManager().getSpecialists());
+                Game.timeMachine.getState().removeSub(this.arrivingSub);
+                this.eventSuccess = true;
+            }
+            else
+            {
+                this.eventSuccess = false;
+            }
+            return this.eventSuccess;
+        }
+        
+        /// <summary>
+        /// Determines if the event was successful.
+        /// </summary>
+        /// <returns>If the event is successful</returns>
+        public bool wasEventSuccessful()
+        {
+            return this.eventSuccess;
         }
     }
 }

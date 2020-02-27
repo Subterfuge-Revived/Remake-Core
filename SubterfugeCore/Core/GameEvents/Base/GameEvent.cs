@@ -1,12 +1,27 @@
 ﻿using System;
+using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core.GameEvents.Base
 {
-    public abstract class GameEvent : IComparable
+    /// <summary>
+    /// An instave of a GameEvent that can be added to the TimeMachine.
+    /// </summary>
+    public abstract class GameEvent : IComparable, IReversible
     {
+        /// <summary>
+        /// The time when the event occurs
+        /// </summary>
         private GameTick gameTick;
+        
+        /// <summary>
+        /// If the event was successfully triggered
+        /// </summary>
         protected bool eventSuccess;
+        
+        /// <summary>
+        /// The name of the event
+        /// </summary>
         public string eventName;
 
         /// <summary>
@@ -14,13 +29,13 @@ namespace SubterfugeCore.Core.GameEvents.Base
         /// This function will check all conditions required to perform the command as well as perform the command
         /// to show the outcome of the command.
         /// </summary>
-        public abstract void eventForwardAction();
+        public abstract bool forwardAction();
 
         /// <summary>
         /// This function will be executed when going back in time in order to undo an action.
         /// For example, this will un-hire a specialist returning the hire point to the queen, or un-launch a sub returning the drillers to the owner.
         /// </summary>
-        public abstract void eventBackwardAction();
+        public abstract bool backwardAction();
 
         /// <summary>
         /// Gets the event's name
@@ -64,6 +79,7 @@ namespace SubterfugeCore.Core.GameEvents.Base
                 return -1;
             }
         }
-        
+
+        public abstract bool wasEventSuccessful();
     }
 }

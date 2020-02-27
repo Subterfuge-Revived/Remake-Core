@@ -16,10 +16,6 @@ namespace SubterfugeCoreTest
     [TestClass]
     public class TimeMachineTest
     {
-        TimeMachine timeMachine;
-        GameState state;
-
-
         [TestInitialize]
         public void setup()
         {
@@ -27,15 +23,15 @@ namespace SubterfugeCoreTest
             players.Add(new Player(1));
             
             GameConfiguration config = new GameConfiguration(players);
-            state = new GameState(config);
-            timeMachine = new TimeMachine(state);
+            Game game = new Game(config);
 
         }
 
         [TestMethod]
         public void constructor()
         {
-            Assert.AreEqual(state, timeMachine.getState());
+            Assert.IsNotNull(Game.timeMachine);
+            Assert.IsNotNull(Game.timeMachine.getState());
         }
 
         [TestMethod]
@@ -47,7 +43,129 @@ namespace SubterfugeCoreTest
             Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(), outpost.getTargetLocation(sub.getCurrentLocation(), sub.getSpeed()));
 
-            timeMachine.addEvent(arriveEvent);
+            Game.timeMachine.addEvent(arriveEvent);
+            Assert.AreEqual(1, Game.timeMachine.getQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, Game.timeMachine.getQueuedEvents()[0]);
+        }
+
+        [TestMethod]
+        public void canAdvanceTime()
+        {
+            GameTick initialTick = Game.timeMachine.getCurrentTick();
+            Game.timeMachine.advance(5);
+            
+            Assert.IsTrue(initialTick < Game.timeMachine.getCurrentTick());
+            Assert.AreEqual(initialTick.advance(5).getTick(), Game.timeMachine.getCurrentTick().getTick());
+        }
+        
+        [TestMethod]
+        public void canRewindTime()
+        {
+            GameTick initialTick = Game.timeMachine.getCurrentTick();
+            Game.timeMachine.advance(5);
+            
+            Assert.IsTrue(initialTick < Game.timeMachine.getCurrentTick());
+            Assert.AreEqual(initialTick.advance(5).getTick(), Game.timeMachine.getCurrentTick().getTick());
+
+            GameTick advancedTick = Game.timeMachine.getCurrentTick();
+            
+            Game.timeMachine.rewind(1);
+            
+            
+            Assert.IsTrue(advancedTick > Game.timeMachine.getCurrentTick());
+            Assert.AreEqual(advancedTick.rewind(1).getTick(), Game.timeMachine.getCurrentTick().getTick());
+        }
+        
+        [TestMethod]
+        public void EventsSwitchQueuesWhenPassedForward()
+        {
+            Player player1 = new Player(1);
+            Outpost outpost = new Outpost(new Vector2(0, 0), player1, OutpostType.GENERATOR);
+            outpost.addDrillers(10);
+            Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.fromTickNumber(5), outpost.getTargetLocation(sub.getCurrentLocation(), sub.getSpeed()));
+
+            Game.timeMachine.addEvent(arriveEvent);
+            Assert.AreEqual(1, Game.timeMachine.getQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, Game.timeMachine.getQueuedEvents()[0]);
+            
+            // Go past the tick
+            Game.timeMachine.advance(6);
+            Assert.AreEqual(0, Game.timeMachine.getQueuedEvents().Count);
+        }
+
+        [TestMethod]
+        public void EventsSwitchQueuesWhenRewind()
+        {
+            Player player1 = new Player(1);
+            Outpost outpost = new Outpost(new Vector2(0, 0), player1, OutpostType.GENERATOR);
+            outpost.addDrillers(10);
+            Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.fromTickNumber(5), outpost.getTargetLocation(sub.getCurrentLocation(), sub.getSpeed()));
+
+            Game.timeMachine.addEvent(arriveEvent);
+            Assert.AreEqual(1, Game.timeMachine.getQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, Game.timeMachine.getQueuedEvents()[0]);
+            
+            // Go past the tick
+            Game.timeMachine.advance(6);
+            Assert.AreEqual(0, Game.timeMachine.getQueuedEvents().Count);
+            
+            // Rewind back
+            Game.timeMachine.rewind(6);
+            Assert.AreEqual(1, Game.timeMachine.getQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, Game.timeMachine.getQueuedEvents()[0]);
+        }
+        
+        [TestMethod]
+        public void canRemoveEvents()
+        {
+            Player player1 = new Player(1);
+            Outpost outpost = new Outpost(new Vector2(0, 0), player1, OutpostType.GENERATOR);
+            outpost.addDrillers(10);
+            Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.fromTickNumber(5), outpost.getTargetLocation(sub.getCurrentLocation(), sub.getSpeed()));
+
+            Game.timeMachine.addEvent(arriveEvent);
+            Assert.AreEqual(1, Game.timeMachine.getQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, Game.timeMachine.getQueuedEvents()[0]);
+            
+            Game.timeMachine.removeEvent(arriveEvent);
+            Assert.AreEqual(0, Game.timeMachine.getQueuedEvents().Count);
+        }
+        
+        [TestMethod]
+        public void canGoToAGameTick()
+        {
+
+            GameTick initialTick = Game.timeMachine.getCurrentTick();
+            Game.timeMachine.goTo(GameTick.fromTickNumber(5));
+            
+            Assert.IsTrue(initialTick < Game.timeMachine.getCurrentTick());
+            Assert.AreEqual(initialTick.advance(5).getTick(), Game.timeMachine.getCurrentTick().getTick());
+        }
+        
+        [TestMethod]
+        public void canGoToAnEvent()
+        {
+            Player player1 = new Player(1);
+            Outpost outpost = new Outpost(new Vector2(0, 0), player1, OutpostType.GENERATOR);
+            outpost.addDrillers(10);
+            Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.fromTickNumber(5), outpost.getTargetLocation(sub.getCurrentLocation(), sub.getSpeed()));
+
+            Game.timeMachine.addEvent(arriveEvent);
+            Assert.AreEqual(1, Game.timeMachine.getQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, Game.timeMachine.getQueuedEvents()[0]);
+            
+            Game.timeMachine.goTo(arriveEvent);
+            Assert.AreEqual(arriveEvent.getTick().getTick(), Game.timeMachine.getCurrentTick().getTick());
+            
+            // Takes you to the event, need to advance one more to make it pass.
+            Assert.AreEqual(1, Game.timeMachine.getQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, Game.timeMachine.getQueuedEvents()[0]);
+            Game.timeMachine.advance(1);
+            Assert.AreEqual(0, Game.timeMachine.getQueuedEvents().Count);
         }
 
     }

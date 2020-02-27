@@ -25,7 +25,11 @@ namespace SubterfugeCore.Core
         private bool addedEvents = false;
         public GameConfiguration configuration { get; } = null;
 
-        // Creates an empty game with no players, no outposts.
+        /// <summary>
+        /// Creates a new game. Does not generate outposts.
+        /// Only use this constructor for testing purposes, it sets up a `GameState` and `TimeMachine` instance
+        /// without any data.
+        /// </summary>
         public Game()
         {
             // Create a generic game configuration
@@ -42,6 +46,11 @@ namespace SubterfugeCore.Core
             timeMachine = new TimeMachine(state);
         }
 
+        /// <summary>
+        /// Creates a new game using the provided GameConfiguration. Calling this constructor will trigger
+        /// map generation and generate the map based on the GameConfiguration that was passed into the game.
+        /// </summary>
+        /// <param name="gameConfiguration">Settings that determine how the game should be configured during generation.</param>
         public Game(GameConfiguration gameConfiguration)
         {
             // Creates a new game state and makes a time machine to reference the state

@@ -11,12 +11,31 @@ namespace SubterfugeCore.Core.GameEvents
     /// <summary>
     /// Driller production event
     /// </summary>
-    class FactoryProduceDrillersEvent : GameEvent
+    public class FactoryProduceDrillersEvent : GameEvent
     {
+        /// <summary>
+        /// The outpost producing the drillers
+        /// </summary>
         Outpost outpost;
+        
+        /// <summary>
+        /// The tick the outpost is expected to produce drillers on
+        /// </summary>
         GameTick productionTick;
+        
+        /// <summary>
+        /// If the event was successful
+        /// </summary>
         bool eventSuccess = false;
+        
+        /// <summary>
+        /// If the net production event was added to the time machine
+        /// </summary>
         bool addedNextProduction = false;
+        
+        /// <summary>
+        /// A reference to the next production event.
+        /// </summary>
         GameEvent nextEvent;
 
         /// <summary>
@@ -34,7 +53,7 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// Undo a production event
         /// </summary>
-        public override void eventBackwardAction()
+        public override bool backwardAction()
         {
             if (eventSuccess)
             {
@@ -42,12 +61,19 @@ namespace SubterfugeCore.Core.GameEvents
                 Game.timeMachine.removeEvent(this.nextEvent);
                 this.nextEvent = null;
             }
+
+            return this.eventSuccess;
+        }
+
+        public override bool wasEventSuccessful()
+        {
+            return this.eventSuccess;
         }
 
         /// <summary>
         /// Forward production event
         /// </summary>
-        public override void eventForwardAction()
+        public override bool forwardAction()
         {
             if (Validator.validateOutpost(outpost))
             {
@@ -58,7 +84,17 @@ namespace SubterfugeCore.Core.GameEvents
                     outpost.addDrillers(6);
                     eventSuccess = true;
                 }
+                else
+                {
+                    this.eventSuccess = false;
+                }
             }
+            else
+            {
+                this.eventSuccess = false;
+            }
+
+            return this.eventSuccess;
         }
         
         /// <summary>

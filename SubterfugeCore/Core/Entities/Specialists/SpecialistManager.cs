@@ -5,16 +5,22 @@ using System.Text;
 namespace SubterfugeCore.Core.Entities.Specialists
 {
     /// <summary>
-    /// Specialist management class
+    /// Specialist management class to facilitate adding and removing specialists from ISpecialistCarrier classes.
     /// </summary>
     public class SpecialistManager
     {
+        /// <summary>
+        /// The maximum number of specialists that can be stored in this carrier
+        /// </summary>
+        private int capacity;
         
-        private int capacity;    // The number of specialists that can be held
-        List<Specialist> specialists = new List<Specialist>();  // A list of held specialists
+        /// <summary>
+        /// A list of specialists in the carrier
+        /// </summary>
+        List<Specialist> specialists = new List<Specialist>();
 
         /// <summary>
-        /// Constructor for the specialist manager.
+        /// Constructor for the specialist manager. Sets the capacity to 3 by default.
         /// </summary>
         public SpecialistManager()
         {

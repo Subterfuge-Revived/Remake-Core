@@ -6,7 +6,7 @@
           "files": [
             "**.csproj"
           ],
-          "src": "C:\\Users\\Quinn\\source\\repos\\SubterfugeRemake.Shared\\SubterfugeCore"
+          "src": ""
         }
       ],
       "dest": "api",

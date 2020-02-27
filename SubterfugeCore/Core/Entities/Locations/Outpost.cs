@@ -12,15 +12,46 @@ namespace SubterfugeCore.Core.Entities.Locations
     /// </summary>
     public class Outpost : GameObject, IOwnable, ITargetable, IDrillerCarrier, ILaunchable, ICombatable, IShieldable
     {
+        /// <summary>
+        /// A unique identifier for the outpost
+        /// </summary>
         private Guid guid;
+        
+        /// <summary>
+        /// The owner of the outpost
+        /// </summary>
         private Player outpostOwner;
+        
+        /// <summary>
+        /// The outposts's specialist manager
+        /// </summary>
         private SpecialistManager specialistManager;
+        
+        /// <summary>
+        /// The number of drillers at the outpost
+        /// </summary>
         int drillerCount;
+        
+        /// <summary>
+        /// The outpost type
+        /// </summary>
         OutpostType type;
 
+        /// <summary>
+        /// The outposts shields
+        /// </summary>
         int shields;
+        
+        /// <summary>
+        /// If the outpost's shields are active.
+        /// </summary>
         bool shieldActive;
+        
+        /// <summary>
+        /// The maximum number of shields the outpost can have.
+        /// </summary>
         int shieldCapacity;
+        
         // shield recharge rate when implemented
 
         /// <summary>
