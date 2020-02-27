@@ -31,6 +31,8 @@ namespace SubterfugeCoreTest
             config.seed = 1234;
             config.outpostsPerPlayer = 1;
             config.dormantsPerPlayer = 1;
+            config.maxiumumOutpostDistance = 100;
+            config.minimumOutpostDistance = 10;
             
             game = new Game(config);
         }
@@ -134,11 +136,12 @@ namespace SubterfugeCoreTest
             int subToSubBattles = 0;
             int subToOutpostBattes = 0;
             GameEvent arriveEvent = null;
+            CombatEvent combatEvent = null;
             foreach(GameEvent gameEvent in Game.timeMachine.getQueuedEvents())
             {
                 if (gameEvent is CombatEvent)
                 {
-                    CombatEvent combatEvent = (CombatEvent) gameEvent;
+                    combatEvent = (CombatEvent) gameEvent;
                     if (combatEvent.getCombatants()[0] is Sub && combatEvent.getCombatants()[1] is Sub)
                     {
                         subToSubBattles++;
@@ -152,12 +155,6 @@ namespace SubterfugeCoreTest
             // There should be 3 combats, one on each outpost, one on both subs.
             Assert.AreEqual(1, subToSubBattles);
             Assert.AreEqual(2, subToOutpostBattes);
-            
-            // Go to the event and ensure the subToOutpost battles fail.
-            Game.timeMachine.goTo(arriveEvent);
-            Game.timeMachine.advance(1);
-            
-            Assert.AreEqual(false, arriveEvent.wasEventSuccessful());
         }
         
         [TestMethod]
