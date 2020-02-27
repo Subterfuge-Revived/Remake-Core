@@ -120,5 +120,17 @@ namespace SubterfugeCore.Core.GameEvents
         {
             return this.eventTick;
         }
+
+        /// <summary>
+        /// Returns a list of two objects containing both objects participating in combat.
+        /// </summary>
+        /// <returns>A list of the combatants</returns>
+        public List<ICombatable> getCombatants()
+        {
+            List<ICombatable> combatants = new List<ICombatable>();
+            combatants.Add(combatant1);
+            combatants.Add(combatant2);
+            return combatants;
+        }
     }
 }

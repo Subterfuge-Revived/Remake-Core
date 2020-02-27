@@ -38,11 +38,8 @@ namespace SubterfugeCore.Core
             this.startTime = new GameTick(new DateTime(), 0);
             this.currentTick = this.startTime;
             
-            // Create players
-            while (players.Count < configuration.players.Count)
-            {
-                players.Add(new Player(players.Count + 1));
-            }
+            // Set the players.
+            this.players = configuration.players;
         }
 
         /// <summary>
