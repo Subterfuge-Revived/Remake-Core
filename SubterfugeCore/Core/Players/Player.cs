@@ -1,4 +1,6 @@
-﻿namespace SubterfugeCore.Core.Players
+﻿using SubterfugeCore.Core.Network;
+
+namespace SubterfugeCore.Core.Players
 {
     /// <summary>
     /// An instance of a player
@@ -26,6 +28,12 @@
         {
             this.playerId = playerId;
             this.playerName = name;
+        }
+
+        public Player(NetworkUser networkUser)
+        {
+            this.playerId = networkUser.id;
+            this.playerName = networkUser.name;
         }
 
         /// <summary>

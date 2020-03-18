@@ -9,6 +9,11 @@ namespace SubterfugeCore.Core.Network
     public class GameRoom
     {
         /// <summary>
+        /// The id of the game room
+        /// </summary>
+        public int room_id { get; set; }
+        
+        /// <summary>
         /// The playerId of who created the game room
         /// </summary>
         public int creator_id { get; set; }

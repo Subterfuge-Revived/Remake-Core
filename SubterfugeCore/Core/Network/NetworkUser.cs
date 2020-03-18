@@ -1,4 +1,6 @@
-﻿namespace SubterfugeCore.Core.Network
+﻿using SubterfugeCore.Core.Players;
+
+namespace SubterfugeCore.Core.Network
 {
     /// <summary>
     /// Representation of a user when returned from the Network.
