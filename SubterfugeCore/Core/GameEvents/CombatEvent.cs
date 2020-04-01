@@ -77,6 +77,12 @@ namespace SubterfugeCore.Core.GameEvents
             return this.eventSuccess;
         }
 
+        public override string toJSON()
+        {
+            // Combat events shouldn't be stored in the database. No need for json.
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// Performs the forward operation of the event
         /// </summary>

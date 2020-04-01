@@ -81,5 +81,7 @@ namespace SubterfugeCore.Core.GameEvents.Base
         }
 
         public abstract bool wasEventSuccessful();
+
+        public abstract string toJSON();
     }
 }

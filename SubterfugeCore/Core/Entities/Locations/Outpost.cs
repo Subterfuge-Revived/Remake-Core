@@ -2,6 +2,7 @@
 using System.Numerics;
 using SubterfugeCore.Core.Entities.Base;
 using SubterfugeCore.Core.Entities.Specialists;
+using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 
@@ -15,7 +16,7 @@ namespace SubterfugeCore.Core.Entities.Locations
         /// <summary>
         /// A unique identifier for the outpost
         /// </summary>
-        private Guid guid;
+        private int id;
         
         /// <summary>
         /// The owner of the outpost
@@ -60,7 +61,7 @@ namespace SubterfugeCore.Core.Entities.Locations
         /// <param name="outpostLocation">The location of the outpost</param>
         public Outpost(Vector2 outpostLocation)
         {
-            this.guid = Guid.NewGuid();
+            this.id = IdGenerator.getNextId();
             this.position = outpostLocation;
             this.drillerCount = 0;
             this.outpostOwner = null;
@@ -77,7 +78,7 @@ namespace SubterfugeCore.Core.Entities.Locations
         /// <param name="type">The type of outpost to create</param>
         public Outpost(Vector2 outpostLocation, OutpostType type)
         {
-            this.guid = Guid.NewGuid();
+            this.id = IdGenerator.getNextId();
             this.position = outpostLocation;
             this.drillerCount = 0;
             this.outpostOwner = null;
@@ -96,7 +97,7 @@ namespace SubterfugeCore.Core.Entities.Locations
         /// <param name="type">The type of outpost to create</param>
         public Outpost(Vector2 outpostLocation, Player outpostOwner, OutpostType type)
         {
-            this.guid = Guid.NewGuid();
+            this.id = IdGenerator.getNextId();
             this.position = outpostLocation;
             this.drillerCount = outpostOwner == null ? 0 : 40;
             this.outpostOwner = outpostOwner;
@@ -341,9 +342,9 @@ namespace SubterfugeCore.Core.Entities.Locations
         /// Gets the globally unique indentifier for the Outpost.
         /// </summary>
         /// <returns>The Outpost's Guid</returns>
-        public Guid getGuid()
+        public int getId()
         {
-            return this.guid;
+            return this.id;
         }
     }
 }

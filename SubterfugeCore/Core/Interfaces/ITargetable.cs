@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace SubterfugeCore.Core.Interfaces
 {
@@ -14,5 +15,7 @@ namespace SubterfugeCore.Core.Interfaces
         /// <param name="speed">The speed the targeting object has.</param>
         /// <returns>The combat location</returns>
         Vector2 getTargetLocation(Vector2 targetFrom, double speed);
+
+        int getId();
     }
 }

@@ -1,4 +1,5 @@
-﻿using SubterfugeCore.Core.Entities;
+﻿using System;
+using SubterfugeCore.Core.Entities;
 
 namespace SubterfugeCore.Core.Interfaces
 {
@@ -20,5 +21,7 @@ namespace SubterfugeCore.Core.Interfaces
         /// </summary>
         /// <param name="sub">The sub to undo launching</param>
         void undoLaunch(Sub sub);
+        
+        int getId();
     }
 }

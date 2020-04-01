@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Newtonsoft.Json;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Locations;
 using SubterfugeCore.Core.GameEvents.Base;
@@ -77,6 +78,54 @@ namespace SubterfugeCore.Core.GameEvents
         public override bool wasEventSuccessful()
         {
             return this.eventSuccess;
+        }
+
+        public override string toJSON()
+        {
+            return $"{{ 'source': '{this.source.getId().ToString()}', " +
+                   $"'destination': '{this.destination.getId().ToString()}', " +
+                   $"'game_tick': {this.launchTime.getTick().ToString()}, " +
+                   $"'drillers': {this.drillerCount.ToString()}," +
+                   $"'specialists': []," +
+                   $"'event_name': '{this.eventName}' }}";
+        }
+
+        class DeserializedLaunchEvent
+        {
+            public int source { get; set; }
+            public int destination { get; set; }
+            public int game_tick { get; set; }
+            public int drillers { get; set; }
+            public List<string> specialists { get; set; }
+            public string event_name { get; set; }
+        }
+
+        public static LaunchEvent fromJSON(string jsonString)
+        {
+            DeserializedLaunchEvent parsed = JsonConvert.DeserializeObject<DeserializedLaunchEvent>(jsonString);
+
+            GameTick currentTick = Game.timeMachine.getCurrentTick();
+            GameTick eventTick = GameTick.fromTickNumber(parsed.game_tick);
+            
+            // Go to the time the event occurred.
+            Game.timeMachine.goTo(eventTick);
+            GameState state = Game.timeMachine.getState();
+
+            ILaunchable source = state.getOutpostById(parsed.source);
+            if (source == null)
+            {
+                source = state.getSubById(parsed.source);
+            }
+            
+            ICombatable destination =  state.getOutpostById(parsed.destination);
+            if (destination == null)
+            {
+                destination = state.getSubById(parsed.destination);
+            }
+            
+            Game.timeMachine.goTo(currentTick);
+            
+            return new LaunchEvent(eventTick, source, parsed.drillers, destination);
         }
 
         /// <summary>

@@ -70,6 +70,12 @@ namespace SubterfugeCore.Core.GameEvents
             return this.eventSuccess;
         }
 
+        public override string toJSON()
+        {
+            // Production events don't need to be in the database. No need for JSON.
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Forward production event
         /// </summary>

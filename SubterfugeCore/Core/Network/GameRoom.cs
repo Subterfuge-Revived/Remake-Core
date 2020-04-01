@@ -62,5 +62,10 @@ namespace SubterfugeCore.Core.Network
         /// A list of all players currently in the lobby
         /// </summary>
         public List<NetworkUser> players { get; set; }
+        
+        /// <summary>
+        /// The maximum number of players allowed in the game before it begins.
+        /// </summary>
+        public int max_players { get; set; }
     }
 }

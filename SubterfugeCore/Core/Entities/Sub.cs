@@ -2,6 +2,7 @@
 using System.Numerics;
 using SubterfugeCore.Core.Entities.Base;
 using SubterfugeCore.Core.Entities.Specialists;
+using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
@@ -16,7 +17,7 @@ namespace SubterfugeCore.Core.Entities
         /// <summary>
         /// Unique identifier for each sub
         /// </summary>
-        private Guid guid;
+        private int id;
         
         /// <summary>
         /// How many drillers are on the sub
@@ -63,7 +64,7 @@ namespace SubterfugeCore.Core.Entities
         /// <param name="owner">The owner</param>
         public Sub(ILaunchable source, ITargetable destination, GameTick launchTime, int drillerCount, Player owner) : base()
         {
-            this.guid = Guid.NewGuid();
+            this.id = IdGenerator.getNextId();
             this.source = source;
             this.destination = destination;
             this.launchTime = launchTime;
@@ -372,9 +373,9 @@ namespace SubterfugeCore.Core.Entities
         /// Gets the globally unique indentifier for the Sub.
         /// </summary>
         /// <returns>The Sub's Guid</returns>
-        public Guid getGuid()
+        public int getId()
         {
-            return this.guid;
+            return this.id;
         }
     }
 }

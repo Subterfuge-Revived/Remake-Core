@@ -197,11 +197,11 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="guid">The Guid of the outpost you want to obtain.</param>
         /// <returns>The outpost matching the input Guid. Null if no results.</returns>
-        public Outpost getOutpostByGuid(Guid guid)
+        public Outpost getOutpostById(int id)
         {
             foreach (Outpost outpost in this.outposts)
             {
-                if (outpost.getGuid() == guid)
+                if (outpost.getId() == id)
                 {
                     return outpost;
                 }
@@ -217,11 +217,11 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="guid">The guid of a sub to find.</param>
         /// <returns>The sub with the specified guid. Null if no sub exists with the specified Guid.</returns>
-        public Sub getSubByGuid(Guid guid)
+        public Sub getSubById(int id)
         {
             foreach (Sub sub in this.activeSubs)
             {
-                if (sub.getGuid() == guid)
+                if (sub.getId() == id)
                 {
                     return sub;
                 }
