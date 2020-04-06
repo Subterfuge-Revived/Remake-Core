@@ -1,4 +1,6 @@
-﻿using SubterfugeCore.Core.Network;
+﻿using System.Collections.Generic;
+using SubterfugeCore.Core.Entities.Specialists;
+using SubterfugeCore.Core.Network;
 
 namespace SubterfugeCore.Core.Players
 {
@@ -7,7 +9,14 @@ namespace SubterfugeCore.Core.Players
     /// </summary>
     public class Player
     {
+        /// <summary>
+        /// The name or alias of the player
+        /// </summary>
         private string playerName { get;  }
+        
+        /// <summary>
+        /// The player's id
+        /// </summary>
         private int playerId { get; }
 
         /// <summary>
@@ -34,6 +43,28 @@ namespace SubterfugeCore.Core.Players
         {
             this.playerId = networkUser.id;
             this.playerName = networkUser.name;
+        }
+
+        /// <summary>
+        /// Checks if the player's queen is alive at the current game tick.
+        /// </summary>
+        /// <returns>If the player's queen is alive</returns>
+        public bool isAlive()
+        {
+            List<Specialist> playerSpecs = Game.timeMachine.getState().getPlayerSpecialists(this);
+            
+            // Find the player's queen.
+            foreach (Specialist spec in playerSpecs)
+            {
+                Queen playerQueen = spec as Queen;
+                if (playerQueen != null)
+                {
+                    return playerQueen.isCaptured;
+                }
+            }
+
+            // Player doesn't have a queen. Odd but possible if stolen.
+            return false;
         }
 
         /// <summary>

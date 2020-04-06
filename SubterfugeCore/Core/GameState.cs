@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
@@ -247,6 +248,53 @@ namespace SubterfugeCore.Core
         public bool playerExists(Player player)
         {
             return this.players.Contains(player);
+        }
+
+        /// <summary>
+        /// Gets a list of all specilists in the game
+        /// </summary>
+        /// <returns>A list of all specliasts in the game</returns>
+        public List<Specialist> getSpecialists()
+        {
+            List<Specialist> specialists = new List<Specialist>();
+            foreach(Outpost o in this.outposts)
+            {
+                specialists.AddRange(o.getSpecialistManager().getSpecialists());
+            }
+
+            foreach (Sub s in activeSubs)
+            {
+                specialists.AddRange(s.getSpecialistManager().getSpecialists());
+            }
+
+            return specialists;
+        }
+
+        /// <summary>
+        /// Gets a list of a player's speciliasts
+        /// </summary>
+        /// <param name="player">The player to get specialists for</param>
+        /// <returns>A list of the player's specialists</returns>
+        public List<Specialist> getPlayerSpecialists(Player player)
+        {
+            List<Specialist> specialists = new List<Specialist>();
+            foreach(Outpost o in this.outposts)
+            {
+                if (o.getOwner() == player)
+                {
+                    specialists.AddRange(o.getSpecialistManager().getSpecialists());
+                }
+            }
+
+            foreach (Sub s in activeSubs)
+            {
+                if (s.getOwner() == player)
+                {
+                    specialists.AddRange(s.getSpecialistManager().getSpecialists());
+                }
+            }
+
+            return specialists;
         }
     }
 }

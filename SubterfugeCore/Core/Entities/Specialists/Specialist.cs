@@ -32,6 +32,11 @@ namespace SubterfugeCore.Core.Entities.Specialists
         List<ISpecialistEffect> specialistEffects = new List<ISpecialistEffect>();
 
         /// <summary>
+        /// Is the specialist captured by another player?
+        /// </summary>
+        public bool isCaptured { get; set; } = false;
+
+        /// <summary>
         /// Abstract constructor for a specialist. All inherited specialist classes require implementing this.
         /// </summary>
         /// <param name="name">The name of the specialist</param>
