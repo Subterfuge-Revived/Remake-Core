@@ -160,11 +160,6 @@ namespace SubterfugeCoreTest
             
             Game.timeMachine.goTo(arriveEvent);
             Assert.AreEqual(arriveEvent.getTick().getTick(), Game.timeMachine.getCurrentTick().getTick());
-            
-            // Takes you to the event, need to advance one more to make it pass.
-            Assert.AreEqual(1, Game.timeMachine.getQueuedEvents().Count);
-            Assert.AreEqual(arriveEvent, Game.timeMachine.getQueuedEvents()[0]);
-            Game.timeMachine.advance(1);
             Assert.AreEqual(0, Game.timeMachine.getQueuedEvents().Count);
         }
 
