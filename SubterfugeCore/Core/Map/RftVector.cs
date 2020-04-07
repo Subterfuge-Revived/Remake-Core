@@ -20,7 +20,7 @@ namespace SubterfugeCore.Core.Map
 			get { return _x; }
 			set
 			{
-				_x = (value % map.width + map.width) + map.width;
+				_x = (value % map.width + map.width) % map.width;
 				if (_x > map.width / 2) _x -= map.width;
 			}
 		}
@@ -35,7 +35,7 @@ namespace SubterfugeCore.Core.Map
 			get { return _y; }
 			set
 			{
-				_y = (y % map.height + map.height) % map.height;
+				_y = (value % map.height + map.height) % map.height;
 				if (_y > map.height / 2) _y -= map.height;
 			}
 		}
