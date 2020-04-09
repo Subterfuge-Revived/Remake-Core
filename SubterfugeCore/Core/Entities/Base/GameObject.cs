@@ -1,20 +1,21 @@
 ﻿using System.Numerics;
+using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCore.Core.Entities.Base
 {
     public abstract class GameObject
     {
-        protected Vector2 position;
+        protected RftVector Position;
         public GameObject()
         {
 
         }
 
-        public GameObject(Vector2 position)
+        public GameObject(RftVector position)
         {
-            this.position = position;
+            this.Position = position;
         }
 
-        public abstract Vector2 getPosition();
+        public abstract RftVector GetPosition();
     }
 }

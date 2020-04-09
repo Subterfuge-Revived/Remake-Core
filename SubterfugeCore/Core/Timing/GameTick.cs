@@ -7,9 +7,9 @@ namespace SubterfugeCore.Core.Timing
     /// </summary>
     public class GameTick
     {
-        public const int MINUTES_PER_TICK = 15;
-        private DateTime startTime;
-        private int tickNumber;
+        public const int MinutesPerTick = 15;
+        private DateTime _startTime;
+        private int _tickNumber;
 
         /// <summary>
         /// GameTick constructor. Requires a DateTime and an integer tick number
@@ -17,8 +17,8 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="startTime">The DateTime that the tick starts</param>
         /// <param name="tickNumber">The integer number of the tick</param>
         public GameTick(DateTime startTime, int tickNumber) {
-            this.startTime = startTime;
-            this.tickNumber = tickNumber;
+            this._startTime = startTime;
+            this._tickNumber = tickNumber;
         }
 
         /// <summary>
@@ -26,8 +26,8 @@ namespace SubterfugeCore.Core.Timing
         /// </summary>
         public GameTick()
         {
-            this.startTime = new DateTime();
-            this.tickNumber = 0;
+            this._startTime = new DateTime();
+            this._tickNumber = 0;
         }
         
         /// <summary>
@@ -36,17 +36,17 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="dateTime">The current DateTime</param>
         /// <returns>The current GameTick relative to the TimeMachine's start time</returns>
         
-        public static GameTick fromDate(DateTime dateTime)
+        public static GameTick FromDate(DateTime dateTime)
         {
             // Determine the delta between the game's start and the passed datetime
-            TimeSpan dateDelta = dateTime.Subtract(Game.timeMachine.getState().getStartTick().getDate());
+            TimeSpan dateDelta = dateTime.Subtract(Game.TimeMachine.GetState().GetStartTick().GetDate());
             // Get minutes elapsed
             double minutesElapsed = dateDelta.TotalMinutes;
             // Determine the number of ticks past
-            int ticksElapsed = (int)Math.Ceiling(minutesElapsed / GameTick.MINUTES_PER_TICK);
+            int ticksElapsed = (int)Math.Ceiling(minutesElapsed / GameTick.MinutesPerTick);
 
             // Return a new gametick relative to the start time.
-            return Game.timeMachine.getState().getStartTick().advance(ticksElapsed);
+            return Game.TimeMachine.GetState().GetStartTick().Advance(ticksElapsed);
         }
 
         /// <summary>
@@ -54,29 +54,29 @@ namespace SubterfugeCore.Core.Timing
         /// </summary>
         /// <param name="tickNumber">The tick to get a GameTick for</param>
         /// <returns>A GameTick relative to the start time of the game</returns>
-        public static GameTick fromTickNumber(int tickNumber)
+        public static GameTick FromTickNumber(int tickNumber)
         {
-            return Game.timeMachine.getState().getStartTick().advance(tickNumber);
+            return Game.TimeMachine.GetState().GetStartTick().Advance(tickNumber);
         }
 
         /// <summary>
         /// Gets the next GameTick
         /// </summary>
         /// <returns>The next GameTick</returns>
-        public GameTick getNextTick()
+        public GameTick GetNextTick()
         {
-            return new GameTick(this.startTime.AddMinutes(MINUTES_PER_TICK), this.tickNumber + 1);
+            return new GameTick(this._startTime.AddMinutes(MinutesPerTick), this._tickNumber + 1);
         }
 
         /// <summary>
         /// Gets the previous GameTick
         /// </summary>
         /// <returns>The previous GameTick</returns>
-        public GameTick getPreviousTick()
+        public GameTick GetPreviousTick()
         {
-            if (this.tickNumber > 0)
+            if (this._tickNumber > 0)
             {
-                return new GameTick(this.startTime.AddMinutes(-MINUTES_PER_TICK), this.tickNumber - 1);
+                return new GameTick(this._startTime.AddMinutes(-MinutesPerTick), this._tickNumber - 1);
             }
             return this;
         }
@@ -86,9 +86,9 @@ namespace SubterfugeCore.Core.Timing
         /// </summary>
         /// <param name="ticks">The number of ticks in the future</param>
         /// <returns>A GameTick in the future</returns>
-        public GameTick advance(int ticks)
+        public GameTick Advance(int ticks)
         {
-            return new GameTick(this.startTime.AddMinutes(ticks * MINUTES_PER_TICK), this.tickNumber + ticks);
+            return new GameTick(this._startTime.AddMinutes(ticks * MinutesPerTick), this._tickNumber + ticks);
         }
 
         /// <summary>
@@ -96,31 +96,31 @@ namespace SubterfugeCore.Core.Timing
         /// </summary>
         /// <param name="ticks">The number of ticks in the past</param>
         /// <returns>A GameTick in the past</returns>
-        public GameTick rewind(int ticks)
+        public GameTick Rewind(int ticks)
         {
-            if (this.tickNumber >= ticks)
+            if (this._tickNumber >= ticks)
             {
-                return new GameTick(this.startTime.AddMinutes(ticks * -MINUTES_PER_TICK), this.tickNumber - ticks);
+                return new GameTick(this._startTime.AddMinutes(ticks * -MinutesPerTick), this._tickNumber - ticks);
             }
-            return this.rewind(this.getTick());
+            return this.Rewind(this.GetTick());
         }
 
         /// <summary>
         /// Returns the DateTime that the tick started at
         /// </summary>
         /// <returns>the tick's start DateTime</returns>
-        public DateTime getDate()
+        public DateTime GetDate()
         {
-            return this.startTime;
+            return this._startTime;
         }
 
         /// <summary>
         /// Returns the tick number
         /// </summary>
         /// <returns>Tick number</returns>
-        public int getTick()
+        public int GetTick()
         {
-            return this.tickNumber;
+            return this._tickNumber;
         }
         
         
@@ -133,42 +133,42 @@ namespace SubterfugeCore.Core.Timing
          */
         public static bool operator > (GameTick firstArg, GameTick secondArg)
         {
-            return firstArg.getTick() > secondArg.getTick();
+            return firstArg.GetTick() > secondArg.GetTick();
         }
 
         public static bool operator >=(GameTick firstArg, GameTick secondArg)
         {
-            return firstArg.getTick() >= secondArg.getTick();
+            return firstArg.GetTick() >= secondArg.GetTick();
         }
 
         public static bool operator <(GameTick firstArg, GameTick secondArg)
         {
-            return firstArg.getTick() < secondArg.getTick();
+            return firstArg.GetTick() < secondArg.GetTick();
         }
 
         public static bool operator <=(GameTick firstArg, GameTick secondArg)
         {
-            return firstArg.getTick() <= secondArg.getTick();
+            return firstArg.GetTick() <= secondArg.GetTick();
         }
         
         public static bool operator ==(GameTick firstArg, GameTick secondArg)
         {
-            return firstArg.getTick() == secondArg.getTick();
+            return firstArg.GetTick() == secondArg.GetTick();
         }
         
         public static bool operator !=(GameTick firstArg, GameTick secondArg)
         {
-            return firstArg.getTick() != secondArg.getTick();
+            return firstArg.GetTick() != secondArg.GetTick();
         }
 
         public static int operator -(GameTick firstArg, GameTick secondArg)
         {
-            return firstArg.getTick() - secondArg.getTick();
+            return firstArg.GetTick() - secondArg.GetTick();
         }
 
         public static int operator +(GameTick firstArg, GameTick secondArg)
         {
-            return firstArg.getTick() + secondArg.getTick();
+            return firstArg.GetTick() + secondArg.GetTick();
         }
 
     }

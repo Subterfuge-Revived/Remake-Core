@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
@@ -18,12 +18,12 @@ namespace SubterfugeCore.Core
     public class Game
     {
         // Globally accessible time machine reference
-        public static TimeMachine timeMachine;
+        public static TimeMachine TimeMachine;
 
         // temporary control for time machine.
-        private bool forward = true;
-        private bool addedEvents = false;
-        public GameConfiguration configuration { get; } = null;
+        private bool _forward = true;
+        private bool _addedEvents = false;
+        public GameConfiguration Configuration { get; } = null;
 
         /// <summary>
         /// Creates a new game. Does not generate outposts.
@@ -40,10 +40,10 @@ namespace SubterfugeCore.Core
             players.Add(new Player(4));
             players.Add(new Player(5));
             players.Add(new Player(6));
-            configuration = new GameConfiguration(players);
+            Configuration = new GameConfiguration(players);
             // Creates a new game state and makes a time machine to reference the state
-            GameState state = new GameState(configuration);
-            timeMachine = new TimeMachine(state);
+            GameState state = new GameState(Configuration);
+            TimeMachine = new TimeMachine(state);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace SubterfugeCore.Core
         {
             // Creates a new game state and makes a time machine to reference the state
             GameState state = new GameState(gameConfiguration);
-            timeMachine = new TimeMachine(state);
+            TimeMachine = new TimeMachine(state);
 
             // Creates the map generator with a random seed
             MapGenerator mapGenerator = new MapGenerator(gameConfiguration);
@@ -67,13 +67,13 @@ namespace SubterfugeCore.Core
             // TODO: Make this better.
             foreach(Outpost o in outpostsToGenerate)
             {
-                if (o.getOutpostType() == OutpostType.FACTORY) {
-                    timeMachine.addEvent(new FactoryProduceDrillersEvent(o, state.getCurrentTick().advance(36)));
+                if (o.GetOutpostType() == OutpostType.Factory) {
+                    TimeMachine.AddEvent(new FactoryProduceDrillersEvent(o, state.GetCurrentTick().Advance(36)));
                 }
             }
             
             // Add the outposts to the map
-            state.getOutposts().AddRange(outpostsToGenerate);
+            state.GetOutposts().AddRange(outpostsToGenerate);
         }
 
     }

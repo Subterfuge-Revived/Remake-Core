@@ -7,76 +7,76 @@ namespace SubterfugeCoreTest
     [TestClass]
     public class PriorityQueueTest
     {
-        PriorityQueue<int> queue;
+        PriorityQueue<int> _queue;
 
         [TestInitialize]
-        public void setup()
+        public void Setup()
         {
-            this.queue = new PriorityQueue<int>();
+            this._queue = new PriorityQueue<int>();
         }
 
         [TestMethod]
-        public void constructor()
+        public void Constructor()
         {
-            Assert.IsNotNull(queue);
+            Assert.IsNotNull(_queue);
         }
 
         [TestMethod]
-        public void enqueue()
+        public void Enqueue()
         {
-            queue.Enqueue(1);
-            Assert.AreEqual(1, queue.Count);
+            _queue.Enqueue(1);
+            Assert.AreEqual(1, _queue.Count);
 
             // Ensure the queue is prioritized.
-            queue.Enqueue(6);
-            Assert.AreEqual(2, queue.Count);
-            Assert.AreEqual(1, queue.Peek());
+            _queue.Enqueue(6);
+            Assert.AreEqual(2, _queue.Count);
+            Assert.AreEqual(1, _queue.Peek());
         }
 
         [TestMethod]
-        public void peek()
+        public void Peek()
         {
             // Ensure the queue peeks the right item
-            queue.Enqueue(4);
-            Assert.AreEqual(4, queue.Peek());
+            _queue.Enqueue(4);
+            Assert.AreEqual(4, _queue.Peek());
 
 
-            queue.Enqueue(2);
-            Assert.AreEqual(2, queue.Peek());
+            _queue.Enqueue(2);
+            Assert.AreEqual(2, _queue.Peek());
         }
 
         [TestMethod]
-        public void dequeue()
+        public void Dequeue()
         {
             // Ensure the queue peeks the right item
-            queue.Enqueue(4);
-            int four = queue.Dequeue();
-            Assert.AreEqual(0, queue.Count);
+            _queue.Enqueue(4);
+            int four = _queue.Dequeue();
+            Assert.AreEqual(0, _queue.Count);
             Assert.AreEqual(4, four);
 
 
-            queue.Enqueue(4);
-            queue.Enqueue(2);
-            int two = queue.Dequeue();
-            Assert.AreEqual(1, queue.Count);
-            Assert.AreEqual(4, queue.Peek());
+            _queue.Enqueue(4);
+            _queue.Enqueue(2);
+            int two = _queue.Dequeue();
+            Assert.AreEqual(1, _queue.Count);
+            Assert.AreEqual(4, _queue.Peek());
             Assert.AreEqual(2, two);
 
             // Ensure you cannot dequeue an empty queue
-            queue.Dequeue();
-            queue.Dequeue();
+            _queue.Dequeue();
+            _queue.Dequeue();
         }
 
         [TestMethod]
-        public void equals()
+        public void Equals()
         {
-            Assert.IsTrue(queue.Equals(queue));
+            Assert.IsTrue(_queue.Equals(_queue));
         }
 
         [TestCleanup]
-        public void resetQueue()
+        public void ResetQueue()
         {
-            queue = new PriorityQueue<int>();
+            _queue = new PriorityQueue<int>();
         }
     }
 }

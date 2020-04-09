@@ -19,25 +19,25 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// Http client to send and recieve http requests
         /// </summary>
-        static readonly HttpClient client = new HttpClient();
+        static readonly HttpClient Client = new HttpClient();
         
         /// <summary>
         /// The API URL. The default value is set to "http://localhost/subterfuge-backend/sandbox/event_exec.php".
         /// You can override this URL by calling the API constuctor and passing in the URL manually. 
         /// </summary>
-        private string url = "http://localhost/";
+        private string _url = "http://localhost/";
         
         /// <summary>
         /// Once the user has logged in, their SESSION_ID token will be saved in the Api instance. This ensures
         /// that you don't need to keep track of the user's session token or send the token along if you are repeatedly
         /// using the same Api instance.
         /// </summary>
-        private static string SESSION_ID = null;
+        private static string _sessionId = null;
         
         /// <summary>
         /// If the user has been authenticated.
         /// </summary>
-        public bool isAuthenticated { get; private set; }
+        public bool IsAuthenticated { get; private set; }
 
         /// <summary>
         /// Default constructor.
@@ -45,7 +45,7 @@ namespace SubterfugeCore.Core.Network
         public Api()
         {
             // Dummy variable so that Newtonsoft.Json is packaged.
-            isAuthenticated = false;
+            IsAuthenticated = false;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace SubterfugeCore.Core.Network
         public Api(string url)
         {
             // Constructor to override the API's default url.
-            this.url = url;
+            this._url = url;
         }
 
         /// <summary>
@@ -63,10 +63,10 @@ namespace SubterfugeCore.Core.Network
         /// setting the user's token for future requests.
         /// </summary>
         /// <param name="token">The user's session token</param>
-        public void setToken(string token)
+        public void SetToken(string token)
         {
-            this.isAuthenticated = true;
-            SESSION_ID = token;
+            this.IsAuthenticated = true;
+            _sessionId = token;
         }
 
         /// <summary>
@@ -86,17 +86,17 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("type", "login")
             });
 
-            HttpResponseMessage response = await client.PostAsync(url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
             LoginResponse loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responseContent);
 
             // If the login was successful, store the credentials in the Api object so that future calls don't need the token.
-            if (loginResponse.success)
+            if (loginResponse.Success)
             {
-                this.isAuthenticated = true;
-                SESSION_ID = loginResponse.token;
+                this.IsAuthenticated = true;
+                _sessionId = loginResponse.Token;
             }
             
             return loginResponse;
@@ -110,12 +110,12 @@ namespace SubterfugeCore.Core.Network
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("session_id", SESSION_ID),
+                new KeyValuePair<string, string>("session_id", _sessionId),
                 new KeyValuePair<string, string>("type", "get_room_data"),
                 new KeyValuePair<string, string>("room_status", "open")
             });
 
-            HttpResponseMessage response = await client.PostAsync(url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -131,13 +131,13 @@ namespace SubterfugeCore.Core.Network
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("session_id", SESSION_ID),
+                new KeyValuePair<string, string>("session_id", _sessionId),
                 new KeyValuePair<string, string>("type", "get_room_data"),
                 new KeyValuePair<string, string>("room_status", "ongoing"),
                 new KeyValuePair<string, string>("filter_player", "true")
             });
 
-            HttpResponseMessage response = await client.PostAsync(url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -154,12 +154,12 @@ namespace SubterfugeCore.Core.Network
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("session_id", SESSION_ID),
+                new KeyValuePair<string, string>("session_id", _sessionId),
                 new KeyValuePair<string, string>("type", "join_room"),
                 new KeyValuePair<string, string>("room_id", roomId.ToString()),
             });
 
-            HttpResponseMessage response = await client.PostAsync(url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -176,12 +176,12 @@ namespace SubterfugeCore.Core.Network
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("session_id", SESSION_ID),
+                new KeyValuePair<string, string>("session_id", _sessionId),
                 new KeyValuePair<string, string>("type", "leave_room"),
                 new KeyValuePair<string, string>("room_id", roomId.ToString()),
             });
 
-            HttpResponseMessage response = await client.PostAsync(url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -199,12 +199,12 @@ namespace SubterfugeCore.Core.Network
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("session_id", SESSION_ID),
+                new KeyValuePair<string, string>("session_id", _sessionId),
                 new KeyValuePair<string, string>("type", "start_early"),
                 new KeyValuePair<string, string>("room_id", roomId.ToString()),
             });
 
-            HttpResponseMessage response = await client.PostAsync(url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -223,22 +223,22 @@ namespace SubterfugeCore.Core.Network
         /// <param name="goal">The goal of the game</param>
         /// <param name="map">The map that the game is played on</param>
         /// <returns>the CreateLobbyResponse</returns>
-        public async Task<CreateLobbyResponse> CreateLobby(string title, int max_players, int min_rating, bool rated, bool anonymous, int goal, int map)
+        public async Task<CreateLobbyResponse> CreateLobby(string title, int maxPlayers, int minRating, bool rated, bool anonymous, int goal, int map)
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("session_id", SESSION_ID),
+                new KeyValuePair<string, string>("session_id", _sessionId),
                 new KeyValuePair<string, string>("type", "new_room"),
                 new KeyValuePair<string, string>("description", title),
-                new KeyValuePair<string, string>("max_players", max_players.ToString()),
-                new KeyValuePair<string, string>("min_rating", min_rating.ToString()),
+                new KeyValuePair<string, string>("max_players", maxPlayers.ToString()),
+                new KeyValuePair<string, string>("min_rating", minRating.ToString()),
                 new KeyValuePair<string, string>("rated", rated.ToString()),
                 new KeyValuePair<string, string>("anonymity", anonymous.ToString()),
                 new KeyValuePair<string, string>("goal", goal.ToString()),
                 new KeyValuePair<string, string>("map", map.ToString()),
             });
 
-            HttpResponseMessage response = await client.PostAsync(url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -253,18 +253,18 @@ namespace SubterfugeCore.Core.Network
         /// <param name="gameEvent">The GameEvent to submit to the server</param>
         /// <param name="gameRoom">The id of the game room to submit an event to.</param>
         /// <returns>The SubmitEventResponse</returns>
-        public async Task<SubmitEventResponse> submitGameEvent(GameEvent gameEvent, int gameRoom)
+        public async Task<SubmitEventResponse> SubmitGameEvent(GameEvent gameEvent, int gameRoom)
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("session_id", SESSION_ID),
+                new KeyValuePair<string, string>("session_id", _sessionId),
                 new KeyValuePair<string, string>("type", "submit_event"),
                 new KeyValuePair<string, string>("room_id", gameRoom.ToString()),
-                new KeyValuePair<string, string>("occurs_at", gameEvent.getTick().getTick().ToString()),
-                new KeyValuePair<string, string>("event_msg", gameEvent.toJSON()),
+                new KeyValuePair<string, string>("occurs_at", gameEvent.GetTick().GetTick().ToString()),
+                new KeyValuePair<string, string>("event_msg", gameEvent.ToJson()),
             });
 
-            HttpResponseMessage response = await client.PostAsync(url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -277,16 +277,16 @@ namespace SubterfugeCore.Core.Network
         /// </summary>
         /// <param name="gameRoom">The id of the game room to fetch events for.</param>
         /// <returns>A list of game events</returns>
-        public async Task<List<GameEvent>> getGameEvents(int gameRoom)
+        public async Task<List<GameEvent>> GetGameEvents(int gameRoom)
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("session_id", SESSION_ID),
+                new KeyValuePair<string, string>("session_id", _sessionId),
                 new KeyValuePair<string, string>("type", "get_events"),
                 new KeyValuePair<string, string>("room_id", gameRoom.ToString()),
             });
 
-            HttpResponseMessage response = await client.PostAsync(url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -296,7 +296,7 @@ namespace SubterfugeCore.Core.Network
             // Parse network game events to game events.
             foreach(NetworkGameEvent gameEvent in gameEventResponse)
             {
-                gameEvents.Add(LaunchEvent.fromJSON(gameEvent.event_msg));
+                gameEvents.Add(LaunchEvent.FromJson(gameEvent.EventMsg));
             }
             
             return gameEvents;
@@ -309,7 +309,7 @@ namespace SubterfugeCore.Core.Network
         /// <param name="password">The password to register</param>
         /// <param name="email">The email address to register</param>
         /// <returns>The RegisterResponse</returns>
-        public async Task<RegisterResponse> registerAccount(string username, string password, string email)
+        public async Task<RegisterResponse> RegisterAccount(string username, string password, string email)
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
@@ -319,16 +319,16 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("email", email),
             });
 
-            HttpResponseMessage response = await client.PostAsync(url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
             RegisterResponse registerResponse = JsonConvert.DeserializeObject<RegisterResponse>(responseContent);
 
-            if (registerResponse.success)
+            if (registerResponse.Success)
             {
-                SESSION_ID = registerResponse.token;
-                isAuthenticated = true;
+                _sessionId = registerResponse.Token;
+                IsAuthenticated = true;
             }
             
             return registerResponse;

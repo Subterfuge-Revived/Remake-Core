@@ -21,18 +21,18 @@ namespace SubterfugeCoreCLI
                 var result = Parser.Default.ParseArguments<ValidateEventCommand>(args);
                 await result.MapResult(async response =>
                 {
-                    await handleParsed(response);
+                    await HandleParsed(response);
                 },
                     errors => Task.FromResult(0));
             }
         }
 
-        public async static Task handleParsed(ValidateEventCommand parsed)
+        public async static Task HandleParsed(ValidateEventCommand parsed)
         {
             Api api = new Api();
-            api.setToken(parsed.token);
+            api.SetToken(parsed.Token);
 
-            List<GameEvent> gameEvents = await api.getGameEvents(Int32.Parse(parsed.gameId));
+            List<GameEvent> gameEvents = await api.GetGameEvents(Int32.Parse(parsed.GameId));
             Console.WriteLine("Done");
         }
     }

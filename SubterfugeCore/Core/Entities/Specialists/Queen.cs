@@ -22,7 +22,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// </summary>
         /// <param name="effect">The effect to get text of</param>
         /// <returns>Nothing</returns>
-        public override string getEffectAsText(ISpecialistEffect effect)
+        public override string GetEffectAsText(ISpecialistEffect effect)
         {
             return null;
         }

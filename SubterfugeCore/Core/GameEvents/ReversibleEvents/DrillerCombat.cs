@@ -9,12 +9,12 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
     /// </summary>
     public class DrillerCombat : IReversible
     {
-        ICombatable combatant1;
-        ICombatable combatant2;
-        bool eventSuccess = false;
+        ICombatable _combatant1;
+        ICombatable _combatant2;
+        bool _eventSuccess = false;
 
-        int preCombatDrillers1;
-        int preCombatDrillers2;
+        int _preCombatDrillers1;
+        int _preCombatDrillers2;
 
         /// <summary>
         /// Driller combat constructor
@@ -23,76 +23,76 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// <param name="combatant2">Combatant 2</param>
         public DrillerCombat(ICombatable combatant1, ICombatable combatant2)
         {
-            this.combatant1 = combatant1;
-            this.combatant2 = combatant2;
+            this._combatant1 = combatant1;
+            this._combatant2 = combatant2;
         }
 
         /// <summary>
         /// Performs the reverse action of the driller combat to undo.
         /// </summary>
         /// <returns>if the event was reversed</returns>
-        public bool backwardAction()
+        public bool BackwardAction()
         {
-            if (eventSuccess)
+            if (_eventSuccess)
             {
                 // Add any removed subs back.
-                if (combatant1 is Sub && (combatant1.getDrillerCount() < 0 || (combatant1.getDrillerCount() == 0 && combatant1.getSpecialistManager().getSpecialistCount() == 0)))
+                if (_combatant1 is Sub && (_combatant1.GetDrillerCount() < 0 || (_combatant1.GetDrillerCount() == 0 && _combatant1.GetSpecialistManager().GetSpecialistCount() == 0)))
                 {
-                    Game.timeMachine.getState().addSub((Sub)combatant1);
+                    Game.TimeMachine.GetState().AddSub((Sub)_combatant1);
                 }
 
-                if (combatant2 is Sub && (combatant2.getDrillerCount() < 0 || (combatant2.getDrillerCount() == 0 && combatant2.getSpecialistManager().getSpecialistCount() == 0)))
+                if (_combatant2 is Sub && (_combatant2.GetDrillerCount() < 0 || (_combatant2.GetDrillerCount() == 0 && _combatant2.GetSpecialistManager().GetSpecialistCount() == 0)))
                 {
-                    Game.timeMachine.getState().addSub((Sub)combatant2);
+                    Game.TimeMachine.GetState().AddSub((Sub)_combatant2);
                 }
                 // Restore driller counts.
-                combatant1.setDrillerCount(preCombatDrillers1);
-                combatant2.setDrillerCount(preCombatDrillers2);
+                _combatant1.SetDrillerCount(_preCombatDrillers1);
+                _combatant2.SetDrillerCount(_preCombatDrillers2);
             }
-            return eventSuccess;
+            return _eventSuccess;
         }
 
         /// <summary>
         /// Performs driller combat between two subs
         /// </summary>
         /// <returns>If the event was succesfull</returns>
-        public bool forwardAction()
+        public bool ForwardAction()
         {
-            if (Validator.validateICombatable(combatant1) && Validator.validateICombatable(combatant2))
+            if (Validator.ValidateICombatable(_combatant1) && Validator.ValidateICombatable(_combatant2))
             {
-                preCombatDrillers1 = combatant1.getDrillerCount();
-                preCombatDrillers2 = combatant2.getDrillerCount();
-                combatant1.removeDrillers(preCombatDrillers2);
-                combatant2.removeDrillers(preCombatDrillers1);
+                _preCombatDrillers1 = _combatant1.GetDrillerCount();
+                _preCombatDrillers2 = _combatant2.GetDrillerCount();
+                _combatant1.RemoveDrillers(_preCombatDrillers2);
+                _combatant2.RemoveDrillers(_preCombatDrillers1);
 
                 // Remove any subs that should be removed after combat.
-                if (combatant1 is Sub && (combatant1.getDrillerCount() < 0 || (combatant1.getDrillerCount() == 0 && combatant1.getSpecialistManager().getSpecialistCount() == 0)))
+                if (_combatant1 is Sub && (_combatant1.GetDrillerCount() < 0 || (_combatant1.GetDrillerCount() == 0 && _combatant1.GetSpecialistManager().GetSpecialistCount() == 0)))
                 {
-                    Game.timeMachine.getState().removeSub((Sub)combatant1);
+                    Game.TimeMachine.GetState().RemoveSub((Sub)_combatant1);
                 }
 
-                if (combatant2 is Sub && (combatant2.getDrillerCount() < 0 || (combatant2.getDrillerCount() == 0 && combatant2.getSpecialistManager().getSpecialistCount() == 0)))
+                if (_combatant2 is Sub && (_combatant2.GetDrillerCount() < 0 || (_combatant2.GetDrillerCount() == 0 && _combatant2.GetSpecialistManager().GetSpecialistCount() == 0)))
                 {
-                    Game.timeMachine.getState().removeSub((Sub)combatant2);
+                    Game.TimeMachine.GetState().RemoveSub((Sub)_combatant2);
                 }
 
-                this.eventSuccess = true; 
+                this._eventSuccess = true; 
             }
             else
             {
-                this.eventSuccess = false;
+                this._eventSuccess = false;
             }
 
-            return this.eventSuccess;
+            return this._eventSuccess;
         }
         
         /// <summary>
         /// Determines if the event was successful.
         /// </summary>
         /// <returns>If the event is successful</returns>
-        public bool wasEventSuccessful()
+        public bool WasEventSuccessful()
         {
-            return this.eventSuccess;
+            return this._eventSuccess;
         }
     }
 }

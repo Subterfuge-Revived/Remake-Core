@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore;
-using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Entities.Positions;
 using System;
 using System.Numerics;
 using SubterfugeCore.Core;
@@ -8,48 +8,51 @@ using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
+using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCoreTest
 {
     [TestClass]
     public class SubTest
     {
-        Vector2 location;
-        Outpost outpost;
-        GameTick tick;
-        Sub sub;
+	    Rft _map;
+        RftVector _location;
+        Outpost _outpost;
+        GameTick _tick;
+        Sub _sub;
 
         [TestInitialize]
-        public void setup()
+        public void Setup()
         {
-            location = new Vector2(0, 0);
-            outpost = new Outpost(location, new Player(1), OutpostType.GENERATOR);
-            tick = new GameTick(new DateTime(), 10);
-            sub = new Sub(outpost, outpost, tick, 0, new Player(1));
+	        _map = new Rft(3000, 3000);
+            _location = new RftVector(_map, 0, 0);
+            _outpost = new Outpost(_location, new Player(1), OutpostType.Generator);
+            _tick = new GameTick(new DateTime(), 10);
+            _sub = new Sub(_outpost, _outpost, _tick, 0, new Player(1));
             Game server = new Game();
         }
 
         [TestMethod]
-        public void constructor()
+        public void Constructor()
         {
-            Assert.AreEqual(location.X, sub.getInitialPosition().X);
-            Assert.AreEqual(location.Y, sub.getInitialPosition().Y);
-            Assert.AreEqual(location.X, sub.getDestinationLocation().X);
-            Assert.AreEqual(location.Y, sub.getDestinationLocation().Y);
-            Assert.AreEqual(tick, sub.getLaunchTick());
-            Assert.AreEqual(0, sub.getDrillerCount());
+            Assert.AreEqual(_location.X, _sub.GetInitialPosition().X);
+            Assert.AreEqual(_location.Y, _sub.GetInitialPosition().Y);
+            Assert.AreEqual(_location.X, _sub.GetDestinationLocation().X);
+            Assert.AreEqual(_location.Y, _sub.GetDestinationLocation().Y);
+            Assert.AreEqual(_tick, _sub.GetLaunchTick());
+            Assert.AreEqual(0, _sub.GetDrillerCount());
         }
 
         [TestMethod]
-        public void isIOwnable()
+        public void IsIOwnable()
         {
-            Assert.IsTrue(typeof(IOwnable).IsAssignableFrom(sub.GetType()));
+            Assert.IsTrue(typeof(IOwnable).IsAssignableFrom(_sub.GetType()));
         }
 
         [TestMethod]
-        public void isITargetable()
+        public void IsITargetable()
         {
-            Assert.IsTrue(typeof(ITargetable).IsAssignableFrom(sub.GetType()));
+            Assert.IsTrue(typeof(ITargetable).IsAssignableFrom(_sub.GetType()));
         }
     }
 }

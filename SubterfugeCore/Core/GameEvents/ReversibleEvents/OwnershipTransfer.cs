@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 
@@ -14,14 +14,14 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
     /// </summary>
     public class OwnershipTransfer : IReversible
     {
-        Outpost outpost;
-        Sub sub;
-        bool eventSuccess = false;
-        bool wasOwnershipTransferred = false;
-        bool wasSubCaptured = false;
+        Outpost _outpost;
+        Sub _sub;
+        bool _eventSuccess = false;
+        bool _wasOwnershipTransferred = false;
+        bool _wasSubCaptured = false;
 
-        Player originalOutpostOwner;
-        int originalDrillerCount;
+        Player _originalOutpostOwner;
+        int _originalDrillerCount;
 
         /// <summary>
         /// Constructor to transfer ownership
@@ -30,112 +30,112 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// <param name="combatant2">Combatant 2</param>
         public OwnershipTransfer(ICombatable combatant1, ICombatable combatant2)
         {
-            this.sub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
-            this.outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);
+            this._sub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
+            this._outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);
         }
 
         /// <summary>
         /// Undoes the ownership transfer
         /// </summary>
         /// <returns>If the event was undone</returns>
-        public bool backwardAction()
+        public bool BackwardAction()
         {
-            if (eventSuccess)
+            if (_eventSuccess)
             {
                 // Tie or sub won.
-                if (wasOwnershipTransferred)
+                if (_wasOwnershipTransferred)
                 {
-                    this.unTransferOwnership();
+                    this.UnTransferOwnership();
                 }
-                if (wasSubCaptured)
+                if (_wasSubCaptured)
                 {
-                    this.uncaptureSub();
+                    this.UncaptureSub();
                 }
             }
-            return eventSuccess;
+            return _eventSuccess;
         }
 
         /// <summary>
         /// Determines if the event was successful.
         /// </summary>
         /// <returns>If the event is successful</returns>
-        public bool wasEventSuccessful()
+        public bool WasEventSuccessful()
         {
-            return this.eventSuccess;
+            return this._eventSuccess;
         }
 
         /// <summary>
         /// Switches the control of the outpost to the owner of the sub
         /// </summary>
-        public void transferOwnership()
+        public void TransferOwnership()
         {
-            outpost.setOwner(sub.getOwner());
-            outpost.setDrillerCount(sub.getDrillerCount());
-            Game.timeMachine.getState().removeSub(sub);
-            wasOwnershipTransferred = true;
+            _outpost.SetOwner(_sub.GetOwner());
+            _outpost.SetDrillerCount(_sub.GetDrillerCount());
+            Game.TimeMachine.GetState().RemoveSub(_sub);
+            _wasOwnershipTransferred = true;
         }
 
         /// <summary>
         /// Switches control of the outpost back to the original owner.
         /// </summary>
-        public void unTransferOwnership()
+        public void UnTransferOwnership()
         {
 
-            outpost.setOwner(originalOutpostOwner);
-            outpost.setDrillerCount(originalDrillerCount);
-            Game.timeMachine.getState().addSub(sub);
+            _outpost.SetOwner(_originalOutpostOwner);
+            _outpost.SetDrillerCount(_originalDrillerCount);
+            Game.TimeMachine.GetState().AddSub(_sub);
         }
         
         /// <summary>
         /// Removes a sub from the game and captures it
         /// </summary>
 
-        public void captureSub()
+        public void CaptureSub()
         {
             // capture sub.
-            Game.timeMachine.getState().removeSub(sub);
-            wasSubCaptured = true;
+            Game.TimeMachine.GetState().RemoveSub(_sub);
+            _wasSubCaptured = true;
         }
         
         /// <summary>
         /// Uncaptures a sub
         /// </summary>
 
-        public void uncaptureSub()
+        public void UncaptureSub()
         {
             // capture sub.
-            Game.timeMachine.getState().addSub(sub);
+            Game.TimeMachine.GetState().AddSub(_sub);
         }
 
         /// <summary>
         /// Transfers ownership between outpost or specialists.
         /// </summary>
         /// <returns>If the event was successful</returns>
-        public bool forwardAction()
+        public bool ForwardAction()
         {
-            originalOutpostOwner = outpost.getOwner();
-            originalDrillerCount = outpost.getDrillerCount();
+            _originalOutpostOwner = _outpost.GetOwner();
+            _originalDrillerCount = _outpost.GetDrillerCount();
 
             // Tie or sub won.
-            if (outpost.getDrillerCount() < 0)
+            if (_outpost.GetDrillerCount() < 0)
             {
-                this.transferOwnership();
+                this.TransferOwnership();
             } else
             {
-                if (outpost.getDrillerCount() == 0)
+                if (_outpost.GetDrillerCount() == 0)
                 {
                     // Was a tie.
-                    if (sub.getSpecialistManager().getSpecialistCount() > outpost.getSpecialistManager().getSpecialistCount())
+                    if (_sub.GetSpecialistManager().GetSpecialistCount() > _outpost.GetSpecialistManager().GetSpecialistCount())
                     {
-                        this.transferOwnership();
+                        this.TransferOwnership();
                     } else
                     {
-                        this.captureSub();
+                        this.CaptureSub();
                     }
                 }
             }
 
-            this.eventSuccess = true;
+            this._eventSuccess = true;
             return true;
         }
     }

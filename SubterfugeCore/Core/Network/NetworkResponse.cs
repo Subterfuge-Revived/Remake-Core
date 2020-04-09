@@ -9,11 +9,11 @@
         /// <summary>
         /// If the network operation was successful
         /// </summary>
-        public bool success { get; set; }
+        public bool Success { get; set; }
         
         /// <summary>
         /// Details about the network operation
         /// </summary>
-        public string message { get; set; }
+        public string Message { get; set; }
     }
 }

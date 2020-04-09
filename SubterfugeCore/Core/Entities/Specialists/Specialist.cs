@@ -14,27 +14,27 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <summary>
         /// The specialist priority
         /// </summary>
-        int priority;
+        int _priority;
         
         /// <summary>
         /// The name of the specialist
         /// </summary>
-        String specialistName;
+        String _specialistName;
         
         /// <summary>
         /// The player who owns the specialist
         /// </summary>
-        Player owner;
+        Player _owner;
         
         /// <summary>
         /// A list of specialist effects that the specialist can apply
         /// </summary>
-        List<ISpecialistEffect> specialistEffects = new List<ISpecialistEffect>();
+        List<ISpecialistEffect> _specialistEffects = new List<ISpecialistEffect>();
 
         /// <summary>
         /// Is the specialist captured by another player?
         /// </summary>
-        public bool isCaptured { get; set; } = false;
+        public bool IsCaptured { get; set; } = false;
 
         /// <summary>
         /// Abstract constructor for a specialist. All inherited specialist classes require implementing this.
@@ -44,29 +44,29 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="owner">The player that owns the specialist</param>
         protected Specialist(String name, int priority, Player owner)
         {
-            this.specialistName = name;
-            this.priority = priority;
-            this.owner = owner;
+            this._specialistName = name;
+            this._priority = priority;
+            this._owner = owner;
         }
         
         /// <summary>
         /// Returns a list of specialist effects that the specialist possesses.
         /// </summary>
         /// <returns>A list of specialist effects that the specialist can apply</returns>
-        public List<ISpecialistEffect> getSpecialistEffects()
+        public List<ISpecialistEffect> GetSpecialistEffects()
         {
-            return this.specialistEffects;
+            return this._specialistEffects;
         }
 
         /// <summary>
         /// Removes a specialist effect from the specailist
         /// </summary>
         /// <param name="effect">The specialist effect to remove.</param>
-        public void removeSpecialistEffect(ISpecialistEffect effect)
+        public void RemoveSpecialistEffect(ISpecialistEffect effect)
         {
-            if(specialistEffects.Contains(effect))
+            if(_specialistEffects.Contains(effect))
             {
-                specialistEffects.Remove(effect);
+                _specialistEffects.Remove(effect);
             }
         }
 
@@ -74,9 +74,9 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Adds a specialist effect to the specialist
         /// </summary>
         /// <param name="effect">The effect to add.</param>
-        public void addSpecialistEffect(ISpecialistEffect effect)
+        public void AddSpecialistEffect(ISpecialistEffect effect)
         {
-            specialistEffects.Add(effect);
+            _specialistEffects.Add(effect);
         }
 
         /// <summary>
@@ -84,11 +84,11 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// </summary>
         /// <param name="friendly">The friendly combatable to effect</param>
         /// <param name="enemy">The enemy combatable to effect</param>
-        public void applyEffect(ICombatable friendly, ICombatable enemy)
+        public void ApplyEffect(ICombatable friendly, ICombatable enemy)
         {
-            foreach(ISpecialistEffect effect in this.specialistEffects)
+            foreach(ISpecialistEffect effect in this._specialistEffects)
             {
-                effect.forwardEffect(friendly, enemy);
+                effect.ForwardEffect(friendly, enemy);
             }
         }
 
@@ -97,11 +97,11 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// </summary>
         /// <param name="friendly">The friendly combatable to reverse effects to</param>
         /// <param name="enemy">The enemy combatable to reverse effects to</param>
-        public void undoEffect(ICombatable friendly, ICombatable enemy)
+        public void UndoEffect(ICombatable friendly, ICombatable enemy)
         {
-            foreach (ISpecialistEffect effect in this.specialistEffects)
+            foreach (ISpecialistEffect effect in this._specialistEffects)
             {
-                effect.backwardEffect(friendly, enemy);
+                effect.BackwardEffect(friendly, enemy);
             }
         }
 
@@ -110,46 +110,46 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// </summary>
         /// <param name="effect">The specialist effect to textualize</param>
         /// <returns>Player friendly text that explains the result of this effect.</returns>
-        public abstract string getEffectAsText(ISpecialistEffect effect);
+        public abstract string GetEffectAsText(ISpecialistEffect effect);
 
         /// <summary>
         /// Returns the specialist's priority.
         /// </summary>
         /// <returns>The combat priority of the specialist</returns>
-        public int getPriority()
+        public int GetPriority()
         {
-            return this.priority;
+            return this._priority;
         }
         
         /// <summary>
         /// Gets the owner of the specialist.
         /// </summary>
         /// <returns>The specialist's owner</returns>
-        public Player getOwner()
+        public Player GetOwner()
         {
-            return this.owner;
+            return this._owner;
         }
 
         /// <summary>
         /// Sets the owner of the specialist
         /// </summary>
         /// <param name="newOwner">The new owner of the specialist</param>
-        public void setOwner(Player newOwner)
+        public void SetOwner(Player newOwner)
         {
-            this.owner = newOwner;
+            this._owner = newOwner;
         }
 
         /// <summary>
         /// invokes the effects of a specialist effect
         /// </summary>
         /// <param name="trigger">The event that triggered the effects to determine if effects should be triggered.</param>
-        public void invoke(EffectTrigger trigger)
+        public void Invoke(EffectTrigger trigger)
         {
             // Loop through specialist effects.
             // Determine if the effect should be triggered.
-            foreach (ISpecialistEffect specialistEffect in this.specialistEffects)
+            foreach (ISpecialistEffect specialistEffect in this._specialistEffects)
             {
-                if (specialistEffect.getEffectTrigger() == trigger)
+                if (specialistEffect.GetEffectTrigger() == trigger)
                 {
                     // specialistEffect.forwardEffect();
                 }

@@ -2,6 +2,6 @@
 {
     public class StartLobbyEarlyResponse : NetworkResponse
     {
-        public int room { get; set; }
+        public int Room { get; set; }
     }
 }

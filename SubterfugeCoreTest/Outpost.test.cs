@@ -2,87 +2,90 @@
 using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core;
-using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
+using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCoreTest
 {
     [TestClass]
     public class OutpostTest
     {
-        Vector2 outpostLocation;
-        Outpost outpost;
+	    Rft _map;
+        RftVector _outpostLocation;
+        Outpost _outpost;
 
         [TestInitialize]
-        public void setup()
+        public void Setup()
         {
-            this.outpostLocation = new Vector2(0, 0);
-            this.outpost = new Outpost(outpostLocation, new Player(1), OutpostType.GENERATOR);
+	        this._map = new Rft(3000, 3000);
+            this._outpostLocation = new RftVector(_map, 0, 0);
+            this._outpost = new Outpost(_outpostLocation, new Player(1), OutpostType.Generator);
         }
 
         [TestMethod]
-        public void getPosition()
+        public void GetPosition()
         {
-            Assert.AreEqual(outpostLocation.X, outpost.getPosition().X);
-            Assert.AreEqual(outpostLocation.Y, outpost.getPosition().Y);
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetPosition().X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetPosition().Y);
         }
         [TestMethod]
-        public void getTargetLocation()
+        public void GetTargetLocation()
         {
             // Outpost target location should always be the outpost's location
-            Assert.AreEqual(outpostLocation.X, outpost.getTargetLocation(new Vector2(0, 0), 0.25).X);
-            Assert.AreEqual(outpostLocation.Y, outpost.getTargetLocation(new Vector2(0, 0), 0.25).Y);
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetTargetPosition(new RftVector(_map, 0, 0), 0.25f).X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetTargetPosition(new RftVector(_map, 0, 0), 0.25f).Y);
 
-            Assert.AreEqual(outpostLocation.X, outpost.getTargetLocation(new Vector2(100, 100), 1).X);
-            Assert.AreEqual(outpostLocation.Y, outpost.getTargetLocation(new Vector2(100, 100), 1).Y);
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetTargetPosition(new RftVector(_map, 100, 100), 1).X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetTargetPosition(new RftVector(_map, 100, 100), 1).Y);
 
-            Assert.AreEqual(outpostLocation.X, outpost.getTargetLocation(new Vector2(999, 999), 999).X);
-            Assert.AreEqual(outpostLocation.Y, outpost.getTargetLocation(new Vector2(999, 999), 999).Y);
-        }
-
-        [TestMethod]
-        public void isITargetable()
-        {
-            Assert.IsTrue(typeof(ITargetable).IsAssignableFrom(outpost.GetType()));
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetTargetPosition(new RftVector(_map, 999, 999), 999).X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetTargetPosition(new RftVector(_map, 999, 999), 999).Y);
         }
 
         [TestMethod]
-        public void isOwnable()
+        public void IsITargetable()
         {
-            Assert.IsTrue(typeof(IOwnable).IsAssignableFrom(outpost.GetType()));
+            Assert.IsTrue(typeof(ITargetable).IsAssignableFrom(_outpost.GetType()));
+        }
+
+        [TestMethod]
+        public void IsOwnable()
+        {
+            Assert.IsTrue(typeof(IOwnable).IsAssignableFrom(_outpost.GetType()));
         }
         
         [TestMethod]
-        public void canRemoveDrillers()
+        public void CanRemoveDrillers()
         {
-            Outpost outpost = new Outpost(new Vector2(0, 0), new Player(1), OutpostType.MINE);
-            int initialDrillers = outpost.getDrillerCount();
-            outpost.removeDrillers(40);
-            Assert.AreEqual(initialDrillers - 40, outpost.getDrillerCount());
+            Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
+            int initialDrillers = outpost.GetDrillerCount();
+            outpost.RemoveDrillers(40);
+            Assert.AreEqual(initialDrillers - 40, outpost.GetDrillerCount());
         }
         
         [TestMethod]
-        public void canAddDrillers()
+        public void CanAddDrillers()
         {
-            Outpost outpost = new Outpost(new Vector2(0, 0), new Player(1), OutpostType.MINE);
-            int initialDrillers = outpost.getDrillerCount();
-            outpost.addDrillers(40);
-            Assert.AreEqual(initialDrillers + 40, outpost.getDrillerCount());
+            Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
+            int initialDrillers = outpost.GetDrillerCount();
+            outpost.AddDrillers(40);
+            Assert.AreEqual(initialDrillers + 40, outpost.GetDrillerCount());
         }
         
         [TestMethod]
-        public void canSetDrillerCount()
+        public void CanSetDrillerCount()
         {
-            Outpost outpost = new Outpost(new Vector2(0, 0), new Player(1), OutpostType.MINE);
-            outpost.setDrillerCount(420);
-            Assert.AreEqual(420, outpost.getDrillerCount());
+            Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
+            outpost.SetDrillerCount(420);
+            Assert.AreEqual(420, outpost.GetDrillerCount());
         }
         
         [TestMethod]
-        public void canLaunchSubs()
+        public void CanLaunchSubs()
         {
             List<Player> players = new List<Player>();
             players.Add(new Player(1));
@@ -90,15 +93,15 @@ namespace SubterfugeCoreTest
             GameConfiguration config = new GameConfiguration(players);
             Game game = new Game(config);
             
-            int initialDrillers = outpost.getDrillerCount();
-            outpost.launchSub(10, new Outpost(new Vector2(0,0), new Player(1), OutpostType.MINE));
+            int initialDrillers = _outpost.GetDrillerCount();
+            _outpost.LaunchSub(10, new Outpost(new RftVector(_map, 0,0), new Player(1), OutpostType.Mine));
             
-            Assert.AreEqual(initialDrillers - 10, outpost.getDrillerCount());
-            Assert.AreEqual(1, Game.timeMachine.getState().getSubList().Count);
+            Assert.AreEqual(initialDrillers - 10, _outpost.GetDrillerCount());
+            Assert.AreEqual(1, Game.TimeMachine.GetState().GetSubList().Count);
         }
         
         [TestMethod]
-        public void canUndoSubLaunch()
+        public void CanUndoSubLaunch()
         {
             List<Player> players = new List<Player>();
             players.Add(new Player(1));
@@ -106,75 +109,75 @@ namespace SubterfugeCoreTest
             GameConfiguration config = new GameConfiguration(players);
             Game game = new Game(config);
             
-            int initialDrillers = outpost.getDrillerCount();
-            outpost.launchSub(10, new Outpost(new Vector2(0,0), new Player(1), OutpostType.MINE));
+            int initialDrillers = _outpost.GetDrillerCount();
+            _outpost.LaunchSub(10, new Outpost(new RftVector(_map, 0,0), new Player(1), OutpostType.Mine));
             
-            Assert.AreEqual(initialDrillers - 10, outpost.getDrillerCount());
-            Assert.AreEqual(1, Game.timeMachine.getState().getSubList().Count);
+            Assert.AreEqual(initialDrillers - 10, _outpost.GetDrillerCount());
+            Assert.AreEqual(1, Game.TimeMachine.GetState().GetSubList().Count);
             
-            outpost.undoLaunch(Game.timeMachine.getState().getSubList()[0]);
+            _outpost.UndoLaunch(Game.TimeMachine.GetState().GetSubList()[0]);
             
-            Assert.AreEqual(initialDrillers, outpost.getDrillerCount());
-            Assert.AreEqual(0, Game.timeMachine.getState().getSubList().Count);
+            Assert.AreEqual(initialDrillers, _outpost.GetDrillerCount());
+            Assert.AreEqual(0, Game.TimeMachine.GetState().GetSubList().Count);
         }
         
         [TestMethod]
-        public void canRemoveShields()
+        public void CanRemoveShields()
         {
-            Outpost outpost = new Outpost(new Vector2(0, 0), new Player(1), OutpostType.MINE);
-            outpost.setShields(10);
-            int initialShields = outpost.getShields();
-            outpost.removeShields(5);
-            Assert.AreEqual(initialShields - 5, outpost.getShields());
+            Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
+            outpost.SetShields(10);
+            int initialShields = outpost.GetShields();
+            outpost.RemoveShields(5);
+            Assert.AreEqual(initialShields - 5, outpost.GetShields());
         }
         
         [TestMethod]
-        public void canAddShields()
+        public void CanAddShields()
         {
-            Outpost outpost = new Outpost(new Vector2(0, 0), new Player(1), OutpostType.MINE);
-            int initialShield = outpost.getShields();
-            outpost.addShield(1);
-            Assert.AreEqual(initialShield + 1, outpost.getShields());
+            Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
+            int initialShield = outpost.GetShields();
+            outpost.AddShield(1);
+            Assert.AreEqual(initialShield + 1, outpost.GetShields());
         }
         
         [TestMethod]
-        public void canSetShields()
+        public void CanSetShields()
         {
-            Outpost outpost = new Outpost(new Vector2(0, 0), new Player(1), OutpostType.MINE);
-            outpost.setShields(1);
-            Assert.AreEqual(1, outpost.getShields());
+            Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
+            outpost.SetShields(1);
+            Assert.AreEqual(1, outpost.GetShields());
         }
         
         [TestMethod]
-        public void shieldCapacityWorks()
+        public void ShieldCapacityWorks()
         {
-            Outpost outpost = new Outpost(new Vector2(0, 0), new Player(1), OutpostType.MINE);
-            outpost.setShieldCapacity(100);
-            outpost.setShields(5);
-            outpost.addShield(100);
+            Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
+            outpost.SetShieldCapacity(100);
+            outpost.SetShields(5);
+            outpost.AddShield(100);
             
-            Assert.AreEqual(outpost.getShieldCapacity(), outpost.getShields());
+            Assert.AreEqual(outpost.GetShieldCapacity(), outpost.GetShields());
             
-            outpost.setShields(105);
-            Assert.AreEqual(outpost.getShieldCapacity(), outpost.getShields());
+            outpost.SetShields(105);
+            Assert.AreEqual(outpost.GetShieldCapacity(), outpost.GetShields());
         }
         
         [TestMethod]
-        public void cannotHaveNegativeShield()
+        public void CannotHaveNegativeShield()
         {
-            Outpost outpost = new Outpost(new Vector2(0, 0), new Player(1), OutpostType.MINE);
-            outpost.setShields(10);
-            int initialShields = outpost.getShields();
-            outpost.removeShields(15);
-            Assert.AreEqual(0, outpost.getShields());
+            Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
+            outpost.SetShields(10);
+            int initialShields = outpost.GetShields();
+            outpost.RemoveShields(15);
+            Assert.AreEqual(0, outpost.GetShields());
         }
 
-        public void canToggleSheilds()
+        public void CanToggleSheilds()
         {
-            Outpost outpost = new Outpost(new Vector2(0, 0), new Player(1), OutpostType.MINE);
-            bool initialState = outpost.isShieldActive();
-            outpost.toggleShield();
-            Assert.AreEqual(!initialState, outpost.isShieldActive());
+            Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
+            bool initialState = outpost.IsShieldActive();
+            outpost.ToggleShield();
+            Assert.AreEqual(!initialState, outpost.IsShieldActive());
         }
     }
 }

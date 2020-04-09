@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.GameEvents.Validators;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
+using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCore.Core.GameEvents
 {
@@ -17,27 +18,27 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// The tick the combat occurs on
         /// </summary>
-        private GameTick eventTick;
+        private GameTick _eventTick;
         
         /// <summary>
         /// Where the combat occurs
         /// </summary>
-        private Vector2 combatLocation;
+        private RftVector _combatLocation;
         
         /// <summary>
         /// One of the two combat participants
         /// </summary>
-        private ICombatable combatant1;
+        private ICombatable _combatant1;
         
         /// <summary>
         /// One of the two combat participants
         /// </summary>
-        private ICombatable combatant2;
+        private ICombatable _combatant2;
         
         /// <summary>
         /// A list of combat actions that will occur when the event is triggered.
         /// </summary>
-        private List<IReversible> actions = new List<IReversible>();
+        private List<IReversible> _actions = new List<IReversible>();
 
         /// <summary>
         /// Constructor for the combat event
@@ -46,38 +47,38 @@ namespace SubterfugeCore.Core.GameEvents
         /// <param name="combatant2">The second combatant</param>
         /// <param name="tick">The tick the combat occurs</param>
         /// <param name="combatLocation">The location of the combat</param>
-        public CombatEvent(ICombatable combatant1, ICombatable combatant2, GameTick tick, Vector2 combatLocation)
+        public CombatEvent(ICombatable combatant1, ICombatable combatant2, GameTick tick, RftVector combatLocation)
         {
-            this.combatant1 = combatant1;
-            this.combatant2 = combatant2;
-            this.eventTick = tick;
-            this.combatLocation = combatLocation;
-            this.eventName = "Combat Event";
+            this._combatant1 = combatant1;
+            this._combatant2 = combatant2;
+            this._eventTick = tick;
+            this._combatLocation = combatLocation;
+            this.EventName = "Combat Event";
         }
         
         /// <summary>
         /// Performs the reverse operation of the event
         /// </summary>
-        public override bool backwardAction()
+        public override bool BackwardAction()
         {
-            if (eventSuccess)
+            if (EventSuccess)
             {
                 // perform actions in reverse
-                for (int i = actions.Count - 1; i >= 0; i--)
+                for (int i = _actions.Count - 1; i >= 0; i--)
                 {
-                    this.actions[i].backwardAction();
+                    this._actions[i].BackwardAction();
                 }
             }
 
-            return this.eventSuccess;
+            return this.EventSuccess;
         }
 
-        public override bool wasEventSuccessful()
+        public override bool WasEventSuccessful()
         {
-            return this.eventSuccess;
+            return this.EventSuccess;
         }
 
-        public override string toJSON()
+        public override string ToJson()
         {
             // Combat events shouldn't be stored in the database. No need for json.
             throw new System.NotImplementedException();
@@ -86,35 +87,35 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// Performs the forward operation of the event
         /// </summary>
-        public override bool forwardAction()
+        public override bool ForwardAction()
         {
-            if (!Validator.validateICombatable(combatant1) || !Validator.validateICombatable(combatant2))
+            if (!Validator.ValidateICombatable(_combatant1) || !Validator.ValidateICombatable(_combatant2))
             {
-                this.eventSuccess = false;
+                this.EventSuccess = false;
                 return false;
             }
 
             // Determine additional events that should be triggered for this particular combat.
-            if (combatant1.getOwner() == combatant2.getOwner())
+            if (_combatant1.GetOwner() == _combatant2.GetOwner())
             {
-                this.actions.Add(new FriendlySubArrive(combatant1, combatant2));
+                this._actions.Add(new FriendlySubArrive(_combatant1, _combatant2));
             } else
             {
-                this.actions.Add(new SpecialistCombat(combatant1, combatant2));
-                this.actions.Add(new DrillerCombat(combatant1, combatant2));
+                this._actions.Add(new SpecialistCombat(_combatant1, _combatant2));
+                this._actions.Add(new DrillerCombat(_combatant1, _combatant2));
 
-                if(combatant1 is Outpost || combatant2 is Outpost)
+                if(_combatant1 is Outpost || _combatant2 is Outpost)
                 {
-                    this.actions.Add(new OwnershipTransfer(combatant1, combatant2));
+                    this._actions.Add(new OwnershipTransfer(_combatant1, _combatant2));
                 }
 
             }
 
-            foreach (IReversible action in this.actions)
+            foreach (IReversible action in this._actions)
             {
-                action.forwardAction();
+                action.ForwardAction();
             }
-            this.eventSuccess = true;
+            this.EventSuccess = true;
             return true;
         }
         
@@ -122,20 +123,20 @@ namespace SubterfugeCore.Core.GameEvents
         /// Gets the tick the event occurs at
         /// </summary>
         /// <returns>The tick of the event</returns>
-        public override GameTick getTick()
+        public override GameTick GetTick()
         {
-            return this.eventTick;
+            return this._eventTick;
         }
 
         /// <summary>
         /// Returns a list of two objects containing both objects participating in combat.
         /// </summary>
         /// <returns>A list of the combatants</returns>
-        public List<ICombatable> getCombatants()
+        public List<ICombatable> GetCombatants()
         {
             List<ICombatable> combatants = new List<ICombatable>();
-            combatants.Add(combatant1);
-            combatants.Add(combatant2);
+            combatants.Add(_combatant1);
+            combatants.Add(_combatant2);
             return combatants;
         }
     }

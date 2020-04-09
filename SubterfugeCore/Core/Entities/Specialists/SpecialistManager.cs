@@ -12,19 +12,19 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <summary>
         /// The maximum number of specialists that can be stored in this carrier
         /// </summary>
-        private int capacity;
+        private int _capacity;
         
         /// <summary>
         /// A list of specialists in the carrier
         /// </summary>
-        List<Specialist> specialists = new List<Specialist>();
+        List<Specialist> _specialists = new List<Specialist>();
 
         /// <summary>
         /// Constructor for the specialist manager. Sets the capacity to 3 by default.
         /// </summary>
         public SpecialistManager()
         {
-            this.capacity = 3;  // default capacity
+            this._capacity = 3;  // default capacity
         }
         
         /// <summary>
@@ -33,48 +33,48 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="capacity">The capacity of the manager</param>
         public SpecialistManager(int capacity)
         {
-            this.capacity = capacity;
+            this._capacity = capacity;
         }
         
         /// <summary>
         /// Gets a list of the held specialists
         /// </summary>
         /// <returns>A list of the held specialists</returns>
-        public List<Specialist> getSpecialists()
+        public List<Specialist> GetSpecialists()
         {
-            return this.specialists;
+            return this._specialists;
         }
 
         /// <summary>
         /// Determines if a specialist can be added to this location
         /// </summary>
         /// <returns>If a specialist can be added</returns>
-        public bool canAddSpecialist()
+        public bool CanAddSpecialist()
         {
-            return this.specialists.Count < capacity;
+            return this._specialists.Count < _capacity;
         }
 
         /// <summary>
         /// Adds a specialist to the location
         /// </summary>
         /// <param name="specialist">The specialist to add to the location</param>
-        public void addSpecialist(Specialist specialist)
+        public void AddSpecialist(Specialist specialist)
         {
-            if(this.specialists.Count < capacity)
-                this.specialists.Add(specialist);
+            if(this._specialists.Count < _capacity)
+                this._specialists.Add(specialist);
         }
 
         /// <summary>
         /// Adds a list of specialists
         /// </summary>
         /// <param name="specialists">A list of specialists to add</param>
-        public void addSpecialists(List<Specialist> specialists)
+        public void AddSpecialists(List<Specialist> specialists)
         {
             foreach(Specialist s in specialists)
             {
-                if(this.specialists.Count < capacity)
+                if(this._specialists.Count < _capacity)
                 {
-                    this.specialists.Add(s);
+                    this._specialists.Add(s);
                 }
             }
         }
@@ -83,22 +83,22 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Removes a specialist
         /// </summary>
         /// <param name="specialist">The specialist to remove</param>
-        public void removeSpecialist(Specialist specialist)
+        public void RemoveSpecialist(Specialist specialist)
         {
-            this.specialists.Remove(specialist);
+            this._specialists.Remove(specialist);
         }
 
         /// <summary>
         /// Removes a list of specialsits
         /// </summary>
         /// <param name="specialists">The list of specialists to remove</param>
-        public void removeSpecialists(List<Specialist> specialists)
+        public void RemoveSpecialists(List<Specialist> specialists)
         {
             foreach(Specialist s in specialists)
             {
-                if (this.specialists.Contains(s))
+                if (this._specialists.Contains(s))
                 {
-                    this.specialists.Remove(s);
+                    this._specialists.Remove(s);
                 }
             }
         }
@@ -107,18 +107,18 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Get the capacity
         /// </summary>
         /// <returns>The capacity of specialists</returns>
-        public int getCapacity()
+        public int GetCapacity()
         {
-            return this.capacity;
+            return this._capacity;
         }
 
         /// <summary>
         /// Sets the capacity
         /// </summary>
         /// <param name="capacity">The capacity to set</param>
-        public void setCapacity(int capacity)
+        public void SetCapacity(int capacity)
         {
-            this.capacity = capacity;
+            this._capacity = capacity;
         }
 
         
@@ -126,9 +126,9 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Returns the current number of specialists
         /// </summary>
         /// <returns>The current number of specialists</returns>
-        public int getSpecialistCount()
+        public int GetSpecialistCount()
         {
-            return this.specialists.Count;
+            return this._specialists.Count;
         }
 
     }

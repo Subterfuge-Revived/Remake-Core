@@ -8,7 +8,7 @@ namespace SubterfugeCoreTest
     {
 
         [TestMethod]
-        public void sameSeedTest()
+        public void SameSeedTest()
         {
             int seed = 1;
             SeededRandom rand1 = new SeededRandom(seed);
@@ -16,29 +16,29 @@ namespace SubterfugeCoreTest
 
             for(int i = 0; i < 1000; i++)
             {
-                Assert.AreEqual(rand1.nextDouble(), rand2.nextDouble());
+                Assert.AreEqual(rand1.NextDouble(), rand2.NextDouble());
             }
             for (int i = 0; i < 1000; i++)
             {
-                Assert.AreEqual(rand1.nextRand(0, 10), rand2.nextRand(0, 10));
+                Assert.AreEqual(rand1.NextRand(0, 10), rand2.NextRand(0, 10));
             }
             for (int i = 0; i < 1000; i++)
             {
-                Assert.AreEqual(rand1.nextDouble(), rand2.nextDouble());
-                Assert.AreEqual(rand1.nextRand(0, 10), rand2.nextRand(0, 10));
+                Assert.AreEqual(rand1.NextDouble(), rand2.NextDouble());
+                Assert.AreEqual(rand1.NextRand(0, 10), rand2.NextRand(0, 10));
             }
         }
 
         [TestMethod]
-        public void indexedRand()
+        public void IndexedRand()
         {
             int seed = 1234;
             SeededRandom rand1 = new SeededRandom(seed);
             SeededRandom rand2 = new SeededRandom(seed);
 
 
-            Assert.AreEqual(rand1.getDouble(100), rand2.getDouble(100));
-            Assert.AreEqual(rand1.getRand(200, 0, 10), rand2.getRand(200, 0, 10));
+            Assert.AreEqual(rand1.GetDouble(100), rand2.GetDouble(100));
+            Assert.AreEqual(rand1.GetRand(200, 0, 10), rand2.GetRand(200, 0, 10));
         }
 
     }

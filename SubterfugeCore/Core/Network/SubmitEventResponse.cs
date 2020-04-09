@@ -2,6 +2,6 @@
 {
     public class SubmitEventResponse : NetworkResponse
     {
-        public int room_id { get; set; }
+        public int RoomId { get; set; }
     }
 }

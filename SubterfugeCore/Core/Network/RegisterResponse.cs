@@ -9,11 +9,11 @@
         /// <summary>
         /// The user that was registered (if any)
         /// </summary>
-        public NetworkUser user { get; set; }
+        public NetworkUser User { get; set; }
         
         /// <summary>
         /// The user's session id for future API calls
         /// </summary>
-        public string token { get; set; }
+        public string Token { get; set; }
     }
 }

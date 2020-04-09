@@ -6,6 +6,6 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
     public interface IScalableEffect
     {
-        void scale(int scale);
+        void Scale(int scale);
     }
 }

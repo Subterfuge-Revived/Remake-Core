@@ -7,12 +7,12 @@ namespace SubterfugeCoreCLI
     public class ValidateEventCommand
     {
         [Option('e', "eventJson", Required = true, HelpText = "The JSON text of the event to validate.")]
-        public string eventText { get; set; }
+        public string EventText { get; set; }
         
         [Option('g', "gameId", Required = true, HelpText = "The Game ID of the game to validate the event for.")]
-        public string gameId { get; set; }
+        public string GameId { get; set; }
         
         [Option('t', "token", Required = true, HelpText = "The user's session token.")]
-        public string token { get; set; }
+        public string Token { get; set; }
     }
 }

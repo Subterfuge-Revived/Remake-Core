@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
@@ -17,15 +17,15 @@ namespace SubterfugeCore.Core
     public class GameState
     {
         // List of currently active subs
-        private List<Sub> activeSubs = new List<Sub>();
+        private List<Sub> _activeSubs = new List<Sub>();
         // List of outposts
-        private List<Outpost> outposts = new List<Outpost>();
+        private List<Outpost> _outposts = new List<Outpost>();
         // List of players
-        private List<Player> players = new List<Player>();
+        private List<Player> _players = new List<Player>();
         
         // current time and start time
-        public GameTick currentTick;
-        private GameTick startTime;
+        public GameTick CurrentTick;
+        private GameTick _startTime;
         
         /// <summary>
         /// Constructs a new instance of a GameState to represent the game.
@@ -36,66 +36,66 @@ namespace SubterfugeCore.Core
         public GameState(GameConfiguration configuration)
         {
             // Set the start time to the time the game was initialized at and set the current tick
-            this.startTime = new GameTick(new DateTime(), 0);
-            this.currentTick = this.startTime;
+            this._startTime = new GameTick(new DateTime(), 0);
+            this.CurrentTick = this._startTime;
             
             // Set the players.
-            this.players = configuration.players;
+            this._players = configuration.Players;
         }
 
         /// <summary>
         /// Gets the GameTick that this GameState object is representing.
         /// </summary>
         /// <returns>The GameTick that the GameState represents.</returns>
-        public GameTick getCurrentTick()
+        public GameTick GetCurrentTick()
         {
-            return this.currentTick;
+            return this.CurrentTick;
         }
 
         /// <summary>
         /// Gets the game's start time
         /// </summary>
         /// <returns>The game's start time</returns>
-        public GameTick getStartTick()
+        public GameTick GetStartTick()
         {
-            return this.startTime;
+            return this._startTime;
         }
         
         /// <summary>
         /// Advances the GameState by one tick. IMPORTANT: This does NOT apply any time machine actions.
         /// </summary>
         /// <returns>The next GameTick</returns>
-        public GameTick goToNextTick()
+        public GameTick GoToNextTick()
         {
-            this.currentTick = this.currentTick.getNextTick();
-            return this.currentTick;
+            this.CurrentTick = this.CurrentTick.GetNextTick();
+            return this.CurrentTick;
         }
 
         /// <summary>
         /// Returns a list of all active subs in the game
         /// </summary>
         /// <returns>A list of the active subs</returns>
-        public List<Sub> getSubList()
+        public List<Sub> GetSubList()
         {
-            return this.activeSubs;
+            return this._activeSubs;
         }
 
         /// <summary>
         /// Returns a list of all outposts in the game
         /// </summary>
         /// <returns>A list of all outposts</returns>
-        public List<Outpost> getOutposts()
+        public List<Outpost> GetOutposts()
         {
-            return this.outposts;
+            return this._outposts;
         }
 
         /// <summary>
         /// Returns a list of all the players in the game
         /// </summary>
         /// <returns>A list of all players</returns>
-        public List<Player> getPlayers()
+        public List<Player> GetPlayers()
         {
-            return this.players;
+            return this._players;
         }
 
         /// <summary>
@@ -105,27 +105,27 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="sub">The sub to check exists</param>
         /// <returns>if the sub exists in the GameState</returns>
-        public bool subExists(Sub sub)
+        public bool SubExists(Sub sub)
         {
-            return this.activeSubs.Contains(sub);
+            return this._activeSubs.Contains(sub);
         }
 
         /// <summary>
         /// Launches a sub (or brings a sub back into the game if reversing). Adding the sub to the active sub list
         /// </summary>
         /// <param name="sub">The sub to add to the GameState</param>
-        public void addSub(Sub sub)
+        public void AddSub(Sub sub)
         {
-            this.activeSubs.Add(sub);
+            this._activeSubs.Add(sub);
         }
 
         /// <summary>
         /// Revmoes a sub from the list of active subs
         /// </summary>
         /// <param name="sub">The sub to remove from the game</param>
-        public void removeSub(Sub sub)
+        public void RemoveSub(Sub sub)
         {
-            this.activeSubs.Remove(sub);
+            this._activeSubs.Remove(sub);
         }
 
         /// <summary>
@@ -142,12 +142,12 @@ namespace SubterfugeCore.Core
 
             // This logic is not nessicarily true..
             // If a sub has a navigator this logic kind of falls apart.
-            foreach (Sub sub in this.activeSubs)
+            foreach (Sub sub in this._activeSubs)
             {
 
-                if (sub.getDestination() == destination || sub.getDestination() == source)
+                if (sub.GetDestination() == destination || sub.GetDestination() == source)
                 {
-                    if (sub.getSource() == source || sub.getSource() == destination)
+                    if (sub.GetSource() == source || sub.GetSource() == destination)
                     {
                         // Sub is on the path.
                         subsOnPath.Add(sub);
@@ -162,12 +162,12 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="player">The player to get the subs of</param>
         /// <returns>A list of the player's subs</returns>
-        public List<Sub> getPlayerSubs(Player player)
+        public List<Sub> GetPlayerSubs(Player player)
         {
             List<Sub> playerSubs = new List<Sub>();
-            foreach(Sub sub in this.activeSubs)
+            foreach(Sub sub in this._activeSubs)
             {
-                if(sub.getOwner() == player)
+                if(sub.GetOwner() == player)
                 {
                     playerSubs.Add(sub);
                 }
@@ -180,12 +180,12 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="player">The player to get the outposts of</param>
         /// <returns>A list of the player's controlled outposts</returns>
-        public List<Outpost> getPlayerOutposts(Player player)
+        public List<Outpost> GetPlayerOutposts(Player player)
         {
             List<Outpost> playerOutposts = new List<Outpost>();
-            foreach (Outpost outpost in this.outposts)
+            foreach (Outpost outpost in this._outposts)
             {
-                if (outpost.getOwner() == player)
+                if (outpost.GetOwner() == player)
                 {
                     playerOutposts.Add(outpost);
                 }
@@ -198,11 +198,11 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="guid">The Guid of the outpost you want to obtain.</param>
         /// <returns>The outpost matching the input Guid. Null if no results.</returns>
-        public Outpost getOutpostById(int id)
+        public Outpost GetOutpostById(int id)
         {
-            foreach (Outpost outpost in this.outposts)
+            foreach (Outpost outpost in this._outposts)
             {
-                if (outpost.getId() == id)
+                if (outpost.GetId() == id)
                 {
                     return outpost;
                 }
@@ -218,11 +218,11 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="guid">The guid of a sub to find.</param>
         /// <returns>The sub with the specified guid. Null if no sub exists with the specified Guid.</returns>
-        public Sub getSubById(int id)
+        public Sub GetSubById(int id)
         {
-            foreach (Sub sub in this.activeSubs)
+            foreach (Sub sub in this._activeSubs)
             {
-                if (sub.getId() == id)
+                if (sub.GetId() == id)
                 {
                     return sub;
                 }
@@ -235,9 +235,9 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="outpost">The outpost to check</param>
         /// <returns>If the referenced outpost exists</returns>
-        public bool outpostExists(Outpost outpost)
+        public bool OutpostExists(Outpost outpost)
         {
-            return this.outposts.Contains(outpost);
+            return this._outposts.Contains(outpost);
         }
 
         /// <summary>
@@ -245,26 +245,26 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="player">The player to check</param>
         /// <returns>If the player exists in the game</returns>
-        public bool playerExists(Player player)
+        public bool PlayerExists(Player player)
         {
-            return this.players.Contains(player);
+            return this._players.Contains(player);
         }
 
         /// <summary>
         /// Gets a list of all specilists in the game
         /// </summary>
         /// <returns>A list of all specliasts in the game</returns>
-        public List<Specialist> getSpecialists()
+        public List<Specialist> GetSpecialists()
         {
             List<Specialist> specialists = new List<Specialist>();
-            foreach(Outpost o in this.outposts)
+            foreach(Outpost o in this._outposts)
             {
-                specialists.AddRange(o.getSpecialistManager().getSpecialists());
+                specialists.AddRange(o.GetSpecialistManager().GetSpecialists());
             }
 
-            foreach (Sub s in activeSubs)
+            foreach (Sub s in _activeSubs)
             {
-                specialists.AddRange(s.getSpecialistManager().getSpecialists());
+                specialists.AddRange(s.GetSpecialistManager().GetSpecialists());
             }
 
             return specialists;
@@ -275,22 +275,22 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="player">The player to get specialists for</param>
         /// <returns>A list of the player's specialists</returns>
-        public List<Specialist> getPlayerSpecialists(Player player)
+        public List<Specialist> GetPlayerSpecialists(Player player)
         {
             List<Specialist> specialists = new List<Specialist>();
-            foreach(Outpost o in this.outposts)
+            foreach(Outpost o in this._outposts)
             {
-                if (o.getOwner() == player)
+                if (o.GetOwner() == player)
                 {
-                    specialists.AddRange(o.getSpecialistManager().getSpecialists());
+                    specialists.AddRange(o.GetSpecialistManager().GetSpecialists());
                 }
             }
 
-            foreach (Sub s in activeSubs)
+            foreach (Sub s in _activeSubs)
             {
-                if (s.getOwner() == player)
+                if (s.GetOwner() == player)
                 {
-                    specialists.AddRange(s.getSpecialistManager().getSpecialists());
+                    specialists.AddRange(s.GetSpecialistManager().GetSpecialists());
                 }
             }
 

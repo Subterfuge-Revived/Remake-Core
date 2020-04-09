@@ -5,191 +5,192 @@ using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
+using SubterfugeCore.Core.Topologies;
 
-namespace SubterfugeCore.Core.Entities.Locations
+namespace SubterfugeCore.Core.Entities.Positions
 {
-    /// <summary>
-    /// Outpost class
-    /// </summary>
+	/// <summary>
+	/// Outpost class
+	/// </summary>
     public class Outpost : GameObject, IOwnable, ITargetable, IDrillerCarrier, ILaunchable, ICombatable, IShieldable
     {
         /// <summary>
         /// A unique identifier for the outpost
         /// </summary>
-        private int id;
+        private int _id;
         
         /// <summary>
         /// The owner of the outpost
         /// </summary>
-        private Player outpostOwner;
+        private Player _outpostOwner;
         
         /// <summary>
         /// The outposts's specialist manager
         /// </summary>
-        private SpecialistManager specialistManager;
+        private SpecialistManager _specialistManager;
         
         /// <summary>
         /// The number of drillers at the outpost
         /// </summary>
-        int drillerCount;
+        int _drillerCount;
         
         /// <summary>
         /// The outpost type
         /// </summary>
-        OutpostType type;
+        OutpostType _type;
 
         /// <summary>
         /// The outposts shields
         /// </summary>
-        int shields;
+        int _shields;
         
         /// <summary>
         /// If the outpost's shields are active.
         /// </summary>
-        bool shieldActive;
+        bool _shieldActive;
         
         /// <summary>
         /// The maximum number of shields the outpost can have.
         /// </summary>
-        int shieldCapacity;
+        int _shieldCapacity;
         
         // shield recharge rate when implemented
 
         /// <summary>
         /// Outpost constructor
         /// </summary>
-        /// <param name="outpostLocation">The location of the outpost</param>
-        public Outpost(Vector2 outpostLocation)
+        /// <param name="outpostPosition">The position of the outpost</param>
+        public Outpost(RftVector outpostPosition)
         {
-            this.id = IdGenerator.getNextId();
-            this.position = outpostLocation;
-            this.drillerCount = 0;
-            this.outpostOwner = null;
-            this.specialistManager = new SpecialistManager(100);
-            this.shieldActive = true;
-            this.shieldCapacity = 10;
-            this.shields = 0;
+            this._id = IdGenerator.GetNextId();
+            this.Position = outpostPosition;
+            this._drillerCount = 0;
+            this._outpostOwner = null;
+            this._specialistManager = new SpecialistManager(100);
+            this._shieldActive = true;
+            this._shieldCapacity = 10;
+            this._shields = 0;
         }
 
         /// <summary>
         /// Outpost constructor
         /// </summary>
-        /// <param name="outpostLocation">The outpost location</param>
+        /// <param name="outpostPosition">The outpost position</param>
         /// <param name="type">The type of outpost to create</param>
-        public Outpost(Vector2 outpostLocation, OutpostType type)
+        public Outpost(RftVector outpostPosition, OutpostType type)
         {
-            this.id = IdGenerator.getNextId();
-            this.position = outpostLocation;
-            this.drillerCount = 0;
-            this.outpostOwner = null;
-            this.specialistManager = new SpecialistManager(100);
-            this.shieldActive = true;
-            this.shieldCapacity = 10;
-            this.shields = 0;
-            this.type = type;
+            this._id = IdGenerator.GetNextId();
+            this.Position = outpostPosition;
+            this._drillerCount = 0;
+            this._outpostOwner = null;
+            this._specialistManager = new SpecialistManager(100);
+            this._shieldActive = true;
+            this._shieldCapacity = 10;
+            this._shields = 0;
+            this._type = type;
         }
 
         /// <summary>
         /// Outpost constructor
         /// </summary>
-        /// <param name="outpostLocation">The outpost location</param>
+        /// <param name="outpostPosition">The outpost position</param>
         /// <param name="outpostOwner">The outpost's owner</param>
         /// <param name="type">The type of outpost to create</param>
-        public Outpost(Vector2 outpostLocation, Player outpostOwner, OutpostType type)
+        public Outpost(RftVector outpostPosition, Player outpostOwner, OutpostType type)
         {
-            this.id = IdGenerator.getNextId();
-            this.position = outpostLocation;
-            this.drillerCount = outpostOwner == null ? 0 : 40;
-            this.outpostOwner = outpostOwner;
-            this.specialistManager = new SpecialistManager(100);
-            this.shieldActive = true;
-            this.shieldCapacity = 10;
-            this.shields = 0;
-            this.type = type;
+            this._id = IdGenerator.GetNextId();
+            this.Position = outpostPosition;
+            this._drillerCount = outpostOwner == null ? 0 : 40;
+            this._outpostOwner = outpostOwner;
+            this._specialistManager = new SpecialistManager(100);
+            this._shieldActive = true;
+            this._shieldCapacity = 10;
+            this._shields = 0;
+            this._type = type;
         }
 
         /// <summary>
         /// The position of the outpost
         /// </summary>
         /// <returns>The outpost position</returns>
-        public override Vector2 getPosition()
+        public override RftVector GetPosition()
         {
-            return this.position;
+            return this.Position;
         }
 
         /// <summary>
         /// Set the outpost owner
         /// </summary>
         /// <param name="newOwner">The owner of the outpost</param>
-        public void setOwner(Player newOwner)
+        public void SetOwner(Player newOwner)
         {
-            this.outpostOwner = newOwner;
+            this._outpostOwner = newOwner;
         }
 
         /// <summary>
         /// Gets the owner of the outpost
         /// </summary>
         /// <returns>The outpost owner</returns>
-        public Player getOwner()
+        public Player GetOwner()
         {
-            return this.outpostOwner;
+            return this._outpostOwner;
         }
 
         /// <summary>
         /// Adds drillers to the outpost
         /// </summary>
         /// <param name="drillers">The number of drillers to add to the outpost</param>
-        public void addDrillers(int drillers)
+        public void AddDrillers(int drillers)
         {
-            this.drillerCount += drillers;
+            this._drillerCount += drillers;
         }
         
         /// <summary>
         /// Remove drillers from the outpost
         /// </summary>
         /// <param name="drillers">The number of drillers to remove</param>
-        public void removeDrillers(int drillers)
+        public void RemoveDrillers(int drillers)
         {
-            this.drillerCount -= drillers;
+            this._drillerCount -= drillers;
         }
 
         /// <summary>
-        /// The combat location if this object is targeted.
+        /// The combat position if this object is targeted.
         /// </summary>
-        /// <param name="targetFrom">The location being targeted from</param>
+        /// <param name="targetFrom">The position being targeted from</param>
         /// <param name="speed">The speed of the attacker</param>
-        /// <returns>The combat location</returns>
-        public Vector2 getTargetLocation(Vector2 targetFrom, double speed)
+        /// <returns>The combat position</returns>
+        public RftVector GetTargetPosition(RftVector targetFrom, float speed)
         {
-            return this.getPosition();
+            return this.GetPosition();
         }
 
         /// <summary>
-        /// The current location of the outpost
+        /// The current position of the outpost
         /// </summary>
-        /// <returns>The current location of the outpost</returns>
-        public Vector2 getCurrentLocation()
+        /// <returns>The current position of the outpost</returns>
+        public RftVector GetCurrentPosition()
         {
-            return this.getPosition();
+            return this.GetPosition();
         }
 
         
         /// <summary>
-        /// Get the number of drillers at the location
+        /// Get the number of drillers at the position
         /// </summary>
         /// <returns>The number of drillers at the outpost</returns>
-        public int getDrillerCount()
+        public int GetDrillerCount()
         {
-            return this.drillerCount;
+            return this._drillerCount;
         }
 
         /// <summary>
         /// Set the number of drillers
         /// </summary>
         /// <param name="drillerCount">The number of drillers to set</param>
-        public void setDrillerCount(int drillerCount)
+        public void SetDrillerCount(int drillerCount)
         {
-            this.drillerCount = drillerCount;
+            this._drillerCount = drillerCount;
         }
 
         /// <summary>
@@ -197,24 +198,24 @@ namespace SubterfugeCore.Core.Entities.Locations
         /// </summary>
         /// <param name="drillers">The number of drillers to check for</param>
         /// <returns>if the outpost has the drillers</returns>
-        public bool hasDrillers(int drillers)
+        public bool HasDrillers(int drillers)
         {
-            return this.drillerCount >= drillers;
+            return this._drillerCount >= drillers;
         }
 
         /// <summary>
-        /// Launches a sub from this location
+        /// Launches a sub from this position
         /// </summary>
         /// <param name="drillerCount">The number of drillers to launch</param>
         /// <param name="destination">The destination</param>
         /// <returns>A reference to the launched sub</returns>
-        public Sub launchSub(int drillerCount, ITargetable destination)
+        public Sub LaunchSub(int drillerCount, ITargetable destination)
         {
-            if (this.hasDrillers(drillerCount))
+            if (this.HasDrillers(drillerCount))
             {
-                this.removeDrillers(drillerCount);
-                Sub launchedSub = new Sub(this, destination, Game.timeMachine.currentTick, drillerCount, this.getOwner());
-                Game.timeMachine.getState().addSub(launchedSub);
+                this.RemoveDrillers(drillerCount);
+                Sub launchedSub = new Sub(this, destination, Game.TimeMachine.CurrentTick, drillerCount, this.GetOwner());
+                Game.TimeMachine.GetState().AddSub(launchedSub);
                 return launchedSub;
             }
             return null;
@@ -224,90 +225,90 @@ namespace SubterfugeCore.Core.Entities.Locations
         /// Undoes a sub launch
         /// </summary>
         /// <param name="sub"> The sub to undo</param>
-        public void undoLaunch(Sub sub)
+        public void UndoLaunch(Sub sub)
         {
-            this.addDrillers(sub.getDrillerCount());
-            Game.timeMachine.getState().removeSub(sub);
+            this.AddDrillers(sub.GetDrillerCount());
+            Game.TimeMachine.GetState().RemoveSub(sub);
         }
 
         /// <summary>
         /// Gets the specialist manager for the outpost
         /// </summary>
         /// <returns>the specialist manager</returns>
-        public SpecialistManager getSpecialistManager()
+        public SpecialistManager GetSpecialistManager()
         {
-            return this.specialistManager;
+            return this._specialistManager;
         }
 
         /// <summary>
-        /// Gets the sheilds at this location
+        /// Gets the sheilds at this position
         /// </summary>
-        /// <returns>The number of shields at this location</returns>
-        public int getShields()
+        /// <returns>The number of shields at this position</returns>
+        public int GetShields()
         {
-            return this.shields;
+            return this._shields;
         }
 
         /// <summary>
-        /// Sets the sheilds at the location
+        /// Sets the sheilds at the position
         /// </summary>
         /// <param name="shieldValue">The value of shields to set</param>
-        public void setShields(int shieldValue)
+        public void SetShields(int shieldValue)
         {
-            if(shieldValue > this.shieldCapacity)
+            if(shieldValue > this._shieldCapacity)
             {
-                this.shields = this.shieldCapacity;
+                this._shields = this._shieldCapacity;
             } else
             {
-                this.shields = shieldValue;
+                this._shields = shieldValue;
             }
         }
 
         /// <summary>
-        /// Removes shields from the location
+        /// Removes shields from the position
         /// </summary>
         /// <param name="shieldsToRemove">The number of shields to remove</param>
-        public void removeShields(int shieldsToRemove)
+        public void RemoveShields(int shieldsToRemove)
         {
-            if (this.shields - shieldsToRemove < 0)
+            if (this._shields - shieldsToRemove < 0)
             {
-                this.shields = 0;
+                this._shields = 0;
             }
             else
             {
-                this.shields -= shieldsToRemove;
+                this._shields -= shieldsToRemove;
             }
         }
 
         /// <summary>
         /// Toggles shields
         /// </summary>
-        public void toggleShield()
+        public void ToggleShield()
         {
-            this.shieldActive = !this.shieldActive;
+            this._shieldActive = !this._shieldActive;
         }
 
         /// <summary>
         /// Determines if the shields are active
         /// </summary>
         /// <returns>If the shields are enabled</returns>
-        public bool isShieldActive()
+        public bool IsShieldActive()
         {
-            return this.shieldActive;
+            return this._shieldActive;
         }
 
         /// <summary>
         /// Adds shields to the outpost
         /// </summary>
         /// <param name="shields">The number of shields to add</param>
-        public void addShield(int shields)
+        public void AddShield(int shields)
         {
-            if(this.shields + shields > this.shieldCapacity)
+            if(this._shields + shields > this._shieldCapacity)
             {
-                this.shields = this.shieldCapacity;
+                this._shields = this._shieldCapacity;
             } else
             {
-                this.shields += shields;
+                this._shields += shields;
             }
         }
 
@@ -315,36 +316,36 @@ namespace SubterfugeCore.Core.Entities.Locations
         /// Gets the shield capacity
         /// </summary>
         /// <returns>The maximum shield amount</returns>
-        public int getShieldCapacity()
+        public int GetShieldCapacity()
         {
-            return this.shieldCapacity;
+            return this._shieldCapacity;
         }
 
         /// <summary>
         /// Sets the sheild capacity
         /// </summary>
         /// <param name="capactiy">The capacity of the sheilds</param>
-        public void setShieldCapacity(int capactiy)
+        public void SetShieldCapacity(int capactiy)
         {
-            this.shieldCapacity = capactiy;
+            this._shieldCapacity = capactiy;
         }
 
         /// <summary>
         /// Gets the outpost type
         /// </summary>
         /// <returns>The type of outpost</returns>
-        public OutpostType getOutpostType()
+        public OutpostType GetOutpostType()
         {
-            return this.type;
+            return this._type;
         }
 
         /// <summary>
         /// Gets the globally unique indentifier for the Outpost.
         /// </summary>
         /// <returns>The Outpost's Guid</returns>
-        public int getId()
+        public int GetId()
         {
-            return this.id;
+            return this._id;
         }
     }
 }

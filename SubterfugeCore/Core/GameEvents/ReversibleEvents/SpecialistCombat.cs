@@ -12,12 +12,12 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
     /// </summary>
     public class SpecialistCombat : IReversible
     {
-        ICombatable combatant1;
-        ICombatable combatant2;
-        bool eventSuccess = false;
+        ICombatable _combatant1;
+        ICombatable _combatant2;
+        bool _eventSuccess = false;
 
-        List<Specialist> combatant1Specialists = new List<Specialist>();
-        List<Specialist> combatant2Specialists = new List<Specialist>();
+        List<Specialist> _combatant1Specialists = new List<Specialist>();
+        List<Specialist> _combatant2Specialists = new List<Specialist>();
 
         /// <summary>
         /// Constructor for a specialist combat
@@ -26,8 +26,8 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// <param name="combatant2">Combatant 2</param>
         public SpecialistCombat(ICombatable combatant1, ICombatable combatant2)
         {
-            this.combatant1 = combatant1;
-            this.combatant2 = combatant2;
+            this._combatant1 = combatant1;
+            this._combatant2 = combatant2;
 
         }
         
@@ -35,31 +35,31 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// Undoes the specialist combat
         /// </summary>
         /// <returns>If the event was undone</returns>
-        public bool backwardAction()
+        public bool BackwardAction()
         {
-            if (!eventSuccess)
+            if (!_eventSuccess)
             {
                 return false;
             }
 
             List<Specialist> specialists = new List<Specialist>();
-            specialists.AddRange(combatant1Specialists);
-            specialists.AddRange(combatant2Specialists);
+            specialists.AddRange(_combatant1Specialists);
+            specialists.AddRange(_combatant2Specialists);
 
             while (specialists.Count > 0)
             {
                 Specialist lowPriority = null;
                 foreach (Specialist s in specialists)
                 {
-                    if (lowPriority == null || s.getPriority() >= lowPriority.getPriority())
+                    if (lowPriority == null || s.GetPriority() >= lowPriority.GetPriority())
                     {
                         lowPriority = s;
                     }
                 }
                 // Apply the specialist effect to the enemey.
-                ICombatable enemy = combatant1.getOwner() == lowPriority.getOwner() ? combatant2 : combatant1;
-                ICombatable friendly = combatant1.getOwner() == lowPriority.getOwner() ? combatant1 : combatant2;
-                lowPriority.undoEffect(friendly, enemy);
+                ICombatable enemy = _combatant1.GetOwner() == lowPriority.GetOwner() ? _combatant2 : _combatant1;
+                ICombatable friendly = _combatant1.GetOwner() == lowPriority.GetOwner() ? _combatant1 : _combatant2;
+                lowPriority.UndoEffect(friendly, enemy);
             }
             return true;
         }
@@ -68,14 +68,14 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// Applies the specialist combat
         /// </summary>
         /// <returns>If the event was successful</returns>
-        public bool forwardAction()
+        public bool ForwardAction()
         {
-            this.combatant1Specialists = combatant1.getSpecialistManager().getSpecialists();
-            this.combatant2Specialists = combatant1.getSpecialistManager().getSpecialists();
+            this._combatant1Specialists = _combatant1.GetSpecialistManager().GetSpecialists();
+            this._combatant2Specialists = _combatant1.GetSpecialistManager().GetSpecialists();
 
             List<Specialist> specialists = new List<Specialist>();
-            specialists.AddRange(combatant1.getSpecialistManager().getSpecialists());
-            specialists.AddRange(combatant2.getSpecialistManager().getSpecialists());
+            specialists.AddRange(_combatant1.GetSpecialistManager().GetSpecialists());
+            specialists.AddRange(_combatant2.GetSpecialistManager().GetSpecialists());
 
             while (specialists.Count > 0)
             {
@@ -83,20 +83,20 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                 foreach (Specialist s in specialists)
                 {
                     // If any of the specialists are invalid, cancel the event.
-                    if (!Validator.validateSpecialist(s))
+                    if (!Validator.ValidateSpecialist(s))
                     {
-                        this.eventSuccess = false;
+                        this._eventSuccess = false;
                         return false;
                     }
-                    if (topPriority == null || s.getPriority() < topPriority.getPriority())
+                    if (topPriority == null || s.GetPriority() < topPriority.GetPriority())
                     {
                         topPriority = s;
                     }
                 }
                 // Apply the specialist effect to the enemey.
-                ICombatable enemy = combatant1.getOwner() == topPriority.getOwner() ? combatant2 : combatant1;
-                ICombatable friendly = combatant1.getOwner() == topPriority.getOwner() ? combatant1 : combatant2;
-                topPriority.applyEffect(friendly, enemy);
+                ICombatable enemy = _combatant1.GetOwner() == topPriority.GetOwner() ? _combatant2 : _combatant1;
+                ICombatable friendly = _combatant1.GetOwner() == topPriority.GetOwner() ? _combatant1 : _combatant2;
+                topPriority.ApplyEffect(friendly, enemy);
             }
             return true;
         }
@@ -105,9 +105,9 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// Determines if the event was successful.
         /// </summary>
         /// <returns>If the event is successful</returns>
-        public bool wasEventSuccessful()
+        public bool WasEventSuccessful()
         {
-            return this.eventSuccess;
+            return this._eventSuccess;
         }
     }
 }

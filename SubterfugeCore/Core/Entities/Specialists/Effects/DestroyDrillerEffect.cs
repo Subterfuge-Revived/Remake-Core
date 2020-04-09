@@ -4,41 +4,41 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
     class DestroyDrillerEffect : ISpecialistEffect, IScalableEffect
     {
-        private bool killsFriendly;
-        private int drillerCount;
-        EffectTrigger trigger;
-        int scaleFactor = 1;
+        private bool _killsFriendly;
+        private int _drillerCount;
+        EffectTrigger _trigger;
+        int _scaleFactor = 1;
 
         public DestroyDrillerEffect(int drillerCount, EffectTrigger trigger)
         {
-            this.drillerCount = drillerCount;
-            this.killsFriendly = false;
-            this.trigger = trigger;
+            this._drillerCount = drillerCount;
+            this._killsFriendly = false;
+            this._trigger = trigger;
         }
 
-        public void destroysFriendly()
+        public void DestroysFriendly()
         {
-            this.killsFriendly = true;
+            this._killsFriendly = true;
         }
 
-        public void forwardEffect(ICombatable friendly, ICombatable enemy)
+        public void ForwardEffect(ICombatable friendly, ICombatable enemy)
         {
-            enemy.removeDrillers(drillerCount * scaleFactor);
+            enemy.RemoveDrillers(_drillerCount * _scaleFactor);
         }
 
-        public void backwardEffect(ICombatable friendly, ICombatable enemy)
+        public void BackwardEffect(ICombatable friendly, ICombatable enemy)
         {
-            enemy.addDrillers(drillerCount * scaleFactor);
+            enemy.AddDrillers(_drillerCount * _scaleFactor);
         }
 
-        public EffectTrigger getEffectTrigger()
+        public EffectTrigger GetEffectTrigger()
         {
-            return this.trigger;
+            return this._trigger;
         }
 
-        public void scale(int scale)
+        public void Scale(int scale)
         {
-            this.scaleFactor = scale;
+            this._scaleFactor = scale;
         }
     }
 }

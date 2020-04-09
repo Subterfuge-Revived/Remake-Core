@@ -9,102 +9,102 @@ namespace SubterfugeCoreTest
     [TestClass]
     public class GameTickTest
     {
-        DateTime time;
-        int tickNumber;
-        GameTick tick;
+        DateTime _time;
+        int _tickNumber;
+        GameTick _tick;
 
 
         [TestInitialize]
-        public void setup()
+        public void Setup()
         {
-            time = new DateTime();
-            tickNumber = 0;
-            tick = new GameTick(time, tickNumber);
+            _time = new DateTime();
+            _tickNumber = 0;
+            _tick = new GameTick(_time, _tickNumber);
             Game server = new Game();
 
         }
 
         [TestMethod]
-        public void constructor()
+        public void Constructor()
         {
-            Assert.AreEqual(tickNumber, tick.getTick());
-            Assert.AreEqual(time, tick.getDate());
+            Assert.AreEqual(_tickNumber, _tick.GetTick());
+            Assert.AreEqual(_time, _tick.GetDate());
         }
 
         [TestMethod]
-        public void getNextTick()
+        public void GetNextTick()
         {
-            GameTick nextTick = tick.getNextTick();
+            GameTick nextTick = _tick.GetNextTick();
 
-            Assert.AreEqual(time.AddMinutes(GameTick.MINUTES_PER_TICK), nextTick.getDate());
-            Assert.AreEqual(tickNumber + 1, nextTick.getTick());
+            Assert.AreEqual(_time.AddMinutes(GameTick.MinutesPerTick), nextTick.GetDate());
+            Assert.AreEqual(_tickNumber + 1, nextTick.GetTick());
         }
 
         [TestMethod]
-        public void getPreviousTick()
+        public void GetPreviousTick()
         {
             // Check cannot go back before the first tick
-            GameTick previousTick = tick.getPreviousTick();
+            GameTick previousTick = _tick.GetPreviousTick();
 
-            Assert.AreEqual(tick, previousTick);
+            Assert.AreEqual(_tick, previousTick);
 
             // Advance and then come back
-            GameTick startingTick = tick.getNextTick().getPreviousTick();
+            GameTick startingTick = _tick.GetNextTick().GetPreviousTick();
 
-            Assert.AreEqual(time, startingTick.getDate());
-            Assert.AreEqual(tickNumber, startingTick.getTick());
+            Assert.AreEqual(_time, startingTick.GetDate());
+            Assert.AreEqual(_tickNumber, startingTick.GetTick());
         }
 
         [TestMethod]
-        public void advance()
+        public void Advance()
         {
             // Check advancing N ticks
             int ticksToAdvance = 10;
-            GameTick TenMoreTicks = tick.advance(ticksToAdvance);
+            GameTick tenMoreTicks = _tick.Advance(ticksToAdvance);
 
-            Assert.AreEqual(time.AddMinutes(GameTick.MINUTES_PER_TICK * ticksToAdvance), TenMoreTicks.getDate());
-            Assert.AreEqual(tickNumber + ticksToAdvance, TenMoreTicks.getTick());
+            Assert.AreEqual(_time.AddMinutes(GameTick.MinutesPerTick * ticksToAdvance), tenMoreTicks.GetDate());
+            Assert.AreEqual(_tickNumber + ticksToAdvance, tenMoreTicks.GetTick());
         }
 
         [TestMethod]
-        public void rewind()
+        public void Rewind()
         {
             int ticksToReverse = 10;
-            GameTick TenTicksBefore = tick.rewind(ticksToReverse);
+            GameTick tenTicksBefore = _tick.Rewind(ticksToReverse);
 
             // Should not be able to reverse 
-            Assert.AreEqual(true, TenTicksBefore == tick);
+            Assert.AreEqual(true, tenTicksBefore == _tick);
 
             // Advance and then go back
-            GameTick startingTick = tick.advance(ticksToReverse).rewind(ticksToReverse);
+            GameTick startingTick = _tick.Advance(ticksToReverse).Rewind(ticksToReverse);
 
-            Assert.AreEqual(time, startingTick.getDate());
-            Assert.AreEqual(tickNumber, startingTick.getTick());
+            Assert.AreEqual(_time, startingTick.GetDate());
+            Assert.AreEqual(_tickNumber, startingTick.GetTick());
 
         }
 
         [TestMethod]
-        public void fromDate()
+        public void FromDate()
         {
             int numberOfTicks = 4;
-            int minutes = GameTick.MINUTES_PER_TICK * numberOfTicks;
-            DateTime newDate = time.AddMinutes(minutes);
-            GameTick newTick = GameTick.fromDate(newDate);
+            int minutes = GameTick.MinutesPerTick * numberOfTicks;
+            DateTime newDate = _time.AddMinutes(minutes);
+            GameTick newTick = GameTick.FromDate(newDate);
 
-            Assert.AreEqual(tick.getTick() + numberOfTicks, newTick.getTick());
-            Assert.AreEqual(newDate, newTick.getDate());
+            Assert.AreEqual(_tick.GetTick() + numberOfTicks, newTick.GetTick());
+            Assert.AreEqual(newDate, newTick.GetDate());
         }
 
         [TestMethod]
-        public void fromTick()
+        public void FromTick()
         {
             int numberOfTicks = 4;
-            int minutes = GameTick.MINUTES_PER_TICK * numberOfTicks;
-            DateTime newDate = time.AddMinutes(minutes);
-            GameTick newTick = GameTick.fromTickNumber(numberOfTicks);
+            int minutes = GameTick.MinutesPerTick * numberOfTicks;
+            DateTime newDate = _time.AddMinutes(minutes);
+            GameTick newTick = GameTick.FromTickNumber(numberOfTicks);
 
-            Assert.AreEqual(tick.getTick() + numberOfTicks, newTick.getTick());
-            Assert.AreEqual(newDate, newTick.getDate());
+            Assert.AreEqual(_tick.GetTick() + numberOfTicks, newTick.GetTick());
+            Assert.AreEqual(newDate, newTick.GetDate());
 
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
@@ -12,9 +12,9 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
     /// </summary>
     public class FriendlySubArrive : IReversible
     {
-        Sub arrivingSub;
-        Outpost outpost;
-        private bool eventSuccess = false;
+        Sub _arrivingSub;
+        Outpost _outpost;
+        private bool _eventSuccess = false;
 
         /// <summary>
         /// Friendly sub arrival event
@@ -23,22 +23,22 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// <param name="combatant2">Combatant 2</param>
         public FriendlySubArrive(ICombatable combatant1, ICombatable combatant2)
         {
-            this.arrivingSub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
-            this.outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);
+            this._arrivingSub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
+            this._outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);
         }
 
         /// <summary>
         /// Undoes the sub's arrival
         /// </summary>
         /// <returns>If the event was undone</returns>
-        public bool backwardAction()
+        public bool BackwardAction()
         {
-            if (this.eventSuccess)
+            if (this._eventSuccess)
             {
-                this.outpost.removeDrillers(this.arrivingSub.getDrillerCount());
-                this.outpost.getSpecialistManager()
-                    .removeSpecialists(this.arrivingSub.getSpecialistManager().getSpecialists());
-                Game.timeMachine.getState().addSub(this.arrivingSub);
+                this._outpost.RemoveDrillers(this._arrivingSub.GetDrillerCount());
+                this._outpost.GetSpecialistManager()
+                    .RemoveSpecialists(this._arrivingSub.GetSpecialistManager().GetSpecialists());
+                Game.TimeMachine.GetState().AddSub(this._arrivingSub);
                 return true;
             }
             else
@@ -51,29 +51,29 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// Perfoms a friendly sub arrival
         /// </summary>
         /// <returns>If the event was successful</returns>
-        public bool forwardAction()
+        public bool ForwardAction()
         {
-            if (Game.timeMachine.getState().subExists(this.arrivingSub))
+            if (Game.TimeMachine.GetState().SubExists(this._arrivingSub))
             {
-                this.outpost.addDrillers(this.arrivingSub.getDrillerCount());
-                this.outpost.getSpecialistManager().addSpecialists(this.arrivingSub.getSpecialistManager().getSpecialists());
-                Game.timeMachine.getState().removeSub(this.arrivingSub);
-                this.eventSuccess = true;
+                this._outpost.AddDrillers(this._arrivingSub.GetDrillerCount());
+                this._outpost.GetSpecialistManager().AddSpecialists(this._arrivingSub.GetSpecialistManager().GetSpecialists());
+                Game.TimeMachine.GetState().RemoveSub(this._arrivingSub);
+                this._eventSuccess = true;
             }
             else
             {
-                this.eventSuccess = false;
+                this._eventSuccess = false;
             }
-            return this.eventSuccess;
+            return this._eventSuccess;
         }
         
         /// <summary>
         /// Determines if the event was successful.
         /// </summary>
         /// <returns>If the event is successful</returns>
-        public bool wasEventSuccessful()
+        public bool WasEventSuccessful()
         {
-            return this.eventSuccess;
+            return this._eventSuccess;
         }
     }
 }

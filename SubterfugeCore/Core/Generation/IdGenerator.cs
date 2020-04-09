@@ -2,12 +2,12 @@
 {
     public class IdGenerator
     {
-        static int lastId = 0;
+        static int _lastId = 0;
 
-        public static int getNextId()
+        public static int GetNextId()
         {
-            lastId++;
-            return lastId;
+            _lastId++;
+            return _lastId;
         }
     }
 }

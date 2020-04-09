@@ -7,8 +7,8 @@ namespace SubterfugeCoreCLI.Response
     {
         public FailureResponse(string message)
         {
-            this.success = false;
-            this.message = message;
+            this.Success = false;
+            this.Message = message;
         }
     }
 }

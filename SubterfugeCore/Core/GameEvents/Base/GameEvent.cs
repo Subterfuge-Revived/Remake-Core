@@ -12,45 +12,45 @@ namespace SubterfugeCore.Core.GameEvents.Base
         /// <summary>
         /// The time when the event occurs
         /// </summary>
-        private GameTick gameTick;
+        private GameTick _gameTick;
         
         /// <summary>
         /// If the event was successfully triggered
         /// </summary>
-        protected bool eventSuccess;
+        protected bool EventSuccess;
         
         /// <summary>
         /// The name of the event
         /// </summary>
-        public string eventName;
+        public string EventName;
 
         /// <summary>
         /// This function will be executed when determing the game's state for the time machine.
         /// This function will check all conditions required to perform the command as well as perform the command
         /// to show the outcome of the command.
         /// </summary>
-        public abstract bool forwardAction();
+        public abstract bool ForwardAction();
 
         /// <summary>
         /// This function will be executed when going back in time in order to undo an action.
         /// For example, this will un-hire a specialist returning the hire point to the queen, or un-launch a sub returning the drillers to the owner.
         /// </summary>
-        public abstract bool backwardAction();
+        public abstract bool BackwardAction();
 
         /// <summary>
         /// Gets the event's name
         /// </summary>
         /// <returns>The event name</returns>
-        public string getEventName()
+        public string GetEventName()
         {
-            return this.eventName;
+            return this.EventName;
         }
 
         /// <summary>
         /// Get the tick the event happens on
         /// </summary>
         /// <returns>The tick of the event</returns>
-        public abstract GameTick getTick();
+        public abstract GameTick GetTick();
 
         /// <summary>
         /// Comparison override for the priority queue sorting
@@ -61,13 +61,13 @@ namespace SubterfugeCore.Core.GameEvents.Base
         {
             GameEvent comparedEvent = obj as GameEvent;
             if (comparedEvent == null) return 1;
-            if (this.getTick() > comparedEvent.getTick())
+            if (this.GetTick() > comparedEvent.GetTick())
             {
                 return 1;
-            } else if (this.getTick() == comparedEvent.getTick())
+            } else if (this.GetTick() == comparedEvent.GetTick())
             {
                 // Do further comparison. The game events should NEVER be the same!
-                if(this.getTick().getDate() > comparedEvent.getTick().getDate())
+                if(this.GetTick().GetDate() > comparedEvent.GetTick().GetDate())
                 {
                     return 1;
                 } else
@@ -80,8 +80,8 @@ namespace SubterfugeCore.Core.GameEvents.Base
             }
         }
 
-        public abstract bool wasEventSuccessful();
+        public abstract bool WasEventSuccessful();
 
-        public abstract string toJSON();
+        public abstract string ToJson();
     }
 }

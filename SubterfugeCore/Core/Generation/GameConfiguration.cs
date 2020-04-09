@@ -18,35 +18,35 @@ namespace SubterfugeCore.Core.Generation
         public GameConfiguration(List<Player> players)
         {
             // Requires a list of players so that map generation can get the appropriate map & link ownership when generated.
-            this.players = players;
+            this.Players = players;
         }
 
         /// <summary>
         /// A list of players in the game 
         /// </summary>
-        public List<Player> players { get; }
+        public List<Player> Players { get; }
 
         /// <summary>
         /// The number of outposts that each player should be assigned when the map is generated
         /// </summary>
-        public int outpostsPerPlayer { get; set; } = 5;
+        public int OutpostsPerPlayer { get; set; } = 5;
 
         /// <summary>
         /// The seed to be used for the random number generator when creating the map.
         /// </summary>
-        public int seed { get; set; } = 0;
+        public int Seed { get; set; } = 0;
         
         /// <summary>
         /// The closest possible distance that two outposts can be together before trying to re-evaluate a new position.
         /// </summary>
-        public int minimumOutpostDistance { get; set; }
+        public int MinimumOutpostDistance { get; set; }
         
         /// <summary>
         /// The farthest away two outposts can be. Outposts are generated around a central outpost so this is
         /// essentially the radius of the player's territory. Ex. setting this to 100 means that the total size
         /// of a player's territory is up to 200x200
         /// </summary>
-        public int maxiumumOutpostDistance { get; set; }
+        public int MaxiumumOutpostDistance { get; set; }
 
         /// <summary>
         /// The number of dormant outposts to generate within each player's outposts. These are additional un-owned
@@ -55,6 +55,6 @@ namespace SubterfugeCore.Core.Generation
         /// dormantsPerPlayer + outpostsPerPlayer. The dormants are assigned to the farthest outposts from the center
         /// of the player's territory.
         /// </summary>
-        public int dormantsPerPlayer { get; set; } = 1;
+        public int DormantsPerPlayer { get; set; } = 1;
     }
 }

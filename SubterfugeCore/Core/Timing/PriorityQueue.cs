@@ -15,20 +15,20 @@ namespace SubterfugeCore.Core.Timing
     public class PriorityQueue<T>
         where T : IComparable
     {
-        protected List<T> storedValues;
+        protected List<T> StoredValues;
 
         public PriorityQueue()
         {
             //Initialize the array that will hold the values
-            storedValues = new List<T>();
+            StoredValues = new List<T>();
 
             //Fill the first cell in the array with an empty value
-            storedValues.Add(default(T));
+            StoredValues.Add(default(T));
         }
 
-        public List<T> getQueue()
+        public List<T> GetQueue()
         {
-            return this.storedValues;
+            return this.StoredValues;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace SubterfugeCore.Core.Timing
         /// </summary>
         public virtual int Count
         {
-            get { return storedValues.Count - 1; }
+            get { return StoredValues.Count - 1; }
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace SubterfugeCore.Core.Timing
             if (this.Count == 0)
                 return default(T); //Priority Queue empty
             else
-                return storedValues[1]; //head of the queue
+                return StoredValues[1]; //head of the queue
         }
 
         /// <summary>
@@ -56,11 +56,11 @@ namespace SubterfugeCore.Core.Timing
         public virtual void Enqueue(T value)
         {
             //Add the value to the internal array
-            storedValues.Add(value);
+            StoredValues.Add(value);
 
             //Bubble up to preserve the heap property,
             //starting at the inserted value
-            this.BubbleUp(storedValues.Count - 1);
+            this.BubbleUp(StoredValues.Count - 1);
         }
 
         /// <summary>
@@ -73,16 +73,16 @@ namespace SubterfugeCore.Core.Timing
             else
             {
                 //The smallest value in the Priority Queue is the first item in the array
-                T minValue = this.storedValues[1];
+                T minValue = this.StoredValues[1];
 
                 //If there's more than one item, replace the first item in the array with the last one
-                if (this.storedValues.Count > 2)
+                if (this.StoredValues.Count > 2)
                 {
-                    T lastValue = this.storedValues[storedValues.Count - 1];
+                    T lastValue = this.StoredValues[StoredValues.Count - 1];
 
                     //Move last node to the head
-                    this.storedValues.RemoveAt(storedValues.Count - 1);
-                    this.storedValues[1] = lastValue;
+                    this.StoredValues.RemoveAt(StoredValues.Count - 1);
+                    this.StoredValues[1] = lastValue;
 
                     //Bubble down
                     this.BubbleDown(1);
@@ -90,7 +90,7 @@ namespace SubterfugeCore.Core.Timing
                 else
                 {
                     //Remove the only value stored in the queue
-                    storedValues.RemoveAt(1);
+                    StoredValues.RemoveAt(1);
                 }
 
                 return minValue;
@@ -108,12 +108,12 @@ namespace SubterfugeCore.Core.Timing
             while (this.IsParentBigger(cell))
             {
                 //Get values of parent and child
-                T parentValue = this.storedValues[cell / 2];
-                T childValue = this.storedValues[cell];
+                T parentValue = this.StoredValues[cell / 2];
+                T childValue = this.StoredValues[cell];
 
                 //Swap the values
-                this.storedValues[cell / 2] = childValue;
-                this.storedValues[cell] = parentValue;
+                this.StoredValues[cell / 2] = childValue;
+                this.StoredValues[cell] = parentValue;
 
                 cell /= 2; //go up parents
             }
@@ -134,22 +134,22 @@ namespace SubterfugeCore.Core.Timing
                 if (child == -1) //Left Child
                 {
                     //Swap values
-                    T parentValue = storedValues[cell];
-                    T leftChildValue = storedValues[2 * cell];
+                    T parentValue = StoredValues[cell];
+                    T leftChildValue = StoredValues[2 * cell];
 
-                    storedValues[cell] = leftChildValue;
-                    storedValues[2 * cell] = parentValue;
+                    StoredValues[cell] = leftChildValue;
+                    StoredValues[2 * cell] = parentValue;
 
                     cell = 2 * cell; //move down to left child
                 }
                 else if (child == 1) //Right Child
                 {
                     //Swap values
-                    T parentValue = storedValues[cell];
-                    T rightChildValue = storedValues[2 * cell + 1];
+                    T parentValue = StoredValues[cell];
+                    T rightChildValue = StoredValues[2 * cell + 1];
 
-                    storedValues[cell] = rightChildValue;
-                    storedValues[2 * cell + 1] = parentValue;
+                    StoredValues[cell] = rightChildValue;
+                    StoredValues[2 * cell + 1] = parentValue;
 
                     cell = 2 * cell + 1; //move down to right child
                 }
@@ -164,7 +164,7 @@ namespace SubterfugeCore.Core.Timing
             if (childCell == 1)
                 return false; //top of heap, no parent
             else
-                return storedValues[childCell / 2].CompareTo(storedValues[childCell]) > 0;
+                return StoredValues[childCell / 2].CompareTo(StoredValues[childCell]) > 0;
             //return storedNodes[childCell / 2].Key > storedNodes[childCell].Key;
         }
 
@@ -174,10 +174,10 @@ namespace SubterfugeCore.Core.Timing
         /// </summary>
         protected virtual bool IsLeftChildSmaller(int parentCell)
         {
-            if (2 * parentCell >= storedValues.Count)
+            if (2 * parentCell >= StoredValues.Count)
                 return false; //out of bounds
             else
-                return storedValues[2 * parentCell].CompareTo(storedValues[parentCell]) < 0;
+                return StoredValues[2 * parentCell].CompareTo(StoredValues[parentCell]) < 0;
             //return storedNodes[2 * parentCell].Key < storedNodes[parentCell].Key;
         }
 
@@ -187,10 +187,10 @@ namespace SubterfugeCore.Core.Timing
         /// </summary>
         protected virtual bool IsRightChildSmaller(int parentCell)
         {
-            if (2 * parentCell + 1 >= storedValues.Count)
+            if (2 * parentCell + 1 >= StoredValues.Count)
                 return false; //out of bounds
             else
-                return storedValues[2 * parentCell + 1].CompareTo(storedValues[parentCell]) < 0;
+                return StoredValues[2 * parentCell + 1].CompareTo(StoredValues[parentCell]) < 0;
             //return storedNodes[2 * parentCell + 1].Key < storedNodes[parentCell].Key;
         }
 
@@ -211,8 +211,8 @@ namespace SubterfugeCore.Core.Timing
                     int leftChild = 2 * parentCell;
                     int rightChild = 2 * parentCell + 1;
 
-                    T leftValue = this.storedValues[leftChild];
-                    T rightValue = this.storedValues[rightChild];
+                    T leftValue = this.StoredValues[leftChild];
+                    T rightValue = this.StoredValues[rightChild];
 
                     //Compare the values of the children
                     if (leftValue.CompareTo(rightValue) <= 0)
@@ -229,22 +229,22 @@ namespace SubterfugeCore.Core.Timing
                 return 0; //both children are bigger or don't exist
         }
 
-        public bool remove(T item)
+        public bool Remove(T item)
         {
-            int index = this.storedValues.IndexOf(item);
+            int index = this.StoredValues.IndexOf(item);
             if (index != -1)
             {
-                T lastValue = this.storedValues[storedValues.Count - 1];
+                T lastValue = this.StoredValues[StoredValues.Count - 1];
                 if(lastValue.Equals(item))
                 {
                     // No swap nessecary, just remove and exit.
-                    this.storedValues.RemoveAt(storedValues.Count - 1);
+                    this.StoredValues.RemoveAt(StoredValues.Count - 1);
                     return true;
                 }
 
                 // Swap the last item.
-                this.storedValues[index] = lastValue;
-                this.storedValues.RemoveAt(storedValues.Count - 1);
+                this.StoredValues[index] = lastValue;
+                this.StoredValues.RemoveAt(StoredValues.Count - 1);
 
                 //Determine to bubble down or percolate up
                 if (IsParentBigger(index))

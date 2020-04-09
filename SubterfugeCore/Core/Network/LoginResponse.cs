@@ -9,11 +9,11 @@
         /// <summary>
         /// The Player that just logged in.
         /// </summary>
-        public NetworkUser user { get; set; }
+        public NetworkUser User { get; set; }
         
         /// <summary>
         /// The user's session token to use in future API requests.
         /// </summary>
-        public string token { get; set; }
+        public string Token { get; set; }
     }
 }

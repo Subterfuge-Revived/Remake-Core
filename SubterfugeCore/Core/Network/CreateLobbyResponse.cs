@@ -2,6 +2,6 @@
 {
     public class CreateLobbyResponse
     {
-        public GameRoom created_room { get; set; }
+        public GameRoom CreatedRoom { get; set; }
     }
 }

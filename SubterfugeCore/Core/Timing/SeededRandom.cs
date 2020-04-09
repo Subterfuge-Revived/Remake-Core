@@ -8,8 +8,8 @@ namespace SubterfugeCore.Core.Timing
     /// </summary>
     public class SeededRandom
     {
-        private Random generator;
-        private int currentRand;
+        private Random _generator;
+        private int _currentRand;
 
         /// <summary>
         /// Seeded random constructor.
@@ -17,8 +17,8 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="seed">The seed to generate random numbers from</param>
         public SeededRandom(int seed)
         {
-            this.generator = new Random(seed);
-            this.currentRand = 0;
+            this._generator = new Random(seed);
+            this._currentRand = 0;
         }
 
         /// <summary>
@@ -27,20 +27,20 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="min">The minimum</param>
         /// <param name="max">The maximum</param>
         /// <returns>A random number between min and max</returns>
-        public int nextRand(int min, int max)
+        public int NextRand(int min, int max)
         {
-            this.currentRand += 1;
-            return this.generator.Next(min, max);
+            this._currentRand += 1;
+            return this._generator.Next(min, max);
         }
         
         /// <summary>
         /// Generates a double between 0.0 and 1.0
         /// </summary>
         /// <returns>A random double</returns>
-        public double nextDouble()
+        public double NextDouble()
         {
-            this.currentRand += 1;
-            return this.generator.NextDouble();
+            this._currentRand += 1;
+            return this._generator.NextDouble();
         }
 
         /// <summary>
@@ -50,16 +50,16 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="min">The minimum</param>
         /// <param name="max">The maximum</param>
         /// <returns>The n'th random number between min and max</returns>
-        public int getRand(int index, int min, int max)
+        public int GetRand(int index, int min, int max)
         {
             // Generate random numbers until you have generated N
-            while(this.currentRand < index)
+            while(this._currentRand < index)
             {
-                this.generator.NextDouble();
-                this.currentRand++;
+                this._generator.NextDouble();
+                this._currentRand++;
             }
             // Return the n'th number
-            return this.generator.Next(min, max);
+            return this._generator.Next(min, max);
         }
 
         /// <summary>
@@ -67,14 +67,14 @@ namespace SubterfugeCore.Core.Timing
         /// </summary>
         /// <param name="index">The N'th number to return</param>
         /// <returns>The N'th double</returns>
-        public double getDouble(int index)
+        public double GetDouble(int index)
         {
-            while (this.currentRand < index)
+            while (this._currentRand < index)
             {
-                this.generator.NextDouble();
-                this.currentRand++;
+                this._generator.NextDouble();
+                this._currentRand++;
             }
-            return this.generator.NextDouble();
+            return this._generator.NextDouble();
         }
 
     }

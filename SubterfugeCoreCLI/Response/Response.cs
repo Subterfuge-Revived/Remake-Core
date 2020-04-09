@@ -4,8 +4,8 @@ namespace SubterfugeCoreCLI.Response
 {
     public class Response
     {
-        public bool success { get; set; }
-        public string message { get; set; }
+        public bool Success { get; set; }
+        public string Message { get; set; }
         
         public override string ToString()
         {

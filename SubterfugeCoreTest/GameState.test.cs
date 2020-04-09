@@ -4,146 +4,149 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore;
 using SubterfugeCore.Core;
 using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Locations;
+using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
+using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCoreTest
 {
     [TestClass]
     public class GamestateTest
     {
-        GameState state;
-        Player player1;
-        Outpost outpost;
-        Sub tempSub;
+        GameState _state;
+        Rft _map;
+        Player _player1;
+        Outpost _outpost;
+        Sub _tempSub;
 
 
         [TestInitialize]
-        public void setup()
+        public void Setup()
         {
-            player1 = new Player(1);
+            _player1 = new Player(1);
             List<Player> players = new List<Player>();
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
             
-            state = new GameState(config);
-            outpost = new Outpost(new Vector2(0, 0), player1, OutpostType.GENERATOR);
-            outpost.addDrillers(10);
-            tempSub = new Sub(outpost, outpost, new GameTick(), 10, player1);
+            _state = new GameState(config);
+            _map = new Rft(300,300);
+            _outpost = new Outpost(new RftVector(_map, 0, 0), _player1, OutpostType.Generator);
+            _outpost.AddDrillers(10);
+            _tempSub = new Sub(_outpost, _outpost, new GameTick(), 10, _player1);
         }
 
         [TestMethod]
-        public void constructor()
+        public void Constructor()
         {
-            Assert.IsNotNull(state);
+            Assert.IsNotNull(_state);
         }
 
         [TestMethod]
-        public void getCurrentTick()
+        public void GetCurrentTick()
         {
-            Assert.AreEqual(0, state.getCurrentTick().getTick());
+            Assert.AreEqual(0, _state.GetCurrentTick().GetTick());
         }
 
         [TestMethod]
-        public void getStartTick()
+        public void GetStartTick()
         {
-            Assert.AreEqual(0, state.getStartTick().getTick());
+            Assert.AreEqual(0, _state.GetStartTick().GetTick());
         }
 
         [TestMethod]
-        public void getSubList()
+        public void GetSubList()
         {
             //Ensure the sub list is empty
-            Assert.AreEqual(0, state.getSubList().Count);
+            Assert.AreEqual(0, _state.GetSubList().Count);
         }
 
         [TestMethod]
-        public void getOutposts()
+        public void GetOutposts()
         {
             // Ensure that no outposts are generated from a default state
-            Assert.IsTrue(state.getOutposts().Count == 0);
+            Assert.IsTrue(_state.GetOutposts().Count == 0);
         }
 
         [TestMethod]
-        public void getPlayers()
+        public void GetPlayers()
         {
             // Ensure that no players are added in a default state
-            Assert.IsTrue(state.getPlayers().Count == 0);
+            Assert.IsTrue(_state.GetPlayers().Count == 0);
         }
 
         [TestMethod]
-        public void addSub()
+        public void AddSub()
         {
             //Ensure the sub list is empty
-            Assert.AreEqual(0, state.getSubList().Count);
+            Assert.AreEqual(0, _state.GetSubList().Count);
 
-            state.addSub(this.tempSub);
+            _state.AddSub(this._tempSub);
 
             //Ensure the sub was added
-            Assert.AreEqual(1, state.getSubList().Count);
-            Assert.AreEqual(tempSub, state.getSubList()[0]);
+            Assert.AreEqual(1, _state.GetSubList().Count);
+            Assert.AreEqual(_tempSub, _state.GetSubList()[0]);
         }
 
         [TestMethod]
-        public void removeSub()
+        public void RemoveSub()
         {
             //Ensure the sub list is empty
-            addSub();
+            AddSub();
 
-            state.removeSub(tempSub);
+            _state.RemoveSub(_tempSub);
 
             //Ensure the sub list is empty
-            Assert.AreEqual(0, state.getSubList().Count);
+            Assert.AreEqual(0, _state.GetSubList().Count);
         }
 
         [TestMethod]
-        public void subExists()
+        public void SubExists()
         {
             //Ensure the sub is not in the list
-            Assert.IsTrue(!state.subExists(tempSub));
+            Assert.IsTrue(!_state.SubExists(_tempSub));
 
             //Ensure the sub list is empty
-            addSub();
+            AddSub();
 
 
             //Ensure the sub is in the list
-            Assert.IsTrue(state.subExists(tempSub));
+            Assert.IsTrue(_state.SubExists(_tempSub));
 
-            state.removeSub(tempSub);
+            _state.RemoveSub(_tempSub);
 
             //Ensure the sub is not in the list
-            Assert.IsTrue(!state.subExists(tempSub));
+            Assert.IsTrue(!_state.SubExists(_tempSub));
         }
 
         [TestMethod]
         public void getSubsOnPath()
         {
             //Ensure the sub list is empty
-            addSub();
+            AddSub();
 
 
             //Ensure the sub is on the path between the outposts.
-            Assert.AreEqual(tempSub, state.getSubsOnPath(outpost, outpost)[0]);
+            Assert.AreEqual(_tempSub, _state.getSubsOnPath(_outpost, _outpost)[0]);
         }
 
         [TestMethod]
-        public void getPlayerSubs()
+        public void GetPlayerSubs()
         {
             //Ensure the sub list is empty
-            Assert.AreEqual(0, state.getPlayerSubs(player1).Count);
+            Assert.AreEqual(0, _state.GetPlayerSubs(_player1).Count);
 
             // Add a sub
-            addSub();
+            AddSub();
 
             //Ensure the sub is returned.
-            Assert.AreEqual(tempSub, state.getPlayerSubs(player1)[0]);
+            Assert.AreEqual(_tempSub, _state.GetPlayerSubs(_player1)[0]);
         }
 
         [TestMethod]
-        public void getPlayerOutposts()
+        public void GetPlayerOutposts()
         {
             // No current way to test this.
         }

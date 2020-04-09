@@ -11,6 +11,6 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// A list of the game rooms returned from the network.
         /// </summary>
-        public List<GameRoom> rooms { get; set; }
+        public List<GameRoom> Rooms { get; set; }
     }
 }

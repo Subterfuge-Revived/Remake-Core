@@ -1,4 +1,4 @@
-﻿using SubterfugeCore.Core.Entities.Locations;
+﻿using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.Validators;
 using System;
 using System.Collections.Generic;
@@ -16,27 +16,27 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// The outpost producing the drillers
         /// </summary>
-        Outpost outpost;
+        Outpost _outpost;
         
         /// <summary>
         /// The tick the outpost is expected to produce drillers on
         /// </summary>
-        GameTick productionTick;
+        GameTick _productionTick;
         
         /// <summary>
         /// If the event was successful
         /// </summary>
-        bool eventSuccess = false;
+        bool _eventSuccess = false;
         
         /// <summary>
         /// If the net production event was added to the time machine
         /// </summary>
-        bool addedNextProduction = false;
+        bool _addedNextProduction = false;
         
         /// <summary>
         /// A reference to the next production event.
         /// </summary>
-        GameEvent nextEvent;
+        GameEvent _nextEvent;
 
         /// <summary>
         /// Constructor for the driller production event
@@ -45,32 +45,32 @@ namespace SubterfugeCore.Core.GameEvents
         /// <param name="tick">The gameTick to produce them at</param>
         public FactoryProduceDrillersEvent(Outpost outpost, GameTick tick)
         {
-            this.outpost = outpost;
-            this.productionTick = tick;
-            this.eventName = "Factory Production Event";
+            this._outpost = outpost;
+            this._productionTick = tick;
+            this.EventName = "Factory Production Event";
         }
         
         /// <summary>
         /// Undo a production event
         /// </summary>
-        public override bool backwardAction()
+        public override bool BackwardAction()
         {
-            if (eventSuccess)
+            if (_eventSuccess)
             {
-                outpost.removeDrillers(6);
-                Game.timeMachine.removeEvent(this.nextEvent);
-                this.nextEvent = null;
+                _outpost.RemoveDrillers(6);
+                Game.TimeMachine.RemoveEvent(this._nextEvent);
+                this._nextEvent = null;
             }
 
-            return this.eventSuccess;
+            return this._eventSuccess;
         }
 
-        public override bool wasEventSuccessful()
+        public override bool WasEventSuccessful()
         {
-            return this.eventSuccess;
+            return this._eventSuccess;
         }
 
-        public override string toJSON()
+        public override string ToJson()
         {
             // Production events don't need to be in the database. No need for JSON.
             throw new NotImplementedException();
@@ -79,37 +79,37 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// Forward production event
         /// </summary>
-        public override bool forwardAction()
+        public override bool ForwardAction()
         {
-            if (Validator.validateOutpost(outpost))
+            if (Validator.ValidateOutpost(_outpost))
             {
-                if(this.outpost.getOwner() != null && this.outpost.getOutpostType() == OutpostType.FACTORY)
+                if(this._outpost.GetOwner() != null && this._outpost.GetOutpostType() == OutpostType.Factory)
                 {
-                    this.nextEvent = new FactoryProduceDrillersEvent(this.outpost, this.productionTick.advance(40));
-                    Game.timeMachine.addEvent(this.nextEvent);
-                    outpost.addDrillers(6);
-                    eventSuccess = true;
+                    this._nextEvent = new FactoryProduceDrillersEvent(this._outpost, this._productionTick.Advance(40));
+                    Game.TimeMachine.AddEvent(this._nextEvent);
+                    _outpost.AddDrillers(6);
+                    _eventSuccess = true;
                 }
                 else
                 {
-                    this.eventSuccess = false;
+                    this._eventSuccess = false;
                 }
             }
             else
             {
-                this.eventSuccess = false;
+                this._eventSuccess = false;
             }
 
-            return this.eventSuccess;
+            return this._eventSuccess;
         }
         
         /// <summary>
         /// Get the tick of the production
         /// </summary>
         /// <returns>The production event's tick</returns>
-        public override GameTick getTick()
+        public override GameTick GetTick()
         {
-            return this.productionTick;
+            return this._productionTick;
         }
     }
 }
