@@ -39,6 +39,6 @@ jobs:
     - name: Move to root
       run: cd ..
     - name: Install docfx
-      run: nuget install docfx.console
+      run: choco install docfx
     - name: Generate docs
       run: docfx SubterfugeCore/docfx.json
