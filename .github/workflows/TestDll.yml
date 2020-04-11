@@ -44,5 +44,5 @@ jobs:
     container: erothejoker/docker-docfx:latest
     steps:
     # Run the docfx generation command.
-    -name: Generate docs
+    - name: Generate docs
       run: docfx SubterfugeCore/docfx.json

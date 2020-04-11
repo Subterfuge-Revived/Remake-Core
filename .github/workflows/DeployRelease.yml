@@ -42,7 +42,7 @@ jobs:
     container: erothejoker/docker-docfx:latest
     steps:
     # Run the docfx generation command.
-    -name: Generate docs
+    - name: Generate docs
       run: docfx SubterfugeCore/docfx.json
     # Publish the docs to the gh-pages branch for github pages
     - name: Publish Docs
@@ -85,7 +85,7 @@ jobs:
       run: cd ..
     # Upload the DLL to the release
     - name: Upload Core DLL
-      id: upload-release-asset 
+      id: upload-release-dll
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +96,7 @@ jobs:
         asset_content_type: application/x-msdownload
     # Upload the CLI dll to the release
     - name: Upload CLI DLL
-      id: upload-release-asset 
+      id: upload-release-cli
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
