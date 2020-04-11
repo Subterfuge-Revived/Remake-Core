@@ -11,7 +11,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  publish:
+  test:
     # The type of runner that the job will run on
     runs-on: ubuntu-18.04
     # The container image to pull from dockerhub
@@ -36,18 +36,22 @@ jobs:
       run: cd SubterfugeCoreTest
     - name: Run tests
       run: dotnet test
-    - name: Move to root
-      run: cd ..
-    - name: Install docfx
-      run: nuget install docfx.console
-    - name: Generate docs
+  # A step to build docfx documents using a differnt container with docfx installed to PATH
+  upload-docs:
+    runs-on: ubuntu-18.04
+    container: erothejoker/docker-docfx:latest
+    steps:
+    # Run the docfx generation command.
+    -name: Generate docs
       run: docfx SubterfugeCore/docfx.json
+    # Publish the docs to the gh-pages branch for github pages
     - name: Publish Docs
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BRANCH: gh-pages
         FOLDER: SubterfugeCore/_site
+    # Create a release
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -58,6 +62,28 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
+  deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-18.04
+    # The container image to pull from dockerhub
+    container: microsoft/dotnet:latest
+    # Test and upload-docs must both succeed before deploying a release
+    needs: [test, upload-docs]
+    steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Install nuget packages
+    - name: Enter core project
+      run: cd SubterfugeCore
+    - name: Install NuGet packages
+      run: dotnet restore
+    - name: Build DLL
+      run: dotnet build
+    - name: Move to root
+      run: cd ..
+    # Upload the DLL to the release
     - name: Upload Core DLL
       id: upload-release-asset 
       uses: actions/upload-release-asset@v1
@@ -68,6 +94,7 @@ jobs:
         asset_path: ./SubterfugeCore/bin/Debug/netcoreapp2.0/SubterfugeCore.dll
         asset_name: SubterfugeCore.dll
         asset_content_type: application/x-msdownload
+    # Upload the CLI dll to the release
     - name: Upload CLI DLL
       id: upload-release-asset 
       uses: actions/upload-release-asset@v1

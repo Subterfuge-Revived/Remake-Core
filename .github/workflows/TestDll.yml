@@ -11,7 +11,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  test:
     # The type of runner that the job will run on
     runs-on: ubuntu-18.04
     # The container image to pull from dockerhub
@@ -28,17 +28,21 @@ jobs:
       run: cd SubterfugeCore
     - name: Install NuGet packages
       run: dotnet restore
+    # Build the DLL
     - name: Build DLL
       run: dotnet build
     - name: Move to root
       run: cd ..
     - name: Move to Test project
       run: cd SubterfugeCoreTest
+    # Run the automated tests
     - name: Run tests
       run: dotnet test
-    - name: Move to root
-      run: cd ..
-    - name: Install docfx
-      run: choco install docfx
-    - name: Generate docs
+  # A step to build docfx documents using a differnt container with docfx installed
+  gen-docs:
+    runs-on: ubuntu-18.04
+    container: erothejoker/docker-docfx:latest
+    steps:
+    # Run the docfx generation command.
+    -name: Generate docs
       run: docfx SubterfugeCore/docfx.json
