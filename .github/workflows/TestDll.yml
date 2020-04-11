@@ -36,5 +36,9 @@ jobs:
       run: cd SubterfugeCoreTest
     - name: Run tests
       run: dotnet test
+    - name: Move to root
+      run: cd ..
+    - name: Install docfx
+      run: nuget install docfx.console
     - name: Generate docs
       run: docfx SubterfugeCore/docfx.json

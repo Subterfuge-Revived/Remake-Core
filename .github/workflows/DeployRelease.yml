@@ -38,13 +38,15 @@ jobs:
       run: dotnet test
     - name: Move to root
       run: cd ..
+    - name: Install docfx
+      run: nuget install docfx.console
     - name: Generate docs
       run: docfx SubterfugeCore/docfx.json
     - name: Publish Docs
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BRANCH: master
+        BRANCH: gh-pages
         FOLDER: SubterfugeCore/_site
     - name: Create Release
       id: create_release
