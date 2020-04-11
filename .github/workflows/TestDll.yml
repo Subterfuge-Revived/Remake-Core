@@ -43,6 +43,9 @@ jobs:
     runs-on: ubuntu-18.04
     container: erothejoker/docker-docfx:latest
     steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout
+      uses: actions/checkout@v2
     # Run the docfx generation command.
     - name: Generate docs
       run: docfx SubterfugeCore/docfx.json
