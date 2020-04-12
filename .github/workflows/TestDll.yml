@@ -1,0 +1,51 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Test Dll
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-18.04
+    # The container image to pull from dockerhub
+    container: microsoft/dotnet:latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Install nuget packages
+    - name: Enter core project
+      run: cd SubterfugeCore
+    - name: Install NuGet packages
+      run: dotnet restore
+    # Build the DLL
+    - name: Build DLL
+      run: dotnet build
+    - name: Move to root
+      run: cd ..
+    - name: Move to Test project
+      run: cd SubterfugeCoreTest
+    # Run the automated tests
+    - name: Run tests
+      run: dotnet test
+  # A step to build docfx documents using a differnt container with docfx installed
+  gen-docs:
+    runs-on: ubuntu-18.04
+    container: erothejoker/docker-docfx:latest
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout
+      uses: actions/checkout@v2
+    # Run the docfx generation command.
+    - name: Generate docs
+      run: docfx SubterfugeCore/docfx.json
