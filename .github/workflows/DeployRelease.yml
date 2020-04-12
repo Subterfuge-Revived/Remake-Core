@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Test Dll
+name: Deploy Release
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -44,6 +44,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+          persist-credentials: false
+    # If deploying to pages in container, need to install this apparently?
+    - name: Install rsync 📚
+      run: |
+        apt-get update && apt-get install -y rsync
     # Run the docfx generation command.
     - name: Generate docs
       run: docfx SubterfugeCore/docfx.json
