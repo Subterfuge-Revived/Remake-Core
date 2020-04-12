@@ -51,17 +51,9 @@ jobs:
     - name: Publish Docs
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BRANCH: gh-pages
         FOLDER: SubterfugeCore/_site
-    # Create a release
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
   deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-18.04
@@ -83,10 +75,23 @@ jobs:
       run: dotnet build
     - name: Move to root
       run: cd ..
+    # Create a release
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
     # Upload the DLL to the release
     - name: Upload Core DLL
       id: upload-release-dll
       uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         asset_path: ./SubterfugeCore/bin/Debug/netcoreapp2.0/SubterfugeCore.dll
@@ -96,6 +101,8 @@ jobs:
     - name: Upload CLI DLL
       id: upload-release-cli
       uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         asset_path: ./SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/SubterfugeCoreCLI.dll
