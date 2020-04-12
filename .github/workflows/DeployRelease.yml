@@ -77,6 +77,10 @@ jobs:
       run: dotnet build
     - name: Move to root
       run: cd ..
+    # If deploying to pages in container, need to install this apparently?
+    - name: Install rsync 📚
+      run: |
+        apt-get update && apt-get install -y rsync
     # Create a release
     - name: Create Release
       id: create_release
