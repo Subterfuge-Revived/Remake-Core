@@ -8,12 +8,7 @@ using SubterfugeCore.Core.Interfaces;
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
     class StealDrillerEffect : SpecialistEffect
-    {
-        private float _stealPercent;
-        private EffectTrigger _trigger;
-        private EffectTriggerRange _effectTriggerRange;
-        private EffectTarget _effectTarget;
-        
+    {   
         // List to keep track of all stolen drillers.
         // Need to know previous steal amounts so that the action can be undone
         private Stack<int> stealHistory = new Stack<int>();
@@ -21,8 +16,8 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
 
         public StealDrillerEffect(float stealPercent, EffectTrigger trigger)
         {
-            this._stealPercent = stealPercent;
-            this._trigger = trigger;
+            this._effectValue = stealPercent;
+            this._effectTrigger = trigger;
             this._effectTarget = EffectTarget.Enemy;
             this._effectTriggerRange = EffectTriggerRange.Local;
         }
