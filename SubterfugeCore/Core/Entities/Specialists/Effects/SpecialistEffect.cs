@@ -1,4 +1,7 @@
-﻿using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
+﻿using System;
+using System.Linq;
+using SubterfugeCore.Core.Entities.Positions;
+using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
 using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
@@ -62,6 +65,58 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <returns></returns>
         public float getEffectValue(ICombatable friendly, ICombatable enemy)
         {
+            // TODO: Apply specialist scaling here
+            float scalar = this._scalar;
+
+            switch (_effectScale)
+            {
+                case EffectScale.None:
+                    break;
+                case EffectScale.PlayerFactoryCount:
+                    if (this._effectTarget == EffectTarget.Friendly)
+                    {
+                        scalar = Game.TimeMachine.GetState().GetPlayerOutposts(friendly.GetOwner()).FindAll(outpost => outpost.GetOutpostType() == OutpostType.Factory).Count;
+                    }
+                    else if (this._effectTarget == EffectTarget.Enemy)
+                    {
+                        scalar = Game.TimeMachine.GetState().GetPlayerOutposts(enemy.GetOwner()).FindAll(outpost => outpost.GetOutpostType() == OutpostType.Factory).Count;
+                    }
+                    else if (this._effectTarget == EffectTarget.Both)
+                    {
+                        scalar = Game.TimeMachine.GetState().GetPlayerOutposts(enemy.GetOwner()).FindAll(outpost => outpost.GetOutpostType() == OutpostType.Factory).Count + Game.TimeMachine.GetState().GetPlayerOutposts(friendly.GetOwner()).FindAll(outpost => outpost.GetOutpostType() == OutpostType.Factory).Count;
+                    }
+
+                    break;
+                case EffectScale.PlayerMineCount:
+                    if (this._effectTarget == EffectTarget.Friendly)
+                    {
+                        scalar = Game.TimeMachine.GetState().GetPlayerOutposts(friendly.GetOwner()).FindAll(outpost => outpost.GetOutpostType() == OutpostType.Mine).Count;
+                    }
+                    else if (this._effectTarget == EffectTarget.Enemy)
+                    {
+                        scalar = Game.TimeMachine.GetState().GetPlayerOutposts(enemy.GetOwner()).FindAll(outpost => outpost.GetOutpostType() == OutpostType.Mine).Count;
+                    }
+                    else if (this._effectTarget == EffectTarget.Both)
+                    {
+                        scalar = Game.TimeMachine.GetState().GetPlayerOutposts(enemy.GetOwner()).FindAll(outpost => outpost.GetOutpostType() == OutpostType.Mine).Count + Game.TimeMachine.GetState().GetPlayerOutposts(friendly.GetOwner()).FindAll(outpost => outpost.GetOutpostType() == OutpostType.Mine).Count;
+                    }
+                    break;
+                case EffectScale.PlayerOutpostCount:
+                    if (this._effectTarget == EffectTarget.Friendly)
+                    {
+                        scalar = Game.TimeMachine.GetState().GetPlayerOutposts(friendly.GetOwner()).Count;
+                    }
+                    else if (this._effectTarget == EffectTarget.Enemy)
+                    {
+                        scalar = Game.TimeMachine.GetState().GetPlayerOutposts(enemy.GetOwner()).Count;
+                    }
+                    else if (this._effectTarget == EffectTarget.Both)
+                    {
+                        scalar = Game.TimeMachine.GetState().GetPlayerOutposts(enemy.GetOwner()).Count + Game.TimeMachine.GetState().GetPlayerOutposts(friendly.GetOwner()).Count;
+                    }
+                    break;
+            }
+            
             return this._effectValue * _scalar;
         }
     }
