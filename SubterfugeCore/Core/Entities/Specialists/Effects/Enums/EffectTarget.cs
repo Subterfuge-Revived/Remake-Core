@@ -2,8 +2,19 @@
 {
     public enum EffectTarget
     {
-        Friendly, // Effect will target friendly targets
-        Enemy,    // Effects will target enemy targets
-        Both,      // Effect will target both friendly and enemy targets
+        /// <summary>
+        /// Effect will target friendly targets
+        /// </summary>
+        Friendly,
+        
+        /// <summary>
+        /// Effect will target enemy targets
+        /// </summary>
+        Enemy,
+        
+        /// <summary>
+        /// Effect will target both friendly and enemy targets
+        /// </summary>
+        Both,
     }
 }

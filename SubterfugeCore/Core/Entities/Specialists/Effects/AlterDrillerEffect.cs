@@ -8,7 +8,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         private int _drillerCount;
         private EffectTrigger _trigger;
         private EffectTarget _target;
-        private EffectType _effectType;
+        private EffectTriggerRange _effectTriggerRange;
 
         public AlterDrillerEffect(int drillerCount, EffectTrigger trigger, EffectTarget effectTarget)
         {
@@ -47,14 +47,14 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             this._target = effectTarget;
         }
 
-        public EffectType GetEffectType()
+        public EffectTriggerRange GetEffectType()
         {
-            return this._effectType;
+            return this._effectTriggerRange;
         }
 
-        public void SetEffectType(EffectType effectType)
+        public void SetEffectType(EffectTriggerRange effectTriggerRange)
         {
-            this._effectType = effectType;
+            this._effectTriggerRange = effectTriggerRange;
         }
     }
 }

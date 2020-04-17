@@ -11,7 +11,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         void SetEffectTrigger(EffectTrigger effectTrigger);
         EffectTarget GetEffectTarget();
         void SetEffectTarget(EffectTarget effectTarget);
-        EffectType GetEffectType();
-        void SetEffectType(EffectType effectType);
+        EffectTriggerRange GetEffectType();
+        void SetEffectType(EffectTriggerRange effectTriggerRange);
     }
 }

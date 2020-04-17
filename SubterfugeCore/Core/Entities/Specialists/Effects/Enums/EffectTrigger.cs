@@ -2,30 +2,56 @@
 {
     public enum EffectTrigger
     {
-        // Local event triggers allow specialists to listen for any events that occur at the outpost but do not involve the specialist itself.
-        LocalSubLaunch,       // a sub launched from the outpost this specialist is at
-        LocalSubArrive,       // a sub has arrived at the outpost this specialist is at
-        LocalHire,             // a specialist was hired at the outpost this specialist is at
-        LocalFactoryProduce,   // Drillers were produced at the factory
-        LocalMineProduce,      // neptunium was produced at the mine
-
-        // Self triggering events are to listen for any events that happen to the specialist itself.
-        SelfHire,      // This specialist was hired
-        SelfPromote,   // This specialist was promoted
-        SelfLaunch,    // This specialist was launched
-        SelfArrive,    // This specialist has arrived
-        SelfCombat,    // This specialist is in combat
-        SelfCombatLoss, // This specialist lost in combat
-        SelfCombatVictory,    // This specialist has survived in combat
+        /// <summary>
+        /// Trigger on specialist hires
+        /// </summary>
+        Hire,
         
-        // AOE Event triggers are to trigger on events happening within the local outposts/subs sonar range.
-        SonarHire,
-        SonarPromote,
-        SonarLaunch,        // If EffectType is set to "Friendly" this will trigger on friendly sub launches from outposts in your sonar
-        SonarArrive,
-        SonarCombat,
-        SonarCombatLoss,
-        SonarCombatVictory,
-        SonarSubEnter,
+        /// <summary>
+        /// Trigger on specialist promotions
+        /// </summary>
+        Promote,
+        
+        /// <summary>
+        /// Trigger on sub launches
+        /// </summary>
+        SubLaunch,
+        
+        /// <summary>
+        /// Trigger on subs arriving
+        /// </summary>
+        SubArrive,
+        
+        /// <summary>
+        /// Trigger on combat events
+        /// </summary>
+        Combat,
+        
+        /// <summary>
+        /// Trigger on combat losses
+        /// </summary>
+        CombatLoss,
+        
+        /// <summary>
+        /// Trigger on combat victories
+        /// </summary>
+        CombatVictory,
+        
+        /// <summary>
+        /// Trigger on factory productions
+        /// </summary>
+        FactoryProduce,
+        
+        /// <summary>
+        /// Trigger on neptunium productions
+        /// </summary>
+        MineProduce,
+        
+        /// <summary>
+        /// Trigger when subs enter the defined range.
+        /// WARNING: Can only be used if TriggerRange is set to have a range.
+        /// This event will not trigger when TriggerRange is set to Self or Local!
+        /// </summary>
+        SubEnter,
     }
 }

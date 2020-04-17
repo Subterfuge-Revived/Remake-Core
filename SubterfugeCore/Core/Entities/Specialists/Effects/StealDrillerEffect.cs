@@ -11,7 +11,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
     {
         private float _stealPercent;
         private EffectTrigger _trigger;
-        private EffectType _effectType;
+        private EffectTriggerRange _effectTriggerRange;
         private EffectTarget _effectTarget;
         
         // List to keep track of all stolen drillers.
@@ -24,7 +24,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             this._stealPercent = stealPercent;
             this._trigger = trigger;
             this._effectTarget = EffectTarget.Enemy;
-            this._effectType = EffectType.Local;
+            this._effectTriggerRange = EffectTriggerRange.Local;
         }
 
         public void ForwardEffect(ICombatable friendly, ICombatable enemy)
@@ -67,14 +67,14 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             this._effectTarget = effectTarget;
         }
 
-        public EffectType GetEffectType()
+        public EffectTriggerRange GetEffectType()
         {
-            return this._effectType;
+            return this._effectTriggerRange;
         }
 
-        public void SetEffectType(EffectType effectType)
+        public void SetEffectType(EffectTriggerRange effectTriggerRange)
         {
-            this._effectType = effectType;
+            this._effectTriggerRange = effectTriggerRange;
         }
     }
 }
