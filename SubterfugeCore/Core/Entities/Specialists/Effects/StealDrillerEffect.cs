@@ -7,7 +7,7 @@ using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
-    class StealDrillerEffect : ISpecialistEffect
+    class StealDrillerEffect : SpecialistEffect
     {
         private float _stealPercent;
         private EffectTrigger _trigger;
@@ -27,15 +27,15 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             this._effectTriggerRange = EffectTriggerRange.Local;
         }
 
-        public void ForwardEffect(ICombatable friendly, ICombatable enemy)
+        public override void ForwardEffect(ICombatable friendly, ICombatable enemy)
         {
-            int stolenDrillers = (int) (enemy.GetDrillerCount() * _stealPercent);
+            int stolenDrillers = (int) (enemy.GetDrillerCount() * getEffectValue(friendly, enemy));
             enemy.RemoveDrillers(stolenDrillers);
             friendly.AddDrillers(stolenDrillers);
             this.stealHistory.Push(stolenDrillers);
         }
 
-        public void BackwardEffect(ICombatable friendly, ICombatable enemy)
+        public override void BackwardEffect(ICombatable friendly, ICombatable enemy)
         {
             if (stealHistory.Count <= 0)
             {
@@ -43,38 +43,8 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             }
             // Get the last steal amount:
             int lastSteal = stealHistory.Pop();
-            // Can't do this. Need an event that stores the initial steal amount O_O ...
-            // enemy.addDrillers(drillerCount * stealPercent);
-        }
-
-        public EffectTrigger GetEffectTrigger()
-        {
-            return this._trigger;
-        }
-
-        public void SetEffectTrigger(EffectTrigger effectTrigger)
-        {
-            this._trigger = effectTrigger;
-        }
-
-        public EffectTarget GetEffectTarget()
-        {
-            return this._effectTarget;
-        }
-
-        public void SetEffectTarget(EffectTarget effectTarget)
-        {
-            this._effectTarget = effectTarget;
-        }
-
-        public EffectTriggerRange GetEffectType()
-        {
-            return this._effectTriggerRange;
-        }
-
-        public void SetEffectType(EffectTriggerRange effectTriggerRange)
-        {
-            this._effectTriggerRange = effectTriggerRange;
+            enemy.AddDrillers(lastSteal);
+            friendly.RemoveDrillers(lastSteal);
         }
     }
 }

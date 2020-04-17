@@ -29,7 +29,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <summary>
         /// A list of specialist effects that the specialist can apply
         /// </summary>
-        List<ISpecialistEffect> _specialistEffects = new List<ISpecialistEffect>();
+        List<SpecialistEffect> _specialistEffects = new List<SpecialistEffect>();
 
         /// <summary>
         /// Is the specialist captured by another player?
@@ -53,7 +53,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Returns a list of specialist effects that the specialist possesses.
         /// </summary>
         /// <returns>A list of specialist effects that the specialist can apply</returns>
-        public List<ISpecialistEffect> GetSpecialistEffects()
+        public List<SpecialistEffect> GetSpecialistEffects()
         {
             return this._specialistEffects;
         }
@@ -62,7 +62,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Removes a specialist effect from the specailist
         /// </summary>
         /// <param name="effect">The specialist effect to remove.</param>
-        public void RemoveSpecialistEffect(ISpecialistEffect effect)
+        public void RemoveSpecialistEffect(SpecialistEffect effect)
         {
             if(_specialistEffects.Contains(effect))
             {
@@ -74,7 +74,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Adds a specialist effect to the specialist
         /// </summary>
         /// <param name="effect">The effect to add.</param>
-        public void AddSpecialistEffect(ISpecialistEffect effect)
+        public void AddSpecialistEffect(SpecialistEffect effect)
         {
             _specialistEffects.Add(effect);
         }
@@ -86,7 +86,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="enemy">The enemy combatable to effect</param>
         public void ApplyEffect(ICombatable friendly, ICombatable enemy)
         {
-            foreach(ISpecialistEffect effect in this._specialistEffects)
+            foreach(SpecialistEffect effect in this._specialistEffects)
             {
                 effect.ForwardEffect(friendly, enemy);
             }
@@ -99,7 +99,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="enemy">The enemy combatable to reverse effects to</param>
         public void UndoEffect(ICombatable friendly, ICombatable enemy)
         {
-            foreach (ISpecialistEffect effect in this._specialistEffects)
+            foreach (SpecialistEffect effect in this._specialistEffects)
             {
                 effect.BackwardEffect(friendly, enemy);
             }
@@ -147,9 +147,9 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             // Loop through specialist effects.
             // Determine if the effect should be triggered.
-            foreach (ISpecialistEffect specialistEffect in this._specialistEffects)
+            foreach (SpecialistEffect specialistEffect in this._specialistEffects)
             {
-                if (specialistEffect.GetEffectTrigger() == trigger)
+                if (specialistEffect._effectTrigger == trigger)
                 {
                     // specialistEffect.forwardEffect();
                 }

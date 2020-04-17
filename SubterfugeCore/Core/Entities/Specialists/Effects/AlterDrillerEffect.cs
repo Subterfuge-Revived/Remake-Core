@@ -3,58 +3,18 @@ using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
-    public class AlterDrillerEffect : ISpecialistEffect
+    public class AlterDrillerEffect : SpecialistEffect
     {
-        private int _drillerCount;
-        private EffectTrigger _trigger;
-        private EffectTarget _target;
-        private EffectTriggerRange _effectTriggerRange;
 
-        public AlterDrillerEffect(int drillerCount, EffectTrigger trigger, EffectTarget effectTarget)
+        public override void ForwardEffect(ICombatable friendly, ICombatable enemy)
         {
-            this._drillerCount = drillerCount;
-            this._trigger = trigger;
-            this._target = effectTarget;
+            friendly.AddDrillers(getEffectValue(friendly, enemy));
         }
 
-        public void ForwardEffect(ICombatable friendly, ICombatable enemy)
+        public override void BackwardEffect(ICombatable friendly, ICombatable enemy)
         {
-            friendly.AddDrillers(_drillerCount);
+            friendly.RemoveDrillers(getEffectValue(friendly, enemy));
         }
 
-        public void BackwardEffect(ICombatable friendly, ICombatable enemy)
-        {
-            friendly.RemoveDrillers(_drillerCount);
-        }
-
-        public EffectTrigger GetEffectTrigger()
-        {
-            return this._trigger;
-        }
-
-        public void SetEffectTrigger(EffectTrigger effectTrigger)
-        {
-            this._trigger = effectTrigger;
-        }
-
-        public EffectTarget GetEffectTarget()
-        {
-            return this._target;
-        }
-
-        public void SetEffectTarget(EffectTarget effectTarget)
-        {
-            this._target = effectTarget;
-        }
-
-        public EffectTriggerRange GetEffectType()
-        {
-            return this._effectTriggerRange;
-        }
-
-        public void SetEffectType(EffectTriggerRange effectTriggerRange)
-        {
-            this._effectTriggerRange = effectTriggerRange;
-        }
     }
 }

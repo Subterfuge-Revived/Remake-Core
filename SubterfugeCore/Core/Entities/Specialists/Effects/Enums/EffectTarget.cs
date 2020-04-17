@@ -3,6 +3,11 @@
     public enum EffectTarget
     {
         /// <summary>
+        /// No effect targets 
+        /// </summary>
+        None,
+        
+        /// <summary>
         /// Effect will target friendly targets
         /// </summary>
         Friendly,

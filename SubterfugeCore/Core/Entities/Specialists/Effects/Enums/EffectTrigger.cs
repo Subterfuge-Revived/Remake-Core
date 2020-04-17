@@ -3,6 +3,11 @@
     public enum EffectTrigger
     {
         /// <summary>
+        /// No trigger.
+        /// </summary>
+        None,
+        
+        /// <summary>
         /// Trigger on specialist hires
         /// </summary>
         Hire,
