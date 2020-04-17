@@ -117,7 +117,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                     break;
             }
             
-            return this._effectValue * _scalar;
+            return this._effectValue * scalar;
         }
     }
 }
