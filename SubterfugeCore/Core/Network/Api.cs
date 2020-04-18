@@ -25,7 +25,7 @@ namespace SubterfugeCore.Core.Network
         /// The API URL. The default value is set to "http://localhost/subterfuge-backend/sandbox/event_exec.php".
         /// You can override this URL by calling the API constuctor and passing in the URL manually. 
         /// </summary>
-        private string _url = "http://localhost/";
+        static string Url { get; set; } = "http://localhost/";
         
         /// <summary>
         /// Once the user has logged in, their SESSION_ID token will be saved in the Api instance. This ensures
@@ -55,7 +55,7 @@ namespace SubterfugeCore.Core.Network
         public Api(string url)
         {
             // Constructor to override the API's default url.
-            this._url = url;
+            Url = url;
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("type", "login")
             });
 
-            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -115,7 +115,7 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("room_status", "open")
             });
 
-            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -137,7 +137,7 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("filter_player", "true")
             });
 
-            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -159,7 +159,7 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("room_id", roomId.ToString()),
             });
 
-            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -181,7 +181,7 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("room_id", roomId.ToString()),
             });
 
-            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -204,7 +204,7 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("room_id", roomId.ToString()),
             });
 
-            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -238,7 +238,7 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("map", map.ToString()),
             });
 
-            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -264,7 +264,7 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("event_msg", gameEvent.ToJson()),
             });
 
-            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -286,7 +286,7 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("room_id", gameRoom.ToString()),
             });
 
-            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -319,7 +319,7 @@ namespace SubterfugeCore.Core.Network
                 new KeyValuePair<string, string>("email", email),
             });
 
-            HttpResponseMessage response = await Client.PostAsync(_url, formContent);
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             // Read the response
             string responseContent = await response.Content.ReadAsStringAsync();
 
