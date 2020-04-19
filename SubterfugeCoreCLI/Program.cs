@@ -41,7 +41,7 @@ namespace SubterfugeCoreCLI
                     NetworkResponse<List<GameRoom>> response = await api.GetOpenRooms();
                     if (response.IsSuccessStatusCode())
                     {
-                        Console.WriteLine(response.ResponseObject.Count);
+                        Console.WriteLine(response.Response.Count);
                         Console.WriteLine("Success");
                     }
                 }
