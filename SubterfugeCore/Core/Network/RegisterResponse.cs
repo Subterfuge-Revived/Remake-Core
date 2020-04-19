@@ -4,7 +4,7 @@
     /// Class is parsed in Unity by using JsonConvert.Deserialize() on the Register Network response.
     /// For some reason including the JSON library in the dll to do it here throws errors.
     /// </summary>
-    public class RegisterResponse : NetworkResponse
+    public class RegisterResponse
     {
         /// <summary>
         /// The user that was registered (if any)

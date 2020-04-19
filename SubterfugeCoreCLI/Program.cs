@@ -25,6 +25,27 @@ namespace SubterfugeCoreCLI
                 },
                     errors => Task.FromResult(0));
             }
+            else
+            {
+                // Use this section for debugging purposes.
+                // Feel free to remove what is here.
+                
+                Api api = new Api("http://18.220.154.6/api");
+
+                NetworkResponse<LoginResponse> loginResponse = await api.Login("asdfg", "asdfg");
+
+                if (loginResponse.IsSuccessStatusCode())
+                {
+                    Console.Write("Logged in!");
+                    
+                    NetworkResponse<List<GameRoom>> response = await api.GetOpenRooms();
+                    if (response.IsSuccessStatusCode())
+                    {
+                        Console.WriteLine(response.ResponseObject.Count);
+                        Console.WriteLine("Success");
+                    }
+                }
+            }
         }
 
         public async static Task HandleParsed(ValidateEventCommand parsed)
@@ -32,7 +53,7 @@ namespace SubterfugeCoreCLI
             Api api = new Api();
             api.SetToken(parsed.Token);
 
-            List<GameEvent> gameEvents = await api.GetGameEvents(Int32.Parse(parsed.GameId));
+            NetworkResponse<List<NetworkGameEvent>> gameEvents = await api.GetGameEvents(Int32.Parse(parsed.GameId));
             Console.WriteLine("Done");
         }
     }

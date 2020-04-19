@@ -4,7 +4,7 @@
     /// Class is parsed in Unity by using JsonConvert.Deserialize() on the Login Network response.
     /// For some reason including the JSON library in the dll to do it here throws errors.
     /// </summary>
-    public class LoginResponse : NetworkResponse
+    public class LoginResponse
     {
         /// <summary>
         /// The Player that just logged in.
