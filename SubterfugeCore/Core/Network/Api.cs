@@ -333,6 +333,44 @@ namespace SubterfugeCore.Core.Network
             HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             return await NetworkResponse<SendMessageResponse>.FromHttpResponse(response);
         }
+
+        public async Task<NetworkResponse<BlockPlayerResponse>> BlockPlayer(Player player)
+        {
+            var formContent = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("type", "block"),
+                new KeyValuePair<string, string>("session_id", _sessionId),
+                new KeyValuePair<string, string>("other_player_id", player.GetId().ToString()),
+            });
+        
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            return await NetworkResponse<BlockPlayerResponse>.FromHttpResponse(response);
+        }
+
+        public async Task<NetworkResponse<UnblockPlayerResponse>> UnblockPlayer(Player player)
+        {
+            var formContent = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("type", "unblock"),
+                new KeyValuePair<string, string>("session_id", _sessionId),
+                new KeyValuePair<string, string>("other_player_id", player.GetId().ToString()),
+            });
+        
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            return await NetworkResponse<UnblockPlayerResponse>.FromHttpResponse(response);
+        }
+
+        public async Task<NetworkResponse<List<BlockedPlayer>>> GetBlockList()
+        {
+            var formContent = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("type", "get_blocks"),
+                new KeyValuePair<string, string>("session_id", _sessionId),
+            });
+        
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            return await NetworkResponse<List<BlockedPlayer>>.FromHttpResponse(response);
+        }
         
     }
 }
