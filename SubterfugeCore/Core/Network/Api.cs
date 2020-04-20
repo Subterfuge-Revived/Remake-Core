@@ -281,5 +281,58 @@ namespace SubterfugeCore.Core.Network
             HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             return await NetworkResponse<RegisterResponse>.FromHttpResponse(response);
         }
+
+        public async Task<NetworkResponse<List<NetworkMessage>>> GetGroupMessages(int GroupNumber)
+        {
+            var formContent = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("type", "get_message"),
+                new KeyValuePair<string, string>("session_id", _sessionId),
+                new KeyValuePair<string, string>("group_id", GroupNumber.ToString()),
+            });
+
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            return await NetworkResponse<List<NetworkMessage>>.FromHttpResponse(response);
+        }
+
+
+        public async Task<NetworkResponse<CreateGroupResponse>> CreateGroup(int gameRoom, List<Player> players)
+        {
+            // Concatenate all the player IDs
+            string playerIds = "";
+            foreach(Player p in players)
+            {
+                playerIds += p.GetId().ToString() + ",";
+            }
+
+            // Trim the last comma
+            playerIds.Substring(0, playerIds.Length - 1);
+            
+            var formContent = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("type", "create_group"),
+                new KeyValuePair<string, string>("session_id", _sessionId),
+                new KeyValuePair<string, string>("room_id", gameRoom.ToString()),
+                new KeyValuePair<string, string>("participants[]", playerIds),
+            });
+        
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            return await NetworkResponse<CreateGroupResponse>.FromHttpResponse(response);
+        }
+        
+        public async Task<NetworkResponse<SendMessageResponse>> SendMessage(int groupId, string message)
+        {
+            var formContent = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("type", "message"),
+                new KeyValuePair<string, string>("session_id", _sessionId),
+                new KeyValuePair<string, string>("group_id", groupId.ToString()),
+                new KeyValuePair<string, string>("message", message),
+            });
+        
+            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            return await NetworkResponse<SendMessageResponse>.FromHttpResponse(response);
+        }
+        
     }
 }
