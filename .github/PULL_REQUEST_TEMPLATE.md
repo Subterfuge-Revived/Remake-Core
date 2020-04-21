@@ -8,6 +8,14 @@ Be as detailed as possible and be sure to indicate how this change will effect d
 Also list any new dependencies/packages that are required for this change.
 -->
 
+# Versioning
+
+Previous Version:
+Next Version Number:
+
+ - [ ] I have updated the README to reflect the new version number
+ - [ ] When I publish a release I will append the version number to the dll's name
+
 # Type of change
 
 <!-- Please select options that are relevant. -->
