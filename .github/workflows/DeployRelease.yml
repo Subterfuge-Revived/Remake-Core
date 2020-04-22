@@ -6,7 +6,7 @@ name: Deploy Release
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [ master, github-actions ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -57,7 +57,7 @@ jobs:
     - name: Publish Docs
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
         FOLDER: SubterfugeCore/_site
   deploy:
@@ -83,16 +83,12 @@ jobs:
       run: dotnet build
     - name: Move to root
       run: cd ..
-    # If deploying to pages in container, need to install this apparently?
-    - name: Install rsync 📚
-      run: |
-        apt-get update && apt-get install -y rsync
     # Create a release
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
@@ -103,7 +99,7 @@ jobs:
       id: upload-release-dll
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         asset_path: ./SubterfugeCore/bin/Debug/netcoreapp2.0/SubterfugeCore.dll
@@ -114,7 +110,7 @@ jobs:
       id: upload-release-cli
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         asset_path: ./SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/SubterfugeCoreCLI.dll
