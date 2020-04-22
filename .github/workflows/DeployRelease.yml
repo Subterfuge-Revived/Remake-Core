@@ -44,8 +44,6 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-          persist-credentials: false
     # If deploying to pages in container, need to install this apparently?
     - name: Install rsync 📚
       run: |
@@ -71,8 +69,6 @@ jobs:
         # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-          persist-credentials: false
 
     # Install nuget packages
     - name: Enter core project
