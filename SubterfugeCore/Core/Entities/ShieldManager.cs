@@ -92,15 +92,15 @@ namespace SubterfugeCore.Core.Entities
         {
             if (IsActive)
             {
-                _shields -= shieldsToRemove;
-                if (_shields < 0)
+                int result = GetShields() - shieldsToRemove;
+                if (result < 0)
                 {
-                    _shields = 0;
-                    _shieldDeltas.Push(new ShieldChange(Game.TimeMachine.CurrentTick, _shields));
+                    result = 0;
+                    _shieldDeltas.Push(new ShieldChange(Game.TimeMachine.CurrentTick, result));
                     return true;
                 }
 
-                _shieldDeltas.Push(new ShieldChange(Game.TimeMachine.CurrentTick, _shields));
+                _shieldDeltas.Push(new ShieldChange(Game.TimeMachine.CurrentTick, result));
                 return false;
             }
 
@@ -140,7 +140,7 @@ namespace SubterfugeCore.Core.Entities
         public void SetShieldCapacity(int capactiy)
         {
             ShieldCapacity = capactiy;
-            if (_shields > ShieldCapacity)
+            if (GetShields() > ShieldCapacity)
             {
                 _shields = ShieldCapacity;
             }

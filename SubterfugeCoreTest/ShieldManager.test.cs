@@ -129,5 +129,19 @@ namespace SubterfugeCoreTest
             Game.TimeMachine.Advance(20);
             Assert.AreEqual(0, _shieldManager.GetShields());
         }
+
+        [TestMethod]
+        public void GoingBackInTimeRevertsShields()
+        {
+            _shieldManager.SetShields(10);
+            Game.TimeMachine.Advance(5);
+            int initialShields = _shieldManager.GetShields();
+            bool didWin = _shieldManager.CombatShields(5);
+            int finalShields = _shieldManager.GetShields();
+            Assert.AreEqual(false, didWin);
+            Assert.AreEqual(5, initialShields - finalShields);
+            Game.TimeMachine.Rewind(1);
+            Assert.AreEqual(true, _shieldManager.GetShields() > finalShields);
+        }
     }
 }

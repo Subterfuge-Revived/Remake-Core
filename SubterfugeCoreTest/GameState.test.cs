@@ -16,8 +16,9 @@ namespace SubterfugeCoreTest
     public class GamestateTest
     {
         GameState _state;
+        private Game _game;
         Rft _map;
-        Player _player1;
+        private List<Player> _players;
         Outpost _outpost;
         Sub _tempSub;
 
@@ -25,17 +26,24 @@ namespace SubterfugeCoreTest
         [TestInitialize]
         public void Setup()
         {
-            _player1 = new Player(1);
-            List<Player> players = new List<Player>();
+            _players = new List<Player>();
+            _players.Add(new Player(1));;
+            _players.Add(new Player(2));
             
-            GameConfiguration config = new GameConfiguration(players);
-            Assert.IsNotNull(config);
+            GameConfiguration config = new GameConfiguration(_players);
+            config.Seed = 1234;
+            config.OutpostsPerPlayer = 1;
+            config.DormantsPerPlayer = 1;
+            config.MaxiumumOutpostDistance = 100;
+            config.MinimumOutpostDistance = 10;
+            
+            _game = new Game(config);
             
             _state = new GameState(config);
             _map = new Rft(300,300);
-            _outpost = new Outpost(new RftVector(_map, 0, 0), _player1, OutpostType.Generator);
+            _outpost = new Outpost(new RftVector(_map, 0, 0), _players[0], OutpostType.Generator);
             _outpost.AddDrillers(10);
-            _tempSub = new Sub(_outpost, _outpost, new GameTick(), 10, _player1);
+            _tempSub = new Sub(_outpost, _outpost, new GameTick(), 10, _players[0]);
         }
 
         [TestMethod]
@@ -74,7 +82,7 @@ namespace SubterfugeCoreTest
         public void GetPlayers()
         {
             // Ensure that no players are added in a default state
-            Assert.IsTrue(_state.GetPlayers().Count == 0);
+            Assert.IsTrue(_state.GetPlayers().Count == _players.Count);
         }
 
         [TestMethod]
@@ -136,13 +144,13 @@ namespace SubterfugeCoreTest
         public void GetPlayerSubs()
         {
             //Ensure the sub list is empty
-            Assert.AreEqual(0, _state.GetPlayerSubs(_player1).Count);
+            Assert.AreEqual(0, _state.GetPlayerSubs(_players[0]).Count);
 
             // Add a sub
             AddSub();
 
             //Ensure the sub is returned.
-            Assert.AreEqual(_tempSub, _state.GetPlayerSubs(_player1)[0]);
+            Assert.AreEqual(_tempSub, _state.GetPlayerSubs(_players[0])[0]);
         }
 
         [TestMethod]
