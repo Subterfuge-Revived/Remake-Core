@@ -46,6 +46,10 @@ namespace SubterfugeCore.Core.Entities
         public int GetShields()
         {
             // Peek the top to get the last shield delta.
+            while (_shieldDeltas.Peek().Tick > Game.TimeMachine.CurrentTick)
+            {
+                _shieldDeltas.Pop();
+            }
             ShieldChange lastDelta = _shieldDeltas.Peek();
             
             // Interpolate shield value based on the last delta.

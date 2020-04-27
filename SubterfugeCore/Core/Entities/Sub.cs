@@ -13,7 +13,7 @@ namespace SubterfugeCore.Core.Entities
     /// <summary>
     /// An instance of a Sub
     /// </summary>
-    public class Sub : GameObject, ITargetable, IDrillerCarrier, ISpecialistCarrier, ICombatable, IShieldable
+    public class Sub : GameObject, ITargetable, IDrillerCarrier, ISpecialistCarrier, ICombatable
     {
         /// <summary>
         /// Unique identifier for each sub
@@ -55,8 +55,6 @@ namespace SubterfugeCore.Core.Entities
         /// </summary>
         private SpecialistManager _specialistManager;
 
-        private ShieldManager _shieldManager;
-
         /// <summary>
         /// Sub constructor
         /// </summary>
@@ -75,7 +73,6 @@ namespace SubterfugeCore.Core.Entities
             this.Position = source.GetCurrentPosition();
             this._owner = owner;
             this._specialistManager = new SpecialistManager(3);
-            this._shieldManager = new ShieldManager();
         }
 
         /// <summary>
@@ -85,15 +82,6 @@ namespace SubterfugeCore.Core.Entities
         public SpecialistManager GetSpecialistManager()
         {
             return this._specialistManager;
-        }
-
-        /// <summary>
-        /// Gets the shield manager for the sub.
-        /// </summary>
-        /// <returns>The shield manager</returns>
-        public ShieldManager GetShieldManager()
-        {
-            return this._shieldManager;
         }
 
         /// <summary>

@@ -102,6 +102,13 @@ namespace SubterfugeCore.Core.GameEvents
             } else
             {
                 this._actions.Add(new SpecialistCombat(_combatant1, _combatant2));
+                if (_combatant1 is IShieldable || _combatant2 is IShieldable)
+                {
+                    IShieldable shielded = _combatant1 is IShieldable ? _combatant1 as IShieldable : _combatant2 as IShieldable;
+                    ICombatable other = _combatant1 is IShieldable ? _combatant2 : _combatant1;
+                    this._actions.Add(new ShieldCombat(shielded, other));
+                }
+
                 this._actions.Add(new DrillerCombat(_combatant1, _combatant2));
 
                 if(_combatant1 is Outpost || _combatant2 is Outpost)

@@ -2,7 +2,7 @@
 {
     public interface IHasVision
     {
-        bool IsVisible(ITargetable target);
+        bool IsTargetVisible(ITargetable target);
         float GetVisionRange();
         void SetVisionRange(float newRange);
     }
