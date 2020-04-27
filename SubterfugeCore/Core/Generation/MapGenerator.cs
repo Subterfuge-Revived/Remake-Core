@@ -19,6 +19,8 @@ namespace SubterfugeCore.Core.Generation
         public List<Outpost> Outposts = new List<Outpost>();
         // Seeded Random for number generation
         public SeededRandom RandomGenerator;
+        // To generate outpost names.
+        public NameGenerator NameGenerator;
         // Seeded Random for number generation
         public Rft map = new Rft(300, 300);
 
@@ -39,6 +41,7 @@ namespace SubterfugeCore.Core.Generation
             }
             
             this.RandomGenerator = new SeededRandom(gameConfiguration.Seed);
+            this.NameGenerator = new NameGenerator(RandomGenerator);
             this.DormantsPerPlayer = gameConfiguration.DormantsPerPlayer;
             this.Players = gameConfiguration.Players;
             this.NumPlayers = gameConfiguration.Players.Count;
@@ -92,7 +95,9 @@ namespace SubterfugeCore.Core.Generation
                 newPosition += translation;
 
                 // Add a new outpost to the translated outposts list
-                translatedOutposts.Add(new Outpost(newPosition, outpost.GetOwner(), outpost.GetOutpostType()));
+                Outpost newOutpost = new Outpost(newPosition, outpost.GetOwner(), outpost.GetOutpostType());
+                newOutpost.Name = this.NameGenerator.GetRandomName();
+                translatedOutposts.Add(newOutpost);
             }
             // Return the translated outposts.
             return translatedOutposts;
@@ -109,7 +114,7 @@ namespace SubterfugeCore.Core.Generation
             
             // setup variables
             double direction;
-            int distance;
+            float distance;
             bool usableLocation = true;
             int x, y, idx;
             RftVector vectorDistance;
@@ -120,7 +125,7 @@ namespace SubterfugeCore.Core.Generation
             while (playerOutposts.Count < this.OutpostsPerPlayer + this.DormantsPerPlayer)
             {
                 // calculate the new outposts location within allowable raidius
-                distance = this.RandomGenerator.NextRand(MinOutpostDistance, MaxSeedDistance);
+                distance = (float)(this.RandomGenerator.NextDouble() * (MaxSeedDistance - MinOutpostDistance)) + MinOutpostDistance;
                 direction = this.RandomGenerator.NextDouble() * Math.PI * 2;  // In radians
                 
                 // Determine the type of outpost that is generated
@@ -150,6 +155,7 @@ namespace SubterfugeCore.Core.Generation
                 if (usableLocation || playerOutposts.Count == 0)
                 {
                     currentOutpost = new Outpost(currentOutpostPosition, type);
+                    currentOutpost.Name = this.NameGenerator.GetRandomName();
                     playerOutposts.Add(currentOutpost);
                 }
             }
@@ -180,9 +186,7 @@ namespace SubterfugeCore.Core.Generation
                 if(closestOutposts.Count < this.OutpostsPerPlayer)
                 {
                     closestOutposts.Add(o);
-                    continue;
-                } else
-                {
+                } else {
                     // Determine the distance to the current outpost from the centroid
                     float currentDistance = (centroid - o.GetCurrentPosition()).Magnitude();
                     
@@ -195,15 +199,17 @@ namespace SubterfugeCore.Core.Generation
                     // If the current outpost is closer, put the current outpost in the list, replacing the farther outpost.
                     if(currentDistance < farthestDistance)
                     {
-                        closestOutposts[4] = o;
+                        closestOutposts[this.OutpostsPerPlayer - 1] = o;
                     }
                 }
             }
             
             // Once the closest outposts are determined, set the owner.
+            // And provide some drillers.
             foreach(Outpost closeOutposts in closestOutposts)
             {
                 closeOutposts.SetOwner(player);
+                closeOutposts.AddDrillers(30);
             }
         }
 

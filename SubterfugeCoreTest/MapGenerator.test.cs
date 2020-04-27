@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore;
@@ -339,7 +340,29 @@ namespace SubterfugeCoreTest
             Outpost outpost2 = generatedOutposts[1];
 
             float distance = (outpost1.GetCurrentPosition()-outpost2.GetCurrentPosition()).Magnitude();
-            Assert.IsTrue(distance > config.MinimumOutpostDistance);
+            Assert.IsTrue(distance >= config.MinimumOutpostDistance);
+        }
+
+        [TestMethod]
+        public void AllOutpostsHaveUniqueNames()
+        {
+            List<Player> players = new List<Player>();
+            players.Add(new Player(1));
+            players.Add(new Player(2));
+            players.Add(new Player(3));
+            
+            GameConfiguration config = new GameConfiguration(players);
+            Assert.IsNotNull(config);
+            config.Seed = 1234;
+            config.DormantsPerPlayer = 3;
+            config.MaxiumumOutpostDistance = 200;
+            config.MinimumOutpostDistance = 20;
+            config.OutpostsPerPlayer = 3;
+            
+            MapGenerator generator = new MapGenerator(config);
+            List<Outpost> generatedOutposts = generator.GenerateMap();
+            
+            Assert.AreEqual(generatedOutposts.Select(x => x.Name).Distinct().Count(), generatedOutposts.Count);   
         }
         
 
