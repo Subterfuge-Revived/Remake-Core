@@ -43,7 +43,7 @@ namespace SubterfugeCoreTest
             Outpost outpost = new Outpost(new RftVector(map, 0, 0), player1, OutpostType.Generator);
             outpost.AddDrillers(10);
             Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(), outpost.GetTargetPosition(sub.GetCurrentPosition(), sub.GetSpeed()));
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(), outpost.GetInterceptionPoint(sub.GetCurrentPosition(), sub.GetSpeed()));
 
             Game.TimeMachine.AddEvent(arriveEvent);
             Assert.AreEqual(1, Game.TimeMachine.GetQueuedEvents().Count);
@@ -86,7 +86,7 @@ namespace SubterfugeCoreTest
             Outpost outpost = new Outpost(new RftVector(map, 0, 0), player1, OutpostType.Generator);
             outpost.AddDrillers(10);
             Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetTargetPosition(sub.GetCurrentPosition(), sub.GetSpeed()));
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetInterceptionPoint(sub.GetCurrentPosition(), sub.GetSpeed()));
 
             Game.TimeMachine.AddEvent(arriveEvent);
             Assert.AreEqual(1, Game.TimeMachine.GetQueuedEvents().Count);
@@ -105,7 +105,7 @@ namespace SubterfugeCoreTest
             Outpost outpost = new Outpost(new RftVector(map, 0, 0), player1, OutpostType.Generator);
             outpost.AddDrillers(10);
             Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetTargetPosition(sub.GetCurrentPosition(), sub.GetSpeed()));
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetInterceptionPoint(sub.GetCurrentPosition(), sub.GetSpeed()));
 
             Game.TimeMachine.AddEvent(arriveEvent);
             Assert.AreEqual(1, Game.TimeMachine.GetQueuedEvents().Count);
@@ -129,7 +129,7 @@ namespace SubterfugeCoreTest
             Outpost outpost = new Outpost(new RftVector(map, 0, 0), player1, OutpostType.Generator);
             outpost.AddDrillers(10);
             Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetTargetPosition(sub.GetCurrentPosition(), sub.GetSpeed()));
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetInterceptionPoint(sub.GetCurrentPosition(), sub.GetSpeed()));
 
             Game.TimeMachine.AddEvent(arriveEvent);
             Assert.AreEqual(1, Game.TimeMachine.GetQueuedEvents().Count);
@@ -158,7 +158,7 @@ namespace SubterfugeCoreTest
             Outpost outpost = new Outpost(new RftVector(map, 0, 0), player1, OutpostType.Generator);
             outpost.AddDrillers(10);
             Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetTargetPosition(sub.GetCurrentPosition(), sub.GetSpeed()));
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetInterceptionPoint(sub.GetCurrentPosition(), sub.GetSpeed()));
 
             Game.TimeMachine.AddEvent(arriveEvent);
             Assert.AreEqual(1, Game.TimeMachine.GetQueuedEvents().Count);

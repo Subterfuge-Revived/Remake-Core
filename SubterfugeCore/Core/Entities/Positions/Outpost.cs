@@ -39,22 +39,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// </summary>
         OutpostType _type;
 
-        /// <summary>
-        /// The outposts shields
-        /// </summary>
-        int _shields;
-        
-        /// <summary>
-        /// If the outpost's shields are active.
-        /// </summary>
-        bool _shieldActive;
-        
-        /// <summary>
-        /// The maximum number of shields the outpost can have.
-        /// </summary>
-        int _shieldCapacity;
-        
-        // shield recharge rate when implemented
+        private ShieldManager _shieldManager; 
 
         /// <summary>
         /// Outpost constructor
@@ -67,9 +52,8 @@ namespace SubterfugeCore.Core.Entities.Positions
             this._drillerCount = 0;
             this._outpostOwner = null;
             this._specialistManager = new SpecialistManager(100);
-            this._shieldActive = true;
-            this._shieldCapacity = 10;
-            this._shields = 0;
+            this._shieldManager = new ShieldManager();
+
         }
 
         /// <summary>
@@ -84,9 +68,7 @@ namespace SubterfugeCore.Core.Entities.Positions
             this._drillerCount = 0;
             this._outpostOwner = null;
             this._specialistManager = new SpecialistManager(100);
-            this._shieldActive = true;
-            this._shieldCapacity = 10;
-            this._shields = 0;
+            this._shieldManager = new ShieldManager();
             this._type = type;
         }
 
@@ -103,9 +85,7 @@ namespace SubterfugeCore.Core.Entities.Positions
             this._drillerCount = outpostOwner == null ? 0 : 40;
             this._outpostOwner = outpostOwner;
             this._specialistManager = new SpecialistManager(100);
-            this._shieldActive = true;
-            this._shieldCapacity = 10;
-            this._shields = 0;
+            this._shieldManager = new ShieldManager();
             this._type = type;
         }
 
@@ -160,7 +140,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// <param name="targetFrom">The position being targeted from</param>
         /// <param name="speed">The speed of the attacker</param>
         /// <returns>The combat position</returns>
-        public RftVector GetTargetPosition(RftVector targetFrom, float speed)
+        public RftVector GetInterceptionPoint(RftVector targetFrom, float speed)
         {
             return this.GetPosition();
         }
@@ -241,93 +221,12 @@ namespace SubterfugeCore.Core.Entities.Positions
         }
 
         /// <summary>
-        /// Gets the sheilds at this position
+        /// Gets the shield manager for the outpost.
         /// </summary>
-        /// <returns>The number of shields at this position</returns>
-        public int GetShields()
+        /// <returns>The shield manager.</returns>
+        public ShieldManager GetShieldManager()
         {
-            return this._shields;
-        }
-
-        /// <summary>
-        /// Sets the sheilds at the position
-        /// </summary>
-        /// <param name="shieldValue">The value of shields to set</param>
-        public void SetShields(int shieldValue)
-        {
-            if(shieldValue > this._shieldCapacity)
-            {
-                this._shields = this._shieldCapacity;
-            } else
-            {
-                this._shields = shieldValue;
-            }
-        }
-
-        /// <summary>
-        /// Removes shields from the position
-        /// </summary>
-        /// <param name="shieldsToRemove">The number of shields to remove</param>
-        public void RemoveShields(int shieldsToRemove)
-        {
-            if (this._shields - shieldsToRemove < 0)
-            {
-                this._shields = 0;
-            }
-            else
-            {
-                this._shields -= shieldsToRemove;
-            }
-        }
-
-        /// <summary>
-        /// Toggles shields
-        /// </summary>
-        public void ToggleShield()
-        {
-            this._shieldActive = !this._shieldActive;
-        }
-
-        /// <summary>
-        /// Determines if the shields are active
-        /// </summary>
-        /// <returns>If the shields are enabled</returns>
-        public bool IsShieldActive()
-        {
-            return this._shieldActive;
-        }
-
-        /// <summary>
-        /// Adds shields to the outpost
-        /// </summary>
-        /// <param name="shields">The number of shields to add</param>
-        public void AddShield(int shields)
-        {
-            if(this._shields + shields > this._shieldCapacity)
-            {
-                this._shields = this._shieldCapacity;
-            } else
-            {
-                this._shields += shields;
-            }
-        }
-
-        /// <summary>
-        /// Gets the shield capacity
-        /// </summary>
-        /// <returns>The maximum shield amount</returns>
-        public int GetShieldCapacity()
-        {
-            return this._shieldCapacity;
-        }
-
-        /// <summary>
-        /// Sets the sheild capacity
-        /// </summary>
-        /// <param name="capactiy">The capacity of the sheilds</param>
-        public void SetShieldCapacity(int capactiy)
-        {
-            this._shieldCapacity = capactiy;
+            return this._shieldManager;
         }
 
         /// <summary>

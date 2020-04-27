@@ -13,7 +13,7 @@ namespace SubterfugeCore.Core.Entities
     /// <summary>
     /// An instance of a Sub
     /// </summary>
-    public class Sub : GameObject, ITargetable, IDrillerCarrier, ISpecialistCarrier, ICombatable
+    public class Sub : GameObject, ITargetable, IDrillerCarrier, ISpecialistCarrier, ICombatable, IShieldable
     {
         /// <summary>
         /// Unique identifier for each sub
@@ -55,6 +55,8 @@ namespace SubterfugeCore.Core.Entities
         /// </summary>
         private SpecialistManager _specialistManager;
 
+        private ShieldManager _shieldManager;
+
         /// <summary>
         /// Sub constructor
         /// </summary>
@@ -73,6 +75,7 @@ namespace SubterfugeCore.Core.Entities
             this.Position = source.GetCurrentPosition();
             this._owner = owner;
             this._specialistManager = new SpecialistManager(3);
+            this._shieldManager = new ShieldManager();
         }
 
         /// <summary>
@@ -82,6 +85,15 @@ namespace SubterfugeCore.Core.Entities
         public SpecialistManager GetSpecialistManager()
         {
             return this._specialistManager;
+        }
+
+        /// <summary>
+        /// Gets the shield manager for the sub.
+        /// </summary>
+        /// <returns>The shield manager</returns>
+        public ShieldManager GetShieldManager()
+        {
+            return this._shieldManager;
         }
 
         /// <summary>
@@ -106,14 +118,14 @@ namespace SubterfugeCore.Core.Entities
             {
                 baseTick = this._launchTime;
                 // Determine direction vector
-                direction = (this._destination.GetTargetPosition(this.Position, this.GetSpeed()) - this._source.GetCurrentPosition());
+                direction = (this._destination.GetInterceptionPoint(this.Position, this.GetSpeed()) - this._source.GetCurrentPosition());
                 // Determine the number of ticks to arrive
                 ticksToArrive = (int)Math.Floor(direction.Magnitude() / this.GetSpeed());
             } else
             {
                 baseTick = Game.TimeMachine.GetState().GetCurrentTick();
                 // Determine direction vector
-                direction = (this._destination.GetTargetPosition(this.Position, this.GetSpeed()) - this.GetCurrentPosition());
+                direction = (this._destination.GetInterceptionPoint(this.Position, this.GetSpeed()) - this.GetCurrentPosition());
                 // Determine the number of ticks to arrive
                 ticksToArrive = (int)Math.Floor(direction.Magnitude() / this.GetSpeed());
             }
@@ -139,7 +151,7 @@ namespace SubterfugeCore.Core.Entities
             int elapsedTicks = Game.TimeMachine.GetState().GetCurrentTick() - this._launchTime;
 
             // Determine direction vector
-            Vector2 direction = (this._destination.GetTargetPosition(this.Position, this.GetSpeed()) - this._source.GetCurrentPosition()).Normalize();
+            Vector2 direction = (this._destination.GetInterceptionPoint(this.Position, this.GetSpeed()) - this._source.GetCurrentPosition()).Normalize();
 
             if(elapsedTicks > 0)
             {
@@ -159,7 +171,7 @@ namespace SubterfugeCore.Core.Entities
         public double GetRotation()
         {
             // Determine direction vector
-            Vector2 direction = (this._destination.GetTargetPosition(this.GetPosition(), this.GetSpeed()) - this._source.GetCurrentPosition()).Normalize();
+            Vector2 direction = (this._destination.GetInterceptionPoint(this.GetPosition(), this.GetSpeed()) - this._source.GetCurrentPosition()).Normalize();
 
             double extraRotation = 0;
             if(direction.X < 0)
@@ -193,7 +205,7 @@ namespace SubterfugeCore.Core.Entities
         /// <returns>The destination of the sub</returns>
         public RftVector GetDestinationLocation()
         {
-            return this._destination.GetTargetPosition(this.GetPosition(), this.GetSpeed());
+            return this._destination.GetInterceptionPoint(this.GetPosition(), this.GetSpeed());
         }
         
         /// <summary>
@@ -220,7 +232,7 @@ namespace SubterfugeCore.Core.Entities
         /// <param name="targetFrom">The location that this sub is being targeted from</param>
         /// <param name="speed">The speed this is being targeted by</param>
         /// <returns>The location of combat</returns>
-		public RftVector GetTargetPosition(RftVector targetFrom, float speed)
+        public RftVector GetInterceptionPoint(RftVector targetFrom, float speed)
 		{
 		    if (targetFrom == this.GetPosition())
 		        return targetFrom;

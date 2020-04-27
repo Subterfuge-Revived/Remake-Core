@@ -17,10 +17,24 @@ namespace SubterfugeCoreTest
 	    Rft _map;
         RftVector _outpostLocation;
         Outpost _outpost;
+        Game _game;
 
         [TestInitialize]
         public void Setup()
         {
+            List<Player> players = new List<Player>();
+            players.Add(new Player(1));;
+            players.Add(new Player(2));
+            
+            GameConfiguration config = new GameConfiguration(players);
+            config.Seed = 1234;
+            config.OutpostsPerPlayer = 1;
+            config.DormantsPerPlayer = 1;
+            config.MaxiumumOutpostDistance = 100;
+            config.MinimumOutpostDistance = 10;
+            
+            _game = new Game(config);
+            
 	        this._map = new Rft(3000, 3000);
             this._outpostLocation = new RftVector(_map, 0, 0);
             this._outpost = new Outpost(_outpostLocation, new Player(1), OutpostType.Generator);
@@ -36,14 +50,14 @@ namespace SubterfugeCoreTest
         public void GetTargetLocation()
         {
             // Outpost target location should always be the outpost's location
-            Assert.AreEqual(_outpostLocation.X, _outpost.GetTargetPosition(new RftVector(_map, 0, 0), 0.25f).X);
-            Assert.AreEqual(_outpostLocation.Y, _outpost.GetTargetPosition(new RftVector(_map, 0, 0), 0.25f).Y);
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetInterceptionPoint(new RftVector(_map, 0, 0), 0.25f).X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetInterceptionPoint(new RftVector(_map, 0, 0), 0.25f).Y);
 
-            Assert.AreEqual(_outpostLocation.X, _outpost.GetTargetPosition(new RftVector(_map, 100, 100), 1).X);
-            Assert.AreEqual(_outpostLocation.Y, _outpost.GetTargetPosition(new RftVector(_map, 100, 100), 1).Y);
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetInterceptionPoint(new RftVector(_map, 100, 100), 1).X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetInterceptionPoint(new RftVector(_map, 100, 100), 1).Y);
 
-            Assert.AreEqual(_outpostLocation.X, _outpost.GetTargetPosition(new RftVector(_map, 999, 999), 999).X);
-            Assert.AreEqual(_outpostLocation.Y, _outpost.GetTargetPosition(new RftVector(_map, 999, 999), 999).Y);
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetInterceptionPoint(new RftVector(_map, 999, 999), 999).X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetInterceptionPoint(new RftVector(_map, 999, 999), 999).Y);
         }
 
         [TestMethod]
@@ -125,59 +139,55 @@ namespace SubterfugeCoreTest
         public void CanRemoveShields()
         {
             Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
-            outpost.SetShields(10);
-            int initialShields = outpost.GetShields();
-            outpost.RemoveShields(5);
-            Assert.AreEqual(initialShields - 5, outpost.GetShields());
+            outpost.GetShieldManager().SetShields(10);
+            int initialShields = outpost.GetShieldManager().GetShields();
+            outpost.GetShieldManager().CombatShields(5);
+            Assert.AreEqual(initialShields - 5, outpost.GetShieldManager().GetShields());
         }
         
         [TestMethod]
         public void CanAddShields()
         {
             Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
-            int initialShield = outpost.GetShields();
-            outpost.AddShield(1);
-            Assert.AreEqual(initialShield + 1, outpost.GetShields());
+            int initialShield = outpost.GetShieldManager().GetShields();
+            outpost.GetShieldManager().SetShields(outpost.GetShieldManager().GetShields() + 1);
+            Assert.AreEqual(initialShield + 1, outpost.GetShieldManager().GetShields());
         }
         
         [TestMethod]
         public void CanSetShields()
         {
             Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
-            outpost.SetShields(1);
-            Assert.AreEqual(1, outpost.GetShields());
+            outpost.GetShieldManager().SetShields(1);
+            Assert.AreEqual(1, outpost.GetShieldManager().GetShields());
         }
         
         [TestMethod]
         public void ShieldCapacityWorks()
         {
             Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
-            outpost.SetShieldCapacity(100);
-            outpost.SetShields(5);
-            outpost.AddShield(100);
+            outpost.GetShieldManager().SetShieldCapacity(100);
+            outpost.GetShieldManager().SetShields(105);
             
-            Assert.AreEqual(outpost.GetShieldCapacity(), outpost.GetShields());
-            
-            outpost.SetShields(105);
-            Assert.AreEqual(outpost.GetShieldCapacity(), outpost.GetShields());
+            Assert.AreEqual(outpost.GetShieldManager().GetShieldCapacity(), outpost.GetShieldManager().GetShields());
         }
         
         [TestMethod]
         public void CannotHaveNegativeShield()
         {
             Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
-            outpost.SetShields(10);
-            int initialShields = outpost.GetShields();
-            outpost.RemoveShields(15);
-            Assert.AreEqual(0, outpost.GetShields());
+            outpost.GetShieldManager().SetShields(10);
+            int initialShields = outpost.GetShieldManager().GetShields();
+            outpost.GetShieldManager().CombatShields(15);
+            Assert.AreEqual(0, outpost.GetShieldManager().GetShields());
         }
 
         public void CanToggleSheilds()
         {
             Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player(1), OutpostType.Mine);
-            bool initialState = outpost.IsShieldActive();
-            outpost.ToggleShield();
-            Assert.AreEqual(!initialState, outpost.IsShieldActive());
+            bool initialState = outpost.GetShieldManager().IsShieldActive();
+            outpost.GetShieldManager().ToggleShield();
+            Assert.AreEqual(!initialState, outpost.GetShieldManager().IsShieldActive());
         }
     }
 }

@@ -15,7 +15,7 @@ namespace SubterfugeCore.Core.Interfaces
         /// <param name="targetFrom">The location this object is being targeted from.</param>
         /// <param name="speed">The speed the targeting object has.</param>
         /// <returns>The combat location</returns>
-        RftVector GetTargetPosition(RftVector targetFrom, float speed);
+        RftVector GetInterceptionPoint(RftVector targetFrom, float speed);
 
         int GetId();
     }
