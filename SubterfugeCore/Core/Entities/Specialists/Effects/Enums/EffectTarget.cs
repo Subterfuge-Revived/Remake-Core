@@ -18,8 +18,13 @@
         Enemy,
         
         /// <summary>
-        /// Effect will target both friendly and enemy targets
+        /// Effect will target both friendly and enemy targets but only consider combat participants
         /// </summary>
         Both,
+        
+        /// <summary>
+        /// Effect will target any player regardless of if they are a combat participant.
+        /// </summary>
+        All,
     }
 }

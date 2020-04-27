@@ -16,7 +16,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="trigger">The effect trigger</param>
         /// <param name="triggerRange">The detection of the effect's trigger</param>
         /// <returns></returns>
-        public ISpecialistEffect createSpecialistEffect(EffectType type, int value, EffectTarget target, EffectTrigger trigger, EffectTriggerRange triggerRange)
+        public ISpecialistEffect createSpecialistEffect(EffectType type, int value, EffectTarget target, EffectTrigger trigger, EffectTriggerRange triggerRange, SpecialistEffectScale scale)
         {
             SpecialistEffect effect = null;
             
@@ -26,13 +26,12 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                     AlterDrillerEffect alterDrillerEffect = new AlterDrillerEffect();
                     effect = alterDrillerEffect;
                     break;
-                case EffectType.StealDriller:
-                    StealDrillerEffect stealDrillerEffect = new StealDrillerEffect(value, trigger);
-                    effect = stealDrillerEffect;
-                    break;
             }
-            
-            this.setEffectValues(effect, value, target, trigger, triggerRange);
+
+            if (effect.GetType() == typeof(NumericSpecialistEffect))
+            {
+                this.setEffectValues(((NumericSpecialistEffect)effect), value, target, trigger, triggerRange, scale);   
+            }
 
             return effect;
         }
@@ -45,13 +44,15 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="target">The effect's targets</param>
         /// <param name="trigger">The effect's trigger</param>
         /// <param name="triggerRange">The effect's trigger detection range</param>
-        private void setEffectValues(SpecialistEffect effect, int value, EffectTarget target, EffectTrigger trigger,
-            EffectTriggerRange triggerRange)
+        private void setEffectValues(NumericSpecialistEffect effect, int value, EffectTarget target, EffectTrigger trigger,
+            EffectTriggerRange triggerRange, SpecialistEffectScale scale)
         {
             effect._effectValue = value;
             effect._effectTarget = target;
             effect._effectTrigger = trigger;
             effect._effectTriggerRange = triggerRange;
+            effect.EffectScale = new SpecialistEffectScale();
+            effect.EffectScale = scale;
         }
     }
 }

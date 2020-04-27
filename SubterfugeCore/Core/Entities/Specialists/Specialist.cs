@@ -88,7 +88,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             foreach(SpecialistEffect effect in this._specialistEffects)
             {
-                effect.ForwardEffect(friendly, enemy);
+                effect.GetForwardEffectDeltas(friendly, enemy);
             }
         }
 
@@ -101,7 +101,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             foreach (SpecialistEffect effect in this._specialistEffects)
             {
-                effect.BackwardEffect(friendly, enemy);
+                effect.GetBackwardEffectDeltas(friendly, enemy);
             }
         }
 

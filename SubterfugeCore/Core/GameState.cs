@@ -4,6 +4,7 @@ using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Generation;
+using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 
@@ -295,6 +296,14 @@ namespace SubterfugeCore.Core
             }
 
             return specialists;
+        }
+
+        public List<ICombatable> getPlayerTargetables(Player player)
+        {
+            List<ICombatable> targetables = new List<ICombatable>();
+            targetables.AddRange(this.GetPlayerOutposts(player));
+            targetables.AddRange(this.GetPlayerSubs(player));
+            return targetables;
         }
     }
 }

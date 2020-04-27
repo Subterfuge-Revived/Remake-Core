@@ -28,9 +28,14 @@
         SubArrive,
         
         /// <summary>
-        /// Trigger on combat events
+        /// Trigger on all combat events
         /// </summary>
         Combat,
+        
+        /// <summary>
+        /// Triggers only on sub-to-sub combat events.
+        /// </summary>
+        SubCombat,
         
         /// <summary>
         /// Trigger on combat losses

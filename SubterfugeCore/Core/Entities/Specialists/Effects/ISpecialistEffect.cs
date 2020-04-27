@@ -1,4 +1,5 @@
-﻿using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
+﻿using System.Collections.Generic;
+using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
 using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
@@ -10,13 +11,13 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// </summary>
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
-        void ForwardEffect(ICombatable friendly, ICombatable enemy);
+        List<EffectDelta> GetForwardEffectDeltas(ICombatable friendly, ICombatable enemy);
         
         /// <summary>
         /// Applies the backwards specialist effect
         /// </summary>
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
-        void BackwardEffect(ICombatable friendly, ICombatable enemy);
+        List<EffectDelta> GetBackwardEffectDeltas(ICombatable friendly, ICombatable enemy);
     }
 }
