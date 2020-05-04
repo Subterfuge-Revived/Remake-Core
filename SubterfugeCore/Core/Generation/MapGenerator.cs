@@ -20,7 +20,7 @@ namespace SubterfugeCore.Core.Generation
         // Seeded Random for number generation
         public SeededRandom RandomGenerator;
         // Seeded Random for number generation
-        public Rft map = new Rft(300, 300);
+        public Rft map;
 
         /// <summary>
         /// Map Generation constructor to seed map generation
@@ -45,6 +45,10 @@ namespace SubterfugeCore.Core.Generation
             this.OutpostsPerPlayer = gameConfiguration.OutpostsPerPlayer;
             this.MinOutpostDistance = gameConfiguration.MinimumOutpostDistance;
             this.MaxSeedDistance = gameConfiguration.MaxiumumOutpostDistance;
+            
+            // Get the map size.
+            int halfPlayers = (int)(Math.Floor(this.Players.Count / 2.0));
+            this.map = new Rft(halfPlayers * gameConfiguration.MaxiumumOutpostDistance * 2, gameConfiguration.MaxiumumOutpostDistance * 4);
         }
 
         /// <summary>
