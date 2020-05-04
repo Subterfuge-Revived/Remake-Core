@@ -1,4 +1,6 @@
 # Remake-Core
+### Version 0.1.1
+
 Core repository that holds all game logic for both front end rendering and back end validation.
 
 Will need in the future:
