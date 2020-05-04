@@ -16,11 +16,11 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="trigger">The effect trigger</param>
         /// <param name="triggerRange">The detection of the effect's trigger</param>
         /// <returns></returns>
-        public ISpecialistEffect createSpecialistEffect(EffectType type, int value, EffectTarget target, EffectTrigger trigger, EffectTriggerRange triggerRange, SpecialistEffectScale scale)
+        public ISpecialistEffect createSpecialistEffect(SpecialistEffectConfiguration effectConfiguration)
         {
             SpecialistEffect effect = null;
             
-            switch (type)
+            switch (effectConfiguration.EffectType)
             {
                 case EffectType.AlterDriller:
                     AlterDrillerEffect alterDrillerEffect = new AlterDrillerEffect();
@@ -30,7 +30,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
 
             if (effect.GetType() == typeof(NumericSpecialistEffect))
             {
-                this.setEffectValues(((NumericSpecialistEffect)effect), value, target, trigger, triggerRange, scale);   
+                this.setEffectValues(((NumericSpecialistEffect)effect), effectConfiguration.Value, effectConfiguration.EffectTarget, effectConfiguration.EffectTrigger, effectConfiguration.EffectTriggerRange, effectConfiguration.GetEffectScale());   
             }
 
             return effect;
