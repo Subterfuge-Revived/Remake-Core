@@ -9,7 +9,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
     /// <summary>
     /// Base class for a specialist.
     /// </summary>
-    public abstract class Specialist : IOwnable
+    public class Specialist : IOwnable
     {
         /// <summary>
         /// The specialist priority
@@ -29,7 +29,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <summary>
         /// A list of specialist effects that the specialist can apply
         /// </summary>
-        List<SpecialistEffect> _specialistEffects = new List<SpecialistEffect>();
+        List<ISpecialistEffect> _specialistEffects = new List<ISpecialistEffect>();
 
         /// <summary>
         /// Is the specialist captured by another player?
@@ -42,7 +42,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="name">The name of the specialist</param>
         /// <param name="priority">The specialist priority</param>
         /// <param name="owner">The player that owns the specialist</param>
-        protected Specialist(String name, int priority, Player owner)
+        public Specialist(String name, int priority, Player owner)
         {
             this._specialistName = name;
             this._priority = priority;
@@ -53,7 +53,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Returns a list of specialist effects that the specialist possesses.
         /// </summary>
         /// <returns>A list of specialist effects that the specialist can apply</returns>
-        public List<SpecialistEffect> GetSpecialistEffects()
+        public List<ISpecialistEffect> GetSpecialistEffects()
         {
             return this._specialistEffects;
         }
@@ -62,7 +62,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Removes a specialist effect from the specailist
         /// </summary>
         /// <param name="effect">The specialist effect to remove.</param>
-        public void RemoveSpecialistEffect(SpecialistEffect effect)
+        public void RemoveSpecialistEffect(ISpecialistEffect effect)
         {
             if(_specialistEffects.Contains(effect))
             {
@@ -74,7 +74,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Adds a specialist effect to the specialist
         /// </summary>
         /// <param name="effect">The effect to add.</param>
-        public void AddSpecialistEffect(SpecialistEffect effect)
+        public void AddSpecialistEffect(ISpecialistEffect effect)
         {
             _specialistEffects.Add(effect);
         }
@@ -104,13 +104,6 @@ namespace SubterfugeCore.Core.Entities.Specialists
                 effect.GetBackwardEffectDeltas(friendly, enemy);
             }
         }
-
-        /// <summary>
-        /// Gets a textual description of a specialist effect.
-        /// </summary>
-        /// <param name="effect">The specialist effect to textualize</param>
-        /// <returns>Player friendly text that explains the result of this effect.</returns>
-        public abstract string GetEffectAsText(ISpecialistEffect effect);
 
         /// <summary>
         /// Returns the specialist's priority.

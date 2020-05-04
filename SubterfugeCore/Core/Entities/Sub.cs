@@ -2,6 +2,8 @@
 using System.Numerics;
 using SubterfugeCore.Core.Entities.Base;
 using SubterfugeCore.Core.Entities.Specialists;
+using SubterfugeCore.Core.Entities.Specialists.Effects;
+using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
@@ -54,6 +56,8 @@ namespace SubterfugeCore.Core.Entities
         /// Specialist manager for the sub
         /// </summary>
         private SpecialistManager _specialistManager;
+
+        public delegate void listeners(EffectType type, ICombatable friendly, ICombatable enemy);
 
         /// <summary>
         /// Sub constructor

@@ -16,15 +16,5 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             // Create up to X 'SpecialistHireAvaliable' Events
         }
-
-        /// <summary>
-        /// Returns nothing.
-        /// </summary>
-        /// <param name="effect">The effect to get text of</param>
-        /// <returns>Nothing</returns>
-        public override string GetEffectAsText(ISpecialistEffect effect)
-        {
-            return null;
-        }
     }
 }

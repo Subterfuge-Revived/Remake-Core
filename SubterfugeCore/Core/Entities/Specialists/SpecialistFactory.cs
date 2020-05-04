@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SubterfugeCore.Core.Entities.Specialists.Effects;
+using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Entities.Specialists
 {
@@ -33,11 +34,13 @@ namespace SubterfugeCore.Core.Entities.Specialists
             return true;
         }
 
-        public static Specialist SpawnSpecialist(string specialistName)
+        public static Specialist SpawnSpecialist(string specialistName, Player player)
         {
             if (specialistPool.ContainsKey(specialistName))
-            {
+            {                
                 SpecialistConfiguration configuration = specialistPool[specialistName];
+                
+                Specialist spawnedSpecialist = new Specialist(specialistName, configuration.Priority, player);
                 
                 // Create the specialist effects.
                 SpecialistEffectFactory effectFactory = new SpecialistEffectFactory();
@@ -45,11 +48,10 @@ namespace SubterfugeCore.Core.Entities.Specialists
                 foreach (SpecialistEffectConfiguration effectConfiguration in configuration.SpecialistEffectConfigurations)
                 {
                     ISpecialistEffect effect = effectFactory.createSpecialistEffect(effectConfiguration);
-                    // TODO: Add the specialist effects to the spawned specialist.
+                    spawnedSpecialist.AddSpecialistEffect(effect);
                 }
-                
-                // TODO: Return the spawned specialist.
-                return null;
+
+                return spawnedSpecialist;
             }
             else
             {

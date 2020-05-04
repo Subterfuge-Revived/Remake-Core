@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SubterfugeCore.Core.Entities.Specialists.Effects;
+using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.Entities.Specialists
 {
@@ -130,6 +132,5 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             return this._specialists.Count;
         }
-
     }
 }
