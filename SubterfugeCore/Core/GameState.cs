@@ -305,5 +305,13 @@ namespace SubterfugeCore.Core
             targetables.AddRange(this.GetPlayerSubs(player));
             return targetables;
         }
+
+        public List<ICombatable> GetAllGameObjects()
+        {
+            List<ICombatable> gameObjects = new List<ICombatable>();
+            gameObjects.AddRange(_activeSubs);
+            gameObjects.AddRange(_outposts);
+            return gameObjects;
+        }
     }
 }

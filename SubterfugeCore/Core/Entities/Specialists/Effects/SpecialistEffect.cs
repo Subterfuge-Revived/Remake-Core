@@ -66,7 +66,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                     // TODO: get all ICombatable within range of friendly.
                     break;
                 case EffectTriggerRange.GlobalVision:
-                    // TODO: get all ICombatable.
+                    targets.AddRange(Game.TimeMachine.GetState().GetAllGameObjects());
                     break;
                 case EffectTriggerRange.ScaledSonarRange:
                     // TODO: Get all ICombatable within friendly's scaled sonar range.
