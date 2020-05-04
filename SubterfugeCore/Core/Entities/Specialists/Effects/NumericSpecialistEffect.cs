@@ -7,12 +7,14 @@ using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
-    public abstract class NumericSpecialistEffect : SpecialistEffect
+    public class NumericSpecialistEffect : SpecialistEffect
     {
         /// <summary>
         /// The base value of the effect. If the effect value is scaled, this value will be multiplied by the scale.
         /// </summary>
         public float _effectValue { private get; set; } = 0;
+
+        public EffectEffector Effector { get; set; } = EffectEffector.None;
 
         /// <summary>
         /// If scaling should be applied, this object determines how the scaling is to be calculated. 
@@ -55,6 +57,66 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             }
             // Difference between end value and the result.
             return endValue - (EffectScale.GetEffectScalar(friendly, enemy) / _effectValue);
+        }
+        
+        /// <summary>
+        /// Gets the forwards effect deltas for a numerical specialist effect.
+        /// </summary>
+        /// <param name="friendly">The original friendly triggering the event (if any)</param>
+        /// <param name="enemy">The enemy participating in the event (if any)</param>
+        /// <returns>A list of effect deltas to be applied</returns>
+        public override List<EffectDelta> GetForwardEffectDeltas(ICombatable friendly, ICombatable enemy)
+        {
+            List<ICombatable> targets = this.getEffectTargets(friendly, enemy);
+            List<EffectDelta> deltas = new List<EffectDelta>();
+
+            foreach (ICombatable target in targets)
+            {
+                int friendlyDelta = (int)this.getForwardEffectDelta(friendly.GetDrillerCount(), friendly, enemy);
+                int enemyDelta = (int)this.getForwardEffectDelta(enemy.GetDrillerCount(), friendly, enemy);
+
+                if (target.GetOwner() == friendly.GetOwner())
+                {
+                    deltas.Add(new EffectDelta(friendlyDelta, target, Effector));
+                }
+                else
+                {
+                    deltas.Add(new EffectDelta(enemyDelta, target, Effector));
+                }
+                
+            }
+
+            return deltas;
+        }
+        
+        /// <summary>
+        /// Determines the backwards effect deltas to apply in an effect
+        /// </summary>
+        /// <param name="friendly">The friendly triggering the event (if any)</param>
+        /// <param name="enemy">The enemy participating in the event (if any)</param>
+        /// <returns></returns>
+        public override List<EffectDelta> GetBackwardEffectDeltas(ICombatable friendly, ICombatable enemy)
+        {
+            List<ICombatable> targets = this.getEffectTargets(friendly, enemy);
+            List<EffectDelta> deltas = new List<EffectDelta>();
+
+            foreach (ICombatable target in targets)
+            {
+                int friendlyDelta = (int)this.getBackwardsEffectDelta(friendly.GetDrillerCount(), friendly, enemy);
+                int enemyDelta = (int)this.getBackwardsEffectDelta(enemy.GetDrillerCount(), friendly, enemy);
+
+                if (target.GetOwner() == friendly.GetOwner())
+                {
+                    deltas.Add(new EffectDelta(friendlyDelta, target, Effector));
+                }
+                else
+                {
+                    deltas.Add(new EffectDelta(enemyDelta, target, Effector));
+                }
+                
+            }
+
+            return deltas;
         }
     }
 }

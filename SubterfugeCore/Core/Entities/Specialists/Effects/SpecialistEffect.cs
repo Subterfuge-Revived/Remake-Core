@@ -46,5 +46,52 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
         public abstract List<EffectDelta> GetBackwardEffectDeltas(ICombatable friendly, ICombatable enemy);
+
+        public List<ICombatable> getEffectTargets(ICombatable friendly, ICombatable enemy)
+        {
+            List<ICombatable> targets = new List<ICombatable>();
+            
+            // Filter based on the trigger range first
+            switch (_effectTriggerRange)
+            {
+                case EffectTriggerRange.Self:
+                    targets.Add(friendly);
+                    targets.Add(enemy);
+                    break;
+                case EffectTriggerRange.Local:
+                    targets.Add(friendly);
+                    targets.Add(enemy);
+                    break;
+                case EffectTriggerRange.ConstantRange:
+                    // TODO: get all ICombatable within range of friendly.
+                    break;
+                case EffectTriggerRange.GlobalVision:
+                    // TODO: get all ICombatable.
+                    break;
+                case EffectTriggerRange.ScaledSonarRange:
+                    // TODO: Get all ICombatable within friendly's scaled sonar range.
+                    break;
+            }
+            
+            // Filter based on the target
+            switch (_effectTarget)
+            {
+                case EffectTarget.All:
+                    break;
+                case EffectTarget.Both:
+                    break;
+                case EffectTarget.Enemy:
+                    targets = targets.FindAll(x => x.GetOwner() != friendly.GetOwner());
+                    break;
+                case EffectTarget.Friendly:
+                    targets = targets.FindAll(x => x.GetOwner() == friendly.GetOwner());
+                    break;
+                case EffectTarget.None:
+                    targets.RemoveAll(x => true);
+                    break;
+            }
+
+            return targets;
+        }
     }
 }

@@ -45,14 +45,14 @@ namespace SubterfugeCore.Core.Topologies
 		/// <summary>
 		/// The map that the vector resides in. An RftVector only makes sense in the context of a Rft map.
 		/// </summary>
-		public Rft Map;
+		public static Rft Map;
 		
 		/// <summary>
 		/// Constructs a new RftVector with coords (0, 0).
 		/// </summary>
 		public RftVector(Rft map)
 		{
-			this.Map = map;
+			Map = map;
 			this._x = 0;
 			this._y = 0;
 		}
@@ -62,7 +62,7 @@ namespace SubterfugeCore.Core.Topologies
 		/// </summary>
 		public RftVector(Rft map, float x, float y)
 		{
-			this.Map = map;
+			Map = map;
 			this._x = (x % map.Width + map.Width) % map.Width;
 			this._y = (y % map.Height + map.Height) % map.Height;
 			if (this._x > map.Width / 2) this._x -= map.Width;
@@ -74,7 +74,7 @@ namespace SubterfugeCore.Core.Topologies
 		/// </summary>
 		public RftVector(Rft map, Vector2 v)
 		{
-			this.Map = map;
+			Map = map;
 			this._x = (v.X % map.Width + map.Width) % map.Width;
 			this._y = (v.Y % map.Height + map.Height) % map.Height;
 			if (this._x > map.Width / 2) this._x -= map.Width;
@@ -137,10 +137,10 @@ namespace SubterfugeCore.Core.Topologies
 		}*/
 		
 		public static RftVector operator +(RftVector a) => a;
-		public static RftVector operator -(RftVector a) => new RftVector(a.Map, -a._x, -a._y);
+		public static RftVector operator -(RftVector a) => new RftVector(Map, -a._x, -a._y);
 
 		public static RftVector operator +(RftVector a, RftVector b) =>
-			new RftVector(a.Map, a._x + b._x, a._y + b._y);
+			new RftVector(Map, a._x + b._x, a._y + b._y);
 
 		public static RftVector operator -(RftVector a, RftVector b) => a + (-b);
 	}

@@ -69,7 +69,7 @@ namespace SubterfugeCore.Core.Generation
                 RftVector position = outpost.GetCurrentPosition();
                 
                 // New vector for the copied location
-                RftVector newPosition = new RftVector(outpost.GetCurrentPosition().Map, position.X, position.Y);
+                RftVector newPosition = new RftVector(RftVector.Map, position.X, position.Y);
 
                 // Undo the rotation and apply a new rotation.
                 // https://stackoverflow.com/questions/620745/c-rotating-a-vector-around-a-certain-point

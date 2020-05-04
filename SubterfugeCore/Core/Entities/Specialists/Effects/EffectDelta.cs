@@ -50,7 +50,8 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                 case EffectEffector.Vision:
                 case EffectEffector.ShieldValue:
                 case EffectEffector.ShieldRegeneration:
-                case EffectEffector.ShieldMaxValue:        
+                case EffectEffector.ShieldMaxValue:
+                    // TODO apply effect deltas here.
                     break;
             }
         }
@@ -73,7 +74,8 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                 case EffectEffector.Vision:
                 case EffectEffector.ShieldValue:
                 case EffectEffector.ShieldRegeneration:
-                case EffectEffector.ShieldMaxValue:        
+                case EffectEffector.ShieldMaxValue:
+                    // TODO: apply effect deltas here.
                     break;
             }
         }

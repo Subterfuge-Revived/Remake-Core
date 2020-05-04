@@ -8,5 +8,6 @@
         ShieldRegeneration,
         ShieldMaxValue,
         Vision,
+        None,
     }
 }

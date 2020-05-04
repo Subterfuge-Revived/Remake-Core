@@ -30,6 +30,11 @@
         AlterVisionRange,
         
         /// <summary>
+        /// Alters the specialist capacity at this location.
+        /// </summary>
+        AlterSpecialistCapacity,
+        
+        /// <summary>
         /// No effect.
         /// </summary>
         None,

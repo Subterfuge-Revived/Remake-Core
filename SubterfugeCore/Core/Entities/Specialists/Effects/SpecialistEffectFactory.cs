@@ -19,14 +19,32 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         public ISpecialistEffect createSpecialistEffect(SpecialistEffectConfiguration effectConfiguration)
         {
             SpecialistEffect effect = null;
+            EffectEffector effector = EffectEffector.None;
             
             switch (effectConfiguration.EffectType)
             {
                 case EffectType.AlterDriller:
-                    AlterDrillerEffect alterDrillerEffect = new AlterDrillerEffect();
-                    effect = alterDrillerEffect;
+                    effector = EffectEffector.Driller;
+                    break;
+                case EffectType.AlterSpecialistCapacity:
+                    effector = EffectEffector.SpecialistCapacity;
+                    break;
+                case EffectType.AlterCurrentShield:
+                    effector = EffectEffector.ShieldValue;
+                    break;
+                case EffectType.AlterMaximumShield:
+                    effector = EffectEffector.ShieldMaxValue;
+                    break;
+                case EffectType.AlterShieldRecharge:
+                    effector = EffectEffector.ShieldRegeneration;
+                    break;
+                case EffectType.AlterVisionRange:
+                    effector = EffectEffector.Vision;
                     break;
             }
+            
+            NumericSpecialistEffect numericSpecialistEffect = new NumericSpecialistEffect();
+            numericSpecialistEffect.Effector = effector;
 
             if (effect.GetType() == typeof(NumericSpecialistEffect))
             {
