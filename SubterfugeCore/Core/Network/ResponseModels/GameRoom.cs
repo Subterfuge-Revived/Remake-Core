@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SubterfugeCore.Core.Network
 {
@@ -14,6 +15,11 @@ namespace SubterfugeCore.Core.Network
         public int RoomId { get; set; }
         
         /// <summary>
+        /// The status of the room. Open, ongoing, or closed.
+        /// </summary>
+        public string Status { get; set; }
+
+        /// <summary>
         /// The playerId of who created the game room
         /// </summary>
         public int CreatorId { get; set; }
@@ -22,11 +28,6 @@ namespace SubterfugeCore.Core.Network
         /// If the game is ranked or not
         /// </summary>
         public bool Rated { get; set; }
-        
-        /// <summary>
-        /// How many players are currently in the game's lobby
-        /// </summary>
-        public int PlayerCount { get; set; }
         
         /// <summary>
         /// The lowest rating required to join the game lobby
@@ -59,13 +60,30 @@ namespace SubterfugeCore.Core.Network
         public int Seed { get; set; }
         
         /// <summary>
-        /// A list of all players currently in the lobby
+        /// The day the game started.
         /// </summary>
-        public List<NetworkUser> Players { get; set; }
+        public DateTime StartedAt { get; set; }
+        
+        public DateTime CreatedAt { get; set; }
+        
+        public DateTime UpdatedAt { get; set; }
+        
+        public DateTime ClosedAt { get; set; }
         
         /// <summary>
         /// The maximum number of players allowed in the game before it begins.
         /// </summary>
         public int MaxPlayers { get; set; }
+        
+        /// <summary>
+        /// A list of all players currently in the lobby
+        /// </summary>
+        public List<NetworkUser> Players { get; set; }
+        
+        /// <summary>
+        /// A list of all of the message groups within the game.
+        /// </summary>
+        public List<NetworkMessageGroup> MessageGroups { get; set; }
+        
     }
 }

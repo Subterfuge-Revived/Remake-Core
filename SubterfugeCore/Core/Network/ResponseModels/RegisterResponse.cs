@@ -1,18 +1,18 @@
 ﻿namespace SubterfugeCore.Core.Network
 {
     /// <summary>
-    /// Class is parsed in Unity by using JsonConvert.Deserialize() on the Login Network response.
+    /// Class is parsed in Unity by using JsonConvert.Deserialize() on the Register Network response.
     /// For some reason including the JSON library in the dll to do it here throws errors.
     /// </summary>
-    public class LoginResponse : NetworkResponse
+    public class RegisterResponse
     {
         /// <summary>
-        /// The Player that just logged in.
+        /// The user that was registered (if any)
         /// </summary>
         public NetworkUser User { get; set; }
         
         /// <summary>
-        /// The user's session token to use in future API requests.
+        /// The user's session id for future API calls
         /// </summary>
         public string Token { get; set; }
     }
