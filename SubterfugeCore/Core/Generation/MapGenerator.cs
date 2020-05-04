@@ -48,7 +48,7 @@ namespace SubterfugeCore.Core.Generation
             
             // Get the map size.
             int halfPlayers = (int)(Math.Floor(this.Players.Count / 2.0));
-            this.map = new Rft(halfPlayers * gameConfiguration.MaxiumumOutpostDistance * 2, gameConfiguration.MaxiumumOutpostDistance * 4);
+            this.map = new Rft(gameConfiguration.MaxiumumOutpostDistance * 4, halfPlayers * gameConfiguration.MaxiumumOutpostDistance * 2);
         }
 
         /// <summary>
