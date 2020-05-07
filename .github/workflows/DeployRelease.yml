@@ -52,6 +52,8 @@ jobs:
       with:
         # Build directory to deploy
         build_dir: SubterfugeCore/_site/
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-18.04
@@ -77,4 +79,6 @@ jobs:
       uses: softprops/action-gh-release@v0.1.5
       with:
        # Newline-delimited list of path globs for asset files to upload
-        files: SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/
+        files: SubterfugeCoreCLI/bin/Debug/netcoreapp2.1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
