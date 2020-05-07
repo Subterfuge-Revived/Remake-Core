@@ -79,7 +79,14 @@ jobs:
       uses: softprops/action-gh-release@master
       with:
        # Newline-delimited list of path globs for asset files to upload
-        files: SubterfugeCoreCLI/bin/Debug/netcoreapp2.1
+        files: |
+          SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/SubterfugeCore.dll
+          SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/SubterfugeCore.pdb
+          SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/SubterfugeCore.deps.json
+          SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/SubterfugeCoreCLI.dll
+          SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/SubterfugeCoreCLI.pdb
+          SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/SubterfugeCoreCLI.runtimeconfig.dev.json
+          SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/SubterfugeCoreCLI.runtimeconfig.json
         tag_name: GITHUB_SHA
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
