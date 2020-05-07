@@ -76,7 +76,7 @@ jobs:
     - name: Move to root
       run: cd ..
     - name: GH Release
-      uses: softprops/action-gh-release@v0.1.5
+      uses: softprops/action-gh-release@master
       with:
        # Newline-delimited list of path globs for asset files to upload
         files: SubterfugeCoreCLI/bin/Debug/netcoreapp2.1
