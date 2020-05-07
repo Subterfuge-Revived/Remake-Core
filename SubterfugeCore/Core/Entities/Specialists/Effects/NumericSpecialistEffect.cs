@@ -14,6 +14,9 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// </summary>
         public float _effectValue { private get; set; } = 0;
 
+        /// <summary>
+        /// What should be effected by the change.
+        /// </summary>
         public EffectEffector Effector { get; set; } = EffectEffector.None;
 
         /// <summary>

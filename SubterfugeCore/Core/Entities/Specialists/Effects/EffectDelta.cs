@@ -53,6 +53,9 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                 case EffectEffector.ShieldMaxValue:
                     // TODO apply effect deltas here.
                     break;
+                case EffectEffector.Speed:
+                    // TODO apply sped effects here.
+                    break;
             }
         }
 
@@ -76,6 +79,9 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                 case EffectEffector.ShieldRegeneration:
                 case EffectEffector.ShieldMaxValue:
                     // TODO: apply effect deltas here.
+                    break;
+                case EffectEffector.Speed:
+                    // TODO: apply speed effects here.
                     break;
             }
         }

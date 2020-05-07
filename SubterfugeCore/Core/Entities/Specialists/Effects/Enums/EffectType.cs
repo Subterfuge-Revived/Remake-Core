@@ -35,6 +35,11 @@
         AlterSpecialistCapacity,
         
         /// <summary>
+        /// Alters the speed
+        /// </summary>
+        AlterSpeed,
+        
+        /// <summary>
         /// No effect.
         /// </summary>
         None,
