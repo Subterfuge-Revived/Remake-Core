@@ -10,20 +10,38 @@ using SubterfugeCore.Core.Topologies;
 namespace SubterfugeCore.Core.Generation
 {
     public class MapGenerator
-    {
-        // Generation parameters
-        public int NumPlayers, OutpostsPerPlayer, MinOutpostDistance, MaxSeedDistance, DormantsPerPlayer;
-        // List of players in the game
+    {   
+        /// <summary>
+        /// A list of the players in the game.
+        /// </summary>
         public List<Player> Players = new List<Player>();
-        // List of the generated outposts
+        
+        /// <summary>
+        /// A list of the generated outposts.
+        /// </summary>
         public List<Outpost> Outposts = new List<Outpost>();
-        // Seeded Random for number generation
+        
+        /// <summary>
+        /// Seeded Random for number generation
+        /// </summary>
         public SeededRandom RandomGenerator;
-        // To generate outpost names.
+        
+        /// <summary>
+        /// To generate outpost names
+        /// </summary>
         public NameGenerator NameGenerator;
-        // Seeded Random for number generation
+        
+        
+        /// <summary>
+        /// Rft for map wrapping
+        /// </summary>
         public Rft map = new Rft(300, 300);
 
+        /// <summary>
+        /// The generation configuration object.
+        /// </summary>
+        public GameConfiguration Configuration;
+        
         /// <summary>
         /// Map Generation constructor to seed map generation
         /// </summary>
@@ -42,12 +60,8 @@ namespace SubterfugeCore.Core.Generation
             
             this.RandomGenerator = new SeededRandom(gameConfiguration.Seed);
             this.NameGenerator = new NameGenerator(RandomGenerator);
-            this.DormantsPerPlayer = gameConfiguration.DormantsPerPlayer;
+            this.Configuration = gameConfiguration;
             this.Players = gameConfiguration.Players;
-            this.NumPlayers = gameConfiguration.Players.Count;
-            this.OutpostsPerPlayer = gameConfiguration.OutpostsPerPlayer;
-            this.MinOutpostDistance = gameConfiguration.MinimumOutpostDistance;
-            this.MaxSeedDistance = gameConfiguration.MaxiumumOutpostDistance;
         }
 
         /// <summary>
@@ -85,8 +99,8 @@ namespace SubterfugeCore.Core.Generation
                 double resultX = translatedX * cs - translatedY * sn;
                 double resultY = translatedY * cs - translatedX * sn;
 
-                resultX += this.MaxSeedDistance;
-                resultY += this.MaxSeedDistance;
+                resultX += this.Configuration.MaxiumumOutpostDistance;
+                resultY += this.Configuration.MaxiumumOutpostDistance;
 
                 newPosition.X = (float)resultX;
                 newPosition.Y = (float)resultY;
@@ -122,10 +136,10 @@ namespace SubterfugeCore.Core.Generation
             Outpost currentOutpost, otherOutpost;
 
             // Loop to generate outposts until the number of generated outposts is valid
-            while (playerOutposts.Count < this.OutpostsPerPlayer + this.DormantsPerPlayer)
+            while (playerOutposts.Count < this.Configuration.OutpostsPerPlayer + this.Configuration.DormantsPerPlayer)
             {
                 // calculate the new outposts location within allowable raidius
-                distance = (float)(this.RandomGenerator.NextDouble() * (MaxSeedDistance - MinOutpostDistance)) + MinOutpostDistance;
+                distance = (float)(this.RandomGenerator.NextDouble() * (this.Configuration.MaxiumumOutpostDistance - this.Configuration.MinimumOutpostDistance)) + this.Configuration.MinimumOutpostDistance;
                 direction = this.RandomGenerator.NextDouble() * Math.PI * 2;  // In radians
                 
                 // Determine the type of outpost that is generated
@@ -145,7 +159,7 @@ namespace SubterfugeCore.Core.Generation
                     vectorDistance = otherOutpost.GetPosition() - currentOutpostPosition;
 
                     //ensure that the new location is not too close to other outposts
-                    if (vectorDistance.Magnitude() < MinOutpostDistance)
+                    if (vectorDistance.Magnitude() < this.Configuration.MinimumOutpostDistance)
                     {
                         usableLocation = false;
                     }
@@ -183,7 +197,7 @@ namespace SubterfugeCore.Core.Generation
             foreach (Outpost o in outposts)
             {
                 // Add outposts to the closestOutposts list until it has "outpostsPerPlayer" outposts
-                if(closestOutposts.Count < this.OutpostsPerPlayer)
+                if(closestOutposts.Count < this.Configuration.OutpostsPerPlayer)
                 {
                     closestOutposts.Add(o);
                 } else {
@@ -194,22 +208,22 @@ namespace SubterfugeCore.Core.Generation
                     closestOutposts.Sort((a, b) => (int)((centroid - a.GetCurrentPosition()).Magnitude() - (centroid - b.GetCurrentPosition()).Magnitude()));
                     
                     // Determine the distance of the farthest outpost
-                    float farthestDistance = (centroid - closestOutposts[this.OutpostsPerPlayer - 1].GetCurrentPosition()).Magnitude();
+                    float farthestDistance = (centroid - closestOutposts[this.Configuration.OutpostsPerPlayer - 1].GetCurrentPosition()).Magnitude();
 
                     // If the current outpost is closer, put the current outpost in the list, replacing the farther outpost.
                     if(currentDistance < farthestDistance)
                     {
-                        closestOutposts[this.OutpostsPerPlayer - 1] = o;
+                        closestOutposts[this.Configuration.OutpostsPerPlayer - 1] = o;
                     }
                 }
             }
             
             // Once the closest outposts are determined, set the owner.
             // And provide some drillers.
-            foreach(Outpost closeOutposts in closestOutposts)
+            foreach(Outpost closeOutpost in closestOutposts)
             {
-                closeOutposts.SetOwner(player);
-                closeOutposts.AddDrillers(30);
+                closeOutpost.SetOwner(player);
+                closeOutpost.AddDrillers(this.Configuration.PlayerDefaultDrillers);
             }
         }
 
@@ -229,7 +243,7 @@ namespace SubterfugeCore.Core.Generation
             List<Outpost> firstPlayerOutposts = this.GeneratePlayerOutposts();
             
             // Set the ownership of the central X generated outposts to the first player.
-            if (OutpostsPerPlayer > 0 && Players.Count > 0)
+            if (this.Configuration.OutpostsPerPlayer > 0 && Players.Count > 0)
                 this.SetOutpostOwner(firstPlayerOutposts, Players[0]);
 
             // Tile the outposts based on the # of players on a 2xn grid
@@ -239,7 +253,7 @@ namespace SubterfugeCore.Core.Generation
             // 2 4 6 8 10
             //
             // Each # is a player, each player has a (2 * maxSeedDistance)x(2 * maxSeedDistance) area
-            int width = (int)(Math.Ceiling(this.NumPlayers / 2.0f)); // calculate n
+            int width = (int)(Math.Ceiling(this.Configuration.Players.Count / 2.0f)); // calculate n
             int height = 2;
 
             // Counter for looping through all players
@@ -260,7 +274,7 @@ namespace SubterfugeCore.Core.Generation
                     {
                         // Translate the first player's outposts based on the width/height counter for this player.
                         // Function also applies a random rotation.
-                        List<Outpost> translatedOutposts = this.TranslateOutposts(firstPlayerOutposts, new RftVector(map, this.MaxSeedDistance * widthCounter * 2, this.MaxSeedDistance * heightCounter * 2));
+                        List<Outpost> translatedOutposts = this.TranslateOutposts(firstPlayerOutposts, new RftVector(map, this.Configuration.MaxiumumOutpostDistance * widthCounter * 2, this.Configuration.MaxiumumOutpostDistance * heightCounter * 2));
 
                         // Update the owner to the new player
                         bool queenGenerated = false;
