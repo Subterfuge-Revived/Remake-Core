@@ -80,6 +80,6 @@ jobs:
       with:
        # Newline-delimited list of path globs for asset files to upload
         files: SubterfugeCoreCLI/bin/Debug/netcoreapp2.1
-        name: GITHUB_SHA
+        tag_name: GITHUB_SHA
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
