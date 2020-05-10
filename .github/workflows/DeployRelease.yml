@@ -6,7 +6,7 @@ name: Deploy Release
 # events but only for the master branch
 on:
   push:
-    branches: [ master, github-actions ]
+    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -85,6 +85,6 @@ jobs:
       with:
        # Newline-delimited list of path globs for asset files to upload
         files: Release.zip
-        tag_name: GITHUB_SHA
+        tag_name: ${{ GITHUB_SHA }}
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
