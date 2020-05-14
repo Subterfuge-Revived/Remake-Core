@@ -12,10 +12,5 @@ namespace SubterfugeCore.Core.Network
         /// The generic error message
         /// </summary>
         public string Message { get; set; }
-        
-        /// <summary>
-        /// A list of specific errors that occurred.
-        /// </summary>
-        public List<List<string>> Errors { get; set; }
     }
 }

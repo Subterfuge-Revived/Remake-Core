@@ -28,10 +28,11 @@ namespace SubterfugeCore.Core.Network
         static HttpClient Client = new HttpClient();
         
         /// <summary>
-        /// The API URL. The default value is set to "http://localhost/subterfuge-backend/sandbox/event_exec.php".
-        /// You can override this URL by calling the API constuctor and passing in the URL manually. 
+        /// The API URL. The default value is set to "http://localhost".
+        /// You can override this URL by calling the API constuctor and passing in the URL manually.
+        /// This URL should NOT include a trailing slash. 
         /// </summary>
-        public static string Url { get; set; } = "http://localhost/";
+        public static string Url { get; set; } = "http://localhost";
 
         /// <summary>
         /// Once the user has logged in, their SESSION_ID token will be saved in the Api instance. This ensures
@@ -70,7 +71,33 @@ namespace SubterfugeCore.Core.Network
         {
             _sessionId = token;
         }
+        
+        /////////////////////////////////////////////////////////////////
+        //
+        // Authentication Methods
+        //
+        /////////////////////////////////////////////////////////////////
 
+        /// <summary>
+        /// Register a new account.
+        /// </summary>
+        /// <param name="username">The username to register</param>
+        /// <param name="password">The password to register</param>
+        /// <param name="email">The email address to register</param>
+        /// <returns>The RegisterResponse</returns>
+        public async Task<NetworkResponse<RegisterResponse>> RegisterAccount(string username, string password, string email)
+        {
+            var formContent = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("username", username),
+                new KeyValuePair<string, string>("password", password),
+                new KeyValuePair<string, string>("email", email),
+            });
+
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Post, Url + "/api/register", formContent);
+            return await NetworkResponse<RegisterResponse>.FromHttpResponse(response);
+        }
+        
         /// <summary>
         /// Logs the user into the API. If successful, stores the user's session token
         /// in the Api object so that future requests don't need to accept the token.
@@ -85,10 +112,9 @@ namespace SubterfugeCore.Core.Network
             {
                 new KeyValuePair<string, string>("username", username),
                 new KeyValuePair<string, string>("password", password),
-                new KeyValuePair<string, string>("type", "login")
             });
 
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Post, Url + "/api/login", formContent);
             NetworkResponse<LoginResponse> loginResponse = await NetworkResponse<LoginResponse>.FromHttpResponse(response);
 
             if (loginResponse.IsSuccessStatusCode())
@@ -98,6 +124,12 @@ namespace SubterfugeCore.Core.Network
 
             return loginResponse;
         }
+        
+        /////////////////////////////////////////////////////////////////
+        //
+        // GameRoom Methods
+        //
+        /////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Gets a list of all open game rooms
@@ -108,11 +140,10 @@ namespace SubterfugeCore.Core.Network
             var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("type", "get_room_data"),
                 new KeyValuePair<string, string>("room_status", "open")
             });
 
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Get, Url + "/api/rooms", formContent);
             return await NetworkResponse<List<GameRoom>>.FromHttpResponse(response);
         }
         
@@ -125,12 +156,11 @@ namespace SubterfugeCore.Core.Network
             var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("type", "get_room_data"),
                 new KeyValuePair<string, string>("room_status", "ongoing"),
                 new KeyValuePair<string, string>("filter_player", "true")
             });
 
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Get, Url + "/api/rooms", formContent);
             return await NetworkResponse<List<GameRoom>>.FromHttpResponse(response);
         }
 
@@ -145,11 +175,11 @@ namespace SubterfugeCore.Core.Network
             var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("room_id", roomId.ToString()),
-                new KeyValuePair<string, string>("type", "join_room")
             });
 
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            HttpResponseMessage response =
+                await _sendRequest(HttpMethod.Post, $"{Url}/api/rooms/{roomId}/join", formContent);
+            
             return await NetworkResponse<JoinLobbyResponse>.FromHttpResponse(response);
         }
         
@@ -163,11 +193,11 @@ namespace SubterfugeCore.Core.Network
             var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("type", "leave_room"),
-                new KeyValuePair<string, string>("room_id", roomId.ToString()),
             });
+
+            HttpResponseMessage response =
+                await _sendRequest(HttpMethod.Post, $"{Url}/api/rooms/{roomId}/leave", formContent);
             
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             return await NetworkResponse<LeaveLobbyResponse>.FromHttpResponse(response);
         }
         
@@ -182,11 +212,11 @@ namespace SubterfugeCore.Core.Network
             var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("type", "start_early"),
-                new KeyValuePair<string, string>("room_id", roomId.ToString()),
             });
 
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            HttpResponseMessage response =
+                await _sendRequest(HttpMethod.Post, $"{Url}/api/rooms/{roomId}/start", formContent);
+            
             return await NetworkResponse<StartLobbyEarlyResponse>.FromHttpResponse(response);
         }
         
@@ -201,22 +231,21 @@ namespace SubterfugeCore.Core.Network
         /// <param name="goal">The goal of the game</param>
         /// <param name="map">The map that the game is played on</param>
         /// <returns>the CreateLobbyResponse</returns>
-        public async Task<NetworkResponse<CreateLobbyResponse>> CreateLobby(string title, int maxPlayers, int minRating, bool rated, bool anonymous, int goal, int map)
+        public async Task<NetworkResponse<CreateLobbyResponse>> CreateLobby(string title, int maxPlayers, int minRating, bool rated, bool anonymous, string goal, int map)
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("type", "new_room"),
                 new KeyValuePair<string, string>("description", title),
                 new KeyValuePair<string, string>("max_players", maxPlayers.ToString()),
                 new KeyValuePair<string, string>("min_rating", minRating.ToString()),
-                new KeyValuePair<string, string>("rated", rated.ToString()),
-                new KeyValuePair<string, string>("anonymity", anonymous.ToString()),
-                new KeyValuePair<string, string>("goal", goal.ToString()),
+                new KeyValuePair<string, string>("rated", rated ? "1" : "0"),
+                new KeyValuePair<string, string>("anonymity", anonymous ? "1" : "0"),
+                new KeyValuePair<string, string>("goal", goal),
                 new KeyValuePair<string, string>("map", map.ToString()),
             });
 
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Post, $"{Url}/api/rooms", formContent);
             return await NetworkResponse<CreateLobbyResponse>.FromHttpResponse(response);
         }
 
@@ -229,19 +258,22 @@ namespace SubterfugeCore.Core.Network
         /// <returns>The SubmitEventResponse</returns>
         public async Task<NetworkResponse<SubmitEventResponse>> SubmitGameEvent(GameEvent gameEvent, int gameRoom)
         {
+            
+            Int32 unixTimestamp = (Int32)(gameEvent.GetTick().GetDate().Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            
             var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("type", "submit_event"),
-                new KeyValuePair<string, string>("room_id", gameRoom.ToString()),
-                new KeyValuePair<string, string>("occurs_at", gameEvent.GetTick().GetTick().ToString()),
-                new KeyValuePair<string, string>("event_msg", gameEvent.ToJson()),
+                new KeyValuePair<string, string>("occurs_at", unixTimestamp.ToString()),
+                new KeyValuePair<string, string>("event_msg", '"' + gameEvent.ToJson() + '"'),
             });
 
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            HttpResponseMessage response =
+                await _sendRequest(HttpMethod.Post, $"{Url}/api/rooms/{gameRoom}/events", formContent);
+            
             return await NetworkResponse<SubmitEventResponse>.FromHttpResponse(response);
         }
-        
+
         /// <summary>
         /// Gets a list of all of the GameEvents for the specified gameroom
         /// </summary>
@@ -252,35 +284,21 @@ namespace SubterfugeCore.Core.Network
             var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("type", "get_events"),
-                new KeyValuePair<string, string>("room_id", gameRoom.ToString()),
+                new KeyValuePair<string, string>("filter", "tick"),
+                new KeyValuePair<string, string>("filter_arg", "0"),
             });
+
+            HttpResponseMessage response =
+                await _sendRequest(HttpMethod.Get, $"{Url}/api/rooms/{gameRoom}/events", formContent);
             
-            
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
             return await NetworkResponse<List<NetworkGameEvent>>.FromHttpResponse(response);
         }
 
-        /// <summary>
-        /// Register a new account.
-        /// </summary>
-        /// <param name="username">The username to register</param>
-        /// <param name="password">The password to register</param>
-        /// <param name="email">The email address to register</param>
-        /// <returns>The RegisterResponse</returns>
-        public async Task<NetworkResponse<RegisterResponse>> RegisterAccount(string username, string password, string email)
-        {
-            var formContent = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("type", "register"),
-                new KeyValuePair<string, string>("username", username),
-                new KeyValuePair<string, string>("password", password),
-                new KeyValuePair<string, string>("email", email),
-            });
-            
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
-            return await NetworkResponse<RegisterResponse>.FromHttpResponse(response);
-        }
+        /////////////////////////////////////////////////////////////////
+        //
+        // Messaging Methods
+        //
+        /////////////////////////////////////////////////////////////////
 
         public async Task<NetworkResponse<List<NetworkMessage>>> GetGroupMessages(int GroupNumber)
         {
@@ -310,53 +328,58 @@ namespace SubterfugeCore.Core.Network
             
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("type", "create_group"),
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("room_id", gameRoom.ToString()),
                 new KeyValuePair<string, string>("participants[]", playerIds),
             });
-        
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+
+            HttpResponseMessage response =
+                await _sendRequest(HttpMethod.Post, $"{Url}/api/rooms/{gameRoom}/groups", formContent);
+            
             return await NetworkResponse<CreateGroupResponse>.FromHttpResponse(response);
         }
         
-        public async Task<NetworkResponse<SendMessageResponse>> SendMessage(int groupId, string message)
+        public async Task<NetworkResponse<SendMessageResponse>> SendMessage(int gameRoom, int groupId, string message)
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("type", "message"),
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("group_id", groupId.ToString()),
                 new KeyValuePair<string, string>("message", message),
             });
-        
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Post,
+                $"{Url}/api/rooms/{gameRoom}/groups/{groupId}/messages", formContent);
+            
             return await NetworkResponse<SendMessageResponse>.FromHttpResponse(response);
         }
+        
+        /////////////////////////////////////////////////////////////////
+        //
+        // Social Methods
+        //
+        /////////////////////////////////////////////////////////////////
 
         public async Task<NetworkResponse<BlockPlayerResponse>> BlockPlayer(Player player)
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("type", "block"),
                 new KeyValuePair<string, string>("session_id", _sessionId),
                 new KeyValuePair<string, string>("other_player_id", player.GetId().ToString()),
             });
-        
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Post, $"{Url}/api/blocks", formContent);
             return await NetworkResponse<BlockPlayerResponse>.FromHttpResponse(response);
         }
 
-        public async Task<NetworkResponse<UnblockPlayerResponse>> UnblockPlayer(Player player)
+        public async Task<NetworkResponse<UnblockPlayerResponse>> UnblockPlayer(int BlockId)
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("type", "unblock"),
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("other_player_id", player.GetId().ToString()),
             });
-        
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+
+            HttpResponseMessage response =
+                await _sendRequest(HttpMethod.Delete, $"{Url}/api/blocks/{BlockId}", formContent);
+            
             return await NetworkResponse<UnblockPlayerResponse>.FromHttpResponse(response);
         }
 
@@ -364,12 +387,22 @@ namespace SubterfugeCore.Core.Network
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("type", "get_blocks"),
                 new KeyValuePair<string, string>("session_id", _sessionId),
             });
-        
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Get, $"{Url}/api/blocks", formContent);
             return await NetworkResponse<List<BlockedPlayer>>.FromHttpResponse(response);
+        }
+
+        private async Task<HttpResponseMessage> _sendRequest(HttpMethod method, String url,
+            FormUrlEncodedContent content)
+        {
+            HttpRequestMessage message = new HttpRequestMessage(method, url);
+            message.Content = content;
+
+            HttpResponseMessage response = await Client.SendAsync(message);
+            
+            return response;
         }
         
     }

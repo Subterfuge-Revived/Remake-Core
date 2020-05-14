@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -63,11 +64,13 @@ namespace SubterfugeCore.Core.Network
                 NetworkError error;
                 try
                 {
+                    Console.WriteLine("Request returned error: " + responseContent);
                     error = JsonConvert.DeserializeObject<NetworkError>(responseContent);
                 }
                 catch (JsonException e)
                 {
-                    error = null;
+                    error = new NetworkError();
+                    error.Message = responseContent;
                 }
 
                 response.ErrorContent = error;

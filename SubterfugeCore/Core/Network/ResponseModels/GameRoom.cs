@@ -12,7 +12,7 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// The id of the game room
         /// </summary>
-        public int RoomId { get; set; }
+        public int Room_Id { get; set; }
         
         /// <summary>
         /// The status of the room. Open, ongoing, or closed.
