@@ -17,7 +17,7 @@ namespace SubterfugeCoreTest
         [TestInitialize]
         public void Setup()
         {
-            _time = new DateTime();
+            _time = DateTime.Now;
             _tickNumber = 0;
             _tick = new GameTick(_time, _tickNumber);
             Game server = new Game();
