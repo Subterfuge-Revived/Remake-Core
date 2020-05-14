@@ -8,6 +8,7 @@
 [![Banner](banner.png)]()
 
 # Remake-Core
+##### v0.1.2
 This repository is a class library that contains all of the core game-logic and functionality for the game. This class library gets built into a `dll` which is then consumed by the unity repository so that unity can parse and display the game state. This project also includes a DLL CLI tool which the backend repository makes use of in order to validate all player events when they are recieved.
 
 ## Setup
