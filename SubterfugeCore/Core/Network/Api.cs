@@ -300,16 +300,15 @@ namespace SubterfugeCore.Core.Network
         //
         /////////////////////////////////////////////////////////////////
 
-        public async Task<NetworkResponse<List<NetworkMessage>>> GetGroupMessages(int GroupNumber)
+        public async Task<NetworkResponse<List<NetworkMessage>>> GetGroupMessages(int gameRoom, int GroupNumber)
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("type", "get_message"),
                 new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("group_id", GroupNumber.ToString()),
             });
 
-            HttpResponseMessage response = await Client.PostAsync(Url, formContent);
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Get,
+                $"{Url}/api/rooms/{gameRoom}/groups/{GroupNumber}/messages", formContent);
             return await NetworkResponse<List<NetworkMessage>>.FromHttpResponse(response);
         }
 
@@ -329,6 +328,7 @@ namespace SubterfugeCore.Core.Network
             var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("session_id", _sessionId),
+                new KeyValuePair<string, string>("room_id", gameRoom.ToString()),
                 new KeyValuePair<string, string>("participants[]", playerIds),
             });
 

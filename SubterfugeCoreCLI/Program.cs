@@ -12,6 +12,7 @@ using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Network;
+using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
 using SubterfugeCoreCLI.Response;
@@ -47,17 +48,16 @@ namespace SubterfugeCoreCLI
 
                     Game game = new Game();
 
-                    NetworkResponse<SubmitEventResponse> response = await api.SubmitGameEvent(new LaunchEvent(
-                        GameTick.FromTickNumber(465),
-                        new Outpost(new RftVector(new Rft(100, 100), 0, 0)),
-                        1,
-                        new Outpost(new RftVector(new Rft(100, 100), 10, 10))
-                            
-                    ), 3);
+                    List<Player> players = new List<Player>()
+                    {
+                        new Player(1),
+                        new Player(2),
+                    };
+                    NetworkResponse<List<BlockedPlayer>> response = await api.GetBlockList();
 
                     if (response.IsSuccessStatusCode())
                     {
-                        Console.WriteLine("Submitted Game Event");
+                        Console.WriteLine("Got blocked palyer list");
                     }
                     else
                     {
