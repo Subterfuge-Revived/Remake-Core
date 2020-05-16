@@ -137,13 +137,9 @@ namespace SubterfugeCore.Core.Network
         /// <returns>A list of open game rooms</returns>
         public async Task<NetworkResponse<List<GameRoom>>> GetOpenRooms()
         {
-            var formContent = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("room_status", "open")
-            });
+            string getEndpoint = $"{Url}/api/rooms?session_id={_sessionId}&room_status=open";
 
-            HttpResponseMessage response = await _sendRequest(HttpMethod.Get, Url + "/api/rooms", formContent);
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Get, getEndpoint, null);
             return await NetworkResponse<List<GameRoom>>.FromHttpResponse(response);
         }
         
@@ -153,14 +149,9 @@ namespace SubterfugeCore.Core.Network
         /// <returns>A list of ongoing game rooms</returns>
         public async Task<NetworkResponse<List<GameRoom>>> GetOngoingRooms()
         {
-            var formContent = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("room_status", "ongoing"),
-                new KeyValuePair<string, string>("filter_player", "true")
-            });
+            string getEndpoint = $"{Url}/api/rooms?session_id={_sessionId}&room_status=ongoing&filter_player=true";
 
-            HttpResponseMessage response = await _sendRequest(HttpMethod.Get, Url + "/api/rooms", formContent);
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Get, getEndpoint, null);
             return await NetworkResponse<List<GameRoom>>.FromHttpResponse(response);
         }
 
@@ -281,15 +272,10 @@ namespace SubterfugeCore.Core.Network
         /// <returns>A list of game events</returns>
         public async Task<NetworkResponse<List<NetworkGameEvent>>> GetGameEvents(int gameRoom)
         {
-            var formContent = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("session_id", _sessionId),
-                new KeyValuePair<string, string>("filter", "tick"),
-                new KeyValuePair<string, string>("filter_arg", "0"),
-            });
+            string getEndpoint = $"{Url}/api/rooms/{gameRoom}/events?session_id={_sessionId}&filter=tick&filter_arg=0";
 
             HttpResponseMessage response =
-                await _sendRequest(HttpMethod.Get, $"{Url}/api/rooms/{gameRoom}/events", formContent);
+                await _sendRequest(HttpMethod.Get, getEndpoint, null);
             
             return await NetworkResponse<List<NetworkGameEvent>>.FromHttpResponse(response);
         }
@@ -302,13 +288,9 @@ namespace SubterfugeCore.Core.Network
 
         public async Task<NetworkResponse<List<NetworkMessage>>> GetGroupMessages(int gameRoom, int GroupNumber)
         {
-            var formContent = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("session_id", _sessionId),
-            });
+            string getEndpoint = $"{Url}/api/rooms/{gameRoom}/groups/{GroupNumber}/messages?session_id={_sessionId}";
 
-            HttpResponseMessage response = await _sendRequest(HttpMethod.Get,
-                $"{Url}/api/rooms/{gameRoom}/groups/{GroupNumber}/messages", formContent);
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Get, getEndpoint, null);
             return await NetworkResponse<List<NetworkMessage>>.FromHttpResponse(response);
         }
 
@@ -384,13 +366,10 @@ namespace SubterfugeCore.Core.Network
         }
 
         public async Task<NetworkResponse<List<BlockedPlayer>>> GetBlockList()
-        {
-            var formContent = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("session_id", _sessionId),
-            });
+        {   
+            string getEndpoint = $"{Url}/api/blocks?session_id={_sessionId}";
 
-            HttpResponseMessage response = await _sendRequest(HttpMethod.Get, $"{Url}/api/blocks", formContent);
+            HttpResponseMessage response = await _sendRequest(HttpMethod.Get, getEndpoint, null);
             return await NetworkResponse<List<BlockedPlayer>>.FromHttpResponse(response);
         }
 
