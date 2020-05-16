@@ -143,12 +143,12 @@ namespace SubterfugeCore.Core.Entities
 
             if(elapsedTicks > 0)
             {
-                this.Position = this._source.GetCurrentPosition() + new RftVector(this.Position.Map, (direction * (elapsedTicks * this.GetSpeed())));
+                this.Position = this._source.GetCurrentPosition() + new RftVector(RftVector.Map, (direction * (elapsedTicks * this.GetSpeed())));
                 return this.Position;
             }
             else
             {
-                return new RftVector(this.Position.Map);
+                return new RftVector(RftVector.Map);
             }
         }
         
@@ -248,9 +248,9 @@ namespace SubterfugeCore.Core.Entities
 		        {
 		            Vector2 destination = (this.GetDestinationLocation() - this.GetPosition()).Normalize();
 
-		            RftVector runnerLocation = this.GetPosition() + new RftVector(this.Position.Map, (destination * scalar));
+		            RftVector runnerLocation = this.GetPosition() + new RftVector(RftVector.Map, (destination * scalar));
 		            Vector2 chaserDirection = (runnerLocation - targetFrom).Normalize();
-		            RftVector chaserPosition = targetFrom + new RftVector(this.Position.Map, (chaserDirection * scalar));
+		            RftVector chaserPosition = targetFrom + new RftVector(RftVector.Map, (chaserDirection * scalar));
 
 		            if((chaserPosition - runnerLocation).Magnitude() < 1)
 		            {
