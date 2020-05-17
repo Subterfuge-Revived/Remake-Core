@@ -36,7 +36,7 @@ namespace SubterfugeCore.Core
         public GameState(GameConfiguration configuration)
         {
             // Set the start time to the time the game was initialized at and set the current tick
-            this._startTime = new GameTick(new DateTime(), 0);
+            this._startTime = new GameTick(DateTime.Now, 0);
             this.CurrentTick = this._startTime;
             
             // Set the players.
