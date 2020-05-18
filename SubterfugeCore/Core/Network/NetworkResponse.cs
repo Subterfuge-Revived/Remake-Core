@@ -50,18 +50,17 @@ namespace SubterfugeCore.Core.Network
             if (responseMessage.IsSuccessStatusCode)
             {
                 T responseTemplate = default(T);
-                try
+                if (responseContent.StartsWith("["))
                 {
-                    if (responseContent.StartsWith("["))
-                    {
-                        // Response is an array, convert it to an object with a key.
-                        responseContent = $"{{ 'array': {responseContent} }}";
-                    }
-                    responseTemplate = JsonConvert.DeserializeObject<T>(responseContent);
+                    // Response is an array, convert it to an object with a key.
+                    responseContent = $"{{ 'array': {responseContent} }}";
                 }
-                catch (JsonException e)
-                {
-                }
+                
+                // At this point, the JSON deserialization can throw an error.
+                // However, if there is a successful network response but it cannot parse the JSON
+                // then this is a fault of the developer.
+                // Thus, letting the error be thrown here is fine.
+                responseTemplate = JsonConvert.DeserializeObject<T>(responseContent);
 
                 response.Response = responseTemplate;
             }
