@@ -6,7 +6,7 @@ namespace SubterfugeCore.Core.Network
     /// Representation of a user when returned from the Network.
     /// Can easily convert this type of user into a Player with `new Player(networkUser)`.
     /// </summary>
-    public class NetworkUser
+    public class NetworkUser : BaseNetworkResponse
     {
         /// <summary>
         /// The user's id
