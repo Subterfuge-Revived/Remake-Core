@@ -185,6 +185,17 @@ namespace SubterfugeCore.Core.Generation
                 return Char.ToUpper(str[0]).ToString();
             return char.ToUpper(str[0]) + str.Substring(1);
         }
+
+        /// <summary>
+        /// Function that returns a list of outpost names that have been generated which match the user's guess.
+        /// For example, passing in "Lo" might return: ["Lokovo", "Loyns"]
+        /// </summary>
+        /// <param name="suggestionString">The user's string</param>
+        /// <returns>A list of possible outpost names that match the user's selection</returns>
+        public List<string> suggestNames(string suggestionString)
+        {
+            return _selectedNames.Where(x => x.StartsWith(suggestionString)).ToList();
+        }
         
     }
 }
