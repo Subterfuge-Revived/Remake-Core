@@ -10,7 +10,8 @@ namespace SubterfugeCore.Core.Generation
         private SeededRandom seeder;
 
         private List<string> _outpostNames;
-        private List<string> _generatedNames = new List<string>();
+        private List<string> _fallbackNames = new List<string>();
+        private List<string> _selectedNames = new List<string>();
         
         /// <summary>
         /// Creates an instance of the name generator using an already generated seeded random tool.
@@ -64,23 +65,32 @@ namespace SubterfugeCore.Core.Generation
                 int selection = seeder.NextRand(0, _outpostNames.Count - 1);
                 string name = _outpostNames[selection];
                 _outpostNames.Remove(name);
-                _generatedNames.Add(name);
+                _selectedNames.Add(name);
                 return name;
             }
             
-            // Otherwise, generate a random shuffled string 
-            int scrambleCounter = 0;
+            // If there are some derived names to pick from, select them
+            if (_fallbackNames.Count > 0)
+            {
+                int selection = seeder.NextRand(0, _outpostNames.Count - 1);
+                string name = _fallbackNames[selection];
+                _fallbackNames.Remove(name);
+                _selectedNames.Add(name);
+                return name;
+            }
             
-            // Try 100 scrambles before giving up.
-            while (scrambleCounter < 100)
+            // Otherwise, generate a random shuffled string
+            // Try 10 scrambles before giving up.
+            int scrambleCounter = 0;
+            while (scrambleCounter < 10)
             {
                 // Pick a random name from the list of names.
-                int randomName = seeder.NextRand(0, _generatedNames.Count - 1);
+                int randomName = seeder.NextRand(0, _selectedNames.Count - 1);
                 // Shuffle the letters in the outpost name.
-                string shuffled = this._shuffleString(_generatedNames[randomName]);
-                if (!_generatedNames.Contains(shuffled))
+                string shuffled = this._shuffleString(_selectedNames[randomName]);
+                if (!_selectedNames.Contains(shuffled))
                 {
-                    _generatedNames.Add(shuffled);
+                    _selectedNames.Add(shuffled);
                     return shuffled;
                 }
 
@@ -89,8 +99,10 @@ namespace SubterfugeCore.Core.Generation
 
             // As a final measure, if a string couldn't be derived, generate a random name.
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            return new string(Enumerable.Repeat(chars, 8)
+            string generated = new string(Enumerable.Repeat(chars, 8)
                 .Select(s => s[seeder.NextRand(0, s.Length)]).ToArray());
+            
+            return this._capitolizeFirstLetter(generated);
         }
 
         /// <summary>
@@ -124,6 +136,9 @@ namespace SubterfugeCore.Core.Generation
             return this._capitolizeFirstLetter(generated);
         }
 
+        /// <summary>
+        /// Generates a list of fallback names by deriving names from the default list.
+        /// </summary>
         private void _generateDerivedOutpostNames()
         {
             List<string> derived = new List<string>();
@@ -151,9 +166,16 @@ namespace SubterfugeCore.Core.Generation
                     }
                 }
             }
-            _outpostNames.AddRange(derived);
+            // Add to a fallback list instead of the default list.
+            // This ensures that the normal outpost list names will get selected first.
+            _fallbackNames.AddRange(derived);
         }
 
+        /// <summary>
+        /// Returns a string of the form "Abcdefghi", where the first is capitol and all others are lower case
+        /// </summary>
+        /// <param name="str">The input string to format</param>
+        /// <returns>Formatted string</returns>
         private string _capitolizeFirstLetter(string str)
         {
             str = str.ToLower();
