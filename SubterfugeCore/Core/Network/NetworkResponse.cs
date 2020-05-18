@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -9,7 +10,7 @@ namespace SubterfugeCore.Core.Network
     /// Base Network response. All Network responses should have a 'success' variable to determine if the operation
     /// succeeded and a message describing any issues if it didn't
     /// </summary>
-    public class NetworkResponse<T>
+    public class NetworkResponse<T> where T : BaseNetworkResponse
     {
         /// <summary>
         /// The HttpResponse object that comes directly from the HttpClient
@@ -51,6 +52,11 @@ namespace SubterfugeCore.Core.Network
                 T responseTemplate = default(T);
                 try
                 {
+                    if (responseContent.StartsWith("["))
+                    {
+                        // Response is an array, convert it to an object with a key.
+                        responseContent = $"{{ 'array': {responseContent} }}";
+                    }
                     responseTemplate = JsonConvert.DeserializeObject<T>(responseContent);
                 }
                 catch (JsonException e)

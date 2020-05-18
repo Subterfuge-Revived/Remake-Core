@@ -1,6 +1,6 @@
 ﻿namespace SubterfugeCore.Core.Network
 {
-    public class SubmitEventResponse
+    public class SubmitEventResponse : BaseNetworkResponse
     {
         public int RoomId { get; set; }
     }

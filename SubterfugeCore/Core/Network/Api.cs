@@ -135,24 +135,24 @@ namespace SubterfugeCore.Core.Network
         /// Gets a list of all open game rooms
         /// </summary>
         /// <returns>A list of open game rooms</returns>
-        public async Task<NetworkResponse<List<GameRoom>>> GetOpenRooms()
+        public async Task<NetworkResponse<GameRoomResponse>> GetOpenRooms()
         {
             string getEndpoint = $"{Url}/api/rooms?session_id={_sessionId}&room_status=open";
 
             HttpResponseMessage response = await _sendRequest(HttpMethod.Get, getEndpoint, null);
-            return await NetworkResponse<List<GameRoom>>.FromHttpResponse(response);
+            return await NetworkResponse<GameRoomResponse>.FromHttpResponse(response);
         }
         
         /// <summary>
         /// Gets a list of all ongoing rooms that the user is a member of
         /// </summary>
         /// <returns>A list of ongoing game rooms</returns>
-        public async Task<NetworkResponse<List<GameRoom>>> GetOngoingRooms()
+        public async Task<NetworkResponse<GameRoomResponse>> GetOngoingRooms()
         {
             string getEndpoint = $"{Url}/api/rooms?session_id={_sessionId}&room_status=ongoing&filter_player=true";
 
             HttpResponseMessage response = await _sendRequest(HttpMethod.Get, getEndpoint, null);
-            return await NetworkResponse<List<GameRoom>>.FromHttpResponse(response);
+            return await NetworkResponse<GameRoomResponse>.FromHttpResponse(response);
         }
 
         /// <summary>
@@ -270,14 +270,14 @@ namespace SubterfugeCore.Core.Network
         /// </summary>
         /// <param name="gameRoom">The id of the game room to fetch events for.</param>
         /// <returns>A list of game events</returns>
-        public async Task<NetworkResponse<List<NetworkGameEvent>>> GetGameEvents(int gameRoom)
+        public async Task<NetworkResponse<GameEventResponse>> GetGameEvents(int gameRoom)
         {
             string getEndpoint = $"{Url}/api/rooms/{gameRoom}/events?session_id={_sessionId}&filter=tick&filter_arg=0";
 
             HttpResponseMessage response =
                 await _sendRequest(HttpMethod.Get, getEndpoint, null);
             
-            return await NetworkResponse<List<NetworkGameEvent>>.FromHttpResponse(response);
+            return await NetworkResponse<GameEventResponse>.FromHttpResponse(response);
         }
 
         /////////////////////////////////////////////////////////////////
@@ -286,12 +286,12 @@ namespace SubterfugeCore.Core.Network
         //
         /////////////////////////////////////////////////////////////////
 
-        public async Task<NetworkResponse<List<NetworkMessage>>> GetGroupMessages(int gameRoom, int GroupNumber)
+        public async Task<NetworkResponse<GroupMessageListResponse>> GetGroupMessages(int gameRoom, int GroupNumber)
         {
             string getEndpoint = $"{Url}/api/rooms/{gameRoom}/groups/{GroupNumber}/messages?session_id={_sessionId}";
 
             HttpResponseMessage response = await _sendRequest(HttpMethod.Get, getEndpoint, null);
-            return await NetworkResponse<List<NetworkMessage>>.FromHttpResponse(response);
+            return await NetworkResponse<GroupMessageListResponse>.FromHttpResponse(response);
         }
 
 
@@ -365,12 +365,12 @@ namespace SubterfugeCore.Core.Network
             return await NetworkResponse<UnblockPlayerResponse>.FromHttpResponse(response);
         }
 
-        public async Task<NetworkResponse<List<BlockedPlayer>>> GetBlockList()
+        public async Task<NetworkResponse<BlockPlayerResponse>> GetBlockList()
         {   
             string getEndpoint = $"{Url}/api/blocks?session_id={_sessionId}";
 
             HttpResponseMessage response = await _sendRequest(HttpMethod.Get, getEndpoint, null);
-            return await NetworkResponse<List<BlockedPlayer>>.FromHttpResponse(response);
+            return await NetworkResponse<BlockPlayerResponse>.FromHttpResponse(response);
         }
 
         private async Task<HttpResponseMessage> _sendRequest(HttpMethod method, String url,

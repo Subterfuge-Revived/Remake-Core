@@ -1,6 +1,6 @@
 ﻿namespace SubterfugeCore.Core.Network
 {
-    public class LeaveLobbyResponse
+    public class LeaveLobbyResponse : BaseNetworkResponse
     {
         public GameRoom Room { get; set; }
     }

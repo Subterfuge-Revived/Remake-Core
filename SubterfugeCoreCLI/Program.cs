@@ -43,25 +43,10 @@ namespace SubterfugeCoreCLI
 
                 if (loginResponse.IsSuccessStatusCode())
                 {
-                    Console.WriteLine("Logged in!");
-
-
-                    Game game = new Game();
-
-                    List<Player> players = new List<Player>()
+                    NetworkResponse<GameRoomResponse> rooms = await api.GetOpenRooms();
+                    if (rooms.IsSuccessStatusCode())
                     {
-                        new Player(1),
-                        new Player(2),
-                    };
-                    NetworkResponse<List<BlockedPlayer>> response = await api.GetBlockList();
-
-                    if (response.IsSuccessStatusCode())
-                    {
-                        Console.WriteLine("Got blocked palyer list");
-                    }
-                    else
-                    {
-                        Console.WriteLine(response.ErrorContent.Message);
+                        
                     }
                 }
             }
@@ -72,7 +57,7 @@ namespace SubterfugeCoreCLI
             Api api = new Api();
             api.SetToken(parsed.Token);
 
-            NetworkResponse<List<NetworkGameEvent>> gameEvents = await api.GetGameEvents(Int32.Parse(parsed.GameId));
+            NetworkResponse<GameEventResponse> gameEvents = await api.GetGameEvents(Int32.Parse(parsed.GameId));
             Console.WriteLine("Done");
         }
     }

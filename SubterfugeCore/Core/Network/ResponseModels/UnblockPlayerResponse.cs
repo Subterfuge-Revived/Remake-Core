@@ -1,6 +1,6 @@
 ﻿namespace SubterfugeCore.Core.Network
 {
-    public class UnblockPlayerResponse
+    public class UnblockPlayerResponse : BaseNetworkResponse
     {
         
     }

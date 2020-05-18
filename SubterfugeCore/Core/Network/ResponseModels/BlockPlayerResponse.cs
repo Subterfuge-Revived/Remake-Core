@@ -1,7 +1,9 @@
-﻿namespace SubterfugeCore.Core.Network
+﻿using System.Collections.Generic;
+
+namespace SubterfugeCore.Core.Network
 {
-    public class BlockPlayerResponse
+    public class BlockPlayerResponse : BaseNetworkResponse
     {
-        
+        public List<BlockedPlayer> blockedPlayers { get; set; }
     }
 }

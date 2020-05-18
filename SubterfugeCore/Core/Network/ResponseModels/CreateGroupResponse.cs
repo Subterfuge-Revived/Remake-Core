@@ -1,6 +1,6 @@
 ﻿namespace SubterfugeCore.Core.Network
 {
-    public class CreateGroupResponse
+    public class CreateGroupResponse : BaseNetworkResponse
     {
         
     }
