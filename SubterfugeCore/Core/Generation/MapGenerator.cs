@@ -128,7 +128,7 @@ namespace SubterfugeCore.Core.Generation
             
             // setup variables
             double direction;
-            float distance;
+            double distance;
             bool usableLocation = true;
             int x, y, idx;
             RftVector vectorDistance;
@@ -139,7 +139,7 @@ namespace SubterfugeCore.Core.Generation
             while (playerOutposts.Count < this.Configuration.OutpostsPerPlayer + this.Configuration.DormantsPerPlayer)
             {
                 // calculate the new outposts location within allowable raidius
-                distance = (float)(this.RandomGenerator.NextDouble() * (this.Configuration.MaxiumumOutpostDistance - this.Configuration.MinimumOutpostDistance)) + this.Configuration.MinimumOutpostDistance;
+                distance = this.RandomGenerator.NextDouble() * (this.Configuration.MaxiumumOutpostDistance - this.Configuration.MinimumOutpostDistance) + this.Configuration.MinimumOutpostDistance;
                 direction = this.RandomGenerator.NextDouble() * Math.PI * 2;  // In radians
                 
                 // Determine the type of outpost that is generated
