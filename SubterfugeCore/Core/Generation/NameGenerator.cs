@@ -55,7 +55,7 @@ namespace SubterfugeCore.Core.Generation
                 return name;
             }
             // Should never get here but...
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             return new string(Enumerable.Repeat(chars, 8)
                 .Select(s => s[seeder.NextRand(0, s.Length)]).ToArray());
         }
