@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SubterfugeCore.Core.Timing;
 
@@ -8,7 +9,8 @@ namespace SubterfugeCore.Core.Generation
     {
         private SeededRandom seeder;
 
-        List<string> _outpostNames;
+        private List<string> _outpostNames;
+        private List<string> _generatedNames = new List<string>();
         
         /// <summary>
         /// Creates an instance of the name generator using an already generated seeded random tool.
@@ -43,26 +45,123 @@ namespace SubterfugeCore.Core.Generation
             "Glover",
             "Mills",
             };
+            
+            // As an additional measure,
+            // more names are derived from the existing names.
+            this._generateDerivedOutpostNames();
         }
 
+        /// <summary>
+        /// Generates a random outpost name for an outpost
+        /// </summary>
+        /// <returns>The random outpost name</returns>
         public string GetRandomName()
         {
+            // If there are pre-generated outposts to be selected from,
+            // Choose one of them.
             if (_outpostNames.Count > 0)
             {
                 int selection = seeder.NextRand(0, _outpostNames.Count - 1);
                 string name = _outpostNames[selection];
                 _outpostNames.Remove(name);
+                _generatedNames.Add(name);
                 return name;
             }
-            // Should never get here but...
+            
+            // Otherwise, generate a random shuffled string 
+            int scrambleCounter = 0;
+            
+            // Try 100 scrambles before giving up.
+            while (scrambleCounter < 100)
+            {
+                // Pick a random name from the list of names.
+                int randomName = seeder.NextRand(0, _generatedNames.Count - 1);
+                // Shuffle the letters in the outpost name.
+                string shuffled = this._shuffleString(_generatedNames[randomName]);
+                if (!_generatedNames.Contains(shuffled))
+                {
+                    _generatedNames.Add(shuffled);
+                    return shuffled;
+                }
+
+                scrambleCounter++;
+            }
+
+            // As a final measure, if a string couldn't be derived, generate a random name.
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             return new string(Enumerable.Repeat(chars, 8)
                 .Select(s => s[seeder.NextRand(0, s.Length)]).ToArray());
         }
 
+        /// <summary>
+        /// Determines if the name generator has default names able to be generated.
+        /// </summary>
+        /// <returns>If the default set of names has been exhausted</returns>
         public bool HasNames()
         {
             return _outpostNames.Count > 0;
+        }
+
+        /// <summary>
+        /// Randomly shuffles the letters within a string
+        /// </summary>
+        /// <param name="str">The string to shuffle</param>
+        /// <returns>The shuffled string.</returns>
+        private string _shuffleString(string str)
+        {
+            var list = new SortedList<int,char>();
+            foreach (var c in str)
+            {
+                int position = seeder.NextRand(0, 10000);
+                while (list.ContainsKey(position))
+                {
+                    position = seeder.NextRand(0, 10000);
+                }
+                list.Add(position, c);
+            }
+            
+            string generated = new string(list.Values.ToArray());
+            return this._capitolizeFirstLetter(generated);
+        }
+
+        private void _generateDerivedOutpostNames()
+        {
+            List<string> derived = new List<string>();
+            foreach(string deriveFrom in _outpostNames)
+            {
+                foreach (string appendFrom in _outpostNames)
+                {
+                    if (appendFrom != deriveFrom)
+                    {
+                        // Swap first letter
+                        string derivedString = appendFrom.Substring(0, 1) + deriveFrom.Substring(1);
+                        derivedString = this._capitolizeFirstLetter(derivedString);
+                        if (!_outpostNames.Contains(derivedString) && !derived.Contains(derivedString))
+                        {
+                            derived.Add(derivedString);
+                        }
+                        
+                        // Swap first 3 letters
+                        derivedString = appendFrom.Substring(0, 3) + deriveFrom.Substring(3);
+                        derivedString = this._capitolizeFirstLetter(derivedString);
+                        if (!_outpostNames.Contains(derivedString) && !derived.Contains(derivedString))
+                        {
+                            derived.Add(derivedString);
+                        }
+                    }
+                }
+            }
+            _outpostNames.AddRange(derived);
+        }
+
+        private string _capitolizeFirstLetter(string str)
+        {
+            str = str.ToLower();
+            if (str.Length == 0)
+                return str;
+            if (str.Length == 1)
+                return Char.ToUpper(str[0]).ToString();
+            return char.ToUpper(str[0]) + str.Substring(1);
         }
         
     }

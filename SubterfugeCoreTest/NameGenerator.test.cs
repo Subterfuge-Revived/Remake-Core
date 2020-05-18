@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core.Generation;
@@ -48,13 +49,31 @@ namespace SubterfugeCoreTest
             }
             
             // Generate 10000 more names.
-            for (int i = 0; i < 1000000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 strings.Add(_generator.GetRandomName());
             }
 
             // Ensure no duplicates.
             Assert.AreEqual(strings.Count, strings.Distinct().Count());
+        }
+
+        [TestMethod]
+        public void AllNamesStartCaptolizedOthersLower()
+        {
+            string name;
+            while (_generator.HasNames())
+            {
+                name = _generator.GetRandomName();
+                Assert.IsTrue(Char.IsUpper(name, 0));
+            }
+            
+            // Generate 10000 more names.
+            for (int i = 0; i < 10000; i++)
+            {
+                name = _generator.GetRandomName();
+                Assert.IsTrue(Char.IsUpper(name, 0));
+            }
         }
         
     }
