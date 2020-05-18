@@ -1,4 +1,14 @@
+[![languages](https://img.shields.io/github/languages/top/Subterfuge-Revived/Remake-Core)]()
+[![code-size](https://img.shields.io/github/languages/code-size/Subterfuge-Revived/Remake-Core)]()
+[![commit-activity](https://img.shields.io/github/commit-activity/y/Subterfuge-Revived/Remake-Core)](https://github.com/Subterfuge-Revived/Remake-Core/pulse/yearly)
+[![license](https://img.shields.io/github/license/Subterfuge-Revived/Remake-Core)](LICENSE)
+[![discord](https://img.shields.io/discord/617149385196961792)](https://discord.gg/GNk7Xw4)
+[![issues](https://img.shields.io/github/issues/Subterfuge-Revived/Remake-Core)](https://github.com/Subterfuge-Revived/Remake-Core/issues?q=is%3Aopen)
+[![issues-closed-raw](https://img.shields.io/github/issues-closed/Subterfuge-Revived/Remake-Core)](https://github.com/Subterfuge-Revived/Remake-Core/issues?q=is%3Aclosed+)
+[![Banner](banner.png)]()
+
 # Remake-Core
+##### v0.1.2
 This repository is a class library that contains all of the core game-logic and functionality for the game. This class library gets built into a `dll` which is then consumed by the unity repository so that unity can parse and display the game state. This project also includes a DLL CLI tool which the backend repository makes use of in order to validate all player events when they are recieved.
 
 ## Setup
@@ -29,8 +39,8 @@ Note: After cloning the repository you will have the `master` branch checked out
 
 TODO Once github pages is up.
 
-Will need in the future:
 
+Needed for Backend:
 ### How to access dotnet on Linux for backend use of the CLI:
 
 - Get the latest link for dot net core 3.1 from the microsoft website
