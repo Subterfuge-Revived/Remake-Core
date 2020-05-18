@@ -72,7 +72,7 @@ namespace SubterfugeCore.Core.Generation
             // If there are some derived names to pick from, select them
             if (_fallbackNames.Count > 0)
             {
-                int selection = seeder.NextRand(0, _outpostNames.Count - 1);
+                int selection = seeder.NextRand(0, _fallbackNames.Count - 1);
                 string name = _fallbackNames[selection];
                 _fallbackNames.Remove(name);
                 _selectedNames.Add(name);

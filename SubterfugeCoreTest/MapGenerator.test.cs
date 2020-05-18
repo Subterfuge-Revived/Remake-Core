@@ -42,7 +42,8 @@ namespace SubterfugeCoreTest
             
             GameConfiguration config = new GameConfiguration(players);
             
-            int seed = 1234;
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int seed = rand.Next();
             config.Seed = seed;
             Assert.AreEqual(seed, config.Seed);
             
@@ -74,7 +75,8 @@ namespace SubterfugeCoreTest
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
-            config.Seed = 1234;
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int seed = rand.Next();
             config.DormantsPerPlayer = 3;
             config.MaxiumumOutpostDistance = 100;
             config.MinimumOutpostDistance = 5;
@@ -95,7 +97,8 @@ namespace SubterfugeCoreTest
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
-            config.Seed = 1234;
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int seed = rand.Next();
             config.DormantsPerPlayer = 3;
             config.MaxiumumOutpostDistance = 100;
             config.MinimumOutpostDistance = 5;
@@ -117,7 +120,8 @@ namespace SubterfugeCoreTest
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
-            config.Seed = 1234;
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int seed = rand.Next();
             config.DormantsPerPlayer = 0;
             config.MaxiumumOutpostDistance = 100;
             config.MinimumOutpostDistance = 5;
@@ -147,7 +151,8 @@ namespace SubterfugeCoreTest
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
-            config.Seed = 1234;
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int seed = rand.Next();
             config.DormantsPerPlayer = 3;
             config.MaxiumumOutpostDistance = 100;
             config.MinimumOutpostDistance = 5;
@@ -187,7 +192,8 @@ namespace SubterfugeCoreTest
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
-            config.Seed = 1234;
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int seed = rand.Next();
             config.DormantsPerPlayer = 3;
             config.MaxiumumOutpostDistance = 100;
             config.MinimumOutpostDistance = 5;
@@ -224,7 +230,8 @@ namespace SubterfugeCoreTest
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
-            config.Seed = 1234;
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int seed = rand.Next();
             config.DormantsPerPlayer = 0;
             config.MaxiumumOutpostDistance = 0;
             config.MinimumOutpostDistance = 0;
@@ -250,7 +257,8 @@ namespace SubterfugeCoreTest
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
-            config.Seed = 1234;
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int seed = rand.Next();
             config.DormantsPerPlayer = 0;
             config.MaxiumumOutpostDistance = 0;
             config.MinimumOutpostDistance = 0;
@@ -294,7 +302,8 @@ namespace SubterfugeCoreTest
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
-            config.Seed = 1234;
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int seed = rand.Next();
             config.DormantsPerPlayer = 7;
             config.MaxiumumOutpostDistance = 0;
             config.MinimumOutpostDistance = 0;
@@ -324,7 +333,8 @@ namespace SubterfugeCoreTest
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
-            config.Seed = 1234;
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int seed = rand.Next();
             config.DormantsPerPlayer = 0;
             config.MaxiumumOutpostDistance = 2;
             config.MinimumOutpostDistance = 1;
@@ -353,7 +363,8 @@ namespace SubterfugeCoreTest
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
-            config.Seed = 1234;
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int seed = rand.Next();
             config.DormantsPerPlayer = 3;
             config.MaxiumumOutpostDistance = 200;
             config.MinimumOutpostDistance = 20;
