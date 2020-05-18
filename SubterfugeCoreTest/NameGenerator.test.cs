@@ -47,8 +47,8 @@ namespace SubterfugeCoreTest
                 strings.Add(_generator.GetRandomName());
             }
             
-            // Generate 100 more names.
-            for (int i = 0; i < 100; i++)
+            // Generate 10000 more names.
+            for (int i = 0; i < 1000000; i++)
             {
                 strings.Add(_generator.GetRandomName());
             }
