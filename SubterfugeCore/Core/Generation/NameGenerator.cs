@@ -192,7 +192,7 @@ namespace SubterfugeCore.Core.Generation
         /// </summary>
         /// <param name="suggestionString">The user's string</param>
         /// <returns>A list of possible outpost names that match the user's selection</returns>
-        public List<string> suggestNames(string suggestionString)
+        public List<string> SuggestNames(string suggestionString)
         {
             return _selectedNames.Where(x => x.StartsWith(suggestionString)).ToList();
         }
