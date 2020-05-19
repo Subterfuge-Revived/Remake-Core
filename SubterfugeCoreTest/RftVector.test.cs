@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Numerics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCoreTest
@@ -101,6 +103,66 @@ namespace SubterfugeCoreTest
             Assert.AreEqual(mapDelta, RftVector.Map.Height);
             Assert.AreEqual(mapDelta, RftVector.Map.Height);
         }
-        
+
+        [TestMethod]
+        public void CanGetMagnitude()
+        {
+            int mapDimension = 100;
+            Rft map = new Rft(mapDimension, mapDimension);
+            
+            RftVector vector = new RftVector(map, 0, 1);
+            Assert.AreEqual(1, vector.Magnitude());
+            
+            for (int i = 0; i < 300; i++)
+            {
+                vector = new RftVector(map, 0, i);
+                float position = vector.Y;
+                Assert.AreEqual(Math.Abs(position), vector.Magnitude());
+            }
+
+            int somePosition = 152;
+            RftVector vectorTwo = new RftVector(somePosition, somePosition);
+            float wrappedPosition = vectorTwo.X;
+            
+            Assert.AreEqual((float)Math.Sqrt(wrappedPosition*wrappedPosition + wrappedPosition*wrappedPosition), vectorTwo.Magnitude());
+        }
+
+        [TestMethod]
+        public void CanGetVector2()
+        {
+            int mapDimension = 100;
+            Rft map = new Rft(mapDimension, mapDimension);
+
+            for (int i = 0; i < 300; i++)
+            {
+                RftVector vector = new RftVector(map, 0, i);
+            
+                float vectorX = vector.X;
+                float vectorY = vector.Y;
+                Vector2 duplicate = new Vector2(vectorX, vectorY);
+
+                Vector2 derived = vector.ToVector2();
+            
+                Assert.AreEqual(duplicate.X, derived.X);
+                Assert.AreEqual(duplicate.Y, derived.Y);
+            }
+        }
+
+        [TestMethod]
+        public void CanNormalize()
+        {
+            int mapDimension = 100;
+            Rft map = new Rft(mapDimension, mapDimension);
+            
+            RftVector vector = new RftVector(map, 0, 1);
+            Assert.AreEqual(1, vector.Normalize().Length());
+            
+            for (int i = 0; i < 300; i++)
+            {
+                vector = new RftVector(map, 0, i);
+                Assert.AreEqual(1, vector.Normalize().Length());
+            }
+        }
+
     }
 }
