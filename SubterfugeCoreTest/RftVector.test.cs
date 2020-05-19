@@ -164,5 +164,13 @@ namespace SubterfugeCoreTest
             }
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void CannotMakeVectorWithoutSettingMap()
+        {
+            RftVector.Map = null;
+            RftVector vectorFailure = new RftVector(123, 123);
+        }
+
     }
 }
