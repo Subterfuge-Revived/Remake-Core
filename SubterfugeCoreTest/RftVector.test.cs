@@ -172,5 +172,45 @@ namespace SubterfugeCoreTest
             RftVector vectorFailure = new RftVector(123, 123);
         }
 
+        [TestMethod]
+        public void CanSubtractVectors()
+        {
+            int mapDimensions = 100;
+            int mapRadius = mapDimensions / 2;
+            Rft map = new Rft(mapDimensions, mapDimensions);
+            
+            // Create a vector at the edge of the map
+            RftVector rightEdgeMap = new RftVector(map, mapRadius - 1, 0);
+            
+            // Create a vector at the other edge of the map
+            RftVector leftEdgeMap = new RftVector(-mapRadius + 1, 0);
+            
+            // Determine the distance between them. Expect 2.
+            RftVector difference = rightEdgeMap - leftEdgeMap;
+            Assert.AreEqual(2, difference.Magnitude());
+            Assert.AreEqual(-2, difference.X);
+            Assert.AreEqual(0, difference.Y);
+        }
+
+        [TestMethod]
+        public void CanAddVectors()
+        {
+            int mapDimensions = 100;
+            int mapRadius = mapDimensions / 2;
+            Rft map = new Rft(mapDimensions, mapDimensions);
+            
+            // Create a vector at the edge of the map
+            RftVector rightEdgeMap = new RftVector(map, mapRadius - 1, 0);
+            
+            // Create a vector that makes the edge go over the boarder
+            RftVector forceWrap = new RftVector(2, 0);
+            
+            // Determine the distance between them. Expect 2.
+            RftVector sum = rightEdgeMap + forceWrap;
+            Assert.AreEqual(mapRadius - 1, sum.Magnitude());
+            Assert.AreEqual(-(mapRadius - 1), sum.X);
+            Assert.AreEqual(0, sum.Y);
+        }
+
     }
 }
