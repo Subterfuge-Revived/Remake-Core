@@ -205,7 +205,7 @@ namespace SubterfugeCoreTest
             // Create a vector that makes the edge go over the boarder
             RftVector forceWrap = new RftVector(2, 0);
             
-            // Determine the distance between them. Expect 2.
+            // Determine location of new point. Expect opposite map edge.
             RftVector sum = rightEdgeMap + forceWrap;
             Assert.AreEqual(mapRadius - 1, sum.Magnitude());
             Assert.AreEqual(-(mapRadius - 1), sum.X);
