@@ -103,12 +103,7 @@ namespace SubterfugeCore.Core.GameEvents
             {
                 this._actions.Add(new SpecialistCombat(_combatant1, _combatant2));
                 this._actions.Add(new DrillerCombat(_combatant1, _combatant2));
-
-                if(_combatant1 is Outpost || _combatant2 is Outpost)
-                {
-                    this._actions.Add(new OwnershipTransfer(_combatant1, _combatant2));
-                }
-
+                this._actions.Add(new CombatCleanup(_combatant1, _combatant2));
             }
 
             foreach (IReversible action in this._actions)
