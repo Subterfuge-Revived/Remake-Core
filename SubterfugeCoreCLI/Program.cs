@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using CommandLine;
 using CommandLine.Text;
 using Newtonsoft.Json;
+using SubterfugeCore.Core;
+using SubterfugeCore.Core.Entities.Positions;
+using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Network;
+using SubterfugeCore.Core.Players;
+using SubterfugeCore.Core.Timing;
+using SubterfugeCore.Core.Topologies;
 using SubterfugeCoreCLI.Response;
 
 namespace SubterfugeCoreCLI
@@ -25,6 +32,24 @@ namespace SubterfugeCoreCLI
                 },
                     errors => Task.FromResult(0));
             }
+            else
+            {
+                // Use this section for debugging purposes.
+                // Feel free to remove what is here.
+                
+                Api api = new Api("http://18.220.154.6");
+
+                NetworkResponse<LoginResponse> loginResponse = await api.Login("asdfg", "asdfg");
+
+                if (loginResponse.IsSuccessStatusCode())
+                {
+                    NetworkResponse<GameRoomResponse> rooms = await api.GetOpenRooms();
+                    if (rooms.IsSuccessStatusCode())
+                    {
+                        
+                    }
+                }
+            }
         }
 
         public async static Task HandleParsed(ValidateEventCommand parsed)
@@ -32,7 +57,7 @@ namespace SubterfugeCoreCLI
             Api api = new Api();
             api.SetToken(parsed.Token);
 
-            List<GameEvent> gameEvents = await api.GetGameEvents(Int32.Parse(parsed.GameId));
+            NetworkResponse<GameEventResponse> gameEvents = await api.GetGameEvents(Int32.Parse(parsed.GameId));
             Console.WriteLine("Done");
         }
     }

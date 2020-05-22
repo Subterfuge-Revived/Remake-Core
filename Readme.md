@@ -1,5 +1,33 @@
 # Remake-Core
-Core repository that holds all game logic for both front end rendering and back end validation.
+This repository is a class library that contains all of the core game-logic and functionality for the game. This class library gets built into a `dll` which is then consumed by the unity repository so that unity can parse and display the game state. This project also includes a DLL CLI tool which the backend repository makes use of in order to validate all player events when they are recieved.
+
+## Setup
+
+1. [Install Unity Hub](https://unity3d.com/get-unity/download) if you don't have it already
+
+2. Once unity hub is installed, activate a new license (pro or personal is fine).
+
+3. After getting a license, Install unity version `2019.3.0f6`. I've tried to upgrade to even the smallest versionn above this but for some reason updating it breaks the whole project. You need to install this version of unity.
+
+4. I'm sure if you're here this step is done but, you need to [download Git](https://git-scm.com/downloads) to gain access to the code
+
+5. Create a [GitHub](https://github.com/) account.
+
+6. Message Myself or another Team member with your GitHub username to be granted access to the team.
+
+7. Clone the unity repository to a folder of your choice with `git clone https://github.com/Subterfuge-Revived/Remake-Core.git`
+
+Note: After cloning the repository you will have the `master` branch checked out. This is likely not the most recent version of the code. You will want to checkout a branch. Ask in our discord what branch is the most up to date.
+
+8. In unity hub click "Import Project" and path yourself to the project folder. Once imported, start the project with unity.
+
+9. Unity defaults to using Visual Studios as the primary code editor. You can configure Rider (or another IDE) as your default text editor by going to `Edit > Preferences > External Tools` and setting `External Script Editor` to your editor of choice.
+
+10. Congratulations! you're all setup! Feel free to assign yourself an issue and contribute to development.
+
+## Using the Core Libraries
+
+TODO Once github pages is up.
 
 Will need in the future:
 
