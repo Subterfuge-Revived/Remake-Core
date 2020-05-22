@@ -54,6 +54,17 @@ namespace SubterfugeCore.Core.GameEvents
             this._eventTick = tick;
             this._combatLocation = combatLocation;
             this.EventName = "Combat Event";
+            
+            // Determine additional events that should be triggered for this particular combat.
+            if (_combatant1.GetOwner() == _combatant2.GetOwner())
+            {
+                this._actions.Add(new FriendlySubArrive(_combatant1, _combatant2));
+            } else
+            {
+                this._actions.Add(new SpecialistCombat(_combatant1, _combatant2));
+                this._actions.Add(new DrillerCombat(_combatant1, _combatant2));
+                this._actions.Add(new CombatCleanup(_combatant1, _combatant2));
+            }
         }
         
         /// <summary>
@@ -93,17 +104,6 @@ namespace SubterfugeCore.Core.GameEvents
             {
                 this.EventSuccess = false;
                 return false;
-            }
-
-            // Determine additional events that should be triggered for this particular combat.
-            if (_combatant1.GetOwner() == _combatant2.GetOwner())
-            {
-                this._actions.Add(new FriendlySubArrive(_combatant1, _combatant2));
-            } else
-            {
-                this._actions.Add(new SpecialistCombat(_combatant1, _combatant2));
-                this._actions.Add(new DrillerCombat(_combatant1, _combatant2));
-                this._actions.Add(new CombatCleanup(_combatant1, _combatant2));
             }
 
             foreach (IReversible action in this._actions)
