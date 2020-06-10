@@ -17,7 +17,7 @@ namespace SubterfugeCoreTest
         [TestInitialize]
         public void Setup()
         {
-            _time = new DateTime();
+            _time = DateTime.Now;
             _tickNumber = 0;
             _tick = new GameTick(_time, _tickNumber);
             Game server = new Game();
@@ -92,7 +92,8 @@ namespace SubterfugeCoreTest
             GameTick newTick = GameTick.FromDate(newDate);
 
             Assert.AreEqual(_tick.GetTick() + numberOfTicks, newTick.GetTick());
-            Assert.AreEqual(newDate, newTick.GetDate());
+            Assert.AreEqual(newDate.ToLongTimeString(), newTick.GetDate().ToLongTimeString());
+            Assert.AreEqual(newDate.ToLongDateString(), newTick.GetDate().ToLongDateString());
         }
 
         [TestMethod]
@@ -104,7 +105,8 @@ namespace SubterfugeCoreTest
             GameTick newTick = GameTick.FromTickNumber(numberOfTicks);
 
             Assert.AreEqual(_tick.GetTick() + numberOfTicks, newTick.GetTick());
-            Assert.AreEqual(newDate, newTick.GetDate());
+            Assert.AreEqual(newDate.ToLongTimeString(), newTick.GetDate().ToLongTimeString());
+            Assert.AreEqual(newDate.ToLongDateString(), newTick.GetDate().ToLongDateString());
 
         }
 

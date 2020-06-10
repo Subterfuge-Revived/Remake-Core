@@ -23,7 +23,7 @@ code block shows a number of methods you can use to create a `GameTick` from a s
 
 ```
 // This creates a GameTick from the current time.
-// Note: Do not use new DateTime() to get the current time.
+// Note: Do not use DateTime.Now to get the current time.
 // Instead use the NtpConnector object to ensure users are getting the DateTime from the server.
 // If a Game object has been created, this method calculates the offset from the game's start time
 // to determine the current tick
