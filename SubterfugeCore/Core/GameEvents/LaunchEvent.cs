@@ -202,7 +202,7 @@ namespace SubterfugeCore.Core.GameEvents
                             int ticksUntilCombat = (int)Math.Floor(speedRatio * ticksBetweenSubs);
 
                             // Determine collision position:
-                            RftVector combatPosition = new RftVector(this.GetActiveSub().GetPosition().Map, this.GetActiveSub().GetDirection() * ticksUntilCombat);
+                            RftVector combatPosition = new RftVector(RftVector.Map, this.GetActiveSub().GetDirection() * ticksUntilCombat);
 
                             CombatEvent combatEvent = new CombatEvent(sub, this.GetActiveSub(), this._launchTime.Advance(ticksUntilCombat), combatPosition);
                             _combatEvents.Add(combatEvent);

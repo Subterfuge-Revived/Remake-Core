@@ -45,14 +45,15 @@ namespace SubterfugeCore.Core.Topologies
 		/// <summary>
 		/// The map that the vector resides in. An RftVector only makes sense in the context of a Rft map.
 		/// </summary>
-		public Rft Map;
+		public static Rft Map;
 		
 		/// <summary>
 		/// Constructs a new RftVector with coords (0, 0).
 		/// </summary>
+		/// <param name="map">The map to wrap RftVectors by</param>
 		public RftVector(Rft map)
 		{
-			this.Map = map;
+			Map = map;
 			this._x = 0;
 			this._y = 0;
 		}
@@ -60,13 +61,31 @@ namespace SubterfugeCore.Core.Topologies
 		/// <summary>
 		/// Constructs a new RftVector with coords (x, y) modulo map dimensions.
 		/// </summary>
+		/// <param name="x">The x position</param>
+		/// <param name="y">The y position</param>
 		public RftVector(Rft map, float x, float y)
 		{
-			this.Map = map;
+			Map = map;
 			this._x = (x % map.Width + map.Width) % map.Width;
 			this._y = (y % map.Height + map.Height) % map.Height;
 			if (this._x > map.Width / 2) this._x -= map.Width;
 			if (this._y > map.Height / 2) this._y -= map.Height;
+		}
+
+		/// <summary>
+		/// Create an instance of an RftVector with coords (x, y)
+		/// </summary>
+		/// <param name="x">The x position</param>
+		/// <param name="y">The y position</param>
+		/// <exception cref="NotSupportedException">If the RftVector's static 'Map' has not been defined, an error is thrown</exception>
+		public RftVector(float x, float y)
+		{
+			if (Map == null)
+				throw new NotSupportedException("Cannot initialize an RftVector without having previously defined the Map.");
+			this._x = (x % Map.Width + Map.Width) % Map.Width;
+			this._y = (y % Map.Height + Map.Height) % Map.Height;
+			if (this._x > Map.Width / 2) this._x -= Map.Width;
+			if (this._y > Map.Height / 2) this._y -= Map.Height;
 		}
 		
 		/// <summary>
@@ -74,7 +93,7 @@ namespace SubterfugeCore.Core.Topologies
 		/// </summary>
 		public RftVector(Rft map, Vector2 v)
 		{
-			this.Map = map;
+			Map = map;
 			this._x = (v.X % map.Width + map.Width) % map.Width;
 			this._y = (v.Y % map.Height + map.Height) % map.Height;
 			if (this._x > map.Width / 2) this._x -= map.Width;
@@ -98,6 +117,10 @@ namespace SubterfugeCore.Core.Topologies
 			return new Vector2(_x / this.Magnitude(), _y / this.Magnitude());
 		}
 
+		/// <summary>
+		/// Returns a Vector2 from the RftVector
+		/// </summary>
+		/// <returns>A Vector2 representing the RftVector</returns>
 		public Vector2 ToVector2()
 		{
 			return new Vector2(this._x, this._y);
@@ -137,10 +160,10 @@ namespace SubterfugeCore.Core.Topologies
 		}*/
 		
 		public static RftVector operator +(RftVector a) => a;
-		public static RftVector operator -(RftVector a) => new RftVector(a.Map, -a._x, -a._y);
+		public static RftVector operator -(RftVector a) => new RftVector(Map, -a._x, -a._y);
 
 		public static RftVector operator +(RftVector a, RftVector b) =>
-			new RftVector(a.Map, a._x + b._x, a._y + b._y);
+			new RftVector(Map, a._x + b._x, a._y + b._y);
 
 		public static RftVector operator -(RftVector a, RftVector b) => a + (-b);
 	}
