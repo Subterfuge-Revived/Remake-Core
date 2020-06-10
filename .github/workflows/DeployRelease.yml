@@ -85,6 +85,6 @@ jobs:
       with:
        # Newline-delimited list of path globs for asset files to upload
         files: Release.zip
-        tag_name: ${{ GITHUB_SHA }}
+        tag_name: ${{ github.sha }}
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
