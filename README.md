@@ -50,7 +50,7 @@ https://dotnet.microsoft.com/download/dotnet-core/3.1
 4. Allow using the `dotnet` command globally by setting the PATH:
 
 `export DOTNET_ROOT={path}/dotnet-arm32/`<br/>
-`export PATH=$PATH:{path}/dotnet-arm32/`
+`export PATH=$PATH:{path}/dotnet-arm32/`<br/>
 
 5. Verify the installation worked:
 `dotnet --info`
