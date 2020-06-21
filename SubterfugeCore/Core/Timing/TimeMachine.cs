@@ -90,6 +90,9 @@ namespace SubterfugeCore.Core.Timing
                     {
                         if (_pastEventQueue.Peek().GetTick() >= tick)
                         {
+                            if (CurrentTick == tick)
+                                return;
+                            
                             // Move commands from the past to the future
                             GameEvent pastToFuture = _pastEventQueue.Dequeue();
                             pastToFuture.BackwardAction();
