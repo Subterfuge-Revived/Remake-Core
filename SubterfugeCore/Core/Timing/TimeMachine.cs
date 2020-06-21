@@ -71,7 +71,7 @@ namespace SubterfugeCore.Core.Timing
                     {
                         if (_futureEventQueue.Peek().GetTick() <= tick)
                         {
-                            // Move commands from the future to the past
+                            // Move commands from the future to the past 
                             GameEvent futureToPast = _futureEventQueue.Dequeue();
                             futureToPast.ForwardAction();
                             _pastEventQueue.Enqueue(futureToPast);
