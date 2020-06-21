@@ -54,6 +54,11 @@ namespace SubterfugeCore.Core.Entities
         /// Specialist manager for the sub
         /// </summary>
         private SpecialistManager _specialistManager;
+        
+        /// <summary>
+        /// If the sub is captured.
+        /// </summary>
+        public bool IsCaptured { get; set; }
 
         /// <summary>
         /// Sub constructor
