@@ -22,7 +22,7 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// The playerId of who created the game room
         /// </summary>
-        public int CreatorId { get; set; }
+        public int Creator_Id { get; set; }
         
         /// <summary>
         /// If the game is ranked or not
@@ -32,7 +32,7 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// The lowest rating required to join the game lobby
         /// </summary>
-        public int MinRating { get; set; }
+        public int Min_Rating { get; set; }
         
         /// <summary>
         /// The room's description
@@ -47,7 +47,7 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// If the game is anonymous
         /// </summary>
-        public bool Anonimity { get; set; }
+        public bool Anonymity { get; set; }
         
         /// <summary>
         /// What map/theme of game the users are playing on
@@ -73,7 +73,7 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// The maximum number of players allowed in the game before it begins.
         /// </summary>
-        public int MaxPlayers { get; set; }
+        public int Max_Players { get; set; }
         
         /// <summary>
         /// A list of all players currently in the lobby
@@ -83,7 +83,7 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// A list of all of the message groups within the game.
         /// </summary>
-        public List<NetworkMessageGroup> MessageGroups { get; set; }
+        public List<NetworkMessageGroup> Message_Groups { get; set; }
         
     }
 }
