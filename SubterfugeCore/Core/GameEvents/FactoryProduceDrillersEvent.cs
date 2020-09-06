@@ -83,11 +83,22 @@ namespace SubterfugeCore.Core.GameEvents
         {
             if (Validator.ValidateOutpost(_outpost))
             {
-                if(this._outpost.GetOwner() != null && this._outpost.GetOutpostType() == OutpostType.Factory)
+                if(this._outpost.GetOwner() != null && this._outpost.GetOutpostType() == OutpostType.Factory &&
+                    this._outpost.GetOwner().GetDrillerCount() < this._outpost.GetOwner().GetDrillerCapacity())
                 {
                     this._nextEvent = new FactoryProduceDrillersEvent(this._outpost, this._productionTick.Advance(40));
                     Game.TimeMachine.AddEvent(this._nextEvent);
-                    _outpost.AddDrillers(6);
+                    int drillerDifference = this._outpost.GetOwner().GetDrillerCapacity() - this._outpost.GetOwner().GetDrillerCount();
+
+                    // If capacity would be exceeded, produce only as much drillers as possible without exceeding capacity
+                    if (drillerDifference >= 6)
+                    {
+                        _outpost.AddDrillers(6);
+                    } else
+                    {
+                        _outpost.AddDrillers(drillerDifference);
+                    }
+
                     _eventSuccess = true;
                 }
                 else

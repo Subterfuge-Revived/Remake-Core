@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using SubterfugeCore.Core.Entities;
+using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Network;
 
@@ -18,6 +20,11 @@ namespace SubterfugeCore.Core.Players
         /// The player's id
         /// </summary>
         private int PlayerId { get; }
+
+        /// <summary>
+        /// The player's driller capacity
+        /// </summary>
+        private int drillerCapacity { get; }
 
         /// <summary>
         /// Constructor to create an instance of a player based off of their player Id
@@ -67,6 +74,27 @@ namespace SubterfugeCore.Core.Players
             return false;
         }
 
+        public int GetDrillerCount()
+        {
+            List <Outpost> playerOutposts = Game.TimeMachine.GetState().GetPlayerOutposts(this);
+            List <Sub> playerSubs = Game.TimeMachine.GetState().GetPlayerSubs(this);
+            int drillerCount = 0;
+
+            // add all drillers from player outposts
+            foreach (Outpost outpost in playerOutposts)
+            {
+                drillerCount += outpost.GetDrillerCount();
+            }
+
+            // add all drillers from player subs
+            foreach (Sub sub in playerSubs)
+            {
+                drillerCount += sub.GetDrillerCount();
+            }
+
+            return drillerCount;
+        }
+
         /// <summary>
         /// Gets the player's id
         /// </summary>
@@ -83,6 +111,15 @@ namespace SubterfugeCore.Core.Players
         public string GetPlayerName()
         {
             return this.PlayerName;
+        }
+
+        /// <summary>
+        /// Get the player's driller capacity
+        /// </summary>
+        /// <returns>The player's driller capacity</returns>
+        public int GetDrillerCapacity()
+        {
+            return this.drillerCapacity;
         }
     }
 }
