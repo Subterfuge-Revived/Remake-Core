@@ -74,6 +74,10 @@ namespace SubterfugeCore.Core.Players
             return false;
         }
 
+        /// <summary>
+        /// Gets the driller count.
+        /// </summary>
+        /// <returns>The driller count.</returns>
         public int GetDrillerCount()
         {
             List <Outpost> playerOutposts = Game.TimeMachine.GetState().GetPlayerOutposts(this);
@@ -119,6 +123,19 @@ namespace SubterfugeCore.Core.Players
         /// <returns>The player's driller capacity</returns>
         public int GetDrillerCapacity()
         {
+            List<Outpost> playerOutposts = Game.TimeMachine.GetState().GetOutposts();
+            int capacity = 0; // base capacity?
+
+            // Generators increase capacity
+            foreach (Outpost outpost in playerOutposts)
+            {
+                if(outpost.GetOutpostType().Equals(OutpostType.Generator))
+                {
+                    capacity += 50;
+                }
+
+            }
+            this.drillerCapacity = capacity;
             return this.drillerCapacity;
         }
     }
