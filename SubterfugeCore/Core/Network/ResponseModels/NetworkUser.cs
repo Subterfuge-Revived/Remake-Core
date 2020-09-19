@@ -13,11 +13,11 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// The user's id
         /// </summary>
-        public int Id { get; set; }
+        public int id { get; set; }
         
         /// <summary>
         /// The user's name.
         /// </summary>
-        public string Name { get; set; }
+        public string name { get; set; }
     }
 }

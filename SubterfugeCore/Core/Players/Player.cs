@@ -41,8 +41,8 @@ namespace SubterfugeCore.Core.Players
 
         public Player(NetworkUser networkUser)
         {
-            this.PlayerId = networkUser.Id;
-            this.PlayerName = networkUser.Name;
+            this.PlayerId = networkUser.id;
+            this.PlayerName = networkUser.name;
         }
 
         /// <summary>

@@ -12,11 +12,11 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// The user that was registered (if any)
         /// </summary>
-        public NetworkUser User { get; set; }
+        public NetworkUser user { get; set; }
         
         /// <summary>
         /// The user's session id for future API calls
         /// </summary>
-        public string Token { get; set; }
+        public string token { get; set; }
     }
 }

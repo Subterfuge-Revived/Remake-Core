@@ -5,10 +5,10 @@ namespace SubterfugeCore.Core.Network
     [Serializable]
     public class NetworkGameEvent
     {
-        public int EventId { get; set; }
-        public int TimeIssued { get; set; }
-        public int OccursAt { get; set; }
-        public int PlayerId { get; set; }
-        public string EventMsg { get; set; }
+        public int event_id { get; set; }
+        public int time_issued { get; set; }
+        public int occurs_at { get; set; }
+        public int player_id { get; set; }
+        public string event_msg { get; set; }
     }
 }

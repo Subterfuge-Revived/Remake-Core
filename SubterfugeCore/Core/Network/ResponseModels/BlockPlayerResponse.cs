@@ -6,6 +6,6 @@ namespace SubterfugeCore.Core.Network
     [Serializable]
     public class BlockPlayerResponse : BaseNetworkResponse
     {
-        public List<BlockedPlayer> blockedPlayers { get; set; }
+        public List<BlockedPlayer> array { get; set; }
     }
 }

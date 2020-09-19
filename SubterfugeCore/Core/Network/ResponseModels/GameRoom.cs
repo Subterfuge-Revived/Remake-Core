@@ -13,78 +13,80 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// The id of the game room
         /// </summary>
-        public int Room_Id { get; set; }
+        public int room_id { get; set; }
         
         /// <summary>
         /// The status of the room. Open, ongoing, or closed.
         /// </summary>
-        public string Status { get; set; }
+        public string status { get; set; }
 
         /// <summary>
         /// The playerId of who created the game room
         /// </summary>
-        public int CreatorId { get; set; }
+        public int creator { get; set; }
         
         /// <summary>
         /// If the game is ranked or not
         /// </summary>
-        public bool Rated { get; set; }
+        public int rated { get; set; }
         
         /// <summary>
         /// The lowest rating required to join the game lobby
         /// </summary>
-        public int MinRating { get; set; }
+        public int min_rating { get; set; }
         
         /// <summary>
         /// The room's description
         /// </summary>
-        public string Description { get; set; }
+        public string description { get; set; }
         
         /// <summary>
         /// The type of game (domination, mining, etc.)
         /// </summary>
-        public int Goal { get; set; }
+        public int goal { get; set; }
         
         /// <summary>
         /// If the game is anonymous
         /// </summary>
-        public bool Anonimity { get; set; }
+        public int anonymity { get; set; }
         
         /// <summary>
         /// What map/theme of game the users are playing on
         /// </summary>
-        public int Map { get; set; }
+        public int map { get; set; }
         
         /// <summary>
         /// The map's seed
         /// </summary>
-        public int Seed { get; set; }
+        public int seed { get; set; }
         
         /// <summary>
         /// The day the game started.
         /// </summary>
-        public DateTime StartedAt { get; set; }
+        public DateTime started_at { get; set; }
         
-        public DateTime CreatedAt { get; set; }
+        public DateTime created_at { get; set; }
         
-        public DateTime UpdatedAt { get; set; }
+        public DateTime updated_at { get; set; }
         
-        public DateTime ClosedAt { get; set; }
+        public DateTime closed_at { get; set; }
         
         /// <summary>
         /// The maximum number of players allowed in the game before it begins.
         /// </summary>
-        public int MaxPlayers { get; set; }
+        public int max_players { get; set; }
+        
+        public int player_count { get; set; }
         
         /// <summary>
         /// A list of all players currently in the lobby
         /// </summary>
-        public List<NetworkUser> Players { get; set; }
+        public List<NetworkUser> players { get; set; }
         
         /// <summary>
         /// A list of all of the message groups within the game.
         /// </summary>
-        public List<NetworkMessageGroup> MessageGroups { get; set; }
+        public List<NetworkMessageGroup> message_groups { get; set; }
         
     }
 }

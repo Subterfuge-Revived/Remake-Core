@@ -53,7 +53,7 @@ namespace SubterfugeCore.Core.Network
                 if (responseContent.StartsWith("["))
                 {
                     // Response is an array, convert it to an object with a key.
-                    responseContent = $"{{ 'array': {responseContent} }}";
+                    responseContent = $"{{ \"array\": {responseContent} }}";
                 }
                 
                 // At this point, the JSON deserialization can throw an error.

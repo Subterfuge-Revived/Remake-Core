@@ -111,7 +111,7 @@ namespace SubterfugeCore.Core.Network
 
             if (loginResponse.IsSuccessStatusCode())
             {
-                _sessionId = loginResponse.Response.Token;
+                _sessionId = loginResponse.Response.token;
             }
 
             return loginResponse;

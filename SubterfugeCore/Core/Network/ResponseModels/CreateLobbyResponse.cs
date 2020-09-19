@@ -5,6 +5,6 @@ namespace SubterfugeCore.Core.Network
     [Serializable]
     public class CreateLobbyResponse : BaseNetworkResponse
     {
-        public GameRoom CreatedRoom { get; set; }
+        public GameRoom created_room { get; set; }
     }
 }
