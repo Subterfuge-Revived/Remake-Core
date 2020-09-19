@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text.Json;
+using Jil;
 
 namespace SubterfugeCoreCLI.Response
 {
@@ -11,7 +11,7 @@ namespace SubterfugeCoreCLI.Response
         
         public override string ToString()
         {
-            return JsonSerializer.Serialize(this);
+            return JSON.Serialize(this);
         }
     }
 }

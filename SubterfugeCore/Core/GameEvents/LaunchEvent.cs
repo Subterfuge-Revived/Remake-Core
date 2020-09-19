@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json;
+using Jil;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.Base;
@@ -103,7 +103,7 @@ namespace SubterfugeCore.Core.GameEvents
 
         public static LaunchEvent FromJson(string jsonString)
         {
-            DeserializedLaunchEvent parsed = JsonSerializer.Deserialize<DeserializedLaunchEvent>(jsonString);
+            DeserializedLaunchEvent parsed = JSON.Deserialize<DeserializedLaunchEvent>(jsonString);
 
             GameTick currentTick = Game.TimeMachine.GetCurrentTick();
             GameTick eventTick = GameTick.FromTickNumber(parsed.GameTick);
