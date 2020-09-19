@@ -2,6 +2,7 @@
 
 namespace SubterfugeCore.Core.Network
 {
+    [Serializable]
     public class NetworkGameEvent
     {
         public int EventId { get; set; }

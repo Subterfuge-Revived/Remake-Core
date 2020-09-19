@@ -1,21 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO.Compression;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using CommandLine;
-using CommandLine.Text;
-using Newtonsoft.Json;
-using SubterfugeCore.Core;
-using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.GameEvents;
-using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Network;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Core.Topologies;
-using SubterfugeCoreCLI.Response;
 
 namespace SubterfugeCoreCLI
 {

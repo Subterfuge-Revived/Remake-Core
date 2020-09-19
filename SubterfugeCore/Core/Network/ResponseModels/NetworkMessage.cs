@@ -5,6 +5,7 @@ namespace SubterfugeCore.Core.Network {
     /// <summary>
     /// Represents a chat message sent to a group
     /// </summary>
+    [Serializable]
     public class NetworkMessage
     {
         /// <summary>

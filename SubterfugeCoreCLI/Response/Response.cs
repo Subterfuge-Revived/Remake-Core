@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Text.Json;
 
 namespace SubterfugeCoreCLI.Response
 {
+    [Serializable]
     public class Response
     {
         public bool Success { get; set; }
@@ -9,7 +11,7 @@ namespace SubterfugeCoreCLI.Response
         
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonSerializer.Serialize(this);
         }
     }
 }

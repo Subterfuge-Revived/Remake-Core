@@ -1,8 +1,8 @@
 ﻿using System;
-using Newtonsoft.Json;
 
 namespace SubterfugeCoreCLI.Response
 {
+    [Serializable]
     public class ValidateEventResponse : Response
     {
         public bool IsValid { get; set; }

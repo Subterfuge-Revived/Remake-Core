@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace SubterfugeCore.Core.Network
 {
@@ -60,7 +60,7 @@ namespace SubterfugeCore.Core.Network
                 // However, if there is a successful network response but it cannot parse the JSON
                 // then this is a fault of the developer.
                 // Thus, letting the error be thrown here is fine.
-                responseTemplate = JsonConvert.DeserializeObject<T>(responseContent);
+                responseTemplate = JsonSerializer.Deserialize<T>(responseContent);
 
                 response.Response = responseTemplate;
             }
@@ -70,7 +70,7 @@ namespace SubterfugeCore.Core.Network
                 try
                 {
                     Console.WriteLine("Request returned error: " + responseContent);
-                    error = JsonConvert.DeserializeObject<NetworkError>(responseContent);
+                    error = JsonSerializer.Deserialize<NetworkError>(responseContent);
                 }
                 catch (JsonException e)
                 {

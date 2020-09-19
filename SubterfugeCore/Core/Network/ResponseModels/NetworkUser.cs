@@ -1,4 +1,5 @@
-﻿using SubterfugeCore.Core.Players;
+﻿using System;
+using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Network
 {
@@ -6,6 +7,7 @@ namespace SubterfugeCore.Core.Network
     /// Representation of a user when returned from the Network.
     /// Can easily convert this type of user into a Player with `new Player(networkUser)`.
     /// </summary>
+    [Serializable]
     public class NetworkUser : BaseNetworkResponse
     {
         /// <summary>

@@ -1,8 +1,8 @@
 ﻿using System;
-using Newtonsoft.Json;
 
 namespace SubterfugeCoreCLI.Response
 {
+    [Serializable]
     public class FailureResponse : Response
     {
         public FailureResponse(string message)

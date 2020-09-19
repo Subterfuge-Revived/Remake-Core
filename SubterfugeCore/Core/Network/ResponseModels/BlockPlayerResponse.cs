@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SubterfugeCore.Core.Network
 {
+    [Serializable]
     public class BlockPlayerResponse : BaseNetworkResponse
     {
         public List<BlockedPlayer> blockedPlayers { get; set; }

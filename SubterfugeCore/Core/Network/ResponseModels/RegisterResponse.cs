@@ -1,9 +1,12 @@
-﻿namespace SubterfugeCore.Core.Network
+﻿using System;
+
+namespace SubterfugeCore.Core.Network
 {
     /// <summary>
     /// Class is parsed in Unity by using JsonConvert.Deserialize() on the Register Network response.
     /// For some reason including the JSON library in the dll to do it here throws errors.
     /// </summary>
+    [Serializable]
     public class RegisterResponse : BaseNetworkResponse
     {
         /// <summary>

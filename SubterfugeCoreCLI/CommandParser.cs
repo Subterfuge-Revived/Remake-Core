@@ -1,5 +1,4 @@
 ﻿using CommandLine;
-using Newtonsoft.Json;
 
 namespace SubterfugeCoreCLI
 {

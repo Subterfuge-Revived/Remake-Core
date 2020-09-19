@@ -1,5 +1,8 @@
-﻿namespace SubterfugeCore.Core.Network
+﻿using System;
+
+namespace SubterfugeCore.Core.Network
 {
+    [Serializable]
     public abstract class BaseNetworkResponse
     {
         

@@ -7,6 +7,7 @@ namespace SubterfugeCore.Core.Network
     /// Class is parsed in Unity by using JsonConvert.Deserialize() on Network responses.
     /// For some reason including the JSON library in the dll to do it here throws errors.
     /// </summary>
+    [Serializable]
     public class GameRoom
     {
         /// <summary>
