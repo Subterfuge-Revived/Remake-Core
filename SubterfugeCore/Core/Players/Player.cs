@@ -3,6 +3,7 @@ using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Network;
+using SubterfugeCore.Core.Config;
 
 namespace SubterfugeCore.Core.Players
 {
@@ -119,18 +120,18 @@ namespace SubterfugeCore.Core.Players
         public int GetDrillerCapacity()
         {
             List<Outpost> playerOutposts = Game.TimeMachine.GetState().GetOutposts();
-            int capacity = 0; // base capacity?
+            int capacity = Constants.BASE_DRILLER_CAPACITY; // base capacity
 
             // Generators increase capacity
             foreach (Outpost outpost in playerOutposts)
             {
                 if(outpost.GetOutpostType().Equals(OutpostType.Generator))
                 {
-                    capacity += 50;
+                    capacity += Constants.BASE_GENERATOR_CAPACITY;
                 }
 
             }
-			
+
             return capacity;
         }
     }
