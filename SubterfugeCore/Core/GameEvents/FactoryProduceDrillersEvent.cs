@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Core.Constants;
+using SubterfugeCore.Core.Config;
 
 namespace SubterfugeCore.Core.GameEvents
 {
