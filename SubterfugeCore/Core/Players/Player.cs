@@ -15,16 +15,11 @@ namespace SubterfugeCore.Core.Players
         /// The name or alias of the player
         /// </summary>
         private string PlayerName { get;  }
-        
+
         /// <summary>
         /// The player's id
         /// </summary>
         private int PlayerId { get; }
-
-        /// <summary>
-        /// The player's driller capacity
-        /// </summary>
-        private int drillerCapacity { get; }
 
         /// <summary>
         /// Constructor to create an instance of a player based off of their player Id
@@ -34,7 +29,7 @@ namespace SubterfugeCore.Core.Players
         {
             this.PlayerId = playerId;
         }
-        
+
         /// <summary>
         /// Constructor to create an instance of a player based off of their player Id and name
         /// </summary>
@@ -59,7 +54,7 @@ namespace SubterfugeCore.Core.Players
         public bool IsAlive()
         {
             List<Specialist> playerSpecs = Game.TimeMachine.GetState().GetPlayerSpecialists(this);
-            
+
             // Find the player's queen.
             foreach (Specialist spec in playerSpecs)
             {
@@ -135,8 +130,8 @@ namespace SubterfugeCore.Core.Players
                 }
 
             }
-            this.drillerCapacity = capacity;
-            return this.drillerCapacity;
+			
+            return capacity;
         }
     }
 }
