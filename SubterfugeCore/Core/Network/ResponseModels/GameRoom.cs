@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace SubterfugeCore.Core.Network
 {
@@ -63,12 +66,16 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// The day the game started.
         /// </summary>
+        [JsonConverter(typeof(MicrosecondEpochConverter))]
         public DateTime? started_at { get; set; }
         
+        [JsonConverter(typeof(MicrosecondEpochConverter))]
         public DateTime created_at { get; set; }
         
+        [JsonConverter(typeof(MicrosecondEpochConverter))]
         public DateTime updated_at { get; set; }
         
+        [JsonConverter(typeof(MicrosecondEpochConverter))]
         public DateTime? closed_at { get; set; }
         
         /// <summary>
@@ -87,6 +94,6 @@ namespace SubterfugeCore.Core.Network
         /// A list of all of the message groups within the game.
         /// </summary>
         public List<NetworkMessageGroup> message_groups { get; set; }
-        
+
     }
 }
