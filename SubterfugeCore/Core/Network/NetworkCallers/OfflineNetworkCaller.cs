@@ -188,7 +188,7 @@ namespace SubterfugeCore.Core.Network
         /// <returns>A list of game events</returns>
         public async Task<NetworkResponse<GameEventResponse>> GetGameEvents(int gameRoom)
         {
-            string stringContent = @"[ { ""event_id"": 1, ""time_issued"": 1587326523, ""occurs_at"": 15, ""player_id"": 1, ""event_msg"": ""{'MyJsonKe':'test'}"" } ]";
+            string stringContent = @"[ { ""event_id"": 1, ""time_issued"": 1601402545, ""occurs_at"": 1601389928, ""player_id"": 1, ""event_msg"": ""{ 'source': '14', 'destination': '11', 'game_tick': 10, 'drillers': 13,'specialists': [],'event_name': 'Launch Event' }"" } ]";
             
             HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.OK);
             message.Content = new StringContent(stringContent);
