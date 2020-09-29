@@ -28,7 +28,7 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// If the game is ranked or not
         /// </summary>
-        public int rated { get; set; }
+        public bool rated { get; set; }
         
         /// <summary>
         /// The lowest rating required to join the game lobby
@@ -43,12 +43,12 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// The type of game (domination, mining, etc.)
         /// </summary>
-        public int goal { get; set; }
+        public string goal { get; set; }
         
         /// <summary>
         /// If the game is anonymous
         /// </summary>
-        public int anonymity { get; set; }
+        public bool anonymity { get; set; }
         
         /// <summary>
         /// What map/theme of game the users are playing on

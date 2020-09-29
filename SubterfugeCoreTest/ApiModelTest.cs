@@ -1,6 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.Network;
+using SubterfugeCore.Core.Players;
+using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCoreTest
 {
@@ -8,120 +13,148 @@ namespace SubterfugeCoreTest
     public class ApiModelTest
     {
 
+        public Api api; 
+
+        [TestInitialize]
+        public void setup()
+        {
+            api = new Api();
+            api.developmentMode(true);
+        }
+
         [TestMethod]
         public void testLoginSuccess()
         {
-            string response = @"{
-            ""user"": {
-                ""id"": 1,
-                ""name"": ""asdfg1""
-            },
-            ""token"": ""S7NzKUoNcMCyQ7PKF4fegQI5I1vwSS4C1xzgvwcBCiR230UbCcOFGyyzn3rUSnSysM7fIjrIKCMh2Ugz""}";
-
-            LoginResponse parsed = JsonConvert.DeserializeObject<LoginResponse>(response);
+            Task.Run(async () =>
+            {
+                NetworkResponse<LoginResponse> response = await api.Login("username", "password");
+            }).GetAwaiter().GetResult();
         }
         
         [TestMethod]
-        public void testLoginFailure()
+        public void testOpenRoomListSuccess()
         {
-            string response = @"{
-                ""message"": ""The given data was invalid."",
-                ""errors"": [
-                    [
-                        ""Authentication failed""
-                    ]
-                ]
-            }";
-
-            LoginResponse parsed = JsonConvert.DeserializeObject<LoginResponse>(response);
+            Task.Run(async () =>
+            {
+                NetworkResponse<GameRoomResponse> response = await api.GetOpenRooms();
+            }).GetAwaiter().GetResult();
         }
         
         [TestMethod]
-        public void testRoomListSuccess()
+        public void testOngoingRoomListSuccess()
         {
-            string response = @"{""array"": [
-                {
-                    ""room_id"": 1,
-                    ""status"": ""open"",
-                    ""creator_id"": 1,
-                    ""rated"": 1,
-                    ""min_rating"": 0,
-                    ""description"": ""test"",
-                    ""goal"": 1,
-                    ""anonymity"": 1,
-                    ""map"": 0,
-                    ""seed"": 1601229023,
-                    ""started_at"": null,
-                    ""max_players"": 4,
-                    ""players"": [
-                        {
-                            ""name"": ""Anonymous"",
-                            ""id"": 1
-                        },
-                        {
-                            ""name"": ""Anonymous"",
-                            ""id"": 2
-                        }
-                    ],
-                    ""message_groups"": []
-                },
-                {
-                    ""room_id"": 2,
-                    ""status"": ""open"",
-                    ""creator_id"": 1,
-                    ""rated"": 1,
-                    ""min_rating"": 0,
-                    ""description"": ""test"",
-                    ""goal"": 1,
-                    ""anonymity"": 1,
-                    ""map"": 0,
-                    ""seed"": 1601230013,
-                    ""started_at"": null,
-                    ""max_players"": 3,
-                    ""players"": [
-                        {
-                            ""name"": ""Anonymous"",
-                            ""id"": 1
-                        }
-                    ],
-                    ""message_groups"": []
-                }
-            ]}";
-
-            RoomListResponse parsed = JsonConvert.DeserializeObject<RoomListResponse>(response);
+            Task.Run(async () =>
+            {
+                NetworkResponse<GameRoomResponse> response = await api.GetOngoingRooms();
+            }).GetAwaiter().GetResult();
         }
         
         [TestMethod]
-        public void testGameCreateFailure()
+        public void testJoinLobby()
         {
-            string response = @"{
-                ""message"": ""The given data was invalid."",
-                ""errors"": {
-                    ""max_players"": [
-                        ""The max players field is required.""
-                    ],
-                    ""goal"": [
-                        ""The goal field is required.""
-                    ],
-                    ""description"": [
-                        ""The description field is required.""
-                    ],
-                    ""map"": [
-                        ""The map field is required.""
-                    ],
-                    ""min_rating"": [
-                        ""The min rating field is required.""
-                    ],
-                    ""rated"": [
-                        ""The rated field is required.""
-                    ],
-                    ""anonymity"": [
-                        ""The anonymity field is required.""
-                    ]
-                }
-            }";
+            Task.Run(async () =>
+            {
+                NetworkResponse<JoinLobbyResponse> response = await api.JoinLobby(4);
+            }).GetAwaiter().GetResult();
+        }
 
-            CreateLobbyResponse parsed = JsonConvert.DeserializeObject<CreateLobbyResponse>(response);
+        [TestMethod]
+        public void TestLeaveLobby()
+        {
+            Task.Run(async () =>
+            {
+                NetworkResponse<LeaveLobbyResponse> response = await api.LeaveLobby(4);
+            }).GetAwaiter().GetResult();
+        }
+        
+        [TestMethod]
+        public void StartLobbyEarly()
+        {
+            Task.Run(async () =>
+            {
+                NetworkResponse<StartLobbyEarlyResponse> response = await api.StartLobbyEarly(3);
+            }).GetAwaiter().GetResult();
+        }
+        
+        [TestMethod]
+        public void CreateLobby()
+        {
+            Task.Run(async () =>
+            {
+                NetworkResponse<CreateLobbyResponse> response = await api.CreateLobby("heyt", 4, 1250, false, false, "mine", 2);
+            }).GetAwaiter().GetResult();
+        }
+        
+        [TestMethod]
+        public void SubmitGameEvent()
+        {
+            Task.Run(async () =>
+            {
+                NetworkResponse<SubmitEventResponse> response = await api.SubmitGameEvent(null, 4);
+            }).GetAwaiter().GetResult();
+        }
+        
+        [TestMethod]
+        public void GetGameEvents()
+        {
+            Task.Run(async () =>
+            {
+                NetworkResponse<GameEventResponse> response = await api.GetGameEvents(4);
+            }).GetAwaiter().GetResult();
+        }
+        
+        [TestMethod]
+        public void GetGroupMessages()
+        {
+            Task.Run(async () =>
+            {
+                NetworkResponse<GroupMessageListResponse> response = await api.GetGroupMessages(4, 4);
+            }).GetAwaiter().GetResult();
+        }
+        
+        [TestMethod]
+        public void CreateGroup()
+        {
+            Task.Run(async () =>
+            {
+                NetworkResponse<CreateGroupResponse> response = await api.CreateGroup(4, new List<Player>());
+            }).GetAwaiter().GetResult();
+        }
+        
+        [TestMethod]
+        public void SendMessage()
+        {
+            Task.Run(async () =>
+            {
+                NetworkResponse<SendMessageResponse> response = await api.SendMessage(4, 5, "hi");
+            }).GetAwaiter().GetResult();
+        }
+        
+        [TestMethod]
+        public void BlockPlayer()
+        {
+            Task.Run(async () =>
+            {
+                NetworkResponse<BlockPlayerResponse> response = await api.BlockPlayer(null);
+            }).GetAwaiter().GetResult();
+        }
+        
+        [TestMethod]
+        public void UnblockPlayer()
+        {
+            Task.Run(async () =>
+            {
+                NetworkResponse<UnblockPlayerResponse> response = await api.UnblockPlayer(6);
+            }).GetAwaiter().GetResult();
+        }
+        
+        [TestMethod]
+        public void GetBlockList()
+        {
+            Task.Run(async () =>
+            {
+                NetworkResponse<BlockPlayerResponse> response = await api.GetBlockList();
+            }).GetAwaiter().GetResult();
         }
 
     }
