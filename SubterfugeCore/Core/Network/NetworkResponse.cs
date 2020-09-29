@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Jil;
+using Newtonsoft.Json;
 
 namespace SubterfugeCore.Core.Network
 {
@@ -60,7 +60,7 @@ namespace SubterfugeCore.Core.Network
                 // However, if there is a successful network response but it cannot parse the JSON
                 // then this is a fault of the developer.
                 // Thus, letting the error be thrown here is fine.
-                responseTemplate = JSON.Deserialize<T>(responseContent);
+                responseTemplate = JsonConvert.DeserializeObject<T>(responseContent);
 
                 response.Response = responseTemplate;
             }
@@ -70,9 +70,9 @@ namespace SubterfugeCore.Core.Network
                 try
                 {
                     Console.WriteLine("Request returned error: " + responseContent);
-                    error =  JSON.Deserialize<NetworkError>(responseContent);
+                    error =  JsonConvert.DeserializeObject<NetworkError>(responseContent);
                 }
-                catch (DeserializationException e)
+                catch (JsonException e)
                 {
                     error = new NetworkError();
                     error.Message = responseContent;
@@ -92,5 +92,7 @@ namespace SubterfugeCore.Core.Network
         {
             return HttpResponse.IsSuccessStatusCode;
         }
+        
+        
     }
 }

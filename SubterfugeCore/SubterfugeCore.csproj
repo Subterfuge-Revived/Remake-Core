@@ -40,12 +40,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Core\lib" />
     <Folder Include="Core\Timing\Commands\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jil" Version="2.17.0" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.6.0-preview5.19224.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>Core\lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -63,13 +63,13 @@ namespace SubterfugeCore.Core.Network
         /// <summary>
         /// The day the game started.
         /// </summary>
-        public DateTime started_at { get; set; }
+        public DateTime? started_at { get; set; }
         
         public DateTime created_at { get; set; }
         
         public DateTime updated_at { get; set; }
         
-        public DateTime closed_at { get; set; }
+        public DateTime? closed_at { get; set; }
         
         /// <summary>
         /// The maximum number of players allowed in the game before it begins.
