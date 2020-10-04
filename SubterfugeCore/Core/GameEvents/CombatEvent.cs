@@ -15,10 +15,6 @@ namespace SubterfugeCore.Core.GameEvents
     /// </summary>
     public class CombatEvent : GameEvent
     {
-        /// <summary>
-        /// The tick the combat occurs on
-        /// </summary>
-        private GameTick _eventTick;
         
         /// <summary>
         /// Where the combat occurs
@@ -47,11 +43,10 @@ namespace SubterfugeCore.Core.GameEvents
         /// <param name="combatant2">The second combatant</param>
         /// <param name="tick">The tick the combat occurs</param>
         /// <param name="combatLocation">The location of the combat</param>
-        public CombatEvent(ICombatable combatant1, ICombatable combatant2, GameTick tick, RftVector combatLocation)
+        public CombatEvent(ICombatable combatant1, ICombatable combatant2, GameTick tick, RftVector combatLocation) : base(tick)
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
-            this._eventTick = tick;
             this._combatLocation = combatLocation;
             this.EventName = "Combat Event";
         }
@@ -76,12 +71,6 @@ namespace SubterfugeCore.Core.GameEvents
         public override bool WasEventSuccessful()
         {
             return this.EventSuccess;
-        }
-
-        public override string ToJson()
-        {
-            // Combat events shouldn't be stored in the database. No need for json.
-            throw new System.NotImplementedException();
         }
 
         /// <summary>
@@ -117,15 +106,6 @@ namespace SubterfugeCore.Core.GameEvents
             }
             this.EventSuccess = true;
             return true;
-        }
-        
-        /// <summary>
-        /// Gets the tick the event occurs at
-        /// </summary>
-        /// <returns>The tick of the event</returns>
-        public override GameTick GetTick()
-        {
-            return this._eventTick;
         }
 
         /// <summary>

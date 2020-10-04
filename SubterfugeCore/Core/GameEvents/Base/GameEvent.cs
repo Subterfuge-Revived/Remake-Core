@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.Timing;
 
@@ -12,7 +13,7 @@ namespace SubterfugeCore.Core.GameEvents.Base
         /// <summary>
         /// The time when the event occurs
         /// </summary>
-        private GameTick _gameTick;
+        protected GameTick _gameTick;
         
         /// <summary>
         /// If the event was successfully triggered
@@ -38,6 +39,15 @@ namespace SubterfugeCore.Core.GameEvents.Base
         public abstract bool BackwardAction();
 
         /// <summary>
+        /// Constructor for game event. Ensures that all game events have an associated tick.
+        /// </summary>
+        /// <param name="tick"></param>
+        protected GameEvent(GameTick tick)
+        {
+            this._gameTick = tick;
+        }
+
+        /// <summary>
         /// Gets the event's name
         /// </summary>
         /// <returns>The event name</returns>
@@ -50,7 +60,10 @@ namespace SubterfugeCore.Core.GameEvents.Base
         /// Get the tick the event happens on
         /// </summary>
         /// <returns>The tick of the event</returns>
-        public abstract GameTick GetTick();
+        public GameTick GetTick()
+        {
+            return this._gameTick;
+        }
 
         /// <summary>
         /// Comparison override for the priority queue sorting
@@ -82,6 +95,14 @@ namespace SubterfugeCore.Core.GameEvents.Base
 
         public abstract bool WasEventSuccessful();
 
-        public abstract string ToJson();
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+        
+        public static GameEvent FromJson(string JsonString)
+        {
+            return JsonConvert.DeserializeObject<GameEvent>(JsonString);
+        }
     }
 }

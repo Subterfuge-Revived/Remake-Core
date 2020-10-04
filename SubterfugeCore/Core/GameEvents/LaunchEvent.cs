@@ -53,7 +53,7 @@ namespace SubterfugeCore.Core.GameEvents
         /// <param name="source">The source</param>
         /// <param name="drillerCount">The number of drillers to send</param>
         /// <param name="destination">The destination</param>
-        public LaunchEvent(GameTick launchTime, ILaunchable source, int drillerCount, ICombatable destination)
+        public LaunchEvent(GameTick launchTime, ILaunchable source, int drillerCount, ICombatable destination) : base(launchTime)
         {
             this._launchTime = launchTime;
             this._source = source;
@@ -79,16 +79,6 @@ namespace SubterfugeCore.Core.GameEvents
         public override bool WasEventSuccessful()
         {
             return this.EventSuccess;
-        }
-
-        public override string ToJson()
-        {
-            return $"{{ 'source': '{this._source.GetId().ToString()}', " +
-                   $"'destination': '{this._destination.GetId().ToString()}', " +
-                   $"'game_tick': {this._launchTime.GetTick().ToString()}, " +
-                   $"'drillers': {this._drillerCount.ToString()}," +
-                   $"'specialists': []," +
-                   $"'event_name': '{this.EventName}' }}";
         }
 
         class DeserializedLaunchEvent
@@ -223,15 +213,6 @@ namespace SubterfugeCore.Core.GameEvents
             foreach(CombatEvent combatEvent in this._combatEvents){
                 Game.TimeMachine.RemoveEvent(combatEvent);
             }
-        }
-
-        /// <summary>
-        /// Gets the tick of the launch
-        /// </summary>
-        /// <returns>The time of the launch</returns>
-        public override GameTick GetTick()
-        {
-            return this._launchTime;
         }
 
         /// <summary>

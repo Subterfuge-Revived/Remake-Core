@@ -19,11 +19,6 @@ namespace SubterfugeCore.Core.GameEvents
         Outpost _outpost;
         
         /// <summary>
-        /// The tick the outpost is expected to produce drillers on
-        /// </summary>
-        GameTick _productionTick;
-        
-        /// <summary>
         /// If the event was successful
         /// </summary>
         bool _eventSuccess = false;
@@ -43,10 +38,9 @@ namespace SubterfugeCore.Core.GameEvents
         /// </summary>
         /// <param name="outpost">The outpost to produce drillers at</param>
         /// <param name="tick">The gameTick to produce them at</param>
-        public FactoryProduceDrillersEvent(Outpost outpost, GameTick tick)
+        public FactoryProduceDrillersEvent(Outpost outpost, GameTick tick) : base(tick)
         {
             this._outpost = outpost;
-            this._productionTick = tick;
             this.EventName = "Factory Production Event";
         }
         
@@ -70,12 +64,6 @@ namespace SubterfugeCore.Core.GameEvents
             return this._eventSuccess;
         }
 
-        public override string ToJson()
-        {
-            // Production events don't need to be in the database. No need for JSON.
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Forward production event
         /// </summary>
@@ -85,7 +73,7 @@ namespace SubterfugeCore.Core.GameEvents
             {
                 if(this._outpost.GetOwner() != null && this._outpost.GetOutpostType() == OutpostType.Factory)
                 {
-                    this._nextEvent = new FactoryProduceDrillersEvent(this._outpost, this._productionTick.Advance(40));
+                    this._nextEvent = new FactoryProduceDrillersEvent(this._outpost, this._gameTick.Advance(40));
                     Game.TimeMachine.AddEvent(this._nextEvent);
                     _outpost.AddDrillers(6);
                     _eventSuccess = true;
@@ -101,15 +89,6 @@ namespace SubterfugeCore.Core.GameEvents
             }
 
             return this._eventSuccess;
-        }
-        
-        /// <summary>
-        /// Get the tick of the production
-        /// </summary>
-        /// <returns>The production event's tick</returns>
-        public override GameTick GetTick()
-        {
-            return this._productionTick;
         }
     }
 }

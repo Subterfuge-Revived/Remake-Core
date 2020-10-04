@@ -20,6 +20,11 @@ namespace SubterfugeCore.Core.Players
         private int PlayerId { get; }
 
         /// <summary>
+        /// The player's total amount of neptunium mined
+        /// </summary>
+        private int Neptunium { get; set; } = 0;
+
+        /// <summary>
         /// Constructor to create an instance of a player based off of their player Id
         /// </summary>
         /// <param name="playerId">The player's ID in the database</param>
@@ -83,6 +88,20 @@ namespace SubterfugeCore.Core.Players
         public string GetPlayerName()
         {
             return this.PlayerName;
+        }
+
+        public void addNeptunium(int neptunium)
+        {
+            this.Neptunium += neptunium;
+        }
+        
+        public void removeNeptunium(int neptunium)
+        {
+            this.Neptunium -= neptunium;
+            if (this.Neptunium < 0)
+            {
+                this.Neptunium = 0;
+            }
         }
     }
 }
