@@ -25,6 +25,16 @@ namespace SubterfugeCore.Core.Config
 		/// </summary>
 		public const int BASE_NEPTUNIUM_PRODUCTION = 1;
 
+		/// <summary>
+		/// Amount of neptunium required to win
+		/// </summary>
+		public const int MINING_NEPTUNIUM_REQUIRED_TO_WIN = 200;
+
+		/// <summary>
+		/// The number of outposts a player has to own to win in domination mode.
+		/// </summary>
+		public const int DOMINATION_OUTPOSTS_REQUIRED_TO_WIN = 40;
+
     }
 
 }

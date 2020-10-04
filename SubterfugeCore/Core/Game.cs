@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.Generation;
@@ -87,7 +88,7 @@ namespace SubterfugeCore.Core
                 case GameMode.MINING:
                     foreach(Player p in TimeMachine.GetState().GetPlayers())
                     {
-                        if (p.getNeptunium() > 200)
+                        if (p.getNeptunium() > Constants.MINING_NEPTUNIUM_REQUIRED_TO_WIN)
                         {
                             return true;
                         }                        
@@ -98,7 +99,7 @@ namespace SubterfugeCore.Core
                     
                     foreach(Player p in TimeMachine.GetState().GetPlayers())
                     {
-                        if (TimeMachine.GetState().GetPlayerOutposts(p).Count > 40)
+                        if (TimeMachine.GetState().GetPlayerOutposts(p).Count > Constants.DOMINATION_OUTPOSTS_REQUIRED_TO_WIN)
                         {
                             return true;
                         }                        
