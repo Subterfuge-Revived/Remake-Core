@@ -103,5 +103,10 @@ namespace SubterfugeCore.Core.Players
                 this.Neptunium = 0;
             }
         }
+
+        public int getNeptunium()
+        {
+            return this.Neptunium;
+        }
     }
 }
