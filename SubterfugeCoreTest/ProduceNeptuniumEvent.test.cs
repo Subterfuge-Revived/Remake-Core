@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.Players;
@@ -47,6 +48,7 @@ namespace SubterfugeCoreTest
             
             // player should not have 0 NP
             Assert.IsFalse(0 == owner.getNeptunium());
+            Assert.AreEqual(Constants.BASE_NEPTUNIUM_PRODUCTION, owner.getNeptunium());
         }
         
         [TestMethod]
@@ -60,6 +62,7 @@ namespace SubterfugeCoreTest
             
             // player should not have 0 NP
             Assert.IsFalse(0 == owner.getNeptunium());
+            Assert.AreEqual(Constants.BASE_NEPTUNIUM_PRODUCTION, owner.getNeptunium());
 
             npEvent.BackwardAction();
             

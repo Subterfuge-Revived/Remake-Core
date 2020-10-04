@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Players;
@@ -8,8 +9,6 @@ namespace SubterfugeCore.Core.GameEvents
 { 
     public class ProduceNeptuniumEvent : GameEvent
     {
-        private const int NEPTUNIUM_PER_EVENT = 1;
-
         /// <summary>
         /// The outpost producing the neptunium
         /// </summary>
@@ -40,7 +39,7 @@ namespace SubterfugeCore.Core.GameEvents
         {
             if (outpost.GetOutpostType() == OutpostType.Mine)
             {
-                outpost.GetOwner().addNeptunium(NEPTUNIUM_PER_EVENT);
+                outpost.GetOwner().addNeptunium(Constants.BASE_NEPTUNIUM_PRODUCTION);
                 EventSuccess = true;
             }
             else
@@ -59,7 +58,7 @@ namespace SubterfugeCore.Core.GameEvents
         {
             if (EventSuccess)
             {
-                outpost.GetOwner().removeNeptunium(NEPTUNIUM_PER_EVENT);
+                outpost.GetOwner().removeNeptunium(Constants.BASE_NEPTUNIUM_PRODUCTION);
             }
 
             return EventSuccess;

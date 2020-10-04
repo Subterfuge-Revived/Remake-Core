@@ -20,6 +20,11 @@ namespace SubterfugeCore.Core.Config
 		/// </summary>
 		public const int BASE_FACTORY_PRODUCTION = 6;
 
+		/// <summary>
+		/// The base amount of neptunium to produce per tick.
+		/// </summary>
+		public const int BASE_NEPTUNIUM_PRODUCTION = 1;
+
     }
 
 }
