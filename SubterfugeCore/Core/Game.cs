@@ -17,13 +17,22 @@ namespace SubterfugeCore.Core
      */
     public class Game
     {
-        // Globally accessible time machine reference
+        /// <summary>
+        /// Globally accessible variable. Allows accessing the time machine.
+        /// Try not to access this in a static manner to perform updates. Only use this static reference
+        /// from unity.
+        /// </summary>
         public static TimeMachine TimeMachine;
-
-        // temporary control for time machine.
-        private bool _forward = true;
-        private bool _addedEvents = false;
+        
+        /// <summary>
+        /// The game configuration for map generation.
+        /// </summary>
         public GameConfiguration Configuration { get; } = null;
+
+        /// <summary>
+        /// The game mode being played.
+        /// </summary>
+        public static GameMode GameMode { get; set; } = GameMode.MINING;
 
         /// <summary>
         /// Creates a new game. Does not generate outposts.
@@ -69,6 +78,40 @@ namespace SubterfugeCore.Core
             
             // Add the outposts to the map
             state.GetOutposts().AddRange(outpostsToGenerate);
+        }
+
+        public static bool IsGameOver()
+        {
+            switch (GameMode)
+            {
+                case GameMode.MINING:
+                    foreach(Player p in TimeMachine.GetState().GetPlayers())
+                    {
+                        if (p.getNeptunium() > 200)
+                        {
+                            return true;
+                        }                        
+                    }
+
+                    return false;
+                case GameMode.DOMINATION:
+                    
+                    foreach(Player p in TimeMachine.GetState().GetPlayers())
+                    {
+                        if (TimeMachine.GetState().GetPlayerOutposts(p).Count > 40)
+                        {
+                            return true;
+                        }                        
+                    }
+                    return false;
+                case GameMode.PUZZLE:
+                    // TODO
+                    return false;
+                case GameMode.SANDBOX:
+                    return false;
+                default:
+                    return false;
+            }
         }
 
     }
