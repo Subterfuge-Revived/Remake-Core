@@ -1,4 +1,5 @@
 ﻿using System;
+using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Interfaces
 {

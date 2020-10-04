@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Entities.Specialists
 {
@@ -129,6 +130,57 @@ namespace SubterfugeCore.Core.Entities.Specialists
         public int GetSpecialistCount()
         {
             return this._specialists.Count;
+        }
+
+        /// <summary>
+        /// Transfers all of the specialists from this specialist manager to the target specialist manager.
+        /// </summary>
+        /// <param name="specialistManager"></param>
+        public void transferSpecialistsTo(SpecialistManager specialistManager)
+        {
+            specialistManager.AddSpecialists(this._specialists);
+            this._specialists.Clear();
+        }
+
+        /// <summary>
+        /// Sets all of the specialists within this specialist manager to be captured.
+        /// </summary>
+        public void captureAll()
+        {
+            foreach(Specialist s in _specialists)
+            {
+                s.IsCaptured = true;
+            }
+        }
+
+        /// <summary>
+        /// Uncaptures all of the specialists within this specialist manager.
+        /// </summary>
+        public void uncaptureAll()
+        {
+            foreach(Specialist s in _specialists)
+            {
+                s.IsCaptured = false;
+            }
+        }
+
+        /// <summary>
+        /// Gets all of the specialists beloging to a specific player.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public List<Specialist> GetPlayerSpecialists(Player player)
+        {
+            List<Specialist> playerSpecs = new List<Specialist>();
+            foreach(Specialist s in _specialists)
+            {
+                if (s.GetOwner() == player)
+                {
+                    playerSpecs.Add(s);
+                }
+            }
+
+            return playerSpecs;
         }
 
     }

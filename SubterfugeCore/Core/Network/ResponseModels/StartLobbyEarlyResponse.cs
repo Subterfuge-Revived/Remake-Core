@@ -1,6 +1,6 @@
 ﻿namespace SubterfugeCore.Core.Network
 {
-    public class StartLobbyEarlyResponse : NetworkResponse
+    public class StartLobbyEarlyResponse : BaseNetworkResponse
     {
         public int Room { get; set; }
     }

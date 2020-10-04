@@ -44,22 +44,16 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-          persist-credentials: false
-    # If deploying to pages in container, need to install this apparently?
-    - name: Install rsync 📚
-      run: |
-        apt-get update && apt-get install -y rsync
     # Run the docfx generation command.
     - name: Generate docs
       run: docfx SubterfugeCore/docfx.json
-    # Publish the docs to the gh-pages branch for github pages
-    - name: Publish Docs
-      uses: JamesIves/github-pages-deploy-action@releases/v3
+    - name: GitHub Pages
+      uses: crazy-max/ghaction-github-pages@v1.5.1
       with:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: SubterfugeCore/_site
+        # Build directory to deploy
+        build_dir: SubterfugeCore/_site/
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-18.04
@@ -71,8 +65,6 @@ jobs:
         # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-          persist-credentials: false
 
     # Install nuget packages
     - name: Enter core project
@@ -83,40 +75,16 @@ jobs:
       run: dotnet build
     - name: Move to root
       run: cd ..
-    # If deploying to pages in container, need to install this apparently?
-    - name: Install rsync 📚
-      run: |
-        apt-get update && apt-get install -y rsync
-    # Create a release
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+    - name: Zip releases
+      uses: papeloto/action-zip@v1
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-    # Upload the DLL to the release
-    - name: Upload Core DLL
-      id: upload-release-dll
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        files: SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/
+        dest: Release.zip
+    - name: GH Release
+      uses: softprops/action-gh-release@master
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./SubterfugeCore/bin/Debug/netcoreapp2.0/SubterfugeCore.dll
-        asset_name: SubterfugeCore.dll
-        asset_content_type: application/x-msdownload
-    # Upload the CLI dll to the release
-    - name: Upload CLI DLL
-      id: upload-release-cli
-      uses: actions/upload-release-asset@v1
+       # Newline-delimited list of path globs for asset files to upload
+        files: Release.zip
+        tag_name: ${{ github.sha }}
       env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/SubterfugeCoreCLI.dll
-        asset_name: SubterfugeCoreCLI.dll
-        asset_content_type: application/x-msdownload
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

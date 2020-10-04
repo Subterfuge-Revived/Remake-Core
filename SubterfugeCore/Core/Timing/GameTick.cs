@@ -26,7 +26,7 @@ namespace SubterfugeCore.Core.Timing
         /// </summary>
         public GameTick()
         {
-            this._startTime = new DateTime();
+            this._startTime = DateTime.Now;
             this._tickNumber = 0;
         }
         
