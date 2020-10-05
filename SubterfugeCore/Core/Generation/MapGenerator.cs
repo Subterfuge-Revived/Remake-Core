@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Players;
@@ -62,6 +63,10 @@ namespace SubterfugeCore.Core.Generation
             this.NameGenerator = new NameGenerator(RandomGenerator);
             this.Configuration = gameConfiguration;
             this.Players = gameConfiguration.Players;
+            
+            // Set the map size.
+            int halfPlayers = (int)(Math.Floor(this.Players.Count / 2.0));
+            RftVector.Map = new Rft(gameConfiguration.MaxiumumOutpostDistance * 4, halfPlayers * gameConfiguration.MaxiumumOutpostDistance * 2);
         }
 
         /// <summary>
@@ -86,7 +91,7 @@ namespace SubterfugeCore.Core.Generation
                 RftVector position = outpost.GetCurrentPosition();
                 
                 // New vector for the copied location
-                RftVector newPosition = new RftVector(outpost.GetCurrentPosition().Map, position.X, position.Y);
+                RftVector newPosition = new RftVector(RftVector.Map, position.X, position.Y);
 
                 // Undo the rotation and apply a new rotation.
                 // https://stackoverflow.com/questions/620745/c-rotating-a-vector-around-a-certain-point
@@ -223,7 +228,7 @@ namespace SubterfugeCore.Core.Generation
             foreach(Outpost closeOutpost in closestOutposts)
             {
                 closeOutpost.SetOwner(player);
-                closeOutpost.AddDrillers(this.Configuration.PlayerDefaultDrillers);
+                closeOutpost.AddDrillers(Constants.INITIAL_DRILLERS_PER_OUTPOST);
             }
         }
 

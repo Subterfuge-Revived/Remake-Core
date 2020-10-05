@@ -35,16 +35,6 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         {
             if (_eventSuccess)
             {
-                // Add any removed subs back.
-                if (_combatant1 is Sub && (_combatant1.GetDrillerCount() < 0 || (_combatant1.GetDrillerCount() == 0 && _combatant1.GetSpecialistManager().GetSpecialistCount() == 0)))
-                {
-                    Game.TimeMachine.GetState().AddSub((Sub)_combatant1);
-                }
-
-                if (_combatant2 is Sub && (_combatant2.GetDrillerCount() < 0 || (_combatant2.GetDrillerCount() == 0 && _combatant2.GetSpecialistManager().GetSpecialistCount() == 0)))
-                {
-                    Game.TimeMachine.GetState().AddSub((Sub)_combatant2);
-                }
                 // Restore driller counts.
                 _combatant1.SetDrillerCount(_preCombatDrillers1);
                 _combatant2.SetDrillerCount(_preCombatDrillers2);
@@ -64,18 +54,6 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                 _preCombatDrillers2 = _combatant2.GetDrillerCount();
                 _combatant1.RemoveDrillers(_preCombatDrillers2);
                 _combatant2.RemoveDrillers(_preCombatDrillers1);
-
-                // Remove any subs that should be removed after combat.
-                if (_combatant1 is Sub && (_combatant1.GetDrillerCount() < 0 || (_combatant1.GetDrillerCount() == 0 && _combatant1.GetSpecialistManager().GetSpecialistCount() == 0)))
-                {
-                    Game.TimeMachine.GetState().RemoveSub((Sub)_combatant1);
-                }
-
-                if (_combatant2 is Sub && (_combatant2.GetDrillerCount() < 0 || (_combatant2.GetDrillerCount() == 0 && _combatant2.GetSpecialistManager().GetSpecialistCount() == 0)))
-                {
-                    Game.TimeMachine.GetState().RemoveSub((Sub)_combatant2);
-                }
-
                 this._eventSuccess = true; 
             }
             else

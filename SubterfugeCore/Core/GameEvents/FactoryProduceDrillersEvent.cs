@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Timing;
+using SubterfugeCore.Core.Config;
 
 namespace SubterfugeCore.Core.GameEvents
 {
@@ -17,22 +18,22 @@ namespace SubterfugeCore.Core.GameEvents
         /// The outpost producing the drillers
         /// </summary>
         Outpost _outpost;
-        
+
         /// <summary>
         /// The tick the outpost is expected to produce drillers on
         /// </summary>
         GameTick _productionTick;
-        
+
         /// <summary>
         /// If the event was successful
         /// </summary>
         bool _eventSuccess = false;
-        
+
         /// <summary>
         /// If the net production event was added to the time machine
         /// </summary>
         bool _addedNextProduction = false;
-        
+
         /// <summary>
         /// A reference to the next production event.
         /// </summary>
@@ -49,7 +50,7 @@ namespace SubterfugeCore.Core.GameEvents
             this._productionTick = tick;
             this.EventName = "Factory Production Event";
         }
-        
+
         /// <summary>
         /// Undo a production event
         /// </summary>
@@ -57,7 +58,7 @@ namespace SubterfugeCore.Core.GameEvents
         {
             if (_eventSuccess)
             {
-                _outpost.RemoveDrillers(6);
+                _outpost.RemoveDrillers(Constants.BASE_FACTORY_PRODUCTION);
                 Game.TimeMachine.RemoveEvent(this._nextEvent);
                 this._nextEvent = null;
             }
@@ -83,11 +84,26 @@ namespace SubterfugeCore.Core.GameEvents
         {
             if (Validator.ValidateOutpost(_outpost))
             {
-                if(this._outpost.GetOwner() != null && this._outpost.GetOutpostType() == OutpostType.Factory)
+                if(this._outpost.GetOwner() != null && this._outpost.GetOutpostType() == OutpostType.Factory &&
+                    this._outpost.GetOwner().GetDrillerCount() < this._outpost.GetOwner().GetDrillerCapacity())
                 {
                     this._nextEvent = new FactoryProduceDrillersEvent(this._outpost, this._productionTick.Advance(40));
                     Game.TimeMachine.AddEvent(this._nextEvent);
-                    _outpost.AddDrillers(6);
+                    int drillerDifference = this._outpost.GetOwner().GetDrillerCapacity() - this._outpost.GetOwner().GetDrillerCount();
+
+                    // If capacity would be exceeded, produce only as much drillers as possible without exceeding capacity
+                    if (drillerDifference >= Constants.BASE_FACTORY_PRODUCTION)
+                    {
+                        _outpost.AddDrillers(Constants.BASE_FACTORY_PRODUCTION);
+                    } else
+                    {
+                        //_outpost.AddDrillers(drillerDifference); // TODO: revert this properly
+
+						// Temporary solution, Factories produce 6 drillers or nothing.
+						this._eventSuccess = false;
+						return this._eventSuccess;
+                    }
+
                     _eventSuccess = true;
                 }
                 else
@@ -102,7 +118,7 @@ namespace SubterfugeCore.Core.GameEvents
 
             return this._eventSuccess;
         }
-        
+
         /// <summary>
         /// Get the tick of the production
         /// </summary>

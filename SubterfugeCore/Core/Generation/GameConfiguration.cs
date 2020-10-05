@@ -56,11 +56,5 @@ namespace SubterfugeCore.Core.Generation
         /// of the player's territory.
         /// </summary>
         public int DormantsPerPlayer { get; set; } = 1;
-
-        /// <summary>
-        /// The number of drillers that will be stationed at outposts that have been assigned to a player
-        /// at the beginning of the game.
-        /// </summary>
-        public int PlayerDefaultDrillers { get; set; } = 30;
     }
 }
