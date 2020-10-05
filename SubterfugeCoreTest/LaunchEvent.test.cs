@@ -24,7 +24,12 @@ namespace SubterfugeCoreTest
         [TestInitialize]
         public void Setup()
         {
-            _game = new Game();
+            List<Player> players = new List<Player>();
+            players.Add(new Player(1));
+            players.Add(new Player(2));
+            
+            GameConfiguration config = new GameConfiguration(players);
+            _game = new Game(config);
         }
 
         [TestMethod]
