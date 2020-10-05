@@ -41,7 +41,7 @@ namespace SubterfugeCoreCLI
         public async static Task HandleParsed(ValidateEventCommand parsed)
         {
             Api api = new Api();
-            api.SetToken(parsed.Token);
+            // api.SetToken(parsed.Token);
 
             NetworkResponse<GameEventResponse> gameEvents = await api.GetGameEvents(Int32.Parse(parsed.GameId));
             Console.WriteLine("Done");
