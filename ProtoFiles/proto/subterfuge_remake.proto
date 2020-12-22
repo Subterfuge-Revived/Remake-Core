@@ -1,0 +1,42 @@
+﻿syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "subterfugeRemake.grpc.service";
+option java_outer_classname = "SubterfugeRemakeProto";
+option objc_class_prefix = "SRP";
+
+package SubterfugeRemakeService;
+
+service subterfugeService {
+
+    // Allows users to login
+    rpc login(AuthorizationRequest) returns (AuthorizationResponse) {}
+    
+    // Allows users to register a new account
+    rpc RegisterAccount(AccountRegistrationRequest) returns (AccountRegistrationResponse) {}
+
+}
+
+message AuthorizationRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message AuthorizationResponse {
+    User user = 1;
+}
+
+message AccountRegistrationRequest {
+    string username = 1;
+    string password = 2;
+    string email = 3;
+}
+
+message AccountRegistrationResponse {
+    User user = 1;
+}
+
+message User {
+    int64 id = 1;
+    string username = 2;
+}
