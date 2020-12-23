@@ -10,33 +10,250 @@ package SubterfugeRemakeService;
 service subterfugeService {
 
     // Allows users to login
-    rpc login(AuthorizationRequest) returns (AuthorizationResponse) {}
+    rpc Login(AuthorizationRequest) returns (AuthorizationResponse) {}
     
     // Allows users to register a new account
     rpc RegisterAccount(AccountRegistrationRequest) returns (AccountRegistrationResponse) {}
+    
+    // Fetches the room data
+    rpc GetRoomData(RoomDataRequest) returns (RoomDataResponse) {}
+    
+    rpc CreateNewRoom(CreateRoomRequest) returns (CreateRoomResponse) {}
+    
+    rpc JoinRoom(JoinRoomRequest) returns (JoinRoomResponse) {}
+
+    rpc LeaveRoom(LeaveRoomRequest) returns (LeaveRoomResponse) {}
+    
+    rpc StartGameEarly (StartGameEarlyRequest) returns (StartGameEarlyResponse) {}
+    
+    rpc GetGameRoomEvents(GetGameRoomEventsRequest) returns (GetGameRoomEventsResponse) {}
+    
+    rpc SubmitGameEvent(SubmitGameEventRequest) returns (SubmitGameEventResponse) {}
+    
+    rpc UpdateGameEvent(UpdateGameEventRequest) returns (UpdateGameEventResponse) {}
+    
+    rpc DeleteGameEvent(DeleteGameEventRequest) returns (DeleteGameEventResponse) {}
+    
+    rpc CreateMessageGroup(CreateMessageGroupRequest) returns (CreateMessageGroupResponse) {}
+    
+    rpc SendMessage(SendMessageRequest) returns (SendMessageResponse) {}
+    
+    rpc GetMessageGroups(GetMessageGroupsRequest) returns (GetMessageGroupsResponse) {}
+    
+    rpc BlockPlayer(BlockPlayerRequest) returns (BlockPlayerResponse) {}
+
+    rpc UnblockPlayer(UnblockPlayerRequest) returns (UnblockPlayerResponse) {}
+    
+    rpc ViewBlockedPlayers(ViewBlockedPlayersRequest) returns (ViewBlockedPlayersResponse) {}
 
 }
 
 message AuthorizationRequest {
-    string username = 1;
-    string password = 2;
+    string Username = 1;
+    string Password = 2;
 }
 
 message AuthorizationResponse {
-    User user = 1;
+    User User = 1;
 }
 
 message AccountRegistrationRequest {
-    string username = 1;
-    string password = 2;
-    string email = 3;
+    string Username = 1;
+    string Password = 2;
+    string Email = 3;
 }
 
 message AccountRegistrationResponse {
-    User user = 1;
+    User User = 1;
 }
 
 message User {
-    int64 id = 1;
-    string username = 2;
+    int64 Id = 1;
+    string Username = 2;
+}
+
+message RoomDataRequest {
+    RoomStatus RoomStatus = 1;
+    bool FilterByPlayer = 2;
+}
+
+enum RoomStatus {
+    OPEN = 0;
+    ONGOING = 1;
+    CLOSED = 2;
+}
+
+message RoomDataResponse {
+    repeated Room Rooms = 1;
+}
+
+message Room {
+    int64 RoomId = 1;
+    RoomStatus RoomStatus = 2;
+    User Creator = 3;
+    RankedInformation RankedInformation = 4;
+    bool Anonymous = 5;
+    string RoomName = 6;
+    Goal Goal = 7;
+    int64 Seed = 8;
+    int64 UnixTimeCreated = 9;
+    int64 UnixTimeStarted = 10;
+    int64 MaxPlayers = 11;
+    repeated User Players = 12;
+}
+
+message RankedInformation {
+    bool IsRanked = 1;
+    int64 MinRating = 2;
+    int64 MaxRating = 3;
+}
+
+enum Goal {
+    MINING = 0;
+    DOMINATION = 1;
+}
+
+message CreateRoomRequest {
+    RankedInformation RankedInformation = 4;
+    bool Anonymous = 5;
+    string RoomName = 6;
+    Goal Goal = 7;
+    int64 MaxPlayers = 11;
+}
+
+message CreateRoomResponse {
+    Room createdRoom = 1;
+}
+
+message JoinRoomRequest {
+    int64 RoomId = 1;
+}
+
+message JoinRoomResponse {
+    bool Success = 1;
+}
+
+message LeaveRoomRequest {
+    int64 RoomId = 1;
+}
+
+message LeaveRoomResponse {
+    bool Success = 1;
+}
+
+message StartGameEarlyRequest {
+    int64 RoomId = 1;    
+}
+
+message StartGameEarlyResponse {
+    bool Success = 1;
+}
+
+message GetGameRoomEventsRequest {
+    int64 RoomId = 1;
+    int64 AfterTick = 2;
+}
+
+message GetGameRoomEventsResponse {
+    repeated GameEvent GameEvents = 1;
+}
+
+message GameEvent {
+    int64 EventId = 1;
+    int64 UnixTimeIssued = 2;
+    int64 OccursAtTick = 3;
+    User IssuedBy = 4;
+    string EventData = 5;
+}
+
+message SubmitGameEventRequest {
+    int64 RoomId = 1;
+    int64 OccursAtTick = 2;
+    string EventData = 3;
+}
+
+message SubmitGameEventResponse {
+    bool Success = 1;
+}
+
+message UpdateGameEventRequest {
+    int64 RoomId = 1;
+    int64 EventId = 2;
+    int64 OccursAtTick = 3;
+    string EventData = 4;
+}
+
+message UpdateGameEventResponse {
+    bool Success = 1;
+}
+
+message DeleteGameEventRequest {
+    int64 RoomId = 1;
+    int64 EventId = 2;
+}
+
+message DeleteGameEventResponse {
+    bool Success = 1;
+}
+
+message CreateMessageGroupRequest {
+    int64 RoomId = 1;
+    repeated int64 UserIdsInGroup = 2;
+}
+
+message CreateMessageGroupResponse {
+    bool success = 1;
+    int64 GroupId = 2;
+}
+
+message Message {
+    int64 UnixTimeCreatedAt = 1;
+    User Sender = 2;
+    string Message = 3;
+}
+
+message SendMessageRequest {
+    int64 RoomId = 1;
+    int64 GroupId = 2;
+    string Message = 3;
+}
+
+message SendMessageResponse {
+    bool Success = 1;
+}
+
+message GetMessageGroupsRequest {
+    int64 RoomId = 1;    
+}
+
+message GetMessageGroupsResponse {
+    repeated MessageGroup MessageGroups = 1;
+}
+
+message MessageGroup {
+    int64 GroupId = 1;
+    repeated User GroupMembers = 2;
+    repeated Message Messages = 3;
+}
+
+message BlockPlayerRequest {
+    int64 UserIdToBlock = 1;
+}
+
+message BlockPlayerResponse {
+    bool Success = 1;
+}
+
+message UnblockPlayerRequest {
+    int64 UserIdToBlock = 1;
+}
+
+message UnblockPlayerResponse {
+    bool Success = 1;
+}
+
+message ViewBlockedPlayersRequest {}
+
+message ViewBlockedPlayersResponse {
+    repeated User BlockedUsers = 1;
 }
