@@ -10,14 +10,10 @@
       <PackageReference Include="Grpc" Version="2.34.0" />
       <PackageReference Include="Grpc.Tools" Version="2.34.0" />
     </ItemGroup>
-
-    <ItemGroup>
+	
+	<ItemGroup>
       <None Remove="proto\subterfuge_remake.proto" />
-      <Protobuf Include="proto\subterfuge_remake.proto" OutputDir="generated" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="generated" />
+      <Protobuf Include="proto\*.proto" ProtoRoot="proto" OutputDir="../ProtoGenerated/generated" CompileOutput="False" />
     </ItemGroup>
 
 </Project>

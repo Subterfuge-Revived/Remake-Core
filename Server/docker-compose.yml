@@ -1,0 +1,21 @@
+﻿version: '3'
+
+services:
+  server:
+    build: .
+    depends_on:
+      - db
+    volumes:
+      - ".:/var/www"
+    ports:
+      - 5000:5000
+  
+  db:
+    image: "redis:rc-alpine"
+    volumes:
+      - "./redis/:/data"
+    ports:
+      - 6379:6379
+
+volumes:
+  db: {  }

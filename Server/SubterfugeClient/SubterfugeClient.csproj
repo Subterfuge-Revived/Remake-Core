@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.0</TargetFramework>
         <OutputType>Exe</OutputType>
+        <TargetFrameworks>netstandard2.0;netcoreapp2.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ProtoFiles\ProtoFiles.csproj" />
+      <ProjectReference Include="..\ProtoGenerated\ProtoGenerated.csproj" />
     </ItemGroup>
 
 </Project>

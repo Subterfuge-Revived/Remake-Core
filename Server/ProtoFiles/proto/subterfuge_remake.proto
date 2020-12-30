@@ -68,7 +68,7 @@ message AccountRegistrationResponse {
 }
 
 message User {
-    int64 Id = 1;
+    string Id = 1;
     string Username = 2;
 }
 

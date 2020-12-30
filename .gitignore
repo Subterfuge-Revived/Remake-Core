@@ -362,3 +362,6 @@ MigrationBackup/
 /**/obj/
 /SubterfugeCore/_site
 /SubterfugeCore/api
+
+#redis
+redis/
