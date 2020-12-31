@@ -44,6 +44,8 @@ Having problems? This deployment doesn't let you run the debugger. If you need t
 To start a local server with debugging, modify `SubterfugeServer/Program.cs` line 16 and 12 to reference `localhost` instead of pointing to the docker container names. This will allow
 you to debug the server locally. You can then run the `SubterfugeClient` repository to send sample requests to the server for debugging.
 
+# Repositories
+
 #### ProtoFiles
 
 The profofiles project is a project that should ONLY include `.proto` files. [Protobuf]() is a message format that auto-generates server and client code so that native objects
@@ -82,3 +84,32 @@ This will be the case for many other tables and the right design will need to be
 
 To start a local server with debugging, modify `SubterfugeServer/Program.cs` line 16 and 12 to reference `localhost` instead of pointing to the docker container names. This will allow
 you to debug the server locally. You can then run the `SubterfugeClient` repository to send sample requests to the server for debugging.
+
+# Redis Table Design
+
+```
+Key -> Value
+
+// user info
+user:<userid> -> User
+username:<username> -> userid // To lookup username when logging in & prevent duplicate usernames
+
+// friend/blocks
+user:<userid>:friends -> Friends
+user:<userid>:blocks -> BlockedPlayers
+user:<userid>:stats -> Stats    // Player stats
+user:<userid>:messages          // Out of game messaging
+
+// lobbies
+userlobbies:<userid> -> gameid  // list of lobbies the player is in
+openlobbies -> gameid           // list of open game rooms
+
+// game info
+game:<gameid> -> gameroom       // generic game info like seed, players involved, etc.
+game:<gameid>:events -> Event 
+game:<gameid>:chats -> Chatgroups
+
+// specialists
+specialists:<specid> -> specConfig  // Database to store custom specs
+userSpecialists -> specid           // list of user created specialists
+```
