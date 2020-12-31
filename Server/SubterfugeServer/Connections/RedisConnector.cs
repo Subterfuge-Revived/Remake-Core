@@ -12,7 +12,9 @@ namespace SubterfugeServerConsole.Connections
 
         public RedisConnector(string hostname, string port)
         {
-            ConnectionMultiplexer muxer = ConnectionMultiplexer.Connect($"{hostname}:{port}");
+            var options = ConfigurationOptions.Parse($"{hostname}:{port}");
+            options.Password = "TODO:changethis";
+            ConnectionMultiplexer muxer = ConnectionMultiplexer.Connect(options);
             redis = muxer.GetDatabase();
         }
     }

@@ -9,12 +9,12 @@ namespace SubterfugeServerConsole
 {
     class Program
     {
-        // private const String Hostname = "server"; // For docker
-        private const String Hostname = "localhost"; // For local
+        private const String Hostname = "server"; // For docker
+        // private const String Hostname = "localhost"; // For local
         private const int Port = 5000;
         
-        // private const String dbHost = "db"; // For docker
-        private const String dbHost = "localhost"; // For local
+        private const String dbHost = "db"; // For docker
+        // private const String dbHost = "localhost"; // For local
         private const int dbPort = 6379;
         
             

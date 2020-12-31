@@ -12,6 +12,7 @@ services:
   
   db:
     image: "redis:rc-alpine"
+    command: redis-server --requirepass TODO:changethis
     volumes:
       - "./redis/:/data"
     ports:
