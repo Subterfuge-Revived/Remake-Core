@@ -95,19 +95,22 @@ user:<userid> -> User
 username:<username> -> userid // To lookup username when logging in & prevent duplicate usernames
 
 // friend/blocks
+user:<userid>:friendRequests -> Incoming Friend Requests
 user:<userid>:friends -> Friends
 user:<userid>:blocks -> BlockedPlayers
 user:<userid>:stats -> Stats    // Player stats
 user:<userid>:messages          // Out of game messaging
+user:<userid>:lobbies:open  -> gameId        // List of open lobbies the player is in or created
+user:<userid>:lobbies:ongoing  -> gameId     // List of ongoing lobbies the player is in
+user:<userid>:lobbies:ended  -> gameId       // List of ended lobbies the player is in
 
 // lobbies
-userlobbies:<userid> -> gameid  // list of lobbies the player is in
 openlobbies -> gameid           // list of open game rooms
 
 // game info
 game:<gameid> -> gameroom       // generic game info like seed, players involved, etc.
 game:<gameid>:events -> Event 
-game:<gameid>:chats -> Chatgroups
+game:<gameid>:groups:<chatGroup>:messages -> Chatgroups
 
 // specialists
 specialists:<specid> -> specConfig  // Database to store custom specs

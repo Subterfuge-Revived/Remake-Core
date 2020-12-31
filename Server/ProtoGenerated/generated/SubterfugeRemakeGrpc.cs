@@ -46,6 +46,16 @@ namespace SubterfugeRemakeService {
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.UnblockPlayerResponse> __Marshaller_SubterfugeRemakeService_UnblockPlayerResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.UnblockPlayerResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewBlockedPlayersRequest> __Marshaller_SubterfugeRemakeService_ViewBlockedPlayersRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.ViewBlockedPlayersRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewBlockedPlayersResponse> __Marshaller_SubterfugeRemakeService_ViewBlockedPlayersResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.ViewBlockedPlayersResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SendFriendRequestRequest> __Marshaller_SubterfugeRemakeService_SendFriendRequestRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SendFriendRequestRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SendFriendRequestResponse> __Marshaller_SubterfugeRemakeService_SendFriendRequestResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SendFriendRequestResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AcceptFriendRequestRequest> __Marshaller_SubterfugeRemakeService_AcceptFriendRequestRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AcceptFriendRequestRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AcceptFriendRequestResponse> __Marshaller_SubterfugeRemakeService_AcceptFriendRequestResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AcceptFriendRequestResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewFriendRequestsRequest> __Marshaller_SubterfugeRemakeService_ViewFriendRequestsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.ViewFriendRequestsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewFriendRequestsResponse> __Marshaller_SubterfugeRemakeService_ViewFriendRequestsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.ViewFriendRequestsResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.RemoveFriendRequest> __Marshaller_SubterfugeRemakeService_RemoveFriendRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.RemoveFriendRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.RemoveFriendResponse> __Marshaller_SubterfugeRemakeService_RemoveFriendResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.RemoveFriendResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewFriendsRequest> __Marshaller_SubterfugeRemakeService_ViewFriendsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.ViewFriendsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewFriendsResponse> __Marshaller_SubterfugeRemakeService_ViewFriendsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.ViewFriendsResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.HealthCheckRequest> __Marshaller_SubterfugeRemakeService_HealthCheckRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.HealthCheckRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.HealthCheckResponse> __Marshaller_SubterfugeRemakeService_HealthCheckResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.HealthCheckResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizedHealthCheckRequest> __Marshaller_SubterfugeRemakeService_AuthorizedHealthCheckRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AuthorizedHealthCheckRequest.Parser.ParseFrom);
@@ -170,6 +180,41 @@ namespace SubterfugeRemakeService {
         __Marshaller_SubterfugeRemakeService_ViewBlockedPlayersRequest,
         __Marshaller_SubterfugeRemakeService_ViewBlockedPlayersResponse);
 
+    static readonly grpc::Method<global::SubterfugeRemakeService.SendFriendRequestRequest, global::SubterfugeRemakeService.SendFriendRequestResponse> __Method_SendFriendRequest = new grpc::Method<global::SubterfugeRemakeService.SendFriendRequestRequest, global::SubterfugeRemakeService.SendFriendRequestResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "SendFriendRequest",
+        __Marshaller_SubterfugeRemakeService_SendFriendRequestRequest,
+        __Marshaller_SubterfugeRemakeService_SendFriendRequestResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.AcceptFriendRequestRequest, global::SubterfugeRemakeService.AcceptFriendRequestResponse> __Method_AcceptFriendRequest = new grpc::Method<global::SubterfugeRemakeService.AcceptFriendRequestRequest, global::SubterfugeRemakeService.AcceptFriendRequestResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "AcceptFriendRequest",
+        __Marshaller_SubterfugeRemakeService_AcceptFriendRequestRequest,
+        __Marshaller_SubterfugeRemakeService_AcceptFriendRequestResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.ViewFriendRequestsRequest, global::SubterfugeRemakeService.ViewFriendRequestsResponse> __Method_ViewFriendRequests = new grpc::Method<global::SubterfugeRemakeService.ViewFriendRequestsRequest, global::SubterfugeRemakeService.ViewFriendRequestsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ViewFriendRequests",
+        __Marshaller_SubterfugeRemakeService_ViewFriendRequestsRequest,
+        __Marshaller_SubterfugeRemakeService_ViewFriendRequestsResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.RemoveFriendRequest, global::SubterfugeRemakeService.RemoveFriendResponse> __Method_RemoveFriend = new grpc::Method<global::SubterfugeRemakeService.RemoveFriendRequest, global::SubterfugeRemakeService.RemoveFriendResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "RemoveFriend",
+        __Marshaller_SubterfugeRemakeService_RemoveFriendRequest,
+        __Marshaller_SubterfugeRemakeService_RemoveFriendResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.ViewFriendsRequest, global::SubterfugeRemakeService.ViewFriendsResponse> __Method_ViewFriends = new grpc::Method<global::SubterfugeRemakeService.ViewFriendsRequest, global::SubterfugeRemakeService.ViewFriendsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ViewFriends",
+        __Marshaller_SubterfugeRemakeService_ViewFriendsRequest,
+        __Marshaller_SubterfugeRemakeService_ViewFriendsResponse);
+
     static readonly grpc::Method<global::SubterfugeRemakeService.HealthCheckRequest, global::SubterfugeRemakeService.HealthCheckResponse> __Method_HealthCheck = new grpc::Method<global::SubterfugeRemakeService.HealthCheckRequest, global::SubterfugeRemakeService.HealthCheckResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
@@ -293,6 +338,31 @@ namespace SubterfugeRemakeService {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.ViewBlockedPlayersResponse> ViewBlockedPlayers(global::SubterfugeRemakeService.ViewBlockedPlayersRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.SendFriendRequestResponse> SendFriendRequest(global::SubterfugeRemakeService.SendFriendRequestRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.AcceptFriendRequestResponse> AcceptFriendRequest(global::SubterfugeRemakeService.AcceptFriendRequestRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.ViewFriendRequestsResponse> ViewFriendRequests(global::SubterfugeRemakeService.ViewFriendRequestsRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.RemoveFriendResponse> RemoveFriend(global::SubterfugeRemakeService.RemoveFriendRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.ViewFriendsResponse> ViewFriends(global::SubterfugeRemakeService.ViewFriendsRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -688,6 +758,86 @@ namespace SubterfugeRemakeService {
       {
         return CallInvoker.AsyncUnaryCall(__Method_ViewBlockedPlayers, null, options, request);
       }
+      public virtual global::SubterfugeRemakeService.SendFriendRequestResponse SendFriendRequest(global::SubterfugeRemakeService.SendFriendRequestRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SendFriendRequest(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.SendFriendRequestResponse SendFriendRequest(global::SubterfugeRemakeService.SendFriendRequestRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_SendFriendRequest, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.SendFriendRequestResponse> SendFriendRequestAsync(global::SubterfugeRemakeService.SendFriendRequestRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SendFriendRequestAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.SendFriendRequestResponse> SendFriendRequestAsync(global::SubterfugeRemakeService.SendFriendRequestRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_SendFriendRequest, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.AcceptFriendRequestResponse AcceptFriendRequest(global::SubterfugeRemakeService.AcceptFriendRequestRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return AcceptFriendRequest(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.AcceptFriendRequestResponse AcceptFriendRequest(global::SubterfugeRemakeService.AcceptFriendRequestRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_AcceptFriendRequest, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.AcceptFriendRequestResponse> AcceptFriendRequestAsync(global::SubterfugeRemakeService.AcceptFriendRequestRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return AcceptFriendRequestAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.AcceptFriendRequestResponse> AcceptFriendRequestAsync(global::SubterfugeRemakeService.AcceptFriendRequestRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_AcceptFriendRequest, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.ViewFriendRequestsResponse ViewFriendRequests(global::SubterfugeRemakeService.ViewFriendRequestsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ViewFriendRequests(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.ViewFriendRequestsResponse ViewFriendRequests(global::SubterfugeRemakeService.ViewFriendRequestsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ViewFriendRequests, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.ViewFriendRequestsResponse> ViewFriendRequestsAsync(global::SubterfugeRemakeService.ViewFriendRequestsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ViewFriendRequestsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.ViewFriendRequestsResponse> ViewFriendRequestsAsync(global::SubterfugeRemakeService.ViewFriendRequestsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ViewFriendRequests, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.RemoveFriendResponse RemoveFriend(global::SubterfugeRemakeService.RemoveFriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return RemoveFriend(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.RemoveFriendResponse RemoveFriend(global::SubterfugeRemakeService.RemoveFriendRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_RemoveFriend, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.RemoveFriendResponse> RemoveFriendAsync(global::SubterfugeRemakeService.RemoveFriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return RemoveFriendAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.RemoveFriendResponse> RemoveFriendAsync(global::SubterfugeRemakeService.RemoveFriendRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_RemoveFriend, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.ViewFriendsResponse ViewFriends(global::SubterfugeRemakeService.ViewFriendsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ViewFriends(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.ViewFriendsResponse ViewFriends(global::SubterfugeRemakeService.ViewFriendsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ViewFriends, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.ViewFriendsResponse> ViewFriendsAsync(global::SubterfugeRemakeService.ViewFriendsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ViewFriendsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.ViewFriendsResponse> ViewFriendsAsync(global::SubterfugeRemakeService.ViewFriendsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ViewFriends, null, options, request);
+      }
       public virtual global::SubterfugeRemakeService.HealthCheckResponse HealthCheck(global::SubterfugeRemakeService.HealthCheckRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return HealthCheck(request, new grpc::CallOptions(headers, deadline, cancellationToken));
@@ -749,6 +899,11 @@ namespace SubterfugeRemakeService {
           .AddMethod(__Method_BlockPlayer, serviceImpl.BlockPlayer)
           .AddMethod(__Method_UnblockPlayer, serviceImpl.UnblockPlayer)
           .AddMethod(__Method_ViewBlockedPlayers, serviceImpl.ViewBlockedPlayers)
+          .AddMethod(__Method_SendFriendRequest, serviceImpl.SendFriendRequest)
+          .AddMethod(__Method_AcceptFriendRequest, serviceImpl.AcceptFriendRequest)
+          .AddMethod(__Method_ViewFriendRequests, serviceImpl.ViewFriendRequests)
+          .AddMethod(__Method_RemoveFriend, serviceImpl.RemoveFriend)
+          .AddMethod(__Method_ViewFriends, serviceImpl.ViewFriends)
           .AddMethod(__Method_HealthCheck, serviceImpl.HealthCheck)
           .AddMethod(__Method_AuthorizedHealthCheck, serviceImpl.AuthorizedHealthCheck).Build();
     }
@@ -776,6 +931,11 @@ namespace SubterfugeRemakeService {
       serviceBinder.AddMethod(__Method_BlockPlayer, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.BlockPlayerRequest, global::SubterfugeRemakeService.BlockPlayerResponse>(serviceImpl.BlockPlayer));
       serviceBinder.AddMethod(__Method_UnblockPlayer, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.UnblockPlayerRequest, global::SubterfugeRemakeService.UnblockPlayerResponse>(serviceImpl.UnblockPlayer));
       serviceBinder.AddMethod(__Method_ViewBlockedPlayers, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.ViewBlockedPlayersRequest, global::SubterfugeRemakeService.ViewBlockedPlayersResponse>(serviceImpl.ViewBlockedPlayers));
+      serviceBinder.AddMethod(__Method_SendFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.SendFriendRequestRequest, global::SubterfugeRemakeService.SendFriendRequestResponse>(serviceImpl.SendFriendRequest));
+      serviceBinder.AddMethod(__Method_AcceptFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.AcceptFriendRequestRequest, global::SubterfugeRemakeService.AcceptFriendRequestResponse>(serviceImpl.AcceptFriendRequest));
+      serviceBinder.AddMethod(__Method_ViewFriendRequests, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.ViewFriendRequestsRequest, global::SubterfugeRemakeService.ViewFriendRequestsResponse>(serviceImpl.ViewFriendRequests));
+      serviceBinder.AddMethod(__Method_RemoveFriend, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.RemoveFriendRequest, global::SubterfugeRemakeService.RemoveFriendResponse>(serviceImpl.RemoveFriend));
+      serviceBinder.AddMethod(__Method_ViewFriends, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.ViewFriendsRequest, global::SubterfugeRemakeService.ViewFriendsResponse>(serviceImpl.ViewFriends));
       serviceBinder.AddMethod(__Method_HealthCheck, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.HealthCheckRequest, global::SubterfugeRemakeService.HealthCheckResponse>(serviceImpl.HealthCheck));
       serviceBinder.AddMethod(__Method_AuthorizedHealthCheck, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.AuthorizedHealthCheckRequest, global::SubterfugeRemakeService.AuthorizedHealthCheckResponse>(serviceImpl.AuthorizedHealthCheck));
     }

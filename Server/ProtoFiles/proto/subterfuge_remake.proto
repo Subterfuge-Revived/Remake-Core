@@ -43,8 +43,18 @@ service subterfugeService {
     rpc BlockPlayer(BlockPlayerRequest) returns (BlockPlayerResponse) {}
 
     rpc UnblockPlayer(UnblockPlayerRequest) returns (UnblockPlayerResponse) {}
-    
+
     rpc ViewBlockedPlayers(ViewBlockedPlayersRequest) returns (ViewBlockedPlayersResponse) {}
+
+    rpc SendFriendRequest(SendFriendRequestRequest) returns (SendFriendRequestResponse) {}
+
+    rpc AcceptFriendRequest(AcceptFriendRequestRequest) returns (AcceptFriendRequestResponse) {}
+
+    rpc ViewFriendRequests(ViewFriendRequestsRequest) returns (ViewFriendRequestsResponse) {}
+
+    rpc RemoveFriend(RemoveFriendRequest) returns (RemoveFriendResponse) {}
+
+    rpc ViewFriends(ViewFriendsRequest) returns (ViewFriendsResponse) {}
     
     rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
 
@@ -94,7 +104,7 @@ message RoomDataResponse {
 }
 
 message Room {
-    int64 RoomId = 1;
+    string RoomId = 1;
     RoomStatus RoomStatus = 2;
     User Creator = 3;
     RankedInformation RankedInformation = 4;
@@ -132,7 +142,7 @@ message CreateRoomResponse {
 }
 
 message JoinRoomRequest {
-    int64 RoomId = 1;
+    string RoomId = 1;
 }
 
 message JoinRoomResponse {
@@ -140,7 +150,7 @@ message JoinRoomResponse {
 }
 
 message LeaveRoomRequest {
-    int64 RoomId = 1;
+    string RoomId = 1;
 }
 
 message LeaveRoomResponse {
@@ -148,7 +158,7 @@ message LeaveRoomResponse {
 }
 
 message StartGameEarlyRequest {
-    int64 RoomId = 1;    
+    string RoomId = 1;    
 }
 
 message StartGameEarlyResponse {
@@ -156,7 +166,7 @@ message StartGameEarlyResponse {
 }
 
 message GetGameRoomEventsRequest {
-    int64 RoomId = 1;
+    string RoomId = 1;
     int64 AfterTick = 2;
 }
 
@@ -165,7 +175,7 @@ message GetGameRoomEventsResponse {
 }
 
 message GameEvent {
-    int64 EventId = 1;
+    string eventId = 1;
     int64 UnixTimeIssued = 2;
     int64 OccursAtTick = 3;
     User IssuedBy = 4;
@@ -173,29 +183,28 @@ message GameEvent {
 }
 
 message SubmitGameEventRequest {
-    int64 RoomId = 1;
-    int64 OccursAtTick = 2;
-    string EventData = 3;
+    string RoomId = 1;
+    GameEvent EventData = 2;
 }
 
 message SubmitGameEventResponse {
     bool Success = 1;
+    string EventId = 2;
 }
 
 message UpdateGameEventRequest {
-    int64 RoomId = 1;
-    int64 EventId = 2;
-    int64 OccursAtTick = 3;
-    string EventData = 4;
+    string RoomId = 1;
+    GameEvent EventData = 2;
 }
 
 message UpdateGameEventResponse {
     bool Success = 1;
+    string EventId = 2;
 }
 
 message DeleteGameEventRequest {
-    int64 RoomId = 1;
-    int64 EventId = 2;
+    string RoomId = 1;
+    string EventId = 2;
 }
 
 message DeleteGameEventResponse {
@@ -203,13 +212,13 @@ message DeleteGameEventResponse {
 }
 
 message CreateMessageGroupRequest {
-    int64 RoomId = 1;
-    repeated int64 UserIdsInGroup = 2;
+    string RoomId = 1;
+    repeated string UserIdsInGroup = 2;
 }
 
 message CreateMessageGroupResponse {
     bool success = 1;
-    int64 GroupId = 2;
+    string GroupId = 2;
 }
 
 message Message {
@@ -219,9 +228,9 @@ message Message {
 }
 
 message SendMessageRequest {
-    int64 RoomId = 1;
-    int64 GroupId = 2;
-    string Message = 3;
+    string RoomId = 1;
+    string GroupId = 2;
+    Message Message = 3;
 }
 
 message SendMessageResponse {
@@ -229,7 +238,7 @@ message SendMessageResponse {
 }
 
 message GetMessageGroupsRequest {
-    int64 RoomId = 1;    
+    string RoomId = 1;    
 }
 
 message GetMessageGroupsResponse {
@@ -237,13 +246,13 @@ message GetMessageGroupsResponse {
 }
 
 message MessageGroup {
-    int64 GroupId = 1;
+    string GroupId = 1;
     repeated User GroupMembers = 2;
     repeated Message Messages = 3;
 }
 
 message BlockPlayerRequest {
-    int64 UserIdToBlock = 1;
+    string UserIdToBlock = 1;
 }
 
 message BlockPlayerResponse {
@@ -251,7 +260,7 @@ message BlockPlayerResponse {
 }
 
 message UnblockPlayerRequest {
-    int64 UserIdToBlock = 1;
+    string UserIdToBlock = 1;
 }
 
 message UnblockPlayerResponse {
@@ -262,6 +271,37 @@ message ViewBlockedPlayersRequest {}
 
 message ViewBlockedPlayersResponse {
     repeated User BlockedUsers = 1;
+}
+
+message SendFriendRequestRequest {
+    string FriendId = 1;
+}
+
+message SendFriendRequestResponse {}
+
+message AcceptFriendRequestRequest {
+    string FriendId = 1;
+}
+
+message AcceptFriendRequestResponse {}
+
+message ViewFriendRequestsRequest {}
+
+message ViewFriendRequestsResponse {
+    repeated User IncomingFriends = 1;
+}
+
+message RemoveFriendRequest {
+    string FriendId = 1;
+}
+
+message RemoveFriendResponse {}
+
+message ViewFriendsRequest {
+}
+
+message ViewFriendsResponse {
+    repeated User Friends = 1;
 }
 
 message HealthCheckRequest{}

@@ -63,6 +63,55 @@ namespace SubterfugeServerConsole.Connections.Models
             return "";
         }
         
+        public async Task<List<RedisUserModel>> GetFriends()
+        {
+            RedisValue[] friendIds = await RedisConnector.redis.ListRangeAsync($"user:{GetUserId()}:friends");
+            List<RedisUserModel> friends = new List<RedisUserModel>();
+            if (friendIds.Length > 0)
+            {
+                foreach(RedisValue value in friendIds)
+                {
+                    friends.Add(await getUser(Guid.Parse(value)));
+                }
+            }
+
+            return friends;
+        }
+        
+        public async Task<List<RedisUserModel>> GetBlockedUsers()
+        {
+            RedisValue[] friendIds = await RedisConnector.redis.ListRangeAsync($"user:{GetUserId()}:blocks");
+            List<RedisUserModel> friends = new List<RedisUserModel>();
+            if (friendIds.Length > 0)
+            {
+                foreach(RedisValue value in friendIds)
+                {
+                    friends.Add(await getUser(Guid.Parse(value)));
+                }
+            }
+
+            return friends;
+        }
+        
+        public async Task<List<RedisUserModel>> GetFriendRequests()
+        {
+            RedisValue[] friendIds = await RedisConnector.redis.ListRangeAsync($"user:{GetUserId()}:friendRequests");
+            List<RedisUserModel> friends = new List<RedisUserModel>();
+            if (friendIds.Length > 0)
+            {
+                foreach(RedisValue value in friendIds)
+                {
+                    friends.Add(await getUser(Guid.Parse(value)));
+                }
+            }
+
+            return friends;
+        }
+        
+        public void GetOpenLobbies() { }
+        public void GetOngoingLobbies() { }
+        public void GetClosedLobbies() { }
+        
         public static async Task<RedisUserModel> getUser(string username)
         {
             HashEntry[] userIds = await RedisConnector.redis.HashGetAllAsync($"username:{username}");
@@ -73,10 +122,10 @@ namespace SubterfugeServerConsole.Connections.Models
 
             return null;
         }
-        
+
         public static async Task<RedisUserModel> getUser(Guid guid)
         {
-            
+
             HashEntry[] record = await RedisConnector.redis.HashGetAllAsync($"user:{guid.ToString()}");
             if (record.Length > 0)
             {

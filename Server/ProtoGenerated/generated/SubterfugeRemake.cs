@@ -37,7 +37,7 @@ namespace SubterfugeRemakeService {
             "dGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9vbVN0YXR1cxIWCg5GaWx0ZXJCeVBs",
             "YXllchgCIAEoCCJAChBSb29tRGF0YVJlc3BvbnNlEiwKBVJvb21zGAEgAygL",
             "Mh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9vbSKcAwoEUm9vbRIOCgZS",
-            "b29tSWQYASABKAMSNwoKUm9vbVN0YXR1cxgCIAEoDjIjLlN1YnRlcmZ1Z2VS",
+            "b29tSWQYASABKAkSNwoKUm9vbVN0YXR1cxgCIAEoDjIjLlN1YnRlcmZ1Z2VS",
             "ZW1ha2VTZXJ2aWNlLlJvb21TdGF0dXMSLgoHQ3JlYXRvchgDIAEoCzIdLlN1",
             "YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXISRQoRUmFua2VkSW5mb3JtYXRp",
             "b24YBCABKAsyKi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5SYW5rZWRJbmZv",
@@ -54,102 +54,126 @@ namespace SubterfugeRemakeService {
             "cmZ1Z2VSZW1ha2VTZXJ2aWNlLkdvYWwSEgoKTWF4UGxheWVycxgLIAEoAyJI",
             "ChJDcmVhdGVSb29tUmVzcG9uc2USMgoLY3JlYXRlZFJvb20YASABKAsyHS5T",
             "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Sb29tIiEKD0pvaW5Sb29tUmVxdWVz",
-            "dBIOCgZSb29tSWQYASABKAMiIwoQSm9pblJvb21SZXNwb25zZRIPCgdTdWNj",
-            "ZXNzGAEgASgIIiIKEExlYXZlUm9vbVJlcXVlc3QSDgoGUm9vbUlkGAEgASgD",
+            "dBIOCgZSb29tSWQYASABKAkiIwoQSm9pblJvb21SZXNwb25zZRIPCgdTdWNj",
+            "ZXNzGAEgASgIIiIKEExlYXZlUm9vbVJlcXVlc3QSDgoGUm9vbUlkGAEgASgJ",
             "IiQKEUxlYXZlUm9vbVJlc3BvbnNlEg8KB1N1Y2Nlc3MYASABKAgiJwoVU3Rh",
-            "cnRHYW1lRWFybHlSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoAyIpChZTdGFydEdh",
+            "cnRHYW1lRWFybHlSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoCSIpChZTdGFydEdh",
             "bWVFYXJseVJlc3BvbnNlEg8KB1N1Y2Nlc3MYASABKAgiPQoYR2V0R2FtZVJv",
-            "b21FdmVudHNSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoAxIRCglBZnRlclRpY2sY",
+            "b21FdmVudHNSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoCRIRCglBZnRlclRpY2sY",
             "AiABKAMiUwoZR2V0R2FtZVJvb21FdmVudHNSZXNwb25zZRI2CgpHYW1lRXZl",
             "bnRzGAEgAygLMiIuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR2FtZUV2ZW50",
-            "Io4BCglHYW1lRXZlbnQSDwoHRXZlbnRJZBgBIAEoAxIWCg5Vbml4VGltZUlz",
+            "Io4BCglHYW1lRXZlbnQSDwoHZXZlbnRJZBgBIAEoCRIWCg5Vbml4VGltZUlz",
             "c3VlZBgCIAEoAxIUCgxPY2N1cnNBdFRpY2sYAyABKAMSLwoISXNzdWVkQnkY",
             "BCABKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Vc2VyEhEKCUV2ZW50",
-            "RGF0YRgFIAEoCSJRChZTdWJtaXRHYW1lRXZlbnRSZXF1ZXN0Eg4KBlJvb21J",
-            "ZBgBIAEoAxIUCgxPY2N1cnNBdFRpY2sYAiABKAMSEQoJRXZlbnREYXRhGAMg",
-            "ASgJIioKF1N1Ym1pdEdhbWVFdmVudFJlc3BvbnNlEg8KB1N1Y2Nlc3MYASAB",
-            "KAgiYgoWVXBkYXRlR2FtZUV2ZW50UmVxdWVzdBIOCgZSb29tSWQYASABKAMS",
-            "DwoHRXZlbnRJZBgCIAEoAxIUCgxPY2N1cnNBdFRpY2sYAyABKAMSEQoJRXZl",
-            "bnREYXRhGAQgASgJIioKF1VwZGF0ZUdhbWVFdmVudFJlc3BvbnNlEg8KB1N1",
-            "Y2Nlc3MYASABKAgiOQoWRGVsZXRlR2FtZUV2ZW50UmVxdWVzdBIOCgZSb29t",
-            "SWQYASABKAMSDwoHRXZlbnRJZBgCIAEoAyIqChdEZWxldGVHYW1lRXZlbnRS",
+            "RGF0YRgFIAEoCSJfChZTdWJtaXRHYW1lRXZlbnRSZXF1ZXN0Eg4KBlJvb21J",
+            "ZBgBIAEoCRI1CglFdmVudERhdGEYAiABKAsyIi5TdWJ0ZXJmdWdlUmVtYWtl",
+            "U2VydmljZS5HYW1lRXZlbnQiOwoXU3VibWl0R2FtZUV2ZW50UmVzcG9uc2US",
+            "DwoHU3VjY2VzcxgBIAEoCBIPCgdFdmVudElkGAIgASgJIl8KFlVwZGF0ZUdh",
+            "bWVFdmVudFJlcXVlc3QSDgoGUm9vbUlkGAEgASgJEjUKCUV2ZW50RGF0YRgC",
+            "IAEoCzIiLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdhbWVFdmVudCI7ChdV",
+            "cGRhdGVHYW1lRXZlbnRSZXNwb25zZRIPCgdTdWNjZXNzGAEgASgIEg8KB0V2",
+            "ZW50SWQYAiABKAkiOQoWRGVsZXRlR2FtZUV2ZW50UmVxdWVzdBIOCgZSb29t",
+            "SWQYASABKAkSDwoHRXZlbnRJZBgCIAEoCSIqChdEZWxldGVHYW1lRXZlbnRS",
             "ZXNwb25zZRIPCgdTdWNjZXNzGAEgASgIIkMKGUNyZWF0ZU1lc3NhZ2VHcm91",
-            "cFJlcXVlc3QSDgoGUm9vbUlkGAEgASgDEhYKDlVzZXJJZHNJbkdyb3VwGAIg",
-            "AygDIj4KGkNyZWF0ZU1lc3NhZ2VHcm91cFJlc3BvbnNlEg8KB3N1Y2Nlc3MY",
-            "ASABKAgSDwoHR3JvdXBJZBgCIAEoAyJkCgdNZXNzYWdlEhkKEVVuaXhUaW1l",
+            "cFJlcXVlc3QSDgoGUm9vbUlkGAEgASgJEhYKDlVzZXJJZHNJbkdyb3VwGAIg",
+            "AygJIj4KGkNyZWF0ZU1lc3NhZ2VHcm91cFJlc3BvbnNlEg8KB3N1Y2Nlc3MY",
+            "ASABKAgSDwoHR3JvdXBJZBgCIAEoCSJkCgdNZXNzYWdlEhkKEVVuaXhUaW1l",
             "Q3JlYXRlZEF0GAEgASgDEi0KBlNlbmRlchgCIAEoCzIdLlN1YnRlcmZ1Z2VS",
-            "ZW1ha2VTZXJ2aWNlLlVzZXISDwoHTWVzc2FnZRgDIAEoCSJGChJTZW5kTWVz",
-            "c2FnZVJlcXVlc3QSDgoGUm9vbUlkGAEgASgDEg8KB0dyb3VwSWQYAiABKAMS",
-            "DwoHTWVzc2FnZRgDIAEoCSImChNTZW5kTWVzc2FnZVJlc3BvbnNlEg8KB1N1",
-            "Y2Nlc3MYASABKAgiKQoXR2V0TWVzc2FnZUdyb3Vwc1JlcXVlc3QSDgoGUm9v",
-            "bUlkGAEgASgDIlgKGEdldE1lc3NhZ2VHcm91cHNSZXNwb25zZRI8Cg1NZXNz",
-            "YWdlR3JvdXBzGAEgAygLMiUuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuTWVz",
-            "c2FnZUdyb3VwIogBCgxNZXNzYWdlR3JvdXASDwoHR3JvdXBJZBgBIAEoAxIz",
-            "CgxHcm91cE1lbWJlcnMYAiADKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2Vydmlj",
-            "ZS5Vc2VyEjIKCE1lc3NhZ2VzGAMgAygLMiAuU3VidGVyZnVnZVJlbWFrZVNl",
-            "cnZpY2UuTWVzc2FnZSIrChJCbG9ja1BsYXllclJlcXVlc3QSFQoNVXNlcklk",
-            "VG9CbG9jaxgBIAEoAyImChNCbG9ja1BsYXllclJlc3BvbnNlEg8KB1N1Y2Nl",
-            "c3MYASABKAgiLQoUVW5ibG9ja1BsYXllclJlcXVlc3QSFQoNVXNlcklkVG9C",
-            "bG9jaxgBIAEoAyIoChVVbmJsb2NrUGxheWVyUmVzcG9uc2USDwoHU3VjY2Vz",
-            "cxgBIAEoCCIbChlWaWV3QmxvY2tlZFBsYXllcnNSZXF1ZXN0IlEKGlZpZXdC",
-            "bG9ja2VkUGxheWVyc1Jlc3BvbnNlEjMKDEJsb2NrZWRVc2VycxgBIAMoCzId",
-            "LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXIiFAoSSGVhbHRoQ2hlY2tS",
-            "ZXF1ZXN0IhUKE0hlYWx0aENoZWNrUmVzcG9uc2UiHgocQXV0aG9yaXplZEhl",
-            "YWx0aENoZWNrUmVxdWVzdCIfCh1BdXRob3JpemVkSGVhbHRoQ2hlY2tSZXNw",
-            "b25zZSovCgpSb29tU3RhdHVzEggKBE9QRU4QABILCgdPTkdPSU5HEAESCgoG",
-            "Q0xPU0VEEAIqIgoER29hbBIKCgZNSU5JTkcQABIOCgpET01JTkFUSU9OEAEy",
-            "sREKEXN1YnRlcmZ1Z2VTZXJ2aWNlEmgKBUxvZ2luEi0uU3VidGVyZnVnZVJl",
-            "bWFrZVNlcnZpY2UuQXV0aG9yaXphdGlvblJlcXVlc3QaLi5TdWJ0ZXJmdWdl",
-            "UmVtYWtlU2VydmljZS5BdXRob3JpemF0aW9uUmVzcG9uc2UiABJ+Cg9SZWdp",
-            "c3RlckFjY291bnQSMy5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5BY2NvdW50",
-            "UmVnaXN0cmF0aW9uUmVxdWVzdBo0LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNl",
-            "LkFjY291bnRSZWdpc3RyYXRpb25SZXNwb25zZSIAEmQKC0dldFJvb21EYXRh",
-            "EiguU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9vbURhdGFSZXF1ZXN0Giku",
-            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9vbURhdGFSZXNwb25zZSIAEmoK",
-            "DUNyZWF0ZU5ld1Jvb20SKi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5DcmVh",
-            "dGVSb29tUmVxdWVzdBorLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkNyZWF0",
-            "ZVJvb21SZXNwb25zZSIAEmEKCEpvaW5Sb29tEiguU3VidGVyZnVnZVJlbWFr",
-            "ZVNlcnZpY2UuSm9pblJvb21SZXF1ZXN0GikuU3VidGVyZnVnZVJlbWFrZVNl",
-            "cnZpY2UuSm9pblJvb21SZXNwb25zZSIAEmQKCUxlYXZlUm9vbRIpLlN1YnRl",
-            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLkxlYXZlUm9vbVJlcXVlc3QaKi5TdWJ0ZXJm",
-            "dWdlUmVtYWtlU2VydmljZS5MZWF2ZVJvb21SZXNwb25zZSIAEnMKDlN0YXJ0",
-            "R2FtZUVhcmx5Ei4uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuU3RhcnRHYW1l",
-            "RWFybHlSZXF1ZXN0Gi8uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuU3RhcnRH",
-            "YW1lRWFybHlSZXNwb25zZSIAEnwKEUdldEdhbWVSb29tRXZlbnRzEjEuU3Vi",
-            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuR2V0R2FtZVJvb21FdmVudHNSZXF1ZXN0",
-            "GjIuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR2V0R2FtZVJvb21FdmVudHNS",
-            "ZXNwb25zZSIAEnYKD1N1Ym1pdEdhbWVFdmVudBIvLlN1YnRlcmZ1Z2VSZW1h",
-            "a2VTZXJ2aWNlLlN1Ym1pdEdhbWVFdmVudFJlcXVlc3QaMC5TdWJ0ZXJmdWdl",
-            "UmVtYWtlU2VydmljZS5TdWJtaXRHYW1lRXZlbnRSZXNwb25zZSIAEnYKD1Vw",
-            "ZGF0ZUdhbWVFdmVudBIvLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVwZGF0",
-            "ZUdhbWVFdmVudFJlcXVlc3QaMC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5V",
-            "cGRhdGVHYW1lRXZlbnRSZXNwb25zZSIAEnYKD0RlbGV0ZUdhbWVFdmVudBIv",
-            "LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkRlbGV0ZUdhbWVFdmVudFJlcXVl",
-            "c3QaMC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5EZWxldGVHYW1lRXZlbnRS",
-            "ZXNwb25zZSIAEn8KEkNyZWF0ZU1lc3NhZ2VHcm91cBIyLlN1YnRlcmZ1Z2VS",
-            "ZW1ha2VTZXJ2aWNlLkNyZWF0ZU1lc3NhZ2VHcm91cFJlcXVlc3QaMy5TdWJ0",
-            "ZXJmdWdlUmVtYWtlU2VydmljZS5DcmVhdGVNZXNzYWdlR3JvdXBSZXNwb25z",
-            "ZSIAEmoKC1NlbmRNZXNzYWdlEisuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
-            "U2VuZE1lc3NhZ2VSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
-            "U2VuZE1lc3NhZ2VSZXNwb25zZSIAEnkKEEdldE1lc3NhZ2VHcm91cHMSMC5T",
-            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5HZXRNZXNzYWdlR3JvdXBzUmVxdWVz",
-            "dBoxLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdldE1lc3NhZ2VHcm91cHNS",
-            "ZXNwb25zZSIAEmoKC0Jsb2NrUGxheWVyEisuU3VidGVyZnVnZVJlbWFrZVNl",
-            "cnZpY2UuQmxvY2tQbGF5ZXJSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNl",
-            "cnZpY2UuQmxvY2tQbGF5ZXJSZXNwb25zZSIAEnAKDVVuYmxvY2tQbGF5ZXIS",
-            "LS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5VbmJsb2NrUGxheWVyUmVxdWVz",
-            "dBouLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVuYmxvY2tQbGF5ZXJSZXNw",
-            "b25zZSIAEn8KElZpZXdCbG9ja2VkUGxheWVycxIyLlN1YnRlcmZ1Z2VSZW1h",
-            "a2VTZXJ2aWNlLlZpZXdCbG9ja2VkUGxheWVyc1JlcXVlc3QaMy5TdWJ0ZXJm",
-            "dWdlUmVtYWtlU2VydmljZS5WaWV3QmxvY2tlZFBsYXllcnNSZXNwb25zZSIA",
-            "EmoKC0hlYWx0aENoZWNrEisuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuSGVh",
-            "bHRoQ2hlY2tSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuSGVh",
-            "bHRoQ2hlY2tSZXNwb25zZSIAEogBChVBdXRob3JpemVkSGVhbHRoQ2hlY2sS",
-            "NS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5BdXRob3JpemVkSGVhbHRoQ2hl",
-            "Y2tSZXF1ZXN0GjYuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQXV0aG9yaXpl",
-            "ZEhlYWx0aENoZWNrUmVzcG9uc2UiAEI+Ch1zdWJ0ZXJmdWdlUmVtYWtlLmdy",
-            "cGMuc2VydmljZUIVU3VidGVyZnVnZVJlbWFrZVByb3RvUAGiAgNTUlBiBnBy",
-            "b3RvMw=="));
+            "ZW1ha2VTZXJ2aWNlLlVzZXISDwoHTWVzc2FnZRgDIAEoCSJoChJTZW5kTWVz",
+            "c2FnZVJlcXVlc3QSDgoGUm9vbUlkGAEgASgJEg8KB0dyb3VwSWQYAiABKAkS",
+            "MQoHTWVzc2FnZRgDIAEoCzIgLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLk1l",
+            "c3NhZ2UiJgoTU2VuZE1lc3NhZ2VSZXNwb25zZRIPCgdTdWNjZXNzGAEgASgI",
+            "IikKF0dldE1lc3NhZ2VHcm91cHNSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoCSJY",
+            "ChhHZXRNZXNzYWdlR3JvdXBzUmVzcG9uc2USPAoNTWVzc2FnZUdyb3VwcxgB",
+            "IAMoCzIlLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLk1lc3NhZ2VHcm91cCKI",
+            "AQoMTWVzc2FnZUdyb3VwEg8KB0dyb3VwSWQYASABKAkSMwoMR3JvdXBNZW1i",
+            "ZXJzGAIgAygLMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVXNlchIyCghN",
+            "ZXNzYWdlcxgDIAMoCzIgLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLk1lc3Nh",
+            "Z2UiKwoSQmxvY2tQbGF5ZXJSZXF1ZXN0EhUKDVVzZXJJZFRvQmxvY2sYASAB",
+            "KAkiJgoTQmxvY2tQbGF5ZXJSZXNwb25zZRIPCgdTdWNjZXNzGAEgASgIIi0K",
+            "FFVuYmxvY2tQbGF5ZXJSZXF1ZXN0EhUKDVVzZXJJZFRvQmxvY2sYASABKAki",
+            "KAoVVW5ibG9ja1BsYXllclJlc3BvbnNlEg8KB1N1Y2Nlc3MYASABKAgiGwoZ",
+            "Vmlld0Jsb2NrZWRQbGF5ZXJzUmVxdWVzdCJRChpWaWV3QmxvY2tlZFBsYXll",
+            "cnNSZXNwb25zZRIzCgxCbG9ja2VkVXNlcnMYASADKAsyHS5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5Vc2VyIiwKGFNlbmRGcmllbmRSZXF1ZXN0UmVxdWVz",
+            "dBIQCghGcmllbmRJZBgBIAEoCSIbChlTZW5kRnJpZW5kUmVxdWVzdFJlc3Bv",
+            "bnNlIi4KGkFjY2VwdEZyaWVuZFJlcXVlc3RSZXF1ZXN0EhAKCEZyaWVuZElk",
+            "GAEgASgJIh0KG0FjY2VwdEZyaWVuZFJlcXVlc3RSZXNwb25zZSIbChlWaWV3",
+            "RnJpZW5kUmVxdWVzdHNSZXF1ZXN0IlQKGlZpZXdGcmllbmRSZXF1ZXN0c1Jl",
+            "c3BvbnNlEjYKD0luY29taW5nRnJpZW5kcxgBIAMoCzIdLlN1YnRlcmZ1Z2VS",
+            "ZW1ha2VTZXJ2aWNlLlVzZXIiJwoTUmVtb3ZlRnJpZW5kUmVxdWVzdBIQCghG",
+            "cmllbmRJZBgBIAEoCSIWChRSZW1vdmVGcmllbmRSZXNwb25zZSIUChJWaWV3",
+            "RnJpZW5kc1JlcXVlc3QiRQoTVmlld0ZyaWVuZHNSZXNwb25zZRIuCgdGcmll",
+            "bmRzGAEgAygLMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVXNlciIUChJI",
+            "ZWFsdGhDaGVja1JlcXVlc3QiFQoTSGVhbHRoQ2hlY2tSZXNwb25zZSIeChxB",
+            "dXRob3JpemVkSGVhbHRoQ2hlY2tSZXF1ZXN0Ih8KHUF1dGhvcml6ZWRIZWFs",
+            "dGhDaGVja1Jlc3BvbnNlKi8KClJvb21TdGF0dXMSCAoET1BFThAAEgsKB09O",
+            "R09JTkcQARIKCgZDTE9TRUQQAioiCgRHb2FsEgoKBk1JTklORxAAEg4KCkRP",
+            "TUlOQVRJT04QATKQFgoRc3VidGVyZnVnZVNlcnZpY2USaAoFTG9naW4SLS5T",
+            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5BdXRob3JpemF0aW9uUmVxdWVzdBou",
+            "LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkF1dGhvcml6YXRpb25SZXNwb25z",
+            "ZSIAEn4KD1JlZ2lzdGVyQWNjb3VudBIzLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
+            "aWNlLkFjY291bnRSZWdpc3RyYXRpb25SZXF1ZXN0GjQuU3VidGVyZnVnZVJl",
+            "bWFrZVNlcnZpY2UuQWNjb3VudFJlZ2lzdHJhdGlvblJlc3BvbnNlIgASZAoL",
+            "R2V0Um9vbURhdGESKC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Sb29tRGF0",
+            "YVJlcXVlc3QaKS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Sb29tRGF0YVJl",
+            "c3BvbnNlIgASagoNQ3JlYXRlTmV3Um9vbRIqLlN1YnRlcmZ1Z2VSZW1ha2VT",
+            "ZXJ2aWNlLkNyZWF0ZVJvb21SZXF1ZXN0GisuU3VidGVyZnVnZVJlbWFrZVNl",
+            "cnZpY2UuQ3JlYXRlUm9vbVJlc3BvbnNlIgASYQoISm9pblJvb20SKC5TdWJ0",
+            "ZXJmdWdlUmVtYWtlU2VydmljZS5Kb2luUm9vbVJlcXVlc3QaKS5TdWJ0ZXJm",
+            "dWdlUmVtYWtlU2VydmljZS5Kb2luUm9vbVJlc3BvbnNlIgASZAoJTGVhdmVS",
+            "b29tEikuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuTGVhdmVSb29tUmVxdWVz",
+            "dBoqLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkxlYXZlUm9vbVJlc3BvbnNl",
+            "IgAScwoOU3RhcnRHYW1lRWFybHkSLi5TdWJ0ZXJmdWdlUmVtYWtlU2Vydmlj",
+            "ZS5TdGFydEdhbWVFYXJseVJlcXVlc3QaLy5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
+            "dmljZS5TdGFydEdhbWVFYXJseVJlc3BvbnNlIgASfAoRR2V0R2FtZVJvb21F",
+            "dmVudHMSMS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5HZXRHYW1lUm9vbUV2",
+            "ZW50c1JlcXVlc3QaMi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5HZXRHYW1l",
+            "Um9vbUV2ZW50c1Jlc3BvbnNlIgASdgoPU3VibWl0R2FtZUV2ZW50Ei8uU3Vi",
+            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuU3VibWl0R2FtZUV2ZW50UmVxdWVzdBow",
+            "LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlN1Ym1pdEdhbWVFdmVudFJlc3Bv",
+            "bnNlIgASdgoPVXBkYXRlR2FtZUV2ZW50Ei8uU3VidGVyZnVnZVJlbWFrZVNl",
+            "cnZpY2UuVXBkYXRlR2FtZUV2ZW50UmVxdWVzdBowLlN1YnRlcmZ1Z2VSZW1h",
+            "a2VTZXJ2aWNlLlVwZGF0ZUdhbWVFdmVudFJlc3BvbnNlIgASdgoPRGVsZXRl",
+            "R2FtZUV2ZW50Ei8uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuRGVsZXRlR2Ft",
+            "ZUV2ZW50UmVxdWVzdBowLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkRlbGV0",
+            "ZUdhbWVFdmVudFJlc3BvbnNlIgASfwoSQ3JlYXRlTWVzc2FnZUdyb3VwEjIu",
+            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQ3JlYXRlTWVzc2FnZUdyb3VwUmVx",
+            "dWVzdBozLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkNyZWF0ZU1lc3NhZ2VH",
+            "cm91cFJlc3BvbnNlIgASagoLU2VuZE1lc3NhZ2USKy5TdWJ0ZXJmdWdlUmVt",
+            "YWtlU2VydmljZS5TZW5kTWVzc2FnZVJlcXVlc3QaLC5TdWJ0ZXJmdWdlUmVt",
+            "YWtlU2VydmljZS5TZW5kTWVzc2FnZVJlc3BvbnNlIgASeQoQR2V0TWVzc2Fn",
+            "ZUdyb3VwcxIwLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdldE1lc3NhZ2VH",
+            "cm91cHNSZXF1ZXN0GjEuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR2V0TWVz",
+            "c2FnZUdyb3Vwc1Jlc3BvbnNlIgASagoLQmxvY2tQbGF5ZXISKy5TdWJ0ZXJm",
+            "dWdlUmVtYWtlU2VydmljZS5CbG9ja1BsYXllclJlcXVlc3QaLC5TdWJ0ZXJm",
+            "dWdlUmVtYWtlU2VydmljZS5CbG9ja1BsYXllclJlc3BvbnNlIgAScAoNVW5i",
+            "bG9ja1BsYXllchItLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVuYmxvY2tQ",
+            "bGF5ZXJSZXF1ZXN0Gi4uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVW5ibG9j",
+            "a1BsYXllclJlc3BvbnNlIgASfwoSVmlld0Jsb2NrZWRQbGF5ZXJzEjIuU3Vi",
+            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuVmlld0Jsb2NrZWRQbGF5ZXJzUmVxdWVz",
+            "dBozLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlZpZXdCbG9ja2VkUGxheWVy",
+            "c1Jlc3BvbnNlIgASfAoRU2VuZEZyaWVuZFJlcXVlc3QSMS5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5TZW5kRnJpZW5kUmVxdWVzdFJlcXVlc3QaMi5TdWJ0",
+            "ZXJmdWdlUmVtYWtlU2VydmljZS5TZW5kRnJpZW5kUmVxdWVzdFJlc3BvbnNl",
+            "IgASggEKE0FjY2VwdEZyaWVuZFJlcXVlc3QSMy5TdWJ0ZXJmdWdlUmVtYWtl",
+            "U2VydmljZS5BY2NlcHRGcmllbmRSZXF1ZXN0UmVxdWVzdBo0LlN1YnRlcmZ1",
+            "Z2VSZW1ha2VTZXJ2aWNlLkFjY2VwdEZyaWVuZFJlcXVlc3RSZXNwb25zZSIA",
+            "En8KElZpZXdGcmllbmRSZXF1ZXN0cxIyLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
+            "aWNlLlZpZXdGcmllbmRSZXF1ZXN0c1JlcXVlc3QaMy5TdWJ0ZXJmdWdlUmVt",
+            "YWtlU2VydmljZS5WaWV3RnJpZW5kUmVxdWVzdHNSZXNwb25zZSIAEm0KDFJl",
+            "bW92ZUZyaWVuZBIsLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlJlbW92ZUZy",
+            "aWVuZFJlcXVlc3QaLS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5SZW1vdmVG",
+            "cmllbmRSZXNwb25zZSIAEmoKC1ZpZXdGcmllbmRzEisuU3VidGVyZnVnZVJl",
+            "bWFrZVNlcnZpY2UuVmlld0ZyaWVuZHNSZXF1ZXN0GiwuU3VidGVyZnVnZVJl",
+            "bWFrZVNlcnZpY2UuVmlld0ZyaWVuZHNSZXNwb25zZSIAEmoKC0hlYWx0aENo",
+            "ZWNrEisuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuSGVhbHRoQ2hlY2tSZXF1",
+            "ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuSGVhbHRoQ2hlY2tSZXNw",
+            "b25zZSIAEogBChVBdXRob3JpemVkSGVhbHRoQ2hlY2sSNS5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5BdXRob3JpemVkSGVhbHRoQ2hlY2tSZXF1ZXN0GjYu",
+            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQXV0aG9yaXplZEhlYWx0aENoZWNr",
+            "UmVzcG9uc2UiAEI+Ch1zdWJ0ZXJmdWdlUmVtYWtlLmdycGMuc2VydmljZUIV",
+            "U3VidGVyZnVnZVJlbWFrZVByb3RvUAGiAgNTUlBiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::SubterfugeRemakeService.RoomStatus), typeof(global::SubterfugeRemakeService.Goal), }, new pbr::GeneratedClrTypeInfo[] {
@@ -173,10 +197,10 @@ namespace SubterfugeRemakeService {
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetGameRoomEventsRequest), global::SubterfugeRemakeService.GetGameRoomEventsRequest.Parser, new[]{ "RoomId", "AfterTick" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetGameRoomEventsResponse), global::SubterfugeRemakeService.GetGameRoomEventsResponse.Parser, new[]{ "GameEvents" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GameEvent), global::SubterfugeRemakeService.GameEvent.Parser, new[]{ "EventId", "UnixTimeIssued", "OccursAtTick", "IssuedBy", "EventData" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SubmitGameEventRequest), global::SubterfugeRemakeService.SubmitGameEventRequest.Parser, new[]{ "RoomId", "OccursAtTick", "EventData" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SubmitGameEventResponse), global::SubterfugeRemakeService.SubmitGameEventResponse.Parser, new[]{ "Success" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UpdateGameEventRequest), global::SubterfugeRemakeService.UpdateGameEventRequest.Parser, new[]{ "RoomId", "EventId", "OccursAtTick", "EventData" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UpdateGameEventResponse), global::SubterfugeRemakeService.UpdateGameEventResponse.Parser, new[]{ "Success" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SubmitGameEventRequest), global::SubterfugeRemakeService.SubmitGameEventRequest.Parser, new[]{ "RoomId", "EventData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SubmitGameEventResponse), global::SubterfugeRemakeService.SubmitGameEventResponse.Parser, new[]{ "Success", "EventId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UpdateGameEventRequest), global::SubterfugeRemakeService.UpdateGameEventRequest.Parser, new[]{ "RoomId", "EventData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UpdateGameEventResponse), global::SubterfugeRemakeService.UpdateGameEventResponse.Parser, new[]{ "Success", "EventId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.DeleteGameEventRequest), global::SubterfugeRemakeService.DeleteGameEventRequest.Parser, new[]{ "RoomId", "EventId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.DeleteGameEventResponse), global::SubterfugeRemakeService.DeleteGameEventResponse.Parser, new[]{ "Success" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateMessageGroupRequest), global::SubterfugeRemakeService.CreateMessageGroupRequest.Parser, new[]{ "RoomId", "UserIdsInGroup" }, null, null, null),
@@ -193,6 +217,16 @@ namespace SubterfugeRemakeService {
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UnblockPlayerResponse), global::SubterfugeRemakeService.UnblockPlayerResponse.Parser, new[]{ "Success" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.ViewBlockedPlayersRequest), global::SubterfugeRemakeService.ViewBlockedPlayersRequest.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.ViewBlockedPlayersResponse), global::SubterfugeRemakeService.ViewBlockedPlayersResponse.Parser, new[]{ "BlockedUsers" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SendFriendRequestRequest), global::SubterfugeRemakeService.SendFriendRequestRequest.Parser, new[]{ "FriendId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SendFriendRequestResponse), global::SubterfugeRemakeService.SendFriendRequestResponse.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AcceptFriendRequestRequest), global::SubterfugeRemakeService.AcceptFriendRequestRequest.Parser, new[]{ "FriendId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AcceptFriendRequestResponse), global::SubterfugeRemakeService.AcceptFriendRequestResponse.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.ViewFriendRequestsRequest), global::SubterfugeRemakeService.ViewFriendRequestsRequest.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.ViewFriendRequestsResponse), global::SubterfugeRemakeService.ViewFriendRequestsResponse.Parser, new[]{ "IncomingFriends" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RemoveFriendRequest), global::SubterfugeRemakeService.RemoveFriendRequest.Parser, new[]{ "FriendId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RemoveFriendResponse), global::SubterfugeRemakeService.RemoveFriendResponse.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.ViewFriendsRequest), global::SubterfugeRemakeService.ViewFriendsRequest.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.ViewFriendsResponse), global::SubterfugeRemakeService.ViewFriendsResponse.Parser, new[]{ "Friends" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.HealthCheckRequest), global::SubterfugeRemakeService.HealthCheckRequest.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.HealthCheckResponse), global::SubterfugeRemakeService.HealthCheckResponse.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizedHealthCheckRequest), global::SubterfugeRemakeService.AuthorizedHealthCheckRequest.Parser, null, null, null, null),
@@ -1367,12 +1401,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomId" field.</summary>
     public const int RoomIdFieldNumber = 1;
-    private long roomId_;
+    private string roomId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long RoomId {
+    public string RoomId {
       get { return roomId_; }
       set {
-        roomId_ = value;
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -1527,7 +1561,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0L) hash ^= RoomId.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (RoomStatus != 0) hash ^= RoomStatus.GetHashCode();
       if (creator_ != null) hash ^= Creator.GetHashCode();
       if (rankedInformation_ != null) hash ^= RankedInformation.GetHashCode();
@@ -1552,9 +1586,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
       }
       if (RoomStatus != 0) {
         output.WriteRawTag(16);
@@ -1605,8 +1639,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       if (RoomStatus != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) RoomStatus);
@@ -1650,7 +1684,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0L) {
+      if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
       if (other.RoomStatus != 0) {
@@ -1701,8 +1735,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadInt64();
+          case 10: {
+            RoomId = input.ReadString();
             break;
           }
           case 16: {
@@ -2364,12 +2398,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomId" field.</summary>
     public const int RoomIdFieldNumber = 1;
-    private long roomId_;
+    private string roomId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long RoomId {
+    public string RoomId {
       get { return roomId_; }
       set {
-        roomId_ = value;
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -2393,7 +2427,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0L) hash ^= RoomId.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2407,9 +2441,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -2419,8 +2453,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2433,7 +2467,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0L) {
+      if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -2447,8 +2481,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadInt64();
+          case 10: {
+            RoomId = input.ReadString();
             break;
           }
         }
@@ -2622,12 +2656,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomId" field.</summary>
     public const int RoomIdFieldNumber = 1;
-    private long roomId_;
+    private string roomId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long RoomId {
+    public string RoomId {
       get { return roomId_; }
       set {
-        roomId_ = value;
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -2651,7 +2685,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0L) hash ^= RoomId.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2665,9 +2699,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -2677,8 +2711,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2691,7 +2725,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0L) {
+      if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -2705,8 +2739,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadInt64();
+          case 10: {
+            RoomId = input.ReadString();
             break;
           }
         }
@@ -2880,12 +2914,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomId" field.</summary>
     public const int RoomIdFieldNumber = 1;
-    private long roomId_;
+    private string roomId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long RoomId {
+    public string RoomId {
       get { return roomId_; }
       set {
-        roomId_ = value;
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -2909,7 +2943,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0L) hash ^= RoomId.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2923,9 +2957,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -2935,8 +2969,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2949,7 +2983,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0L) {
+      if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -2963,8 +2997,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadInt64();
+          case 10: {
+            RoomId = input.ReadString();
             break;
           }
         }
@@ -3139,12 +3173,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomId" field.</summary>
     public const int RoomIdFieldNumber = 1;
-    private long roomId_;
+    private string roomId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long RoomId {
+    public string RoomId {
       get { return roomId_; }
       set {
-        roomId_ = value;
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -3180,7 +3214,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0L) hash ^= RoomId.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (AfterTick != 0L) hash ^= AfterTick.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -3195,9 +3229,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
       }
       if (AfterTick != 0L) {
         output.WriteRawTag(16);
@@ -3211,8 +3245,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       if (AfterTick != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(AfterTick);
@@ -3228,7 +3262,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0L) {
+      if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
       if (other.AfterTick != 0L) {
@@ -3245,8 +3279,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadInt64();
+          case 10: {
+            RoomId = input.ReadString();
             break;
           }
           case 16: {
@@ -3418,14 +3452,14 @@ namespace SubterfugeRemakeService {
       return new GameEvent(this);
     }
 
-    /// <summary>Field number for the "EventId" field.</summary>
+    /// <summary>Field number for the "eventId" field.</summary>
     public const int EventIdFieldNumber = 1;
-    private long eventId_;
+    private string eventId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long EventId {
+    public string EventId {
       get { return eventId_; }
       set {
-        eventId_ = value;
+        eventId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -3497,7 +3531,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (EventId != 0L) hash ^= EventId.GetHashCode();
+      if (EventId.Length != 0) hash ^= EventId.GetHashCode();
       if (UnixTimeIssued != 0L) hash ^= UnixTimeIssued.GetHashCode();
       if (OccursAtTick != 0L) hash ^= OccursAtTick.GetHashCode();
       if (issuedBy_ != null) hash ^= IssuedBy.GetHashCode();
@@ -3515,9 +3549,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (EventId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(EventId);
+      if (EventId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(EventId);
       }
       if (UnixTimeIssued != 0L) {
         output.WriteRawTag(16);
@@ -3543,8 +3577,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (EventId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(EventId);
+      if (EventId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(EventId);
       }
       if (UnixTimeIssued != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(UnixTimeIssued);
@@ -3569,7 +3603,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.EventId != 0L) {
+      if (other.EventId.Length != 0) {
         EventId = other.EventId;
       }
       if (other.UnixTimeIssued != 0L) {
@@ -3598,8 +3632,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            EventId = input.ReadInt64();
+          case 10: {
+            EventId = input.ReadString();
             break;
           }
           case 16: {
@@ -3653,8 +3687,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public SubmitGameEventRequest(SubmitGameEventRequest other) : this() {
       roomId_ = other.roomId_;
-      occursAtTick_ = other.occursAtTick_;
-      eventData_ = other.eventData_;
+      eventData_ = other.eventData_ != null ? other.eventData_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3665,34 +3698,23 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomId" field.</summary>
     public const int RoomIdFieldNumber = 1;
-    private long roomId_;
+    private string roomId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long RoomId {
+    public string RoomId {
       get { return roomId_; }
       set {
-        roomId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "OccursAtTick" field.</summary>
-    public const int OccursAtTickFieldNumber = 2;
-    private long occursAtTick_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long OccursAtTick {
-      get { return occursAtTick_; }
-      set {
-        occursAtTick_ = value;
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     /// <summary>Field number for the "EventData" field.</summary>
-    public const int EventDataFieldNumber = 3;
-    private string eventData_ = "";
+    public const int EventDataFieldNumber = 2;
+    private global::SubterfugeRemakeService.GameEvent eventData_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string EventData {
+    public global::SubterfugeRemakeService.GameEvent EventData {
       get { return eventData_; }
       set {
-        eventData_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        eventData_ = value;
       }
     }
 
@@ -3710,17 +3732,15 @@ namespace SubterfugeRemakeService {
         return true;
       }
       if (RoomId != other.RoomId) return false;
-      if (OccursAtTick != other.OccursAtTick) return false;
-      if (EventData != other.EventData) return false;
+      if (!object.Equals(EventData, other.EventData)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0L) hash ^= RoomId.GetHashCode();
-      if (OccursAtTick != 0L) hash ^= OccursAtTick.GetHashCode();
-      if (EventData.Length != 0) hash ^= EventData.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
+      if (eventData_ != null) hash ^= EventData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3734,17 +3754,13 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
       }
-      if (OccursAtTick != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(OccursAtTick);
-      }
-      if (EventData.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(EventData);
+      if (eventData_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(EventData);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -3754,14 +3770,11 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
-      if (OccursAtTick != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(OccursAtTick);
-      }
-      if (EventData.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(EventData);
+      if (eventData_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EventData);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -3774,14 +3787,14 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0L) {
+      if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
-      if (other.OccursAtTick != 0L) {
-        OccursAtTick = other.OccursAtTick;
-      }
-      if (other.EventData.Length != 0) {
-        EventData = other.EventData;
+      if (other.eventData_ != null) {
+        if (eventData_ == null) {
+          EventData = new global::SubterfugeRemakeService.GameEvent();
+        }
+        EventData.MergeFrom(other.EventData);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -3794,16 +3807,15 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadInt64();
+          case 10: {
+            RoomId = input.ReadString();
             break;
           }
-          case 16: {
-            OccursAtTick = input.ReadInt64();
-            break;
-          }
-          case 26: {
-            EventData = input.ReadString();
+          case 18: {
+            if (eventData_ == null) {
+              EventData = new global::SubterfugeRemakeService.GameEvent();
+            }
+            input.ReadMessage(EventData);
             break;
           }
         }
@@ -3838,6 +3850,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public SubmitGameEventResponse(SubmitGameEventResponse other) : this() {
       success_ = other.success_;
+      eventId_ = other.eventId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3857,6 +3870,17 @@ namespace SubterfugeRemakeService {
       }
     }
 
+    /// <summary>Field number for the "EventId" field.</summary>
+    public const int EventIdFieldNumber = 2;
+    private string eventId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string EventId {
+      get { return eventId_; }
+      set {
+        eventId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as SubmitGameEventResponse);
@@ -3871,6 +3895,7 @@ namespace SubterfugeRemakeService {
         return true;
       }
       if (Success != other.Success) return false;
+      if (EventId != other.EventId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3878,6 +3903,7 @@ namespace SubterfugeRemakeService {
     public override int GetHashCode() {
       int hash = 1;
       if (Success != false) hash ^= Success.GetHashCode();
+      if (EventId.Length != 0) hash ^= EventId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3895,6 +3921,10 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(8);
         output.WriteBool(Success);
       }
+      if (EventId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(EventId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3905,6 +3935,9 @@ namespace SubterfugeRemakeService {
       int size = 0;
       if (Success != false) {
         size += 1 + 1;
+      }
+      if (EventId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(EventId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -3920,6 +3953,9 @@ namespace SubterfugeRemakeService {
       if (other.Success != false) {
         Success = other.Success;
       }
+      if (other.EventId.Length != 0) {
+        EventId = other.EventId;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3933,6 +3969,10 @@ namespace SubterfugeRemakeService {
             break;
           case 8: {
             Success = input.ReadBool();
+            break;
+          }
+          case 18: {
+            EventId = input.ReadString();
             break;
           }
         }
@@ -3967,9 +4007,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public UpdateGameEventRequest(UpdateGameEventRequest other) : this() {
       roomId_ = other.roomId_;
-      eventId_ = other.eventId_;
-      occursAtTick_ = other.occursAtTick_;
-      eventData_ = other.eventData_;
+      eventData_ = other.eventData_ != null ? other.eventData_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3980,45 +4018,23 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomId" field.</summary>
     public const int RoomIdFieldNumber = 1;
-    private long roomId_;
+    private string roomId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long RoomId {
+    public string RoomId {
       get { return roomId_; }
       set {
-        roomId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "EventId" field.</summary>
-    public const int EventIdFieldNumber = 2;
-    private long eventId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long EventId {
-      get { return eventId_; }
-      set {
-        eventId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "OccursAtTick" field.</summary>
-    public const int OccursAtTickFieldNumber = 3;
-    private long occursAtTick_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long OccursAtTick {
-      get { return occursAtTick_; }
-      set {
-        occursAtTick_ = value;
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     /// <summary>Field number for the "EventData" field.</summary>
-    public const int EventDataFieldNumber = 4;
-    private string eventData_ = "";
+    public const int EventDataFieldNumber = 2;
+    private global::SubterfugeRemakeService.GameEvent eventData_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string EventData {
+    public global::SubterfugeRemakeService.GameEvent EventData {
       get { return eventData_; }
       set {
-        eventData_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        eventData_ = value;
       }
     }
 
@@ -4036,19 +4052,15 @@ namespace SubterfugeRemakeService {
         return true;
       }
       if (RoomId != other.RoomId) return false;
-      if (EventId != other.EventId) return false;
-      if (OccursAtTick != other.OccursAtTick) return false;
-      if (EventData != other.EventData) return false;
+      if (!object.Equals(EventData, other.EventData)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0L) hash ^= RoomId.GetHashCode();
-      if (EventId != 0L) hash ^= EventId.GetHashCode();
-      if (OccursAtTick != 0L) hash ^= OccursAtTick.GetHashCode();
-      if (EventData.Length != 0) hash ^= EventData.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
+      if (eventData_ != null) hash ^= EventData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4062,21 +4074,13 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
       }
-      if (EventId != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(EventId);
-      }
-      if (OccursAtTick != 0L) {
-        output.WriteRawTag(24);
-        output.WriteInt64(OccursAtTick);
-      }
-      if (EventData.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(EventData);
+      if (eventData_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(EventData);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -4086,17 +4090,11 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
-      if (EventId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(EventId);
-      }
-      if (OccursAtTick != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(OccursAtTick);
-      }
-      if (EventData.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(EventData);
+      if (eventData_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EventData);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4109,17 +4107,14 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0L) {
+      if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
-      if (other.EventId != 0L) {
-        EventId = other.EventId;
-      }
-      if (other.OccursAtTick != 0L) {
-        OccursAtTick = other.OccursAtTick;
-      }
-      if (other.EventData.Length != 0) {
-        EventData = other.EventData;
+      if (other.eventData_ != null) {
+        if (eventData_ == null) {
+          EventData = new global::SubterfugeRemakeService.GameEvent();
+        }
+        EventData.MergeFrom(other.EventData);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -4132,20 +4127,15 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadInt64();
+          case 10: {
+            RoomId = input.ReadString();
             break;
           }
-          case 16: {
-            EventId = input.ReadInt64();
-            break;
-          }
-          case 24: {
-            OccursAtTick = input.ReadInt64();
-            break;
-          }
-          case 34: {
-            EventData = input.ReadString();
+          case 18: {
+            if (eventData_ == null) {
+              EventData = new global::SubterfugeRemakeService.GameEvent();
+            }
+            input.ReadMessage(EventData);
             break;
           }
         }
@@ -4180,6 +4170,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public UpdateGameEventResponse(UpdateGameEventResponse other) : this() {
       success_ = other.success_;
+      eventId_ = other.eventId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -4199,6 +4190,17 @@ namespace SubterfugeRemakeService {
       }
     }
 
+    /// <summary>Field number for the "EventId" field.</summary>
+    public const int EventIdFieldNumber = 2;
+    private string eventId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string EventId {
+      get { return eventId_; }
+      set {
+        eventId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as UpdateGameEventResponse);
@@ -4213,6 +4215,7 @@ namespace SubterfugeRemakeService {
         return true;
       }
       if (Success != other.Success) return false;
+      if (EventId != other.EventId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -4220,6 +4223,7 @@ namespace SubterfugeRemakeService {
     public override int GetHashCode() {
       int hash = 1;
       if (Success != false) hash ^= Success.GetHashCode();
+      if (EventId.Length != 0) hash ^= EventId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4237,6 +4241,10 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(8);
         output.WriteBool(Success);
       }
+      if (EventId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(EventId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -4247,6 +4255,9 @@ namespace SubterfugeRemakeService {
       int size = 0;
       if (Success != false) {
         size += 1 + 1;
+      }
+      if (EventId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(EventId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4262,6 +4273,9 @@ namespace SubterfugeRemakeService {
       if (other.Success != false) {
         Success = other.Success;
       }
+      if (other.EventId.Length != 0) {
+        EventId = other.EventId;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -4275,6 +4289,10 @@ namespace SubterfugeRemakeService {
             break;
           case 8: {
             Success = input.ReadBool();
+            break;
+          }
+          case 18: {
+            EventId = input.ReadString();
             break;
           }
         }
@@ -4320,23 +4338,23 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomId" field.</summary>
     public const int RoomIdFieldNumber = 1;
-    private long roomId_;
+    private string roomId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long RoomId {
+    public string RoomId {
       get { return roomId_; }
       set {
-        roomId_ = value;
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     /// <summary>Field number for the "EventId" field.</summary>
     public const int EventIdFieldNumber = 2;
-    private long eventId_;
+    private string eventId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long EventId {
+    public string EventId {
       get { return eventId_; }
       set {
-        eventId_ = value;
+        eventId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -4361,8 +4379,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0L) hash ^= RoomId.GetHashCode();
-      if (EventId != 0L) hash ^= EventId.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
+      if (EventId.Length != 0) hash ^= EventId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4376,13 +4394,13 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
       }
-      if (EventId != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(EventId);
+      if (EventId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(EventId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -4392,11 +4410,11 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
-      if (EventId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(EventId);
+      if (EventId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(EventId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4409,10 +4427,10 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0L) {
+      if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
-      if (other.EventId != 0L) {
+      if (other.EventId.Length != 0) {
         EventId = other.EventId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -4426,12 +4444,12 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadInt64();
+          case 10: {
+            RoomId = input.ReadString();
             break;
           }
-          case 16: {
-            EventId = input.ReadInt64();
+          case 18: {
+            EventId = input.ReadString();
             break;
           }
         }
@@ -4606,22 +4624,22 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomId" field.</summary>
     public const int RoomIdFieldNumber = 1;
-    private long roomId_;
+    private string roomId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long RoomId {
+    public string RoomId {
       get { return roomId_; }
       set {
-        roomId_ = value;
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     /// <summary>Field number for the "UserIdsInGroup" field.</summary>
     public const int UserIdsInGroupFieldNumber = 2;
-    private static readonly pb::FieldCodec<long> _repeated_userIdsInGroup_codec
-        = pb::FieldCodec.ForInt64(18);
-    private readonly pbc::RepeatedField<long> userIdsInGroup_ = new pbc::RepeatedField<long>();
+    private static readonly pb::FieldCodec<string> _repeated_userIdsInGroup_codec
+        = pb::FieldCodec.ForString(18);
+    private readonly pbc::RepeatedField<string> userIdsInGroup_ = new pbc::RepeatedField<string>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<long> UserIdsInGroup {
+    public pbc::RepeatedField<string> UserIdsInGroup {
       get { return userIdsInGroup_; }
     }
 
@@ -4646,7 +4664,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0L) hash ^= RoomId.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       hash ^= userIdsInGroup_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -4661,9 +4679,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
       }
       userIdsInGroup_.WriteTo(output, _repeated_userIdsInGroup_codec);
       if (_unknownFields != null) {
@@ -4674,8 +4692,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       size += userIdsInGroup_.CalculateSize(_repeated_userIdsInGroup_codec);
       if (_unknownFields != null) {
@@ -4689,7 +4707,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0L) {
+      if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
       userIdsInGroup_.Add(other.userIdsInGroup_);
@@ -4704,12 +4722,11 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadInt64();
+          case 10: {
+            RoomId = input.ReadString();
             break;
           }
-          case 18:
-          case 16: {
+          case 18: {
             userIdsInGroup_.AddEntriesFrom(input, _repeated_userIdsInGroup_codec);
             break;
           }
@@ -4767,12 +4784,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "GroupId" field.</summary>
     public const int GroupIdFieldNumber = 2;
-    private long groupId_;
+    private string groupId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long GroupId {
+    public string GroupId {
       get { return groupId_; }
       set {
-        groupId_ = value;
+        groupId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -4798,7 +4815,7 @@ namespace SubterfugeRemakeService {
     public override int GetHashCode() {
       int hash = 1;
       if (Success != false) hash ^= Success.GetHashCode();
-      if (GroupId != 0L) hash ^= GroupId.GetHashCode();
+      if (GroupId.Length != 0) hash ^= GroupId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4816,9 +4833,9 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(8);
         output.WriteBool(Success);
       }
-      if (GroupId != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(GroupId);
+      if (GroupId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(GroupId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -4831,8 +4848,8 @@ namespace SubterfugeRemakeService {
       if (Success != false) {
         size += 1 + 1;
       }
-      if (GroupId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(GroupId);
+      if (GroupId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(GroupId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4848,7 +4865,7 @@ namespace SubterfugeRemakeService {
       if (other.Success != false) {
         Success = other.Success;
       }
-      if (other.GroupId != 0L) {
+      if (other.GroupId.Length != 0) {
         GroupId = other.GroupId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -4866,8 +4883,8 @@ namespace SubterfugeRemakeService {
             Success = input.ReadBool();
             break;
           }
-          case 16: {
-            GroupId = input.ReadInt64();
+          case 18: {
+            GroupId = input.ReadString();
             break;
           }
         }
@@ -5094,7 +5111,7 @@ namespace SubterfugeRemakeService {
     public SendMessageRequest(SendMessageRequest other) : this() {
       roomId_ = other.roomId_;
       groupId_ = other.groupId_;
-      message_ = other.message_;
+      message_ = other.message_ != null ? other.message_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -5105,34 +5122,34 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomId" field.</summary>
     public const int RoomIdFieldNumber = 1;
-    private long roomId_;
+    private string roomId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long RoomId {
+    public string RoomId {
       get { return roomId_; }
       set {
-        roomId_ = value;
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     /// <summary>Field number for the "GroupId" field.</summary>
     public const int GroupIdFieldNumber = 2;
-    private long groupId_;
+    private string groupId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long GroupId {
+    public string GroupId {
       get { return groupId_; }
       set {
-        groupId_ = value;
+        groupId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     /// <summary>Field number for the "Message" field.</summary>
     public const int MessageFieldNumber = 3;
-    private string message_ = "";
+    private global::SubterfugeRemakeService.Message message_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Message {
+    public global::SubterfugeRemakeService.Message Message {
       get { return message_; }
       set {
-        message_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        message_ = value;
       }
     }
 
@@ -5151,16 +5168,16 @@ namespace SubterfugeRemakeService {
       }
       if (RoomId != other.RoomId) return false;
       if (GroupId != other.GroupId) return false;
-      if (Message != other.Message) return false;
+      if (!object.Equals(Message, other.Message)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0L) hash ^= RoomId.GetHashCode();
-      if (GroupId != 0L) hash ^= GroupId.GetHashCode();
-      if (Message.Length != 0) hash ^= Message.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
+      if (GroupId.Length != 0) hash ^= GroupId.GetHashCode();
+      if (message_ != null) hash ^= Message.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -5174,17 +5191,17 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
       }
-      if (GroupId != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(GroupId);
+      if (GroupId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(GroupId);
       }
-      if (Message.Length != 0) {
+      if (message_ != null) {
         output.WriteRawTag(26);
-        output.WriteString(Message);
+        output.WriteMessage(Message);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -5194,14 +5211,14 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
-      if (GroupId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(GroupId);
+      if (GroupId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(GroupId);
       }
-      if (Message.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Message);
+      if (message_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Message);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -5214,14 +5231,17 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0L) {
+      if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
-      if (other.GroupId != 0L) {
+      if (other.GroupId.Length != 0) {
         GroupId = other.GroupId;
       }
-      if (other.Message.Length != 0) {
-        Message = other.Message;
+      if (other.message_ != null) {
+        if (message_ == null) {
+          Message = new global::SubterfugeRemakeService.Message();
+        }
+        Message.MergeFrom(other.Message);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -5234,16 +5254,19 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadInt64();
+          case 10: {
+            RoomId = input.ReadString();
             break;
           }
-          case 16: {
-            GroupId = input.ReadInt64();
+          case 18: {
+            GroupId = input.ReadString();
             break;
           }
           case 26: {
-            Message = input.ReadString();
+            if (message_ == null) {
+              Message = new global::SubterfugeRemakeService.Message();
+            }
+            input.ReadMessage(Message);
             break;
           }
         }
@@ -5417,12 +5440,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomId" field.</summary>
     public const int RoomIdFieldNumber = 1;
-    private long roomId_;
+    private string roomId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long RoomId {
+    public string RoomId {
       get { return roomId_; }
       set {
-        roomId_ = value;
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -5446,7 +5469,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0L) hash ^= RoomId.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -5460,9 +5483,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -5472,8 +5495,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -5486,7 +5509,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0L) {
+      if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -5500,8 +5523,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadInt64();
+          case 10: {
+            RoomId = input.ReadString();
             break;
           }
         }
@@ -5669,12 +5692,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "GroupId" field.</summary>
     public const int GroupIdFieldNumber = 1;
-    private long groupId_;
+    private string groupId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long GroupId {
+    public string GroupId {
       get { return groupId_; }
       set {
-        groupId_ = value;
+        groupId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -5720,7 +5743,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (GroupId != 0L) hash ^= GroupId.GetHashCode();
+      if (GroupId.Length != 0) hash ^= GroupId.GetHashCode();
       hash ^= groupMembers_.GetHashCode();
       hash ^= messages_.GetHashCode();
       if (_unknownFields != null) {
@@ -5736,9 +5759,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (GroupId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(GroupId);
+      if (GroupId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(GroupId);
       }
       groupMembers_.WriteTo(output, _repeated_groupMembers_codec);
       messages_.WriteTo(output, _repeated_messages_codec);
@@ -5750,8 +5773,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (GroupId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(GroupId);
+      if (GroupId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(GroupId);
       }
       size += groupMembers_.CalculateSize(_repeated_groupMembers_codec);
       size += messages_.CalculateSize(_repeated_messages_codec);
@@ -5766,7 +5789,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.GroupId != 0L) {
+      if (other.GroupId.Length != 0) {
         GroupId = other.GroupId;
       }
       groupMembers_.Add(other.groupMembers_);
@@ -5782,8 +5805,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            GroupId = input.ReadInt64();
+          case 10: {
+            GroupId = input.ReadString();
             break;
           }
           case 18: {
@@ -5836,12 +5859,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "UserIdToBlock" field.</summary>
     public const int UserIdToBlockFieldNumber = 1;
-    private long userIdToBlock_;
+    private string userIdToBlock_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long UserIdToBlock {
+    public string UserIdToBlock {
       get { return userIdToBlock_; }
       set {
-        userIdToBlock_ = value;
+        userIdToBlock_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -5865,7 +5888,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (UserIdToBlock != 0L) hash ^= UserIdToBlock.GetHashCode();
+      if (UserIdToBlock.Length != 0) hash ^= UserIdToBlock.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -5879,9 +5902,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (UserIdToBlock != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(UserIdToBlock);
+      if (UserIdToBlock.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(UserIdToBlock);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -5891,8 +5914,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (UserIdToBlock != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(UserIdToBlock);
+      if (UserIdToBlock.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(UserIdToBlock);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -5905,7 +5928,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.UserIdToBlock != 0L) {
+      if (other.UserIdToBlock.Length != 0) {
         UserIdToBlock = other.UserIdToBlock;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -5919,8 +5942,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            UserIdToBlock = input.ReadInt64();
+          case 10: {
+            UserIdToBlock = input.ReadString();
             break;
           }
         }
@@ -6094,12 +6117,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "UserIdToBlock" field.</summary>
     public const int UserIdToBlockFieldNumber = 1;
-    private long userIdToBlock_;
+    private string userIdToBlock_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long UserIdToBlock {
+    public string UserIdToBlock {
       get { return userIdToBlock_; }
       set {
-        userIdToBlock_ = value;
+        userIdToBlock_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -6123,7 +6146,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (UserIdToBlock != 0L) hash ^= UserIdToBlock.GetHashCode();
+      if (UserIdToBlock.Length != 0) hash ^= UserIdToBlock.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -6137,9 +6160,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (UserIdToBlock != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(UserIdToBlock);
+      if (UserIdToBlock.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(UserIdToBlock);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -6149,8 +6172,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (UserIdToBlock != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(UserIdToBlock);
+      if (UserIdToBlock.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(UserIdToBlock);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -6163,7 +6186,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.UserIdToBlock != 0L) {
+      if (other.UserIdToBlock.Length != 0) {
         UserIdToBlock = other.UserIdToBlock;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -6177,8 +6200,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            UserIdToBlock = input.ReadInt64();
+          case 10: {
+            UserIdToBlock = input.ReadString();
             break;
           }
         }
@@ -6538,6 +6561,1140 @@ namespace SubterfugeRemakeService {
 
   }
 
+  public sealed partial class SendFriendRequestRequest : pb::IMessage<SendFriendRequestRequest> {
+    private static readonly pb::MessageParser<SendFriendRequestRequest> _parser = new pb::MessageParser<SendFriendRequestRequest>(() => new SendFriendRequestRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<SendFriendRequestRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[40]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SendFriendRequestRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SendFriendRequestRequest(SendFriendRequestRequest other) : this() {
+      friendId_ = other.friendId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SendFriendRequestRequest Clone() {
+      return new SendFriendRequestRequest(this);
+    }
+
+    /// <summary>Field number for the "FriendId" field.</summary>
+    public const int FriendIdFieldNumber = 1;
+    private string friendId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string FriendId {
+      get { return friendId_; }
+      set {
+        friendId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as SendFriendRequestRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(SendFriendRequestRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (FriendId != other.FriendId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (FriendId.Length != 0) hash ^= FriendId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (FriendId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(FriendId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (FriendId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(FriendId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(SendFriendRequestRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.FriendId.Length != 0) {
+        FriendId = other.FriendId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            FriendId = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class SendFriendRequestResponse : pb::IMessage<SendFriendRequestResponse> {
+    private static readonly pb::MessageParser<SendFriendRequestResponse> _parser = new pb::MessageParser<SendFriendRequestResponse>(() => new SendFriendRequestResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<SendFriendRequestResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[41]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SendFriendRequestResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SendFriendRequestResponse(SendFriendRequestResponse other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SendFriendRequestResponse Clone() {
+      return new SendFriendRequestResponse(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as SendFriendRequestResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(SendFriendRequestResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(SendFriendRequestResponse other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class AcceptFriendRequestRequest : pb::IMessage<AcceptFriendRequestRequest> {
+    private static readonly pb::MessageParser<AcceptFriendRequestRequest> _parser = new pb::MessageParser<AcceptFriendRequestRequest>(() => new AcceptFriendRequestRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<AcceptFriendRequestRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[42]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AcceptFriendRequestRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AcceptFriendRequestRequest(AcceptFriendRequestRequest other) : this() {
+      friendId_ = other.friendId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AcceptFriendRequestRequest Clone() {
+      return new AcceptFriendRequestRequest(this);
+    }
+
+    /// <summary>Field number for the "FriendId" field.</summary>
+    public const int FriendIdFieldNumber = 1;
+    private string friendId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string FriendId {
+      get { return friendId_; }
+      set {
+        friendId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as AcceptFriendRequestRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(AcceptFriendRequestRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (FriendId != other.FriendId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (FriendId.Length != 0) hash ^= FriendId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (FriendId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(FriendId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (FriendId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(FriendId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(AcceptFriendRequestRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.FriendId.Length != 0) {
+        FriendId = other.FriendId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            FriendId = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class AcceptFriendRequestResponse : pb::IMessage<AcceptFriendRequestResponse> {
+    private static readonly pb::MessageParser<AcceptFriendRequestResponse> _parser = new pb::MessageParser<AcceptFriendRequestResponse>(() => new AcceptFriendRequestResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<AcceptFriendRequestResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[43]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AcceptFriendRequestResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AcceptFriendRequestResponse(AcceptFriendRequestResponse other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AcceptFriendRequestResponse Clone() {
+      return new AcceptFriendRequestResponse(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as AcceptFriendRequestResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(AcceptFriendRequestResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(AcceptFriendRequestResponse other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class ViewFriendRequestsRequest : pb::IMessage<ViewFriendRequestsRequest> {
+    private static readonly pb::MessageParser<ViewFriendRequestsRequest> _parser = new pb::MessageParser<ViewFriendRequestsRequest>(() => new ViewFriendRequestsRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<ViewFriendRequestsRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[44]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendRequestsRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendRequestsRequest(ViewFriendRequestsRequest other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendRequestsRequest Clone() {
+      return new ViewFriendRequestsRequest(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as ViewFriendRequestsRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(ViewFriendRequestsRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(ViewFriendRequestsRequest other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class ViewFriendRequestsResponse : pb::IMessage<ViewFriendRequestsResponse> {
+    private static readonly pb::MessageParser<ViewFriendRequestsResponse> _parser = new pb::MessageParser<ViewFriendRequestsResponse>(() => new ViewFriendRequestsResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<ViewFriendRequestsResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[45]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendRequestsResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendRequestsResponse(ViewFriendRequestsResponse other) : this() {
+      incomingFriends_ = other.incomingFriends_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendRequestsResponse Clone() {
+      return new ViewFriendRequestsResponse(this);
+    }
+
+    /// <summary>Field number for the "IncomingFriends" field.</summary>
+    public const int IncomingFriendsFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::SubterfugeRemakeService.User> _repeated_incomingFriends_codec
+        = pb::FieldCodec.ForMessage(10, global::SubterfugeRemakeService.User.Parser);
+    private readonly pbc::RepeatedField<global::SubterfugeRemakeService.User> incomingFriends_ = new pbc::RepeatedField<global::SubterfugeRemakeService.User>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::SubterfugeRemakeService.User> IncomingFriends {
+      get { return incomingFriends_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as ViewFriendRequestsResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(ViewFriendRequestsResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!incomingFriends_.Equals(other.incomingFriends_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= incomingFriends_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      incomingFriends_.WriteTo(output, _repeated_incomingFriends_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += incomingFriends_.CalculateSize(_repeated_incomingFriends_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(ViewFriendRequestsResponse other) {
+      if (other == null) {
+        return;
+      }
+      incomingFriends_.Add(other.incomingFriends_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            incomingFriends_.AddEntriesFrom(input, _repeated_incomingFriends_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class RemoveFriendRequest : pb::IMessage<RemoveFriendRequest> {
+    private static readonly pb::MessageParser<RemoveFriendRequest> _parser = new pb::MessageParser<RemoveFriendRequest>(() => new RemoveFriendRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RemoveFriendRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[46]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RemoveFriendRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RemoveFriendRequest(RemoveFriendRequest other) : this() {
+      friendId_ = other.friendId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RemoveFriendRequest Clone() {
+      return new RemoveFriendRequest(this);
+    }
+
+    /// <summary>Field number for the "FriendId" field.</summary>
+    public const int FriendIdFieldNumber = 1;
+    private string friendId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string FriendId {
+      get { return friendId_; }
+      set {
+        friendId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as RemoveFriendRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(RemoveFriendRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (FriendId != other.FriendId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (FriendId.Length != 0) hash ^= FriendId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (FriendId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(FriendId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (FriendId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(FriendId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(RemoveFriendRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.FriendId.Length != 0) {
+        FriendId = other.FriendId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            FriendId = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class RemoveFriendResponse : pb::IMessage<RemoveFriendResponse> {
+    private static readonly pb::MessageParser<RemoveFriendResponse> _parser = new pb::MessageParser<RemoveFriendResponse>(() => new RemoveFriendResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RemoveFriendResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[47]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RemoveFriendResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RemoveFriendResponse(RemoveFriendResponse other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RemoveFriendResponse Clone() {
+      return new RemoveFriendResponse(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as RemoveFriendResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(RemoveFriendResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(RemoveFriendResponse other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class ViewFriendsRequest : pb::IMessage<ViewFriendsRequest> {
+    private static readonly pb::MessageParser<ViewFriendsRequest> _parser = new pb::MessageParser<ViewFriendsRequest>(() => new ViewFriendsRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<ViewFriendsRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[48]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendsRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendsRequest(ViewFriendsRequest other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendsRequest Clone() {
+      return new ViewFriendsRequest(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as ViewFriendsRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(ViewFriendsRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(ViewFriendsRequest other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class ViewFriendsResponse : pb::IMessage<ViewFriendsResponse> {
+    private static readonly pb::MessageParser<ViewFriendsResponse> _parser = new pb::MessageParser<ViewFriendsResponse>(() => new ViewFriendsResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<ViewFriendsResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[49]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendsResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendsResponse(ViewFriendsResponse other) : this() {
+      friends_ = other.friends_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ViewFriendsResponse Clone() {
+      return new ViewFriendsResponse(this);
+    }
+
+    /// <summary>Field number for the "Friends" field.</summary>
+    public const int FriendsFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::SubterfugeRemakeService.User> _repeated_friends_codec
+        = pb::FieldCodec.ForMessage(10, global::SubterfugeRemakeService.User.Parser);
+    private readonly pbc::RepeatedField<global::SubterfugeRemakeService.User> friends_ = new pbc::RepeatedField<global::SubterfugeRemakeService.User>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::SubterfugeRemakeService.User> Friends {
+      get { return friends_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as ViewFriendsResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(ViewFriendsResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!friends_.Equals(other.friends_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= friends_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      friends_.WriteTo(output, _repeated_friends_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += friends_.CalculateSize(_repeated_friends_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(ViewFriendsResponse other) {
+      if (other == null) {
+        return;
+      }
+      friends_.Add(other.friends_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            friends_.AddEntriesFrom(input, _repeated_friends_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class HealthCheckRequest : pb::IMessage<HealthCheckRequest> {
     private static readonly pb::MessageParser<HealthCheckRequest> _parser = new pb::MessageParser<HealthCheckRequest>(() => new HealthCheckRequest());
     private pb::UnknownFieldSet _unknownFields;
@@ -6546,7 +7703,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[40]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[50]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6647,7 +7804,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[41]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[51]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6748,7 +7905,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[42]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[52]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6849,7 +8006,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[43]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[53]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
