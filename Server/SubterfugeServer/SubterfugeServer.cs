@@ -94,34 +94,37 @@ namespace SubterfugeServerConsole
             return base.ViewBlockedPlayers(request, context);
         }
 
+        public override Task<HealthCheckResponse> HealthCheck(HealthCheckRequest request, ServerCallContext context)
+        {
+            return Task.FromResult(new HealthCheckResponse());
+        }
+
+        public override Task<AuthorizedHealthCheckResponse> AuthorizedHealthCheck(AuthorizedHealthCheckRequest request, ServerCallContext context)
+        {
+            return Task.FromResult(new AuthorizedHealthCheckResponse());
+        }
+
         public override async Task<AuthorizationResponse> Login(AuthorizationRequest request, ServerCallContext context)
         {
-            Console.WriteLine($"Recieved Login Request");
-            
             // Try to get a user
             RedisUserModel user = await RedisUserModel.getUser(request.Username);
+            
             if (user == null || user.GetPassword() != request.Password)
             {
-                if (user == null)
-                {
-                    Console.WriteLine($"null user");
-                }
-                Console.WriteLine($"Invalid login attempt");
                 throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
             }
-            Console.WriteLine($"Login success");
-            return new AuthorizationResponse {User = new User {Id = user.GetUserId(), Username = user.GetUsername()}};
+
+            string token = JwtManager.GenerateToken(user.GetUserId());
+            context.ResponseTrailers.Add("Authorization", token);
+            return new AuthorizationResponse {Token = token, User = new User {Id = user.GetUserId(), Username = user.GetUsername()}};
         }
 
         public override async Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest request,
             ServerCallContext context)
         {
-            Console.WriteLine($"Recieved Register Request");
             RedisUserModel user = await RedisUserModel.getUser(request.Username);
             if (user == null)
             {
-                
-                Console.WriteLine($"Creating new user");
                 // Create a new user model
                 RedisUserModel model = RedisUserModel.newBuilder()
                     .setEmail(request.Email)
@@ -131,13 +134,10 @@ namespace SubterfugeServerConsole
 
                 // Save the new user
                 await model.saveUser();
-
-                Console.WriteLine($"Created new user");
-                
-                return new AccountRegistrationResponse {User = new User {Id = model.GetUserId(), Username = model.GetUsername()}};    
+                string token = JwtManager.GenerateToken(model.GetUserId());
+                context.ResponseTrailers.Add("Authorization", token);
+                return new AccountRegistrationResponse {Token = token, User = new User {Id = model.GetUserId(), Username = model.GetUsername()}};    
             }
-            
-            Console.WriteLine($"User Exists.");
             throw new RpcException(new Status(StatusCode.AlreadyExists, "Username already exists."));
         }
     }

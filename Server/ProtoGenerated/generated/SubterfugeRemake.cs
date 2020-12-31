@@ -26,164 +26,177 @@ namespace SubterfugeRemakeService {
           string.Concat(
             "ChdzdWJ0ZXJmdWdlX3JlbWFrZS5wcm90bxIXU3VidGVyZnVnZVJlbWFrZVNl",
             "cnZpY2UiOgoUQXV0aG9yaXphdGlvblJlcXVlc3QSEAoIVXNlcm5hbWUYASAB",
-            "KAkSEAoIUGFzc3dvcmQYAiABKAkiRAoVQXV0aG9yaXphdGlvblJlc3BvbnNl",
+            "KAkSEAoIUGFzc3dvcmQYAiABKAkiUwoVQXV0aG9yaXphdGlvblJlc3BvbnNl",
             "EisKBFVzZXIYASABKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Vc2Vy",
-            "Ik8KGkFjY291bnRSZWdpc3RyYXRpb25SZXF1ZXN0EhAKCFVzZXJuYW1lGAEg",
-            "ASgJEhAKCFBhc3N3b3JkGAIgASgJEg0KBUVtYWlsGAMgASgJIkoKG0FjY291",
-            "bnRSZWdpc3RyYXRpb25SZXNwb25zZRIrCgRVc2VyGAEgASgLMh0uU3VidGVy",
-            "ZnVnZVJlbWFrZVNlcnZpY2UuVXNlciIkCgRVc2VyEgoKAklkGAEgASgJEhAK",
-            "CFVzZXJuYW1lGAIgASgJImIKD1Jvb21EYXRhUmVxdWVzdBI3CgpSb29tU3Rh",
-            "dHVzGAEgASgOMiMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9vbVN0YXR1",
-            "cxIWCg5GaWx0ZXJCeVBsYXllchgCIAEoCCJAChBSb29tRGF0YVJlc3BvbnNl",
-            "EiwKBVJvb21zGAEgAygLMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9v",
-            "bSKcAwoEUm9vbRIOCgZSb29tSWQYASABKAMSNwoKUm9vbVN0YXR1cxgCIAEo",
-            "DjIjLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlJvb21TdGF0dXMSLgoHQ3Jl",
-            "YXRvchgDIAEoCzIdLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXISRQoR",
-            "UmFua2VkSW5mb3JtYXRpb24YBCABKAsyKi5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
-            "dmljZS5SYW5rZWRJbmZvcm1hdGlvbhIRCglBbm9ueW1vdXMYBSABKAgSEAoI",
-            "Um9vbU5hbWUYBiABKAkSKwoER29hbBgHIAEoDjIdLlN1YnRlcmZ1Z2VSZW1h",
-            "a2VTZXJ2aWNlLkdvYWwSDAoEU2VlZBgIIAEoAxIXCg9Vbml4VGltZUNyZWF0",
-            "ZWQYCSABKAMSFwoPVW5peFRpbWVTdGFydGVkGAogASgDEhIKCk1heFBsYXll",
-            "cnMYCyABKAMSLgoHUGxheWVycxgMIAMoCzIdLlN1YnRlcmZ1Z2VSZW1ha2VT",
-            "ZXJ2aWNlLlVzZXIiSwoRUmFua2VkSW5mb3JtYXRpb24SEAoISXNSYW5rZWQY",
-            "ASABKAgSEQoJTWluUmF0aW5nGAIgASgDEhEKCU1heFJhdGluZxgDIAEoAyLA",
-            "AQoRQ3JlYXRlUm9vbVJlcXVlc3QSRQoRUmFua2VkSW5mb3JtYXRpb24YBCAB",
-            "KAsyKi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5SYW5rZWRJbmZvcm1hdGlv",
-            "bhIRCglBbm9ueW1vdXMYBSABKAgSEAoIUm9vbU5hbWUYBiABKAkSKwoER29h",
-            "bBgHIAEoDjIdLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdvYWwSEgoKTWF4",
-            "UGxheWVycxgLIAEoAyJIChJDcmVhdGVSb29tUmVzcG9uc2USMgoLY3JlYXRl",
-            "ZFJvb20YASABKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Sb29tIiEK",
-            "D0pvaW5Sb29tUmVxdWVzdBIOCgZSb29tSWQYASABKAMiIwoQSm9pblJvb21S",
-            "ZXNwb25zZRIPCgdTdWNjZXNzGAEgASgIIiIKEExlYXZlUm9vbVJlcXVlc3QS",
-            "DgoGUm9vbUlkGAEgASgDIiQKEUxlYXZlUm9vbVJlc3BvbnNlEg8KB1N1Y2Nl",
-            "c3MYASABKAgiJwoVU3RhcnRHYW1lRWFybHlSZXF1ZXN0Eg4KBlJvb21JZBgB",
-            "IAEoAyIpChZTdGFydEdhbWVFYXJseVJlc3BvbnNlEg8KB1N1Y2Nlc3MYASAB",
-            "KAgiPQoYR2V0R2FtZVJvb21FdmVudHNSZXF1ZXN0Eg4KBlJvb21JZBgBIAEo",
-            "AxIRCglBZnRlclRpY2sYAiABKAMiUwoZR2V0R2FtZVJvb21FdmVudHNSZXNw",
-            "b25zZRI2CgpHYW1lRXZlbnRzGAEgAygLMiIuU3VidGVyZnVnZVJlbWFrZVNl",
-            "cnZpY2UuR2FtZUV2ZW50Io4BCglHYW1lRXZlbnQSDwoHRXZlbnRJZBgBIAEo",
-            "AxIWCg5Vbml4VGltZUlzc3VlZBgCIAEoAxIUCgxPY2N1cnNBdFRpY2sYAyAB",
-            "KAMSLwoISXNzdWVkQnkYBCABKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2Vydmlj",
-            "ZS5Vc2VyEhEKCUV2ZW50RGF0YRgFIAEoCSJRChZTdWJtaXRHYW1lRXZlbnRS",
-            "ZXF1ZXN0Eg4KBlJvb21JZBgBIAEoAxIUCgxPY2N1cnNBdFRpY2sYAiABKAMS",
-            "EQoJRXZlbnREYXRhGAMgASgJIioKF1N1Ym1pdEdhbWVFdmVudFJlc3BvbnNl",
-            "Eg8KB1N1Y2Nlc3MYASABKAgiYgoWVXBkYXRlR2FtZUV2ZW50UmVxdWVzdBIO",
-            "CgZSb29tSWQYASABKAMSDwoHRXZlbnRJZBgCIAEoAxIUCgxPY2N1cnNBdFRp",
-            "Y2sYAyABKAMSEQoJRXZlbnREYXRhGAQgASgJIioKF1VwZGF0ZUdhbWVFdmVu",
-            "dFJlc3BvbnNlEg8KB1N1Y2Nlc3MYASABKAgiOQoWRGVsZXRlR2FtZUV2ZW50",
-            "UmVxdWVzdBIOCgZSb29tSWQYASABKAMSDwoHRXZlbnRJZBgCIAEoAyIqChdE",
-            "ZWxldGVHYW1lRXZlbnRSZXNwb25zZRIPCgdTdWNjZXNzGAEgASgIIkMKGUNy",
-            "ZWF0ZU1lc3NhZ2VHcm91cFJlcXVlc3QSDgoGUm9vbUlkGAEgASgDEhYKDlVz",
-            "ZXJJZHNJbkdyb3VwGAIgAygDIj4KGkNyZWF0ZU1lc3NhZ2VHcm91cFJlc3Bv",
-            "bnNlEg8KB3N1Y2Nlc3MYASABKAgSDwoHR3JvdXBJZBgCIAEoAyJkCgdNZXNz",
-            "YWdlEhkKEVVuaXhUaW1lQ3JlYXRlZEF0GAEgASgDEi0KBlNlbmRlchgCIAEo",
-            "CzIdLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXISDwoHTWVzc2FnZRgD",
-            "IAEoCSJGChJTZW5kTWVzc2FnZVJlcXVlc3QSDgoGUm9vbUlkGAEgASgDEg8K",
-            "B0dyb3VwSWQYAiABKAMSDwoHTWVzc2FnZRgDIAEoCSImChNTZW5kTWVzc2Fn",
-            "ZVJlc3BvbnNlEg8KB1N1Y2Nlc3MYASABKAgiKQoXR2V0TWVzc2FnZUdyb3Vw",
-            "c1JlcXVlc3QSDgoGUm9vbUlkGAEgASgDIlgKGEdldE1lc3NhZ2VHcm91cHNS",
-            "ZXNwb25zZRI8Cg1NZXNzYWdlR3JvdXBzGAEgAygLMiUuU3VidGVyZnVnZVJl",
-            "bWFrZVNlcnZpY2UuTWVzc2FnZUdyb3VwIogBCgxNZXNzYWdlR3JvdXASDwoH",
-            "R3JvdXBJZBgBIAEoAxIzCgxHcm91cE1lbWJlcnMYAiADKAsyHS5TdWJ0ZXJm",
-            "dWdlUmVtYWtlU2VydmljZS5Vc2VyEjIKCE1lc3NhZ2VzGAMgAygLMiAuU3Vi",
-            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuTWVzc2FnZSIrChJCbG9ja1BsYXllclJl",
-            "cXVlc3QSFQoNVXNlcklkVG9CbG9jaxgBIAEoAyImChNCbG9ja1BsYXllclJl",
-            "c3BvbnNlEg8KB1N1Y2Nlc3MYASABKAgiLQoUVW5ibG9ja1BsYXllclJlcXVl",
-            "c3QSFQoNVXNlcklkVG9CbG9jaxgBIAEoAyIoChVVbmJsb2NrUGxheWVyUmVz",
-            "cG9uc2USDwoHU3VjY2VzcxgBIAEoCCIbChlWaWV3QmxvY2tlZFBsYXllcnNS",
-            "ZXF1ZXN0IlEKGlZpZXdCbG9ja2VkUGxheWVyc1Jlc3BvbnNlEjMKDEJsb2Nr",
-            "ZWRVc2VycxgBIAMoCzIdLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXIq",
-            "LwoKUm9vbVN0YXR1cxIICgRPUEVOEAASCwoHT05HT0lORxABEgoKBkNMT1NF",
-            "RBACKiIKBEdvYWwSCgoGTUlOSU5HEAASDgoKRE9NSU5BVElPThABMroPChFz",
-            "dWJ0ZXJmdWdlU2VydmljZRJoCgVMb2dpbhItLlN1YnRlcmZ1Z2VSZW1ha2VT",
-            "ZXJ2aWNlLkF1dGhvcml6YXRpb25SZXF1ZXN0Gi4uU3VidGVyZnVnZVJlbWFr",
-            "ZVNlcnZpY2UuQXV0aG9yaXphdGlvblJlc3BvbnNlIgASfgoPUmVnaXN0ZXJB",
-            "Y2NvdW50EjMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQWNjb3VudFJlZ2lz",
-            "dHJhdGlvblJlcXVlc3QaNC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5BY2Nv",
-            "dW50UmVnaXN0cmF0aW9uUmVzcG9uc2UiABJkCgtHZXRSb29tRGF0YRIoLlN1",
-            "YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlJvb21EYXRhUmVxdWVzdBopLlN1YnRl",
-            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLlJvb21EYXRhUmVzcG9uc2UiABJqCg1DcmVh",
-            "dGVOZXdSb29tEiouU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQ3JlYXRlUm9v",
-            "bVJlcXVlc3QaKy5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5DcmVhdGVSb29t",
-            "UmVzcG9uc2UiABJhCghKb2luUm9vbRIoLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
-            "aWNlLkpvaW5Sb29tUmVxdWVzdBopLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNl",
-            "LkpvaW5Sb29tUmVzcG9uc2UiABJkCglMZWF2ZVJvb20SKS5TdWJ0ZXJmdWdl",
-            "UmVtYWtlU2VydmljZS5MZWF2ZVJvb21SZXF1ZXN0GiouU3VidGVyZnVnZVJl",
-            "bWFrZVNlcnZpY2UuTGVhdmVSb29tUmVzcG9uc2UiABJzCg5TdGFydEdhbWVF",
-            "YXJseRIuLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlN0YXJ0R2FtZUVhcmx5",
-            "UmVxdWVzdBovLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlN0YXJ0R2FtZUVh",
-            "cmx5UmVzcG9uc2UiABJ8ChFHZXRHYW1lUm9vbUV2ZW50cxIxLlN1YnRlcmZ1",
-            "Z2VSZW1ha2VTZXJ2aWNlLkdldEdhbWVSb29tRXZlbnRzUmVxdWVzdBoyLlN1",
-            "YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdldEdhbWVSb29tRXZlbnRzUmVzcG9u",
-            "c2UiABJ2Cg9TdWJtaXRHYW1lRXZlbnQSLy5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
-            "dmljZS5TdWJtaXRHYW1lRXZlbnRSZXF1ZXN0GjAuU3VidGVyZnVnZVJlbWFr",
-            "ZVNlcnZpY2UuU3VibWl0R2FtZUV2ZW50UmVzcG9uc2UiABJ2Cg9VcGRhdGVH",
-            "YW1lRXZlbnQSLy5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5VcGRhdGVHYW1l",
-            "RXZlbnRSZXF1ZXN0GjAuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVXBkYXRl",
-            "R2FtZUV2ZW50UmVzcG9uc2UiABJ2Cg9EZWxldGVHYW1lRXZlbnQSLy5TdWJ0",
-            "ZXJmdWdlUmVtYWtlU2VydmljZS5EZWxldGVHYW1lRXZlbnRSZXF1ZXN0GjAu",
-            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuRGVsZXRlR2FtZUV2ZW50UmVzcG9u",
-            "c2UiABJ/ChJDcmVhdGVNZXNzYWdlR3JvdXASMi5TdWJ0ZXJmdWdlUmVtYWtl",
-            "U2VydmljZS5DcmVhdGVNZXNzYWdlR3JvdXBSZXF1ZXN0GjMuU3VidGVyZnVn",
-            "ZVJlbWFrZVNlcnZpY2UuQ3JlYXRlTWVzc2FnZUdyb3VwUmVzcG9uc2UiABJq",
-            "CgtTZW5kTWVzc2FnZRIrLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlNlbmRN",
-            "ZXNzYWdlUmVxdWVzdBosLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlNlbmRN",
-            "ZXNzYWdlUmVzcG9uc2UiABJ5ChBHZXRNZXNzYWdlR3JvdXBzEjAuU3VidGVy",
-            "ZnVnZVJlbWFrZVNlcnZpY2UuR2V0TWVzc2FnZUdyb3Vwc1JlcXVlc3QaMS5T",
-            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5HZXRNZXNzYWdlR3JvdXBzUmVzcG9u",
-            "c2UiABJqCgtCbG9ja1BsYXllchIrLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNl",
-            "LkJsb2NrUGxheWVyUmVxdWVzdBosLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNl",
-            "LkJsb2NrUGxheWVyUmVzcG9uc2UiABJwCg1VbmJsb2NrUGxheWVyEi0uU3Vi",
-            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuVW5ibG9ja1BsYXllclJlcXVlc3QaLi5T",
-            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5VbmJsb2NrUGxheWVyUmVzcG9uc2Ui",
-            "ABJ/ChJWaWV3QmxvY2tlZFBsYXllcnMSMi5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
-            "dmljZS5WaWV3QmxvY2tlZFBsYXllcnNSZXF1ZXN0GjMuU3VidGVyZnVnZVJl",
-            "bWFrZVNlcnZpY2UuVmlld0Jsb2NrZWRQbGF5ZXJzUmVzcG9uc2UiAEI+Ch1z",
-            "dWJ0ZXJmdWdlUmVtYWtlLmdycGMuc2VydmljZUIVU3VidGVyZnVnZVJlbWFr",
-            "ZVByb3RvUAGiAgNTUlBiBnByb3RvMw=="));
+            "Eg0KBVRva2VuGAIgASgJIk8KGkFjY291bnRSZWdpc3RyYXRpb25SZXF1ZXN0",
+            "EhAKCFVzZXJuYW1lGAEgASgJEhAKCFBhc3N3b3JkGAIgASgJEg0KBUVtYWls",
+            "GAMgASgJIlkKG0FjY291bnRSZWdpc3RyYXRpb25SZXNwb25zZRIrCgRVc2Vy",
+            "GAEgASgLMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVXNlchINCgVUb2tl",
+            "bhgCIAEoCSIkCgRVc2VyEgoKAklkGAEgASgJEhAKCFVzZXJuYW1lGAIgASgJ",
+            "ImIKD1Jvb21EYXRhUmVxdWVzdBI3CgpSb29tU3RhdHVzGAEgASgOMiMuU3Vi",
+            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9vbVN0YXR1cxIWCg5GaWx0ZXJCeVBs",
+            "YXllchgCIAEoCCJAChBSb29tRGF0YVJlc3BvbnNlEiwKBVJvb21zGAEgAygL",
+            "Mh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9vbSKcAwoEUm9vbRIOCgZS",
+            "b29tSWQYASABKAMSNwoKUm9vbVN0YXR1cxgCIAEoDjIjLlN1YnRlcmZ1Z2VS",
+            "ZW1ha2VTZXJ2aWNlLlJvb21TdGF0dXMSLgoHQ3JlYXRvchgDIAEoCzIdLlN1",
+            "YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXISRQoRUmFua2VkSW5mb3JtYXRp",
+            "b24YBCABKAsyKi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5SYW5rZWRJbmZv",
+            "cm1hdGlvbhIRCglBbm9ueW1vdXMYBSABKAgSEAoIUm9vbU5hbWUYBiABKAkS",
+            "KwoER29hbBgHIAEoDjIdLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdvYWwS",
+            "DAoEU2VlZBgIIAEoAxIXCg9Vbml4VGltZUNyZWF0ZWQYCSABKAMSFwoPVW5p",
+            "eFRpbWVTdGFydGVkGAogASgDEhIKCk1heFBsYXllcnMYCyABKAMSLgoHUGxh",
+            "eWVycxgMIAMoCzIdLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXIiSwoR",
+            "UmFua2VkSW5mb3JtYXRpb24SEAoISXNSYW5rZWQYASABKAgSEQoJTWluUmF0",
+            "aW5nGAIgASgDEhEKCU1heFJhdGluZxgDIAEoAyLAAQoRQ3JlYXRlUm9vbVJl",
+            "cXVlc3QSRQoRUmFua2VkSW5mb3JtYXRpb24YBCABKAsyKi5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5SYW5rZWRJbmZvcm1hdGlvbhIRCglBbm9ueW1vdXMY",
+            "BSABKAgSEAoIUm9vbU5hbWUYBiABKAkSKwoER29hbBgHIAEoDjIdLlN1YnRl",
+            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLkdvYWwSEgoKTWF4UGxheWVycxgLIAEoAyJI",
+            "ChJDcmVhdGVSb29tUmVzcG9uc2USMgoLY3JlYXRlZFJvb20YASABKAsyHS5T",
+            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Sb29tIiEKD0pvaW5Sb29tUmVxdWVz",
+            "dBIOCgZSb29tSWQYASABKAMiIwoQSm9pblJvb21SZXNwb25zZRIPCgdTdWNj",
+            "ZXNzGAEgASgIIiIKEExlYXZlUm9vbVJlcXVlc3QSDgoGUm9vbUlkGAEgASgD",
+            "IiQKEUxlYXZlUm9vbVJlc3BvbnNlEg8KB1N1Y2Nlc3MYASABKAgiJwoVU3Rh",
+            "cnRHYW1lRWFybHlSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoAyIpChZTdGFydEdh",
+            "bWVFYXJseVJlc3BvbnNlEg8KB1N1Y2Nlc3MYASABKAgiPQoYR2V0R2FtZVJv",
+            "b21FdmVudHNSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoAxIRCglBZnRlclRpY2sY",
+            "AiABKAMiUwoZR2V0R2FtZVJvb21FdmVudHNSZXNwb25zZRI2CgpHYW1lRXZl",
+            "bnRzGAEgAygLMiIuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR2FtZUV2ZW50",
+            "Io4BCglHYW1lRXZlbnQSDwoHRXZlbnRJZBgBIAEoAxIWCg5Vbml4VGltZUlz",
+            "c3VlZBgCIAEoAxIUCgxPY2N1cnNBdFRpY2sYAyABKAMSLwoISXNzdWVkQnkY",
+            "BCABKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Vc2VyEhEKCUV2ZW50",
+            "RGF0YRgFIAEoCSJRChZTdWJtaXRHYW1lRXZlbnRSZXF1ZXN0Eg4KBlJvb21J",
+            "ZBgBIAEoAxIUCgxPY2N1cnNBdFRpY2sYAiABKAMSEQoJRXZlbnREYXRhGAMg",
+            "ASgJIioKF1N1Ym1pdEdhbWVFdmVudFJlc3BvbnNlEg8KB1N1Y2Nlc3MYASAB",
+            "KAgiYgoWVXBkYXRlR2FtZUV2ZW50UmVxdWVzdBIOCgZSb29tSWQYASABKAMS",
+            "DwoHRXZlbnRJZBgCIAEoAxIUCgxPY2N1cnNBdFRpY2sYAyABKAMSEQoJRXZl",
+            "bnREYXRhGAQgASgJIioKF1VwZGF0ZUdhbWVFdmVudFJlc3BvbnNlEg8KB1N1",
+            "Y2Nlc3MYASABKAgiOQoWRGVsZXRlR2FtZUV2ZW50UmVxdWVzdBIOCgZSb29t",
+            "SWQYASABKAMSDwoHRXZlbnRJZBgCIAEoAyIqChdEZWxldGVHYW1lRXZlbnRS",
+            "ZXNwb25zZRIPCgdTdWNjZXNzGAEgASgIIkMKGUNyZWF0ZU1lc3NhZ2VHcm91",
+            "cFJlcXVlc3QSDgoGUm9vbUlkGAEgASgDEhYKDlVzZXJJZHNJbkdyb3VwGAIg",
+            "AygDIj4KGkNyZWF0ZU1lc3NhZ2VHcm91cFJlc3BvbnNlEg8KB3N1Y2Nlc3MY",
+            "ASABKAgSDwoHR3JvdXBJZBgCIAEoAyJkCgdNZXNzYWdlEhkKEVVuaXhUaW1l",
+            "Q3JlYXRlZEF0GAEgASgDEi0KBlNlbmRlchgCIAEoCzIdLlN1YnRlcmZ1Z2VS",
+            "ZW1ha2VTZXJ2aWNlLlVzZXISDwoHTWVzc2FnZRgDIAEoCSJGChJTZW5kTWVz",
+            "c2FnZVJlcXVlc3QSDgoGUm9vbUlkGAEgASgDEg8KB0dyb3VwSWQYAiABKAMS",
+            "DwoHTWVzc2FnZRgDIAEoCSImChNTZW5kTWVzc2FnZVJlc3BvbnNlEg8KB1N1",
+            "Y2Nlc3MYASABKAgiKQoXR2V0TWVzc2FnZUdyb3Vwc1JlcXVlc3QSDgoGUm9v",
+            "bUlkGAEgASgDIlgKGEdldE1lc3NhZ2VHcm91cHNSZXNwb25zZRI8Cg1NZXNz",
+            "YWdlR3JvdXBzGAEgAygLMiUuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuTWVz",
+            "c2FnZUdyb3VwIogBCgxNZXNzYWdlR3JvdXASDwoHR3JvdXBJZBgBIAEoAxIz",
+            "CgxHcm91cE1lbWJlcnMYAiADKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2Vydmlj",
+            "ZS5Vc2VyEjIKCE1lc3NhZ2VzGAMgAygLMiAuU3VidGVyZnVnZVJlbWFrZVNl",
+            "cnZpY2UuTWVzc2FnZSIrChJCbG9ja1BsYXllclJlcXVlc3QSFQoNVXNlcklk",
+            "VG9CbG9jaxgBIAEoAyImChNCbG9ja1BsYXllclJlc3BvbnNlEg8KB1N1Y2Nl",
+            "c3MYASABKAgiLQoUVW5ibG9ja1BsYXllclJlcXVlc3QSFQoNVXNlcklkVG9C",
+            "bG9jaxgBIAEoAyIoChVVbmJsb2NrUGxheWVyUmVzcG9uc2USDwoHU3VjY2Vz",
+            "cxgBIAEoCCIbChlWaWV3QmxvY2tlZFBsYXllcnNSZXF1ZXN0IlEKGlZpZXdC",
+            "bG9ja2VkUGxheWVyc1Jlc3BvbnNlEjMKDEJsb2NrZWRVc2VycxgBIAMoCzId",
+            "LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXIiFAoSSGVhbHRoQ2hlY2tS",
+            "ZXF1ZXN0IhUKE0hlYWx0aENoZWNrUmVzcG9uc2UiHgocQXV0aG9yaXplZEhl",
+            "YWx0aENoZWNrUmVxdWVzdCIfCh1BdXRob3JpemVkSGVhbHRoQ2hlY2tSZXNw",
+            "b25zZSovCgpSb29tU3RhdHVzEggKBE9QRU4QABILCgdPTkdPSU5HEAESCgoG",
+            "Q0xPU0VEEAIqIgoER29hbBIKCgZNSU5JTkcQABIOCgpET01JTkFUSU9OEAEy",
+            "sREKEXN1YnRlcmZ1Z2VTZXJ2aWNlEmgKBUxvZ2luEi0uU3VidGVyZnVnZVJl",
+            "bWFrZVNlcnZpY2UuQXV0aG9yaXphdGlvblJlcXVlc3QaLi5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5BdXRob3JpemF0aW9uUmVzcG9uc2UiABJ+Cg9SZWdp",
+            "c3RlckFjY291bnQSMy5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5BY2NvdW50",
+            "UmVnaXN0cmF0aW9uUmVxdWVzdBo0LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNl",
+            "LkFjY291bnRSZWdpc3RyYXRpb25SZXNwb25zZSIAEmQKC0dldFJvb21EYXRh",
+            "EiguU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9vbURhdGFSZXF1ZXN0Giku",
+            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9vbURhdGFSZXNwb25zZSIAEmoK",
+            "DUNyZWF0ZU5ld1Jvb20SKi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5DcmVh",
+            "dGVSb29tUmVxdWVzdBorLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkNyZWF0",
+            "ZVJvb21SZXNwb25zZSIAEmEKCEpvaW5Sb29tEiguU3VidGVyZnVnZVJlbWFr",
+            "ZVNlcnZpY2UuSm9pblJvb21SZXF1ZXN0GikuU3VidGVyZnVnZVJlbWFrZVNl",
+            "cnZpY2UuSm9pblJvb21SZXNwb25zZSIAEmQKCUxlYXZlUm9vbRIpLlN1YnRl",
+            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLkxlYXZlUm9vbVJlcXVlc3QaKi5TdWJ0ZXJm",
+            "dWdlUmVtYWtlU2VydmljZS5MZWF2ZVJvb21SZXNwb25zZSIAEnMKDlN0YXJ0",
+            "R2FtZUVhcmx5Ei4uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuU3RhcnRHYW1l",
+            "RWFybHlSZXF1ZXN0Gi8uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuU3RhcnRH",
+            "YW1lRWFybHlSZXNwb25zZSIAEnwKEUdldEdhbWVSb29tRXZlbnRzEjEuU3Vi",
+            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuR2V0R2FtZVJvb21FdmVudHNSZXF1ZXN0",
+            "GjIuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR2V0R2FtZVJvb21FdmVudHNS",
+            "ZXNwb25zZSIAEnYKD1N1Ym1pdEdhbWVFdmVudBIvLlN1YnRlcmZ1Z2VSZW1h",
+            "a2VTZXJ2aWNlLlN1Ym1pdEdhbWVFdmVudFJlcXVlc3QaMC5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5TdWJtaXRHYW1lRXZlbnRSZXNwb25zZSIAEnYKD1Vw",
+            "ZGF0ZUdhbWVFdmVudBIvLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVwZGF0",
+            "ZUdhbWVFdmVudFJlcXVlc3QaMC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5V",
+            "cGRhdGVHYW1lRXZlbnRSZXNwb25zZSIAEnYKD0RlbGV0ZUdhbWVFdmVudBIv",
+            "LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkRlbGV0ZUdhbWVFdmVudFJlcXVl",
+            "c3QaMC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5EZWxldGVHYW1lRXZlbnRS",
+            "ZXNwb25zZSIAEn8KEkNyZWF0ZU1lc3NhZ2VHcm91cBIyLlN1YnRlcmZ1Z2VS",
+            "ZW1ha2VTZXJ2aWNlLkNyZWF0ZU1lc3NhZ2VHcm91cFJlcXVlc3QaMy5TdWJ0",
+            "ZXJmdWdlUmVtYWtlU2VydmljZS5DcmVhdGVNZXNzYWdlR3JvdXBSZXNwb25z",
+            "ZSIAEmoKC1NlbmRNZXNzYWdlEisuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
+            "U2VuZE1lc3NhZ2VSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
+            "U2VuZE1lc3NhZ2VSZXNwb25zZSIAEnkKEEdldE1lc3NhZ2VHcm91cHMSMC5T",
+            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5HZXRNZXNzYWdlR3JvdXBzUmVxdWVz",
+            "dBoxLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdldE1lc3NhZ2VHcm91cHNS",
+            "ZXNwb25zZSIAEmoKC0Jsb2NrUGxheWVyEisuU3VidGVyZnVnZVJlbWFrZVNl",
+            "cnZpY2UuQmxvY2tQbGF5ZXJSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNl",
+            "cnZpY2UuQmxvY2tQbGF5ZXJSZXNwb25zZSIAEnAKDVVuYmxvY2tQbGF5ZXIS",
+            "LS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5VbmJsb2NrUGxheWVyUmVxdWVz",
+            "dBouLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVuYmxvY2tQbGF5ZXJSZXNw",
+            "b25zZSIAEn8KElZpZXdCbG9ja2VkUGxheWVycxIyLlN1YnRlcmZ1Z2VSZW1h",
+            "a2VTZXJ2aWNlLlZpZXdCbG9ja2VkUGxheWVyc1JlcXVlc3QaMy5TdWJ0ZXJm",
+            "dWdlUmVtYWtlU2VydmljZS5WaWV3QmxvY2tlZFBsYXllcnNSZXNwb25zZSIA",
+            "EmoKC0hlYWx0aENoZWNrEisuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuSGVh",
+            "bHRoQ2hlY2tSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuSGVh",
+            "bHRoQ2hlY2tSZXNwb25zZSIAEogBChVBdXRob3JpemVkSGVhbHRoQ2hlY2sS",
+            "NS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5BdXRob3JpemVkSGVhbHRoQ2hl",
+            "Y2tSZXF1ZXN0GjYuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQXV0aG9yaXpl",
+            "ZEhlYWx0aENoZWNrUmVzcG9uc2UiAEI+Ch1zdWJ0ZXJmdWdlUmVtYWtlLmdy",
+            "cGMuc2VydmljZUIVU3VidGVyZnVnZVJlbWFrZVByb3RvUAGiAgNTUlBiBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::SubterfugeRemakeService.RoomStatus), typeof(global::SubterfugeRemakeService.Goal), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizationRequest), global::SubterfugeRemakeService.AuthorizationRequest.Parser, new[]{ "Username", "Password" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizationResponse), global::SubterfugeRemakeService.AuthorizationResponse.Parser, new[]{ "User" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AccountRegistrationRequest), global::SubterfugeRemakeService.AccountRegistrationRequest.Parser, new[]{ "Username", "Password", "Email" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AccountRegistrationResponse), global::SubterfugeRemakeService.AccountRegistrationResponse.Parser, new[]{ "User" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.User), global::SubterfugeRemakeService.User.Parser, new[]{ "Id", "Username" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RoomDataRequest), global::SubterfugeRemakeService.RoomDataRequest.Parser, new[]{ "RoomStatus", "FilterByPlayer" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RoomDataResponse), global::SubterfugeRemakeService.RoomDataResponse.Parser, new[]{ "Rooms" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.Room), global::SubterfugeRemakeService.Room.Parser, new[]{ "RoomId", "RoomStatus", "Creator", "RankedInformation", "Anonymous", "RoomName", "Goal", "Seed", "UnixTimeCreated", "UnixTimeStarted", "MaxPlayers", "Players" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RankedInformation), global::SubterfugeRemakeService.RankedInformation.Parser, new[]{ "IsRanked", "MinRating", "MaxRating" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateRoomRequest), global::SubterfugeRemakeService.CreateRoomRequest.Parser, new[]{ "RankedInformation", "Anonymous", "RoomName", "Goal", "MaxPlayers" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateRoomResponse), global::SubterfugeRemakeService.CreateRoomResponse.Parser, new[]{ "CreatedRoom" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.JoinRoomRequest), global::SubterfugeRemakeService.JoinRoomRequest.Parser, new[]{ "RoomId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.JoinRoomResponse), global::SubterfugeRemakeService.JoinRoomResponse.Parser, new[]{ "Success" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.LeaveRoomRequest), global::SubterfugeRemakeService.LeaveRoomRequest.Parser, new[]{ "RoomId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.LeaveRoomResponse), global::SubterfugeRemakeService.LeaveRoomResponse.Parser, new[]{ "Success" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.StartGameEarlyRequest), global::SubterfugeRemakeService.StartGameEarlyRequest.Parser, new[]{ "RoomId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.StartGameEarlyResponse), global::SubterfugeRemakeService.StartGameEarlyResponse.Parser, new[]{ "Success" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetGameRoomEventsRequest), global::SubterfugeRemakeService.GetGameRoomEventsRequest.Parser, new[]{ "RoomId", "AfterTick" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetGameRoomEventsResponse), global::SubterfugeRemakeService.GetGameRoomEventsResponse.Parser, new[]{ "GameEvents" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GameEvent), global::SubterfugeRemakeService.GameEvent.Parser, new[]{ "EventId", "UnixTimeIssued", "OccursAtTick", "IssuedBy", "EventData" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SubmitGameEventRequest), global::SubterfugeRemakeService.SubmitGameEventRequest.Parser, new[]{ "RoomId", "OccursAtTick", "EventData" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SubmitGameEventResponse), global::SubterfugeRemakeService.SubmitGameEventResponse.Parser, new[]{ "Success" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UpdateGameEventRequest), global::SubterfugeRemakeService.UpdateGameEventRequest.Parser, new[]{ "RoomId", "EventId", "OccursAtTick", "EventData" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UpdateGameEventResponse), global::SubterfugeRemakeService.UpdateGameEventResponse.Parser, new[]{ "Success" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.DeleteGameEventRequest), global::SubterfugeRemakeService.DeleteGameEventRequest.Parser, new[]{ "RoomId", "EventId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.DeleteGameEventResponse), global::SubterfugeRemakeService.DeleteGameEventResponse.Parser, new[]{ "Success" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateMessageGroupRequest), global::SubterfugeRemakeService.CreateMessageGroupRequest.Parser, new[]{ "RoomId", "UserIdsInGroup" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateMessageGroupResponse), global::SubterfugeRemakeService.CreateMessageGroupResponse.Parser, new[]{ "Success", "GroupId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.Message), global::SubterfugeRemakeService.Message.Parser, new[]{ "UnixTimeCreatedAt", "Sender", "Message_" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SendMessageRequest), global::SubterfugeRemakeService.SendMessageRequest.Parser, new[]{ "RoomId", "GroupId", "Message" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SendMessageResponse), global::SubterfugeRemakeService.SendMessageResponse.Parser, new[]{ "Success" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetMessageGroupsRequest), global::SubterfugeRemakeService.GetMessageGroupsRequest.Parser, new[]{ "RoomId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetMessageGroupsResponse), global::SubterfugeRemakeService.GetMessageGroupsResponse.Parser, new[]{ "MessageGroups" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.MessageGroup), global::SubterfugeRemakeService.MessageGroup.Parser, new[]{ "GroupId", "GroupMembers", "Messages" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.BlockPlayerRequest), global::SubterfugeRemakeService.BlockPlayerRequest.Parser, new[]{ "UserIdToBlock" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.BlockPlayerResponse), global::SubterfugeRemakeService.BlockPlayerResponse.Parser, new[]{ "Success" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UnblockPlayerRequest), global::SubterfugeRemakeService.UnblockPlayerRequest.Parser, new[]{ "UserIdToBlock" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UnblockPlayerResponse), global::SubterfugeRemakeService.UnblockPlayerResponse.Parser, new[]{ "Success" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.ViewBlockedPlayersRequest), global::SubterfugeRemakeService.ViewBlockedPlayersRequest.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.ViewBlockedPlayersResponse), global::SubterfugeRemakeService.ViewBlockedPlayersResponse.Parser, new[]{ "BlockedUsers" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::SubterfugeRemakeService.RoomStatus), typeof(global::SubterfugeRemakeService.Goal), }, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizationRequest), global::SubterfugeRemakeService.AuthorizationRequest.Parser, new[]{ "Username", "Password" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizationResponse), global::SubterfugeRemakeService.AuthorizationResponse.Parser, new[]{ "User", "Token" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AccountRegistrationRequest), global::SubterfugeRemakeService.AccountRegistrationRequest.Parser, new[]{ "Username", "Password", "Email" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AccountRegistrationResponse), global::SubterfugeRemakeService.AccountRegistrationResponse.Parser, new[]{ "User", "Token" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.User), global::SubterfugeRemakeService.User.Parser, new[]{ "Id", "Username" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RoomDataRequest), global::SubterfugeRemakeService.RoomDataRequest.Parser, new[]{ "RoomStatus", "FilterByPlayer" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RoomDataResponse), global::SubterfugeRemakeService.RoomDataResponse.Parser, new[]{ "Rooms" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.Room), global::SubterfugeRemakeService.Room.Parser, new[]{ "RoomId", "RoomStatus", "Creator", "RankedInformation", "Anonymous", "RoomName", "Goal", "Seed", "UnixTimeCreated", "UnixTimeStarted", "MaxPlayers", "Players" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RankedInformation), global::SubterfugeRemakeService.RankedInformation.Parser, new[]{ "IsRanked", "MinRating", "MaxRating" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateRoomRequest), global::SubterfugeRemakeService.CreateRoomRequest.Parser, new[]{ "RankedInformation", "Anonymous", "RoomName", "Goal", "MaxPlayers" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateRoomResponse), global::SubterfugeRemakeService.CreateRoomResponse.Parser, new[]{ "CreatedRoom" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.JoinRoomRequest), global::SubterfugeRemakeService.JoinRoomRequest.Parser, new[]{ "RoomId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.JoinRoomResponse), global::SubterfugeRemakeService.JoinRoomResponse.Parser, new[]{ "Success" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.LeaveRoomRequest), global::SubterfugeRemakeService.LeaveRoomRequest.Parser, new[]{ "RoomId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.LeaveRoomResponse), global::SubterfugeRemakeService.LeaveRoomResponse.Parser, new[]{ "Success" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.StartGameEarlyRequest), global::SubterfugeRemakeService.StartGameEarlyRequest.Parser, new[]{ "RoomId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.StartGameEarlyResponse), global::SubterfugeRemakeService.StartGameEarlyResponse.Parser, new[]{ "Success" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetGameRoomEventsRequest), global::SubterfugeRemakeService.GetGameRoomEventsRequest.Parser, new[]{ "RoomId", "AfterTick" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetGameRoomEventsResponse), global::SubterfugeRemakeService.GetGameRoomEventsResponse.Parser, new[]{ "GameEvents" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GameEvent), global::SubterfugeRemakeService.GameEvent.Parser, new[]{ "EventId", "UnixTimeIssued", "OccursAtTick", "IssuedBy", "EventData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SubmitGameEventRequest), global::SubterfugeRemakeService.SubmitGameEventRequest.Parser, new[]{ "RoomId", "OccursAtTick", "EventData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SubmitGameEventResponse), global::SubterfugeRemakeService.SubmitGameEventResponse.Parser, new[]{ "Success" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UpdateGameEventRequest), global::SubterfugeRemakeService.UpdateGameEventRequest.Parser, new[]{ "RoomId", "EventId", "OccursAtTick", "EventData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UpdateGameEventResponse), global::SubterfugeRemakeService.UpdateGameEventResponse.Parser, new[]{ "Success" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.DeleteGameEventRequest), global::SubterfugeRemakeService.DeleteGameEventRequest.Parser, new[]{ "RoomId", "EventId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.DeleteGameEventResponse), global::SubterfugeRemakeService.DeleteGameEventResponse.Parser, new[]{ "Success" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateMessageGroupRequest), global::SubterfugeRemakeService.CreateMessageGroupRequest.Parser, new[]{ "RoomId", "UserIdsInGroup" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateMessageGroupResponse), global::SubterfugeRemakeService.CreateMessageGroupResponse.Parser, new[]{ "Success", "GroupId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.Message), global::SubterfugeRemakeService.Message.Parser, new[]{ "UnixTimeCreatedAt", "Sender", "Message_" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SendMessageRequest), global::SubterfugeRemakeService.SendMessageRequest.Parser, new[]{ "RoomId", "GroupId", "Message" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SendMessageResponse), global::SubterfugeRemakeService.SendMessageResponse.Parser, new[]{ "Success" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetMessageGroupsRequest), global::SubterfugeRemakeService.GetMessageGroupsRequest.Parser, new[]{ "RoomId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetMessageGroupsResponse), global::SubterfugeRemakeService.GetMessageGroupsResponse.Parser, new[]{ "MessageGroups" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.MessageGroup), global::SubterfugeRemakeService.MessageGroup.Parser, new[]{ "GroupId", "GroupMembers", "Messages" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.BlockPlayerRequest), global::SubterfugeRemakeService.BlockPlayerRequest.Parser, new[]{ "UserIdToBlock" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.BlockPlayerResponse), global::SubterfugeRemakeService.BlockPlayerResponse.Parser, new[]{ "Success" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UnblockPlayerRequest), global::SubterfugeRemakeService.UnblockPlayerRequest.Parser, new[]{ "UserIdToBlock" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UnblockPlayerResponse), global::SubterfugeRemakeService.UnblockPlayerResponse.Parser, new[]{ "Success" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.ViewBlockedPlayersRequest), global::SubterfugeRemakeService.ViewBlockedPlayersRequest.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.ViewBlockedPlayersResponse), global::SubterfugeRemakeService.ViewBlockedPlayersResponse.Parser, new[]{ "BlockedUsers" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.HealthCheckRequest), global::SubterfugeRemakeService.HealthCheckRequest.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.HealthCheckResponse), global::SubterfugeRemakeService.HealthCheckResponse.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizedHealthCheckRequest), global::SubterfugeRemakeService.AuthorizedHealthCheckRequest.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizedHealthCheckResponse), global::SubterfugeRemakeService.AuthorizedHealthCheckResponse.Parser, null, null, null, null)
           }));
     }
     #endregion
@@ -204,11 +217,7 @@ namespace SubterfugeRemakeService {
   #endregion
 
   #region Messages
-  public sealed partial class AuthorizationRequest : pb::IMessage<AuthorizationRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class AuthorizationRequest : pb::IMessage<AuthorizationRequest> {
     private static readonly pb::MessageParser<AuthorizationRequest> _parser = new pb::MessageParser<AuthorizationRequest>(() => new AuthorizationRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -301,9 +310,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Username.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Username);
@@ -315,25 +321,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Username.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Username);
-      }
-      if (Password.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Password);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -366,9 +354,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -385,38 +370,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            Username = input.ReadString();
-            break;
-          }
-          case 18: {
-            Password = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class AuthorizationResponse : pb::IMessage<AuthorizationResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class AuthorizationResponse : pb::IMessage<AuthorizationResponse> {
     private static readonly pb::MessageParser<AuthorizationResponse> _parser = new pb::MessageParser<AuthorizationResponse>(() => new AuthorizationResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -442,6 +400,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public AuthorizationResponse(AuthorizationResponse other) : this() {
       user_ = other.user_ != null ? other.user_.Clone() : null;
+      token_ = other.token_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -461,6 +420,17 @@ namespace SubterfugeRemakeService {
       }
     }
 
+    /// <summary>Field number for the "Token" field.</summary>
+    public const int TokenFieldNumber = 2;
+    private string token_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Token {
+      get { return token_; }
+      set {
+        token_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as AuthorizationResponse);
@@ -475,6 +445,7 @@ namespace SubterfugeRemakeService {
         return true;
       }
       if (!object.Equals(User, other.User)) return false;
+      if (Token != other.Token) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -482,6 +453,7 @@ namespace SubterfugeRemakeService {
     public override int GetHashCode() {
       int hash = 1;
       if (user_ != null) hash ^= User.GetHashCode();
+      if (Token.Length != 0) hash ^= Token.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -495,37 +467,27 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (user_ != null) {
         output.WriteRawTag(10);
         output.WriteMessage(User);
+      }
+      if (Token.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Token);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (user_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(User);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
       if (user_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(User);
+      }
+      if (Token.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Token);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -544,14 +506,14 @@ namespace SubterfugeRemakeService {
         }
         User.MergeFrom(other.User);
       }
+      if (other.Token.Length != 0) {
+        Token = other.Token;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -565,39 +527,17 @@ namespace SubterfugeRemakeService {
             input.ReadMessage(User);
             break;
           }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            if (user_ == null) {
-              User = new global::SubterfugeRemakeService.User();
-            }
-            input.ReadMessage(User);
+          case 18: {
+            Token = input.ReadString();
             break;
           }
         }
       }
     }
-    #endif
 
   }
 
-  public sealed partial class AccountRegistrationRequest : pb::IMessage<AccountRegistrationRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class AccountRegistrationRequest : pb::IMessage<AccountRegistrationRequest> {
     private static readonly pb::MessageParser<AccountRegistrationRequest> _parser = new pb::MessageParser<AccountRegistrationRequest>(() => new AccountRegistrationRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -704,9 +644,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Username.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Username);
@@ -722,29 +659,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Username.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Username);
-      }
-      if (Password.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Password);
-      }
-      if (Email.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Email);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -783,9 +698,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -806,42 +718,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            Username = input.ReadString();
-            break;
-          }
-          case 18: {
-            Password = input.ReadString();
-            break;
-          }
-          case 26: {
-            Email = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class AccountRegistrationResponse : pb::IMessage<AccountRegistrationResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class AccountRegistrationResponse : pb::IMessage<AccountRegistrationResponse> {
     private static readonly pb::MessageParser<AccountRegistrationResponse> _parser = new pb::MessageParser<AccountRegistrationResponse>(() => new AccountRegistrationResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -867,6 +748,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public AccountRegistrationResponse(AccountRegistrationResponse other) : this() {
       user_ = other.user_ != null ? other.user_.Clone() : null;
+      token_ = other.token_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -886,6 +768,17 @@ namespace SubterfugeRemakeService {
       }
     }
 
+    /// <summary>Field number for the "Token" field.</summary>
+    public const int TokenFieldNumber = 2;
+    private string token_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Token {
+      get { return token_; }
+      set {
+        token_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as AccountRegistrationResponse);
@@ -900,6 +793,7 @@ namespace SubterfugeRemakeService {
         return true;
       }
       if (!object.Equals(User, other.User)) return false;
+      if (Token != other.Token) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -907,6 +801,7 @@ namespace SubterfugeRemakeService {
     public override int GetHashCode() {
       int hash = 1;
       if (user_ != null) hash ^= User.GetHashCode();
+      if (Token.Length != 0) hash ^= Token.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -920,37 +815,27 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (user_ != null) {
         output.WriteRawTag(10);
         output.WriteMessage(User);
+      }
+      if (Token.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Token);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (user_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(User);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
       if (user_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(User);
+      }
+      if (Token.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Token);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -969,14 +854,14 @@ namespace SubterfugeRemakeService {
         }
         User.MergeFrom(other.User);
       }
+      if (other.Token.Length != 0) {
+        Token = other.Token;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -990,39 +875,17 @@ namespace SubterfugeRemakeService {
             input.ReadMessage(User);
             break;
           }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            if (user_ == null) {
-              User = new global::SubterfugeRemakeService.User();
-            }
-            input.ReadMessage(User);
+          case 18: {
+            Token = input.ReadString();
             break;
           }
         }
       }
     }
-    #endif
 
   }
 
-  public sealed partial class User : pb::IMessage<User>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class User : pb::IMessage<User> {
     private static readonly pb::MessageParser<User> _parser = new pb::MessageParser<User>(() => new User());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1115,9 +978,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Id.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Id);
@@ -1129,25 +989,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Id.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Id);
-      }
-      if (Username.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Username);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -1180,9 +1022,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -1199,38 +1038,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            Id = input.ReadString();
-            break;
-          }
-          case 18: {
-            Username = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class RoomDataRequest : pb::IMessage<RoomDataRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class RoomDataRequest : pb::IMessage<RoomDataRequest> {
     private static readonly pb::MessageParser<RoomDataRequest> _parser = new pb::MessageParser<RoomDataRequest>(() => new RoomDataRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1267,7 +1079,7 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomStatus" field.</summary>
     public const int RoomStatusFieldNumber = 1;
-    private global::SubterfugeRemakeService.RoomStatus roomStatus_ = global::SubterfugeRemakeService.RoomStatus.Open;
+    private global::SubterfugeRemakeService.RoomStatus roomStatus_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::SubterfugeRemakeService.RoomStatus RoomStatus {
       get { return roomStatus_; }
@@ -1308,7 +1120,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomStatus != global::SubterfugeRemakeService.RoomStatus.Open) hash ^= RoomStatus.GetHashCode();
+      if (RoomStatus != 0) hash ^= RoomStatus.GetHashCode();
       if (FilterByPlayer != false) hash ^= FilterByPlayer.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -1323,10 +1135,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (RoomStatus != global::SubterfugeRemakeService.RoomStatus.Open) {
+      if (RoomStatus != 0) {
         output.WriteRawTag(8);
         output.WriteEnum((int) RoomStatus);
       }
@@ -1337,30 +1146,12 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomStatus != global::SubterfugeRemakeService.RoomStatus.Open) {
-        output.WriteRawTag(8);
-        output.WriteEnum((int) RoomStatus);
-      }
-      if (FilterByPlayer != false) {
-        output.WriteRawTag(16);
-        output.WriteBool(FilterByPlayer);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomStatus != global::SubterfugeRemakeService.RoomStatus.Open) {
+      if (RoomStatus != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) RoomStatus);
       }
       if (FilterByPlayer != false) {
@@ -1377,7 +1168,7 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.RoomStatus != global::SubterfugeRemakeService.RoomStatus.Open) {
+      if (other.RoomStatus != 0) {
         RoomStatus = other.RoomStatus;
       }
       if (other.FilterByPlayer != false) {
@@ -1388,9 +1179,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -1407,38 +1195,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomStatus = (global::SubterfugeRemakeService.RoomStatus) input.ReadEnum();
-            break;
-          }
-          case 16: {
-            FilterByPlayer = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class RoomDataResponse : pb::IMessage<RoomDataResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class RoomDataResponse : pb::IMessage<RoomDataResponse> {
     private static readonly pb::MessageParser<RoomDataResponse> _parser = new pb::MessageParser<RoomDataResponse>(() => new RoomDataResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1516,25 +1277,11 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       rooms_.WriteTo(output, _repeated_rooms_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      rooms_.WriteTo(ref output, _repeated_rooms_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -1557,9 +1304,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -1572,34 +1316,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            rooms_.AddEntriesFrom(ref input, _repeated_rooms_codec);
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class Room : pb::IMessage<Room>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class Room : pb::IMessage<Room> {
     private static readonly pb::MessageParser<Room> _parser = new pb::MessageParser<Room>(() => new Room());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1657,7 +1378,7 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "RoomStatus" field.</summary>
     public const int RoomStatusFieldNumber = 2;
-    private global::SubterfugeRemakeService.RoomStatus roomStatus_ = global::SubterfugeRemakeService.RoomStatus.Open;
+    private global::SubterfugeRemakeService.RoomStatus roomStatus_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::SubterfugeRemakeService.RoomStatus RoomStatus {
       get { return roomStatus_; }
@@ -1712,7 +1433,7 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "Goal" field.</summary>
     public const int GoalFieldNumber = 7;
-    private global::SubterfugeRemakeService.Goal goal_ = global::SubterfugeRemakeService.Goal.Mining;
+    private global::SubterfugeRemakeService.Goal goal_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::SubterfugeRemakeService.Goal Goal {
       get { return goal_; }
@@ -1807,12 +1528,12 @@ namespace SubterfugeRemakeService {
     public override int GetHashCode() {
       int hash = 1;
       if (RoomId != 0L) hash ^= RoomId.GetHashCode();
-      if (RoomStatus != global::SubterfugeRemakeService.RoomStatus.Open) hash ^= RoomStatus.GetHashCode();
+      if (RoomStatus != 0) hash ^= RoomStatus.GetHashCode();
       if (creator_ != null) hash ^= Creator.GetHashCode();
       if (rankedInformation_ != null) hash ^= RankedInformation.GetHashCode();
       if (Anonymous != false) hash ^= Anonymous.GetHashCode();
       if (RoomName.Length != 0) hash ^= RoomName.GetHashCode();
-      if (Goal != global::SubterfugeRemakeService.Goal.Mining) hash ^= Goal.GetHashCode();
+      if (Goal != 0) hash ^= Goal.GetHashCode();
       if (Seed != 0L) hash ^= Seed.GetHashCode();
       if (UnixTimeCreated != 0L) hash ^= UnixTimeCreated.GetHashCode();
       if (UnixTimeStarted != 0L) hash ^= UnixTimeStarted.GetHashCode();
@@ -1831,14 +1552,11 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (RoomId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(RoomId);
       }
-      if (RoomStatus != global::SubterfugeRemakeService.RoomStatus.Open) {
+      if (RoomStatus != 0) {
         output.WriteRawTag(16);
         output.WriteEnum((int) RoomStatus);
       }
@@ -1858,7 +1576,7 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(50);
         output.WriteString(RoomName);
       }
-      if (Goal != global::SubterfugeRemakeService.Goal.Mining) {
+      if (Goal != 0) {
         output.WriteRawTag(56);
         output.WriteEnum((int) Goal);
       }
@@ -1882,62 +1600,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
-      }
-      if (RoomStatus != global::SubterfugeRemakeService.RoomStatus.Open) {
-        output.WriteRawTag(16);
-        output.WriteEnum((int) RoomStatus);
-      }
-      if (creator_ != null) {
-        output.WriteRawTag(26);
-        output.WriteMessage(Creator);
-      }
-      if (rankedInformation_ != null) {
-        output.WriteRawTag(34);
-        output.WriteMessage(RankedInformation);
-      }
-      if (Anonymous != false) {
-        output.WriteRawTag(40);
-        output.WriteBool(Anonymous);
-      }
-      if (RoomName.Length != 0) {
-        output.WriteRawTag(50);
-        output.WriteString(RoomName);
-      }
-      if (Goal != global::SubterfugeRemakeService.Goal.Mining) {
-        output.WriteRawTag(56);
-        output.WriteEnum((int) Goal);
-      }
-      if (Seed != 0L) {
-        output.WriteRawTag(64);
-        output.WriteInt64(Seed);
-      }
-      if (UnixTimeCreated != 0L) {
-        output.WriteRawTag(72);
-        output.WriteInt64(UnixTimeCreated);
-      }
-      if (UnixTimeStarted != 0L) {
-        output.WriteRawTag(80);
-        output.WriteInt64(UnixTimeStarted);
-      }
-      if (MaxPlayers != 0L) {
-        output.WriteRawTag(88);
-        output.WriteInt64(MaxPlayers);
-      }
-      players_.WriteTo(ref output, _repeated_players_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -1945,7 +1608,7 @@ namespace SubterfugeRemakeService {
       if (RoomId != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(RoomId);
       }
-      if (RoomStatus != global::SubterfugeRemakeService.RoomStatus.Open) {
+      if (RoomStatus != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) RoomStatus);
       }
       if (creator_ != null) {
@@ -1960,7 +1623,7 @@ namespace SubterfugeRemakeService {
       if (RoomName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomName);
       }
-      if (Goal != global::SubterfugeRemakeService.Goal.Mining) {
+      if (Goal != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Goal);
       }
       if (Seed != 0L) {
@@ -1990,7 +1653,7 @@ namespace SubterfugeRemakeService {
       if (other.RoomId != 0L) {
         RoomId = other.RoomId;
       }
-      if (other.RoomStatus != global::SubterfugeRemakeService.RoomStatus.Open) {
+      if (other.RoomStatus != 0) {
         RoomStatus = other.RoomStatus;
       }
       if (other.creator_ != null) {
@@ -2011,7 +1674,7 @@ namespace SubterfugeRemakeService {
       if (other.RoomName.Length != 0) {
         RoomName = other.RoomName;
       }
-      if (other.Goal != global::SubterfugeRemakeService.Goal.Mining) {
+      if (other.Goal != 0) {
         Goal = other.Goal;
       }
       if (other.Seed != 0L) {
@@ -2032,9 +1695,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -2097,84 +1757,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomId = input.ReadInt64();
-            break;
-          }
-          case 16: {
-            RoomStatus = (global::SubterfugeRemakeService.RoomStatus) input.ReadEnum();
-            break;
-          }
-          case 26: {
-            if (creator_ == null) {
-              Creator = new global::SubterfugeRemakeService.User();
-            }
-            input.ReadMessage(Creator);
-            break;
-          }
-          case 34: {
-            if (rankedInformation_ == null) {
-              RankedInformation = new global::SubterfugeRemakeService.RankedInformation();
-            }
-            input.ReadMessage(RankedInformation);
-            break;
-          }
-          case 40: {
-            Anonymous = input.ReadBool();
-            break;
-          }
-          case 50: {
-            RoomName = input.ReadString();
-            break;
-          }
-          case 56: {
-            Goal = (global::SubterfugeRemakeService.Goal) input.ReadEnum();
-            break;
-          }
-          case 64: {
-            Seed = input.ReadInt64();
-            break;
-          }
-          case 72: {
-            UnixTimeCreated = input.ReadInt64();
-            break;
-          }
-          case 80: {
-            UnixTimeStarted = input.ReadInt64();
-            break;
-          }
-          case 88: {
-            MaxPlayers = input.ReadInt64();
-            break;
-          }
-          case 98: {
-            players_.AddEntriesFrom(ref input, _repeated_players_codec);
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class RankedInformation : pb::IMessage<RankedInformation>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class RankedInformation : pb::IMessage<RankedInformation> {
     private static readonly pb::MessageParser<RankedInformation> _parser = new pb::MessageParser<RankedInformation>(() => new RankedInformation());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2281,9 +1868,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (IsRanked != false) {
         output.WriteRawTag(8);
         output.WriteBool(IsRanked);
@@ -2299,29 +1883,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (IsRanked != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(IsRanked);
-      }
-      if (MinRating != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(MinRating);
-      }
-      if (MaxRating != 0L) {
-        output.WriteRawTag(24);
-        output.WriteInt64(MaxRating);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -2360,9 +1922,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -2383,42 +1942,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            IsRanked = input.ReadBool();
-            break;
-          }
-          case 16: {
-            MinRating = input.ReadInt64();
-            break;
-          }
-          case 24: {
-            MaxRating = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class CreateRoomRequest : pb::IMessage<CreateRoomRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class CreateRoomRequest : pb::IMessage<CreateRoomRequest> {
     private static readonly pb::MessageParser<CreateRoomRequest> _parser = new pb::MessageParser<CreateRoomRequest>(() => new CreateRoomRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2491,7 +2019,7 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "Goal" field.</summary>
     public const int GoalFieldNumber = 7;
-    private global::SubterfugeRemakeService.Goal goal_ = global::SubterfugeRemakeService.Goal.Mining;
+    private global::SubterfugeRemakeService.Goal goal_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::SubterfugeRemakeService.Goal Goal {
       get { return goal_; }
@@ -2538,7 +2066,7 @@ namespace SubterfugeRemakeService {
       if (rankedInformation_ != null) hash ^= RankedInformation.GetHashCode();
       if (Anonymous != false) hash ^= Anonymous.GetHashCode();
       if (RoomName.Length != 0) hash ^= RoomName.GetHashCode();
-      if (Goal != global::SubterfugeRemakeService.Goal.Mining) hash ^= Goal.GetHashCode();
+      if (Goal != 0) hash ^= Goal.GetHashCode();
       if (MaxPlayers != 0L) hash ^= MaxPlayers.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -2553,9 +2081,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (rankedInformation_ != null) {
         output.WriteRawTag(34);
         output.WriteMessage(RankedInformation);
@@ -2568,7 +2093,7 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(50);
         output.WriteString(RoomName);
       }
-      if (Goal != global::SubterfugeRemakeService.Goal.Mining) {
+      if (Goal != 0) {
         output.WriteRawTag(56);
         output.WriteEnum((int) Goal);
       }
@@ -2579,37 +2104,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (rankedInformation_ != null) {
-        output.WriteRawTag(34);
-        output.WriteMessage(RankedInformation);
-      }
-      if (Anonymous != false) {
-        output.WriteRawTag(40);
-        output.WriteBool(Anonymous);
-      }
-      if (RoomName.Length != 0) {
-        output.WriteRawTag(50);
-        output.WriteString(RoomName);
-      }
-      if (Goal != global::SubterfugeRemakeService.Goal.Mining) {
-        output.WriteRawTag(56);
-        output.WriteEnum((int) Goal);
-      }
-      if (MaxPlayers != 0L) {
-        output.WriteRawTag(88);
-        output.WriteInt64(MaxPlayers);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -2623,7 +2118,7 @@ namespace SubterfugeRemakeService {
       if (RoomName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomName);
       }
-      if (Goal != global::SubterfugeRemakeService.Goal.Mining) {
+      if (Goal != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Goal);
       }
       if (MaxPlayers != 0L) {
@@ -2652,7 +2147,7 @@ namespace SubterfugeRemakeService {
       if (other.RoomName.Length != 0) {
         RoomName = other.RoomName;
       }
-      if (other.Goal != global::SubterfugeRemakeService.Goal.Mining) {
+      if (other.Goal != 0) {
         Goal = other.Goal;
       }
       if (other.MaxPlayers != 0L) {
@@ -2663,9 +2158,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -2697,53 +2189,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 34: {
-            if (rankedInformation_ == null) {
-              RankedInformation = new global::SubterfugeRemakeService.RankedInformation();
-            }
-            input.ReadMessage(RankedInformation);
-            break;
-          }
-          case 40: {
-            Anonymous = input.ReadBool();
-            break;
-          }
-          case 50: {
-            RoomName = input.ReadString();
-            break;
-          }
-          case 56: {
-            Goal = (global::SubterfugeRemakeService.Goal) input.ReadEnum();
-            break;
-          }
-          case 88: {
-            MaxPlayers = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class CreateRoomResponse : pb::IMessage<CreateRoomResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class CreateRoomResponse : pb::IMessage<CreateRoomResponse> {
     private static readonly pb::MessageParser<CreateRoomResponse> _parser = new pb::MessageParser<CreateRoomResponse>(() => new CreateRoomResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2822,9 +2272,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (createdRoom_ != null) {
         output.WriteRawTag(10);
         output.WriteMessage(CreatedRoom);
@@ -2832,21 +2279,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (createdRoom_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(CreatedRoom);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -2876,9 +2309,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -2894,37 +2324,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            if (createdRoom_ == null) {
-              CreatedRoom = new global::SubterfugeRemakeService.Room();
-            }
-            input.ReadMessage(CreatedRoom);
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class JoinRoomRequest : pb::IMessage<JoinRoomRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class JoinRoomRequest : pb::IMessage<JoinRoomRequest> {
     private static readonly pb::MessageParser<JoinRoomRequest> _parser = new pb::MessageParser<JoinRoomRequest>(() => new JoinRoomRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3003,9 +2407,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (RoomId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(RoomId);
@@ -3013,21 +2414,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -3054,9 +2441,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -3069,34 +2453,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomId = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class JoinRoomResponse : pb::IMessage<JoinRoomResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class JoinRoomResponse : pb::IMessage<JoinRoomResponse> {
     private static readonly pb::MessageParser<JoinRoomResponse> _parser = new pb::MessageParser<JoinRoomResponse>(() => new JoinRoomResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3175,9 +2536,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Success != false) {
         output.WriteRawTag(8);
         output.WriteBool(Success);
@@ -3185,21 +2543,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -3226,9 +2570,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -3241,34 +2582,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class LeaveRoomRequest : pb::IMessage<LeaveRoomRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class LeaveRoomRequest : pb::IMessage<LeaveRoomRequest> {
     private static readonly pb::MessageParser<LeaveRoomRequest> _parser = new pb::MessageParser<LeaveRoomRequest>(() => new LeaveRoomRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3347,9 +2665,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (RoomId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(RoomId);
@@ -3357,21 +2672,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -3398,9 +2699,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -3413,34 +2711,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomId = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class LeaveRoomResponse : pb::IMessage<LeaveRoomResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class LeaveRoomResponse : pb::IMessage<LeaveRoomResponse> {
     private static readonly pb::MessageParser<LeaveRoomResponse> _parser = new pb::MessageParser<LeaveRoomResponse>(() => new LeaveRoomResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3519,9 +2794,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Success != false) {
         output.WriteRawTag(8);
         output.WriteBool(Success);
@@ -3529,21 +2801,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -3570,9 +2828,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -3585,34 +2840,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class StartGameEarlyRequest : pb::IMessage<StartGameEarlyRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class StartGameEarlyRequest : pb::IMessage<StartGameEarlyRequest> {
     private static readonly pb::MessageParser<StartGameEarlyRequest> _parser = new pb::MessageParser<StartGameEarlyRequest>(() => new StartGameEarlyRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3691,9 +2923,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (RoomId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(RoomId);
@@ -3701,21 +2930,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -3742,9 +2957,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -3757,34 +2969,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomId = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class StartGameEarlyResponse : pb::IMessage<StartGameEarlyResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class StartGameEarlyResponse : pb::IMessage<StartGameEarlyResponse> {
     private static readonly pb::MessageParser<StartGameEarlyResponse> _parser = new pb::MessageParser<StartGameEarlyResponse>(() => new StartGameEarlyResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3863,9 +3052,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Success != false) {
         output.WriteRawTag(8);
         output.WriteBool(Success);
@@ -3873,21 +3059,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -3914,9 +3086,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -3929,34 +3098,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class GetGameRoomEventsRequest : pb::IMessage<GetGameRoomEventsRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class GetGameRoomEventsRequest : pb::IMessage<GetGameRoomEventsRequest> {
     private static readonly pb::MessageParser<GetGameRoomEventsRequest> _parser = new pb::MessageParser<GetGameRoomEventsRequest>(() => new GetGameRoomEventsRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4049,9 +3195,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (RoomId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(RoomId);
@@ -4063,25 +3206,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
-      }
-      if (AfterTick != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(AfterTick);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -4114,9 +3239,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -4133,38 +3255,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomId = input.ReadInt64();
-            break;
-          }
-          case 16: {
-            AfterTick = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class GetGameRoomEventsResponse : pb::IMessage<GetGameRoomEventsResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class GetGameRoomEventsResponse : pb::IMessage<GetGameRoomEventsResponse> {
     private static readonly pb::MessageParser<GetGameRoomEventsResponse> _parser = new pb::MessageParser<GetGameRoomEventsResponse>(() => new GetGameRoomEventsResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4242,25 +3337,11 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       gameEvents_.WriteTo(output, _repeated_gameEvents_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      gameEvents_.WriteTo(ref output, _repeated_gameEvents_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -4283,9 +3364,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -4298,34 +3376,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            gameEvents_.AddEntriesFrom(ref input, _repeated_gameEvents_codec);
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class GameEvent : pb::IMessage<GameEvent>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class GameEvent : pb::IMessage<GameEvent> {
     private static readonly pb::MessageParser<GameEvent> _parser = new pb::MessageParser<GameEvent>(() => new GameEvent());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4460,9 +3515,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (EventId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(EventId);
@@ -4486,37 +3538,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (EventId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(EventId);
-      }
-      if (UnixTimeIssued != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(UnixTimeIssued);
-      }
-      if (OccursAtTick != 0L) {
-        output.WriteRawTag(24);
-        output.WriteInt64(OccursAtTick);
-      }
-      if (issuedBy_ != null) {
-        output.WriteRawTag(34);
-        output.WriteMessage(IssuedBy);
-      }
-      if (EventData.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(EventData);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -4570,9 +3592,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -4604,53 +3623,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            EventId = input.ReadInt64();
-            break;
-          }
-          case 16: {
-            UnixTimeIssued = input.ReadInt64();
-            break;
-          }
-          case 24: {
-            OccursAtTick = input.ReadInt64();
-            break;
-          }
-          case 34: {
-            if (issuedBy_ == null) {
-              IssuedBy = new global::SubterfugeRemakeService.User();
-            }
-            input.ReadMessage(IssuedBy);
-            break;
-          }
-          case 42: {
-            EventData = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class SubmitGameEventRequest : pb::IMessage<SubmitGameEventRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class SubmitGameEventRequest : pb::IMessage<SubmitGameEventRequest> {
     private static readonly pb::MessageParser<SubmitGameEventRequest> _parser = new pb::MessageParser<SubmitGameEventRequest>(() => new SubmitGameEventRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4757,9 +3734,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (RoomId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(RoomId);
@@ -4775,29 +3749,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
-      }
-      if (OccursAtTick != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(OccursAtTick);
-      }
-      if (EventData.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(EventData);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -4836,9 +3788,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -4859,42 +3808,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomId = input.ReadInt64();
-            break;
-          }
-          case 16: {
-            OccursAtTick = input.ReadInt64();
-            break;
-          }
-          case 26: {
-            EventData = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class SubmitGameEventResponse : pb::IMessage<SubmitGameEventResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class SubmitGameEventResponse : pb::IMessage<SubmitGameEventResponse> {
     private static readonly pb::MessageParser<SubmitGameEventResponse> _parser = new pb::MessageParser<SubmitGameEventResponse>(() => new SubmitGameEventResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4973,9 +3891,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Success != false) {
         output.WriteRawTag(8);
         output.WriteBool(Success);
@@ -4983,21 +3898,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -5024,9 +3925,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -5039,34 +3937,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class UpdateGameEventRequest : pb::IMessage<UpdateGameEventRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class UpdateGameEventRequest : pb::IMessage<UpdateGameEventRequest> {
     private static readonly pb::MessageParser<UpdateGameEventRequest> _parser = new pb::MessageParser<UpdateGameEventRequest>(() => new UpdateGameEventRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5187,9 +4062,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (RoomId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(RoomId);
@@ -5209,33 +4081,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
-      }
-      if (EventId != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(EventId);
-      }
-      if (OccursAtTick != 0L) {
-        output.WriteRawTag(24);
-        output.WriteInt64(OccursAtTick);
-      }
-      if (EventData.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(EventData);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -5280,9 +4126,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -5307,46 +4150,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomId = input.ReadInt64();
-            break;
-          }
-          case 16: {
-            EventId = input.ReadInt64();
-            break;
-          }
-          case 24: {
-            OccursAtTick = input.ReadInt64();
-            break;
-          }
-          case 34: {
-            EventData = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class UpdateGameEventResponse : pb::IMessage<UpdateGameEventResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class UpdateGameEventResponse : pb::IMessage<UpdateGameEventResponse> {
     private static readonly pb::MessageParser<UpdateGameEventResponse> _parser = new pb::MessageParser<UpdateGameEventResponse>(() => new UpdateGameEventResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5425,9 +4233,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Success != false) {
         output.WriteRawTag(8);
         output.WriteBool(Success);
@@ -5435,21 +4240,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -5476,9 +4267,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -5491,34 +4279,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class DeleteGameEventRequest : pb::IMessage<DeleteGameEventRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class DeleteGameEventRequest : pb::IMessage<DeleteGameEventRequest> {
     private static readonly pb::MessageParser<DeleteGameEventRequest> _parser = new pb::MessageParser<DeleteGameEventRequest>(() => new DeleteGameEventRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5611,9 +4376,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (RoomId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(RoomId);
@@ -5625,25 +4387,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
-      }
-      if (EventId != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(EventId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -5676,9 +4420,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -5695,38 +4436,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomId = input.ReadInt64();
-            break;
-          }
-          case 16: {
-            EventId = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class DeleteGameEventResponse : pb::IMessage<DeleteGameEventResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class DeleteGameEventResponse : pb::IMessage<DeleteGameEventResponse> {
     private static readonly pb::MessageParser<DeleteGameEventResponse> _parser = new pb::MessageParser<DeleteGameEventResponse>(() => new DeleteGameEventResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5805,9 +4519,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Success != false) {
         output.WriteRawTag(8);
         output.WriteBool(Success);
@@ -5815,21 +4526,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -5856,9 +4553,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -5871,34 +4565,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class CreateMessageGroupRequest : pb::IMessage<CreateMessageGroupRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class CreateMessageGroupRequest : pb::IMessage<CreateMessageGroupRequest> {
     private static readonly pb::MessageParser<CreateMessageGroupRequest> _parser = new pb::MessageParser<CreateMessageGroupRequest>(() => new CreateMessageGroupRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5990,9 +4661,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (RoomId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(RoomId);
@@ -6001,22 +4669,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
-      }
-      userIdsInGroup_.WriteTo(ref output, _repeated_userIdsInGroup_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -6045,9 +4698,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -6065,39 +4715,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomId = input.ReadInt64();
-            break;
-          }
-          case 18:
-          case 16: {
-            userIdsInGroup_.AddEntriesFrom(ref input, _repeated_userIdsInGroup_codec);
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class CreateMessageGroupResponse : pb::IMessage<CreateMessageGroupResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class CreateMessageGroupResponse : pb::IMessage<CreateMessageGroupResponse> {
     private static readonly pb::MessageParser<CreateMessageGroupResponse> _parser = new pb::MessageParser<CreateMessageGroupResponse>(() => new CreateMessageGroupResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6190,9 +4812,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Success != false) {
         output.WriteRawTag(8);
         output.WriteBool(Success);
@@ -6204,25 +4823,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (GroupId != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(GroupId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -6255,9 +4856,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -6274,38 +4872,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-          case 16: {
-            GroupId = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class Message : pb::IMessage<Message>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class Message : pb::IMessage<Message> {
     private static readonly pb::MessageParser<Message> _parser = new pb::MessageParser<Message>(() => new Message());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6412,9 +4983,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (UnixTimeCreatedAt != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(UnixTimeCreatedAt);
@@ -6430,29 +4998,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (UnixTimeCreatedAt != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(UnixTimeCreatedAt);
-      }
-      if (sender_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Sender);
-      }
-      if (Message_.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Message_);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -6494,9 +5040,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -6520,45 +5063,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            UnixTimeCreatedAt = input.ReadInt64();
-            break;
-          }
-          case 18: {
-            if (sender_ == null) {
-              Sender = new global::SubterfugeRemakeService.User();
-            }
-            input.ReadMessage(Sender);
-            break;
-          }
-          case 26: {
-            Message_ = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class SendMessageRequest : pb::IMessage<SendMessageRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class SendMessageRequest : pb::IMessage<SendMessageRequest> {
     private static readonly pb::MessageParser<SendMessageRequest> _parser = new pb::MessageParser<SendMessageRequest>(() => new SendMessageRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6665,9 +5174,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (RoomId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(RoomId);
@@ -6683,29 +5189,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
-      }
-      if (GroupId != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(GroupId);
-      }
-      if (Message.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Message);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -6744,9 +5228,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -6767,42 +5248,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomId = input.ReadInt64();
-            break;
-          }
-          case 16: {
-            GroupId = input.ReadInt64();
-            break;
-          }
-          case 26: {
-            Message = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class SendMessageResponse : pb::IMessage<SendMessageResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class SendMessageResponse : pb::IMessage<SendMessageResponse> {
     private static readonly pb::MessageParser<SendMessageResponse> _parser = new pb::MessageParser<SendMessageResponse>(() => new SendMessageResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6881,9 +5331,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Success != false) {
         output.WriteRawTag(8);
         output.WriteBool(Success);
@@ -6891,21 +5338,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -6932,9 +5365,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -6947,34 +5377,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class GetMessageGroupsRequest : pb::IMessage<GetMessageGroupsRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class GetMessageGroupsRequest : pb::IMessage<GetMessageGroupsRequest> {
     private static readonly pb::MessageParser<GetMessageGroupsRequest> _parser = new pb::MessageParser<GetMessageGroupsRequest>(() => new GetMessageGroupsRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7053,9 +5460,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (RoomId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(RoomId);
@@ -7063,21 +5467,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(RoomId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -7104,9 +5494,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -7119,34 +5506,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomId = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class GetMessageGroupsResponse : pb::IMessage<GetMessageGroupsResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class GetMessageGroupsResponse : pb::IMessage<GetMessageGroupsResponse> {
     private static readonly pb::MessageParser<GetMessageGroupsResponse> _parser = new pb::MessageParser<GetMessageGroupsResponse>(() => new GetMessageGroupsResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7224,25 +5588,11 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       messageGroups_.WriteTo(output, _repeated_messageGroups_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      messageGroups_.WriteTo(ref output, _repeated_messageGroups_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -7265,9 +5615,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -7280,34 +5627,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            messageGroups_.AddEntriesFrom(ref input, _repeated_messageGroups_codec);
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class MessageGroup : pb::IMessage<MessageGroup>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class MessageGroup : pb::IMessage<MessageGroup> {
     private static readonly pb::MessageParser<MessageGroup> _parser = new pb::MessageParser<MessageGroup>(() => new MessageGroup());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7412,9 +5736,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (GroupId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(GroupId);
@@ -7424,23 +5745,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (GroupId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(GroupId);
-      }
-      groupMembers_.WriteTo(ref output, _repeated_groupMembers_codec);
-      messages_.WriteTo(ref output, _repeated_messages_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -7471,9 +5776,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -7494,42 +5796,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            GroupId = input.ReadInt64();
-            break;
-          }
-          case 18: {
-            groupMembers_.AddEntriesFrom(ref input, _repeated_groupMembers_codec);
-            break;
-          }
-          case 26: {
-            messages_.AddEntriesFrom(ref input, _repeated_messages_codec);
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class BlockPlayerRequest : pb::IMessage<BlockPlayerRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class BlockPlayerRequest : pb::IMessage<BlockPlayerRequest> {
     private static readonly pb::MessageParser<BlockPlayerRequest> _parser = new pb::MessageParser<BlockPlayerRequest>(() => new BlockPlayerRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7608,9 +5879,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (UserIdToBlock != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(UserIdToBlock);
@@ -7618,21 +5886,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (UserIdToBlock != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(UserIdToBlock);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -7659,9 +5913,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -7674,34 +5925,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            UserIdToBlock = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class BlockPlayerResponse : pb::IMessage<BlockPlayerResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class BlockPlayerResponse : pb::IMessage<BlockPlayerResponse> {
     private static readonly pb::MessageParser<BlockPlayerResponse> _parser = new pb::MessageParser<BlockPlayerResponse>(() => new BlockPlayerResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7780,9 +6008,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Success != false) {
         output.WriteRawTag(8);
         output.WriteBool(Success);
@@ -7790,21 +6015,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -7831,9 +6042,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -7846,34 +6054,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class UnblockPlayerRequest : pb::IMessage<UnblockPlayerRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class UnblockPlayerRequest : pb::IMessage<UnblockPlayerRequest> {
     private static readonly pb::MessageParser<UnblockPlayerRequest> _parser = new pb::MessageParser<UnblockPlayerRequest>(() => new UnblockPlayerRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7952,9 +6137,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (UserIdToBlock != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(UserIdToBlock);
@@ -7962,21 +6144,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (UserIdToBlock != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(UserIdToBlock);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -8003,9 +6171,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -8018,34 +6183,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            UserIdToBlock = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class UnblockPlayerResponse : pb::IMessage<UnblockPlayerResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class UnblockPlayerResponse : pb::IMessage<UnblockPlayerResponse> {
     private static readonly pb::MessageParser<UnblockPlayerResponse> _parser = new pb::MessageParser<UnblockPlayerResponse>(() => new UnblockPlayerResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8124,9 +6266,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (Success != false) {
         output.WriteRawTag(8);
         output.WriteBool(Success);
@@ -8134,21 +6273,7 @@ namespace SubterfugeRemakeService {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -8175,9 +6300,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -8190,34 +6312,11 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class ViewBlockedPlayersRequest : pb::IMessage<ViewBlockedPlayersRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class ViewBlockedPlayersRequest : pb::IMessage<ViewBlockedPlayersRequest> {
     private static readonly pb::MessageParser<ViewBlockedPlayersRequest> _parser = new pb::MessageParser<ViewBlockedPlayersRequest>(() => new ViewBlockedPlayersRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8282,23 +6381,10 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -8319,9 +6405,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -8330,30 +6413,11 @@ namespace SubterfugeRemakeService {
             break;
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class ViewBlockedPlayersResponse : pb::IMessage<ViewBlockedPlayersResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class ViewBlockedPlayersResponse : pb::IMessage<ViewBlockedPlayersResponse> {
     private static readonly pb::MessageParser<ViewBlockedPlayersResponse> _parser = new pb::MessageParser<ViewBlockedPlayersResponse>(() => new ViewBlockedPlayersResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8431,25 +6495,11 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       blockedUsers_.WriteTo(output, _repeated_blockedUsers_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      blockedUsers_.WriteTo(ref output, _repeated_blockedUsers_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -8472,9 +6522,6 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -8487,26 +6534,411 @@ namespace SubterfugeRemakeService {
           }
         }
       }
-    #endif
     }
 
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  }
+
+  public sealed partial class HealthCheckRequest : pb::IMessage<HealthCheckRequest> {
+    private static readonly pb::MessageParser<HealthCheckRequest> _parser = new pb::MessageParser<HealthCheckRequest>(() => new HealthCheckRequest());
+    private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+    public static pb::MessageParser<HealthCheckRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[40]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public HealthCheckRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public HealthCheckRequest(HealthCheckRequest other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public HealthCheckRequest Clone() {
+      return new HealthCheckRequest(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as HealthCheckRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(HealthCheckRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(HealthCheckRequest other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
           default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
-            blockedUsers_.AddEntriesFrom(ref input, _repeated_blockedUsers_codec);
-            break;
-          }
         }
       }
     }
-    #endif
+
+  }
+
+  public sealed partial class HealthCheckResponse : pb::IMessage<HealthCheckResponse> {
+    private static readonly pb::MessageParser<HealthCheckResponse> _parser = new pb::MessageParser<HealthCheckResponse>(() => new HealthCheckResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<HealthCheckResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[41]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public HealthCheckResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public HealthCheckResponse(HealthCheckResponse other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public HealthCheckResponse Clone() {
+      return new HealthCheckResponse(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as HealthCheckResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(HealthCheckResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(HealthCheckResponse other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class AuthorizedHealthCheckRequest : pb::IMessage<AuthorizedHealthCheckRequest> {
+    private static readonly pb::MessageParser<AuthorizedHealthCheckRequest> _parser = new pb::MessageParser<AuthorizedHealthCheckRequest>(() => new AuthorizedHealthCheckRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<AuthorizedHealthCheckRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[42]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AuthorizedHealthCheckRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AuthorizedHealthCheckRequest(AuthorizedHealthCheckRequest other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AuthorizedHealthCheckRequest Clone() {
+      return new AuthorizedHealthCheckRequest(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as AuthorizedHealthCheckRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(AuthorizedHealthCheckRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(AuthorizedHealthCheckRequest other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class AuthorizedHealthCheckResponse : pb::IMessage<AuthorizedHealthCheckResponse> {
+    private static readonly pb::MessageParser<AuthorizedHealthCheckResponse> _parser = new pb::MessageParser<AuthorizedHealthCheckResponse>(() => new AuthorizedHealthCheckResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<AuthorizedHealthCheckResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[43]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AuthorizedHealthCheckResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AuthorizedHealthCheckResponse(AuthorizedHealthCheckResponse other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AuthorizedHealthCheckResponse Clone() {
+      return new AuthorizedHealthCheckResponse(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as AuthorizedHealthCheckResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(AuthorizedHealthCheckResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(AuthorizedHealthCheckResponse other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
 
   }
 

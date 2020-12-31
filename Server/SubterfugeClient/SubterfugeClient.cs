@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Grpc.Core;
+using Grpc.Core.Interceptors;
+using SubterfugeClient.Authorization;
 using SubterfugeRemakeService;
 
 namespace SubterfugeClient
@@ -9,12 +11,20 @@ namespace SubterfugeClient
     {
         public async static Task Main(string[] args)
         {
+            Auth auth = new Auth();
+            
             var channel = new Channel("localhost:5000", ChannelCredentials.Insecure);
-            var client =  new subterfugeService.subterfugeServiceClient(channel);
+            var invoker = channel.Intercept(new JwtClientInterceptor());
+            var client =  new subterfugeService.subterfugeServiceClient(invoker);
+
+            client.HealthCheck(new HealthCheckRequest());
+            
             try
             {
                 AccountRegistrationResponse registerResponse = client.RegisterAccount(new AccountRegistrationRequest()
                     {Email = "test@test.com", Password = "Test", Username = "Test"});
+                
+                Auth.Login(registerResponse.Token);
                 Console.WriteLine($"Created user: {registerResponse.User.Id}");
             } catch (RpcException e)
             {
@@ -24,21 +34,14 @@ namespace SubterfugeClient
             try
             {
                 AuthorizationResponse loginResponse = await client.LoginAsync(new AuthorizationRequest() { Password = "Test", Username = "Test" });
+                Auth.Login(loginResponse.Token);
                 Console.WriteLine($"Logged in user: {loginResponse.User.Id}");
             } catch (RpcException e)
             {
                 Console.WriteLine($"Unable to login...");   
             }
 
-            try
-            {
-                AuthorizationResponse errorLoginResponse = await client.LoginAsync(new AuthorizationRequest()
-                    {Password = "asdfasdf", Username = "Test"});
-            }
-            catch (RpcException e)
-            {
-                Console.WriteLine($"Invalid user credentials.");   
-            }
+            client.AuthorizedHealthCheck(new AuthorizedHealthCheckRequest());
         }
     }
 }

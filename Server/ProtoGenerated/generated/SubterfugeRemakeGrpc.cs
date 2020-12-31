@@ -12,70 +12,44 @@ namespace SubterfugeRemakeService {
   {
     static readonly string __ServiceName = "SubterfugeRemakeService.subterfugeService";
 
-    static void __Helper_SerializeMessage(global::Google.Protobuf.IMessage message, grpc::SerializationContext context)
-    {
-      #if !GRPC_DISABLE_PROTOBUF_BUFFER_SERIALIZATION
-      if (message is global::Google.Protobuf.IBufferMessage)
-      {
-        context.SetPayloadLength(message.CalculateSize());
-        global::Google.Protobuf.MessageExtensions.WriteTo(message, context.GetBufferWriter());
-        context.Complete();
-        return;
-      }
-      #endif
-      context.Complete(global::Google.Protobuf.MessageExtensions.ToByteArray(message));
-    }
-
-    static class __Helper_MessageCache<T>
-    {
-      public static readonly bool IsBufferMessage = global::System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(global::Google.Protobuf.IBufferMessage)).IsAssignableFrom(typeof(T));
-    }
-
-    static T __Helper_DeserializeMessage<T>(grpc::DeserializationContext context, global::Google.Protobuf.MessageParser<T> parser) where T : global::Google.Protobuf.IMessage<T>
-    {
-      #if !GRPC_DISABLE_PROTOBUF_BUFFER_SERIALIZATION
-      if (__Helper_MessageCache<T>.IsBufferMessage)
-      {
-        return parser.ParseFrom(context.PayloadAsReadOnlySequence());
-      }
-      #endif
-      return parser.ParseFrom(context.PayloadAsNewBuffer());
-    }
-
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizationRequest> __Marshaller_SubterfugeRemakeService_AuthorizationRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.AuthorizationRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizationResponse> __Marshaller_SubterfugeRemakeService_AuthorizationResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.AuthorizationResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AccountRegistrationRequest> __Marshaller_SubterfugeRemakeService_AccountRegistrationRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.AccountRegistrationRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AccountRegistrationResponse> __Marshaller_SubterfugeRemakeService_AccountRegistrationResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.AccountRegistrationResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.RoomDataRequest> __Marshaller_SubterfugeRemakeService_RoomDataRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.RoomDataRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.RoomDataResponse> __Marshaller_SubterfugeRemakeService_RoomDataResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.RoomDataResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateRoomRequest> __Marshaller_SubterfugeRemakeService_CreateRoomRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.CreateRoomRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateRoomResponse> __Marshaller_SubterfugeRemakeService_CreateRoomResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.CreateRoomResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.JoinRoomRequest> __Marshaller_SubterfugeRemakeService_JoinRoomRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.JoinRoomRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.JoinRoomResponse> __Marshaller_SubterfugeRemakeService_JoinRoomResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.JoinRoomResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.LeaveRoomRequest> __Marshaller_SubterfugeRemakeService_LeaveRoomRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.LeaveRoomRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.LeaveRoomResponse> __Marshaller_SubterfugeRemakeService_LeaveRoomResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.LeaveRoomResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.StartGameEarlyRequest> __Marshaller_SubterfugeRemakeService_StartGameEarlyRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.StartGameEarlyRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.StartGameEarlyResponse> __Marshaller_SubterfugeRemakeService_StartGameEarlyResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.StartGameEarlyResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetGameRoomEventsRequest> __Marshaller_SubterfugeRemakeService_GetGameRoomEventsRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.GetGameRoomEventsRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetGameRoomEventsResponse> __Marshaller_SubterfugeRemakeService_GetGameRoomEventsResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.GetGameRoomEventsResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SubmitGameEventRequest> __Marshaller_SubterfugeRemakeService_SubmitGameEventRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.SubmitGameEventRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SubmitGameEventResponse> __Marshaller_SubterfugeRemakeService_SubmitGameEventResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.SubmitGameEventResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.UpdateGameEventRequest> __Marshaller_SubterfugeRemakeService_UpdateGameEventRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.UpdateGameEventRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.UpdateGameEventResponse> __Marshaller_SubterfugeRemakeService_UpdateGameEventResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.UpdateGameEventResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.DeleteGameEventRequest> __Marshaller_SubterfugeRemakeService_DeleteGameEventRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.DeleteGameEventRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.DeleteGameEventResponse> __Marshaller_SubterfugeRemakeService_DeleteGameEventResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.DeleteGameEventResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateMessageGroupRequest> __Marshaller_SubterfugeRemakeService_CreateMessageGroupRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.CreateMessageGroupRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateMessageGroupResponse> __Marshaller_SubterfugeRemakeService_CreateMessageGroupResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.CreateMessageGroupResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SendMessageRequest> __Marshaller_SubterfugeRemakeService_SendMessageRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.SendMessageRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SendMessageResponse> __Marshaller_SubterfugeRemakeService_SendMessageResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.SendMessageResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetMessageGroupsRequest> __Marshaller_SubterfugeRemakeService_GetMessageGroupsRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.GetMessageGroupsRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetMessageGroupsResponse> __Marshaller_SubterfugeRemakeService_GetMessageGroupsResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.GetMessageGroupsResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.BlockPlayerRequest> __Marshaller_SubterfugeRemakeService_BlockPlayerRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.BlockPlayerRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.BlockPlayerResponse> __Marshaller_SubterfugeRemakeService_BlockPlayerResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.BlockPlayerResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.UnblockPlayerRequest> __Marshaller_SubterfugeRemakeService_UnblockPlayerRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.UnblockPlayerRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.UnblockPlayerResponse> __Marshaller_SubterfugeRemakeService_UnblockPlayerResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.UnblockPlayerResponse.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewBlockedPlayersRequest> __Marshaller_SubterfugeRemakeService_ViewBlockedPlayersRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.ViewBlockedPlayersRequest.Parser));
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewBlockedPlayersResponse> __Marshaller_SubterfugeRemakeService_ViewBlockedPlayersResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::SubterfugeRemakeService.ViewBlockedPlayersResponse.Parser));
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizationRequest> __Marshaller_SubterfugeRemakeService_AuthorizationRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AuthorizationRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizationResponse> __Marshaller_SubterfugeRemakeService_AuthorizationResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AuthorizationResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AccountRegistrationRequest> __Marshaller_SubterfugeRemakeService_AccountRegistrationRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AccountRegistrationRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AccountRegistrationResponse> __Marshaller_SubterfugeRemakeService_AccountRegistrationResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AccountRegistrationResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.RoomDataRequest> __Marshaller_SubterfugeRemakeService_RoomDataRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.RoomDataRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.RoomDataResponse> __Marshaller_SubterfugeRemakeService_RoomDataResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.RoomDataResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateRoomRequest> __Marshaller_SubterfugeRemakeService_CreateRoomRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.CreateRoomRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateRoomResponse> __Marshaller_SubterfugeRemakeService_CreateRoomResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.CreateRoomResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.JoinRoomRequest> __Marshaller_SubterfugeRemakeService_JoinRoomRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.JoinRoomRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.JoinRoomResponse> __Marshaller_SubterfugeRemakeService_JoinRoomResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.JoinRoomResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.LeaveRoomRequest> __Marshaller_SubterfugeRemakeService_LeaveRoomRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.LeaveRoomRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.LeaveRoomResponse> __Marshaller_SubterfugeRemakeService_LeaveRoomResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.LeaveRoomResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.StartGameEarlyRequest> __Marshaller_SubterfugeRemakeService_StartGameEarlyRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.StartGameEarlyRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.StartGameEarlyResponse> __Marshaller_SubterfugeRemakeService_StartGameEarlyResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.StartGameEarlyResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetGameRoomEventsRequest> __Marshaller_SubterfugeRemakeService_GetGameRoomEventsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetGameRoomEventsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetGameRoomEventsResponse> __Marshaller_SubterfugeRemakeService_GetGameRoomEventsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetGameRoomEventsResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SubmitGameEventRequest> __Marshaller_SubterfugeRemakeService_SubmitGameEventRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SubmitGameEventRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SubmitGameEventResponse> __Marshaller_SubterfugeRemakeService_SubmitGameEventResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SubmitGameEventResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.UpdateGameEventRequest> __Marshaller_SubterfugeRemakeService_UpdateGameEventRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.UpdateGameEventRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.UpdateGameEventResponse> __Marshaller_SubterfugeRemakeService_UpdateGameEventResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.UpdateGameEventResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.DeleteGameEventRequest> __Marshaller_SubterfugeRemakeService_DeleteGameEventRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.DeleteGameEventRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.DeleteGameEventResponse> __Marshaller_SubterfugeRemakeService_DeleteGameEventResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.DeleteGameEventResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateMessageGroupRequest> __Marshaller_SubterfugeRemakeService_CreateMessageGroupRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.CreateMessageGroupRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateMessageGroupResponse> __Marshaller_SubterfugeRemakeService_CreateMessageGroupResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.CreateMessageGroupResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SendMessageRequest> __Marshaller_SubterfugeRemakeService_SendMessageRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SendMessageRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SendMessageResponse> __Marshaller_SubterfugeRemakeService_SendMessageResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SendMessageResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetMessageGroupsRequest> __Marshaller_SubterfugeRemakeService_GetMessageGroupsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetMessageGroupsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetMessageGroupsResponse> __Marshaller_SubterfugeRemakeService_GetMessageGroupsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetMessageGroupsResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.BlockPlayerRequest> __Marshaller_SubterfugeRemakeService_BlockPlayerRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.BlockPlayerRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.BlockPlayerResponse> __Marshaller_SubterfugeRemakeService_BlockPlayerResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.BlockPlayerResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.UnblockPlayerRequest> __Marshaller_SubterfugeRemakeService_UnblockPlayerRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.UnblockPlayerRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.UnblockPlayerResponse> __Marshaller_SubterfugeRemakeService_UnblockPlayerResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.UnblockPlayerResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewBlockedPlayersRequest> __Marshaller_SubterfugeRemakeService_ViewBlockedPlayersRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.ViewBlockedPlayersRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewBlockedPlayersResponse> __Marshaller_SubterfugeRemakeService_ViewBlockedPlayersResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.ViewBlockedPlayersResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.HealthCheckRequest> __Marshaller_SubterfugeRemakeService_HealthCheckRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.HealthCheckRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.HealthCheckResponse> __Marshaller_SubterfugeRemakeService_HealthCheckResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.HealthCheckResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizedHealthCheckRequest> __Marshaller_SubterfugeRemakeService_AuthorizedHealthCheckRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AuthorizedHealthCheckRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizedHealthCheckResponse> __Marshaller_SubterfugeRemakeService_AuthorizedHealthCheckResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AuthorizedHealthCheckResponse.Parser.ParseFrom);
 
     static readonly grpc::Method<global::SubterfugeRemakeService.AuthorizationRequest, global::SubterfugeRemakeService.AuthorizationResponse> __Method_Login = new grpc::Method<global::SubterfugeRemakeService.AuthorizationRequest, global::SubterfugeRemakeService.AuthorizationResponse>(
         grpc::MethodType.Unary,
@@ -196,6 +170,20 @@ namespace SubterfugeRemakeService {
         __Marshaller_SubterfugeRemakeService_ViewBlockedPlayersRequest,
         __Marshaller_SubterfugeRemakeService_ViewBlockedPlayersResponse);
 
+    static readonly grpc::Method<global::SubterfugeRemakeService.HealthCheckRequest, global::SubterfugeRemakeService.HealthCheckResponse> __Method_HealthCheck = new grpc::Method<global::SubterfugeRemakeService.HealthCheckRequest, global::SubterfugeRemakeService.HealthCheckResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "HealthCheck",
+        __Marshaller_SubterfugeRemakeService_HealthCheckRequest,
+        __Marshaller_SubterfugeRemakeService_HealthCheckResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.AuthorizedHealthCheckRequest, global::SubterfugeRemakeService.AuthorizedHealthCheckResponse> __Method_AuthorizedHealthCheck = new grpc::Method<global::SubterfugeRemakeService.AuthorizedHealthCheckRequest, global::SubterfugeRemakeService.AuthorizedHealthCheckResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "AuthorizedHealthCheck",
+        __Marshaller_SubterfugeRemakeService_AuthorizedHealthCheckRequest,
+        __Marshaller_SubterfugeRemakeService_AuthorizedHealthCheckResponse);
+
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
@@ -305,6 +293,16 @@ namespace SubterfugeRemakeService {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.ViewBlockedPlayersResponse> ViewBlockedPlayers(global::SubterfugeRemakeService.ViewBlockedPlayersRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.HealthCheckResponse> HealthCheck(global::SubterfugeRemakeService.HealthCheckRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.AuthorizedHealthCheckResponse> AuthorizedHealthCheck(global::SubterfugeRemakeService.AuthorizedHealthCheckRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -690,6 +688,38 @@ namespace SubterfugeRemakeService {
       {
         return CallInvoker.AsyncUnaryCall(__Method_ViewBlockedPlayers, null, options, request);
       }
+      public virtual global::SubterfugeRemakeService.HealthCheckResponse HealthCheck(global::SubterfugeRemakeService.HealthCheckRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return HealthCheck(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.HealthCheckResponse HealthCheck(global::SubterfugeRemakeService.HealthCheckRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_HealthCheck, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.HealthCheckResponse> HealthCheckAsync(global::SubterfugeRemakeService.HealthCheckRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return HealthCheckAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.HealthCheckResponse> HealthCheckAsync(global::SubterfugeRemakeService.HealthCheckRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_HealthCheck, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.AuthorizedHealthCheckResponse AuthorizedHealthCheck(global::SubterfugeRemakeService.AuthorizedHealthCheckRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return AuthorizedHealthCheck(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.AuthorizedHealthCheckResponse AuthorizedHealthCheck(global::SubterfugeRemakeService.AuthorizedHealthCheckRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_AuthorizedHealthCheck, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.AuthorizedHealthCheckResponse> AuthorizedHealthCheckAsync(global::SubterfugeRemakeService.AuthorizedHealthCheckRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return AuthorizedHealthCheckAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.AuthorizedHealthCheckResponse> AuthorizedHealthCheckAsync(global::SubterfugeRemakeService.AuthorizedHealthCheckRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_AuthorizedHealthCheck, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override subterfugeServiceClient NewInstance(ClientBaseConfiguration configuration)
       {
@@ -718,7 +748,9 @@ namespace SubterfugeRemakeService {
           .AddMethod(__Method_GetMessageGroups, serviceImpl.GetMessageGroups)
           .AddMethod(__Method_BlockPlayer, serviceImpl.BlockPlayer)
           .AddMethod(__Method_UnblockPlayer, serviceImpl.UnblockPlayer)
-          .AddMethod(__Method_ViewBlockedPlayers, serviceImpl.ViewBlockedPlayers).Build();
+          .AddMethod(__Method_ViewBlockedPlayers, serviceImpl.ViewBlockedPlayers)
+          .AddMethod(__Method_HealthCheck, serviceImpl.HealthCheck)
+          .AddMethod(__Method_AuthorizedHealthCheck, serviceImpl.AuthorizedHealthCheck).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
@@ -744,6 +776,8 @@ namespace SubterfugeRemakeService {
       serviceBinder.AddMethod(__Method_BlockPlayer, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.BlockPlayerRequest, global::SubterfugeRemakeService.BlockPlayerResponse>(serviceImpl.BlockPlayer));
       serviceBinder.AddMethod(__Method_UnblockPlayer, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.UnblockPlayerRequest, global::SubterfugeRemakeService.UnblockPlayerResponse>(serviceImpl.UnblockPlayer));
       serviceBinder.AddMethod(__Method_ViewBlockedPlayers, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.ViewBlockedPlayersRequest, global::SubterfugeRemakeService.ViewBlockedPlayersResponse>(serviceImpl.ViewBlockedPlayers));
+      serviceBinder.AddMethod(__Method_HealthCheck, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.HealthCheckRequest, global::SubterfugeRemakeService.HealthCheckResponse>(serviceImpl.HealthCheck));
+      serviceBinder.AddMethod(__Method_AuthorizedHealthCheck, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.AuthorizedHealthCheckRequest, global::SubterfugeRemakeService.AuthorizedHealthCheckResponse>(serviceImpl.AuthorizedHealthCheck));
     }
 
   }

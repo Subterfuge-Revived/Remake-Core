@@ -45,6 +45,10 @@ service subterfugeService {
     rpc UnblockPlayer(UnblockPlayerRequest) returns (UnblockPlayerResponse) {}
     
     rpc ViewBlockedPlayers(ViewBlockedPlayersRequest) returns (ViewBlockedPlayersResponse) {}
+    
+    rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
+
+    rpc AuthorizedHealthCheck(AuthorizedHealthCheckRequest) returns (AuthorizedHealthCheckResponse) {}
 
 }
 
@@ -55,6 +59,7 @@ message AuthorizationRequest {
 
 message AuthorizationResponse {
     User User = 1;
+    string Token = 2;
 }
 
 message AccountRegistrationRequest {
@@ -65,6 +70,7 @@ message AccountRegistrationRequest {
 
 message AccountRegistrationResponse {
     User User = 1;
+    string Token = 2;
 }
 
 message User {
@@ -257,3 +263,8 @@ message ViewBlockedPlayersRequest {}
 message ViewBlockedPlayersResponse {
     repeated User BlockedUsers = 1;
 }
+
+message HealthCheckRequest{}
+message HealthCheckResponse{}
+message AuthorizedHealthCheckRequest{}
+message AuthorizedHealthCheckResponse{}
