@@ -35,9 +35,17 @@ namespace SubterfugeServerConsole
                 // The endpoint requires authorization before performing.
                 // Get JWT header
                 Metadata.Entry entry = context.RequestHeaders.Get("authorization");
-                string token = entry.Value;
-            
-                
+                string token;
+                if (entry.Value != null)
+                {
+                    token = entry.Value;
+                }
+                else
+                {
+                    throw new RpcException(new Status(StatusCode.Unauthenticated, "Unauthorized."));
+                }
+
+
                 string uuid;
                 if (JwtManager.ValidateToken(token, out uuid))
                 {
