@@ -21,29 +21,133 @@ namespace SubterfugeServerConsole
             redis = redis;
         }
         
-        public override Task<RoomDataResponse> GetRoomData(RoomDataRequest request, ServerCallContext context)
+        public override async Task<RoomDataResponse> GetRoomData(RoomDataRequest request, ServerCallContext context)
         {
-            return base.GetRoomData(request, context);
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if (user != null)
+            {
+                RoomDataResponse roomResponse = new RoomDataResponse();
+                RedisValue[] roomIds = await RedisConnector.redis.HashKeysAsync($"openlobbies");
+                foreach(RedisValue roomId in roomIds)
+                {
+                    roomResponse.Rooms.Add(await RedisRoomModel.getRoom(Guid.Parse(roomId.ToString())));
+                }
+                return roomResponse;
+            }
+            
+            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
         }
 
-        public override Task<CreateRoomResponse> CreateNewRoom(CreateRoomRequest request, ServerCallContext context)
+        public override async Task<CreateRoomResponse> CreateNewRoom(CreateRoomRequest request, ServerCallContext context)
         {
-            return base.CreateNewRoom(request, context);
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if (user != null)
+            {
+                Guid roomId = Guid.NewGuid();
+                
+                // Push new room to redis.
+                HashEntry[] roomData = new[]
+                {
+                    new HashEntry(roomId.ToString(), request.ToByteString().ToBase64()),
+                };
+
+                await RedisConnector.redis.HashSetAsync($"openlobbies", roomData);
+                await RedisConnector.redis.HashSetAsync($"game:{roomId.ToString()}", roomData);
+                return new CreateRoomResponse()
+                {
+                    CreatedRoom = new Room()
+                    {
+                        Creator = new User() { Username = user.GetUsername(), Id = user.GetUserId() },
+                        RoomId = roomId.ToString(),
+                        RoomStatus = RoomStatus.Open,
+                        MaxPlayers = request.MaxPlayers,
+                    },
+                };
+            }
+            
+            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
         }
 
-        public override Task<JoinRoomResponse> JoinRoom(JoinRoomRequest request, ServerCallContext context)
+        public override async Task<JoinRoomResponse> JoinRoom(JoinRoomRequest request, ServerCallContext context)
         {
-            return base.JoinRoom(request, context);
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if (user != null)
+            {
+                Room room = await RedisRoomModel.getRoom(Guid.Parse(request.RoomId));
+                if (room != null)
+                {
+                    if (room.Players.Count < room.MaxPlayers)
+                    {
+                        // Check if this is the last player required to join.
+                        if (room.Players.Count + 1 == room.MaxPlayers)
+                        {
+                            // Remove the game from the open lobby list.
+                            await RedisConnector.redis.HashDeleteAsync($"openlobbies", room.RoomId);
+                            
+                            // TODO: Start the game and update the room's started on date.
+                        }
+                        
+                        // Add player to game player list
+                        await RedisConnector.redis.HashSetAsync($"room:{request.RoomId}:players",
+                            new[] {new HashEntry(user.GetUserId(), user.GetUserId()),});
+                        
+                        // Add game to player game lobbies
+                        await RedisConnector.redis.HashSetAsync($"user:{user.GetUserId()}:games",
+                            new[] {new HashEntry(request.RoomId, request.RoomId),});
+                        
+                        return new JoinRoomResponse()
+                        {
+                            Success = true
+                        };
+                    }
+                    throw new RpcException(new Status(StatusCode.Unavailable, "The room is full."));
+                }
+                throw new RpcException(new Status(StatusCode.Unavailable, "Room does not exist."));
+            }
+            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
         }
 
-        public override Task<LeaveRoomResponse> LeaveRoom(LeaveRoomRequest request, ServerCallContext context)
+        public override async Task<LeaveRoomResponse> LeaveRoom(LeaveRoomRequest request, ServerCallContext context)
         {
-            return base.LeaveRoom(request, context);
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if (user != null)
+            {
+                Room room = await RedisRoomModel.getRoom(Guid.Parse(request.RoomId));
+                if (room != null)
+                {
+                    // Remove player from game player list
+                    await RedisConnector.redis.HashDeleteAsync($"room:{request.RoomId}:players", user.GetUserId());
+                    
+                    // Remove game to palyer game lobbies
+                    await RedisConnector.redis.HashDeleteAsync($"user:{user.GetUserId()}:games", request.RoomId);
+                    
+                    return new LeaveRoomResponse()
+                    {
+                        Success = true
+                    };
+                }
+                throw new RpcException(new Status(StatusCode.Unavailable, "Room does not exist."));
+            }
+            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
         }
 
-        public override Task<StartGameEarlyResponse> StartGameEarly(StartGameEarlyRequest request, ServerCallContext context)
+        public override async Task<StartGameEarlyResponse> StartGameEarly(StartGameEarlyRequest request, ServerCallContext context)
         {
-            return base.StartGameEarly(request, context);
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if (user != null)
+            {
+                Room room = await RedisRoomModel.getRoom(Guid.Parse(request.RoomId));
+                if (room != null)
+                {
+                    // Remove lobby from open lobbies.
+                    // From now on all players know the room id as it is in their game list.
+                    await RedisConnector.redis.HashDeleteAsync($"openlobbies", room.RoomId);
+                    
+                    // TODO: Set the start date and save.
+                }
+            }
+            
+            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
         }
 
         public override async Task<GetGameRoomEventsResponse> GetGameRoomEvents(GetGameRoomEventsRequest request, ServerCallContext context)

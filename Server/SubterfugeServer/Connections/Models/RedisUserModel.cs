@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using StackExchange.Redis;
+using SubterfugeRemakeService;
 
 namespace SubterfugeServerConsole.Connections.Models
 {
@@ -107,11 +108,7 @@ namespace SubterfugeServerConsole.Connections.Models
 
             return friends;
         }
-        
-        public void GetOpenLobbies() { }
-        public void GetOngoingLobbies() { }
-        public void GetClosedLobbies() { }
-        
+
         public static async Task<RedisUserModel> getUser(string username)
         {
             HashEntry[] userIds = await RedisConnector.redis.HashGetAllAsync($"username:{username}");
@@ -160,6 +157,15 @@ namespace SubterfugeServerConsole.Connections.Models
         public static RedisUserModelBuilder newBuilder()
         {
             return new RedisUserModelBuilder();
+        }
+
+        public User asUser()
+        {
+            return new User()
+            {
+                Id = GetUserId(),
+                Username = GetUsername(),
+            };
         }
         
     }
