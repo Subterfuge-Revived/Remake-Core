@@ -53,7 +53,7 @@ namespace SubterfugeServerConsole
             {
                 GetGameRoomEventsResponse response = new GetGameRoomEventsResponse();
                 // Get list of event ids.
-                RedisValue[] values = await RedisConnector.redis.ListRangeAsync($"game:{request.RoomId}:events:");
+                RedisValue[] values = await RedisConnector.redis.ListRangeAsync($"game:{request.RoomId}:events");
                 foreach (RedisValue eventId in values)
                 {
                     // Get the event.
@@ -73,10 +73,12 @@ namespace SubterfugeServerConsole
             RedisUserModel user = context.UserState["user"] as RedisUserModel;
             if (user != null)
             {
+                // TODO: Validate event
                 Guid eventId = Guid.NewGuid();
                 request.EventData.EventId = eventId.ToString();
                 // Remove game event from the game room.
                 await RedisConnector.redis.StringSetAsync($"game:{request.RoomId}:events:{eventId}", request.EventData.ToByteArray());
+                await RedisConnector.redis.ListRightPushAsync($"game:{request.RoomId}:events", eventId.ToString());
                 
                 return new SubmitGameEventResponse()
                 {
@@ -93,7 +95,7 @@ namespace SubterfugeServerConsole
             RedisUserModel user = context.UserState["user"] as RedisUserModel;
             if (user != null)
             {
-                // Remove game event from the game room.
+                // TODO: Validate event
                 await RedisConnector.redis.StringSetAsync($"game:{request.RoomId}:events:{request.EventData.EventId}", request.EventData.ToByteArray());
                 return new UpdateGameEventResponse();
             }
@@ -108,7 +110,7 @@ namespace SubterfugeServerConsole
             {
                 // Remove game event from the game room.
                 await RedisConnector.redis.ListRemoveAsync($"game:{request.RoomId}:events", request.EventId);
-                await RedisConnector.redis.KeyDeleteAsync($"game:{request.RoomId}:events{request.EventId}");
+                await RedisConnector.redis.KeyDeleteAsync($"game:{request.RoomId}:events:{request.EventId}");
                 return new DeleteGameEventResponse();
             }
 
@@ -232,7 +234,8 @@ namespace SubterfugeServerConsole
             if (user != null)
             {
                 // Add request to the other player.
-                await RedisConnector.redis.ListRightPushAsync($"user:{request.FriendId}:friendRequests", user.GetUserId());
+                HashEntry[] entry = new[] {new HashEntry(user.GetUserId(), user.GetUserId())};
+                await RedisConnector.redis.HashSetAsync($"user:{request.FriendId}:friendRequests", entry);
                 return new SendFriendRequestResponse();
             }
             throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
@@ -244,15 +247,26 @@ namespace SubterfugeServerConsole
             if (user != null)
             {
                 // TODO: Check user is in player's friend request list
-                
-                // Add both players as friends to each other.
-                ITransaction transaction = RedisConnector.redis.CreateTransaction();
-                // remove from friend requests
-                transaction.ListRemoveAsync($"user:{user.GetUserId()}:friendRequests", request.FriendId);
-                transaction.ListRightPushAsync($"user:{request.FriendId}:friends", user.GetUserId());
-                transaction.ListRightPushAsync($"user:{user.GetUserId()}:friends", request.FriendId);
-                await transaction.ExecuteAsync();
-                return new AcceptFriendRequestResponse();
+                if (await RedisConnector.redis.HashExistsAsync($"user:{user.GetUserId()}:friendRequests",
+                    request.FriendId))
+                {
+                    // Add both players as friends to each other.
+                    ITransaction transaction = RedisConnector.redis.CreateTransaction();
+                    // remove from friend requests
+                    transaction.HashDeleteAsync($"user:{user.GetUserId()}:friendRequests", request.FriendId);
+
+                    HashEntry[] entry = new[] {new HashEntry(user.GetUserId(), user.GetUserId())};
+                    transaction.HashSetAsync($"user:{request.FriendId}:friends", entry);
+                    HashEntry[] friendEntry = new[] {new HashEntry(request.FriendId, request.FriendId)};
+                    transaction.HashSetAsync($"user:{user.GetUserId()}:friends", friendEntry);
+                    
+                    await transaction.ExecuteAsync();
+                    return new AcceptFriendRequestResponse();                    
+                }
+                else
+                {
+                    throw new RpcException(new Status(StatusCode.OutOfRange, "Friend request does not exist."));
+                }
             }
 
             throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
@@ -285,9 +299,9 @@ namespace SubterfugeServerConsole
             {
                 // Remove friend from your list
                 ITransaction transaction = RedisConnector.redis.CreateTransaction();
-                transaction.ListRemoveAsync($"user:{user.GetUserId()}:friends", request.FriendId);
+                transaction.HashDeleteAsync($"user:{user.GetUserId()}:friends", request.FriendId);
                 // Remove yourself from friend list
-                transaction.ListRemoveAsync($"user:{request.FriendId}:friends", user.GetUserId());
+                transaction.HashDeleteAsync($"user:{request.FriendId}:friends", user.GetUserId());
                 await transaction.ExecuteAsync();
                 return new RemoveFriendResponse();
             }

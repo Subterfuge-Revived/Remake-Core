@@ -109,8 +109,10 @@ openlobbies -> gameid           // list of open game rooms
 
 // game info
 game:<gameid> -> gameroom       // generic game info like seed, players involved, etc.
-game:<gameid>:events -> Event 
-game:<gameid>:groups:<chatGroup>:messages -> Chatgroups
+game:<gameid>:event:<eventId>   // Serialized event info
+game:<gameid>:events            // List of event Ids.
+game:<gameid>:groups:<groupId>:messages // List of Serialized messages in the group including author, time sent, etc.
+game:<gameid>:groups  // List of Serialized data with of the id, group members, created date, etc.
 
 // specialists
 specialists:<specid> -> specConfig  // Database to store custom specs

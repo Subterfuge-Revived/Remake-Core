@@ -8,7 +8,7 @@
 using grpc = global::Grpc.Core;
 
 namespace SubterfugeRemakeService {
-  public static partial class subterfugeService
+  public partial class subterfugeService
   {
     static readonly string __ServiceName = "SubterfugeRemakeService.subterfugeService";
 

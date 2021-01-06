@@ -95,7 +95,7 @@ namespace SubterfugeServerConsole.Connections.Models
         
         public async Task<List<RedisUserModel>> GetFriendRequests()
         {
-            RedisValue[] friendIds = await RedisConnector.redis.ListRangeAsync($"user:{GetUserId()}:friendRequests");
+            RedisValue[] friendIds = await RedisConnector.redis.HashKeysAsync($"user:{GetUserId()}:friendRequests");
             List<RedisUserModel> friends = new List<RedisUserModel>();
             if (friendIds.Length > 0)
             {

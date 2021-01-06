@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
@@ -7,41 +9,71 @@ using SubterfugeRemakeService;
 
 namespace SubterfugeClient
 {
-    class SubterfugeClient
+    class SubterfugeClient : subterfugeService.subterfugeServiceClient
     {
-        public async static Task Main(string[] args)
+        public SubterfugeClient(string host, string port) : base(new Channel($"{host}:{port}", ChannelCredentials.Insecure).Intercept((new JwtClientInterceptor())))
         {
             Auth auth = new Auth();
-            
-            var channel = new Channel("localhost:5000", ChannelCredentials.Insecure);
-            var invoker = channel.Intercept(new JwtClientInterceptor());
-            var client =  new subterfugeService.subterfugeServiceClient(invoker);
+        }
 
-            client.HealthCheck(new HealthCheckRequest());
-            
-            try
-            {
-                AccountRegistrationResponse registerResponse = client.RegisterAccount(new AccountRegistrationRequest()
-                    {Email = "test@test.com", Password = "Test", Username = "Test"});
-                
-                Auth.Login(registerResponse.Token);
-                Console.WriteLine($"Created user: {registerResponse.User.Id}");
-            } catch (RpcException e)
-            {
-                Console.WriteLine($"User already created. Login instead.");   
-            }
+        public override AuthorizationResponse Login(AuthorizationRequest request, Metadata headers = null, DateTime? deadline = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            AuthorizationResponse response =  base.Login(request, headers, deadline, cancellationToken);
+            Auth.Login(response.Token);
+            return response;
+        }
 
-            try
-            {
-                AuthorizationResponse loginResponse = await client.LoginAsync(new AuthorizationRequest() { Password = "Test", Username = "Test" });
-                Auth.Login(loginResponse.Token);
-                Console.WriteLine($"Logged in user: {loginResponse.User.Id}");
-            } catch (RpcException e)
-            {
-                Console.WriteLine($"Unable to login...");   
-            }
+        public override AuthorizationResponse Login(AuthorizationRequest request, CallOptions options)
+        {
+            AuthorizationResponse response =  base.Login(request, options);
+            Auth.Login(response.Token);
+            return response;
+        }
 
-            client.AuthorizedHealthCheck(new AuthorizedHealthCheckRequest());
+        public override AsyncUnaryCall<AuthorizationResponse> LoginAsync(AuthorizationRequest request, Metadata headers = null, DateTime? deadline = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            AsyncUnaryCall<AuthorizationResponse> response = base.LoginAsync(request, headers, deadline, cancellationToken);
+            response.ResponseAsync.ContinueWith((authResponse) => { Auth.Login(authResponse.Result.Token); });
+            return response;
+        }
+
+        public override AsyncUnaryCall<AuthorizationResponse> LoginAsync(AuthorizationRequest request, CallOptions options)
+        {
+            AsyncUnaryCall<AuthorizationResponse> response = base.LoginAsync(request, options);
+            response.ResponseAsync.ContinueWith((authResponse) => { Auth.Login(authResponse.Result.Token); });
+            return response;
+        }
+
+        public override AccountRegistrationResponse RegisterAccount(AccountRegistrationRequest request, Metadata headers = null,
+            DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            AccountRegistrationResponse response =  base.RegisterAccount(request, headers, deadline, cancellationToken);
+            Auth.Login(response.Token);
+            return response;
+        }
+
+        public override AccountRegistrationResponse RegisterAccount(AccountRegistrationRequest request, CallOptions options)
+        {
+            AccountRegistrationResponse response =  base.RegisterAccount(request, options);
+            Auth.Login(response.Token);
+            return response;
+        }
+
+        public override AsyncUnaryCall<AccountRegistrationResponse> RegisterAccountAsync(AccountRegistrationRequest request, Metadata headers = null,
+            DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            AsyncUnaryCall<AccountRegistrationResponse> response =  base.RegisterAccountAsync(request, headers, deadline, cancellationToken);
+            response.ResponseAsync.ContinueWith((authResponse) => { Auth.Login(authResponse.Result.Token); });
+            return response;
+        }
+
+        public override AsyncUnaryCall<AccountRegistrationResponse> RegisterAccountAsync(AccountRegistrationRequest request, CallOptions options)
+        {
+            AsyncUnaryCall<AccountRegistrationResponse> response =  base.RegisterAccountAsync(request, options);
+            response.ResponseAsync.ContinueWith((authResponse) => { Auth.Login(authResponse.Result.Token); });
+            return response;
         }
     }
 }
