@@ -66,7 +66,7 @@ namespace SubterfugeServerConsole.Connections.Models
         
         public async Task<List<RedisUserModel>> GetFriends()
         {
-            RedisValue[] friendIds = await RedisConnector.redis.ListRangeAsync($"user:{GetUserId()}:friends");
+            RedisValue[] friendIds = await RedisConnector.Redis.SetMembersAsync($"user:{GetUserId()}:friends");
             List<RedisUserModel> friends = new List<RedisUserModel>();
             if (friendIds.Length > 0)
             {
@@ -81,7 +81,7 @@ namespace SubterfugeServerConsole.Connections.Models
         
         public async Task<List<RedisUserModel>> GetBlockedUsers()
         {
-            RedisValue[] friendIds = await RedisConnector.redis.ListRangeAsync($"user:{GetUserId()}:blocks");
+            RedisValue[] friendIds = await RedisConnector.Redis.SetMembersAsync($"user:{GetUserId()}:blocks");
             List<RedisUserModel> friends = new List<RedisUserModel>();
             if (friendIds.Length > 0)
             {
@@ -96,7 +96,7 @@ namespace SubterfugeServerConsole.Connections.Models
         
         public async Task<List<RedisUserModel>> GetFriendRequests()
         {
-            RedisValue[] friendIds = await RedisConnector.redis.HashKeysAsync($"user:{GetUserId()}:friendRequests");
+            RedisValue[] friendIds = await RedisConnector.Redis.SetMembersAsync($"user:{GetUserId()}:friendRequests");
             List<RedisUserModel> friends = new List<RedisUserModel>();
             if (friendIds.Length > 0)
             {
@@ -111,7 +111,7 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public static async Task<RedisUserModel> getUser(string username)
         {
-            HashEntry[] userIds = await RedisConnector.redis.HashGetAllAsync($"username:{username}");
+            HashEntry[] userIds = await RedisConnector.Redis.HashGetAllAsync($"username:{username}");
             if (userIds.Length > 0)
             {
                 return await getUser(Guid.Parse(userIds.ToDictionary()["id"]));
@@ -123,7 +123,7 @@ namespace SubterfugeServerConsole.Connections.Models
         public static async Task<RedisUserModel> getUser(Guid guid)
         {
 
-            HashEntry[] record = await RedisConnector.redis.HashGetAllAsync($"user:{guid.ToString()}");
+            HashEntry[] record = await RedisConnector.Redis.HashGetAllAsync($"user:{guid.ToString()}");
             if (record.Length > 0)
             {
                 return new RedisUserModel(record);
@@ -142,14 +142,14 @@ namespace SubterfugeServerConsole.Connections.Models
                 new HashEntry("password", GetPassword()),
                 new HashEntry("email", GetEmail()),
             };
-            await RedisConnector.redis.HashSetAsync($"user:{GetUserId()}", userRecord);
+            await RedisConnector.Redis.HashSetAsync($"user:{GetUserId()}", userRecord);
             
             // Save to username lookup
             HashEntry[] usernameRecord =
             {
                 new HashEntry("id", GetUserId()),
             };
-            await RedisConnector.redis.HashSetAsync($"username:{GetUsername()}", usernameRecord);
+            await RedisConnector.Redis.HashSetAsync($"username:{GetUsername()}", usernameRecord);
             
             return true;
         }

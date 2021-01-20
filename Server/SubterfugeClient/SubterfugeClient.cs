@@ -9,8 +9,12 @@ using SubterfugeRemakeService;
 
 namespace SubterfugeClient
 {
-    class SubterfugeClient : subterfugeService.subterfugeServiceClient
+    public class SubterfugeClient : subterfugeService.subterfugeServiceClient
     {
+        public SubterfugeClient()
+        {
+            
+        }
         public SubterfugeClient(string host, string port) : base(new Channel($"{host}:{port}", ChannelCredentials.Insecure).Intercept((new JwtClientInterceptor())))
         {
             Auth auth = new Auth();

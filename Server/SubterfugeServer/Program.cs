@@ -23,8 +23,8 @@ namespace SubterfugeServerConsole
         static void Main(string[] args)
         {
             
-            RedisConnector redis = new RedisConnector(dbHost, dbPort.ToString());
-            SubterfugeServer grpcService = new SubterfugeServer(redis);
+            RedisConnector redis = new RedisConnector(dbHost, dbPort.ToString(), false);
+            SubterfugeServer grpcService = new SubterfugeServer();
 
             Server server = new Server
             {
