@@ -76,6 +76,7 @@ message AccountRegistrationRequest {
     string Username = 1;
     string Password = 2;
     string Email = 3;
+    string Phone = 4;
 }
 
 message AccountRegistrationResponse {
@@ -308,3 +309,28 @@ message HealthCheckRequest{}
 message HealthCheckResponse{}
 message AuthorizedHealthCheckRequest{}
 message AuthorizedHealthCheckResponse{}
+
+
+// For database and server processing only.
+// Players should never be shown or given access to the full data model as it contains confidential information
+
+message UserModel {
+    string Id = 1;
+    string Username = 2;
+    string PasswordHash = 3;
+    string Email = 4;
+    string Phone = 5;
+    bool phoneVerified = 6;
+    bool emailVerified = 7;
+    repeated UserClaim claims = 8;
+}
+
+enum UserClaim {
+    UNKNOWN = 0;
+    USER = 1;
+    DEV = 2;
+    ADMIN = 3;
+    PHONE_VERIFIED = 4;
+    EMAIL_VERIFIED = 5;
+    BANNED = 6;
+}

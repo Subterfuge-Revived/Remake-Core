@@ -50,7 +50,7 @@ namespace SubterfugeServerConsole
                 {
                     CreatedRoom = new Room()
                     {
-                        Creator = new User() { Username = user.GetUsername(), Id = user.GetUserId() },
+                        Creator = user.asUser(),
                         RoomId = roomId.ToString(),
                         RoomStatus = RoomStatus.Open,
                         MaxPlayers = request.MaxPlayers,
@@ -81,12 +81,10 @@ namespace SubterfugeServerConsole
                         }
                         
                         // Add player to game player list
-                        await RedisConnector.Redis.HashSetAsync($"room:{request.RoomId}:players",
-                            new[] {new HashEntry(user.GetUserId(), user.GetUserId()),});
+                        await RedisConnector.Redis.SetAddAsync($"room:{request.RoomId}:players", user.UserModel.Id);
                         
                         // Add game to player game lobbies
-                        await RedisConnector.Redis.HashSetAsync($"user:{user.GetUserId()}:games",
-                            new[] {new HashEntry(request.RoomId, request.RoomId),});
+                        await RedisConnector.Redis.SetAddAsync($"user:{user.UserModel.Id}:games", request.RoomId);
                         
                         return new JoinRoomResponse()
                         {
@@ -109,10 +107,10 @@ namespace SubterfugeServerConsole
                 if (room != null)
                 {
                     // Remove player from game player list
-                    await RedisConnector.Redis.HashDeleteAsync($"room:{request.RoomId}:players", user.GetUserId());
+                    await RedisConnector.Redis.SetRemoveAsync($"room:{request.RoomId}:players", user.UserModel.Id);
                     
                     // Remove game to palyer game lobbies
-                    await RedisConnector.Redis.HashDeleteAsync($"user:{user.GetUserId()}:games", request.RoomId);
+                    await RedisConnector.Redis.SetRemoveAsync($"user:{user.UserModel.Id}:games", request.RoomId);
                     
                     return new LeaveRoomResponse()
                     {
@@ -224,14 +222,10 @@ namespace SubterfugeServerConsole
                 group.GroupId = Guid.NewGuid().ToString();
                 foreach (string s in request.UserIdsInGroup)
                 {
-                    RedisUserModel model = await RedisUserModel.getUser(Guid.Parse(s));
+                    RedisUserModel model = await RedisUserModel.GetUserFromGuid(s);
                     if (model != null)
                     {
-                        group.GroupMembers.Add(new User
-                        {
-                            Id = model.GetUserId(),
-                            Username = model.GetUsername()
-                        });                        
+                        group.GroupMembers.Add(model.asUser());                        
                     }
                 }
                 await RedisConnector.Redis.ListRightPushAsync($"game:{request.RoomId}:groups", group.ToByteArray());
@@ -265,7 +259,7 @@ namespace SubterfugeServerConsole
                 foreach (RedisValue roomValue in roomValues)
                 {
                     MessageGroup group = MessageGroup.Parser.ParseFrom(roomValue);
-                    if (group != null && group.GroupMembers.Any(it => it.Id == user.GetUserId()))
+                    if (group != null && group.GroupMembers.Any(it => it.Id == user.UserModel.Id))
                     {
                         // player is in the group.
                         response.MessageGroups.Add(group);
@@ -283,7 +277,7 @@ namespace SubterfugeServerConsole
             if (user != null)
             {
                 // Add player to your block list
-                await RedisConnector.Redis.SetAddAsync($"user:{user.GetUserId()}:blocks", request.UserIdToBlock);
+                await RedisConnector.Redis.SetAddAsync($"user:{user.UserModel.Id}:blocks", request.UserIdToBlock);
                 return new BlockPlayerResponse();
             }
 
@@ -293,10 +287,15 @@ namespace SubterfugeServerConsole
         public override async Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request, ServerCallContext context)
         {
             RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if (user == null)
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            
+            // Check if player is valid.
+            
             if (user != null)
             {
                 // Remove player from your block list
-                await RedisConnector.Redis.SetRemoveAsync($"user:{user.GetUserId()}:blocks", request.UserIdToBlock);
+                await RedisConnector.Redis.SetRemoveAsync($"user:{user.UserModel.Id}:blocks", request.UserIdToBlock);
                 
                 return new UnblockPlayerResponse();
             }
@@ -307,141 +306,96 @@ namespace SubterfugeServerConsole
         public override async Task<ViewBlockedPlayersResponse> ViewBlockedPlayers(ViewBlockedPlayersRequest request, ServerCallContext context)
         {
             RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if (user == null)
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            
             ViewBlockedPlayersResponse response = new ViewBlockedPlayersResponse();
-            if (user != null)
-            {
-                foreach (RedisUserModel blockedRedisUser in await user.GetBlockedUsers())
-                {
-                    User blockedUser = new User()
-                    {
-                        Id = blockedRedisUser.GetUserId(),
-                        Username = blockedRedisUser.GetUsername()
-                    };
-                    response.BlockedUsers.Add(blockedUser);
-                }
-                return response;
-            }
-
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            response.BlockedUsers.AddRange((await user.GetBlockedUsers()).ConvertAll(it => it.asUser()));
+            return response;
         }
 
         public override async Task<SendFriendRequestResponse> SendFriendRequest(SendFriendRequestRequest request, ServerCallContext context)
         {
             RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if (user != null)
+            if (user == null)
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+
+            RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.FriendId);
+            if (friend == null)
             {
-                // Check the requested user is valid.
-                try
-                {
-                    Guid friendId = Guid.Parse(request.FriendId);
-                }
-                catch (FormatException e)
-                {
-                    throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid player Id."));
-                }
-                
-                RedisUserModel friend = await RedisUserModel.getUser(Guid.Parse(request.FriendId));
-                if (friend != null)
-                {
-                    // Check if the user already sent a friend request.
-                    if (!await RedisConnector.Redis.SetContainsAsync($"user:{request.FriendId}:friendRequests",
-                        user.GetUserId()))
-                    {
-                        // Add request to the other player.
-                        await RedisConnector.Redis.SetAddAsync($"user:{request.FriendId}:friendRequests",
-                            user.GetUserId());
-                        return new SendFriendRequestResponse();
-                    }
-                    throw new RpcException(new Status(StatusCode.AlreadyExists, "You have already sent a request to this player."));
-                }
                 throw new RpcException(new Status(StatusCode.Unavailable, "The player does not exist."));
             }
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            
+            List<RedisUserModel> otherPlayerRequests = await friend.GetFriendRequests();
+            if (otherPlayerRequests.Contains(user))
+            {
+                throw new RpcException(new Status(StatusCode.AlreadyExists, "You have already sent a request to this player."));
+            }
+            
+            // Add request to the other player.
+            await friend.AddFriendRequest(user);
+            return new SendFriendRequestResponse();
         }
 
         public override async Task<AcceptFriendRequestResponse> AcceptFriendRequest(AcceptFriendRequestRequest request, ServerCallContext context)
         {
             RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if (user != null)
-            {
-                if (await RedisConnector.Redis.SetContainsAsync($"user:{user.GetUserId()}:friendRequests", request.FriendId))
-                {
-                    if (await RedisConnector.Redis.SetRemoveAsync($"user:{user.GetUserId()}:friendRequests",
-                        request.FriendId))
-                    {
-                        // Add both players as friends to each other.
-                        ITransaction transaction = RedisConnector.Redis.CreateTransaction();
-                        // remove from friend requests
-                        transaction.SetRemoveAsync($"user:{user.GetUserId()}:friendRequests", request.FriendId);
-                        transaction.SetAddAsync($"user:{request.FriendId}:friends", user.GetUserId());
-                        transaction.SetAddAsync($"user:{user.GetUserId()}:friends", request.FriendId);
+            if(user == null)
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
 
-                        await transaction.ExecuteAsync();
-                        return new AcceptFriendRequestResponse();
-                    }
-                }
+            RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.FriendId);
+            if(friend == null)
+                throw new RpcException(new Status(StatusCode.Unavailable, "User does not exist."));
+            
+            List<RedisUserModel> friendRequests = await user.GetFriendRequests();
+            
+            if(!friendRequests.Contains(friend)) 
                 throw new RpcException(new Status(StatusCode.OutOfRange, "Friend request does not exist."));
-            }
 
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            await user.AddFriend(friend);
+            await friend.AddFriend(user);
+            await user.RemoveFriendRequest(friend);
+
+            return new AcceptFriendRequestResponse();
         }
 
         public override async Task<ViewFriendRequestsResponse> ViewFriendRequests(ViewFriendRequestsRequest request, ServerCallContext context)
         {
             RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if(user == null)
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            
             ViewFriendRequestsResponse response = new ViewFriendRequestsResponse();
-            if (user != null)
-            {
-                foreach (RedisUserModel friendRequest in await user.GetFriendRequests())
-                {
-                    User rpcUser = new User
-                    {
-                        Id = friendRequest.GetUserId(),
-                        Username = friendRequest.GetUsername(),
-                    };
-                    response.IncomingFriends.Add(rpcUser);
-                }
-                return response;
-            }
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            List<User> users = (await user.GetFriendRequests()).ConvertAll(input => input.asUser());
+            response.IncomingFriends.AddRange(users);
+            return response;
         }
 
         public override async Task<RemoveFriendResponse> RemoveFriend(RemoveFriendRequest request, ServerCallContext context)
         {
             RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if (user != null)
-            {
-                // Remove friend from your list
-                ITransaction transaction = RedisConnector.Redis.CreateTransaction();
-                transaction.HashDeleteAsync($"user:{user.GetUserId()}:friends", request.FriendId);
-                // Remove yourself from friend list
-                transaction.HashDeleteAsync($"user:{request.FriendId}:friends", user.GetUserId());
-                await transaction.ExecuteAsync();
-                return new RemoveFriendResponse();
-            }
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            if(user == null)
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+
+            RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.FriendId);
+            if(friend == null)
+                throw new RpcException(new Status(StatusCode.Unavailable, "User does not exist."));
+                
+            await user.RemoveFriend(friend);
+            await friend.RemoveFriend(user);
+            return new RemoveFriendResponse();
         }
 
         public override async Task<ViewFriendsResponse> ViewFriends(ViewFriendsRequest request, ServerCallContext context)
         {
             RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            ViewFriendsResponse response = new ViewFriendsResponse();
-            if (user != null)
-            {
-                foreach (RedisUserModel userFriend in await user.GetFriends())
-                {
-                    User rpcUser = new User
-                    {
-                        Id = userFriend.GetUserId(),
-                        Username = userFriend.GetUsername(),
-                    };
-                    response.Friends.Add(rpcUser);
-                }
-
-                return response;
-            }
+            if(user == null)
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
             
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            ViewFriendsResponse response = new ViewFriendsResponse();
+            response.Friends.AddRange((await user.GetFriends()).ConvertAll(input => input.asUser()));
+            
+            return response;
         }
 
         public override Task<HealthCheckResponse> HealthCheck(HealthCheckRequest request, ServerCallContext context)
@@ -457,36 +411,30 @@ namespace SubterfugeServerConsole
         public override async Task<AuthorizationResponse> Login(AuthorizationRequest request, ServerCallContext context)
         {
             // Try to get a user
-            RedisUserModel user = await RedisUserModel.getUser(request.Username);
+            RedisUserModel user = await RedisUserModel.GetUserFromUsername(request.Username);
             
-            if (user == null || user.GetPassword() != request.Password)
+            if (user == null || !JwtManager.VerifyPasswordHash(request.Password, user.UserModel.PasswordHash))
             {
                 throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
             }
 
-            string token = JwtManager.GenerateToken(user.GetUserId());
+            string token = JwtManager.GenerateToken(user.UserModel.Id);
             context.ResponseTrailers.Add("Authorization", token);
-            return new AuthorizationResponse {Token = token, User = new User {Id = user.GetUserId(), Username = user.GetUsername()}};
+            return new AuthorizationResponse { Token = token, User = user.asUser() };
         }
 
         public override async Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest request,
             ServerCallContext context)
         {
-            RedisUserModel user = await RedisUserModel.getUser(request.Username);
+            RedisUserModel user = await RedisUserModel.GetUserFromUsername(request.Username);
             if (user == null)
             {
                 // Create a new user model
-                RedisUserModel model = RedisUserModel.newBuilder()
-                    .setEmail(request.Email)
-                    .setPassword(request.Password)
-                    .setUsername(request.Username)
-                    .Build();
-
-                // Save the new user
-                await model.saveUser();
-                string token = JwtManager.GenerateToken(model.GetUserId());
+                RedisUserModel model = new RedisUserModel(request);
+                await model.SaveToDatabase();
+                string token = JwtManager.GenerateToken(model.UserModel.Id);
                 context.ResponseTrailers.Add("Authorization", token);
-                return new AccountRegistrationResponse {Token = token, User = new User {Id = model.GetUserId(), Username = model.GetUsername()}};    
+                return new AccountRegistrationResponse { Token = token, User = model.asUser() };    
             }
             throw new RpcException(new Status(StatusCode.AlreadyExists, "Username already exists."));
         }

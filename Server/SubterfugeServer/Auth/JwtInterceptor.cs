@@ -50,7 +50,7 @@ namespace SubterfugeServerConsole
                 if (JwtManager.ValidateToken(token, out uuid))
                 {
                     // Validate user exists.
-                    RedisUserModel user = await RedisUserModel.getUser(Guid.Parse(uuid));
+                    RedisUserModel user = await RedisUserModel.GetUserFromGuid(uuid);
                     if (user != null)
                     {
                         isValidRequest = true;

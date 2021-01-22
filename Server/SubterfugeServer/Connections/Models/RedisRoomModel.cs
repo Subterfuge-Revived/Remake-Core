@@ -20,7 +20,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 RedisValue[] playersInRoom = await RedisConnector.Redis.HashKeysAsync($"game:{roomId.ToString()}:players");
                 foreach (RedisValue playerId in playersInRoom)
                 {
-                    RedisUserModel user = await RedisUserModel.getUser(playerId);
+                    RedisUserModel user = await RedisUserModel.GetUserFromUsername(playerId);
                     if (user != null)
                     {
                         room.Players.Add(user.asUser());

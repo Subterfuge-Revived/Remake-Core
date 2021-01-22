@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Grpc.Core;
 using NUnit.Framework;
 using SubterfugeRemakeService;
@@ -38,7 +39,7 @@ namespace Tests
         }
 
         [Test]
-        public async void UserCanBlockAnotherPlayer()
+        public async Task<Boolean> UserCanBlockAnotherPlayer()
         {
             BlockPlayerRequest request = new BlockPlayerRequest()
             {
@@ -50,7 +51,7 @@ namespace Tests
         }
         
         [Test]
-        public async void UserCannotBlockInvalidGuid()
+        public void UserCannotBlockInvalidGuid()
         {
             BlockPlayerRequest request = new BlockPlayerRequest()
             {

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Google.Protobuf;
 using StackExchange.Redis;
 using SubterfugeRemakeService;
 
@@ -10,69 +12,47 @@ namespace SubterfugeServerConsole.Connections.Models
 {
     public class RedisUserModel
     {
-        private Dictionary<RedisValue, RedisValue> userValues;
+        public UserModel UserModel;
 
-        public RedisUserModel(HashEntry[] record)
+        public RedisUserModel(UserModel userModel)
         {
-            userValues = record.ToDictionary();
+            this.UserModel = userModel;
         }
         
-        public RedisUserModel(Dictionary<RedisValue, RedisValue> record)
+        public RedisUserModel(RedisValue byteArray)
         {
-            userValues = record;
-        }
-
-        public string GetUsername()
-        {
-            if (userValues.ContainsKey("username"))
-            {
-                return userValues["username"];
-            }
-
-            return "";
-        }
-
-        public string GetPassword()
-        {
-            if (userValues.ContainsKey("password"))
-            {
-                return userValues["password"];
-            }
-
-            return "";
-        }
-
-        public string GetUserId()
-        {
-            if (userValues.ContainsKey("id"))
-            {
-                return userValues["id"];
-            }
-            string guid = Guid.NewGuid().ToString();
-            userValues["id"] = guid;
-
-            return guid;
+            UserModel = UserModel.Parser.ParseFrom(byteArray);
         }
         
-        public string GetEmail()
+        public RedisUserModel(AccountRegistrationRequest registration)
         {
-            if (userValues.ContainsKey("email"))
+            UserModel = new UserModel()
             {
-                return userValues["email"];
-            }
+                Id = Guid.NewGuid().ToString(),
+                Username =  registration.Username,
+                Email = registration.Email,
+                EmailVerified = false,
+                PasswordHash = JwtManager.HashPassword(registration.Password),
+                Phone = registration.Phone,
+                PhoneVerified = false,
+                Claims = { UserClaim.User }
+            };
+        }
 
-            return "";
+        public bool HasClaim(UserClaim claim)
+        {
+            return UserModel.Claims.Contains(claim);
         }
         
         public async Task<List<RedisUserModel>> GetFriends()
         {
-            RedisValue[] friendIds = await RedisConnector.Redis.SetMembersAsync($"user:{GetUserId()}:friends");
+            RedisValue[] friendIds = await RedisConnector.Redis.SetMembersAsync($"user:{UserModel.Id}:friends");
             List<RedisUserModel> friends = new List<RedisUserModel>();
             if (friendIds.Length > 0)
             {
                 foreach(RedisValue value in friendIds)
                 {
-                    friends.Add(await getUser(Guid.Parse(value)));
+                    friends.Add(await GetUserFromGuid(value));
                 }
             }
 
@@ -81,13 +61,13 @@ namespace SubterfugeServerConsole.Connections.Models
         
         public async Task<List<RedisUserModel>> GetBlockedUsers()
         {
-            RedisValue[] friendIds = await RedisConnector.Redis.SetMembersAsync($"user:{GetUserId()}:blocks");
+            RedisValue[] friendIds = await RedisConnector.Redis.SetMembersAsync($"user:{UserModel.Id}:blocks");
             List<RedisUserModel> friends = new List<RedisUserModel>();
             if (friendIds.Length > 0)
             {
                 foreach(RedisValue value in friendIds)
                 {
-                    friends.Add(await getUser(Guid.Parse(value)));
+                    friends.Add(await GetUserFromGuid(value));
                 }
             }
 
@@ -96,108 +76,104 @@ namespace SubterfugeServerConsole.Connections.Models
         
         public async Task<List<RedisUserModel>> GetFriendRequests()
         {
-            RedisValue[] friendIds = await RedisConnector.Redis.SetMembersAsync($"user:{GetUserId()}:friendRequests");
+            RedisValue[] friendIds = await RedisConnector.Redis.SetMembersAsync($"user:{UserModel.Id}:friendRequests");
             List<RedisUserModel> friends = new List<RedisUserModel>();
             if (friendIds.Length > 0)
             {
                 foreach(RedisValue value in friendIds)
                 {
-                    friends.Add(await getUser(Guid.Parse(value)));
+                    friends.Add(await GetUserFromGuid(value));
                 }
             }
 
             return friends;
         }
-
-        public static async Task<RedisUserModel> getUser(string username)
+        
+        public async Task<Boolean> BlockUser(RedisUserModel requestingUser)
         {
-            HashEntry[] userIds = await RedisConnector.Redis.HashGetAllAsync($"username:{username}");
-            if (userIds.Length > 0)
+            return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
+        }
+        
+        public async Task<Boolean> UnblockUser(RedisUserModel requestingUser)
+        {
+            return await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
+        }
+
+        public async Task<Boolean> AddFriendRequest(RedisUserModel requestingUser)
+        {
+            return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:friendRequests", requestingUser.UserModel.Id);
+        }
+        
+        public async Task<Boolean> RemoveFriendRequest(RedisUserModel requestingUser)
+        {
+            return await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:friendRequests", requestingUser.UserModel.Id);
+        }
+        
+        public async Task<Boolean> AddFriend(RedisUserModel requestingUser)
+        {
+            return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:friends", requestingUser.UserModel.Id);
+        }
+        
+        public async Task<Boolean> RemoveFriend(RedisUserModel requestingUser)
+        {
+            return await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:friends", requestingUser.UserModel.Id);
+        }
+
+        public static async Task<RedisUserModel> GetUserFromUsername(string username)
+        {
+            RedisValue userId = await RedisConnector.Redis.StringGetAsync($"username:{username}");
+            if (userId.HasValue)
             {
-                return await getUser(Guid.Parse(userIds.ToDictionary()["id"]));
+                return await GetUserFromGuid(userId.ToString());
             }
 
             return null;
         }
 
-        public static async Task<RedisUserModel> getUser(Guid guid)
+        public static async Task<RedisUserModel> GetUserFromGuid(string guid)
         {
-
-            HashEntry[] record = await RedisConnector.Redis.HashGetAllAsync($"user:{guid.ToString()}");
-            if (record.Length > 0)
+            Guid parsedGuid;
+            try
             {
-                return new RedisUserModel(record);
+                parsedGuid = Guid.Parse(guid);
+            }
+            catch (FormatException e)
+            {
+                return null;
+            }
+
+            RedisValue user = await RedisConnector.Redis.HashGetAsync("users", new RedisValue(parsedGuid.ToString()));
+            if (user.HasValue)
+            {
+                return new RedisUserModel(user);
             }
 
             return null;
         }
 
-        public async Task<bool> saveUser()
+        public async Task<bool> SaveToDatabase()
         {
             // Save to user list
             HashEntry[] userRecord =
             {
-                new HashEntry("username", GetUsername()),
-                new HashEntry("id", GetUserId()),
-                new HashEntry("password", GetPassword()),
-                new HashEntry("email", GetEmail()),
+                new HashEntry(UserModel.Id, UserModel.ToByteArray()),
             };
-            await RedisConnector.Redis.HashSetAsync($"user:{GetUserId()}", userRecord);
+            await RedisConnector.Redis.HashSetAsync($"users", userRecord);
             
             // Save to username lookup
-            HashEntry[] usernameRecord =
-            {
-                new HashEntry("id", GetUserId()),
-            };
-            await RedisConnector.Redis.HashSetAsync($"username:{GetUsername()}", usernameRecord);
+            await RedisConnector.Redis.StringSetAsync($"username:{UserModel.Username}", UserModel.Id);
             
             return true;
-        }
-
-        public static RedisUserModelBuilder newBuilder()
-        {
-            return new RedisUserModelBuilder();
         }
 
         public User asUser()
         {
             return new User()
             {
-                Id = GetUserId(),
-                Username = GetUsername(),
+                Id = UserModel.Id,
+                Username = UserModel.Username,
             };
         }
         
-    }
-
-    public class RedisUserModelBuilder
-    {
-
-        private Dictionary<RedisValue, RedisValue> record = new Dictionary<RedisValue, RedisValue>();
-
-        public RedisUserModelBuilder setUsername(string username)
-        {
-            record["username"] = username;
-            return this;
-        }
-
-        public RedisUserModelBuilder setPassword(string password)
-        {
-            record["password"] = password;
-            return this;
-        }
-        
-        public RedisUserModelBuilder setEmail(string email)
-        {
-            record["email"] = email;
-            return this;
-        }
-
-        public RedisUserModel Build()
-        {
-            return new RedisUserModel(record);
-        }
-
-            
     }
 }

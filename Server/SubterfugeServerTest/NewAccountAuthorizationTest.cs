@@ -144,33 +144,13 @@ namespace Tests
              Assert.That(exception.Status.StatusCode, Is.EqualTo(StatusCode.AlreadyExists));
              Assert.That(exception.Status.Detail, Is.EqualTo("Username already exists."));
          }
-         
+
          [Test]
-         public void UserCannotRegisterWithTheSameEmail()
+         public void UsersWhoRegisterWithTheSamePhoneCannotJoinTheSameGame()
          {
-             String username = "Username";
-             String password = "Password";
-    
-             AccountRegistrationRequest request = new AccountRegistrationRequest()
-             {
-                 Email = "Test@test.com",
-                 Password = password,
-                 Username = username,
-             };
-
-             AccountRegistrationResponse response = client.RegisterAccount(request);
-
-             String userId = response.User.Id;
-
-             Assert.IsTrue(response.Token != null);
-             Assert.IsTrue(response.User.Id != null);
-             Assert.AreEqual(response.User.Username, username);
-
-             request.Username = "asdfasdf";
-             
-             var exception = Assert.Throws<RpcException>(() => client.RegisterAccount(request));
-             Assert.That(exception.Status.StatusCode, Is.EqualTo(StatusCode.AlreadyExists));
-             Assert.That(exception.Status.Detail, Is.EqualTo("Username already exists."));
+             // TODO
+             Assert.IsTrue(false);
          }
+        
     }
 }
