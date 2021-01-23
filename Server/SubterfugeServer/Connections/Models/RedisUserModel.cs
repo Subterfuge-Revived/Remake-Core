@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Google.Protobuf;
+using Grpc.Core;
 using StackExchange.Redis;
 using SubterfugeRemakeService;
 
@@ -26,6 +27,15 @@ namespace SubterfugeServerConsole.Connections.Models
         
         public RedisUserModel(AccountRegistrationRequest registration)
         {
+            string deviceIdentifier;
+            if (string.IsNullOrEmpty(registration.DeviceIdentifier))
+            {
+                deviceIdentifier = registration.Email;
+            }
+            else
+            {
+                deviceIdentifier = registration.DeviceIdentifier;
+            }
             UserModel = new UserModel()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -33,9 +43,8 @@ namespace SubterfugeServerConsole.Connections.Models
                 Email = registration.Email,
                 EmailVerified = false,
                 PasswordHash = JwtManager.HashPassword(registration.Password),
-                Phone = registration.Phone,
-                PhoneVerified = false,
-                Claims = { UserClaim.User }
+                Claims = { UserClaim.User },
+                DeviceIdentifier = deviceIdentifier
             };
         }
 
@@ -76,12 +85,38 @@ namespace SubterfugeServerConsole.Connections.Models
         
         public async Task<Boolean> BlockUser(RedisUserModel requestingUser)
         {
+            if (requestingUser.HasClaim(UserClaim.Admin) || HasClaim(UserClaim.Admin))
+                throw new RpcException(new Status(StatusCode.PermissionDenied, "You cannot block an admin."));
+            
+            // When blocking a player we need to:
+            // Remove players as friends if they were
+            // Remove any pending friend requests
+            if (await IsFriend(requestingUser))
+            {
+                await RemoveFriend(requestingUser);
+            }
+
+            if (await HasFriendRequestFrom(requestingUser))
+            {
+                await RemoveFriendRequestFrom(requestingUser);
+            }
+
+            if (await requestingUser.HasFriendRequestFrom(this))
+            {
+                await requestingUser.RemoveFriendRequestFrom(this);
+            }
+            
             return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
         }
         
         public async Task<Boolean> UnblockUser(RedisUserModel requestingUser)
         {
             return await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
+        }
+        
+        public async Task<bool> IsBlocked(RedisUserModel otherUser)
+        {
+            return await RedisConnector.Redis.SetContainsAsync($"user:{UserModel.Id}:blocks", otherUser.UserModel.Id);
         }
         
         public async Task<List<RedisUserModel>> GetFriendRequests()
@@ -98,13 +133,18 @@ namespace SubterfugeServerConsole.Connections.Models
 
             return friends;
         }
+
+        public async Task<bool> HasFriendRequestFrom(RedisUserModel friend)
+        {
+            return await RedisConnector.Redis.SetContainsAsync($"user:{UserModel.Id}:friendRequests", friend.UserModel.Id);
+        }
         
-        public async Task<Boolean> AddFriendRequest(RedisUserModel requestingUser)
+        public async Task<Boolean> AddFriendRequestFrom(RedisUserModel requestingUser)
         {
             return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:friendRequests", requestingUser.UserModel.Id);
         }
         
-        public async Task<Boolean> RemoveFriendRequest(RedisUserModel requestingUser)
+        public async Task<Boolean> RemoveFriendRequestFrom(RedisUserModel requestingUser)
         {
             return await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:friendRequests", requestingUser.UserModel.Id);
         }
@@ -112,22 +152,30 @@ namespace SubterfugeServerConsole.Connections.Models
         /**
          * This method assumes that the passed in user has sent you a request already.
          */
-        public async Task<Boolean> AcceptFriendRequest(RedisUserModel requestingUser)
+        public async Task<Boolean> AcceptFriendRequestFrom(RedisUserModel requestingUser)
         {
-            await RemoveFriendRequest(requestingUser);
+            await RemoveFriendRequestFrom(requestingUser);
             await AddFriend(requestingUser);
-            await requestingUser.AddFriend(this);
             return true;
         }
         
         private async Task<Boolean> AddFriend(RedisUserModel requestingUser)
         {
-            return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:friends", requestingUser.UserModel.Id);
+            await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:friends", requestingUser.UserModel.Id);
+            await RedisConnector.Redis.SetAddAsync($"user:{requestingUser.UserModel.Id}:friends", UserModel.Id);
+            return true;
         }
         
         public async Task<Boolean> RemoveFriend(RedisUserModel requestingUser)
         {
-            return await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:friends", requestingUser.UserModel.Id);
+            await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:friends", requestingUser.UserModel.Id);
+            await RedisConnector.Redis.SetRemoveAsync($"user:{requestingUser.UserModel.Id}:friends", UserModel.Id);
+            return true;
+        }
+        
+        public async Task<bool> IsFriend(RedisUserModel friend)
+        {
+            return await RedisConnector.Redis.SetContainsAsync($"user:{UserModel.Id}:friends", friend.UserModel.Id);
         }
 
         public static async Task<RedisUserModel> GetUserFromUsername(string username)
@@ -177,6 +225,29 @@ namespace SubterfugeServerConsole.Connections.Models
             return true;
         }
 
+        public async Task<List<RedisRoomModel>> GetActiveRooms()
+        {
+            List<RedisRoomModel> userGames = new List<RedisRoomModel>();
+            if (this.HasClaim(UserClaim.Admin))
+            {
+                // Admins can see every room.
+                HashEntry[] games = await RedisConnector.Redis.HashGetAllAsync("games");
+                foreach (var game in games)
+                {
+                    userGames.Add(new RedisRoomModel(game.Value));
+                }
+
+                return userGames;
+            }
+            
+            RedisValue[] roomIds = await RedisConnector.Redis.SetMembersAsync($"users:{UserModel.Id}:games");
+            foreach(var roomId in roomIds)
+            {
+                userGames.Add(await RedisRoomModel.GetRoomFromGuid(roomId));
+            }
+            return userGames;
+        }
+
         public User asUser()
         {
             return new User()
@@ -184,6 +255,36 @@ namespace SubterfugeServerConsole.Connections.Models
                 Id = UserModel.Id,
                 Username = UserModel.Username,
             };
+        }
+
+        private Guid tryParseGuid(string guid)
+        {
+            Guid parsedGuid;
+            try
+            {
+               return Guid.Parse(guid);
+            }
+            catch (FormatException e)
+            {
+                return Guid.Empty;
+            }
+        }
+
+        public static async Task<SuperUser> CreateSuperUser()
+        {
+            String password = Guid.NewGuid().ToString();
+            Console.WriteLine($"Password: {password}");
+            RedisUserModel userModel = new RedisUserModel(new UserModel()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Username =  "SuperUser",
+                Email = "SuperUser",
+                EmailVerified = true,
+                PasswordHash = JwtManager.HashPassword(password),
+                Claims = { UserClaim.User, UserClaim.Admin, UserClaim.Dev, UserClaim.EmailVerified }
+            });
+            await userModel.SaveToDatabase();
+            return new SuperUser(userModel, password);
         }
         
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using StackExchange.Redis;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
@@ -18,6 +19,7 @@ namespace SubterfugeServerConsole.Connections.Models
         public RedisRoomModel(RedisValue value)
         {
             RoomModel = RoomModel.Parser.ParseFrom(value);
+            GameTick.MINUTES_PER_TICK = RoomModel.MinutesPerTick;
         }
 
         public RedisRoomModel(CreateRoomRequest request, RedisUserModel creator)
@@ -29,36 +31,88 @@ namespace SubterfugeServerConsole.Connections.Models
                 CreatorId = creator.UserModel.Id,
                 Goal = request.Goal,
                 MaxPlayers = request.MaxPlayers,
-                RankedInformation = request.RankedInformation,
+                RankedInformation = new RankedInformation()
+                {
+                    IsRanked = request.IsRanked,
+                    MinRating = 500,
+                    MaxRating = 1500, // TODO: +-100 of user rank
+                },
                 RoomId = roomId.ToString(),
                 RoomName = request.RoomName,
                 RoomStatus = RoomStatus.Open,
                 Seed = new Random().Next(),
-                UnixTimeCreated =  DateTime.Now.ToFileTimeUtc(),
+                UnixTimeCreated =  DateTime.UtcNow.ToFileTimeUtc(),
                 UnixTimeStarted = 0,
+                MinutesPerTick = request.MinutesPerTick,
             };
             RoomModel.AllowedSpecialists.AddRange(request.AllowedSpecialists);
+            GameTick.MINUTES_PER_TICK = RoomModel.MinutesPerTick;
         }
 
         public async Task<Boolean> JoinRoom(RedisUserModel userModel)
         {
             List<RedisUserModel> playersInRoom = await GetPlayersInGame();
-            if (RoomModel.RoomStatus == RoomStatus.Open && playersInRoom.Count < RoomModel.MaxPlayers && playersInRoom.All(it => it.UserModel.Id != userModel.UserModel.Id))
-            {
-                await RedisConnector.Redis.SetAddAsync($"game:{RoomModel.RoomId}:players", userModel.UserModel.Id);
-                await RedisConnector.Redis.SetAddAsync($"users:{userModel.UserModel.Id}:games", RoomModel.RoomId);
-                return true;
-            }
+            if(playersInRoom.Count >= RoomModel.MaxPlayers)
+                throw new RpcException(new Status(StatusCode.ResourceExhausted, "Room is full."));
+            
+            if(playersInRoom.Any(it => it.UserModel.Id == userModel.UserModel.Id))
+                throw new RpcException(new Status(StatusCode.AlreadyExists, "Player is already in this game."));
+            
+            if(RoomModel.RoomStatus != RoomStatus.Open)
+                throw new RpcException(new Status(StatusCode.Unavailable, "Cannot join a game that has already started."));
+            
+            // Check if any players in the room have the same device identifier
+            if(playersInRoom.Any(it => it.UserModel.DeviceIdentifier == userModel.UserModel.DeviceIdentifier))
+                throw new RpcException(new Status(StatusCode.PermissionDenied, "Cannot join a game with someone using the same device."));
 
-            return false;
+            await RedisConnector.Redis.SetAddAsync($"game:{RoomModel.RoomId}:players", userModel.UserModel.Id);
+            await RedisConnector.Redis.SetAddAsync($"users:{userModel.UserModel.Id}:games", RoomModel.RoomId);
+            
+            // Check if the player joining the game is the last player.
+            if (playersInRoom.Count + 1 == RoomModel.MaxPlayers)
+                await StartGame();
+            
+            return true;
+        }
+
+        public async Task<Boolean> IsRoomFull()
+        {
+            return (await GetPlayersInGame()).Count >= RoomModel.MaxPlayers;
+        }
+        
+        public async Task<Boolean> IsPlayerInRoom(RedisUserModel player)
+        {
+            return (await GetPlayersInGame()).Any(it => it.UserModel.Id == player.UserModel.Id);
         }
         
         public async Task<Boolean> LeaveRoom(RedisUserModel userModel)
         {
             if (RoomModel.RoomStatus == RoomStatus.Open)
             {
+                // Check if the player leaving was the host.
+                if (RoomModel.CreatorId == userModel.UserModel.Id)
+                {
+                    // Remove all players from the game.
+                    foreach (var player in await GetPlayersInGame())
+                    {
+                        // Make sure we don't infinitely loop.
+                        if(player.UserModel.Id != RoomModel.CreatorId)
+                            await LeaveRoom(player);
+                    }
+                    
+                    // Destroy room.
+                    await RedisConnector.Redis.HashDeleteAsync("games", RoomModel.RoomId);
+                    await RedisConnector.Redis.SetRemoveAsync("openlobbies", RoomModel.RoomId);
+                    
+                    // Finally, remove creator from game
+                    await RedisConnector.Redis.SetRemoveAsync($"game:{RoomModel.RoomId}:players", userModel.UserModel.Id);
+                    await RedisConnector.Redis.SetRemoveAsync($"users:{userModel.UserModel.Id}:games", RoomModel.RoomId);
+                    return true;
+                }
+                
                 await RedisConnector.Redis.SetRemoveAsync($"game:{RoomModel.RoomId}:players", userModel.UserModel.Id);
                 await RedisConnector.Redis.SetRemoveAsync($"users:{userModel.UserModel.Id}:games", RoomModel.RoomId);
+                return true;
             }
             // TODO: Player left the game while ongoing.
             // Create a player leave game event and push to event list
@@ -92,14 +146,32 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public async Task<SubmitGameEventResponse> AddPlayerGameEvent(RedisUserModel player, GameEvent gameEvent)
         {
-            Guid eventId = Guid.NewGuid();
+            Guid eventId;
+            if (String.IsNullOrEmpty(gameEvent.EventId))
+            {
+                eventId = Guid.NewGuid();
+                gameEvent.EventId = eventId.ToString();
+                gameEvent.UnixTimeIssued = DateTime.UtcNow.ToFileTimeUtc();
+            }
+            else
+            {
+                try
+                {
+                    eventId = Guid.Parse(gameEvent.EventId);
+                }
+                catch (FormatException e)
+                {
+                    throw new RpcException(new Status(StatusCode.InvalidArgument, "Event does not exist."));
+                }
+            }
+            
             HashEntry[] entries = new[]
             {
                 new HashEntry(eventId.ToString(), gameEvent.ToByteArray()),
             };
             
             // Ensure player is the one issuing the command.
-            if (player.UserModel.Id != gameEvent.IssuedBy.Id)
+            if (player.UserModel.Id != gameEvent.IssuedBy)
             {
                 return new SubmitGameEventResponse()
                 {
@@ -108,7 +180,7 @@ namespace SubterfugeServerConsole.Connections.Models
             }
             
             // Ensure the event happens after current time.
-            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.Now);
+            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.UtcNow);
             if (gameEvent.OccursAtTick <= currentTick.GetTick())
             {
                 return new SubmitGameEventResponse()
@@ -145,7 +217,7 @@ namespace SubterfugeServerConsole.Connections.Models
             
             // Get the event to check some things...
             RedisValue eventData = await RedisConnector.Redis.HashGetAsync($"game:{RoomModel.RoomId}:events", parsedGuid.ToString());
-            if (eventData.HasValue)
+            if (!eventData.HasValue)
             {
                 return new DeleteGameEventResponse()
                 {
@@ -155,9 +227,9 @@ namespace SubterfugeServerConsole.Connections.Models
             
             // Determine if the event has already passed.
             GameEvent gameEvent = GameEvent.Parser.ParseFrom(eventData);
-            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.Now);
+            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.UtcNow);
             
-            if (gameEvent.OccursAtTick <= currentTick.GetTick() || gameEvent.IssuedBy.Id != player.UserModel.Id)
+            if (gameEvent.OccursAtTick <= currentTick.GetTick() || gameEvent.IssuedBy != player.UserModel.Id)
             {
                 return new DeleteGameEventResponse()
                 {
@@ -166,7 +238,7 @@ namespace SubterfugeServerConsole.Connections.Models
             }
             
             // Determine if the event was issued by the player trying to delete the event.
-            if (player.UserModel.Id != gameEvent.IssuedBy.Id)
+            if (player.UserModel.Id != gameEvent.IssuedBy)
             {
                 return new DeleteGameEventResponse()
                 {
@@ -220,17 +292,21 @@ namespace SubterfugeServerConsole.Connections.Models
             List<GameEvent> events = await GetAllGameEvents();
             
             // Get current game tick
-            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.Now);
+            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.UtcNow);
             events.Sort((a, b) => a.OccursAtTick.CompareTo(b.OccursAtTick));
             // Filter
             return events.FindAll(it => it.OccursAtTick <= currentTick.GetTick());
         }
         
-        public async Task<Boolean> StartGameEarly()
+        public async Task<Boolean> StartGame()
         {
+            // Check that there is enough players to start early.
+            if ((await GetPlayersInGame()).Count < 2)
+                return false;
+            
             RoomModel.RoomStatus = RoomStatus.Ongoing;
-            RoomModel.UnixTimeStarted = DateTime.Now.ToFileTimeUtc();
-            SaveToDatabase();
+            RoomModel.UnixTimeStarted = DateTime.UtcNow.ToFileTimeUtc();
+            await UpdateDatabase();
             await RedisConnector.Redis.SetRemoveAsync("openlobbies", RoomModel.RoomId);
             return true;
         }
@@ -269,8 +345,24 @@ namespace SubterfugeServerConsole.Connections.Models
 
             return null;
         }
+        
+        public async Task<Boolean> UpdateDatabase()
+        {
+            HashEntry[] roomRecord =
+            {
+                new HashEntry(RoomModel.RoomId, RoomModel.ToByteArray()),
+            };
+            await RedisConnector.Redis.HashSetAsync("games", roomRecord);
 
-        public async Task<Boolean> SaveToDatabase()
+            if (RoomModel.RoomStatus == RoomStatus.Open)
+            {
+                await RedisConnector.Redis.SetAddAsync("openlobbies", RoomModel.RoomId);
+            }
+
+            return true;
+        }
+
+        public async Task<Boolean> CreateInDatabase()
         {
             HashEntry[] roomRecord =
             {
@@ -283,11 +375,15 @@ namespace SubterfugeServerConsole.Connections.Models
                 await RedisConnector.Redis.SetAddAsync("openlobbies", RoomModel.RoomId);
             }
             
+            // Add the creator as a player in the game
+            await JoinRoom(await RedisUserModel.GetUserFromGuid(RoomModel.CreatorId));
+            
             return true;
         }
 
         public async Task<Room> asRoom()
         {
+            // TODO: If the room is anonymous, hide the creator and player ids.
             Room room = new Room()
             {
                 RoomId = RoomModel.RoomId,
@@ -301,8 +397,10 @@ namespace SubterfugeServerConsole.Connections.Models
                 UnixTimeCreated = RoomModel.UnixTimeCreated,
                 UnixTimeStarted = RoomModel.UnixTimeStarted,
                 MaxPlayers = RoomModel.MaxPlayers,
+                MinutesPerTick = RoomModel.MinutesPerTick,
             };
-            room.Players.AddRange((await GetPlayersInGame()).ConvertAll(it => it.asUser()));
+            List<RedisUserModel> playersInGame = await GetPlayersInGame();
+            room.Players.AddRange(playersInGame.ConvertAll(it => it.asUser()));
             room.AllowedSpecialists.AddRange(RoomModel.AllowedSpecialists);
             return room;
         }

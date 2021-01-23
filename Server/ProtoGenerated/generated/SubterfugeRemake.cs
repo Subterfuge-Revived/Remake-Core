@@ -28,186 +28,190 @@ namespace SubterfugeRemakeService {
             "cnZpY2UiOgoUQXV0aG9yaXphdGlvblJlcXVlc3QSEAoIVXNlcm5hbWUYASAB",
             "KAkSEAoIUGFzc3dvcmQYAiABKAkiUwoVQXV0aG9yaXphdGlvblJlc3BvbnNl",
             "EisKBFVzZXIYASABKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Vc2Vy",
-            "Eg0KBVRva2VuGAIgASgJIl4KGkFjY291bnRSZWdpc3RyYXRpb25SZXF1ZXN0",
+            "Eg0KBVRva2VuGAIgASgJImkKGkFjY291bnRSZWdpc3RyYXRpb25SZXF1ZXN0",
             "EhAKCFVzZXJuYW1lGAEgASgJEhAKCFBhc3N3b3JkGAIgASgJEg0KBUVtYWls",
-            "GAMgASgJEg0KBVBob25lGAQgASgJIlkKG0FjY291bnRSZWdpc3RyYXRpb25S",
-            "ZXNwb25zZRIrCgRVc2VyGAEgASgLMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZp",
-            "Y2UuVXNlchINCgVUb2tlbhgCIAEoCSIkCgRVc2VyEgoKAklkGAEgASgJEhAK",
-            "CFVzZXJuYW1lGAIgASgJImIKD1Jvb21EYXRhUmVxdWVzdBI3CgpSb29tU3Rh",
-            "dHVzGAEgASgOMiMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9vbVN0YXR1",
-            "cxIWCg5GaWx0ZXJCeVBsYXllchgCIAEoCCJAChBSb29tRGF0YVJlc3BvbnNl",
-            "EiwKBVJvb21zGAEgAygLMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9v",
-            "bSK4AwoEUm9vbRIOCgZSb29tSWQYASABKAkSNwoKUm9vbVN0YXR1cxgCIAEo",
-            "DjIjLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlJvb21TdGF0dXMSLgoHQ3Jl",
-            "YXRvchgDIAEoCzIdLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXISRQoR",
-            "UmFua2VkSW5mb3JtYXRpb24YBCABKAsyKi5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
-            "dmljZS5SYW5rZWRJbmZvcm1hdGlvbhIRCglBbm9ueW1vdXMYBSABKAgSEAoI",
-            "Um9vbU5hbWUYBiABKAkSKwoER29hbBgHIAEoDjIdLlN1YnRlcmZ1Z2VSZW1h",
-            "a2VTZXJ2aWNlLkdvYWwSDAoEU2VlZBgIIAEoAxIXCg9Vbml4VGltZUNyZWF0",
-            "ZWQYCSABKAMSFwoPVW5peFRpbWVTdGFydGVkGAogASgDEhIKCk1heFBsYXll",
-            "cnMYCyABKAMSLgoHUGxheWVycxgMIAMoCzIdLlN1YnRlcmZ1Z2VSZW1ha2VT",
-            "ZXJ2aWNlLlVzZXISGgoSYWxsb3dlZFNwZWNpYWxpc3RzGA0gAygJIksKEVJh",
-            "bmtlZEluZm9ybWF0aW9uEhAKCElzUmFua2VkGAEgASgIEhEKCU1pblJhdGlu",
-            "ZxgCIAEoAxIRCglNYXhSYXRpbmcYAyABKAMi3AEKEUNyZWF0ZVJvb21SZXF1",
-            "ZXN0EkUKEVJhbmtlZEluZm9ybWF0aW9uGAQgASgLMiouU3VidGVyZnVnZVJl",
-            "bWFrZVNlcnZpY2UuUmFua2VkSW5mb3JtYXRpb24SEQoJQW5vbnltb3VzGAUg",
-            "ASgIEhAKCFJvb21OYW1lGAYgASgJEisKBEdvYWwYByABKA4yHS5TdWJ0ZXJm",
-            "dWdlUmVtYWtlU2VydmljZS5Hb2FsEhIKCk1heFBsYXllcnMYCyABKAMSGgoS",
-            "YWxsb3dlZFNwZWNpYWxpc3RzGAwgAygJIkgKEkNyZWF0ZVJvb21SZXNwb25z",
-            "ZRIyCgtjcmVhdGVkUm9vbRgBIAEoCzIdLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
-            "aWNlLlJvb20iIQoPSm9pblJvb21SZXF1ZXN0Eg4KBlJvb21JZBgBIAEoCSIj",
-            "ChBKb2luUm9vbVJlc3BvbnNlEg8KB1N1Y2Nlc3MYASABKAgiIgoQTGVhdmVS",
-            "b29tUmVxdWVzdBIOCgZSb29tSWQYASABKAkiJAoRTGVhdmVSb29tUmVzcG9u",
-            "c2USDwoHU3VjY2VzcxgBIAEoCCInChVTdGFydEdhbWVFYXJseVJlcXVlc3QS",
-            "DgoGUm9vbUlkGAEgASgJIikKFlN0YXJ0R2FtZUVhcmx5UmVzcG9uc2USDwoH",
-            "U3VjY2VzcxgBIAEoCCI9ChhHZXRHYW1lUm9vbUV2ZW50c1JlcXVlc3QSDgoG",
-            "Um9vbUlkGAEgASgJEhEKCUFmdGVyVGljaxgCIAEoAyJTChlHZXRHYW1lUm9v",
-            "bUV2ZW50c1Jlc3BvbnNlEjYKCkdhbWVFdmVudHMYASADKAsyIi5TdWJ0ZXJm",
-            "dWdlUmVtYWtlU2VydmljZS5HYW1lRXZlbnQijgEKCUdhbWVFdmVudBIPCgdl",
-            "dmVudElkGAEgASgJEhYKDlVuaXhUaW1lSXNzdWVkGAIgASgDEhQKDE9jY3Vy",
-            "c0F0VGljaxgDIAEoAxIvCghJc3N1ZWRCeRgEIAEoCzIdLlN1YnRlcmZ1Z2VS",
-            "ZW1ha2VTZXJ2aWNlLlVzZXISEQoJRXZlbnREYXRhGAUgASgJIl8KFlN1Ym1p",
-            "dEdhbWVFdmVudFJlcXVlc3QSDgoGUm9vbUlkGAEgASgJEjUKCUV2ZW50RGF0",
-            "YRgCIAEoCzIiLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdhbWVFdmVudCI7",
-            "ChdTdWJtaXRHYW1lRXZlbnRSZXNwb25zZRIPCgdTdWNjZXNzGAEgASgIEg8K",
-            "B0V2ZW50SWQYAiABKAkiXwoWVXBkYXRlR2FtZUV2ZW50UmVxdWVzdBIOCgZS",
-            "b29tSWQYASABKAkSNQoJRXZlbnREYXRhGAIgASgLMiIuU3VidGVyZnVnZVJl",
-            "bWFrZVNlcnZpY2UuR2FtZUV2ZW50IjkKFkRlbGV0ZUdhbWVFdmVudFJlcXVl",
-            "c3QSDgoGUm9vbUlkGAEgASgJEg8KB0V2ZW50SWQYAiABKAkiKgoXRGVsZXRl",
-            "R2FtZUV2ZW50UmVzcG9uc2USDwoHU3VjY2VzcxgBIAEoCCJDChlDcmVhdGVN",
-            "ZXNzYWdlR3JvdXBSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoCRIWCg5Vc2VySWRz",
-            "SW5Hcm91cBgCIAMoCSI+ChpDcmVhdGVNZXNzYWdlR3JvdXBSZXNwb25zZRIP",
-            "CgdzdWNjZXNzGAEgASgIEg8KB0dyb3VwSWQYAiABKAkiZAoHTWVzc2FnZRIZ",
-            "ChFVbml4VGltZUNyZWF0ZWRBdBgBIAEoAxItCgZTZW5kZXIYAiABKAsyHS5T",
-            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Vc2VyEg8KB01lc3NhZ2UYAyABKAki",
-            "aAoSU2VuZE1lc3NhZ2VSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoCRIPCgdHcm91",
-            "cElkGAIgASgJEjEKB01lc3NhZ2UYAyABKAsyIC5TdWJ0ZXJmdWdlUmVtYWtl",
-            "U2VydmljZS5NZXNzYWdlIiYKE1NlbmRNZXNzYWdlUmVzcG9uc2USDwoHU3Vj",
-            "Y2VzcxgBIAEoCCIpChdHZXRNZXNzYWdlR3JvdXBzUmVxdWVzdBIOCgZSb29t",
-            "SWQYASABKAkiWAoYR2V0TWVzc2FnZUdyb3Vwc1Jlc3BvbnNlEjwKDU1lc3Nh",
-            "Z2VHcm91cHMYASADKAsyJS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5NZXNz",
-            "YWdlR3JvdXAiiAEKDE1lc3NhZ2VHcm91cBIPCgdHcm91cElkGAEgASgJEjMK",
-            "DEdyb3VwTWVtYmVycxgCIAMoCzIdLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNl",
-            "LlVzZXISMgoITWVzc2FnZXMYAyADKAsyIC5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
-            "dmljZS5NZXNzYWdlIisKEkJsb2NrUGxheWVyUmVxdWVzdBIVCg1Vc2VySWRU",
-            "b0Jsb2NrGAEgASgJIhUKE0Jsb2NrUGxheWVyUmVzcG9uc2UiLQoUVW5ibG9j",
-            "a1BsYXllclJlcXVlc3QSFQoNVXNlcklkVG9CbG9jaxgBIAEoCSIXChVVbmJs",
-            "b2NrUGxheWVyUmVzcG9uc2UiGwoZVmlld0Jsb2NrZWRQbGF5ZXJzUmVxdWVz",
-            "dCJRChpWaWV3QmxvY2tlZFBsYXllcnNSZXNwb25zZRIzCgxCbG9ja2VkVXNl",
-            "cnMYASADKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Vc2VyIiwKGFNl",
-            "bmRGcmllbmRSZXF1ZXN0UmVxdWVzdBIQCghGcmllbmRJZBgBIAEoCSIbChlT",
-            "ZW5kRnJpZW5kUmVxdWVzdFJlc3BvbnNlIi4KGkFjY2VwdEZyaWVuZFJlcXVl",
-            "c3RSZXF1ZXN0EhAKCEZyaWVuZElkGAEgASgJIh0KG0FjY2VwdEZyaWVuZFJl",
-            "cXVlc3RSZXNwb25zZSIsChhEZW55RnJpZW5kUmVxdWVzdFJlcXVlc3QSEAoI",
-            "RnJpZW5kSWQYASABKAkiGwoZRGVueUZyaWVuZFJlcXVlc3RSZXNwb25zZSIb",
-            "ChlWaWV3RnJpZW5kUmVxdWVzdHNSZXF1ZXN0IlQKGlZpZXdGcmllbmRSZXF1",
-            "ZXN0c1Jlc3BvbnNlEjYKD0luY29taW5nRnJpZW5kcxgBIAMoCzIdLlN1YnRl",
-            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXIiJwoTUmVtb3ZlRnJpZW5kUmVxdWVz",
-            "dBIQCghGcmllbmRJZBgBIAEoCSIWChRSZW1vdmVGcmllbmRSZXNwb25zZSIU",
-            "ChJWaWV3RnJpZW5kc1JlcXVlc3QiRQoTVmlld0ZyaWVuZHNSZXNwb25zZRIu",
-            "CgdGcmllbmRzGAEgAygLMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVXNl",
-            "ciIUChJIZWFsdGhDaGVja1JlcXVlc3QiFQoTSGVhbHRoQ2hlY2tSZXNwb25z",
-            "ZSIeChxBdXRob3JpemVkSGVhbHRoQ2hlY2tSZXF1ZXN0Ih8KHUF1dGhvcml6",
-            "ZWRIZWFsdGhDaGVja1Jlc3BvbnNlIv0BCglVc2VyTW9kZWwSCgoCSWQYASAB",
-            "KAkSEAoIVXNlcm5hbWUYAiABKAkSFAoMUGFzc3dvcmRIYXNoGAMgASgJEg0K",
-            "BUVtYWlsGAQgASgJEg0KBVBob25lGAUgASgJEhgKEGRldmljZUlkZW50aWZp",
-            "ZXIYBiABKAkSFQoNcGhvbmVWZXJpZmllZBgHIAEoCBIVCg1lbWFpbFZlcmlm",
-            "aWVkGAggASgIEjIKBmNsYWltcxgJIAMoDjIiLlN1YnRlcmZ1Z2VSZW1ha2VT",
-            "ZXJ2aWNlLlVzZXJDbGFpbRIiChpwdXNoTm90aWZpY2F0aW9uSWRlbnRpZmll",
-            "chgKIAEoCSLwAgoJUm9vbU1vZGVsEg4KBlJvb21JZBgBIAEoCRI3CgpSb29t",
-            "U3RhdHVzGAIgASgOMiMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUm9vbVN0",
-            "YXR1cxIRCgljcmVhdG9ySWQYAyABKAkSRQoRUmFua2VkSW5mb3JtYXRpb24Y",
-            "BCABKAsyKi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5SYW5rZWRJbmZvcm1h",
-            "dGlvbhIRCglBbm9ueW1vdXMYBSABKAgSEAoIUm9vbU5hbWUYBiABKAkSKwoE",
-            "R29hbBgHIAEoDjIdLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdvYWwSDAoE",
-            "U2VlZBgIIAEoAxIXCg9Vbml4VGltZUNyZWF0ZWQYCSABKAMSFwoPVW5peFRp",
-            "bWVTdGFydGVkGAogASgDEhIKCk1heFBsYXllcnMYCyABKAMSGgoSYWxsb3dl",
-            "ZFNwZWNpYWxpc3RzGAwgAygJKi8KClJvb21TdGF0dXMSCAoET1BFThAAEgsK",
-            "B09OR09JTkcQARIKCgZDTE9TRUQQAioiCgRHb2FsEgoKBk1JTklORxAAEg4K",
-            "CkRPTUlOQVRJT04QASpqCglVc2VyQ2xhaW0SCwoHVU5LTk9XThAAEggKBFVT",
-            "RVIQARIHCgNERVYQAhIJCgVBRE1JThADEhIKDlBIT05FX1ZFUklGSUVEEAQS",
-            "EgoORU1BSUxfVkVSSUZJRUQQBRIKCgZCQU5ORUQQBjKOFwoRc3VidGVyZnVn",
-            "ZVNlcnZpY2USaAoFTG9naW4SLS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5B",
-            "dXRob3JpemF0aW9uUmVxdWVzdBouLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNl",
-            "LkF1dGhvcml6YXRpb25SZXNwb25zZSIAEn4KD1JlZ2lzdGVyQWNjb3VudBIz",
-            "LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkFjY291bnRSZWdpc3RyYXRpb25S",
-            "ZXF1ZXN0GjQuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQWNjb3VudFJlZ2lz",
-            "dHJhdGlvblJlc3BvbnNlIgASZAoLR2V0Um9vbURhdGESKC5TdWJ0ZXJmdWdl",
-            "UmVtYWtlU2VydmljZS5Sb29tRGF0YVJlcXVlc3QaKS5TdWJ0ZXJmdWdlUmVt",
-            "YWtlU2VydmljZS5Sb29tRGF0YVJlc3BvbnNlIgASagoNQ3JlYXRlTmV3Um9v",
-            "bRIqLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkNyZWF0ZVJvb21SZXF1ZXN0",
-            "GisuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQ3JlYXRlUm9vbVJlc3BvbnNl",
-            "IgASYQoISm9pblJvb20SKC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Kb2lu",
-            "Um9vbVJlcXVlc3QaKS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Kb2luUm9v",
-            "bVJlc3BvbnNlIgASZAoJTGVhdmVSb29tEikuU3VidGVyZnVnZVJlbWFrZVNl",
-            "cnZpY2UuTGVhdmVSb29tUmVxdWVzdBoqLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
-            "aWNlLkxlYXZlUm9vbVJlc3BvbnNlIgAScwoOU3RhcnRHYW1lRWFybHkSLi5T",
-            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5TdGFydEdhbWVFYXJseVJlcXVlc3Qa",
-            "Ly5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5TdGFydEdhbWVFYXJseVJlc3Bv",
-            "bnNlIgASfAoRR2V0R2FtZVJvb21FdmVudHMSMS5TdWJ0ZXJmdWdlUmVtYWtl",
-            "U2VydmljZS5HZXRHYW1lUm9vbUV2ZW50c1JlcXVlc3QaMi5TdWJ0ZXJmdWdl",
-            "UmVtYWtlU2VydmljZS5HZXRHYW1lUm9vbUV2ZW50c1Jlc3BvbnNlIgASdgoP",
-            "U3VibWl0R2FtZUV2ZW50Ei8uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuU3Vi",
-            "bWl0R2FtZUV2ZW50UmVxdWVzdBowLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNl",
-            "LlN1Ym1pdEdhbWVFdmVudFJlc3BvbnNlIgASdgoPVXBkYXRlR2FtZUV2ZW50",
-            "Ei8uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVXBkYXRlR2FtZUV2ZW50UmVx",
-            "dWVzdBowLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlN1Ym1pdEdhbWVFdmVu",
-            "dFJlc3BvbnNlIgASdgoPRGVsZXRlR2FtZUV2ZW50Ei8uU3VidGVyZnVnZVJl",
-            "bWFrZVNlcnZpY2UuRGVsZXRlR2FtZUV2ZW50UmVxdWVzdBowLlN1YnRlcmZ1",
-            "Z2VSZW1ha2VTZXJ2aWNlLkRlbGV0ZUdhbWVFdmVudFJlc3BvbnNlIgASfwoS",
-            "Q3JlYXRlTWVzc2FnZUdyb3VwEjIuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
-            "Q3JlYXRlTWVzc2FnZUdyb3VwUmVxdWVzdBozLlN1YnRlcmZ1Z2VSZW1ha2VT",
-            "ZXJ2aWNlLkNyZWF0ZU1lc3NhZ2VHcm91cFJlc3BvbnNlIgASagoLU2VuZE1l",
-            "c3NhZ2USKy5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5TZW5kTWVzc2FnZVJl",
-            "cXVlc3QaLC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5TZW5kTWVzc2FnZVJl",
-            "c3BvbnNlIgASeQoQR2V0TWVzc2FnZUdyb3VwcxIwLlN1YnRlcmZ1Z2VSZW1h",
-            "a2VTZXJ2aWNlLkdldE1lc3NhZ2VHcm91cHNSZXF1ZXN0GjEuU3VidGVyZnVn",
-            "ZVJlbWFrZVNlcnZpY2UuR2V0TWVzc2FnZUdyb3Vwc1Jlc3BvbnNlIgASagoL",
-            "QmxvY2tQbGF5ZXISKy5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5CbG9ja1Bs",
-            "YXllclJlcXVlc3QaLC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5CbG9ja1Bs",
-            "YXllclJlc3BvbnNlIgAScAoNVW5ibG9ja1BsYXllchItLlN1YnRlcmZ1Z2VS",
-            "ZW1ha2VTZXJ2aWNlLlVuYmxvY2tQbGF5ZXJSZXF1ZXN0Gi4uU3VidGVyZnVn",
-            "ZVJlbWFrZVNlcnZpY2UuVW5ibG9ja1BsYXllclJlc3BvbnNlIgASfwoSVmll",
-            "d0Jsb2NrZWRQbGF5ZXJzEjIuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVmll",
-            "d0Jsb2NrZWRQbGF5ZXJzUmVxdWVzdBozLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
-            "aWNlLlZpZXdCbG9ja2VkUGxheWVyc1Jlc3BvbnNlIgASfAoRU2VuZEZyaWVu",
-            "ZFJlcXVlc3QSMS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5TZW5kRnJpZW5k",
-            "UmVxdWVzdFJlcXVlc3QaMi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5TZW5k",
-            "RnJpZW5kUmVxdWVzdFJlc3BvbnNlIgASggEKE0FjY2VwdEZyaWVuZFJlcXVl",
-            "c3QSMy5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5BY2NlcHRGcmllbmRSZXF1",
-            "ZXN0UmVxdWVzdBo0LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkFjY2VwdEZy",
-            "aWVuZFJlcXVlc3RSZXNwb25zZSIAEnwKEURlbnlGcmllbmRSZXF1ZXN0EjEu",
-            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuRGVueUZyaWVuZFJlcXVlc3RSZXF1",
-            "ZXN0GjIuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuRGVueUZyaWVuZFJlcXVl",
-            "c3RSZXNwb25zZSIAEn8KElZpZXdGcmllbmRSZXF1ZXN0cxIyLlN1YnRlcmZ1",
-            "Z2VSZW1ha2VTZXJ2aWNlLlZpZXdGcmllbmRSZXF1ZXN0c1JlcXVlc3QaMy5T",
-            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5WaWV3RnJpZW5kUmVxdWVzdHNSZXNw",
-            "b25zZSIAEm0KDFJlbW92ZUZyaWVuZBIsLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
-            "aWNlLlJlbW92ZUZyaWVuZFJlcXVlc3QaLS5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
-            "dmljZS5SZW1vdmVGcmllbmRSZXNwb25zZSIAEmoKC1ZpZXdGcmllbmRzEisu",
-            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVmlld0ZyaWVuZHNSZXF1ZXN0Giwu",
-            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVmlld0ZyaWVuZHNSZXNwb25zZSIA",
-            "EmoKC0hlYWx0aENoZWNrEisuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuSGVh",
-            "bHRoQ2hlY2tSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuSGVh",
-            "bHRoQ2hlY2tSZXNwb25zZSIAEogBChVBdXRob3JpemVkSGVhbHRoQ2hlY2sS",
-            "NS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5BdXRob3JpemVkSGVhbHRoQ2hl",
-            "Y2tSZXF1ZXN0GjYuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQXV0aG9yaXpl",
-            "ZEhlYWx0aENoZWNrUmVzcG9uc2UiAEI+Ch1zdWJ0ZXJmdWdlUmVtYWtlLmdy",
-            "cGMuc2VydmljZUIVU3VidGVyZnVnZVJlbWFrZVByb3RvUAGiAgNTUlBiBnBy",
-            "b3RvMw=="));
+            "GAMgASgJEhgKEERldmljZUlkZW50aWZpZXIYBCABKAkiWQobQWNjb3VudFJl",
+            "Z2lzdHJhdGlvblJlc3BvbnNlEisKBFVzZXIYASABKAsyHS5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5Vc2VyEg0KBVRva2VuGAIgASgJIiQKBFVzZXISCgoC",
+            "SWQYASABKAkSEAoIVXNlcm5hbWUYAiABKAkiZQoST3BlbkxvYmJpZXNSZXF1",
+            "ZXN0EjcKClJvb21TdGF0dXMYASABKA4yIy5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
+            "dmljZS5Sb29tU3RhdHVzEhYKDkZpbHRlckJ5UGxheWVyGAIgASgIIkMKE09w",
+            "ZW5Mb2JiaWVzUmVzcG9uc2USLAoFUm9vbXMYASADKAsyHS5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5Sb29tItADCgRSb29tEg4KBlJvb21JZBgBIAEoCRI3",
+            "CgpSb29tU3RhdHVzGAIgASgOMiMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
+            "Um9vbVN0YXR1cxIuCgdDcmVhdG9yGAMgASgLMh0uU3VidGVyZnVnZVJlbWFr",
+            "ZVNlcnZpY2UuVXNlchJFChFSYW5rZWRJbmZvcm1hdGlvbhgEIAEoCzIqLlN1",
+            "YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlJhbmtlZEluZm9ybWF0aW9uEhEKCUFu",
+            "b255bW91cxgFIAEoCBIQCghSb29tTmFtZRgGIAEoCRIrCgRHb2FsGAcgASgO",
+            "Mh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR29hbBIMCgRTZWVkGAggASgD",
+            "EhcKD1VuaXhUaW1lQ3JlYXRlZBgJIAEoAxIXCg9Vbml4VGltZVN0YXJ0ZWQY",
+            "CiABKAMSEgoKTWF4UGxheWVycxgLIAEoAxIuCgdQbGF5ZXJzGAwgAygLMh0u",
+            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVXNlchIaChJhbGxvd2VkU3BlY2lh",
+            "bGlzdHMYDSADKAkSFgoOTWludXRlc1BlclRpY2sYDiABKAEiSwoRUmFua2Vk",
+            "SW5mb3JtYXRpb24SEAoISXNSYW5rZWQYASABKAgSEQoJTWluUmF0aW5nGAIg",
+            "ASgDEhEKCU1heFJhdGluZxgDIAEoAyK/AQoRQ3JlYXRlUm9vbVJlcXVlc3QS",
+            "EAoIaXNSYW5rZWQYBCABKAgSEQoJQW5vbnltb3VzGAUgASgIEhAKCFJvb21O",
+            "YW1lGAYgASgJEisKBEdvYWwYByABKA4yHS5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
+            "dmljZS5Hb2FsEhIKCk1heFBsYXllcnMYCyABKAMSGgoSYWxsb3dlZFNwZWNp",
+            "YWxpc3RzGAwgAygJEhYKDk1pbnV0ZXNQZXJUaWNrGA0gASgBIkgKEkNyZWF0",
+            "ZVJvb21SZXNwb25zZRIyCgtjcmVhdGVkUm9vbRgBIAEoCzIdLlN1YnRlcmZ1",
+            "Z2VSZW1ha2VTZXJ2aWNlLlJvb20iIQoPSm9pblJvb21SZXF1ZXN0Eg4KBlJv",
+            "b21JZBgBIAEoCSIjChBKb2luUm9vbVJlc3BvbnNlEg8KB1N1Y2Nlc3MYASAB",
+            "KAgiIgoQTGVhdmVSb29tUmVxdWVzdBIOCgZSb29tSWQYASABKAkiJAoRTGVh",
+            "dmVSb29tUmVzcG9uc2USDwoHU3VjY2VzcxgBIAEoCCInChVTdGFydEdhbWVF",
+            "YXJseVJlcXVlc3QSDgoGUm9vbUlkGAEgASgJIikKFlN0YXJ0R2FtZUVhcmx5",
+            "UmVzcG9uc2USDwoHU3VjY2VzcxgBIAEoCCI9ChhHZXRHYW1lUm9vbUV2ZW50",
+            "c1JlcXVlc3QSDgoGUm9vbUlkGAEgASgJEhEKCUFmdGVyVGljaxgCIAEoAyJT",
+            "ChlHZXRHYW1lUm9vbUV2ZW50c1Jlc3BvbnNlEjYKCkdhbWVFdmVudHMYASAD",
+            "KAsyIi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5HYW1lRXZlbnQibwoJR2Ft",
+            "ZUV2ZW50Eg8KB2V2ZW50SWQYASABKAkSFgoOVW5peFRpbWVJc3N1ZWQYAiAB",
+            "KAMSFAoMT2NjdXJzQXRUaWNrGAMgASgDEhAKCElzc3VlZEJ5GAQgASgJEhEK",
+            "CUV2ZW50RGF0YRgFIAEoCSJfChZTdWJtaXRHYW1lRXZlbnRSZXF1ZXN0Eg4K",
+            "BlJvb21JZBgBIAEoCRI1CglFdmVudERhdGEYAiABKAsyIi5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5HYW1lRXZlbnQiOwoXU3VibWl0R2FtZUV2ZW50UmVz",
+            "cG9uc2USDwoHU3VjY2VzcxgBIAEoCBIPCgdFdmVudElkGAIgASgJIl8KFlVw",
+            "ZGF0ZUdhbWVFdmVudFJlcXVlc3QSDgoGUm9vbUlkGAEgASgJEjUKCUV2ZW50",
+            "RGF0YRgCIAEoCzIiLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdhbWVFdmVu",
+            "dCI5ChZEZWxldGVHYW1lRXZlbnRSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoCRIP",
+            "CgdFdmVudElkGAIgASgJIioKF0RlbGV0ZUdhbWVFdmVudFJlc3BvbnNlEg8K",
+            "B1N1Y2Nlc3MYASABKAgiQwoZQ3JlYXRlTWVzc2FnZUdyb3VwUmVxdWVzdBIO",
+            "CgZSb29tSWQYASABKAkSFgoOVXNlcklkc0luR3JvdXAYAiADKAkiPgoaQ3Jl",
+            "YXRlTWVzc2FnZUdyb3VwUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCBIPCgdH",
+            "cm91cElkGAIgASgJImQKB01lc3NhZ2USGQoRVW5peFRpbWVDcmVhdGVkQXQY",
+            "ASABKAMSLQoGU2VuZGVyGAIgASgLMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZp",
+            "Y2UuVXNlchIPCgdNZXNzYWdlGAMgASgJImgKElNlbmRNZXNzYWdlUmVxdWVz",
+            "dBIOCgZSb29tSWQYASABKAkSDwoHR3JvdXBJZBgCIAEoCRIxCgdNZXNzYWdl",
+            "GAMgASgLMiAuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuTWVzc2FnZSImChNT",
+            "ZW5kTWVzc2FnZVJlc3BvbnNlEg8KB1N1Y2Nlc3MYASABKAgiKQoXR2V0TWVz",
+            "c2FnZUdyb3Vwc1JlcXVlc3QSDgoGUm9vbUlkGAEgASgJIlgKGEdldE1lc3Nh",
+            "Z2VHcm91cHNSZXNwb25zZRI8Cg1NZXNzYWdlR3JvdXBzGAEgAygLMiUuU3Vi",
+            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuTWVzc2FnZUdyb3VwIogBCgxNZXNzYWdl",
+            "R3JvdXASDwoHR3JvdXBJZBgBIAEoCRIzCgxHcm91cE1lbWJlcnMYAiADKAsy",
+            "HS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Vc2VyEjIKCE1lc3NhZ2VzGAMg",
+            "AygLMiAuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuTWVzc2FnZSIrChJCbG9j",
+            "a1BsYXllclJlcXVlc3QSFQoNVXNlcklkVG9CbG9jaxgBIAEoCSIVChNCbG9j",
+            "a1BsYXllclJlc3BvbnNlIi0KFFVuYmxvY2tQbGF5ZXJSZXF1ZXN0EhUKDVVz",
+            "ZXJJZFRvQmxvY2sYASABKAkiFwoVVW5ibG9ja1BsYXllclJlc3BvbnNlIhsK",
+            "GVZpZXdCbG9ja2VkUGxheWVyc1JlcXVlc3QiUQoaVmlld0Jsb2NrZWRQbGF5",
+            "ZXJzUmVzcG9uc2USMwoMQmxvY2tlZFVzZXJzGAEgAygLMh0uU3VidGVyZnVn",
+            "ZVJlbWFrZVNlcnZpY2UuVXNlciIsChhTZW5kRnJpZW5kUmVxdWVzdFJlcXVl",
+            "c3QSEAoIRnJpZW5kSWQYASABKAkiGwoZU2VuZEZyaWVuZFJlcXVlc3RSZXNw",
+            "b25zZSIuChpBY2NlcHRGcmllbmRSZXF1ZXN0UmVxdWVzdBIQCghGcmllbmRJ",
+            "ZBgBIAEoCSIdChtBY2NlcHRGcmllbmRSZXF1ZXN0UmVzcG9uc2UiLAoYRGVu",
+            "eUZyaWVuZFJlcXVlc3RSZXF1ZXN0EhAKCEZyaWVuZElkGAEgASgJIhsKGURl",
+            "bnlGcmllbmRSZXF1ZXN0UmVzcG9uc2UiGwoZVmlld0ZyaWVuZFJlcXVlc3Rz",
+            "UmVxdWVzdCJUChpWaWV3RnJpZW5kUmVxdWVzdHNSZXNwb25zZRI2Cg9JbmNv",
+            "bWluZ0ZyaWVuZHMYASADKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5V",
+            "c2VyIicKE1JlbW92ZUZyaWVuZFJlcXVlc3QSEAoIRnJpZW5kSWQYASABKAki",
+            "FgoUUmVtb3ZlRnJpZW5kUmVzcG9uc2UiFAoSVmlld0ZyaWVuZHNSZXF1ZXN0",
+            "IkUKE1ZpZXdGcmllbmRzUmVzcG9uc2USLgoHRnJpZW5kcxgBIAMoCzIdLlN1",
+            "YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXIiFAoSSGVhbHRoQ2hlY2tSZXF1",
+            "ZXN0IhUKE0hlYWx0aENoZWNrUmVzcG9uc2UiHgocQXV0aG9yaXplZEhlYWx0",
+            "aENoZWNrUmVxdWVzdCIfCh1BdXRob3JpemVkSGVhbHRoQ2hlY2tSZXNwb25z",
+            "ZSIbChlQbGF5ZXJDdXJyZW50R2FtZXNSZXF1ZXN0IkoKGlBsYXllckN1cnJl",
+            "bnRHYW1lc1Jlc3BvbnNlEiwKBWdhbWVzGAEgAygLMh0uU3VidGVyZnVnZVJl",
+            "bWFrZVNlcnZpY2UuUm9vbSLXAQoJVXNlck1vZGVsEgoKAklkGAEgASgJEhAK",
+            "CFVzZXJuYW1lGAIgASgJEhQKDFBhc3N3b3JkSGFzaBgDIAEoCRINCgVFbWFp",
+            "bBgEIAEoCRIYChBkZXZpY2VJZGVudGlmaWVyGAUgASgJEhUKDWVtYWlsVmVy",
+            "aWZpZWQYBiABKAgSMgoGY2xhaW1zGAcgAygOMiIuU3VidGVyZnVnZVJlbWFr",
+            "ZVNlcnZpY2UuVXNlckNsYWltEiIKGnB1c2hOb3RpZmljYXRpb25JZGVudGlm",
+            "aWVyGAggASgJIogDCglSb29tTW9kZWwSDgoGUm9vbUlkGAEgASgJEjcKClJv",
+            "b21TdGF0dXMYAiABKA4yIy5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Sb29t",
+            "U3RhdHVzEhEKCWNyZWF0b3JJZBgDIAEoCRJFChFSYW5rZWRJbmZvcm1hdGlv",
+            "bhgEIAEoCzIqLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlJhbmtlZEluZm9y",
+            "bWF0aW9uEhEKCUFub255bW91cxgFIAEoCBIQCghSb29tTmFtZRgGIAEoCRIr",
+            "CgRHb2FsGAcgASgOMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR29hbBIM",
+            "CgRTZWVkGAggASgDEhcKD1VuaXhUaW1lQ3JlYXRlZBgJIAEoAxIXCg9Vbml4",
+            "VGltZVN0YXJ0ZWQYCiABKAMSEgoKTWF4UGxheWVycxgLIAEoAxIaChJhbGxv",
+            "d2VkU3BlY2lhbGlzdHMYDCADKAkSFgoOTWludXRlc1BlclRpY2sYDSABKAEq",
+            "LwoKUm9vbVN0YXR1cxIICgRPUEVOEAASCwoHT05HT0lORxABEgoKBkNMT1NF",
+            "RBACKiIKBEdvYWwSCgoGTUlOSU5HEAASDgoKRE9NSU5BVElPThABKlYKCVVz",
+            "ZXJDbGFpbRILCgdVTktOT1dOEAASCAoEVVNFUhABEgcKA0RFVhACEgkKBUFE",
+            "TUlOEAMSEgoORU1BSUxfVkVSSUZJRUQQBBIKCgZCQU5ORUQQBTKcGAoRc3Vi",
+            "dGVyZnVnZVNlcnZpY2USaAoFTG9naW4SLS5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
+            "dmljZS5BdXRob3JpemF0aW9uUmVxdWVzdBouLlN1YnRlcmZ1Z2VSZW1ha2VT",
+            "ZXJ2aWNlLkF1dGhvcml6YXRpb25SZXNwb25zZSIAEn4KD1JlZ2lzdGVyQWNj",
+            "b3VudBIzLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkFjY291bnRSZWdpc3Ry",
+            "YXRpb25SZXF1ZXN0GjQuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQWNjb3Vu",
+            "dFJlZ2lzdHJhdGlvblJlc3BvbnNlIgASbQoOR2V0T3BlbkxvYmJpZXMSKy5T",
+            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5PcGVuTG9iYmllc1JlcXVlc3QaLC5T",
+            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5PcGVuTG9iYmllc1Jlc3BvbnNlIgAS",
+            "ggEKFUdldFBsYXllckN1cnJlbnRHYW1lcxIyLlN1YnRlcmZ1Z2VSZW1ha2VT",
+            "ZXJ2aWNlLlBsYXllckN1cnJlbnRHYW1lc1JlcXVlc3QaMy5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5QbGF5ZXJDdXJyZW50R2FtZXNSZXNwb25zZSIAEmoK",
+            "DUNyZWF0ZU5ld1Jvb20SKi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5DcmVh",
+            "dGVSb29tUmVxdWVzdBorLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkNyZWF0",
+            "ZVJvb21SZXNwb25zZSIAEmEKCEpvaW5Sb29tEiguU3VidGVyZnVnZVJlbWFr",
+            "ZVNlcnZpY2UuSm9pblJvb21SZXF1ZXN0GikuU3VidGVyZnVnZVJlbWFrZVNl",
+            "cnZpY2UuSm9pblJvb21SZXNwb25zZSIAEmQKCUxlYXZlUm9vbRIpLlN1YnRl",
+            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLkxlYXZlUm9vbVJlcXVlc3QaKi5TdWJ0ZXJm",
+            "dWdlUmVtYWtlU2VydmljZS5MZWF2ZVJvb21SZXNwb25zZSIAEnMKDlN0YXJ0",
+            "R2FtZUVhcmx5Ei4uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuU3RhcnRHYW1l",
+            "RWFybHlSZXF1ZXN0Gi8uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuU3RhcnRH",
+            "YW1lRWFybHlSZXNwb25zZSIAEnwKEUdldEdhbWVSb29tRXZlbnRzEjEuU3Vi",
+            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuR2V0R2FtZVJvb21FdmVudHNSZXF1ZXN0",
+            "GjIuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR2V0R2FtZVJvb21FdmVudHNS",
+            "ZXNwb25zZSIAEnYKD1N1Ym1pdEdhbWVFdmVudBIvLlN1YnRlcmZ1Z2VSZW1h",
+            "a2VTZXJ2aWNlLlN1Ym1pdEdhbWVFdmVudFJlcXVlc3QaMC5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5TdWJtaXRHYW1lRXZlbnRSZXNwb25zZSIAEnYKD1Vw",
+            "ZGF0ZUdhbWVFdmVudBIvLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVwZGF0",
+            "ZUdhbWVFdmVudFJlcXVlc3QaMC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5T",
+            "dWJtaXRHYW1lRXZlbnRSZXNwb25zZSIAEnYKD0RlbGV0ZUdhbWVFdmVudBIv",
+            "LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkRlbGV0ZUdhbWVFdmVudFJlcXVl",
+            "c3QaMC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5EZWxldGVHYW1lRXZlbnRS",
+            "ZXNwb25zZSIAEn8KEkNyZWF0ZU1lc3NhZ2VHcm91cBIyLlN1YnRlcmZ1Z2VS",
+            "ZW1ha2VTZXJ2aWNlLkNyZWF0ZU1lc3NhZ2VHcm91cFJlcXVlc3QaMy5TdWJ0",
+            "ZXJmdWdlUmVtYWtlU2VydmljZS5DcmVhdGVNZXNzYWdlR3JvdXBSZXNwb25z",
+            "ZSIAEmoKC1NlbmRNZXNzYWdlEisuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
+            "U2VuZE1lc3NhZ2VSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
+            "U2VuZE1lc3NhZ2VSZXNwb25zZSIAEnkKEEdldE1lc3NhZ2VHcm91cHMSMC5T",
+            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5HZXRNZXNzYWdlR3JvdXBzUmVxdWVz",
+            "dBoxLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdldE1lc3NhZ2VHcm91cHNS",
+            "ZXNwb25zZSIAEmoKC0Jsb2NrUGxheWVyEisuU3VidGVyZnVnZVJlbWFrZVNl",
+            "cnZpY2UuQmxvY2tQbGF5ZXJSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNl",
+            "cnZpY2UuQmxvY2tQbGF5ZXJSZXNwb25zZSIAEnAKDVVuYmxvY2tQbGF5ZXIS",
+            "LS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5VbmJsb2NrUGxheWVyUmVxdWVz",
+            "dBouLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVuYmxvY2tQbGF5ZXJSZXNw",
+            "b25zZSIAEn8KElZpZXdCbG9ja2VkUGxheWVycxIyLlN1YnRlcmZ1Z2VSZW1h",
+            "a2VTZXJ2aWNlLlZpZXdCbG9ja2VkUGxheWVyc1JlcXVlc3QaMy5TdWJ0ZXJm",
+            "dWdlUmVtYWtlU2VydmljZS5WaWV3QmxvY2tlZFBsYXllcnNSZXNwb25zZSIA",
+            "EnwKEVNlbmRGcmllbmRSZXF1ZXN0EjEuU3VidGVyZnVnZVJlbWFrZVNlcnZp",
+            "Y2UuU2VuZEZyaWVuZFJlcXVlc3RSZXF1ZXN0GjIuU3VidGVyZnVnZVJlbWFr",
+            "ZVNlcnZpY2UuU2VuZEZyaWVuZFJlcXVlc3RSZXNwb25zZSIAEoIBChNBY2Nl",
+            "cHRGcmllbmRSZXF1ZXN0EjMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQWNj",
+            "ZXB0RnJpZW5kUmVxdWVzdFJlcXVlc3QaNC5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
+            "dmljZS5BY2NlcHRGcmllbmRSZXF1ZXN0UmVzcG9uc2UiABJ8ChFEZW55RnJp",
+            "ZW5kUmVxdWVzdBIxLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkRlbnlGcmll",
+            "bmRSZXF1ZXN0UmVxdWVzdBoyLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkRl",
+            "bnlGcmllbmRSZXF1ZXN0UmVzcG9uc2UiABJ/ChJWaWV3RnJpZW5kUmVxdWVz",
+            "dHMSMi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5WaWV3RnJpZW5kUmVxdWVz",
+            "dHNSZXF1ZXN0GjMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVmlld0ZyaWVu",
+            "ZFJlcXVlc3RzUmVzcG9uc2UiABJtCgxSZW1vdmVGcmllbmQSLC5TdWJ0ZXJm",
+            "dWdlUmVtYWtlU2VydmljZS5SZW1vdmVGcmllbmRSZXF1ZXN0Gi0uU3VidGVy",
+            "ZnVnZVJlbWFrZVNlcnZpY2UuUmVtb3ZlRnJpZW5kUmVzcG9uc2UiABJqCgtW",
+            "aWV3RnJpZW5kcxIrLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlZpZXdGcmll",
+            "bmRzUmVxdWVzdBosLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlZpZXdGcmll",
+            "bmRzUmVzcG9uc2UiABJqCgtIZWFsdGhDaGVjaxIrLlN1YnRlcmZ1Z2VSZW1h",
+            "a2VTZXJ2aWNlLkhlYWx0aENoZWNrUmVxdWVzdBosLlN1YnRlcmZ1Z2VSZW1h",
+            "a2VTZXJ2aWNlLkhlYWx0aENoZWNrUmVzcG9uc2UiABKIAQoVQXV0aG9yaXpl",
+            "ZEhlYWx0aENoZWNrEjUuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQXV0aG9y",
+            "aXplZEhlYWx0aENoZWNrUmVxdWVzdBo2LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
+            "aWNlLkF1dGhvcml6ZWRIZWFsdGhDaGVja1Jlc3BvbnNlIgBCPgodc3VidGVy",
+            "ZnVnZVJlbWFrZS5ncnBjLnNlcnZpY2VCFVN1YnRlcmZ1Z2VSZW1ha2VQcm90",
+            "b1ABogIDU1JQYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::SubterfugeRemakeService.RoomStatus), typeof(global::SubterfugeRemakeService.Goal), typeof(global::SubterfugeRemakeService.UserClaim), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizationRequest), global::SubterfugeRemakeService.AuthorizationRequest.Parser, new[]{ "Username", "Password" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizationResponse), global::SubterfugeRemakeService.AuthorizationResponse.Parser, new[]{ "User", "Token" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AccountRegistrationRequest), global::SubterfugeRemakeService.AccountRegistrationRequest.Parser, new[]{ "Username", "Password", "Email", "Phone" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AccountRegistrationRequest), global::SubterfugeRemakeService.AccountRegistrationRequest.Parser, new[]{ "Username", "Password", "Email", "DeviceIdentifier" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AccountRegistrationResponse), global::SubterfugeRemakeService.AccountRegistrationResponse.Parser, new[]{ "User", "Token" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.User), global::SubterfugeRemakeService.User.Parser, new[]{ "Id", "Username" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RoomDataRequest), global::SubterfugeRemakeService.RoomDataRequest.Parser, new[]{ "RoomStatus", "FilterByPlayer" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RoomDataResponse), global::SubterfugeRemakeService.RoomDataResponse.Parser, new[]{ "Rooms" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.Room), global::SubterfugeRemakeService.Room.Parser, new[]{ "RoomId", "RoomStatus", "Creator", "RankedInformation", "Anonymous", "RoomName", "Goal", "Seed", "UnixTimeCreated", "UnixTimeStarted", "MaxPlayers", "Players", "AllowedSpecialists" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.OpenLobbiesRequest), global::SubterfugeRemakeService.OpenLobbiesRequest.Parser, new[]{ "RoomStatus", "FilterByPlayer" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.OpenLobbiesResponse), global::SubterfugeRemakeService.OpenLobbiesResponse.Parser, new[]{ "Rooms" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.Room), global::SubterfugeRemakeService.Room.Parser, new[]{ "RoomId", "RoomStatus", "Creator", "RankedInformation", "Anonymous", "RoomName", "Goal", "Seed", "UnixTimeCreated", "UnixTimeStarted", "MaxPlayers", "Players", "AllowedSpecialists", "MinutesPerTick" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RankedInformation), global::SubterfugeRemakeService.RankedInformation.Parser, new[]{ "IsRanked", "MinRating", "MaxRating" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateRoomRequest), global::SubterfugeRemakeService.CreateRoomRequest.Parser, new[]{ "RankedInformation", "Anonymous", "RoomName", "Goal", "MaxPlayers", "AllowedSpecialists" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateRoomRequest), global::SubterfugeRemakeService.CreateRoomRequest.Parser, new[]{ "IsRanked", "Anonymous", "RoomName", "Goal", "MaxPlayers", "AllowedSpecialists", "MinutesPerTick" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateRoomResponse), global::SubterfugeRemakeService.CreateRoomResponse.Parser, new[]{ "CreatedRoom" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.JoinRoomRequest), global::SubterfugeRemakeService.JoinRoomRequest.Parser, new[]{ "RoomId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.JoinRoomResponse), global::SubterfugeRemakeService.JoinRoomResponse.Parser, new[]{ "Success" }, null, null, null),
@@ -253,8 +257,10 @@ namespace SubterfugeRemakeService {
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.HealthCheckResponse), global::SubterfugeRemakeService.HealthCheckResponse.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizedHealthCheckRequest), global::SubterfugeRemakeService.AuthorizedHealthCheckRequest.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizedHealthCheckResponse), global::SubterfugeRemakeService.AuthorizedHealthCheckResponse.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UserModel), global::SubterfugeRemakeService.UserModel.Parser, new[]{ "Id", "Username", "PasswordHash", "Email", "Phone", "DeviceIdentifier", "PhoneVerified", "EmailVerified", "Claims", "PushNotificationIdentifier" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RoomModel), global::SubterfugeRemakeService.RoomModel.Parser, new[]{ "RoomId", "RoomStatus", "CreatorId", "RankedInformation", "Anonymous", "RoomName", "Goal", "Seed", "UnixTimeCreated", "UnixTimeStarted", "MaxPlayers", "AllowedSpecialists" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.PlayerCurrentGamesRequest), global::SubterfugeRemakeService.PlayerCurrentGamesRequest.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.PlayerCurrentGamesResponse), global::SubterfugeRemakeService.PlayerCurrentGamesResponse.Parser, new[]{ "Games" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UserModel), global::SubterfugeRemakeService.UserModel.Parser, new[]{ "Id", "Username", "PasswordHash", "Email", "DeviceIdentifier", "EmailVerified", "Claims", "PushNotificationIdentifier" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RoomModel), global::SubterfugeRemakeService.RoomModel.Parser, new[]{ "RoomId", "RoomStatus", "CreatorId", "RankedInformation", "Anonymous", "RoomName", "Goal", "Seed", "UnixTimeCreated", "UnixTimeStarted", "MaxPlayers", "AllowedSpecialists", "MinutesPerTick" }, null, null, null)
           }));
     }
     #endregion
@@ -277,9 +283,8 @@ namespace SubterfugeRemakeService {
     [pbr::OriginalName("USER")] User = 1,
     [pbr::OriginalName("DEV")] Dev = 2,
     [pbr::OriginalName("ADMIN")] Admin = 3,
-    [pbr::OriginalName("PHONE_VERIFIED")] PhoneVerified = 4,
-    [pbr::OriginalName("EMAIL_VERIFIED")] EmailVerified = 5,
-    [pbr::OriginalName("BANNED")] Banned = 6,
+    [pbr::OriginalName("EMAIL_VERIFIED")] EmailVerified = 4,
+    [pbr::OriginalName("BANNED")] Banned = 5,
   }
 
   #endregion
@@ -633,7 +638,7 @@ namespace SubterfugeRemakeService {
       username_ = other.username_;
       password_ = other.password_;
       email_ = other.email_;
-      phone_ = other.phone_;
+      deviceIdentifier_ = other.deviceIdentifier_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -675,14 +680,14 @@ namespace SubterfugeRemakeService {
       }
     }
 
-    /// <summary>Field number for the "Phone" field.</summary>
-    public const int PhoneFieldNumber = 4;
-    private string phone_ = "";
+    /// <summary>Field number for the "DeviceIdentifier" field.</summary>
+    public const int DeviceIdentifierFieldNumber = 4;
+    private string deviceIdentifier_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Phone {
-      get { return phone_; }
+    public string DeviceIdentifier {
+      get { return deviceIdentifier_; }
       set {
-        phone_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        deviceIdentifier_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -702,7 +707,7 @@ namespace SubterfugeRemakeService {
       if (Username != other.Username) return false;
       if (Password != other.Password) return false;
       if (Email != other.Email) return false;
-      if (Phone != other.Phone) return false;
+      if (DeviceIdentifier != other.DeviceIdentifier) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -712,7 +717,7 @@ namespace SubterfugeRemakeService {
       if (Username.Length != 0) hash ^= Username.GetHashCode();
       if (Password.Length != 0) hash ^= Password.GetHashCode();
       if (Email.Length != 0) hash ^= Email.GetHashCode();
-      if (Phone.Length != 0) hash ^= Phone.GetHashCode();
+      if (DeviceIdentifier.Length != 0) hash ^= DeviceIdentifier.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -738,9 +743,9 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(26);
         output.WriteString(Email);
       }
-      if (Phone.Length != 0) {
+      if (DeviceIdentifier.Length != 0) {
         output.WriteRawTag(34);
-        output.WriteString(Phone);
+        output.WriteString(DeviceIdentifier);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -759,8 +764,8 @@ namespace SubterfugeRemakeService {
       if (Email.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Email);
       }
-      if (Phone.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Phone);
+      if (DeviceIdentifier.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(DeviceIdentifier);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -782,8 +787,8 @@ namespace SubterfugeRemakeService {
       if (other.Email.Length != 0) {
         Email = other.Email;
       }
-      if (other.Phone.Length != 0) {
-        Phone = other.Phone;
+      if (other.DeviceIdentifier.Length != 0) {
+        DeviceIdentifier = other.DeviceIdentifier;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -809,7 +814,7 @@ namespace SubterfugeRemakeService {
             break;
           }
           case 34: {
-            Phone = input.ReadString();
+            DeviceIdentifier = input.ReadString();
             break;
           }
         }
@@ -1138,11 +1143,11 @@ namespace SubterfugeRemakeService {
 
   }
 
-  public sealed partial class RoomDataRequest : pb::IMessage<RoomDataRequest> {
-    private static readonly pb::MessageParser<RoomDataRequest> _parser = new pb::MessageParser<RoomDataRequest>(() => new RoomDataRequest());
+  public sealed partial class OpenLobbiesRequest : pb::IMessage<OpenLobbiesRequest> {
+    private static readonly pb::MessageParser<OpenLobbiesRequest> _parser = new pb::MessageParser<OpenLobbiesRequest>(() => new OpenLobbiesRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<RoomDataRequest> Parser { get { return _parser; } }
+    public static pb::MessageParser<OpenLobbiesRequest> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -1155,22 +1160,22 @@ namespace SubterfugeRemakeService {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RoomDataRequest() {
+    public OpenLobbiesRequest() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RoomDataRequest(RoomDataRequest other) : this() {
+    public OpenLobbiesRequest(OpenLobbiesRequest other) : this() {
       roomStatus_ = other.roomStatus_;
       filterByPlayer_ = other.filterByPlayer_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RoomDataRequest Clone() {
-      return new RoomDataRequest(this);
+    public OpenLobbiesRequest Clone() {
+      return new OpenLobbiesRequest(this);
     }
 
     /// <summary>Field number for the "RoomStatus" field.</summary>
@@ -1197,11 +1202,11 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as RoomDataRequest);
+      return Equals(other as OpenLobbiesRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(RoomDataRequest other) {
+    public bool Equals(OpenLobbiesRequest other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1260,7 +1265,7 @@ namespace SubterfugeRemakeService {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(RoomDataRequest other) {
+    public void MergeFrom(OpenLobbiesRequest other) {
       if (other == null) {
         return;
       }
@@ -1295,11 +1300,11 @@ namespace SubterfugeRemakeService {
 
   }
 
-  public sealed partial class RoomDataResponse : pb::IMessage<RoomDataResponse> {
-    private static readonly pb::MessageParser<RoomDataResponse> _parser = new pb::MessageParser<RoomDataResponse>(() => new RoomDataResponse());
+  public sealed partial class OpenLobbiesResponse : pb::IMessage<OpenLobbiesResponse> {
+    private static readonly pb::MessageParser<OpenLobbiesResponse> _parser = new pb::MessageParser<OpenLobbiesResponse>(() => new OpenLobbiesResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<RoomDataResponse> Parser { get { return _parser; } }
+    public static pb::MessageParser<OpenLobbiesResponse> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -1312,21 +1317,21 @@ namespace SubterfugeRemakeService {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RoomDataResponse() {
+    public OpenLobbiesResponse() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RoomDataResponse(RoomDataResponse other) : this() {
+    public OpenLobbiesResponse(OpenLobbiesResponse other) : this() {
       rooms_ = other.rooms_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RoomDataResponse Clone() {
-      return new RoomDataResponse(this);
+    public OpenLobbiesResponse Clone() {
+      return new OpenLobbiesResponse(this);
     }
 
     /// <summary>Field number for the "Rooms" field.</summary>
@@ -1341,11 +1346,11 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as RoomDataResponse);
+      return Equals(other as OpenLobbiesResponse);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(RoomDataResponse other) {
+    public bool Equals(OpenLobbiesResponse other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1390,7 +1395,7 @@ namespace SubterfugeRemakeService {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(RoomDataResponse other) {
+    public void MergeFrom(OpenLobbiesResponse other) {
       if (other == null) {
         return;
       }
@@ -1454,6 +1459,7 @@ namespace SubterfugeRemakeService {
       maxPlayers_ = other.maxPlayers_;
       players_ = other.players_.Clone();
       allowedSpecialists_ = other.allowedSpecialists_.Clone();
+      minutesPerTick_ = other.minutesPerTick_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1603,6 +1609,17 @@ namespace SubterfugeRemakeService {
       get { return allowedSpecialists_; }
     }
 
+    /// <summary>Field number for the "MinutesPerTick" field.</summary>
+    public const int MinutesPerTickFieldNumber = 14;
+    private double minutesPerTick_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double MinutesPerTick {
+      get { return minutesPerTick_; }
+      set {
+        minutesPerTick_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Room);
@@ -1629,6 +1646,7 @@ namespace SubterfugeRemakeService {
       if (MaxPlayers != other.MaxPlayers) return false;
       if(!players_.Equals(other.players_)) return false;
       if(!allowedSpecialists_.Equals(other.allowedSpecialists_)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(MinutesPerTick, other.MinutesPerTick)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1648,6 +1666,7 @@ namespace SubterfugeRemakeService {
       if (MaxPlayers != 0L) hash ^= MaxPlayers.GetHashCode();
       hash ^= players_.GetHashCode();
       hash ^= allowedSpecialists_.GetHashCode();
+      if (MinutesPerTick != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(MinutesPerTick);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1707,6 +1726,10 @@ namespace SubterfugeRemakeService {
       }
       players_.WriteTo(output, _repeated_players_codec);
       allowedSpecialists_.WriteTo(output, _repeated_allowedSpecialists_codec);
+      if (MinutesPerTick != 0D) {
+        output.WriteRawTag(113);
+        output.WriteDouble(MinutesPerTick);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1750,6 +1773,9 @@ namespace SubterfugeRemakeService {
       }
       size += players_.CalculateSize(_repeated_players_codec);
       size += allowedSpecialists_.CalculateSize(_repeated_allowedSpecialists_codec);
+      if (MinutesPerTick != 0D) {
+        size += 1 + 8;
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1802,6 +1828,9 @@ namespace SubterfugeRemakeService {
       }
       players_.Add(other.players_);
       allowedSpecialists_.Add(other.allowedSpecialists_);
+      if (other.MinutesPerTick != 0D) {
+        MinutesPerTick = other.MinutesPerTick;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1869,6 +1898,10 @@ namespace SubterfugeRemakeService {
           }
           case 106: {
             allowedSpecialists_.AddEntriesFrom(input, _repeated_allowedSpecialists_codec);
+            break;
+          }
+          case 113: {
+            MinutesPerTick = input.ReadDouble();
             break;
           }
         }
@@ -2087,12 +2120,13 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public CreateRoomRequest(CreateRoomRequest other) : this() {
-      rankedInformation_ = other.rankedInformation_ != null ? other.rankedInformation_.Clone() : null;
+      isRanked_ = other.isRanked_;
       anonymous_ = other.anonymous_;
       roomName_ = other.roomName_;
       goal_ = other.goal_;
       maxPlayers_ = other.maxPlayers_;
       allowedSpecialists_ = other.allowedSpecialists_.Clone();
+      minutesPerTick_ = other.minutesPerTick_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2101,14 +2135,14 @@ namespace SubterfugeRemakeService {
       return new CreateRoomRequest(this);
     }
 
-    /// <summary>Field number for the "RankedInformation" field.</summary>
-    public const int RankedInformationFieldNumber = 4;
-    private global::SubterfugeRemakeService.RankedInformation rankedInformation_;
+    /// <summary>Field number for the "isRanked" field.</summary>
+    public const int IsRankedFieldNumber = 4;
+    private bool isRanked_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::SubterfugeRemakeService.RankedInformation RankedInformation {
-      get { return rankedInformation_; }
+    public bool IsRanked {
+      get { return isRanked_; }
       set {
-        rankedInformation_ = value;
+        isRanked_ = value;
       }
     }
 
@@ -2166,6 +2200,17 @@ namespace SubterfugeRemakeService {
       get { return allowedSpecialists_; }
     }
 
+    /// <summary>Field number for the "MinutesPerTick" field.</summary>
+    public const int MinutesPerTickFieldNumber = 13;
+    private double minutesPerTick_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double MinutesPerTick {
+      get { return minutesPerTick_; }
+      set {
+        minutesPerTick_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as CreateRoomRequest);
@@ -2179,24 +2224,26 @@ namespace SubterfugeRemakeService {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(RankedInformation, other.RankedInformation)) return false;
+      if (IsRanked != other.IsRanked) return false;
       if (Anonymous != other.Anonymous) return false;
       if (RoomName != other.RoomName) return false;
       if (Goal != other.Goal) return false;
       if (MaxPlayers != other.MaxPlayers) return false;
       if(!allowedSpecialists_.Equals(other.allowedSpecialists_)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(MinutesPerTick, other.MinutesPerTick)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (rankedInformation_ != null) hash ^= RankedInformation.GetHashCode();
+      if (IsRanked != false) hash ^= IsRanked.GetHashCode();
       if (Anonymous != false) hash ^= Anonymous.GetHashCode();
       if (RoomName.Length != 0) hash ^= RoomName.GetHashCode();
       if (Goal != 0) hash ^= Goal.GetHashCode();
       if (MaxPlayers != 0L) hash ^= MaxPlayers.GetHashCode();
       hash ^= allowedSpecialists_.GetHashCode();
+      if (MinutesPerTick != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(MinutesPerTick);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2210,9 +2257,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (rankedInformation_ != null) {
-        output.WriteRawTag(34);
-        output.WriteMessage(RankedInformation);
+      if (IsRanked != false) {
+        output.WriteRawTag(32);
+        output.WriteBool(IsRanked);
       }
       if (Anonymous != false) {
         output.WriteRawTag(40);
@@ -2231,6 +2278,10 @@ namespace SubterfugeRemakeService {
         output.WriteInt64(MaxPlayers);
       }
       allowedSpecialists_.WriteTo(output, _repeated_allowedSpecialists_codec);
+      if (MinutesPerTick != 0D) {
+        output.WriteRawTag(105);
+        output.WriteDouble(MinutesPerTick);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2239,8 +2290,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (rankedInformation_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RankedInformation);
+      if (IsRanked != false) {
+        size += 1 + 1;
       }
       if (Anonymous != false) {
         size += 1 + 1;
@@ -2255,6 +2306,9 @@ namespace SubterfugeRemakeService {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(MaxPlayers);
       }
       size += allowedSpecialists_.CalculateSize(_repeated_allowedSpecialists_codec);
+      if (MinutesPerTick != 0D) {
+        size += 1 + 8;
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -2266,11 +2320,8 @@ namespace SubterfugeRemakeService {
       if (other == null) {
         return;
       }
-      if (other.rankedInformation_ != null) {
-        if (rankedInformation_ == null) {
-          RankedInformation = new global::SubterfugeRemakeService.RankedInformation();
-        }
-        RankedInformation.MergeFrom(other.RankedInformation);
+      if (other.IsRanked != false) {
+        IsRanked = other.IsRanked;
       }
       if (other.Anonymous != false) {
         Anonymous = other.Anonymous;
@@ -2285,6 +2336,9 @@ namespace SubterfugeRemakeService {
         MaxPlayers = other.MaxPlayers;
       }
       allowedSpecialists_.Add(other.allowedSpecialists_);
+      if (other.MinutesPerTick != 0D) {
+        MinutesPerTick = other.MinutesPerTick;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -2296,11 +2350,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 34: {
-            if (rankedInformation_ == null) {
-              RankedInformation = new global::SubterfugeRemakeService.RankedInformation();
-            }
-            input.ReadMessage(RankedInformation);
+          case 32: {
+            IsRanked = input.ReadBool();
             break;
           }
           case 40: {
@@ -2321,6 +2372,10 @@ namespace SubterfugeRemakeService {
           }
           case 98: {
             allowedSpecialists_.AddEntriesFrom(input, _repeated_allowedSpecialists_codec);
+            break;
+          }
+          case 105: {
+            MinutesPerTick = input.ReadDouble();
             break;
           }
         }
@@ -3544,7 +3599,7 @@ namespace SubterfugeRemakeService {
       eventId_ = other.eventId_;
       unixTimeIssued_ = other.unixTimeIssued_;
       occursAtTick_ = other.occursAtTick_;
-      issuedBy_ = other.issuedBy_ != null ? other.issuedBy_.Clone() : null;
+      issuedBy_ = other.issuedBy_;
       eventData_ = other.eventData_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -3589,12 +3644,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "IssuedBy" field.</summary>
     public const int IssuedByFieldNumber = 4;
-    private global::SubterfugeRemakeService.User issuedBy_;
+    private string issuedBy_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::SubterfugeRemakeService.User IssuedBy {
+    public string IssuedBy {
       get { return issuedBy_; }
       set {
-        issuedBy_ = value;
+        issuedBy_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -3625,7 +3680,7 @@ namespace SubterfugeRemakeService {
       if (EventId != other.EventId) return false;
       if (UnixTimeIssued != other.UnixTimeIssued) return false;
       if (OccursAtTick != other.OccursAtTick) return false;
-      if (!object.Equals(IssuedBy, other.IssuedBy)) return false;
+      if (IssuedBy != other.IssuedBy) return false;
       if (EventData != other.EventData) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -3636,7 +3691,7 @@ namespace SubterfugeRemakeService {
       if (EventId.Length != 0) hash ^= EventId.GetHashCode();
       if (UnixTimeIssued != 0L) hash ^= UnixTimeIssued.GetHashCode();
       if (OccursAtTick != 0L) hash ^= OccursAtTick.GetHashCode();
-      if (issuedBy_ != null) hash ^= IssuedBy.GetHashCode();
+      if (IssuedBy.Length != 0) hash ^= IssuedBy.GetHashCode();
       if (EventData.Length != 0) hash ^= EventData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -3663,9 +3718,9 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(24);
         output.WriteInt64(OccursAtTick);
       }
-      if (issuedBy_ != null) {
+      if (IssuedBy.Length != 0) {
         output.WriteRawTag(34);
-        output.WriteMessage(IssuedBy);
+        output.WriteString(IssuedBy);
       }
       if (EventData.Length != 0) {
         output.WriteRawTag(42);
@@ -3688,8 +3743,8 @@ namespace SubterfugeRemakeService {
       if (OccursAtTick != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(OccursAtTick);
       }
-      if (issuedBy_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(IssuedBy);
+      if (IssuedBy.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(IssuedBy);
       }
       if (EventData.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(EventData);
@@ -3714,11 +3769,8 @@ namespace SubterfugeRemakeService {
       if (other.OccursAtTick != 0L) {
         OccursAtTick = other.OccursAtTick;
       }
-      if (other.issuedBy_ != null) {
-        if (issuedBy_ == null) {
-          IssuedBy = new global::SubterfugeRemakeService.User();
-        }
-        IssuedBy.MergeFrom(other.IssuedBy);
+      if (other.IssuedBy.Length != 0) {
+        IssuedBy = other.IssuedBy;
       }
       if (other.EventData.Length != 0) {
         EventData = other.EventData;
@@ -3747,10 +3799,7 @@ namespace SubterfugeRemakeService {
             break;
           }
           case 34: {
-            if (issuedBy_ == null) {
-              IssuedBy = new global::SubterfugeRemakeService.User();
-            }
-            input.ReadMessage(IssuedBy);
+            IssuedBy = input.ReadString();
             break;
           }
           case 42: {
@@ -8218,6 +8267,228 @@ namespace SubterfugeRemakeService {
 
   }
 
+  public sealed partial class PlayerCurrentGamesRequest : pb::IMessage<PlayerCurrentGamesRequest> {
+    private static readonly pb::MessageParser<PlayerCurrentGamesRequest> _parser = new pb::MessageParser<PlayerCurrentGamesRequest>(() => new PlayerCurrentGamesRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<PlayerCurrentGamesRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[55]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PlayerCurrentGamesRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PlayerCurrentGamesRequest(PlayerCurrentGamesRequest other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PlayerCurrentGamesRequest Clone() {
+      return new PlayerCurrentGamesRequest(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as PlayerCurrentGamesRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(PlayerCurrentGamesRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(PlayerCurrentGamesRequest other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class PlayerCurrentGamesResponse : pb::IMessage<PlayerCurrentGamesResponse> {
+    private static readonly pb::MessageParser<PlayerCurrentGamesResponse> _parser = new pb::MessageParser<PlayerCurrentGamesResponse>(() => new PlayerCurrentGamesResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<PlayerCurrentGamesResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[56]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PlayerCurrentGamesResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PlayerCurrentGamesResponse(PlayerCurrentGamesResponse other) : this() {
+      games_ = other.games_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PlayerCurrentGamesResponse Clone() {
+      return new PlayerCurrentGamesResponse(this);
+    }
+
+    /// <summary>Field number for the "games" field.</summary>
+    public const int GamesFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::SubterfugeRemakeService.Room> _repeated_games_codec
+        = pb::FieldCodec.ForMessage(10, global::SubterfugeRemakeService.Room.Parser);
+    private readonly pbc::RepeatedField<global::SubterfugeRemakeService.Room> games_ = new pbc::RepeatedField<global::SubterfugeRemakeService.Room>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::SubterfugeRemakeService.Room> Games {
+      get { return games_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as PlayerCurrentGamesResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(PlayerCurrentGamesResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!games_.Equals(other.games_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= games_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      games_.WriteTo(output, _repeated_games_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += games_.CalculateSize(_repeated_games_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(PlayerCurrentGamesResponse other) {
+      if (other == null) {
+        return;
+      }
+      games_.Add(other.games_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            games_.AddEntriesFrom(input, _repeated_games_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class UserModel : pb::IMessage<UserModel> {
     private static readonly pb::MessageParser<UserModel> _parser = new pb::MessageParser<UserModel>(() => new UserModel());
     private pb::UnknownFieldSet _unknownFields;
@@ -8226,7 +8497,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[55]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[57]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8247,9 +8518,7 @@ namespace SubterfugeRemakeService {
       username_ = other.username_;
       passwordHash_ = other.passwordHash_;
       email_ = other.email_;
-      phone_ = other.phone_;
       deviceIdentifier_ = other.deviceIdentifier_;
-      phoneVerified_ = other.phoneVerified_;
       emailVerified_ = other.emailVerified_;
       claims_ = other.claims_.Clone();
       pushNotificationIdentifier_ = other.pushNotificationIdentifier_;
@@ -8305,19 +8574,8 @@ namespace SubterfugeRemakeService {
       }
     }
 
-    /// <summary>Field number for the "Phone" field.</summary>
-    public const int PhoneFieldNumber = 5;
-    private string phone_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Phone {
-      get { return phone_; }
-      set {
-        phone_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     /// <summary>Field number for the "deviceIdentifier" field.</summary>
-    public const int DeviceIdentifierFieldNumber = 6;
+    public const int DeviceIdentifierFieldNumber = 5;
     private string deviceIdentifier_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string DeviceIdentifier {
@@ -8327,19 +8585,8 @@ namespace SubterfugeRemakeService {
       }
     }
 
-    /// <summary>Field number for the "phoneVerified" field.</summary>
-    public const int PhoneVerifiedFieldNumber = 7;
-    private bool phoneVerified_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool PhoneVerified {
-      get { return phoneVerified_; }
-      set {
-        phoneVerified_ = value;
-      }
-    }
-
     /// <summary>Field number for the "emailVerified" field.</summary>
-    public const int EmailVerifiedFieldNumber = 8;
+    public const int EmailVerifiedFieldNumber = 6;
     private bool emailVerified_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool EmailVerified {
@@ -8350,9 +8597,9 @@ namespace SubterfugeRemakeService {
     }
 
     /// <summary>Field number for the "claims" field.</summary>
-    public const int ClaimsFieldNumber = 9;
+    public const int ClaimsFieldNumber = 7;
     private static readonly pb::FieldCodec<global::SubterfugeRemakeService.UserClaim> _repeated_claims_codec
-        = pb::FieldCodec.ForEnum(74, x => (int) x, x => (global::SubterfugeRemakeService.UserClaim) x);
+        = pb::FieldCodec.ForEnum(58, x => (int) x, x => (global::SubterfugeRemakeService.UserClaim) x);
     private readonly pbc::RepeatedField<global::SubterfugeRemakeService.UserClaim> claims_ = new pbc::RepeatedField<global::SubterfugeRemakeService.UserClaim>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::SubterfugeRemakeService.UserClaim> Claims {
@@ -8360,7 +8607,7 @@ namespace SubterfugeRemakeService {
     }
 
     /// <summary>Field number for the "pushNotificationIdentifier" field.</summary>
-    public const int PushNotificationIdentifierFieldNumber = 10;
+    public const int PushNotificationIdentifierFieldNumber = 8;
     private string pushNotificationIdentifier_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string PushNotificationIdentifier {
@@ -8387,9 +8634,7 @@ namespace SubterfugeRemakeService {
       if (Username != other.Username) return false;
       if (PasswordHash != other.PasswordHash) return false;
       if (Email != other.Email) return false;
-      if (Phone != other.Phone) return false;
       if (DeviceIdentifier != other.DeviceIdentifier) return false;
-      if (PhoneVerified != other.PhoneVerified) return false;
       if (EmailVerified != other.EmailVerified) return false;
       if(!claims_.Equals(other.claims_)) return false;
       if (PushNotificationIdentifier != other.PushNotificationIdentifier) return false;
@@ -8403,9 +8648,7 @@ namespace SubterfugeRemakeService {
       if (Username.Length != 0) hash ^= Username.GetHashCode();
       if (PasswordHash.Length != 0) hash ^= PasswordHash.GetHashCode();
       if (Email.Length != 0) hash ^= Email.GetHashCode();
-      if (Phone.Length != 0) hash ^= Phone.GetHashCode();
       if (DeviceIdentifier.Length != 0) hash ^= DeviceIdentifier.GetHashCode();
-      if (PhoneVerified != false) hash ^= PhoneVerified.GetHashCode();
       if (EmailVerified != false) hash ^= EmailVerified.GetHashCode();
       hash ^= claims_.GetHashCode();
       if (PushNotificationIdentifier.Length != 0) hash ^= PushNotificationIdentifier.GetHashCode();
@@ -8438,25 +8681,17 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(34);
         output.WriteString(Email);
       }
-      if (Phone.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(Phone);
-      }
       if (DeviceIdentifier.Length != 0) {
-        output.WriteRawTag(50);
+        output.WriteRawTag(42);
         output.WriteString(DeviceIdentifier);
       }
-      if (PhoneVerified != false) {
-        output.WriteRawTag(56);
-        output.WriteBool(PhoneVerified);
-      }
       if (EmailVerified != false) {
-        output.WriteRawTag(64);
+        output.WriteRawTag(48);
         output.WriteBool(EmailVerified);
       }
       claims_.WriteTo(output, _repeated_claims_codec);
       if (PushNotificationIdentifier.Length != 0) {
-        output.WriteRawTag(82);
+        output.WriteRawTag(66);
         output.WriteString(PushNotificationIdentifier);
       }
       if (_unknownFields != null) {
@@ -8479,14 +8714,8 @@ namespace SubterfugeRemakeService {
       if (Email.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Email);
       }
-      if (Phone.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Phone);
-      }
       if (DeviceIdentifier.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(DeviceIdentifier);
-      }
-      if (PhoneVerified != false) {
-        size += 1 + 1;
       }
       if (EmailVerified != false) {
         size += 1 + 1;
@@ -8518,14 +8747,8 @@ namespace SubterfugeRemakeService {
       if (other.Email.Length != 0) {
         Email = other.Email;
       }
-      if (other.Phone.Length != 0) {
-        Phone = other.Phone;
-      }
       if (other.DeviceIdentifier.Length != 0) {
         DeviceIdentifier = other.DeviceIdentifier;
-      }
-      if (other.PhoneVerified != false) {
-        PhoneVerified = other.PhoneVerified;
       }
       if (other.EmailVerified != false) {
         EmailVerified = other.EmailVerified;
@@ -8562,27 +8785,19 @@ namespace SubterfugeRemakeService {
             break;
           }
           case 42: {
-            Phone = input.ReadString();
-            break;
-          }
-          case 50: {
             DeviceIdentifier = input.ReadString();
             break;
           }
-          case 56: {
-            PhoneVerified = input.ReadBool();
-            break;
-          }
-          case 64: {
+          case 48: {
             EmailVerified = input.ReadBool();
             break;
           }
-          case 74:
-          case 72: {
+          case 58:
+          case 56: {
             claims_.AddEntriesFrom(input, _repeated_claims_codec);
             break;
           }
-          case 82: {
+          case 66: {
             PushNotificationIdentifier = input.ReadString();
             break;
           }
@@ -8600,7 +8815,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[56]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[58]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8629,6 +8844,7 @@ namespace SubterfugeRemakeService {
       unixTimeStarted_ = other.unixTimeStarted_;
       maxPlayers_ = other.maxPlayers_;
       allowedSpecialists_ = other.allowedSpecialists_.Clone();
+      minutesPerTick_ = other.minutesPerTick_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -8768,6 +8984,17 @@ namespace SubterfugeRemakeService {
       get { return allowedSpecialists_; }
     }
 
+    /// <summary>Field number for the "MinutesPerTick" field.</summary>
+    public const int MinutesPerTickFieldNumber = 13;
+    private double minutesPerTick_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double MinutesPerTick {
+      get { return minutesPerTick_; }
+      set {
+        minutesPerTick_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as RoomModel);
@@ -8793,6 +9020,7 @@ namespace SubterfugeRemakeService {
       if (UnixTimeStarted != other.UnixTimeStarted) return false;
       if (MaxPlayers != other.MaxPlayers) return false;
       if(!allowedSpecialists_.Equals(other.allowedSpecialists_)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(MinutesPerTick, other.MinutesPerTick)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -8811,6 +9039,7 @@ namespace SubterfugeRemakeService {
       if (UnixTimeStarted != 0L) hash ^= UnixTimeStarted.GetHashCode();
       if (MaxPlayers != 0L) hash ^= MaxPlayers.GetHashCode();
       hash ^= allowedSpecialists_.GetHashCode();
+      if (MinutesPerTick != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(MinutesPerTick);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -8869,6 +9098,10 @@ namespace SubterfugeRemakeService {
         output.WriteInt64(MaxPlayers);
       }
       allowedSpecialists_.WriteTo(output, _repeated_allowedSpecialists_codec);
+      if (MinutesPerTick != 0D) {
+        output.WriteRawTag(105);
+        output.WriteDouble(MinutesPerTick);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -8911,6 +9144,9 @@ namespace SubterfugeRemakeService {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(MaxPlayers);
       }
       size += allowedSpecialists_.CalculateSize(_repeated_allowedSpecialists_codec);
+      if (MinutesPerTick != 0D) {
+        size += 1 + 8;
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -8959,6 +9195,9 @@ namespace SubterfugeRemakeService {
         MaxPlayers = other.MaxPlayers;
       }
       allowedSpecialists_.Add(other.allowedSpecialists_);
+      if (other.MinutesPerTick != 0D) {
+        MinutesPerTick = other.MinutesPerTick;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -9019,6 +9258,10 @@ namespace SubterfugeRemakeService {
           }
           case 98: {
             allowedSpecialists_.AddEntriesFrom(input, _repeated_allowedSpecialists_codec);
+            break;
+          }
+          case 105: {
+            MinutesPerTick = input.ReadDouble();
             break;
           }
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Google.Protobuf;
 using Grpc.Core;
 using StackExchange.Redis;
+using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
@@ -13,27 +14,39 @@ namespace SubterfugeServerConsole
 {
     public class SubterfugeServer : subterfugeService.subterfugeServiceBase
     {
-        public override async Task<RoomDataResponse> GetRoomData(RoomDataRequest request, ServerCallContext context)
+        public override async Task<OpenLobbiesResponse> GetOpenLobbies(OpenLobbiesRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
             
-            RoomDataResponse roomResponse = new RoomDataResponse();
+            OpenLobbiesResponse roomResponse = new OpenLobbiesResponse();
             List<Room> rooms = (await RedisRoomModel.GetOpenLobbies()).ConvertAll(it => it.asRoom().Result);
             roomResponse.Rooms.AddRange(rooms);
             
             return roomResponse;
         }
 
+        public override async Task<PlayerCurrentGamesResponse> GetPlayerCurrentGames(PlayerCurrentGamesRequest request, ServerCallContext context)
+        {
+            RedisUserModel user = GetUserContext(context);
+            
+            PlayerCurrentGamesResponse currentGameResponse = new PlayerCurrentGamesResponse();
+            List<Room> rooms = (await user.GetActiveRooms()).ConvertAll(it => it.asRoom().Result);
+            currentGameResponse.Games.AddRange(rooms);
+            
+            return currentGameResponse;
+        }
+
         public override async Task<CreateRoomResponse> CreateNewRoom(CreateRoomRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
+            
+            // Ensure max players is over 1
+            if(request.MaxPlayers < 2)
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "Cannot create a room with less than 2 players."));
+                
             
             RedisRoomModel roomModel = new RedisRoomModel(request, user);
-            roomModel.SaveToDatabase();
+            roomModel.CreateInDatabase();
                 
                
             return new CreateRoomResponse()
@@ -44,9 +57,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<JoinRoomResponse> JoinRoom(JoinRoomRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
             
             RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
@@ -64,9 +75,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<LeaveRoomResponse> LeaveRoom(LeaveRoomRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
             
             RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
@@ -84,9 +93,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<StartGameEarlyResponse> StartGameEarly(StartGameEarlyRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
             
             RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
@@ -94,10 +101,16 @@ namespace SubterfugeServerConsole
 
             if (room.RoomModel.CreatorId == user.UserModel.Id)
             {
-                await room.StartGameEarly();
+                if (await room.StartGame())
+                {
+                    return new StartGameEarlyResponse()
+                    {
+                        Success = true
+                    };
+                }
                 return new StartGameEarlyResponse()
                 {
-                    Success = true
+                    Success = false
                 };
             }
             throw new RpcException(new Status(StatusCode.Unauthenticated, "Only the host can start the game early."));
@@ -106,19 +119,22 @@ namespace SubterfugeServerConsole
         public override async Task<GetGameRoomEventsResponse> GetGameRoomEvents(GetGameRoomEventsRequest request, ServerCallContext context)
         {
             
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
             
             RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 throw new RpcException(new Status(StatusCode.NotFound, "Room does not exist."));
-            
-            List<RedisUserModel> playersInGame = new List<RedisUserModel>();
+
+            List<RedisUserModel> playersInGame = await room.GetPlayersInGame();
             if (playersInGame.All(it => it.UserModel.Id != user.UserModel.Id))
                 throw new RpcException(new Status(StatusCode.Unauthenticated, "Cannot view events for a game you are not in."));
             
             List<GameEvent> events = await room.GetAllGameEvents();
+            // Filter out only the player's events and events that have occurred in the past.
+            // Get current tick to determine events in the past.
+            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(room.RoomModel.UnixTimeStarted), DateTime.UtcNow);
+            events = events.FindAll(it => it.OccursAtTick <= currentTick.GetTick() || it.IssuedBy == user.UserModel.Id);
+
             GetGameRoomEventsResponse response = new GetGameRoomEventsResponse();
             response.GameEvents.AddRange(events);
             return response;
@@ -127,27 +143,26 @@ namespace SubterfugeServerConsole
         
         public override async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
             
-            if(user.UserModel.Id != request.EventData.IssuedBy.Id)
+            if(user.UserModel.Id != request.EventData.IssuedBy)
                 throw new RpcException(new Status(StatusCode.Unauthenticated, "You cannot issues commands for another player."));
 
             RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 throw new RpcException(new Status(StatusCode.NotFound, "Game room does not exist."));
+            
+            if(!await room.IsPlayerInRoom(user))
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "You cannot submit events to a game you are not a member of."));
 
             return await room.AddPlayerGameEvent(user, request.EventData);
         }
 
         public override async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
             
-            if(user.UserModel.Id != request.EventData.IssuedBy.Id)
+            if(user.UserModel.Id != request.EventData.IssuedBy)
                 throw new RpcException(new Status(StatusCode.Unauthenticated, "You cannot issues commands for another player."));
 
             RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
@@ -159,12 +174,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<DeleteGameEventResponse> DeleteGameEvent(DeleteGameEventRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
-            
-            if(user.UserModel.Id != request.EventId)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "You cannot delete commands for another player."));
+            RedisUserModel user = GetUserContext(context);
 
             RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
@@ -234,18 +244,13 @@ namespace SubterfugeServerConsole
 
         public override async Task<BlockPlayerResponse> BlockPlayer(BlockPlayerRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if (user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
 
             RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.UserIdToBlock);
             if (friend == null) 
                 throw new RpcException(new Status(StatusCode.NotFound, "The user cannot be found."));
             
-            
-            // Check if player is blocked.
-            List<RedisUserModel> blockedUsers = await user.GetBlockedUsers();
-            if (blockedUsers.Any(it => it.UserModel.Id == friend.UserModel.Id)) 
+            if(await user.IsBlocked(friend))
                 throw new RpcException(new Status(StatusCode.AlreadyExists, "You have already blocked this player."));
 
             await user.BlockUser(friend);
@@ -254,9 +259,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if (user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
             
             // Check if player is valid.
             RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.UserIdToBlock);
@@ -264,8 +267,7 @@ namespace SubterfugeServerConsole
                 throw new RpcException(new Status(StatusCode.NotFound, "The user cannot be found."));
             
             // Check if player is blocked.
-            List<RedisUserModel> blockedUsers = await user.GetBlockedUsers();
-            if (blockedUsers.All(it => it.UserModel.Id != friend.UserModel.Id)) 
+            if(!await user.IsBlocked(friend))
                 throw new RpcException(new Status(StatusCode.NotFound, "You do not have this player blocked."));
 
             await user.UnblockUser(friend);
@@ -274,9 +276,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<ViewBlockedPlayersResponse> ViewBlockedPlayers(ViewBlockedPlayersRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if (user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
             
             ViewBlockedPlayersResponse response = new ViewBlockedPlayersResponse();
             response.BlockedUsers.AddRange((await user.GetBlockedUsers()).ConvertAll(it => it.asUser()));
@@ -285,48 +285,42 @@ namespace SubterfugeServerConsole
 
         public override async Task<SendFriendRequestResponse> SendFriendRequest(SendFriendRequestRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if (user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
 
             RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.FriendId);
             if (friend == null)
                 throw new RpcException(new Status(StatusCode.NotFound, "The player does not exist."));
             
-            List<RedisUserModel> otherPlayerRequests = await friend.GetFriendRequests();
-            if (otherPlayerRequests.Any(it => it.UserModel.Id == user.UserModel.Id))
+            if(await friend.HasFriendRequestFrom(user))
                 throw new RpcException(new Status(StatusCode.AlreadyExists, "You have already sent a request to this player."));
             
+            if(await friend.IsBlocked(user) || await user.IsBlocked(friend))
+                throw new RpcException(new Status(StatusCode.Unavailable, "Player is blocked."));
+            
             // Add request to the other player.
-            await friend.AddFriendRequest(user);
+            await friend.AddFriendRequestFrom(user);
             return new SendFriendRequestResponse();
         }
 
         public override async Task<AcceptFriendRequestResponse> AcceptFriendRequest(AcceptFriendRequestRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
 
             RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.FriendId);
             if(friend == null)
                 throw new RpcException(new Status(StatusCode.NotFound, "User does not exist."));
             
-            List<RedisUserModel> friendRequests = await user.GetFriendRequests();
-            
-            if(friendRequests.All(it => it.UserModel.Id != friend.UserModel.Id)) 
+            if(!await user.HasFriendRequestFrom(friend))
                 throw new RpcException(new Status(StatusCode.NotFound, "Friend request does not exist."));
 
-            await user.AcceptFriendRequest(friend);
+            await user.AcceptFriendRequestFrom(friend);
 
             return new AcceptFriendRequestResponse();
         }
 
         public override async Task<ViewFriendRequestsResponse> ViewFriendRequests(ViewFriendRequestsRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
             
             ViewFriendRequestsResponse response = new ViewFriendRequestsResponse();
             List<User> users = (await user.GetFriendRequests()).ConvertAll(input => input.asUser());
@@ -336,36 +330,32 @@ namespace SubterfugeServerConsole
         
         public override async Task<DenyFriendRequestResponse> DenyFriendRequest(DenyFriendRequestRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
 
             RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.FriendId);
             if(friend == null)
                 throw new RpcException(new Status(StatusCode.NotFound, "User does not exist."));
             
-            List<RedisUserModel> friendRequests = await user.GetFriendRequests();
-            
-            if(friendRequests.All(it => it.UserModel.Id != friend.UserModel.Id)) 
+            if(!await user.HasFriendRequestFrom(friend))
                 throw new RpcException(new Status(StatusCode.NotFound, "Friend request does not exist."));
 
-            await user.RemoveFriendRequest(friend);
+            await user.RemoveFriendRequestFrom(friend);
 
             return new DenyFriendRequestResponse();
         }
 
         public override async Task<RemoveFriendResponse> RemoveFriend(RemoveFriendRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if(user == null)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisUserModel user = GetUserContext(context);
 
             RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.FriendId);
             if(friend == null)
                 throw new RpcException(new Status(StatusCode.NotFound, "User does not exist."));
+            
+            if(!await user.IsFriend(friend))
+                throw new RpcException(new Status(StatusCode.NotFound, "You are not friends with this player."));
                 
             await user.RemoveFriend(friend);
-            await friend.RemoveFriend(user);
             return new RemoveFriendResponse();
         }
 
@@ -397,9 +387,7 @@ namespace SubterfugeServerConsole
             RedisUserModel user = await RedisUserModel.GetUserFromUsername(request.Username);
             
             if (user == null || !JwtManager.VerifyPasswordHash(request.Password, user.UserModel.PasswordHash))
-            {
                 throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
-            }
 
             string token = JwtManager.GenerateToken(user.UserModel.Id);
             context.ResponseTrailers.Add("Authorization", token);
@@ -410,16 +398,23 @@ namespace SubterfugeServerConsole
             ServerCallContext context)
         {
             RedisUserModel user = await RedisUserModel.GetUserFromUsername(request.Username);
-            if (user == null)
-            {
-                // Create a new user model
-                RedisUserModel model = new RedisUserModel(request);
-                await model.SaveToDatabase();
-                string token = JwtManager.GenerateToken(model.UserModel.Id);
-                context.ResponseTrailers.Add("Authorization", token);
-                return new AccountRegistrationResponse { Token = token, User = model.asUser() };    
-            }
-            throw new RpcException(new Status(StatusCode.AlreadyExists, "Username already exists."));
+            if(user != null)
+                throw new RpcException(new Status(StatusCode.AlreadyExists, "Username already exists."));
+            
+            // Create a new user model
+            RedisUserModel model = new RedisUserModel(request);
+            await model.SaveToDatabase();
+            string token = JwtManager.GenerateToken(model.UserModel.Id);
+            context.ResponseTrailers.Add("Authorization", token);
+            return new AccountRegistrationResponse { Token = token, User = model.asUser() };    
+        }
+
+        private RedisUserModel GetUserContext(ServerCallContext context)
+        {
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if(user == null)
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            return user;
         }
     }
 }

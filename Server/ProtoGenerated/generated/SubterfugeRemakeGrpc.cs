@@ -16,8 +16,10 @@ namespace SubterfugeRemakeService {
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizationResponse> __Marshaller_SubterfugeRemakeService_AuthorizationResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AuthorizationResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AccountRegistrationRequest> __Marshaller_SubterfugeRemakeService_AccountRegistrationRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AccountRegistrationRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AccountRegistrationResponse> __Marshaller_SubterfugeRemakeService_AccountRegistrationResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AccountRegistrationResponse.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.RoomDataRequest> __Marshaller_SubterfugeRemakeService_RoomDataRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.RoomDataRequest.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.RoomDataResponse> __Marshaller_SubterfugeRemakeService_RoomDataResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.RoomDataResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.OpenLobbiesRequest> __Marshaller_SubterfugeRemakeService_OpenLobbiesRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.OpenLobbiesRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.OpenLobbiesResponse> __Marshaller_SubterfugeRemakeService_OpenLobbiesResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.OpenLobbiesResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.PlayerCurrentGamesRequest> __Marshaller_SubterfugeRemakeService_PlayerCurrentGamesRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.PlayerCurrentGamesRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.PlayerCurrentGamesResponse> __Marshaller_SubterfugeRemakeService_PlayerCurrentGamesResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.PlayerCurrentGamesResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateRoomRequest> __Marshaller_SubterfugeRemakeService_CreateRoomRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.CreateRoomRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateRoomResponse> __Marshaller_SubterfugeRemakeService_CreateRoomResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.CreateRoomResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.JoinRoomRequest> __Marshaller_SubterfugeRemakeService_JoinRoomRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.JoinRoomRequest.Parser.ParseFrom);
@@ -76,12 +78,19 @@ namespace SubterfugeRemakeService {
         __Marshaller_SubterfugeRemakeService_AccountRegistrationRequest,
         __Marshaller_SubterfugeRemakeService_AccountRegistrationResponse);
 
-    static readonly grpc::Method<global::SubterfugeRemakeService.RoomDataRequest, global::SubterfugeRemakeService.RoomDataResponse> __Method_GetRoomData = new grpc::Method<global::SubterfugeRemakeService.RoomDataRequest, global::SubterfugeRemakeService.RoomDataResponse>(
+    static readonly grpc::Method<global::SubterfugeRemakeService.OpenLobbiesRequest, global::SubterfugeRemakeService.OpenLobbiesResponse> __Method_GetOpenLobbies = new grpc::Method<global::SubterfugeRemakeService.OpenLobbiesRequest, global::SubterfugeRemakeService.OpenLobbiesResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
-        "GetRoomData",
-        __Marshaller_SubterfugeRemakeService_RoomDataRequest,
-        __Marshaller_SubterfugeRemakeService_RoomDataResponse);
+        "GetOpenLobbies",
+        __Marshaller_SubterfugeRemakeService_OpenLobbiesRequest,
+        __Marshaller_SubterfugeRemakeService_OpenLobbiesResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.PlayerCurrentGamesRequest, global::SubterfugeRemakeService.PlayerCurrentGamesResponse> __Method_GetPlayerCurrentGames = new grpc::Method<global::SubterfugeRemakeService.PlayerCurrentGamesRequest, global::SubterfugeRemakeService.PlayerCurrentGamesResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetPlayerCurrentGames",
+        __Marshaller_SubterfugeRemakeService_PlayerCurrentGamesRequest,
+        __Marshaller_SubterfugeRemakeService_PlayerCurrentGamesResponse);
 
     static readonly grpc::Method<global::SubterfugeRemakeService.CreateRoomRequest, global::SubterfugeRemakeService.CreateRoomResponse> __Method_CreateNewRoom = new grpc::Method<global::SubterfugeRemakeService.CreateRoomRequest, global::SubterfugeRemakeService.CreateRoomResponse>(
         grpc::MethodType.Unary,
@@ -269,13 +278,12 @@ namespace SubterfugeRemakeService {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
-      /// <summary>
-      /// Fetches the room data
-      /// </summary>
-      /// <param name="request">The request received from the client.</param>
-      /// <param name="context">The context of the server-side call handler being invoked.</param>
-      /// <returns>The response to send back to the client (wrapped by a task).</returns>
-      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.RoomDataResponse> GetRoomData(global::SubterfugeRemakeService.RoomDataRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.OpenLobbiesResponse> GetOpenLobbies(global::SubterfugeRemakeService.OpenLobbiesRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.PlayerCurrentGamesResponse> GetPlayerCurrentGames(global::SubterfugeRemakeService.PlayerCurrentGamesRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -503,49 +511,37 @@ namespace SubterfugeRemakeService {
       {
         return CallInvoker.AsyncUnaryCall(__Method_RegisterAccount, null, options, request);
       }
-      /// <summary>
-      /// Fetches the room data
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-      /// <param name="cancellationToken">An optional token for canceling the call.</param>
-      /// <returns>The response received from the server.</returns>
-      public virtual global::SubterfugeRemakeService.RoomDataResponse GetRoomData(global::SubterfugeRemakeService.RoomDataRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::SubterfugeRemakeService.OpenLobbiesResponse GetOpenLobbies(global::SubterfugeRemakeService.OpenLobbiesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return GetRoomData(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return GetOpenLobbies(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      /// <summary>
-      /// Fetches the room data
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="options">The options for the call.</param>
-      /// <returns>The response received from the server.</returns>
-      public virtual global::SubterfugeRemakeService.RoomDataResponse GetRoomData(global::SubterfugeRemakeService.RoomDataRequest request, grpc::CallOptions options)
+      public virtual global::SubterfugeRemakeService.OpenLobbiesResponse GetOpenLobbies(global::SubterfugeRemakeService.OpenLobbiesRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.BlockingUnaryCall(__Method_GetRoomData, null, options, request);
+        return CallInvoker.BlockingUnaryCall(__Method_GetOpenLobbies, null, options, request);
       }
-      /// <summary>
-      /// Fetches the room data
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-      /// <param name="cancellationToken">An optional token for canceling the call.</param>
-      /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.RoomDataResponse> GetRoomDataAsync(global::SubterfugeRemakeService.RoomDataRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.OpenLobbiesResponse> GetOpenLobbiesAsync(global::SubterfugeRemakeService.OpenLobbiesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return GetRoomDataAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return GetOpenLobbiesAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      /// <summary>
-      /// Fetches the room data
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="options">The options for the call.</param>
-      /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.RoomDataResponse> GetRoomDataAsync(global::SubterfugeRemakeService.RoomDataRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.OpenLobbiesResponse> GetOpenLobbiesAsync(global::SubterfugeRemakeService.OpenLobbiesRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncUnaryCall(__Method_GetRoomData, null, options, request);
+        return CallInvoker.AsyncUnaryCall(__Method_GetOpenLobbies, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.PlayerCurrentGamesResponse GetPlayerCurrentGames(global::SubterfugeRemakeService.PlayerCurrentGamesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetPlayerCurrentGames(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.PlayerCurrentGamesResponse GetPlayerCurrentGames(global::SubterfugeRemakeService.PlayerCurrentGamesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetPlayerCurrentGames, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.PlayerCurrentGamesResponse> GetPlayerCurrentGamesAsync(global::SubterfugeRemakeService.PlayerCurrentGamesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetPlayerCurrentGamesAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.PlayerCurrentGamesResponse> GetPlayerCurrentGamesAsync(global::SubterfugeRemakeService.PlayerCurrentGamesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetPlayerCurrentGames, null, options, request);
       }
       public virtual global::SubterfugeRemakeService.CreateRoomResponse CreateNewRoom(global::SubterfugeRemakeService.CreateRoomRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
@@ -913,7 +909,8 @@ namespace SubterfugeRemakeService {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_Login, serviceImpl.Login)
           .AddMethod(__Method_RegisterAccount, serviceImpl.RegisterAccount)
-          .AddMethod(__Method_GetRoomData, serviceImpl.GetRoomData)
+          .AddMethod(__Method_GetOpenLobbies, serviceImpl.GetOpenLobbies)
+          .AddMethod(__Method_GetPlayerCurrentGames, serviceImpl.GetPlayerCurrentGames)
           .AddMethod(__Method_CreateNewRoom, serviceImpl.CreateNewRoom)
           .AddMethod(__Method_JoinRoom, serviceImpl.JoinRoom)
           .AddMethod(__Method_LeaveRoom, serviceImpl.LeaveRoom)
@@ -946,7 +943,8 @@ namespace SubterfugeRemakeService {
     {
       serviceBinder.AddMethod(__Method_Login, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.AuthorizationRequest, global::SubterfugeRemakeService.AuthorizationResponse>(serviceImpl.Login));
       serviceBinder.AddMethod(__Method_RegisterAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.AccountRegistrationRequest, global::SubterfugeRemakeService.AccountRegistrationResponse>(serviceImpl.RegisterAccount));
-      serviceBinder.AddMethod(__Method_GetRoomData, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.RoomDataRequest, global::SubterfugeRemakeService.RoomDataResponse>(serviceImpl.GetRoomData));
+      serviceBinder.AddMethod(__Method_GetOpenLobbies, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.OpenLobbiesRequest, global::SubterfugeRemakeService.OpenLobbiesResponse>(serviceImpl.GetOpenLobbies));
+      serviceBinder.AddMethod(__Method_GetPlayerCurrentGames, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.PlayerCurrentGamesRequest, global::SubterfugeRemakeService.PlayerCurrentGamesResponse>(serviceImpl.GetPlayerCurrentGames));
       serviceBinder.AddMethod(__Method_CreateNewRoom, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.CreateRoomRequest, global::SubterfugeRemakeService.CreateRoomResponse>(serviceImpl.CreateNewRoom));
       serviceBinder.AddMethod(__Method_JoinRoom, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.JoinRoomRequest, global::SubterfugeRemakeService.JoinRoomResponse>(serviceImpl.JoinRoom));
       serviceBinder.AddMethod(__Method_LeaveRoom, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.LeaveRoomRequest, global::SubterfugeRemakeService.LeaveRoomResponse>(serviceImpl.LeaveRoom));

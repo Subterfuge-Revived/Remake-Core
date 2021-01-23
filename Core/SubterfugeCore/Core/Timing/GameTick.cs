@@ -7,7 +7,7 @@ namespace SubterfugeCore.Core.Timing
     /// </summary>
     public class GameTick
     {
-        public const int MinutesPerTick = 15;
+        public static double MINUTES_PER_TICK = 15.0;
         private DateTime _startTime;
         private int _tickNumber;
 
@@ -28,7 +28,7 @@ namespace SubterfugeCore.Core.Timing
             // Get minutes elapsed
             double minutesElapsed = dateDelta.TotalMinutes;
             // Determine the number of ticks past
-            int ticksElapsed = (int)Math.Ceiling(minutesElapsed / GameTick.MinutesPerTick);
+            int ticksElapsed = (int)Math.Ceiling(minutesElapsed / MINUTES_PER_TICK);
 
             // Return a new gametick relative to the start time.
             this._tickNumber = ticksElapsed;
@@ -56,7 +56,7 @@ namespace SubterfugeCore.Core.Timing
             // Get minutes elapsed
             double minutesElapsed = dateDelta.TotalMinutes;
             // Determine the number of ticks past
-            int ticksElapsed = (int)Math.Ceiling(minutesElapsed / GameTick.MinutesPerTick);
+            int ticksElapsed = (int)Math.Ceiling(minutesElapsed / MINUTES_PER_TICK);
 
             // Return a new gametick relative to the start time.
             return Game.TimeMachine.GetState().GetStartTick().Advance(ticksElapsed);
@@ -78,7 +78,7 @@ namespace SubterfugeCore.Core.Timing
         /// <returns>The next GameTick</returns>
         public GameTick GetNextTick()
         {
-            return new GameTick(this._startTime.AddMinutes(MinutesPerTick), this._tickNumber + 1);
+            return new GameTick(this._startTime.AddMinutes(MINUTES_PER_TICK), this._tickNumber + 1);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace SubterfugeCore.Core.Timing
         {
             if (this._tickNumber > 0)
             {
-                return new GameTick(this._startTime.AddMinutes(-MinutesPerTick), this._tickNumber - 1);
+                return new GameTick(this._startTime.AddMinutes(-MINUTES_PER_TICK), this._tickNumber - 1);
             }
             return this;
         }
@@ -101,7 +101,7 @@ namespace SubterfugeCore.Core.Timing
         /// <returns>A GameTick in the future</returns>
         public GameTick Advance(int ticks)
         {
-            return new GameTick(this._startTime.AddMinutes(ticks * MinutesPerTick), this._tickNumber + ticks);
+            return new GameTick(this._startTime.AddMinutes(ticks * MINUTES_PER_TICK), this._tickNumber + ticks);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace SubterfugeCore.Core.Timing
         {
             if (this._tickNumber >= ticks)
             {
-                return new GameTick(this._startTime.AddMinutes(ticks * -MinutesPerTick), this._tickNumber - ticks);
+                return new GameTick(this._startTime.AddMinutes(ticks * -MINUTES_PER_TICK), this._tickNumber - ticks);
             }
             return this.Rewind(this.GetTick());
         }

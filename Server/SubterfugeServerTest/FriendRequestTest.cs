@@ -11,22 +11,12 @@ namespace Tests
     public class FriendRequestTest
     {
         SubterfugeClient.SubterfugeClient client;
-        // private const String Hostname = "server"; // For docker
-        private const String Hostname = "localhost"; // For local
-        private const int Port = 5000;
-            
-        // private const String dbHost = "db"; // For docker
-        private const String dbHost = "localhost"; // For local
-        private const int dbPort = 6379;
-
-
         private AuthTestHelper authHelper;
 
         [SetUp]
         public void Setup()
         {
-            RedisConnector db = new RedisConnector(dbHost, dbPort.ToString(), true);
-            client = new SubterfugeClient.SubterfugeClient(Hostname, Port.ToString());
+            client = ClientHelper.GetClient();
             
             // Clear the database every test.
             RedisConnector.Server.FlushDatabase();
@@ -227,8 +217,152 @@ namespace Tests
             };
 
             var exception = Assert.Throws<RpcException>(() => client.SendFriendRequest(request));
-            Console.WriteLine(exception);
             Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
         }
+
+        [Test]
+        public void PlayerCannotGetAFriendRequestFromABlockedPlayer()
+        {
+            authHelper.loginToAccount("userOne");
+            
+            BlockPlayerRequest blockPlayerRequest = new BlockPlayerRequest()
+            {
+                UserIdToBlock = authHelper.getAccountId("userTwo")
+            };
+
+            client.BlockPlayer(blockPlayerRequest);
+            authHelper.loginToAccount("userTwo");
+
+            SendFriendRequestRequest request = new SendFriendRequestRequest()
+            {
+                FriendId = authHelper.getAccountId("userOne")
+            };
+
+            var exception = Assert.Throws<RpcException>(() => client.SendFriendRequest(request));
+            Assert.AreEqual(exception.Status.StatusCode, StatusCode.Unavailable);
+        }
+        
+        [Test]
+        public void PlayerCannotSendAFriendRequestToABlockedPlayer()
+        {
+            authHelper.loginToAccount("userOne");
+            
+            BlockPlayerRequest blockPlayerRequest = new BlockPlayerRequest()
+            {
+                UserIdToBlock = authHelper.getAccountId("userTwo")
+            };
+
+            client.BlockPlayer(blockPlayerRequest);
+
+            SendFriendRequestRequest request = new SendFriendRequestRequest()
+            {
+                FriendId = authHelper.getAccountId("userTwo")
+            };
+
+            var exception = Assert.Throws<RpcException>(() => client.SendFriendRequest(request));
+            Assert.AreEqual(exception.Status.StatusCode, StatusCode.Unavailable);
+        }
+
+        [Test]
+        public void BlockingAPlayerRemovesThemAsAFriend()
+        {
+            authHelper.loginToAccount("userOne");
+
+            SendFriendRequestRequest request = new SendFriendRequestRequest()
+            {
+                FriendId = authHelper.getAccountId("userTwo")
+            };
+
+            SendFriendRequestResponse response = client.SendFriendRequest(request);
+            Assert.IsTrue(response != null);
+
+            authHelper.loginToAccount("userTwo");
+            
+            AcceptFriendRequestRequest friendRequest = new AcceptFriendRequestRequest()
+            {
+                FriendId = authHelper.getAccountId("userOne"),
+            };
+
+            AcceptFriendRequestResponse acceptResponse = client.AcceptFriendRequest(friendRequest);
+            Assert.IsTrue(acceptResponse != null);
+            
+            ViewFriendsResponse friendResponse = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(1, friendResponse.Friends.Count);
+            Assert.IsTrue(friendResponse.Friends.Any((friend) => friend.Id == authHelper.getAccountId("userOne")));
+            
+            BlockPlayerRequest blockRequest = new BlockPlayerRequest()
+            {
+                UserIdToBlock = authHelper.getAccountId("userOne")
+            };
+
+            BlockPlayerResponse blockResponse = client.BlockPlayer(blockRequest);
+            Assert.IsTrue(blockResponse != null);
+            
+            // Make sure the players are not friends.
+            ViewFriendsResponse blockFriendListResponse = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(0, blockFriendListResponse.Friends.Count);
+
+            authHelper.loginToAccount("userOne");
+            
+            // Make sure the players are not friends.
+            ViewFriendsResponse blockFriendListResponseUserOne = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(0, blockFriendListResponseUserOne.Friends.Count);
+        }
+        
+        [Test]
+        public void BlockingAPlayerWithAnIncomingFriendRequestRemovesTheFriendRequests()
+        {
+            authHelper.loginToAccount("userOne");
+
+            SendFriendRequestRequest request = new SendFriendRequestRequest()
+            {
+                FriendId = authHelper.getAccountId("userTwo")
+            };
+
+            SendFriendRequestResponse response = client.SendFriendRequest(request);
+            Assert.IsTrue(response != null);
+
+            authHelper.loginToAccount("userTwo");
+
+            BlockPlayerRequest blockRequest = new BlockPlayerRequest()
+            {
+                UserIdToBlock = authHelper.getAccountId("userOne")
+            };
+
+            client.BlockPlayer(blockRequest);
+            
+            // Make sure the players are not friends.
+            ViewFriendRequestsResponse blockFriendListResponse = client.ViewFriendRequests(new ViewFriendRequestsRequest());
+            Assert.AreEqual(0, blockFriendListResponse.IncomingFriends.Count);
+
+            authHelper.loginToAccount("userOne");
+        }
+        
+        [Test]
+        public void BlockingAPlayerAfterSendingThemAFriendRequestRemovesTheFriendRequest()
+        {
+            authHelper.loginToAccount("userOne");
+
+            SendFriendRequestRequest request = new SendFriendRequestRequest()
+            {
+                FriendId = authHelper.getAccountId("userTwo")
+            };
+
+            SendFriendRequestResponse response = client.SendFriendRequest(request);
+            Assert.IsTrue(response != null);
+
+            BlockPlayerRequest blockRequest = new BlockPlayerRequest()
+            {
+                UserIdToBlock = authHelper.getAccountId("userTwo")
+            };
+
+            client.BlockPlayer(blockRequest);
+            authHelper.loginToAccount("userTwo");
+            
+            // Make sure the players are not friends.
+            ViewFriendRequestsResponse blockFriendListResponse = client.ViewFriendRequests(new ViewFriendRequestsRequest());
+            Assert.AreEqual(0, blockFriendListResponse.IncomingFriends.Count);
+        }
+        
     }
 }

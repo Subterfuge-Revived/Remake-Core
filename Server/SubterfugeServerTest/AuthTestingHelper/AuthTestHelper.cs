@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SubterfugeRemakeService;
+using SubterfugeServerConsole.Connections.Models;
 
 namespace Tests.AuthTestingHelper
 {
@@ -18,6 +19,26 @@ namespace Tests.AuthTestingHelper
             this.client = client;
         }
 
+        public CreateRoomResponse CreateGameRoom(string roomName)
+        {
+            CreateRoomRequest createRequest = new CreateRoomRequest()
+            {
+                Anonymous = false,
+                Goal = Goal.Domination,
+                MaxPlayers = 5,
+                IsRanked = false,
+                RoomName = roomName,
+                AllowedSpecialists = { "a","b","c" },
+            };
+
+            return client.CreateNewRoom(createRequest);
+        }
+
+        public SuperUser CreateSuperUser()
+        {
+            return RedisUserModel.CreateSuperUser().Result;
+        }
+
         public String createAccount(String username)
         {
             String pass = RandomString(13);
@@ -27,6 +48,7 @@ namespace Tests.AuthTestingHelper
                 Email = "Test@test.com",
                 Password = pass,
                 Username = username,
+                DeviceIdentifier = Guid.NewGuid().ToString(),
             };
  
             AccountRegistrationResponse response = client.RegisterAccount(request);

@@ -15,8 +15,9 @@ service subterfugeService {
     // Allows users to register a new account
     rpc RegisterAccount(AccountRegistrationRequest) returns (AccountRegistrationResponse) {}
     
-    // Fetches the room data
-    rpc GetRoomData(RoomDataRequest) returns (RoomDataResponse) {}
+    rpc GetOpenLobbies(OpenLobbiesRequest) returns (OpenLobbiesResponse) {}
+    
+    rpc GetPlayerCurrentGames(PlayerCurrentGamesRequest) returns (PlayerCurrentGamesResponse) {}
     
     rpc CreateNewRoom(CreateRoomRequest) returns (CreateRoomResponse) {}
     
@@ -78,7 +79,7 @@ message AccountRegistrationRequest {
     string Username = 1;
     string Password = 2;
     string Email = 3;
-    string Phone = 4;
+    string DeviceIdentifier = 4;
 }
 
 message AccountRegistrationResponse {
@@ -91,7 +92,7 @@ message User {
     string Username = 2;
 }
 
-message RoomDataRequest {
+message OpenLobbiesRequest {
     RoomStatus RoomStatus = 1;
     bool FilterByPlayer = 2;
 }
@@ -102,7 +103,7 @@ enum RoomStatus {
     CLOSED = 2;
 }
 
-message RoomDataResponse {
+message OpenLobbiesResponse {
     repeated Room Rooms = 1;
 }
 
@@ -120,6 +121,7 @@ message Room {
     int64 MaxPlayers = 11;
     repeated User Players = 12;
     repeated string allowedSpecialists = 13;
+    double MinutesPerTick = 14;
 }
 
 message RankedInformation {
@@ -134,12 +136,13 @@ enum Goal {
 }
 
 message CreateRoomRequest {
-    RankedInformation RankedInformation = 4;
+    bool isRanked = 4;
     bool Anonymous = 5;
     string RoomName = 6;
     Goal Goal = 7;
     int64 MaxPlayers = 11;
     repeated string allowedSpecialists = 12;
+    double MinutesPerTick = 13;
 }
 
 message CreateRoomResponse {
@@ -183,7 +186,7 @@ message GameEvent {
     string eventId = 1;
     int64 UnixTimeIssued = 2;
     int64 OccursAtTick = 3;
-    User IssuedBy = 4;
+    string IssuedBy = 4;
     string EventData = 5;
 }
 
@@ -311,6 +314,11 @@ message HealthCheckResponse{}
 message AuthorizedHealthCheckRequest{}
 message AuthorizedHealthCheckResponse{}
 
+message PlayerCurrentGamesRequest{}
+message PlayerCurrentGamesResponse{
+    repeated Room games = 1;
+}
+
 
 // For database and server processing only.
 // Players should never be shown or given access to the full data model as it contains confidential information
@@ -320,12 +328,10 @@ message UserModel {
     string Username = 2;
     string PasswordHash = 3;
     string Email = 4;
-    string Phone = 5;
-    string deviceIdentifier = 6;
-    bool phoneVerified = 7;
-    bool emailVerified = 8;
-    repeated UserClaim claims = 9;
-    string pushNotificationIdentifier = 10;
+    string deviceIdentifier = 5;
+    bool emailVerified = 6;
+    repeated UserClaim claims = 7;
+    string pushNotificationIdentifier = 8;
 }
 
 enum UserClaim {
@@ -333,9 +339,8 @@ enum UserClaim {
     USER = 1;
     DEV = 2;
     ADMIN = 3;
-    PHONE_VERIFIED = 4;
-    EMAIL_VERIFIED = 5;
-    BANNED = 6;
+    EMAIL_VERIFIED = 4;
+    BANNED = 5;
 }
 
 message RoomModel {
@@ -351,4 +356,5 @@ message RoomModel {
     int64 UnixTimeStarted = 10;
     int64 MaxPlayers = 11;
     repeated string allowedSpecialists = 12;
+    double MinutesPerTick = 13;
 }

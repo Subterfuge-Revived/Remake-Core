@@ -4,25 +4,19 @@ using NUnit.Framework;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole;
 using SubterfugeServerConsole.Connections;
+using SubterfugeServerConsole.Connections.Models;
+using Tests.AuthTestingHelper;
 
 namespace Tests
 {
     public class NewAccountAuthorizationTest
     {
         SubterfugeClient.SubterfugeClient client;
-        // private const String Hostname = "server"; // For docker
-        private const String Hostname = "localhost"; // For local
-        private const int Port = 5000;
-            
-        // private const String dbHost = "db"; // For docker
-        private const String dbHost = "localhost"; // For local
-        private const int dbPort = 6379;
         
         [SetUp]
         public void Setup()
         {
-            RedisConnector db = new RedisConnector(dbHost, dbPort.ToString(), true);
-            client = new SubterfugeClient.SubterfugeClient(Hostname, Port.ToString());
+            client = ClientHelper.GetClient();
             
             // Clear the database every test.
             RedisConnector.Server.FlushDatabase();
@@ -146,10 +140,16 @@ namespace Tests
          }
 
          [Test]
-         public void PlayersWhoRegisterWithTheSameDeviceIdCannotJoinTheSameGame()
+         public void SuperUserAccountHasAdminClaims()
          {
-             // TODO
-             Assert.IsTrue(false);
+             SuperUser superUser = RedisUserModel.CreateSuperUser().Result;
+             
+             // Fetch the user from the database.
+             RedisUserModel user = RedisUserModel.GetUserFromGuid(superUser.userModel.UserModel.Id).Result;
+             // Ensure the user has admin power
+             Assert.IsTrue(user.HasClaim(UserClaim.Admin));
+             Assert.IsTrue(user.HasClaim(UserClaim.Dev));
+             Assert.IsTrue(user.HasClaim(UserClaim.EmailVerified));
          }
         
     }

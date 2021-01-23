@@ -4,17 +4,18 @@ using Grpc.Core;
 using Grpc.Core.Interceptors;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections;
+ using SubterfugeServerConsole.Connections.Models;
 
-namespace SubterfugeServerConsole
+ namespace SubterfugeServerConsole
 {
     class Program
     {
-        private const String Hostname = "server"; // For docker
-        // private const String Hostname = "localhost"; // For local
+        // private const String Hostname = "server"; // For docker
+        private const String Hostname = "localhost"; // For local
         private const int Port = 5000;
         
-        private const String dbHost = "db"; // For docker
-        // private const String dbHost = "localhost"; // For local
+        // private const String dbHost = "db"; // For docker
+        private const String dbHost = "localhost"; // For local
         private const int dbPort = 6379;
         
             
@@ -33,9 +34,11 @@ namespace SubterfugeServerConsole
             };
             
             Console.WriteLine($"Listening on {Port}...");
+            RedisUserModel.CreateSuperUser(); // Creates a super user with admin powers.
             server.Start();
             Shutdown.WaitOne();
             server.ShutdownAsync().Wait();
         }
+        
     }
 }

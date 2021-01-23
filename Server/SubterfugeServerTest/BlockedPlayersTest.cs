@@ -5,6 +5,7 @@ using Grpc.Core;
 using NUnit.Framework;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections;
+using SubterfugeServerConsole.Connections.Models;
 using Tests.AuthTestingHelper;
 
 namespace Tests
@@ -12,22 +13,12 @@ namespace Tests
     public class BlockedPlayersTest
     {
         SubterfugeClient.SubterfugeClient client;
-        // private const String Hostname = "server"; // For docker
-        private const String Hostname = "localhost"; // For local
-        private const int Port = 5000;
-            
-        // private const String dbHost = "db"; // For docker
-        private const String dbHost = "localhost"; // For local
-        private const int dbPort = 6379;
-
-
         private AuthTestHelper authHelper;
 
         [SetUp]
         public void Setup()
         {
-            RedisConnector db = new RedisConnector(dbHost, dbPort.ToString(), true);
-            client = new SubterfugeClient.SubterfugeClient(Hostname, Port.ToString());
+            client = ClientHelper.GetClient();
             
             // Clear the database every test.
             RedisConnector.Server.FlushDatabase();
@@ -143,6 +134,51 @@ namespace Tests
 
             var exception = Assert.Throws<RpcException>(() => client.UnblockPlayer(unblockRequest));
             Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
+        }
+
+        [Test]
+        public void BlockingAFriendRemovesThemAsAFriend()
+        {
+            client.SendFriendRequest(new SendFriendRequestRequest()
+            {
+                FriendId = authHelper.getAccountId("userTwo")
+            });
+
+            authHelper.loginToAccount("userTwo");
+            client.AcceptFriendRequest(new AcceptFriendRequestRequest()
+            {
+                FriendId = authHelper.getAccountId("userOne"),
+            });
+            
+            // Ensure players are friends
+            ViewFriendsResponse friends = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(1, friends.Friends.Count);
+
+
+            BlockPlayerResponse blockResponse = client.BlockPlayer(new BlockPlayerRequest()
+            {
+                UserIdToBlock = authHelper.getAccountId("userOne"),
+            });
+            Assert.IsTrue(blockResponse != null);
+            
+            // Ensure players are not friends
+            ViewFriendsResponse friendsAfterBlock = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(0, friendsAfterBlock.Friends.Count);
+        }
+        
+        [Test]
+        public void CannotBlockAnAdmin()
+        {
+            SuperUser admin = authHelper.CreateSuperUser();
+
+            var exception = Assert.Throws<RpcException>(() => client.BlockPlayer(new BlockPlayerRequest()
+            {
+                UserIdToBlock = admin.userModel.UserModel.Id,
+            }));
+            Assert.AreEqual(exception.Status.StatusCode, StatusCode.PermissionDenied);
+            
+            ViewBlockedPlayersResponse blockedUserResponse = client.ViewBlockedPlayers(new ViewBlockedPlayersRequest());
+            Assert.AreEqual(0, blockedUserResponse.BlockedUsers.Count);
         }
     }
 }

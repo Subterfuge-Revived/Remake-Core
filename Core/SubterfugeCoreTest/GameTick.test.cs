@@ -36,7 +36,7 @@ namespace SubterfugeCoreTest
         {
             GameTick nextTick = _tick.GetNextTick();
 
-            Assert.AreEqual(_time.AddMinutes(GameTick.MinutesPerTick), nextTick.GetDate());
+            Assert.AreEqual(_time.AddMinutes(GameTick.MINUTES_PER_TICK), nextTick.GetDate());
             Assert.AreEqual(_tickNumber + 1, nextTick.GetTick());
         }
 
@@ -62,7 +62,7 @@ namespace SubterfugeCoreTest
             int ticksToAdvance = 10;
             GameTick tenMoreTicks = _tick.Advance(ticksToAdvance);
 
-            Assert.AreEqual(_time.AddMinutes(GameTick.MinutesPerTick * ticksToAdvance), tenMoreTicks.GetDate());
+            Assert.AreEqual(_time.AddMinutes(GameTick.MINUTES_PER_TICK * ticksToAdvance), tenMoreTicks.GetDate());
             Assert.AreEqual(_tickNumber + ticksToAdvance, tenMoreTicks.GetTick());
         }
 
@@ -87,7 +87,7 @@ namespace SubterfugeCoreTest
         public void FromDate()
         {
             int numberOfTicks = 4;
-            int minutes = GameTick.MinutesPerTick * numberOfTicks;
+            double minutes = GameTick.MINUTES_PER_TICK * numberOfTicks;
             DateTime newDate = _time.AddMinutes(minutes);
             GameTick newTick = GameTick.FromDate(newDate);
 
@@ -100,14 +100,22 @@ namespace SubterfugeCoreTest
         public void FromTick()
         {
             int numberOfTicks = 4;
-            int minutes = GameTick.MinutesPerTick * numberOfTicks;
+            double minutes = GameTick.MINUTES_PER_TICK * numberOfTicks;
             DateTime newDate = _time.AddMinutes(minutes);
             GameTick newTick = GameTick.FromTickNumber(numberOfTicks);
 
             Assert.AreEqual(_tick.GetTick() + numberOfTicks, newTick.GetTick());
             Assert.AreEqual(newDate.ToLongTimeString(), newTick.GetDate().ToLongTimeString());
             Assert.AreEqual(newDate.ToLongDateString(), newTick.GetDate().ToLongDateString());
+        }
 
+        [TestMethod]
+        public void FasterGameSpeed()
+        {
+            GameTick.MINUTES_PER_TICK = 0.1;
+            DateTime start = _tick.GetDate();
+            GameTick forward = _tick.Advance(10);
+            Assert.AreEqual(forward.GetDate().ToLongTimeString(), start.AddMinutes(GameTick.MINUTES_PER_TICK * 10).ToLongTimeString());
         }
 
     }
