@@ -31,7 +31,6 @@ namespace SubterfugeRemakeService {
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.SubmitGameEventRequest> __Marshaller_SubterfugeRemakeService_SubmitGameEventRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SubmitGameEventRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.SubmitGameEventResponse> __Marshaller_SubterfugeRemakeService_SubmitGameEventResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SubmitGameEventResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.UpdateGameEventRequest> __Marshaller_SubterfugeRemakeService_UpdateGameEventRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.UpdateGameEventRequest.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::SubterfugeRemakeService.UpdateGameEventResponse> __Marshaller_SubterfugeRemakeService_UpdateGameEventResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.UpdateGameEventResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.DeleteGameEventRequest> __Marshaller_SubterfugeRemakeService_DeleteGameEventRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.DeleteGameEventRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.DeleteGameEventResponse> __Marshaller_SubterfugeRemakeService_DeleteGameEventResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.DeleteGameEventResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateMessageGroupRequest> __Marshaller_SubterfugeRemakeService_CreateMessageGroupRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.CreateMessageGroupRequest.Parser.ParseFrom);
@@ -50,6 +49,8 @@ namespace SubterfugeRemakeService {
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.SendFriendRequestResponse> __Marshaller_SubterfugeRemakeService_SendFriendRequestResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SendFriendRequestResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AcceptFriendRequestRequest> __Marshaller_SubterfugeRemakeService_AcceptFriendRequestRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AcceptFriendRequestRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AcceptFriendRequestResponse> __Marshaller_SubterfugeRemakeService_AcceptFriendRequestResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AcceptFriendRequestResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.DenyFriendRequestRequest> __Marshaller_SubterfugeRemakeService_DenyFriendRequestRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.DenyFriendRequestRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.DenyFriendRequestResponse> __Marshaller_SubterfugeRemakeService_DenyFriendRequestResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.DenyFriendRequestResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewFriendRequestsRequest> __Marshaller_SubterfugeRemakeService_ViewFriendRequestsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.ViewFriendRequestsRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.ViewFriendRequestsResponse> __Marshaller_SubterfugeRemakeService_ViewFriendRequestsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.ViewFriendRequestsResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.RemoveFriendRequest> __Marshaller_SubterfugeRemakeService_RemoveFriendRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.RemoveFriendRequest.Parser.ParseFrom);
@@ -124,12 +125,12 @@ namespace SubterfugeRemakeService {
         __Marshaller_SubterfugeRemakeService_SubmitGameEventRequest,
         __Marshaller_SubterfugeRemakeService_SubmitGameEventResponse);
 
-    static readonly grpc::Method<global::SubterfugeRemakeService.UpdateGameEventRequest, global::SubterfugeRemakeService.UpdateGameEventResponse> __Method_UpdateGameEvent = new grpc::Method<global::SubterfugeRemakeService.UpdateGameEventRequest, global::SubterfugeRemakeService.UpdateGameEventResponse>(
+    static readonly grpc::Method<global::SubterfugeRemakeService.UpdateGameEventRequest, global::SubterfugeRemakeService.SubmitGameEventResponse> __Method_UpdateGameEvent = new grpc::Method<global::SubterfugeRemakeService.UpdateGameEventRequest, global::SubterfugeRemakeService.SubmitGameEventResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "UpdateGameEvent",
         __Marshaller_SubterfugeRemakeService_UpdateGameEventRequest,
-        __Marshaller_SubterfugeRemakeService_UpdateGameEventResponse);
+        __Marshaller_SubterfugeRemakeService_SubmitGameEventResponse);
 
     static readonly grpc::Method<global::SubterfugeRemakeService.DeleteGameEventRequest, global::SubterfugeRemakeService.DeleteGameEventResponse> __Method_DeleteGameEvent = new grpc::Method<global::SubterfugeRemakeService.DeleteGameEventRequest, global::SubterfugeRemakeService.DeleteGameEventResponse>(
         grpc::MethodType.Unary,
@@ -193,6 +194,13 @@ namespace SubterfugeRemakeService {
         "AcceptFriendRequest",
         __Marshaller_SubterfugeRemakeService_AcceptFriendRequestRequest,
         __Marshaller_SubterfugeRemakeService_AcceptFriendRequestResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.DenyFriendRequestRequest, global::SubterfugeRemakeService.DenyFriendRequestResponse> __Method_DenyFriendRequest = new grpc::Method<global::SubterfugeRemakeService.DenyFriendRequestRequest, global::SubterfugeRemakeService.DenyFriendRequestResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "DenyFriendRequest",
+        __Marshaller_SubterfugeRemakeService_DenyFriendRequestRequest,
+        __Marshaller_SubterfugeRemakeService_DenyFriendRequestResponse);
 
     static readonly grpc::Method<global::SubterfugeRemakeService.ViewFriendRequestsRequest, global::SubterfugeRemakeService.ViewFriendRequestsResponse> __Method_ViewFriendRequests = new grpc::Method<global::SubterfugeRemakeService.ViewFriendRequestsRequest, global::SubterfugeRemakeService.ViewFriendRequestsResponse>(
         grpc::MethodType.Unary,
@@ -302,7 +310,7 @@ namespace SubterfugeRemakeService {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
-      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.UpdateGameEventResponse> UpdateGameEvent(global::SubterfugeRemakeService.UpdateGameEventRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.SubmitGameEventResponse> UpdateGameEvent(global::SubterfugeRemakeService.UpdateGameEventRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -348,6 +356,11 @@ namespace SubterfugeRemakeService {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.AcceptFriendRequestResponse> AcceptFriendRequest(global::SubterfugeRemakeService.AcceptFriendRequestRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.DenyFriendRequestResponse> DenyFriendRequest(global::SubterfugeRemakeService.DenyFriendRequestRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -630,19 +643,19 @@ namespace SubterfugeRemakeService {
       {
         return CallInvoker.AsyncUnaryCall(__Method_SubmitGameEvent, null, options, request);
       }
-      public virtual global::SubterfugeRemakeService.UpdateGameEventResponse UpdateGameEvent(global::SubterfugeRemakeService.UpdateGameEventRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::SubterfugeRemakeService.SubmitGameEventResponse UpdateGameEvent(global::SubterfugeRemakeService.UpdateGameEventRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return UpdateGameEvent(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual global::SubterfugeRemakeService.UpdateGameEventResponse UpdateGameEvent(global::SubterfugeRemakeService.UpdateGameEventRequest request, grpc::CallOptions options)
+      public virtual global::SubterfugeRemakeService.SubmitGameEventResponse UpdateGameEvent(global::SubterfugeRemakeService.UpdateGameEventRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_UpdateGameEvent, null, options, request);
       }
-      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.UpdateGameEventResponse> UpdateGameEventAsync(global::SubterfugeRemakeService.UpdateGameEventRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.SubmitGameEventResponse> UpdateGameEventAsync(global::SubterfugeRemakeService.UpdateGameEventRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return UpdateGameEventAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.UpdateGameEventResponse> UpdateGameEventAsync(global::SubterfugeRemakeService.UpdateGameEventRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.SubmitGameEventResponse> UpdateGameEventAsync(global::SubterfugeRemakeService.UpdateGameEventRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_UpdateGameEvent, null, options, request);
       }
@@ -790,6 +803,22 @@ namespace SubterfugeRemakeService {
       {
         return CallInvoker.AsyncUnaryCall(__Method_AcceptFriendRequest, null, options, request);
       }
+      public virtual global::SubterfugeRemakeService.DenyFriendRequestResponse DenyFriendRequest(global::SubterfugeRemakeService.DenyFriendRequestRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DenyFriendRequest(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.DenyFriendRequestResponse DenyFriendRequest(global::SubterfugeRemakeService.DenyFriendRequestRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_DenyFriendRequest, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.DenyFriendRequestResponse> DenyFriendRequestAsync(global::SubterfugeRemakeService.DenyFriendRequestRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DenyFriendRequestAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.DenyFriendRequestResponse> DenyFriendRequestAsync(global::SubterfugeRemakeService.DenyFriendRequestRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_DenyFriendRequest, null, options, request);
+      }
       public virtual global::SubterfugeRemakeService.ViewFriendRequestsResponse ViewFriendRequests(global::SubterfugeRemakeService.ViewFriendRequestsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return ViewFriendRequests(request, new grpc::CallOptions(headers, deadline, cancellationToken));
@@ -901,6 +930,7 @@ namespace SubterfugeRemakeService {
           .AddMethod(__Method_ViewBlockedPlayers, serviceImpl.ViewBlockedPlayers)
           .AddMethod(__Method_SendFriendRequest, serviceImpl.SendFriendRequest)
           .AddMethod(__Method_AcceptFriendRequest, serviceImpl.AcceptFriendRequest)
+          .AddMethod(__Method_DenyFriendRequest, serviceImpl.DenyFriendRequest)
           .AddMethod(__Method_ViewFriendRequests, serviceImpl.ViewFriendRequests)
           .AddMethod(__Method_RemoveFriend, serviceImpl.RemoveFriend)
           .AddMethod(__Method_ViewFriends, serviceImpl.ViewFriends)
@@ -923,7 +953,7 @@ namespace SubterfugeRemakeService {
       serviceBinder.AddMethod(__Method_StartGameEarly, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.StartGameEarlyRequest, global::SubterfugeRemakeService.StartGameEarlyResponse>(serviceImpl.StartGameEarly));
       serviceBinder.AddMethod(__Method_GetGameRoomEvents, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.GetGameRoomEventsRequest, global::SubterfugeRemakeService.GetGameRoomEventsResponse>(serviceImpl.GetGameRoomEvents));
       serviceBinder.AddMethod(__Method_SubmitGameEvent, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.SubmitGameEventRequest, global::SubterfugeRemakeService.SubmitGameEventResponse>(serviceImpl.SubmitGameEvent));
-      serviceBinder.AddMethod(__Method_UpdateGameEvent, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.UpdateGameEventRequest, global::SubterfugeRemakeService.UpdateGameEventResponse>(serviceImpl.UpdateGameEvent));
+      serviceBinder.AddMethod(__Method_UpdateGameEvent, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.UpdateGameEventRequest, global::SubterfugeRemakeService.SubmitGameEventResponse>(serviceImpl.UpdateGameEvent));
       serviceBinder.AddMethod(__Method_DeleteGameEvent, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.DeleteGameEventRequest, global::SubterfugeRemakeService.DeleteGameEventResponse>(serviceImpl.DeleteGameEvent));
       serviceBinder.AddMethod(__Method_CreateMessageGroup, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.CreateMessageGroupRequest, global::SubterfugeRemakeService.CreateMessageGroupResponse>(serviceImpl.CreateMessageGroup));
       serviceBinder.AddMethod(__Method_SendMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.SendMessageRequest, global::SubterfugeRemakeService.SendMessageResponse>(serviceImpl.SendMessage));
@@ -933,6 +963,7 @@ namespace SubterfugeRemakeService {
       serviceBinder.AddMethod(__Method_ViewBlockedPlayers, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.ViewBlockedPlayersRequest, global::SubterfugeRemakeService.ViewBlockedPlayersResponse>(serviceImpl.ViewBlockedPlayers));
       serviceBinder.AddMethod(__Method_SendFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.SendFriendRequestRequest, global::SubterfugeRemakeService.SendFriendRequestResponse>(serviceImpl.SendFriendRequest));
       serviceBinder.AddMethod(__Method_AcceptFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.AcceptFriendRequestRequest, global::SubterfugeRemakeService.AcceptFriendRequestResponse>(serviceImpl.AcceptFriendRequest));
+      serviceBinder.AddMethod(__Method_DenyFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.DenyFriendRequestRequest, global::SubterfugeRemakeService.DenyFriendRequestResponse>(serviceImpl.DenyFriendRequest));
       serviceBinder.AddMethod(__Method_ViewFriendRequests, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.ViewFriendRequestsRequest, global::SubterfugeRemakeService.ViewFriendRequestsResponse>(serviceImpl.ViewFriendRequests));
       serviceBinder.AddMethod(__Method_RemoveFriend, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.RemoveFriendRequest, global::SubterfugeRemakeService.RemoveFriendResponse>(serviceImpl.RemoveFriend));
       serviceBinder.AddMethod(__Method_ViewFriends, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.ViewFriendsRequest, global::SubterfugeRemakeService.ViewFriendsResponse>(serviceImpl.ViewFriends));

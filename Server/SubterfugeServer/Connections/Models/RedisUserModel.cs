@@ -74,6 +74,16 @@ namespace SubterfugeServerConsole.Connections.Models
             return friends;
         }
         
+        public async Task<Boolean> BlockUser(RedisUserModel requestingUser)
+        {
+            return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
+        }
+        
+        public async Task<Boolean> UnblockUser(RedisUserModel requestingUser)
+        {
+            return await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
+        }
+        
         public async Task<List<RedisUserModel>> GetFriendRequests()
         {
             RedisValue[] friendIds = await RedisConnector.Redis.SetMembersAsync($"user:{UserModel.Id}:friendRequests");
@@ -89,16 +99,6 @@ namespace SubterfugeServerConsole.Connections.Models
             return friends;
         }
         
-        public async Task<Boolean> BlockUser(RedisUserModel requestingUser)
-        {
-            return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
-        }
-        
-        public async Task<Boolean> UnblockUser(RedisUserModel requestingUser)
-        {
-            return await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
-        }
-
         public async Task<Boolean> AddFriendRequest(RedisUserModel requestingUser)
         {
             return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:friendRequests", requestingUser.UserModel.Id);
@@ -109,7 +109,18 @@ namespace SubterfugeServerConsole.Connections.Models
             return await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:friendRequests", requestingUser.UserModel.Id);
         }
         
-        public async Task<Boolean> AddFriend(RedisUserModel requestingUser)
+        /**
+         * This method assumes that the passed in user has sent you a request already.
+         */
+        public async Task<Boolean> AcceptFriendRequest(RedisUserModel requestingUser)
+        {
+            await RemoveFriendRequest(requestingUser);
+            await AddFriend(requestingUser);
+            await requestingUser.AddFriend(this);
+            return true;
+        }
+        
+        private async Task<Boolean> AddFriend(RedisUserModel requestingUser)
         {
             return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:friends", requestingUser.UserModel.Id);
         }

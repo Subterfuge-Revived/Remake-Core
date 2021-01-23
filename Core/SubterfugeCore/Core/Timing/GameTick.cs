@@ -21,6 +21,19 @@ namespace SubterfugeCore.Core.Timing
             this._tickNumber = tickNumber;
         }
 
+        public GameTick(DateTime startTime, DateTime currentTime)
+        {
+            this._startTime = startTime;
+            TimeSpan dateDelta = currentTime.Subtract(startTime);
+            // Get minutes elapsed
+            double minutesElapsed = dateDelta.TotalMinutes;
+            // Determine the number of ticks past
+            int ticksElapsed = (int)Math.Ceiling(minutesElapsed / GameTick.MinutesPerTick);
+
+            // Return a new gametick relative to the start time.
+            this._tickNumber = ticksElapsed;
+        }
+
         /// <summary>
         /// Generic GameTick constructor. Sets tick 0 at the current time.
         /// </summary>

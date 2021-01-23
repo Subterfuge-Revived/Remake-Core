@@ -80,7 +80,7 @@ namespace Tests
          }
         
          [Test]
-         public void UserCanLoginAfterRegisteringNewAccount()
+         public void PlayerCanLoginAfterRegisteringNewAccount()
          {
              String username = "Username";
              String password = "Password";
@@ -118,7 +118,7 @@ namespace Tests
          }
 
          [Test]
-         public void UserCannotRegisterWithTheSameUsername()
+         public void PlayerCannotRegisterWithTheSameUsername()
          {
              String username = "Username";
              String password = "Password";
@@ -146,7 +146,7 @@ namespace Tests
          }
 
          [Test]
-         public void UsersWhoRegisterWithTheSamePhoneCannotJoinTheSameGame()
+         public void PlayersWhoRegisterWithTheSameDeviceIdCannotJoinTheSameGame()
          {
              // TODO
              Assert.IsTrue(false);

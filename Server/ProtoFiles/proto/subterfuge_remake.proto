@@ -30,7 +30,7 @@ service subterfugeService {
     
     rpc SubmitGameEvent(SubmitGameEventRequest) returns (SubmitGameEventResponse) {}
     
-    rpc UpdateGameEvent(UpdateGameEventRequest) returns (UpdateGameEventResponse) {}
+    rpc UpdateGameEvent(UpdateGameEventRequest) returns (SubmitGameEventResponse) {}
     
     rpc DeleteGameEvent(DeleteGameEventRequest) returns (DeleteGameEventResponse) {}
     
@@ -49,6 +49,8 @@ service subterfugeService {
     rpc SendFriendRequest(SendFriendRequestRequest) returns (SendFriendRequestResponse) {}
 
     rpc AcceptFriendRequest(AcceptFriendRequestRequest) returns (AcceptFriendRequestResponse) {}
+
+    rpc DenyFriendRequest(DenyFriendRequestRequest) returns (DenyFriendRequestResponse) {}
 
     rpc ViewFriendRequests(ViewFriendRequestsRequest) returns (ViewFriendRequestsResponse) {}
 
@@ -117,6 +119,7 @@ message Room {
     int64 UnixTimeStarted = 10;
     int64 MaxPlayers = 11;
     repeated User Players = 12;
+    repeated string allowedSpecialists = 13;
 }
 
 message RankedInformation {
@@ -136,6 +139,7 @@ message CreateRoomRequest {
     string RoomName = 6;
     Goal Goal = 7;
     int64 MaxPlayers = 11;
+    repeated string allowedSpecialists = 12;
 }
 
 message CreateRoomResponse {
@@ -198,11 +202,6 @@ message UpdateGameEventRequest {
     GameEvent EventData = 2;
 }
 
-message UpdateGameEventResponse {
-    bool Success = 1;
-    string EventId = 2;
-}
-
 message DeleteGameEventRequest {
     string RoomId = 1;
     string EventId = 2;
@@ -256,17 +255,13 @@ message BlockPlayerRequest {
     string UserIdToBlock = 1;
 }
 
-message BlockPlayerResponse {
-    bool Success = 1;
-}
+message BlockPlayerResponse { }
 
 message UnblockPlayerRequest {
     string UserIdToBlock = 1;
 }
 
-message UnblockPlayerResponse {
-    bool Success = 1;
-}
+message UnblockPlayerResponse { }
 
 message ViewBlockedPlayersRequest {}
 
@@ -285,6 +280,12 @@ message AcceptFriendRequestRequest {
 }
 
 message AcceptFriendRequestResponse {}
+
+message DenyFriendRequestRequest {
+    string FriendId = 1;
+}
+
+message DenyFriendRequestResponse {}
 
 message ViewFriendRequestsRequest {}
 
@@ -320,9 +321,11 @@ message UserModel {
     string PasswordHash = 3;
     string Email = 4;
     string Phone = 5;
-    bool phoneVerified = 6;
-    bool emailVerified = 7;
-    repeated UserClaim claims = 8;
+    string deviceIdentifier = 6;
+    bool phoneVerified = 7;
+    bool emailVerified = 8;
+    repeated UserClaim claims = 9;
+    string pushNotificationIdentifier = 10;
 }
 
 enum UserClaim {
@@ -333,4 +336,19 @@ enum UserClaim {
     PHONE_VERIFIED = 4;
     EMAIL_VERIFIED = 5;
     BANNED = 6;
+}
+
+message RoomModel {
+    string RoomId = 1;
+    RoomStatus RoomStatus = 2;
+    string creatorId = 3;
+    RankedInformation RankedInformation = 4;
+    bool Anonymous = 5;
+    string RoomName = 6;
+    Goal Goal = 7;
+    int64 Seed = 8;
+    int64 UnixTimeCreated = 9;
+    int64 UnixTimeStarted = 10;
+    int64 MaxPlayers = 11;
+    repeated string allowedSpecialists = 12;
 }

@@ -39,7 +39,7 @@ namespace Tests
         }
 
         [Test]
-        public void UserCanSendFriendRequestToOtherUser()
+        public void PlayerCanSendFriendRequestToOtherPlayer()
         {
             SendFriendRequestRequest request = new SendFriendRequestRequest()
             {
@@ -95,8 +95,28 @@ namespace Tests
         [Test]
         public void PlayerCanRemoveAFriendRequest()
         {
-            // Currently not possible but should be.
-            Assert.IsTrue(false);
+            authHelper.loginToAccount("userOne");
+
+            SendFriendRequestRequest request = new SendFriendRequestRequest()
+            {
+                FriendId = authHelper.getAccountId("userTwo")
+            };
+
+            SendFriendRequestResponse response = client.SendFriendRequest(request);
+            Assert.IsTrue(response != null);
+
+            authHelper.loginToAccount("userTwo");
+            
+            DenyFriendRequestRequest friendRequest = new DenyFriendRequestRequest()
+            {
+                FriendId = authHelper.getAccountId("userOne"),
+            };
+
+            DenyFriendRequestResponse acceptResponse = client.DenyFriendRequest(friendRequest);
+            Assert.IsTrue(acceptResponse != null);
+            
+            ViewFriendRequestsResponse friendResponse = client.ViewFriendRequests(new ViewFriendRequestsRequest());
+            Assert.AreEqual(0, friendResponse.IncomingFriends.Count);
         }
         
         [Test]
@@ -193,11 +213,11 @@ namespace Tests
 
             var exception = Assert.Throws<RpcException>(() => client.SendFriendRequest(request));
             Console.WriteLine(exception);
-            Assert.IsTrue(exception.Status.StatusCode == StatusCode.Unavailable);
+            Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
         }
         
         [Test]
-        public void PlayerCannotSendFriendRequestToInvalidGuid()
+        public void PlayerCannotSendFriendRequestToInvalidPlayerId()
         {
             authHelper.loginToAccount("userOne");
 
@@ -208,7 +228,7 @@ namespace Tests
 
             var exception = Assert.Throws<RpcException>(() => client.SendFriendRequest(request));
             Console.WriteLine(exception);
-            Assert.IsTrue(exception.Status.StatusCode == StatusCode.InvalidArgument);
+            Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
         }
     }
 }

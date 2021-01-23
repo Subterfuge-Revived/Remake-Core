@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Core\SubterfugeCore\SubterfugeCore.csproj" />
       <ProjectReference Include="..\ProtoGenerated\ProtoGenerated.csproj" />
     </ItemGroup>
 

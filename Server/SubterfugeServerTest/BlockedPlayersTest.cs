@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
 using NUnit.Framework;
@@ -39,27 +40,109 @@ namespace Tests
         }
 
         [Test]
-        public async Task<Boolean> UserCanBlockAnotherPlayer()
+        public void PlayerCanBlockAnotherPlayer()
         {
             BlockPlayerRequest request = new BlockPlayerRequest()
             {
                 UserIdToBlock = authHelper.getAccountId("userTwo")
             };
 
-            BlockPlayerResponse response = await client.BlockPlayerAsync(request);
-            Assert.IsTrue(response.Success);
+            BlockPlayerResponse response = client.BlockPlayer(request);
+            Assert.IsTrue(response != null);
         }
         
         [Test]
-        public void UserCannotBlockInvalidGuid()
+        public void PlayerCannotBlockInvalidPlayerId()
         {
             BlockPlayerRequest request = new BlockPlayerRequest()
             {
                 UserIdToBlock = "asdfasdfasdf"
             };
 
-            var exception = Assert.Throws<RpcException>(() => client.BlockPlayerAsync(request));
-            Assert.IsTrue(exception.Status.StatusCode == StatusCode.InvalidArgument);
+            var exception = Assert.Throws<RpcException>(() => client.BlockPlayer(request));
+            Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
+        }
+        
+        [Test]
+        public void PlayerCannotBlockTheSamePlayerTwice()
+        {
+            BlockPlayerRequest request = new BlockPlayerRequest()
+            {
+                UserIdToBlock = authHelper.getAccountId("userTwo")
+            };
+
+            BlockPlayerResponse response = client.BlockPlayer(request);
+            Assert.IsTrue(response != null);
+
+            var exception = Assert.Throws<RpcException>(() => client.BlockPlayer(request));
+            Assert.AreEqual(exception.Status.StatusCode, StatusCode.AlreadyExists);
+        }
+        
+        [Test]
+        public void AfterBlockingAPlayerTheyAppearOnTheBlockList()
+        {
+            BlockPlayerRequest request = new BlockPlayerRequest()
+            {
+                UserIdToBlock = authHelper.getAccountId("userTwo")
+            };
+
+            BlockPlayerResponse response = client.BlockPlayer(request);
+            Assert.IsTrue(response != null);
+
+            ViewBlockedPlayersResponse blockResponse = client.ViewBlockedPlayers(new ViewBlockedPlayersRequest());
+            Assert.AreEqual(1, blockResponse.BlockedUsers.Count);
+            Assert.IsTrue(blockResponse.BlockedUsers.Any( it => it.Id == authHelper.getAccountId("userTwo")));
+        }
+        
+        [Test]
+        public void PlayerCanUnblockAPlayerAfterBlockingThem()
+        {
+            BlockPlayerRequest request = new BlockPlayerRequest()
+            {
+                UserIdToBlock = authHelper.getAccountId("userTwo")
+            };
+
+            BlockPlayerResponse response = client.BlockPlayer(request);
+            Assert.IsTrue(response != null);
+
+            ViewBlockedPlayersResponse blockResponse = client.ViewBlockedPlayers(new ViewBlockedPlayersRequest());
+            Assert.AreEqual(1, blockResponse.BlockedUsers.Count);
+            Assert.IsTrue(blockResponse.BlockedUsers.Any( it => it.Id == authHelper.getAccountId("userTwo")));
+            
+            UnblockPlayerRequest unblockRequest = new UnblockPlayerRequest()
+            {
+                UserIdToBlock = authHelper.getAccountId("userTwo")
+            };
+
+            UnblockPlayerResponse unblockResponse = client.UnblockPlayer(unblockRequest);
+            Assert.IsTrue(unblockResponse != null);
+            
+            ViewBlockedPlayersResponse blockedUserResponse = client.ViewBlockedPlayers(new ViewBlockedPlayersRequest());
+            Assert.AreEqual(0, blockedUserResponse.BlockedUsers.Count);
+        }
+        
+        [Test]
+        public void CannotUnblockNonValidPlayerId()
+        {
+            UnblockPlayerRequest unblockRequest = new UnblockPlayerRequest()
+            {
+                UserIdToBlock = "asdfasdf"
+            };
+
+            var exception = Assert.Throws<RpcException>(() => client.UnblockPlayer(unblockRequest));
+            Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
+        }
+        
+        [Test]
+        public void CannotUnblockPlayerWhoIsNotBlocked()
+        {
+            UnblockPlayerRequest unblockRequest = new UnblockPlayerRequest()
+            {
+                UserIdToBlock = authHelper.getAccountId("userTwo")
+            };
+
+            var exception = Assert.Throws<RpcException>(() => client.UnblockPlayer(unblockRequest));
+            Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
         }
     }
 }
