@@ -5,6 +5,7 @@ using NUnit.Framework;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections;
+using SubterfugeServerConsole.Connections.Models;
 using Tests.AuthTestingHelper;
 
 namespace Tests
@@ -485,6 +486,45 @@ namespace Tests
                 RoomId = gameId
             });
             Assert.AreEqual(0, playerTwoGameEvents.GameEvents.Count);
+        }
+
+        [Test]
+        public void AdminsCanSeeAllGameEvents()
+        {
+            // Submit 3 close game events, and 2 far game events.
+            SubmitGameEventRequest request = new SubmitGameEventRequest()
+            {
+                EventData = new GameEvent()
+                {
+                    EventData = "MyEventData",
+                    IssuedBy = authHelper.getAccountId(playerOneInGame),
+                    OccursAtTick = 5,
+                },
+                RoomId = gameId,
+            };
+            client.SubmitGameEvent(request);
+            client.SubmitGameEvent(request);
+            client.SubmitGameEvent(request);
+
+            request.EventData.OccursAtTick = 10467;
+            
+            client.SubmitGameEvent(request);
+            client.SubmitGameEvent(request);
+            
+            SuperUser admin = authHelper.CreateSuperUser();
+            client.Login(new AuthorizationRequest()
+            {
+                Username = admin.userModel.UserModel.Username,
+                Password = admin.password,
+            });
+
+            GetGameRoomEventsResponse eventResponse = client.GetGameRoomEvents(new GetGameRoomEventsRequest()
+            {
+                RoomId = gameId,
+            });
+            
+            // Admin should be able to see all 5 events!
+            Assert.AreEqual(5, eventResponse.GameEvents.Count);
         }
     }
 }

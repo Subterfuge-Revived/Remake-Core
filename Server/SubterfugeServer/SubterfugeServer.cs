@@ -126,14 +126,20 @@ namespace SubterfugeServerConsole
                 throw new RpcException(new Status(StatusCode.NotFound, "Room does not exist."));
 
             List<RedisUserModel> playersInGame = await room.GetPlayersInGame();
-            if (playersInGame.All(it => it.UserModel.Id != user.UserModel.Id))
+            if (playersInGame.All(it => it.UserModel.Id != user.UserModel.Id) && !user.HasClaim(UserClaim.Admin))
                 throw new RpcException(new Status(StatusCode.Unauthenticated, "Cannot view events for a game you are not in."));
             
             List<GameEvent> events = await room.GetAllGameEvents();
             // Filter out only the player's events and events that have occurred in the past.
             // Get current tick to determine events in the past.
             GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(room.RoomModel.UnixTimeStarted), DateTime.UtcNow);
-            events = events.FindAll(it => it.OccursAtTick <= currentTick.GetTick() || it.IssuedBy == user.UserModel.Id);
+            
+            // Admins see all events :)
+            if (!user.HasClaim(UserClaim.Admin))
+            {
+                events = events.FindAll(it =>
+                    it.OccursAtTick <= currentTick.GetTick() || it.IssuedBy == user.UserModel.Id);
+            }
 
             GetGameRoomEventsResponse response = new GetGameRoomEventsResponse();
             response.GameEvents.AddRange(events);
