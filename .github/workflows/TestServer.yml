@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Test Dll
+name: Test Server
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -22,21 +22,8 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Install NuGet packages
-      run: dotnet restore "Core/SubterfugeCore/SubterfugeCore.csproj"
-    # Build the DLL
-    - name: Build DLL
-      run: dotnet build "Core/SubterfugeCore/SubterfugeCore.csproj"
+    - name: Docker compose
+      run: docker compose up -d
+    # Test the server
     - name: Run tests
-      run: dotnet test "Core/SubterfugeCoreTest/SubterfugeCoreTest.csproj"
-  # A step to build docfx documents using a differnt container with docfx installed
-  gen-docs:
-    runs-on: ubuntu-18.04
-    container: erothejoker/docker-docfx:latest
-    steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Checkout
-      uses: actions/checkout@v2
-    # Run the docfx generation command.
-    - name: Generate docs
-      run: docfx Core/SubterfugeCore/docfx.json
+      run: dotnet test "Server/SubterfugeServerTest/SubterfugeServerTest.csproj"
