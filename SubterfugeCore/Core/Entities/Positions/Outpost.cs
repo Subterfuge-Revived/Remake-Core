@@ -5,6 +5,7 @@ using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
+using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCore.Core.Entities.Positions
@@ -18,6 +19,11 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// A unique identifier for the outpost
         /// </summary>
         private int _id;
+
+        /// <summary>
+        /// A unique name that identifies the outpost.
+        /// </summary>
+        public string Name { get; set; } = "Undefined";
         
         /// <summary>
         /// The owner of the outpost
