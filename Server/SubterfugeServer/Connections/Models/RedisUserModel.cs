@@ -196,7 +196,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 parsedGuid = Guid.Parse(guid);
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 return null;
             }
@@ -255,19 +255,6 @@ namespace SubterfugeServerConsole.Connections.Models
                 Id = UserModel.Id,
                 Username = UserModel.Username,
             };
-        }
-
-        private Guid tryParseGuid(string guid)
-        {
-            Guid parsedGuid;
-            try
-            {
-               return Guid.Parse(guid);
-            }
-            catch (FormatException e)
-            {
-                return Guid.Empty;
-            }
         }
 
         public static async Task<SuperUser> CreateSuperUser()

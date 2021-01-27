@@ -8,6 +8,6 @@ namespace SubterfugeCore.Core.Interfaces
     /// </summary>
     public interface ICombatable : IDrillerCarrier, ISpecialistCarrier, ITargetable
     {
-        int GetId();
+        
     }
 }

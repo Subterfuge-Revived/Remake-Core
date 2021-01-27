@@ -6,7 +6,7 @@ namespace SubterfugeCore.Core.Interfaces
     /// <summary>
     /// Anything that can launch subs from its location
     /// </summary>
-    public interface ILaunchable : IPosition
+    public interface ILaunchable : IPosition, IOwnable
     {
         /// <summary>
         /// Launches a sub from the location
@@ -21,7 +21,5 @@ namespace SubterfugeCore.Core.Interfaces
         /// </summary>
         /// <param name="sub">The sub to undo launching</param>
         void UndoLaunch(Sub sub);
-        
-        int GetId();
     }
 }

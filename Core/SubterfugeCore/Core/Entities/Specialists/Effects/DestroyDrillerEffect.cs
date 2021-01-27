@@ -4,7 +4,6 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
     class DestroyDrillerEffect : ISpecialistEffect, IScalableEffect
     {
-        private bool _killsFriendly;
         private int _drillerCount;
         EffectTrigger _trigger;
         int _scaleFactor = 1;
@@ -12,13 +11,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         public DestroyDrillerEffect(int drillerCount, EffectTrigger trigger)
         {
             this._drillerCount = drillerCount;
-            this._killsFriendly = false;
             this._trigger = trigger;
-        }
-
-        public void DestroysFriendly()
-        {
-            this._killsFriendly = true;
         }
 
         public void ForwardEffect(ICombatable friendly, ICombatable enemy)

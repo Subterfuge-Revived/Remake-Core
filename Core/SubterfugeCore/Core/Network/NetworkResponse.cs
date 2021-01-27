@@ -76,6 +76,7 @@ namespace SubterfugeCore.Core.Network
                 {
                     error = new NetworkError();
                     error.Message = responseContent;
+                    Console.WriteLine(e);
                 }
 
                 response.ErrorContent = error;

@@ -9,6 +9,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
     /// <summary>
     /// Base class for a specialist.
     /// </summary>
+    
     public abstract class Specialist : IOwnable
     {
         /// <summary>
@@ -120,7 +121,12 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             return this._priority;
         }
-        
+
+        public int GetId()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Gets the owner of the specialist.
         /// </summary>

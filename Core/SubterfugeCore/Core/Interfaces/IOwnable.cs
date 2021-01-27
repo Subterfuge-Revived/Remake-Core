@@ -5,6 +5,9 @@
     /// </summary>
     public interface IOwnable
     {
+        
+        int GetId();
+    
         /// <summary>
         /// Get the owner
         /// </summary>

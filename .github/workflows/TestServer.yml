@@ -14,16 +14,12 @@ jobs:
   test:
     # The type of runner that the job will run on
     runs-on: ubuntu-18.04
-    # The container image to pull from dockerhub
-    container: microsoft/dotnet:latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Docker compose
-      run: docker compose up -d
     # Test the server
-    - name: Run tests
-      run: dotnet test "Server/SubterfugeServerTest/SubterfugeServerTest.csproj"
+    - name: Deploy server
+      run: docker-compose up --abort-on-container-exit --exit-code-from server_test

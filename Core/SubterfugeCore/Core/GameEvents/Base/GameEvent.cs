@@ -9,11 +9,7 @@ namespace SubterfugeCore.Core.GameEvents.Base
     /// </summary>
     public abstract class GameEvent : IComparable, IReversible
     {
-        /// <summary>
-        /// The time when the event occurs
-        /// </summary>
-        private GameTick _gameTick;
-        
+
         /// <summary>
         /// If the event was successfully triggered
         /// </summary>

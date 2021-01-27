@@ -220,7 +220,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 parsedGuid = Guid.Parse(eventId);
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 return new DeleteGameEventResponse()
                 {
@@ -373,7 +373,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 parsedGuid = Guid.Parse(eventId);
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 return null;
             }
@@ -442,7 +442,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 parsedGuid = Guid.Parse(roomGuid);
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 return null;
             }

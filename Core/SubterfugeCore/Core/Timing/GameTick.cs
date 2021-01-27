@@ -7,6 +7,27 @@ namespace SubterfugeCore.Core.Timing
     /// </summary>
     public class GameTick
     {
+        protected bool Equals(GameTick other)
+        {
+            return _startTime.Equals(other._startTime) && _tickNumber == other._tickNumber;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((GameTick) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (_startTime.GetHashCode() * 397) ^ _tickNumber;
+            }
+        }
+
         public static double MINUTES_PER_TICK = 15.0;
         private DateTime _startTime;
         private int _tickNumber;

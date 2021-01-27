@@ -46,7 +46,7 @@ namespace SubterfugeServerConsole
                 
             
             RedisRoomModel roomModel = new RedisRoomModel(request, user);
-            roomModel.CreateInDatabase();
+            await roomModel.CreateInDatabase();
                 
                
             return new CreateRoomResponse()

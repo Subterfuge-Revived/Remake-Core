@@ -73,7 +73,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             if (isTie)
             {
                 // TODO: Handle tie.
-                throw new NotImplementedException();
+                return false;
             }
 
             if (loser is Sub)
@@ -117,7 +117,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             if (isTie)
             {
                 // TODO: Handle tie.
-                throw new NotImplementedException();
+                return false;
             }
 
             if (loser is Sub)

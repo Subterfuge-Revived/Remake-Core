@@ -3,6 +3,7 @@
 services:
   server:
     build: .
+    image: subterfuge_server
     depends_on:
       - db
     volumes:
@@ -17,6 +18,14 @@ services:
       - "./redis/:/data"
     ports:
       - 6379:6379
+      
+  server_test:
+    build:
+      context: .
+      target: test
+    depends_on:
+      - db
+      - server
 
 volumes:
   db: {  }

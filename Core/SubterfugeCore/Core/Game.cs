@@ -19,10 +19,7 @@ namespace SubterfugeCore.Core
     {
         // Globally accessible time machine reference
         public static TimeMachine TimeMachine;
-
-        // temporary control for time machine.
-        private bool _forward = true;
-        private bool _addedEvents = false;
+        
         public GameConfiguration Configuration { get; } = null;
 
         /// <summary>

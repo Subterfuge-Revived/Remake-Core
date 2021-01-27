@@ -352,21 +352,19 @@ namespace SubterfugeCore.Core.Entities
         /// <param name="drillerCount"></param>
         /// <param name="destination"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public Sub LaunchSub(int drillerCount, ITargetable destination)
         {
             // Determine any specialist effects if a specialist left the sub.
-            throw new NotImplementedException();
+            return new Sub(this, destination, Game.TimeMachine.CurrentTick, drillerCount, this._owner);
         }
 
         /// <summary>
         /// Undoes launching a sub from this object
         /// </summary>
         /// <param name="sub"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void UndoLaunch(Sub sub)
         {
-            throw new NotImplementedException();
+            return;
         }
         
         /// <summary>

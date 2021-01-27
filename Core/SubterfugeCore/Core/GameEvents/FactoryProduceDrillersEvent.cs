@@ -30,11 +30,6 @@ namespace SubterfugeCore.Core.GameEvents
         bool _eventSuccess = false;
 
         /// <summary>
-        /// If the net production event was added to the time machine
-        /// </summary>
-        bool _addedNextProduction = false;
-
-        /// <summary>
         /// A reference to the next production event.
         /// </summary>
         GameEvent _nextEvent;
@@ -74,7 +69,7 @@ namespace SubterfugeCore.Core.GameEvents
         public override string ToJson()
         {
             // Production events don't need to be in the database. No need for JSON.
-            throw new NotImplementedException();
+            return "";
         }
 
         /// <summary>
