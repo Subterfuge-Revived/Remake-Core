@@ -129,7 +129,7 @@ namespace SubterfugeServerConsole
             if (playersInGame.All(it => it.UserModel.Id != user.UserModel.Id) && !user.HasClaim(UserClaim.Admin))
                 throw new RpcException(new Status(StatusCode.Unauthenticated, "Cannot view events for a game you are not in."));
             
-            List<GameEvent> events = await room.GetAllGameEvents();
+            List<GameEventModel> events = await room.GetAllGameEvents();
             // Filter out only the player's events and events that have occurred in the past.
             // Get current tick to determine events in the past.
             GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(room.RoomModel.UnixTimeStarted), DateTime.UtcNow);
@@ -150,9 +150,6 @@ namespace SubterfugeServerConsole
         public override async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, ServerCallContext context)
         {
             RedisUserModel user = GetUserContext(context);
-            
-            if(user.UserModel.Id != request.EventData.IssuedBy)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "You cannot issues commands for another player."));
 
             RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
@@ -167,15 +164,13 @@ namespace SubterfugeServerConsole
         public override async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, ServerCallContext context)
         {
             RedisUserModel user = GetUserContext(context);
-            
-            if(user.UserModel.Id != request.EventData.IssuedBy)
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "You cannot issues commands for another player."));
 
             RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 throw new RpcException(new Status(StatusCode.NotFound, "Game room does not exist."));
-
-            return await room.AddPlayerGameEvent(user, request.EventData);
+            
+            // GameEventToUpdate.
+            return await room.UpdateGameEvent(user, request);
         }
 
         public override async Task<DeleteGameEventResponse> DeleteGameEvent(DeleteGameEventRequest request, ServerCallContext context)
@@ -191,61 +186,79 @@ namespace SubterfugeServerConsole
 
         public override async Task<CreateMessageGroupResponse> CreateMessageGroup(CreateMessageGroupRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if (user != null)
-            {
-                // Add player to your block list
-                MessageGroup group = new MessageGroup();
-                group.GroupId = Guid.NewGuid().ToString();
-                foreach (string s in request.UserIdsInGroup)
-                {
-                    RedisUserModel model = await RedisUserModel.GetUserFromGuid(s);
-                    if (model != null)
-                    {
-                        group.GroupMembers.Add(model.asUser());                        
-                    }
-                }
-                await RedisConnector.Redis.ListRightPushAsync($"game:{request.RoomId}:groups", group.ToByteArray());
-                return new CreateMessageGroupResponse();
-            }
+            RedisUserModel user = GetUserContext(context);
+            
+            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            if(room == null)
+                throw new RpcException(new Status(StatusCode.NotFound, "Game room does not exist."));
+            
+            if(room.RoomModel.RoomStatus != RoomStatus.Ongoing)
+                throw new RpcException(new Status(StatusCode.PermissionDenied, "Must wait until the game begins to start a group chat."));
+            
+            if(!request.UserIdsInGroup.Contains(user.UserModel.Id))
+                throw new RpcException(new Status(StatusCode.PermissionDenied, "Cannot create a group without yourself."));
 
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            return await room.CreateMessageGroup(request.UserIdsInGroup.ToList());
         }
 
         public override async Task<SendMessageResponse> SendMessage(SendMessageRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            if (user != null)
-            {
-                // Add player to your block list
-                await RedisConnector.Redis.ListRightPushAsync($"game:{request.RoomId}:groups:{request.RoomId}:messages", request.Message.ToByteArray());
-                return new SendMessageResponse();
-            }
+            RedisUserModel user = GetUserContext(context);
 
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            if(room == null)
+                throw new RpcException(new Status(StatusCode.NotFound, "Game room does not exist."));
+
+            GroupChatModel groupChat = await room.GetGroupChatById(request.GroupId);
+            if(groupChat == null)
+                throw new RpcException(new Status(StatusCode.NotFound, "Group chat does not exist."));
+            
+            if(!groupChat.IsPlayerInGroup(user))
+                throw new RpcException(new Status(StatusCode.PermissionDenied, "Cannot send a message to a group you are not in."));
+
+            await groupChat.SendChatMessage(user, request.Message);
+            return new SendMessageResponse()
+            {
+                Success = true
+            };
         }
 
         public override async Task<GetMessageGroupsResponse> GetMessageGroups(GetMessageGroupsRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
-            GetMessageGroupsResponse response = new GetMessageGroupsResponse();
-            if (user != null)
-            {
-                // Add player to your block list
-                RedisValue[] roomValues = await RedisConnector.Redis.ListRangeAsync($"game:{request.RoomId}:groups");
-                foreach (RedisValue roomValue in roomValues)
-                {
-                    MessageGroup group = MessageGroup.Parser.ParseFrom(roomValue);
-                    if (group != null && group.GroupMembers.Any(it => it.Id == user.UserModel.Id))
-                    {
-                        // player is in the group.
-                        response.MessageGroups.Add(group);
-                    }
-                }
-                return response;
-            }
+            RedisUserModel user = GetUserContext(context);
+            
+            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            if(room == null)
+                throw new RpcException(new Status(StatusCode.NotFound, "Game room does not exist."));
 
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            List<GroupChatModel> groupChats = await room.GetPlayerGroupChats(user);
+            GetMessageGroupsResponse response = new GetMessageGroupsResponse();
+            foreach (var groupModel in groupChats)
+            {
+                response.MessageGroups.Add(await groupModel.asMessageGroup());
+            }
+            return response;
+        }
+
+        public override async Task<GetGroupMessagesResponse> GetGroupMessages(GetGroupMessagesRequest request, ServerCallContext context)
+        {
+            RedisUserModel user = GetUserContext(context);
+            
+            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            if(room == null)
+                throw new RpcException(new Status(StatusCode.NotFound, "Game room does not exist."));
+            
+            GroupChatModel groupChat = await room.GetGroupChatById(request.GroupId);
+            if(groupChat == null)
+                throw new RpcException(new Status(StatusCode.NotFound, "Group chat does not exist."));
+            
+            if(!groupChat.IsPlayerInGroup(user))
+                throw new RpcException(new Status(StatusCode.PermissionDenied, "Cannot get messages from a group you are not in."));
+
+            return new GetGroupMessagesResponse()
+            {
+                Group = await groupChat.asMessageGroup(request.Pagination)
+            };
         }
 
         public override async Task<BlockPlayerResponse> BlockPlayer(BlockPlayerRequest request, ServerCallContext context)

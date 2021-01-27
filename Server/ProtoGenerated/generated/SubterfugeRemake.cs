@@ -61,144 +61,153 @@ namespace SubterfugeRemakeService {
             "dmVSb29tUmVzcG9uc2USDwoHU3VjY2VzcxgBIAEoCCInChVTdGFydEdhbWVF",
             "YXJseVJlcXVlc3QSDgoGUm9vbUlkGAEgASgJIikKFlN0YXJ0R2FtZUVhcmx5",
             "UmVzcG9uc2USDwoHU3VjY2VzcxgBIAEoCCI9ChhHZXRHYW1lUm9vbUV2ZW50",
-            "c1JlcXVlc3QSDgoGUm9vbUlkGAEgASgJEhEKCUFmdGVyVGljaxgCIAEoAyJT",
-            "ChlHZXRHYW1lUm9vbUV2ZW50c1Jlc3BvbnNlEjYKCkdhbWVFdmVudHMYASAD",
-            "KAsyIi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5HYW1lRXZlbnQibwoJR2Ft",
-            "ZUV2ZW50Eg8KB2V2ZW50SWQYASABKAkSFgoOVW5peFRpbWVJc3N1ZWQYAiAB",
-            "KAMSFAoMT2NjdXJzQXRUaWNrGAMgASgDEhAKCElzc3VlZEJ5GAQgASgJEhEK",
-            "CUV2ZW50RGF0YRgFIAEoCSJfChZTdWJtaXRHYW1lRXZlbnRSZXF1ZXN0Eg4K",
-            "BlJvb21JZBgBIAEoCRI1CglFdmVudERhdGEYAiABKAsyIi5TdWJ0ZXJmdWdl",
-            "UmVtYWtlU2VydmljZS5HYW1lRXZlbnQiOwoXU3VibWl0R2FtZUV2ZW50UmVz",
-            "cG9uc2USDwoHU3VjY2VzcxgBIAEoCBIPCgdFdmVudElkGAIgASgJIl8KFlVw",
-            "ZGF0ZUdhbWVFdmVudFJlcXVlc3QSDgoGUm9vbUlkGAEgASgJEjUKCUV2ZW50",
-            "RGF0YRgCIAEoCzIiLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdhbWVFdmVu",
-            "dCI5ChZEZWxldGVHYW1lRXZlbnRSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoCRIP",
-            "CgdFdmVudElkGAIgASgJIioKF0RlbGV0ZUdhbWVFdmVudFJlc3BvbnNlEg8K",
-            "B1N1Y2Nlc3MYASABKAgiQwoZQ3JlYXRlTWVzc2FnZUdyb3VwUmVxdWVzdBIO",
-            "CgZSb29tSWQYASABKAkSFgoOVXNlcklkc0luR3JvdXAYAiADKAkiPgoaQ3Jl",
-            "YXRlTWVzc2FnZUdyb3VwUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCBIPCgdH",
-            "cm91cElkGAIgASgJImQKB01lc3NhZ2USGQoRVW5peFRpbWVDcmVhdGVkQXQY",
-            "ASABKAMSLQoGU2VuZGVyGAIgASgLMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZp",
-            "Y2UuVXNlchIPCgdNZXNzYWdlGAMgASgJImgKElNlbmRNZXNzYWdlUmVxdWVz",
-            "dBIOCgZSb29tSWQYASABKAkSDwoHR3JvdXBJZBgCIAEoCRIxCgdNZXNzYWdl",
-            "GAMgASgLMiAuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuTWVzc2FnZSImChNT",
-            "ZW5kTWVzc2FnZVJlc3BvbnNlEg8KB1N1Y2Nlc3MYASABKAgiKQoXR2V0TWVz",
-            "c2FnZUdyb3Vwc1JlcXVlc3QSDgoGUm9vbUlkGAEgASgJIlgKGEdldE1lc3Nh",
-            "Z2VHcm91cHNSZXNwb25zZRI8Cg1NZXNzYWdlR3JvdXBzGAEgAygLMiUuU3Vi",
-            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuTWVzc2FnZUdyb3VwIogBCgxNZXNzYWdl",
-            "R3JvdXASDwoHR3JvdXBJZBgBIAEoCRIzCgxHcm91cE1lbWJlcnMYAiADKAsy",
-            "HS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Vc2VyEjIKCE1lc3NhZ2VzGAMg",
-            "AygLMiAuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuTWVzc2FnZSIrChJCbG9j",
-            "a1BsYXllclJlcXVlc3QSFQoNVXNlcklkVG9CbG9jaxgBIAEoCSIVChNCbG9j",
-            "a1BsYXllclJlc3BvbnNlIi0KFFVuYmxvY2tQbGF5ZXJSZXF1ZXN0EhUKDVVz",
-            "ZXJJZFRvQmxvY2sYASABKAkiFwoVVW5ibG9ja1BsYXllclJlc3BvbnNlIhsK",
-            "GVZpZXdCbG9ja2VkUGxheWVyc1JlcXVlc3QiUQoaVmlld0Jsb2NrZWRQbGF5",
-            "ZXJzUmVzcG9uc2USMwoMQmxvY2tlZFVzZXJzGAEgAygLMh0uU3VidGVyZnVn",
-            "ZVJlbWFrZVNlcnZpY2UuVXNlciIsChhTZW5kRnJpZW5kUmVxdWVzdFJlcXVl",
-            "c3QSEAoIRnJpZW5kSWQYASABKAkiGwoZU2VuZEZyaWVuZFJlcXVlc3RSZXNw",
-            "b25zZSIuChpBY2NlcHRGcmllbmRSZXF1ZXN0UmVxdWVzdBIQCghGcmllbmRJ",
-            "ZBgBIAEoCSIdChtBY2NlcHRGcmllbmRSZXF1ZXN0UmVzcG9uc2UiLAoYRGVu",
-            "eUZyaWVuZFJlcXVlc3RSZXF1ZXN0EhAKCEZyaWVuZElkGAEgASgJIhsKGURl",
-            "bnlGcmllbmRSZXF1ZXN0UmVzcG9uc2UiGwoZVmlld0ZyaWVuZFJlcXVlc3Rz",
-            "UmVxdWVzdCJUChpWaWV3RnJpZW5kUmVxdWVzdHNSZXNwb25zZRI2Cg9JbmNv",
-            "bWluZ0ZyaWVuZHMYASADKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5V",
-            "c2VyIicKE1JlbW92ZUZyaWVuZFJlcXVlc3QSEAoIRnJpZW5kSWQYASABKAki",
-            "FgoUUmVtb3ZlRnJpZW5kUmVzcG9uc2UiFAoSVmlld0ZyaWVuZHNSZXF1ZXN0",
-            "IkUKE1ZpZXdGcmllbmRzUmVzcG9uc2USLgoHRnJpZW5kcxgBIAMoCzIdLlN1",
-            "YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVzZXIiFAoSSGVhbHRoQ2hlY2tSZXF1",
-            "ZXN0IhUKE0hlYWx0aENoZWNrUmVzcG9uc2UiHgocQXV0aG9yaXplZEhlYWx0",
-            "aENoZWNrUmVxdWVzdCIfCh1BdXRob3JpemVkSGVhbHRoQ2hlY2tSZXNwb25z",
-            "ZSIbChlQbGF5ZXJDdXJyZW50R2FtZXNSZXF1ZXN0IkoKGlBsYXllckN1cnJl",
-            "bnRHYW1lc1Jlc3BvbnNlEiwKBWdhbWVzGAEgAygLMh0uU3VidGVyZnVnZVJl",
-            "bWFrZVNlcnZpY2UuUm9vbSLXAQoJVXNlck1vZGVsEgoKAklkGAEgASgJEhAK",
-            "CFVzZXJuYW1lGAIgASgJEhQKDFBhc3N3b3JkSGFzaBgDIAEoCRINCgVFbWFp",
-            "bBgEIAEoCRIYChBkZXZpY2VJZGVudGlmaWVyGAUgASgJEhUKDWVtYWlsVmVy",
-            "aWZpZWQYBiABKAgSMgoGY2xhaW1zGAcgAygOMiIuU3VidGVyZnVnZVJlbWFr",
-            "ZVNlcnZpY2UuVXNlckNsYWltEiIKGnB1c2hOb3RpZmljYXRpb25JZGVudGlm",
-            "aWVyGAggASgJIogDCglSb29tTW9kZWwSDgoGUm9vbUlkGAEgASgJEjcKClJv",
-            "b21TdGF0dXMYAiABKA4yIy5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Sb29t",
-            "U3RhdHVzEhEKCWNyZWF0b3JJZBgDIAEoCRJFChFSYW5rZWRJbmZvcm1hdGlv",
-            "bhgEIAEoCzIqLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlJhbmtlZEluZm9y",
-            "bWF0aW9uEhEKCUFub255bW91cxgFIAEoCBIQCghSb29tTmFtZRgGIAEoCRIr",
-            "CgRHb2FsGAcgASgOMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR29hbBIM",
-            "CgRTZWVkGAggASgDEhcKD1VuaXhUaW1lQ3JlYXRlZBgJIAEoAxIXCg9Vbml4",
-            "VGltZVN0YXJ0ZWQYCiABKAMSEgoKTWF4UGxheWVycxgLIAEoAxIaChJhbGxv",
-            "d2VkU3BlY2lhbGlzdHMYDCADKAkSFgoOTWludXRlc1BlclRpY2sYDSABKAEq",
-            "LwoKUm9vbVN0YXR1cxIICgRPUEVOEAASCwoHT05HT0lORxABEgoKBkNMT1NF",
-            "RBACKiIKBEdvYWwSCgoGTUlOSU5HEAASDgoKRE9NSU5BVElPThABKlYKCVVz",
-            "ZXJDbGFpbRILCgdVTktOT1dOEAASCAoEVVNFUhABEgcKA0RFVhACEgkKBUFE",
-            "TUlOEAMSEgoORU1BSUxfVkVSSUZJRUQQBBIKCgZCQU5ORUQQBTKcGAoRc3Vi",
-            "dGVyZnVnZVNlcnZpY2USaAoFTG9naW4SLS5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
-            "dmljZS5BdXRob3JpemF0aW9uUmVxdWVzdBouLlN1YnRlcmZ1Z2VSZW1ha2VT",
-            "ZXJ2aWNlLkF1dGhvcml6YXRpb25SZXNwb25zZSIAEn4KD1JlZ2lzdGVyQWNj",
-            "b3VudBIzLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkFjY291bnRSZWdpc3Ry",
-            "YXRpb25SZXF1ZXN0GjQuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQWNjb3Vu",
-            "dFJlZ2lzdHJhdGlvblJlc3BvbnNlIgASbQoOR2V0T3BlbkxvYmJpZXMSKy5T",
-            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5PcGVuTG9iYmllc1JlcXVlc3QaLC5T",
-            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5PcGVuTG9iYmllc1Jlc3BvbnNlIgAS",
-            "ggEKFUdldFBsYXllckN1cnJlbnRHYW1lcxIyLlN1YnRlcmZ1Z2VSZW1ha2VT",
-            "ZXJ2aWNlLlBsYXllckN1cnJlbnRHYW1lc1JlcXVlc3QaMy5TdWJ0ZXJmdWdl",
-            "UmVtYWtlU2VydmljZS5QbGF5ZXJDdXJyZW50R2FtZXNSZXNwb25zZSIAEmoK",
-            "DUNyZWF0ZU5ld1Jvb20SKi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5DcmVh",
-            "dGVSb29tUmVxdWVzdBorLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkNyZWF0",
-            "ZVJvb21SZXNwb25zZSIAEmEKCEpvaW5Sb29tEiguU3VidGVyZnVnZVJlbWFr",
-            "ZVNlcnZpY2UuSm9pblJvb21SZXF1ZXN0GikuU3VidGVyZnVnZVJlbWFrZVNl",
-            "cnZpY2UuSm9pblJvb21SZXNwb25zZSIAEmQKCUxlYXZlUm9vbRIpLlN1YnRl",
-            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLkxlYXZlUm9vbVJlcXVlc3QaKi5TdWJ0ZXJm",
-            "dWdlUmVtYWtlU2VydmljZS5MZWF2ZVJvb21SZXNwb25zZSIAEnMKDlN0YXJ0",
-            "R2FtZUVhcmx5Ei4uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuU3RhcnRHYW1l",
-            "RWFybHlSZXF1ZXN0Gi8uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuU3RhcnRH",
-            "YW1lRWFybHlSZXNwb25zZSIAEnwKEUdldEdhbWVSb29tRXZlbnRzEjEuU3Vi",
-            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuR2V0R2FtZVJvb21FdmVudHNSZXF1ZXN0",
-            "GjIuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR2V0R2FtZVJvb21FdmVudHNS",
-            "ZXNwb25zZSIAEnYKD1N1Ym1pdEdhbWVFdmVudBIvLlN1YnRlcmZ1Z2VSZW1h",
-            "a2VTZXJ2aWNlLlN1Ym1pdEdhbWVFdmVudFJlcXVlc3QaMC5TdWJ0ZXJmdWdl",
-            "UmVtYWtlU2VydmljZS5TdWJtaXRHYW1lRXZlbnRSZXNwb25zZSIAEnYKD1Vw",
-            "ZGF0ZUdhbWVFdmVudBIvLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVwZGF0",
-            "ZUdhbWVFdmVudFJlcXVlc3QaMC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5T",
-            "dWJtaXRHYW1lRXZlbnRSZXNwb25zZSIAEnYKD0RlbGV0ZUdhbWVFdmVudBIv",
-            "LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkRlbGV0ZUdhbWVFdmVudFJlcXVl",
-            "c3QaMC5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5EZWxldGVHYW1lRXZlbnRS",
-            "ZXNwb25zZSIAEn8KEkNyZWF0ZU1lc3NhZ2VHcm91cBIyLlN1YnRlcmZ1Z2VS",
-            "ZW1ha2VTZXJ2aWNlLkNyZWF0ZU1lc3NhZ2VHcm91cFJlcXVlc3QaMy5TdWJ0",
-            "ZXJmdWdlUmVtYWtlU2VydmljZS5DcmVhdGVNZXNzYWdlR3JvdXBSZXNwb25z",
-            "ZSIAEmoKC1NlbmRNZXNzYWdlEisuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
-            "U2VuZE1lc3NhZ2VSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
-            "U2VuZE1lc3NhZ2VSZXNwb25zZSIAEnkKEEdldE1lc3NhZ2VHcm91cHMSMC5T",
-            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5HZXRNZXNzYWdlR3JvdXBzUmVxdWVz",
-            "dBoxLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkdldE1lc3NhZ2VHcm91cHNS",
-            "ZXNwb25zZSIAEmoKC0Jsb2NrUGxheWVyEisuU3VidGVyZnVnZVJlbWFrZVNl",
-            "cnZpY2UuQmxvY2tQbGF5ZXJSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNl",
-            "cnZpY2UuQmxvY2tQbGF5ZXJSZXNwb25zZSIAEnAKDVVuYmxvY2tQbGF5ZXIS",
-            "LS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5VbmJsb2NrUGxheWVyUmVxdWVz",
-            "dBouLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlVuYmxvY2tQbGF5ZXJSZXNw",
-            "b25zZSIAEn8KElZpZXdCbG9ja2VkUGxheWVycxIyLlN1YnRlcmZ1Z2VSZW1h",
-            "a2VTZXJ2aWNlLlZpZXdCbG9ja2VkUGxheWVyc1JlcXVlc3QaMy5TdWJ0ZXJm",
-            "dWdlUmVtYWtlU2VydmljZS5WaWV3QmxvY2tlZFBsYXllcnNSZXNwb25zZSIA",
-            "EnwKEVNlbmRGcmllbmRSZXF1ZXN0EjEuU3VidGVyZnVnZVJlbWFrZVNlcnZp",
-            "Y2UuU2VuZEZyaWVuZFJlcXVlc3RSZXF1ZXN0GjIuU3VidGVyZnVnZVJlbWFr",
-            "ZVNlcnZpY2UuU2VuZEZyaWVuZFJlcXVlc3RSZXNwb25zZSIAEoIBChNBY2Nl",
-            "cHRGcmllbmRSZXF1ZXN0EjMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQWNj",
-            "ZXB0RnJpZW5kUmVxdWVzdFJlcXVlc3QaNC5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
-            "dmljZS5BY2NlcHRGcmllbmRSZXF1ZXN0UmVzcG9uc2UiABJ8ChFEZW55RnJp",
-            "ZW5kUmVxdWVzdBIxLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkRlbnlGcmll",
-            "bmRSZXF1ZXN0UmVxdWVzdBoyLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkRl",
-            "bnlGcmllbmRSZXF1ZXN0UmVzcG9uc2UiABJ/ChJWaWV3RnJpZW5kUmVxdWVz",
-            "dHMSMi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5WaWV3RnJpZW5kUmVxdWVz",
-            "dHNSZXF1ZXN0GjMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVmlld0ZyaWVu",
-            "ZFJlcXVlc3RzUmVzcG9uc2UiABJtCgxSZW1vdmVGcmllbmQSLC5TdWJ0ZXJm",
-            "dWdlUmVtYWtlU2VydmljZS5SZW1vdmVGcmllbmRSZXF1ZXN0Gi0uU3VidGVy",
-            "ZnVnZVJlbWFrZVNlcnZpY2UuUmVtb3ZlRnJpZW5kUmVzcG9uc2UiABJqCgtW",
-            "aWV3RnJpZW5kcxIrLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlZpZXdGcmll",
-            "bmRzUmVxdWVzdBosLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlZpZXdGcmll",
-            "bmRzUmVzcG9uc2UiABJqCgtIZWFsdGhDaGVjaxIrLlN1YnRlcmZ1Z2VSZW1h",
-            "a2VTZXJ2aWNlLkhlYWx0aENoZWNrUmVxdWVzdBosLlN1YnRlcmZ1Z2VSZW1h",
-            "a2VTZXJ2aWNlLkhlYWx0aENoZWNrUmVzcG9uc2UiABKIAQoVQXV0aG9yaXpl",
-            "ZEhlYWx0aENoZWNrEjUuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQXV0aG9y",
-            "aXplZEhlYWx0aENoZWNrUmVxdWVzdBo2LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
-            "aWNlLkF1dGhvcml6ZWRIZWFsdGhDaGVja1Jlc3BvbnNlIgBCPgodc3VidGVy",
-            "ZnVnZVJlbWFrZS5ncnBjLnNlcnZpY2VCFVN1YnRlcmZ1Z2VSZW1ha2VQcm90",
-            "b1ABogIDU1JQYgZwcm90bzM="));
+            "c1JlcXVlc3QSDgoGUm9vbUlkGAEgASgJEhEKCUFmdGVyVGljaxgCIAEoAyJY",
+            "ChlHZXRHYW1lUm9vbUV2ZW50c1Jlc3BvbnNlEjsKCkdhbWVFdmVudHMYASAD",
+            "KAsyJy5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5HYW1lRXZlbnRNb2RlbCI7",
+            "ChBHYW1lRXZlbnRSZXF1ZXN0EhQKDE9jY3Vyc0F0VGljaxgDIAEoAxIRCglF",
+            "dmVudERhdGEYBSABKAkiZgoWU3VibWl0R2FtZUV2ZW50UmVxdWVzdBIOCgZS",
+            "b29tSWQYASABKAkSPAoJRXZlbnREYXRhGAIgASgLMikuU3VidGVyZnVnZVJl",
+            "bWFrZVNlcnZpY2UuR2FtZUV2ZW50UmVxdWVzdCI7ChdTdWJtaXRHYW1lRXZl",
+            "bnRSZXNwb25zZRIPCgdTdWNjZXNzGAEgASgIEg8KB0V2ZW50SWQYAiABKAki",
+            "dwoWVXBkYXRlR2FtZUV2ZW50UmVxdWVzdBIOCgZSb29tSWQYASABKAkSDwoH",
+            "ZXZlbnRJZBgCIAEoCRI8CglFdmVudERhdGEYAyABKAsyKS5TdWJ0ZXJmdWdl",
+            "UmVtYWtlU2VydmljZS5HYW1lRXZlbnRSZXF1ZXN0IjkKFkRlbGV0ZUdhbWVF",
+            "dmVudFJlcXVlc3QSDgoGUm9vbUlkGAEgASgJEg8KB0V2ZW50SWQYAiABKAki",
+            "KgoXRGVsZXRlR2FtZUV2ZW50UmVzcG9uc2USDwoHU3VjY2VzcxgBIAEoCCJD",
+            "ChlDcmVhdGVNZXNzYWdlR3JvdXBSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoCRIW",
+            "Cg5Vc2VySWRzSW5Hcm91cBgCIAMoCSI+ChpDcmVhdGVNZXNzYWdlR3JvdXBS",
+            "ZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIEg8KB0dyb3VwSWQYAiABKAkiRgoS",
+            "U2VuZE1lc3NhZ2VSZXF1ZXN0Eg4KBlJvb21JZBgBIAEoCRIPCgdHcm91cElk",
+            "GAIgASgJEg8KB01lc3NhZ2UYAyABKAkiJgoTU2VuZE1lc3NhZ2VSZXNwb25z",
+            "ZRIPCgdTdWNjZXNzGAEgASgIIikKF0dldE1lc3NhZ2VHcm91cHNSZXF1ZXN0",
+            "Eg4KBlJvb21JZBgBIAEoCSJYChhHZXRNZXNzYWdlR3JvdXBzUmVzcG9uc2US",
+            "PAoNTWVzc2FnZUdyb3VwcxgBIAMoCzIlLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
+            "aWNlLk1lc3NhZ2VHcm91cCKNAQoMTWVzc2FnZUdyb3VwEg8KB0dyb3VwSWQY",
+            "ASABKAkSMwoMR3JvdXBNZW1iZXJzGAIgAygLMh0uU3VidGVyZnVnZVJlbWFr",
+            "ZVNlcnZpY2UuVXNlchI3CghNZXNzYWdlcxgDIAMoCzIlLlN1YnRlcmZ1Z2VS",
+            "ZW1ha2VTZXJ2aWNlLk1lc3NhZ2VNb2RlbCIrChJCbG9ja1BsYXllclJlcXVl",
+            "c3QSFQoNVXNlcklkVG9CbG9jaxgBIAEoCSIVChNCbG9ja1BsYXllclJlc3Bv",
+            "bnNlIi0KFFVuYmxvY2tQbGF5ZXJSZXF1ZXN0EhUKDVVzZXJJZFRvQmxvY2sY",
+            "ASABKAkiFwoVVW5ibG9ja1BsYXllclJlc3BvbnNlIhsKGVZpZXdCbG9ja2Vk",
+            "UGxheWVyc1JlcXVlc3QiUQoaVmlld0Jsb2NrZWRQbGF5ZXJzUmVzcG9uc2US",
+            "MwoMQmxvY2tlZFVzZXJzGAEgAygLMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZp",
+            "Y2UuVXNlciIsChhTZW5kRnJpZW5kUmVxdWVzdFJlcXVlc3QSEAoIRnJpZW5k",
+            "SWQYASABKAkiGwoZU2VuZEZyaWVuZFJlcXVlc3RSZXNwb25zZSIuChpBY2Nl",
+            "cHRGcmllbmRSZXF1ZXN0UmVxdWVzdBIQCghGcmllbmRJZBgBIAEoCSIdChtB",
+            "Y2NlcHRGcmllbmRSZXF1ZXN0UmVzcG9uc2UiLAoYRGVueUZyaWVuZFJlcXVl",
+            "c3RSZXF1ZXN0EhAKCEZyaWVuZElkGAEgASgJIhsKGURlbnlGcmllbmRSZXF1",
+            "ZXN0UmVzcG9uc2UiGwoZVmlld0ZyaWVuZFJlcXVlc3RzUmVxdWVzdCJUChpW",
+            "aWV3RnJpZW5kUmVxdWVzdHNSZXNwb25zZRI2Cg9JbmNvbWluZ0ZyaWVuZHMY",
+            "ASADKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Vc2VyIicKE1JlbW92",
+            "ZUZyaWVuZFJlcXVlc3QSEAoIRnJpZW5kSWQYASABKAkiFgoUUmVtb3ZlRnJp",
+            "ZW5kUmVzcG9uc2UiFAoSVmlld0ZyaWVuZHNSZXF1ZXN0IkUKE1ZpZXdGcmll",
+            "bmRzUmVzcG9uc2USLgoHRnJpZW5kcxgBIAMoCzIdLlN1YnRlcmZ1Z2VSZW1h",
+            "a2VTZXJ2aWNlLlVzZXIiFAoSSGVhbHRoQ2hlY2tSZXF1ZXN0IhUKE0hlYWx0",
+            "aENoZWNrUmVzcG9uc2UiHgocQXV0aG9yaXplZEhlYWx0aENoZWNrUmVxdWVz",
+            "dCIfCh1BdXRob3JpemVkSGVhbHRoQ2hlY2tSZXNwb25zZSIbChlQbGF5ZXJD",
+            "dXJyZW50R2FtZXNSZXF1ZXN0IkoKGlBsYXllckN1cnJlbnRHYW1lc1Jlc3Bv",
+            "bnNlEiwKBWdhbWVzGAEgAygLMh0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
+            "Um9vbSJOChdHZXRHcm91cE1lc3NhZ2VzUmVxdWVzdBIOCgZyb29tSWQYASAB",
+            "KAkSDwoHZ3JvdXBJZBgCIAEoCRISCgpwYWdpbmF0aW9uGAMgASgFIlAKGEdl",
+            "dEdyb3VwTWVzc2FnZXNSZXNwb25zZRI0CgVncm91cBgBIAEoCzIlLlN1YnRl",
+            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLk1lc3NhZ2VHcm91cCLXAQoJVXNlck1vZGVs",
+            "EgoKAklkGAEgASgJEhAKCFVzZXJuYW1lGAIgASgJEhQKDFBhc3N3b3JkSGFz",
+            "aBgDIAEoCRINCgVFbWFpbBgEIAEoCRIYChBkZXZpY2VJZGVudGlmaWVyGAUg",
+            "ASgJEhUKDWVtYWlsVmVyaWZpZWQYBiABKAgSMgoGY2xhaW1zGAcgAygOMiIu",
+            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVXNlckNsYWltEiIKGnB1c2hOb3Rp",
+            "ZmljYXRpb25JZGVudGlmaWVyGAggASgJIogDCglSb29tTW9kZWwSDgoGUm9v",
+            "bUlkGAEgASgJEjcKClJvb21TdGF0dXMYAiABKA4yIy5TdWJ0ZXJmdWdlUmVt",
+            "YWtlU2VydmljZS5Sb29tU3RhdHVzEhEKCWNyZWF0b3JJZBgDIAEoCRJFChFS",
+            "YW5rZWRJbmZvcm1hdGlvbhgEIAEoCzIqLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
+            "aWNlLlJhbmtlZEluZm9ybWF0aW9uEhEKCUFub255bW91cxgFIAEoCBIQCghS",
+            "b29tTmFtZRgGIAEoCRIrCgRHb2FsGAcgASgOMh0uU3VidGVyZnVnZVJlbWFr",
+            "ZVNlcnZpY2UuR29hbBIMCgRTZWVkGAggASgDEhcKD1VuaXhUaW1lQ3JlYXRl",
+            "ZBgJIAEoAxIXCg9Vbml4VGltZVN0YXJ0ZWQYCiABKAMSEgoKTWF4UGxheWVy",
+            "cxgLIAEoAxIaChJhbGxvd2VkU3BlY2lhbGlzdHMYDCADKAkSFgoOTWludXRl",
+            "c1BlclRpY2sYDSABKAEidAoOR2FtZUV2ZW50TW9kZWwSDwoHZXZlbnRJZBgB",
+            "IAEoCRIWCg5Vbml4VGltZUlzc3VlZBgCIAEoAxIUCgxPY2N1cnNBdFRpY2sY",
+            "AyABKAMSEAoISXNzdWVkQnkYBCABKAkSEQoJRXZlbnREYXRhGAUgASgJIlIK",
+            "Ckdyb3VwTW9kZWwSDwoHR3JvdXBJZBgBIAEoCRIzCgxHcm91cE1lbWJlcnMY",
+            "AiADKAsyHS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Vc2VyIkwKDE1lc3Nh",
+            "Z2VNb2RlbBIZChFVbml4VGltZUNyZWF0ZWRBdBgBIAEoAxIQCghTZW5kZXJJ",
+            "ZBgCIAEoCRIPCgdNZXNzYWdlGAMgASgJKi8KClJvb21TdGF0dXMSCAoET1BF",
+            "ThAAEgsKB09OR09JTkcQARIKCgZDTE9TRUQQAioiCgRHb2FsEgoKBk1JTklO",
+            "RxAAEg4KCkRPTUlOQVRJT04QASpWCglVc2VyQ2xhaW0SCwoHVU5LTk9XThAA",
+            "EggKBFVTRVIQARIHCgNERVYQAhIJCgVBRE1JThADEhIKDkVNQUlMX1ZFUklG",
+            "SUVEEAQSCgoGQkFOTkVEEAUylxkKEXN1YnRlcmZ1Z2VTZXJ2aWNlEmgKBUxv",
+            "Z2luEi0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuQXV0aG9yaXphdGlvblJl",
+            "cXVlc3QaLi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5BdXRob3JpemF0aW9u",
+            "UmVzcG9uc2UiABJ+Cg9SZWdpc3RlckFjY291bnQSMy5TdWJ0ZXJmdWdlUmVt",
+            "YWtlU2VydmljZS5BY2NvdW50UmVnaXN0cmF0aW9uUmVxdWVzdBo0LlN1YnRl",
+            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLkFjY291bnRSZWdpc3RyYXRpb25SZXNwb25z",
+            "ZSIAEm0KDkdldE9wZW5Mb2JiaWVzEisuU3VidGVyZnVnZVJlbWFrZVNlcnZp",
+            "Y2UuT3BlbkxvYmJpZXNSZXF1ZXN0GiwuU3VidGVyZnVnZVJlbWFrZVNlcnZp",
+            "Y2UuT3BlbkxvYmJpZXNSZXNwb25zZSIAEoIBChVHZXRQbGF5ZXJDdXJyZW50",
+            "R2FtZXMSMi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5QbGF5ZXJDdXJyZW50",
+            "R2FtZXNSZXF1ZXN0GjMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUGxheWVy",
+            "Q3VycmVudEdhbWVzUmVzcG9uc2UiABJqCg1DcmVhdGVOZXdSb29tEiouU3Vi",
+            "dGVyZnVnZVJlbWFrZVNlcnZpY2UuQ3JlYXRlUm9vbVJlcXVlc3QaKy5TdWJ0",
+            "ZXJmdWdlUmVtYWtlU2VydmljZS5DcmVhdGVSb29tUmVzcG9uc2UiABJhCghK",
+            "b2luUm9vbRIoLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkpvaW5Sb29tUmVx",
+            "dWVzdBopLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLkpvaW5Sb29tUmVzcG9u",
+            "c2UiABJkCglMZWF2ZVJvb20SKS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5M",
+            "ZWF2ZVJvb21SZXF1ZXN0GiouU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuTGVh",
+            "dmVSb29tUmVzcG9uc2UiABJzCg5TdGFydEdhbWVFYXJseRIuLlN1YnRlcmZ1",
+            "Z2VSZW1ha2VTZXJ2aWNlLlN0YXJ0R2FtZUVhcmx5UmVxdWVzdBovLlN1YnRl",
+            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLlN0YXJ0R2FtZUVhcmx5UmVzcG9uc2UiABJ8",
+            "ChFHZXRHYW1lUm9vbUV2ZW50cxIxLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNl",
+            "LkdldEdhbWVSb29tRXZlbnRzUmVxdWVzdBoyLlN1YnRlcmZ1Z2VSZW1ha2VT",
+            "ZXJ2aWNlLkdldEdhbWVSb29tRXZlbnRzUmVzcG9uc2UiABJ2Cg9TdWJtaXRH",
+            "YW1lRXZlbnQSLy5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5TdWJtaXRHYW1l",
+            "RXZlbnRSZXF1ZXN0GjAuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuU3VibWl0",
+            "R2FtZUV2ZW50UmVzcG9uc2UiABJ2Cg9VcGRhdGVHYW1lRXZlbnQSLy5TdWJ0",
+            "ZXJmdWdlUmVtYWtlU2VydmljZS5VcGRhdGVHYW1lRXZlbnRSZXF1ZXN0GjAu",
+            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuU3VibWl0R2FtZUV2ZW50UmVzcG9u",
+            "c2UiABJ2Cg9EZWxldGVHYW1lRXZlbnQSLy5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
+            "dmljZS5EZWxldGVHYW1lRXZlbnRSZXF1ZXN0GjAuU3VidGVyZnVnZVJlbWFr",
+            "ZVNlcnZpY2UuRGVsZXRlR2FtZUV2ZW50UmVzcG9uc2UiABJ/ChJDcmVhdGVN",
+            "ZXNzYWdlR3JvdXASMi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5DcmVhdGVN",
+            "ZXNzYWdlR3JvdXBSZXF1ZXN0GjMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2Uu",
+            "Q3JlYXRlTWVzc2FnZUdyb3VwUmVzcG9uc2UiABJqCgtTZW5kTWVzc2FnZRIr",
+            "LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlNlbmRNZXNzYWdlUmVxdWVzdBos",
+            "LlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlNlbmRNZXNzYWdlUmVzcG9uc2Ui",
+            "ABJ5ChBHZXRNZXNzYWdlR3JvdXBzEjAuU3VidGVyZnVnZVJlbWFrZVNlcnZp",
+            "Y2UuR2V0TWVzc2FnZUdyb3Vwc1JlcXVlc3QaMS5TdWJ0ZXJmdWdlUmVtYWtl",
+            "U2VydmljZS5HZXRNZXNzYWdlR3JvdXBzUmVzcG9uc2UiABJ5ChBHZXRHcm91",
+            "cE1lc3NhZ2VzEjAuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR2V0R3JvdXBN",
+            "ZXNzYWdlc1JlcXVlc3QaMS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5HZXRH",
+            "cm91cE1lc3NhZ2VzUmVzcG9uc2UiABJqCgtCbG9ja1BsYXllchIrLlN1YnRl",
+            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLkJsb2NrUGxheWVyUmVxdWVzdBosLlN1YnRl",
+            "cmZ1Z2VSZW1ha2VTZXJ2aWNlLkJsb2NrUGxheWVyUmVzcG9uc2UiABJwCg1V",
+            "bmJsb2NrUGxheWVyEi0uU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVW5ibG9j",
+            "a1BsYXllclJlcXVlc3QaLi5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5VbmJs",
+            "b2NrUGxheWVyUmVzcG9uc2UiABJ/ChJWaWV3QmxvY2tlZFBsYXllcnMSMi5T",
+            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5WaWV3QmxvY2tlZFBsYXllcnNSZXF1",
+            "ZXN0GjMuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVmlld0Jsb2NrZWRQbGF5",
+            "ZXJzUmVzcG9uc2UiABJ8ChFTZW5kRnJpZW5kUmVxdWVzdBIxLlN1YnRlcmZ1",
+            "Z2VSZW1ha2VTZXJ2aWNlLlNlbmRGcmllbmRSZXF1ZXN0UmVxdWVzdBoyLlN1",
+            "YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlNlbmRGcmllbmRSZXF1ZXN0UmVzcG9u",
+            "c2UiABKCAQoTQWNjZXB0RnJpZW5kUmVxdWVzdBIzLlN1YnRlcmZ1Z2VSZW1h",
+            "a2VTZXJ2aWNlLkFjY2VwdEZyaWVuZFJlcXVlc3RSZXF1ZXN0GjQuU3VidGVy",
+            "ZnVnZVJlbWFrZVNlcnZpY2UuQWNjZXB0RnJpZW5kUmVxdWVzdFJlc3BvbnNl",
+            "IgASfAoRRGVueUZyaWVuZFJlcXVlc3QSMS5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
+            "dmljZS5EZW55RnJpZW5kUmVxdWVzdFJlcXVlc3QaMi5TdWJ0ZXJmdWdlUmVt",
+            "YWtlU2VydmljZS5EZW55RnJpZW5kUmVxdWVzdFJlc3BvbnNlIgASfwoSVmll",
+            "d0ZyaWVuZFJlcXVlc3RzEjIuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuVmll",
+            "d0ZyaWVuZFJlcXVlc3RzUmVxdWVzdBozLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2",
+            "aWNlLlZpZXdGcmllbmRSZXF1ZXN0c1Jlc3BvbnNlIgASbQoMUmVtb3ZlRnJp",
+            "ZW5kEiwuU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUmVtb3ZlRnJpZW5kUmVx",
+            "dWVzdBotLlN1YnRlcmZ1Z2VSZW1ha2VTZXJ2aWNlLlJlbW92ZUZyaWVuZFJl",
+            "c3BvbnNlIgASagoLVmlld0ZyaWVuZHMSKy5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
+            "dmljZS5WaWV3RnJpZW5kc1JlcXVlc3QaLC5TdWJ0ZXJmdWdlUmVtYWtlU2Vy",
+            "dmljZS5WaWV3RnJpZW5kc1Jlc3BvbnNlIgASagoLSGVhbHRoQ2hlY2sSKy5T",
+            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5IZWFsdGhDaGVja1JlcXVlc3QaLC5T",
+            "dWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5IZWFsdGhDaGVja1Jlc3BvbnNlIgAS",
+            "iAEKFUF1dGhvcml6ZWRIZWFsdGhDaGVjaxI1LlN1YnRlcmZ1Z2VSZW1ha2VT",
+            "ZXJ2aWNlLkF1dGhvcml6ZWRIZWFsdGhDaGVja1JlcXVlc3QaNi5TdWJ0ZXJm",
+            "dWdlUmVtYWtlU2VydmljZS5BdXRob3JpemVkSGVhbHRoQ2hlY2tSZXNwb25z",
+            "ZSIAQj4KHXN1YnRlcmZ1Z2VSZW1ha2UuZ3JwYy5zZXJ2aWNlQhVTdWJ0ZXJm",
+            "dWdlUmVtYWtlUHJvdG9QAaICA1NSUGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::SubterfugeRemakeService.RoomStatus), typeof(global::SubterfugeRemakeService.Goal), typeof(global::SubterfugeRemakeService.UserClaim), }, new pbr::GeneratedClrTypeInfo[] {
@@ -221,15 +230,14 @@ namespace SubterfugeRemakeService {
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.StartGameEarlyResponse), global::SubterfugeRemakeService.StartGameEarlyResponse.Parser, new[]{ "Success" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetGameRoomEventsRequest), global::SubterfugeRemakeService.GetGameRoomEventsRequest.Parser, new[]{ "RoomId", "AfterTick" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetGameRoomEventsResponse), global::SubterfugeRemakeService.GetGameRoomEventsResponse.Parser, new[]{ "GameEvents" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GameEvent), global::SubterfugeRemakeService.GameEvent.Parser, new[]{ "EventId", "UnixTimeIssued", "OccursAtTick", "IssuedBy", "EventData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GameEventRequest), global::SubterfugeRemakeService.GameEventRequest.Parser, new[]{ "OccursAtTick", "EventData" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SubmitGameEventRequest), global::SubterfugeRemakeService.SubmitGameEventRequest.Parser, new[]{ "RoomId", "EventData" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SubmitGameEventResponse), global::SubterfugeRemakeService.SubmitGameEventResponse.Parser, new[]{ "Success", "EventId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UpdateGameEventRequest), global::SubterfugeRemakeService.UpdateGameEventRequest.Parser, new[]{ "RoomId", "EventData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UpdateGameEventRequest), global::SubterfugeRemakeService.UpdateGameEventRequest.Parser, new[]{ "RoomId", "EventId", "EventData" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.DeleteGameEventRequest), global::SubterfugeRemakeService.DeleteGameEventRequest.Parser, new[]{ "RoomId", "EventId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.DeleteGameEventResponse), global::SubterfugeRemakeService.DeleteGameEventResponse.Parser, new[]{ "Success" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateMessageGroupRequest), global::SubterfugeRemakeService.CreateMessageGroupRequest.Parser, new[]{ "RoomId", "UserIdsInGroup" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.CreateMessageGroupResponse), global::SubterfugeRemakeService.CreateMessageGroupResponse.Parser, new[]{ "Success", "GroupId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.Message), global::SubterfugeRemakeService.Message.Parser, new[]{ "UnixTimeCreatedAt", "Sender", "Message_" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SendMessageRequest), global::SubterfugeRemakeService.SendMessageRequest.Parser, new[]{ "RoomId", "GroupId", "Message" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.SendMessageResponse), global::SubterfugeRemakeService.SendMessageResponse.Parser, new[]{ "Success" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetMessageGroupsRequest), global::SubterfugeRemakeService.GetMessageGroupsRequest.Parser, new[]{ "RoomId" }, null, null, null),
@@ -259,8 +267,13 @@ namespace SubterfugeRemakeService {
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.AuthorizedHealthCheckResponse), global::SubterfugeRemakeService.AuthorizedHealthCheckResponse.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.PlayerCurrentGamesRequest), global::SubterfugeRemakeService.PlayerCurrentGamesRequest.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.PlayerCurrentGamesResponse), global::SubterfugeRemakeService.PlayerCurrentGamesResponse.Parser, new[]{ "Games" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetGroupMessagesRequest), global::SubterfugeRemakeService.GetGroupMessagesRequest.Parser, new[]{ "RoomId", "GroupId", "Pagination" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GetGroupMessagesResponse), global::SubterfugeRemakeService.GetGroupMessagesResponse.Parser, new[]{ "Group" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.UserModel), global::SubterfugeRemakeService.UserModel.Parser, new[]{ "Id", "Username", "PasswordHash", "Email", "DeviceIdentifier", "EmailVerified", "Claims", "PushNotificationIdentifier" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RoomModel), global::SubterfugeRemakeService.RoomModel.Parser, new[]{ "RoomId", "RoomStatus", "CreatorId", "RankedInformation", "Anonymous", "RoomName", "Goal", "Seed", "UnixTimeCreated", "UnixTimeStarted", "MaxPlayers", "AllowedSpecialists", "MinutesPerTick" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.RoomModel), global::SubterfugeRemakeService.RoomModel.Parser, new[]{ "RoomId", "RoomStatus", "CreatorId", "RankedInformation", "Anonymous", "RoomName", "Goal", "Seed", "UnixTimeCreated", "UnixTimeStarted", "MaxPlayers", "AllowedSpecialists", "MinutesPerTick" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GameEventModel), global::SubterfugeRemakeService.GameEventModel.Parser, new[]{ "EventId", "UnixTimeIssued", "OccursAtTick", "IssuedBy", "EventData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.GroupModel), global::SubterfugeRemakeService.GroupModel.Parser, new[]{ "GroupId", "GroupMembers" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SubterfugeRemakeService.MessageModel), global::SubterfugeRemakeService.MessageModel.Parser, new[]{ "UnixTimeCreatedAt", "SenderId", "Message" }, null, null, null)
           }));
     }
     #endregion
@@ -3486,11 +3499,11 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "GameEvents" field.</summary>
     public const int GameEventsFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::SubterfugeRemakeService.GameEvent> _repeated_gameEvents_codec
-        = pb::FieldCodec.ForMessage(10, global::SubterfugeRemakeService.GameEvent.Parser);
-    private readonly pbc::RepeatedField<global::SubterfugeRemakeService.GameEvent> gameEvents_ = new pbc::RepeatedField<global::SubterfugeRemakeService.GameEvent>();
+    private static readonly pb::FieldCodec<global::SubterfugeRemakeService.GameEventModel> _repeated_gameEvents_codec
+        = pb::FieldCodec.ForMessage(10, global::SubterfugeRemakeService.GameEventModel.Parser);
+    private readonly pbc::RepeatedField<global::SubterfugeRemakeService.GameEventModel> gameEvents_ = new pbc::RepeatedField<global::SubterfugeRemakeService.GameEventModel>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::SubterfugeRemakeService.GameEvent> GameEvents {
+    public pbc::RepeatedField<global::SubterfugeRemakeService.GameEventModel> GameEvents {
       get { return gameEvents_; }
     }
 
@@ -3571,11 +3584,11 @@ namespace SubterfugeRemakeService {
 
   }
 
-  public sealed partial class GameEvent : pb::IMessage<GameEvent> {
-    private static readonly pb::MessageParser<GameEvent> _parser = new pb::MessageParser<GameEvent>(() => new GameEvent());
+  public sealed partial class GameEventRequest : pb::IMessage<GameEventRequest> {
+    private static readonly pb::MessageParser<GameEventRequest> _parser = new pb::MessageParser<GameEventRequest>(() => new GameEventRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<GameEvent> Parser { get { return _parser; } }
+    public static pb::MessageParser<GameEventRequest> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -3588,47 +3601,22 @@ namespace SubterfugeRemakeService {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public GameEvent() {
+    public GameEventRequest() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public GameEvent(GameEvent other) : this() {
-      eventId_ = other.eventId_;
-      unixTimeIssued_ = other.unixTimeIssued_;
+    public GameEventRequest(GameEventRequest other) : this() {
       occursAtTick_ = other.occursAtTick_;
-      issuedBy_ = other.issuedBy_;
       eventData_ = other.eventData_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public GameEvent Clone() {
-      return new GameEvent(this);
-    }
-
-    /// <summary>Field number for the "eventId" field.</summary>
-    public const int EventIdFieldNumber = 1;
-    private string eventId_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string EventId {
-      get { return eventId_; }
-      set {
-        eventId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "UnixTimeIssued" field.</summary>
-    public const int UnixTimeIssuedFieldNumber = 2;
-    private long unixTimeIssued_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long UnixTimeIssued {
-      get { return unixTimeIssued_; }
-      set {
-        unixTimeIssued_ = value;
-      }
+    public GameEventRequest Clone() {
+      return new GameEventRequest(this);
     }
 
     /// <summary>Field number for the "OccursAtTick" field.</summary>
@@ -3639,17 +3627,6 @@ namespace SubterfugeRemakeService {
       get { return occursAtTick_; }
       set {
         occursAtTick_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "IssuedBy" field.</summary>
-    public const int IssuedByFieldNumber = 4;
-    private string issuedBy_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string IssuedBy {
-      get { return issuedBy_; }
-      set {
-        issuedBy_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -3666,21 +3643,18 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as GameEvent);
+      return Equals(other as GameEventRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(GameEvent other) {
+    public bool Equals(GameEventRequest other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (EventId != other.EventId) return false;
-      if (UnixTimeIssued != other.UnixTimeIssued) return false;
       if (OccursAtTick != other.OccursAtTick) return false;
-      if (IssuedBy != other.IssuedBy) return false;
       if (EventData != other.EventData) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -3688,10 +3662,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (EventId.Length != 0) hash ^= EventId.GetHashCode();
-      if (UnixTimeIssued != 0L) hash ^= UnixTimeIssued.GetHashCode();
       if (OccursAtTick != 0L) hash ^= OccursAtTick.GetHashCode();
-      if (IssuedBy.Length != 0) hash ^= IssuedBy.GetHashCode();
       if (EventData.Length != 0) hash ^= EventData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -3706,21 +3677,9 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (EventId.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(EventId);
-      }
-      if (UnixTimeIssued != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(UnixTimeIssued);
-      }
       if (OccursAtTick != 0L) {
         output.WriteRawTag(24);
         output.WriteInt64(OccursAtTick);
-      }
-      if (IssuedBy.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(IssuedBy);
       }
       if (EventData.Length != 0) {
         output.WriteRawTag(42);
@@ -3734,17 +3693,8 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (EventId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(EventId);
-      }
-      if (UnixTimeIssued != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(UnixTimeIssued);
-      }
       if (OccursAtTick != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(OccursAtTick);
-      }
-      if (IssuedBy.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(IssuedBy);
       }
       if (EventData.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(EventData);
@@ -3756,21 +3706,12 @@ namespace SubterfugeRemakeService {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(GameEvent other) {
+    public void MergeFrom(GameEventRequest other) {
       if (other == null) {
         return;
       }
-      if (other.EventId.Length != 0) {
-        EventId = other.EventId;
-      }
-      if (other.UnixTimeIssued != 0L) {
-        UnixTimeIssued = other.UnixTimeIssued;
-      }
       if (other.OccursAtTick != 0L) {
         OccursAtTick = other.OccursAtTick;
-      }
-      if (other.IssuedBy.Length != 0) {
-        IssuedBy = other.IssuedBy;
       }
       if (other.EventData.Length != 0) {
         EventData = other.EventData;
@@ -3786,20 +3727,8 @@ namespace SubterfugeRemakeService {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
-            EventId = input.ReadString();
-            break;
-          }
-          case 16: {
-            UnixTimeIssued = input.ReadInt64();
-            break;
-          }
           case 24: {
             OccursAtTick = input.ReadInt64();
-            break;
-          }
-          case 34: {
-            IssuedBy = input.ReadString();
             break;
           }
           case 42: {
@@ -3860,9 +3789,9 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "EventData" field.</summary>
     public const int EventDataFieldNumber = 2;
-    private global::SubterfugeRemakeService.GameEvent eventData_;
+    private global::SubterfugeRemakeService.GameEventRequest eventData_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::SubterfugeRemakeService.GameEvent EventData {
+    public global::SubterfugeRemakeService.GameEventRequest EventData {
       get { return eventData_; }
       set {
         eventData_ = value;
@@ -3943,7 +3872,7 @@ namespace SubterfugeRemakeService {
       }
       if (other.eventData_ != null) {
         if (eventData_ == null) {
-          EventData = new global::SubterfugeRemakeService.GameEvent();
+          EventData = new global::SubterfugeRemakeService.GameEventRequest();
         }
         EventData.MergeFrom(other.EventData);
       }
@@ -3964,7 +3893,7 @@ namespace SubterfugeRemakeService {
           }
           case 18: {
             if (eventData_ == null) {
-              EventData = new global::SubterfugeRemakeService.GameEvent();
+              EventData = new global::SubterfugeRemakeService.GameEventRequest();
             }
             input.ReadMessage(EventData);
             break;
@@ -4158,6 +4087,7 @@ namespace SubterfugeRemakeService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public UpdateGameEventRequest(UpdateGameEventRequest other) : this() {
       roomId_ = other.roomId_;
+      eventId_ = other.eventId_;
       eventData_ = other.eventData_ != null ? other.eventData_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -4178,11 +4108,22 @@ namespace SubterfugeRemakeService {
       }
     }
 
-    /// <summary>Field number for the "EventData" field.</summary>
-    public const int EventDataFieldNumber = 2;
-    private global::SubterfugeRemakeService.GameEvent eventData_;
+    /// <summary>Field number for the "eventId" field.</summary>
+    public const int EventIdFieldNumber = 2;
+    private string eventId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::SubterfugeRemakeService.GameEvent EventData {
+    public string EventId {
+      get { return eventId_; }
+      set {
+        eventId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "EventData" field.</summary>
+    public const int EventDataFieldNumber = 3;
+    private global::SubterfugeRemakeService.GameEventRequest eventData_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::SubterfugeRemakeService.GameEventRequest EventData {
       get { return eventData_; }
       set {
         eventData_ = value;
@@ -4203,6 +4144,7 @@ namespace SubterfugeRemakeService {
         return true;
       }
       if (RoomId != other.RoomId) return false;
+      if (EventId != other.EventId) return false;
       if (!object.Equals(EventData, other.EventData)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -4211,6 +4153,7 @@ namespace SubterfugeRemakeService {
     public override int GetHashCode() {
       int hash = 1;
       if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
+      if (EventId.Length != 0) hash ^= EventId.GetHashCode();
       if (eventData_ != null) hash ^= EventData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -4229,8 +4172,12 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(10);
         output.WriteString(RoomId);
       }
-      if (eventData_ != null) {
+      if (EventId.Length != 0) {
         output.WriteRawTag(18);
+        output.WriteString(EventId);
+      }
+      if (eventData_ != null) {
+        output.WriteRawTag(26);
         output.WriteMessage(EventData);
       }
       if (_unknownFields != null) {
@@ -4243,6 +4190,9 @@ namespace SubterfugeRemakeService {
       int size = 0;
       if (RoomId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
+      }
+      if (EventId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(EventId);
       }
       if (eventData_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(EventData);
@@ -4261,9 +4211,12 @@ namespace SubterfugeRemakeService {
       if (other.RoomId.Length != 0) {
         RoomId = other.RoomId;
       }
+      if (other.EventId.Length != 0) {
+        EventId = other.EventId;
+      }
       if (other.eventData_ != null) {
         if (eventData_ == null) {
-          EventData = new global::SubterfugeRemakeService.GameEvent();
+          EventData = new global::SubterfugeRemakeService.GameEventRequest();
         }
         EventData.MergeFrom(other.EventData);
       }
@@ -4283,8 +4236,12 @@ namespace SubterfugeRemakeService {
             break;
           }
           case 18: {
+            EventId = input.ReadString();
+            break;
+          }
+          case 26: {
             if (eventData_ == null) {
-              EventData = new global::SubterfugeRemakeService.GameEvent();
+              EventData = new global::SubterfugeRemakeService.GameEventRequest();
             }
             input.ReadMessage(EventData);
             break;
@@ -4887,197 +4844,6 @@ namespace SubterfugeRemakeService {
 
   }
 
-  public sealed partial class Message : pb::IMessage<Message> {
-    private static readonly pb::MessageParser<Message> _parser = new pb::MessageParser<Message>(() => new Message());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<Message> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[27]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Message() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Message(Message other) : this() {
-      unixTimeCreatedAt_ = other.unixTimeCreatedAt_;
-      sender_ = other.sender_ != null ? other.sender_.Clone() : null;
-      message_ = other.message_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Message Clone() {
-      return new Message(this);
-    }
-
-    /// <summary>Field number for the "UnixTimeCreatedAt" field.</summary>
-    public const int UnixTimeCreatedAtFieldNumber = 1;
-    private long unixTimeCreatedAt_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long UnixTimeCreatedAt {
-      get { return unixTimeCreatedAt_; }
-      set {
-        unixTimeCreatedAt_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "Sender" field.</summary>
-    public const int SenderFieldNumber = 2;
-    private global::SubterfugeRemakeService.User sender_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::SubterfugeRemakeService.User Sender {
-      get { return sender_; }
-      set {
-        sender_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "Message" field.</summary>
-    public const int Message_FieldNumber = 3;
-    private string message_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Message_ {
-      get { return message_; }
-      set {
-        message_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as Message);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(Message other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (UnixTimeCreatedAt != other.UnixTimeCreatedAt) return false;
-      if (!object.Equals(Sender, other.Sender)) return false;
-      if (Message_ != other.Message_) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (UnixTimeCreatedAt != 0L) hash ^= UnixTimeCreatedAt.GetHashCode();
-      if (sender_ != null) hash ^= Sender.GetHashCode();
-      if (Message_.Length != 0) hash ^= Message_.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (UnixTimeCreatedAt != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(UnixTimeCreatedAt);
-      }
-      if (sender_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Sender);
-      }
-      if (Message_.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Message_);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (UnixTimeCreatedAt != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(UnixTimeCreatedAt);
-      }
-      if (sender_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Sender);
-      }
-      if (Message_.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Message_);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(Message other) {
-      if (other == null) {
-        return;
-      }
-      if (other.UnixTimeCreatedAt != 0L) {
-        UnixTimeCreatedAt = other.UnixTimeCreatedAt;
-      }
-      if (other.sender_ != null) {
-        if (sender_ == null) {
-          Sender = new global::SubterfugeRemakeService.User();
-        }
-        Sender.MergeFrom(other.Sender);
-      }
-      if (other.Message_.Length != 0) {
-        Message_ = other.Message_;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            UnixTimeCreatedAt = input.ReadInt64();
-            break;
-          }
-          case 18: {
-            if (sender_ == null) {
-              Sender = new global::SubterfugeRemakeService.User();
-            }
-            input.ReadMessage(Sender);
-            break;
-          }
-          case 26: {
-            Message_ = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
   public sealed partial class SendMessageRequest : pb::IMessage<SendMessageRequest> {
     private static readonly pb::MessageParser<SendMessageRequest> _parser = new pb::MessageParser<SendMessageRequest>(() => new SendMessageRequest());
     private pb::UnknownFieldSet _unknownFields;
@@ -5086,7 +4852,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[28]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[27]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5105,7 +4871,7 @@ namespace SubterfugeRemakeService {
     public SendMessageRequest(SendMessageRequest other) : this() {
       roomId_ = other.roomId_;
       groupId_ = other.groupId_;
-      message_ = other.message_ != null ? other.message_.Clone() : null;
+      message_ = other.message_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -5138,12 +4904,12 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "Message" field.</summary>
     public const int MessageFieldNumber = 3;
-    private global::SubterfugeRemakeService.Message message_;
+    private string message_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::SubterfugeRemakeService.Message Message {
+    public string Message {
       get { return message_; }
       set {
-        message_ = value;
+        message_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -5162,7 +4928,7 @@ namespace SubterfugeRemakeService {
       }
       if (RoomId != other.RoomId) return false;
       if (GroupId != other.GroupId) return false;
-      if (!object.Equals(Message, other.Message)) return false;
+      if (Message != other.Message) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -5171,7 +4937,7 @@ namespace SubterfugeRemakeService {
       int hash = 1;
       if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (GroupId.Length != 0) hash ^= GroupId.GetHashCode();
-      if (message_ != null) hash ^= Message.GetHashCode();
+      if (Message.Length != 0) hash ^= Message.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -5193,9 +4959,9 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(18);
         output.WriteString(GroupId);
       }
-      if (message_ != null) {
+      if (Message.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteMessage(Message);
+        output.WriteString(Message);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -5211,8 +4977,8 @@ namespace SubterfugeRemakeService {
       if (GroupId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(GroupId);
       }
-      if (message_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Message);
+      if (Message.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Message);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -5231,11 +4997,8 @@ namespace SubterfugeRemakeService {
       if (other.GroupId.Length != 0) {
         GroupId = other.GroupId;
       }
-      if (other.message_ != null) {
-        if (message_ == null) {
-          Message = new global::SubterfugeRemakeService.Message();
-        }
-        Message.MergeFrom(other.Message);
+      if (other.Message.Length != 0) {
+        Message = other.Message;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -5257,10 +5020,7 @@ namespace SubterfugeRemakeService {
             break;
           }
           case 26: {
-            if (message_ == null) {
-              Message = new global::SubterfugeRemakeService.Message();
-            }
-            input.ReadMessage(Message);
+            Message = input.ReadString();
             break;
           }
         }
@@ -5277,7 +5037,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[29]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[28]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5406,7 +5166,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[30]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[29]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5535,7 +5295,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[31]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[30]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5656,7 +5416,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[32]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[31]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5707,11 +5467,11 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "Messages" field.</summary>
     public const int MessagesFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::SubterfugeRemakeService.Message> _repeated_messages_codec
-        = pb::FieldCodec.ForMessage(26, global::SubterfugeRemakeService.Message.Parser);
-    private readonly pbc::RepeatedField<global::SubterfugeRemakeService.Message> messages_ = new pbc::RepeatedField<global::SubterfugeRemakeService.Message>();
+    private static readonly pb::FieldCodec<global::SubterfugeRemakeService.MessageModel> _repeated_messages_codec
+        = pb::FieldCodec.ForMessage(26, global::SubterfugeRemakeService.MessageModel.Parser);
+    private readonly pbc::RepeatedField<global::SubterfugeRemakeService.MessageModel> messages_ = new pbc::RepeatedField<global::SubterfugeRemakeService.MessageModel>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::SubterfugeRemakeService.Message> Messages {
+    public pbc::RepeatedField<global::SubterfugeRemakeService.MessageModel> Messages {
       get { return messages_; }
     }
 
@@ -5825,7 +5585,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[33]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[32]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5954,7 +5714,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[34]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[33]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6055,7 +5815,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[35]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[34]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6184,7 +5944,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[36]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[35]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6285,7 +6045,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[37]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[36]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6386,7 +6146,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[38]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[37]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6507,7 +6267,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[39]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[38]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6636,7 +6396,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[40]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[39]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6737,7 +6497,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[41]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[40]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6866,7 +6626,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[42]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[41]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6967,7 +6727,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[43]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[42]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7096,7 +6856,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[44]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[43]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7197,7 +6957,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[45]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[44]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7298,7 +7058,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[46]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[45]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7419,7 +7179,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[47]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[46]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7548,7 +7308,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[48]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[47]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7649,7 +7409,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[49]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[48]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7750,7 +7510,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[50]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[49]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7871,7 +7631,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[51]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[50]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7972,7 +7732,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[52]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[51]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8073,7 +7833,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[53]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[52]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8174,7 +7934,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[54]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[53]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8275,7 +8035,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[55]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[54]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8376,7 +8136,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[56]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[55]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8489,6 +8249,326 @@ namespace SubterfugeRemakeService {
 
   }
 
+  public sealed partial class GetGroupMessagesRequest : pb::IMessage<GetGroupMessagesRequest> {
+    private static readonly pb::MessageParser<GetGroupMessagesRequest> _parser = new pb::MessageParser<GetGroupMessagesRequest>(() => new GetGroupMessagesRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<GetGroupMessagesRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[56]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GetGroupMessagesRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GetGroupMessagesRequest(GetGroupMessagesRequest other) : this() {
+      roomId_ = other.roomId_;
+      groupId_ = other.groupId_;
+      pagination_ = other.pagination_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GetGroupMessagesRequest Clone() {
+      return new GetGroupMessagesRequest(this);
+    }
+
+    /// <summary>Field number for the "roomId" field.</summary>
+    public const int RoomIdFieldNumber = 1;
+    private string roomId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string RoomId {
+      get { return roomId_; }
+      set {
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "groupId" field.</summary>
+    public const int GroupIdFieldNumber = 2;
+    private string groupId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string GroupId {
+      get { return groupId_; }
+      set {
+        groupId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "pagination" field.</summary>
+    public const int PaginationFieldNumber = 3;
+    private int pagination_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Pagination {
+      get { return pagination_; }
+      set {
+        pagination_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as GetGroupMessagesRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(GetGroupMessagesRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (RoomId != other.RoomId) return false;
+      if (GroupId != other.GroupId) return false;
+      if (Pagination != other.Pagination) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
+      if (GroupId.Length != 0) hash ^= GroupId.GetHashCode();
+      if (Pagination != 0) hash ^= Pagination.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RoomId);
+      }
+      if (GroupId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(GroupId);
+      }
+      if (Pagination != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Pagination);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
+      }
+      if (GroupId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(GroupId);
+      }
+      if (Pagination != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Pagination);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(GetGroupMessagesRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.RoomId.Length != 0) {
+        RoomId = other.RoomId;
+      }
+      if (other.GroupId.Length != 0) {
+        GroupId = other.GroupId;
+      }
+      if (other.Pagination != 0) {
+        Pagination = other.Pagination;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            RoomId = input.ReadString();
+            break;
+          }
+          case 18: {
+            GroupId = input.ReadString();
+            break;
+          }
+          case 24: {
+            Pagination = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class GetGroupMessagesResponse : pb::IMessage<GetGroupMessagesResponse> {
+    private static readonly pb::MessageParser<GetGroupMessagesResponse> _parser = new pb::MessageParser<GetGroupMessagesResponse>(() => new GetGroupMessagesResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<GetGroupMessagesResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[57]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GetGroupMessagesResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GetGroupMessagesResponse(GetGroupMessagesResponse other) : this() {
+      group_ = other.group_ != null ? other.group_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GetGroupMessagesResponse Clone() {
+      return new GetGroupMessagesResponse(this);
+    }
+
+    /// <summary>Field number for the "group" field.</summary>
+    public const int GroupFieldNumber = 1;
+    private global::SubterfugeRemakeService.MessageGroup group_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::SubterfugeRemakeService.MessageGroup Group {
+      get { return group_; }
+      set {
+        group_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as GetGroupMessagesResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(GetGroupMessagesResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Group, other.Group)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (group_ != null) hash ^= Group.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (group_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Group);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (group_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Group);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(GetGroupMessagesResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.group_ != null) {
+        if (group_ == null) {
+          Group = new global::SubterfugeRemakeService.MessageGroup();
+        }
+        Group.MergeFrom(other.Group);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (group_ == null) {
+              Group = new global::SubterfugeRemakeService.MessageGroup();
+            }
+            input.ReadMessage(Group);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class UserModel : pb::IMessage<UserModel> {
     private static readonly pb::MessageParser<UserModel> _parser = new pb::MessageParser<UserModel>(() => new UserModel());
     private pb::UnknownFieldSet _unknownFields;
@@ -8497,7 +8577,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[57]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[58]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8815,7 +8895,7 @@ namespace SubterfugeRemakeService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[58]; }
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[59]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9262,6 +9342,581 @@ namespace SubterfugeRemakeService {
           }
           case 105: {
             MinutesPerTick = input.ReadDouble();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class GameEventModel : pb::IMessage<GameEventModel> {
+    private static readonly pb::MessageParser<GameEventModel> _parser = new pb::MessageParser<GameEventModel>(() => new GameEventModel());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<GameEventModel> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[60]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GameEventModel() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GameEventModel(GameEventModel other) : this() {
+      eventId_ = other.eventId_;
+      unixTimeIssued_ = other.unixTimeIssued_;
+      occursAtTick_ = other.occursAtTick_;
+      issuedBy_ = other.issuedBy_;
+      eventData_ = other.eventData_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GameEventModel Clone() {
+      return new GameEventModel(this);
+    }
+
+    /// <summary>Field number for the "eventId" field.</summary>
+    public const int EventIdFieldNumber = 1;
+    private string eventId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string EventId {
+      get { return eventId_; }
+      set {
+        eventId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "UnixTimeIssued" field.</summary>
+    public const int UnixTimeIssuedFieldNumber = 2;
+    private long unixTimeIssued_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long UnixTimeIssued {
+      get { return unixTimeIssued_; }
+      set {
+        unixTimeIssued_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "OccursAtTick" field.</summary>
+    public const int OccursAtTickFieldNumber = 3;
+    private long occursAtTick_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long OccursAtTick {
+      get { return occursAtTick_; }
+      set {
+        occursAtTick_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "IssuedBy" field.</summary>
+    public const int IssuedByFieldNumber = 4;
+    private string issuedBy_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string IssuedBy {
+      get { return issuedBy_; }
+      set {
+        issuedBy_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "EventData" field.</summary>
+    public const int EventDataFieldNumber = 5;
+    private string eventData_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string EventData {
+      get { return eventData_; }
+      set {
+        eventData_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as GameEventModel);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(GameEventModel other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (EventId != other.EventId) return false;
+      if (UnixTimeIssued != other.UnixTimeIssued) return false;
+      if (OccursAtTick != other.OccursAtTick) return false;
+      if (IssuedBy != other.IssuedBy) return false;
+      if (EventData != other.EventData) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (EventId.Length != 0) hash ^= EventId.GetHashCode();
+      if (UnixTimeIssued != 0L) hash ^= UnixTimeIssued.GetHashCode();
+      if (OccursAtTick != 0L) hash ^= OccursAtTick.GetHashCode();
+      if (IssuedBy.Length != 0) hash ^= IssuedBy.GetHashCode();
+      if (EventData.Length != 0) hash ^= EventData.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (EventId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(EventId);
+      }
+      if (UnixTimeIssued != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(UnixTimeIssued);
+      }
+      if (OccursAtTick != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(OccursAtTick);
+      }
+      if (IssuedBy.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(IssuedBy);
+      }
+      if (EventData.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(EventData);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (EventId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(EventId);
+      }
+      if (UnixTimeIssued != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(UnixTimeIssued);
+      }
+      if (OccursAtTick != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(OccursAtTick);
+      }
+      if (IssuedBy.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(IssuedBy);
+      }
+      if (EventData.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(EventData);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(GameEventModel other) {
+      if (other == null) {
+        return;
+      }
+      if (other.EventId.Length != 0) {
+        EventId = other.EventId;
+      }
+      if (other.UnixTimeIssued != 0L) {
+        UnixTimeIssued = other.UnixTimeIssued;
+      }
+      if (other.OccursAtTick != 0L) {
+        OccursAtTick = other.OccursAtTick;
+      }
+      if (other.IssuedBy.Length != 0) {
+        IssuedBy = other.IssuedBy;
+      }
+      if (other.EventData.Length != 0) {
+        EventData = other.EventData;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            EventId = input.ReadString();
+            break;
+          }
+          case 16: {
+            UnixTimeIssued = input.ReadInt64();
+            break;
+          }
+          case 24: {
+            OccursAtTick = input.ReadInt64();
+            break;
+          }
+          case 34: {
+            IssuedBy = input.ReadString();
+            break;
+          }
+          case 42: {
+            EventData = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class GroupModel : pb::IMessage<GroupModel> {
+    private static readonly pb::MessageParser<GroupModel> _parser = new pb::MessageParser<GroupModel>(() => new GroupModel());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<GroupModel> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[61]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GroupModel() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GroupModel(GroupModel other) : this() {
+      groupId_ = other.groupId_;
+      groupMembers_ = other.groupMembers_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GroupModel Clone() {
+      return new GroupModel(this);
+    }
+
+    /// <summary>Field number for the "GroupId" field.</summary>
+    public const int GroupIdFieldNumber = 1;
+    private string groupId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string GroupId {
+      get { return groupId_; }
+      set {
+        groupId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "GroupMembers" field.</summary>
+    public const int GroupMembersFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::SubterfugeRemakeService.User> _repeated_groupMembers_codec
+        = pb::FieldCodec.ForMessage(18, global::SubterfugeRemakeService.User.Parser);
+    private readonly pbc::RepeatedField<global::SubterfugeRemakeService.User> groupMembers_ = new pbc::RepeatedField<global::SubterfugeRemakeService.User>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::SubterfugeRemakeService.User> GroupMembers {
+      get { return groupMembers_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as GroupModel);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(GroupModel other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (GroupId != other.GroupId) return false;
+      if(!groupMembers_.Equals(other.groupMembers_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (GroupId.Length != 0) hash ^= GroupId.GetHashCode();
+      hash ^= groupMembers_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (GroupId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(GroupId);
+      }
+      groupMembers_.WriteTo(output, _repeated_groupMembers_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (GroupId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(GroupId);
+      }
+      size += groupMembers_.CalculateSize(_repeated_groupMembers_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(GroupModel other) {
+      if (other == null) {
+        return;
+      }
+      if (other.GroupId.Length != 0) {
+        GroupId = other.GroupId;
+      }
+      groupMembers_.Add(other.groupMembers_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            GroupId = input.ReadString();
+            break;
+          }
+          case 18: {
+            groupMembers_.AddEntriesFrom(input, _repeated_groupMembers_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class MessageModel : pb::IMessage<MessageModel> {
+    private static readonly pb::MessageParser<MessageModel> _parser = new pb::MessageParser<MessageModel>(() => new MessageModel());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<MessageModel> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SubterfugeRemakeService.SubterfugeRemakeReflection.Descriptor.MessageTypes[62]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public MessageModel() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public MessageModel(MessageModel other) : this() {
+      unixTimeCreatedAt_ = other.unixTimeCreatedAt_;
+      senderId_ = other.senderId_;
+      message_ = other.message_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public MessageModel Clone() {
+      return new MessageModel(this);
+    }
+
+    /// <summary>Field number for the "UnixTimeCreatedAt" field.</summary>
+    public const int UnixTimeCreatedAtFieldNumber = 1;
+    private long unixTimeCreatedAt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long UnixTimeCreatedAt {
+      get { return unixTimeCreatedAt_; }
+      set {
+        unixTimeCreatedAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "SenderId" field.</summary>
+    public const int SenderIdFieldNumber = 2;
+    private string senderId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string SenderId {
+      get { return senderId_; }
+      set {
+        senderId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "Message" field.</summary>
+    public const int MessageFieldNumber = 3;
+    private string message_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Message {
+      get { return message_; }
+      set {
+        message_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as MessageModel);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(MessageModel other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (UnixTimeCreatedAt != other.UnixTimeCreatedAt) return false;
+      if (SenderId != other.SenderId) return false;
+      if (Message != other.Message) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (UnixTimeCreatedAt != 0L) hash ^= UnixTimeCreatedAt.GetHashCode();
+      if (SenderId.Length != 0) hash ^= SenderId.GetHashCode();
+      if (Message.Length != 0) hash ^= Message.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (UnixTimeCreatedAt != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(UnixTimeCreatedAt);
+      }
+      if (SenderId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(SenderId);
+      }
+      if (Message.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Message);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (UnixTimeCreatedAt != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(UnixTimeCreatedAt);
+      }
+      if (SenderId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(SenderId);
+      }
+      if (Message.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Message);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(MessageModel other) {
+      if (other == null) {
+        return;
+      }
+      if (other.UnixTimeCreatedAt != 0L) {
+        UnixTimeCreatedAt = other.UnixTimeCreatedAt;
+      }
+      if (other.SenderId.Length != 0) {
+        SenderId = other.SenderId;
+      }
+      if (other.Message.Length != 0) {
+        Message = other.Message;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            UnixTimeCreatedAt = input.ReadInt64();
+            break;
+          }
+          case 18: {
+            SenderId = input.ReadString();
+            break;
+          }
+          case 26: {
+            Message = input.ReadString();
             break;
           }
         }

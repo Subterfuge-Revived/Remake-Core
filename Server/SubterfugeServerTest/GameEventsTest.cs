@@ -55,10 +55,9 @@ namespace Tests
         {
             SubmitGameEventResponse eventResponse = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -76,31 +75,13 @@ namespace Tests
         }
 
         [Test]
-        public void PlayerInAGameCannotSubmitAnEventForAnotherPlayer()
-        {
-            var exception = Assert.Throws<RpcException>(() => client.SubmitGameEvent(new SubmitGameEventRequest()
-            {
-                EventData = new GameEvent()
-                {
-                    EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerTwoInGame),
-                    OccursAtTick = 42,
-                },
-                RoomId = gameId,
-            }));
-            Assert.IsTrue(exception != null);
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.Unauthenticated);
-        }
-
-        [Test]
         public void PlayerCannotSubmitEventsToAGameThatDoesNotExist()
         {
             var exception = Assert.Throws<RpcException>(() => client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = "somegameId",
@@ -115,10 +96,9 @@ namespace Tests
             authHelper.loginToAccount(playerOutOfGame);
             var exception = Assert.Throws<RpcException>(() => client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOutOfGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -132,10 +112,9 @@ namespace Tests
         {
             SubmitGameEventResponse submitResponse = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = -20,
                 },
                 RoomId = gameId,
@@ -148,10 +127,9 @@ namespace Tests
         {
             SubmitGameEventResponse eventResponse = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -186,10 +164,9 @@ namespace Tests
         {
             SubmitGameEventResponse eventResponse = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -227,10 +204,9 @@ namespace Tests
         {
             SubmitGameEventResponse eventResponse = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 2,
                 },
                 RoomId = gameId,
@@ -263,10 +239,9 @@ namespace Tests
         {
             SubmitGameEventResponse eventResponse = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -283,14 +258,13 @@ namespace Tests
             
             SubmitGameEventResponse updateResponse = client.UpdateGameEvent(new UpdateGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
-                    EventId = eventResponse.EventId,
                     EventData = "NewEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
+                EventId = eventResponse.EventId,
             });
             Assert.IsTrue(updateResponse.Success);
             Assert.IsTrue(updateResponse.EventId == eventResponse.EventId);
@@ -301,10 +275,9 @@ namespace Tests
         {
             SubmitGameEventResponse eventResponse = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -319,18 +292,17 @@ namespace Tests
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
             Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
             
-            var exception = Assert.Throws<RpcException>(() => client.UpdateGameEvent(new UpdateGameEventRequest()
+            var submitGameEventResponse = client.UpdateGameEvent(new UpdateGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventId = "14141414",
+                EventData = new GameEventRequest()
                 {
-                    EventId = "14141414",
                     EventData = "NewEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
-            }));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.InvalidArgument);
+            });
+            Assert.AreEqual(submitGameEventResponse.Success, false);
         }
 
         [Test]
@@ -338,10 +310,9 @@ namespace Tests
         {
             SubmitGameEventResponse eventResponse = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 2,
                 },
                 RoomId = gameId,
@@ -362,11 +333,10 @@ namespace Tests
             // Attempt to delete
             SubmitGameEventResponse updateResponse = client.UpdateGameEvent(new UpdateGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventId = eventResponse.EventId,
+                EventData = new GameEventRequest()
                 {
-                    EventId = eventResponse.EventId,
                     EventData = "NewEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -380,10 +350,9 @@ namespace Tests
         {
             SubmitGameEventResponse eventResponse = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -400,18 +369,17 @@ namespace Tests
 
             authHelper.loginToAccount(playerTwoInGame);
             
-            var exception = Assert.Throws<RpcException>(() => client.UpdateGameEvent(new UpdateGameEventRequest()
+            var submitGameEventResponse = client.UpdateGameEvent(new UpdateGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventId = eventResponse.EventId,
+                EventData = new GameEventRequest()
                 {
-                    EventId = eventResponse.EventId,
                     EventData = "NewEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
-            }));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.Unauthenticated);
+            });
+            Assert.AreEqual(submitGameEventResponse.Success, false);
         }
 
         [Test]
@@ -420,10 +388,9 @@ namespace Tests
             // Submit 3 close game events, and 2 far game events.
             SubmitGameEventRequest request = new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 5,
                 },
                 RoomId = gameId,
@@ -460,10 +427,9 @@ namespace Tests
         {
             SubmitGameEventResponse eventResponse = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -494,10 +460,9 @@ namespace Tests
             // Submit 3 close game events, and 2 far game events.
             SubmitGameEventRequest request = new SubmitGameEventRequest()
             {
-                EventData = new GameEvent()
+                EventData = new GameEventRequest()
                 {
                     EventData = "MyEventData",
-                    IssuedBy = authHelper.getAccountId(playerOneInGame),
                     OccursAtTick = 5,
                 },
                 RoomId = gameId,

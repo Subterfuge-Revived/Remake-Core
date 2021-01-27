@@ -41,6 +41,8 @@ namespace SubterfugeRemakeService {
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.SendMessageResponse> __Marshaller_SubterfugeRemakeService_SendMessageResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SendMessageResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetMessageGroupsRequest> __Marshaller_SubterfugeRemakeService_GetMessageGroupsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetMessageGroupsRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetMessageGroupsResponse> __Marshaller_SubterfugeRemakeService_GetMessageGroupsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetMessageGroupsResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetGroupMessagesRequest> __Marshaller_SubterfugeRemakeService_GetGroupMessagesRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetGroupMessagesRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetGroupMessagesResponse> __Marshaller_SubterfugeRemakeService_GetGroupMessagesResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetGroupMessagesResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.BlockPlayerRequest> __Marshaller_SubterfugeRemakeService_BlockPlayerRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.BlockPlayerRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.BlockPlayerResponse> __Marshaller_SubterfugeRemakeService_BlockPlayerResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.BlockPlayerResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.UnblockPlayerRequest> __Marshaller_SubterfugeRemakeService_UnblockPlayerRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.UnblockPlayerRequest.Parser.ParseFrom);
@@ -168,6 +170,13 @@ namespace SubterfugeRemakeService {
         "GetMessageGroups",
         __Marshaller_SubterfugeRemakeService_GetMessageGroupsRequest,
         __Marshaller_SubterfugeRemakeService_GetMessageGroupsResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.GetGroupMessagesRequest, global::SubterfugeRemakeService.GetGroupMessagesResponse> __Method_GetGroupMessages = new grpc::Method<global::SubterfugeRemakeService.GetGroupMessagesRequest, global::SubterfugeRemakeService.GetGroupMessagesResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetGroupMessages",
+        __Marshaller_SubterfugeRemakeService_GetGroupMessagesRequest,
+        __Marshaller_SubterfugeRemakeService_GetGroupMessagesResponse);
 
     static readonly grpc::Method<global::SubterfugeRemakeService.BlockPlayerRequest, global::SubterfugeRemakeService.BlockPlayerResponse> __Method_BlockPlayer = new grpc::Method<global::SubterfugeRemakeService.BlockPlayerRequest, global::SubterfugeRemakeService.BlockPlayerResponse>(
         grpc::MethodType.Unary,
@@ -339,6 +348,11 @@ namespace SubterfugeRemakeService {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.GetMessageGroupsResponse> GetMessageGroups(global::SubterfugeRemakeService.GetMessageGroupsRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.GetGroupMessagesResponse> GetGroupMessages(global::SubterfugeRemakeService.GetGroupMessagesRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -719,6 +733,22 @@ namespace SubterfugeRemakeService {
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetMessageGroups, null, options, request);
       }
+      public virtual global::SubterfugeRemakeService.GetGroupMessagesResponse GetGroupMessages(global::SubterfugeRemakeService.GetGroupMessagesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetGroupMessages(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.GetGroupMessagesResponse GetGroupMessages(global::SubterfugeRemakeService.GetGroupMessagesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetGroupMessages, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.GetGroupMessagesResponse> GetGroupMessagesAsync(global::SubterfugeRemakeService.GetGroupMessagesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetGroupMessagesAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.GetGroupMessagesResponse> GetGroupMessagesAsync(global::SubterfugeRemakeService.GetGroupMessagesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetGroupMessages, null, options, request);
+      }
       public virtual global::SubterfugeRemakeService.BlockPlayerResponse BlockPlayer(global::SubterfugeRemakeService.BlockPlayerRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return BlockPlayer(request, new grpc::CallOptions(headers, deadline, cancellationToken));
@@ -922,6 +952,7 @@ namespace SubterfugeRemakeService {
           .AddMethod(__Method_CreateMessageGroup, serviceImpl.CreateMessageGroup)
           .AddMethod(__Method_SendMessage, serviceImpl.SendMessage)
           .AddMethod(__Method_GetMessageGroups, serviceImpl.GetMessageGroups)
+          .AddMethod(__Method_GetGroupMessages, serviceImpl.GetGroupMessages)
           .AddMethod(__Method_BlockPlayer, serviceImpl.BlockPlayer)
           .AddMethod(__Method_UnblockPlayer, serviceImpl.UnblockPlayer)
           .AddMethod(__Method_ViewBlockedPlayers, serviceImpl.ViewBlockedPlayers)
@@ -956,6 +987,7 @@ namespace SubterfugeRemakeService {
       serviceBinder.AddMethod(__Method_CreateMessageGroup, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.CreateMessageGroupRequest, global::SubterfugeRemakeService.CreateMessageGroupResponse>(serviceImpl.CreateMessageGroup));
       serviceBinder.AddMethod(__Method_SendMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.SendMessageRequest, global::SubterfugeRemakeService.SendMessageResponse>(serviceImpl.SendMessage));
       serviceBinder.AddMethod(__Method_GetMessageGroups, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.GetMessageGroupsRequest, global::SubterfugeRemakeService.GetMessageGroupsResponse>(serviceImpl.GetMessageGroups));
+      serviceBinder.AddMethod(__Method_GetGroupMessages, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.GetGroupMessagesRequest, global::SubterfugeRemakeService.GetGroupMessagesResponse>(serviceImpl.GetGroupMessages));
       serviceBinder.AddMethod(__Method_BlockPlayer, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.BlockPlayerRequest, global::SubterfugeRemakeService.BlockPlayerResponse>(serviceImpl.BlockPlayer));
       serviceBinder.AddMethod(__Method_UnblockPlayer, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.UnblockPlayerRequest, global::SubterfugeRemakeService.UnblockPlayerResponse>(serviceImpl.UnblockPlayer));
       serviceBinder.AddMethod(__Method_ViewBlockedPlayers, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.ViewBlockedPlayersRequest, global::SubterfugeRemakeService.ViewBlockedPlayersResponse>(serviceImpl.ViewBlockedPlayers));

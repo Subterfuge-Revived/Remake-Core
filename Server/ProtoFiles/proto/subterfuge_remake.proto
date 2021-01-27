@@ -40,6 +40,8 @@ service subterfugeService {
     rpc SendMessage(SendMessageRequest) returns (SendMessageResponse) {}
     
     rpc GetMessageGroups(GetMessageGroupsRequest) returns (GetMessageGroupsResponse) {}
+
+    rpc GetGroupMessages(GetGroupMessagesRequest) returns (GetGroupMessagesResponse) {}
     
     rpc BlockPlayer(BlockPlayerRequest) returns (BlockPlayerResponse) {}
 
@@ -179,20 +181,17 @@ message GetGameRoomEventsRequest {
 }
 
 message GetGameRoomEventsResponse {
-    repeated GameEvent GameEvents = 1;
+    repeated GameEventModel GameEvents = 1;
 }
 
-message GameEvent {
-    string eventId = 1;
-    int64 UnixTimeIssued = 2;
+message GameEventRequest {
     int64 OccursAtTick = 3;
-    string IssuedBy = 4;
     string EventData = 5;
 }
 
 message SubmitGameEventRequest {
     string RoomId = 1;
-    GameEvent EventData = 2;
+    GameEventRequest EventData = 2;
 }
 
 message SubmitGameEventResponse {
@@ -202,7 +201,8 @@ message SubmitGameEventResponse {
 
 message UpdateGameEventRequest {
     string RoomId = 1;
-    GameEvent EventData = 2;
+    string eventId = 2;
+    GameEventRequest EventData = 3;
 }
 
 message DeleteGameEventRequest {
@@ -224,16 +224,10 @@ message CreateMessageGroupResponse {
     string GroupId = 2;
 }
 
-message Message {
-    int64 UnixTimeCreatedAt = 1;
-    User Sender = 2;
-    string Message = 3;
-}
-
 message SendMessageRequest {
     string RoomId = 1;
     string GroupId = 2;
-    Message Message = 3;
+    string Message = 3;
 }
 
 message SendMessageResponse {
@@ -251,7 +245,7 @@ message GetMessageGroupsResponse {
 message MessageGroup {
     string GroupId = 1;
     repeated User GroupMembers = 2;
-    repeated Message Messages = 3;
+    repeated MessageModel Messages = 3;
 }
 
 message BlockPlayerRequest {
@@ -319,6 +313,16 @@ message PlayerCurrentGamesResponse{
     repeated Room games = 1;
 }
 
+message GetGroupMessagesRequest {
+    string roomId = 1;
+    string groupId = 2;
+    int32 pagination = 3;
+}
+
+message GetGroupMessagesResponse {
+    MessageGroup group = 1;
+}
+
 
 // For database and server processing only.
 // Players should never be shown or given access to the full data model as it contains confidential information
@@ -357,4 +361,23 @@ message RoomModel {
     int64 MaxPlayers = 11;
     repeated string allowedSpecialists = 12;
     double MinutesPerTick = 13;
+}
+
+message GameEventModel {
+    string eventId = 1;
+    int64 UnixTimeIssued = 2;
+    int64 OccursAtTick = 3;
+    string IssuedBy = 4;
+    string EventData = 5;
+}
+
+message GroupModel {
+    string GroupId = 1;
+    repeated User GroupMembers = 2;
+}
+
+message MessageModel {
+    int64 UnixTimeCreatedAt = 1;
+    string SenderId = 2;
+    string Message = 3;
 }
