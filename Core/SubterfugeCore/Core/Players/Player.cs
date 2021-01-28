@@ -20,13 +20,13 @@ namespace SubterfugeCore.Core.Players
         /// <summary>
         /// The player's id
         /// </summary>
-        private int PlayerId { get; }
+        private string PlayerId { get; }
 
         /// <summary>
         /// Constructor to create an instance of a player based off of their player Id
         /// </summary>
         /// <param name="playerId">The player's ID in the database</param>
-        public Player(int playerId)
+        public Player(string playerId)
         {
             this.PlayerId = playerId;
         }
@@ -36,16 +36,10 @@ namespace SubterfugeCore.Core.Players
         /// </summary>
         /// <param name="playerId">The player's ID in the database</param>
         /// <param name="name">The player's name</param>
-        public Player(int playerId, string name)
+        public Player(string playerId, string name)
         {
             this.PlayerId = playerId;
             this.PlayerName = name;
-        }
-
-        public Player(NetworkUser networkUser)
-        {
-            this.PlayerId = networkUser.Id;
-            this.PlayerName = networkUser.Name;
         }
 
         /// <summary>
@@ -99,7 +93,7 @@ namespace SubterfugeCore.Core.Players
         /// Gets the player's id
         /// </summary>
         /// <returns>The player's database ID</returns>
-        public int GetId()
+        public string GetId()
         {
             return this.PlayerId;
         }

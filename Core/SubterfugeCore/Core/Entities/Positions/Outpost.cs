@@ -166,7 +166,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// <param name="targetFrom">The position being targeted from</param>
         /// <param name="speed">The speed of the attacker</param>
         /// <returns>The combat position</returns>
-        public RftVector GetTargetPosition(RftVector targetFrom, float speed)
+        public RftVector GetInterceptionPosition(RftVector targetFrom, float speed)
         {
             return this.GetPosition();
         }

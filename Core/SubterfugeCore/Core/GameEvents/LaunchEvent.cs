@@ -153,7 +153,7 @@ namespace SubterfugeCore.Core.GameEvents
         private void CreateCombatEvents()
         {
             // Create the combat event for arrival
-            RftVector targetPosition = this._destination.GetTargetPosition(_source.GetCurrentPosition(), this._launchedSub.GetSpeed());
+            RftVector targetPosition = this._destination.GetInterceptionPosition(_source.GetCurrentPosition(), this._launchedSub.GetSpeed());
             GameTick arrival = this._launchTime.Advance((int)Math.Floor((targetPosition - _source.GetCurrentPosition()).Magnitude() / this._launchedSub.GetSpeed()));
 
             CombatEvent arriveCombat = new CombatEvent(this._launchedSub, this._destination, arrival, targetPosition);

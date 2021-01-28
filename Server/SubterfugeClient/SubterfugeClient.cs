@@ -11,13 +11,40 @@ namespace SubterfugeClient
 {
     public class SubterfugeClient : subterfugeService.subterfugeServiceClient
     {
-        public SubterfugeClient()
-        {
-            
-        }
         public SubterfugeClient(string host, string port) : base(new Channel($"{host}:{port}", ChannelCredentials.Insecure).Intercept((new JwtClientInterceptor())))
         {
             Auth auth = new Auth();
+        }
+
+        public override AuthorizationResponse LoginWithToken(AuthorizedTokenRequest request, Metadata headers = null, DateTime? deadline = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            AuthorizationResponse response =  base.LoginWithToken(request, headers, deadline, cancellationToken);
+            Auth.Login(response.Token);
+            return response;
+        }
+
+        public override AuthorizationResponse LoginWithToken(AuthorizedTokenRequest request, CallOptions options)
+        {
+            AuthorizationResponse response = base.LoginWithToken(request, options);
+            Auth.Login(response.Token);
+            return response;
+        }
+
+        public override AsyncUnaryCall<AuthorizationResponse> LoginWithTokenAsync(AuthorizedTokenRequest request, Metadata headers = null, DateTime? deadline = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            AsyncUnaryCall<AuthorizationResponse> response = base.LoginWithTokenAsync(request, headers, deadline, cancellationToken);
+            response.ResponseAsync.ContinueWith((authResponse) => { Auth.Login(authResponse.Result.Token); });
+            return response;
+        }
+
+        public override AsyncUnaryCall<AuthorizationResponse> LoginWithTokenAsync(AuthorizedTokenRequest request, CallOptions options)
+        {
+            
+            AsyncUnaryCall<AuthorizationResponse> response = base.LoginWithTokenAsync(request, options);
+            response.ResponseAsync.ContinueWith((authResponse) => { Auth.Login(authResponse.Result.Token); });
+            return response;
         }
 
         public override AuthorizationResponse Login(AuthorizationRequest request, Metadata headers = null, DateTime? deadline = null,

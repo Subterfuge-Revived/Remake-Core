@@ -11,10 +11,5 @@ namespace SubterfugeCore.Core.Interfaces
     /// </summary>
     public interface ICombatable : IDrillerCarrier, ISpecialistCarrier, ITargetable
     {
-        float GetSpeed();
-
-        Vector2 GetDirection();
-
-        GameTick GetExpectedArrival();
     }
 }

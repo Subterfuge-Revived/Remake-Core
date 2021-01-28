@@ -14,6 +14,7 @@ namespace SubterfugeRemakeService {
 
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizationRequest> __Marshaller_SubterfugeRemakeService_AuthorizationRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AuthorizationRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizationResponse> __Marshaller_SubterfugeRemakeService_AuthorizationResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AuthorizationResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizedTokenRequest> __Marshaller_SubterfugeRemakeService_AuthorizedTokenRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AuthorizedTokenRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AccountRegistrationRequest> __Marshaller_SubterfugeRemakeService_AccountRegistrationRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AccountRegistrationRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AccountRegistrationResponse> __Marshaller_SubterfugeRemakeService_AccountRegistrationResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AccountRegistrationResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.OpenLobbiesRequest> __Marshaller_SubterfugeRemakeService_OpenLobbiesRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.OpenLobbiesRequest.Parser.ParseFrom);
@@ -71,6 +72,13 @@ namespace SubterfugeRemakeService {
         __ServiceName,
         "Login",
         __Marshaller_SubterfugeRemakeService_AuthorizationRequest,
+        __Marshaller_SubterfugeRemakeService_AuthorizationResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.AuthorizedTokenRequest, global::SubterfugeRemakeService.AuthorizationResponse> __Method_LoginWithToken = new grpc::Method<global::SubterfugeRemakeService.AuthorizedTokenRequest, global::SubterfugeRemakeService.AuthorizationResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "LoginWithToken",
+        __Marshaller_SubterfugeRemakeService_AuthorizedTokenRequest,
         __Marshaller_SubterfugeRemakeService_AuthorizationResponse);
 
     static readonly grpc::Method<global::SubterfugeRemakeService.AccountRegistrationRequest, global::SubterfugeRemakeService.AccountRegistrationResponse> __Method_RegisterAccount = new grpc::Method<global::SubterfugeRemakeService.AccountRegistrationRequest, global::SubterfugeRemakeService.AccountRegistrationResponse>(
@@ -272,6 +280,11 @@ namespace SubterfugeRemakeService {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.AuthorizationResponse> Login(global::SubterfugeRemakeService.AuthorizationRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.AuthorizationResponse> LoginWithToken(global::SubterfugeRemakeService.AuthorizedTokenRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -480,6 +493,22 @@ namespace SubterfugeRemakeService {
       public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.AuthorizationResponse> LoginAsync(global::SubterfugeRemakeService.AuthorizationRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Login, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.AuthorizationResponse LoginWithToken(global::SubterfugeRemakeService.AuthorizedTokenRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return LoginWithToken(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.AuthorizationResponse LoginWithToken(global::SubterfugeRemakeService.AuthorizedTokenRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_LoginWithToken, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.AuthorizationResponse> LoginWithTokenAsync(global::SubterfugeRemakeService.AuthorizedTokenRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return LoginWithTokenAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.AuthorizationResponse> LoginWithTokenAsync(global::SubterfugeRemakeService.AuthorizedTokenRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_LoginWithToken, null, options, request);
       }
       /// <summary>
       /// Allows users to register a new account
@@ -938,6 +967,7 @@ namespace SubterfugeRemakeService {
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_Login, serviceImpl.Login)
+          .AddMethod(__Method_LoginWithToken, serviceImpl.LoginWithToken)
           .AddMethod(__Method_RegisterAccount, serviceImpl.RegisterAccount)
           .AddMethod(__Method_GetOpenLobbies, serviceImpl.GetOpenLobbies)
           .AddMethod(__Method_GetPlayerCurrentGames, serviceImpl.GetPlayerCurrentGames)
@@ -973,6 +1003,7 @@ namespace SubterfugeRemakeService {
     public static void BindService(grpc::ServiceBinderBase serviceBinder, subterfugeServiceBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_Login, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.AuthorizationRequest, global::SubterfugeRemakeService.AuthorizationResponse>(serviceImpl.Login));
+      serviceBinder.AddMethod(__Method_LoginWithToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.AuthorizedTokenRequest, global::SubterfugeRemakeService.AuthorizationResponse>(serviceImpl.LoginWithToken));
       serviceBinder.AddMethod(__Method_RegisterAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.AccountRegistrationRequest, global::SubterfugeRemakeService.AccountRegistrationResponse>(serviceImpl.RegisterAccount));
       serviceBinder.AddMethod(__Method_GetOpenLobbies, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.OpenLobbiesRequest, global::SubterfugeRemakeService.OpenLobbiesResponse>(serviceImpl.GetOpenLobbies));
       serviceBinder.AddMethod(__Method_GetPlayerCurrentGames, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.PlayerCurrentGamesRequest, global::SubterfugeRemakeService.PlayerCurrentGamesResponse>(serviceImpl.GetPlayerCurrentGames));

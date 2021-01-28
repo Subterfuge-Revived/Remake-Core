@@ -25,7 +25,7 @@ namespace SubterfugeCoreTest
         [TestInitialize]
         public void Setup()
         {
-            _player1 = new Player(1);
+            _player1 = new Player("1");
             List<Player> players = new List<Player>();
             
             GameConfiguration config = new GameConfiguration(players);

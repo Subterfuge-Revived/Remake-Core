@@ -22,6 +22,7 @@ namespace SubterfugeServerConsole
             string[] whitelist =
             {
                 "Login",
+                "LoginWithToken",
                 "RegisterAccount",
                 "HealthCheck",
             };
@@ -36,7 +37,7 @@ namespace SubterfugeServerConsole
                 // Get JWT header
                 Metadata.Entry entry = context.RequestHeaders.Get("authorization");
                 string token;
-                if (entry.Value != null)
+                if (entry?.Value != null)
                 {
                     token = entry.Value;
                 }

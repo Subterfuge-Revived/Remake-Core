@@ -13,7 +13,7 @@ namespace SubterfugeClient.Authorization
             isLoggedIn = true;
         }
 
-        static void Logout()
+        public static void Logout()
         {
             token = "";
             isLoggedIn = false;

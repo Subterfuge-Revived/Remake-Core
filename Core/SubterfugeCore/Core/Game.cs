@@ -31,7 +31,7 @@ namespace SubterfugeCore.Core
         {
             // Create a generic game configuration with one player.
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
+            players.Add(new Player("1"));
             Configuration = new GameConfiguration(players);
             // Creates a new game state and makes a time machine to reference the state
             GameState state = new GameState(Configuration);

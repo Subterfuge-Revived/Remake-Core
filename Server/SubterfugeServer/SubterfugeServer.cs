@@ -413,6 +413,28 @@ namespace SubterfugeServerConsole
             return new AuthorizationResponse { Token = token, User = user.asUser() };
         }
 
+        public override async Task<AuthorizationResponse> LoginWithToken(AuthorizedTokenRequest request, ServerCallContext context)
+        {
+            if(string.IsNullOrEmpty(request.Token))
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+
+            if (JwtManager.ValidateToken(request.Token, out var uuid))
+            {
+                // Validate user exists.
+                RedisUserModel user = await RedisUserModel.GetUserFromGuid(uuid);
+                if (user != null)
+                {
+                    context.UserState["user"] = user;
+                    return new AuthorizationResponse()
+                    {
+                        Token = request.Token,
+                        User = user.asUser(),
+                    };
+                }
+            }
+            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+        }
+
         public override async Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest request,
             ServerCallContext context)
         {

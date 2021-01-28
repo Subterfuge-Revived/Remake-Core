@@ -23,10 +23,10 @@ namespace SubterfugeCoreTest
         public void GameConfigurationConstructor()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
-            players.Add(new Player(2));
-            players.Add(new Player(3));
-            players.Add(new Player(4));
+            players.Add(new Player("1"));
+            players.Add(new Player("2"));
+            players.Add(new Player("3"));
+            players.Add(new Player("4"));
             
             Assert.IsNotNull(new GameConfiguration(players));
         }
@@ -35,10 +35,10 @@ namespace SubterfugeCoreTest
         public void GameConfigurationSettersAndGetters()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
-            players.Add(new Player(2));
-            players.Add(new Player(3));
-            players.Add(new Player(4));
+            players.Add(new Player("1"));
+            players.Add(new Player("2"));
+            players.Add(new Player("3"));
+            players.Add(new Player("4"));
             
             GameConfiguration config = new GameConfiguration(players);
             
@@ -68,10 +68,10 @@ namespace SubterfugeCoreTest
         public void Constructor()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
-            players.Add(new Player(2));
-            players.Add(new Player(3));
-            players.Add(new Player(4));
+            players.Add(new Player("1"));
+            players.Add(new Player("2"));
+            players.Add(new Player("3"));
+            players.Add(new Player("4"));
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
@@ -90,10 +90,10 @@ namespace SubterfugeCoreTest
         public void GeneratesTheRightNumberOfOutposts()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
-            players.Add(new Player(2));
-            players.Add(new Player(3));
-            players.Add(new Player(4));
+            players.Add(new Player("1"));
+            players.Add(new Player("2"));
+            players.Add(new Player("3"));
+            players.Add(new Player("4"));
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
@@ -113,10 +113,10 @@ namespace SubterfugeCoreTest
         public void GeneratesOutpostsForAllPlayers()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
-            players.Add(new Player(2));
-            players.Add(new Player(3));
-            players.Add(new Player(4));
+            players.Add(new Player("1"));
+            players.Add(new Player("2"));
+            players.Add(new Player("3"));
+            players.Add(new Player("4"));
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
@@ -144,10 +144,10 @@ namespace SubterfugeCoreTest
         public void GeneratesEqualOutpostsForAllPlayers()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
-            players.Add(new Player(2));
-            players.Add(new Player(3));
-            players.Add(new Player(4));
+            players.Add(new Player("1"));
+            players.Add(new Player("2"));
+            players.Add(new Player("3"));
+            players.Add(new Player("4"));
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
@@ -185,10 +185,10 @@ namespace SubterfugeCoreTest
         public void AllPlayersHaveAQueen()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
-            players.Add(new Player(2));
-            players.Add(new Player(3));
-            players.Add(new Player(4));
+            players.Add(new Player("1"));
+            players.Add(new Player("2"));
+            players.Add(new Player("3"));
+            players.Add(new Player("4"));
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
@@ -226,7 +226,7 @@ namespace SubterfugeCoreTest
         public void MaxOutpostDistanceRespected()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
+            players.Add(new Player("1"));
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
@@ -253,7 +253,7 @@ namespace SubterfugeCoreTest
         public void OutpostsPerPlayerRespected()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
+            players.Add(new Player("1"));
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
@@ -287,7 +287,7 @@ namespace SubterfugeCoreTest
         public void cannotCreateGameWithAtLeastOneOutpostPerPlayer()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
+            players.Add(new Player("1"));
             GameConfiguration config = new GameConfiguration(players);
             config.OutpostsPerPlayer = 0;
             MapGenerator generator = new MapGenerator(config);
@@ -298,7 +298,7 @@ namespace SubterfugeCoreTest
         public void DormantsPerPlayerRespected()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
+            players.Add(new Player("1"));
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
@@ -329,7 +329,7 @@ namespace SubterfugeCoreTest
         public void MinimumOutpostDistanceRespected()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
+            players.Add(new Player("1"));
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);
@@ -357,9 +357,9 @@ namespace SubterfugeCoreTest
         public void AllOutpostsHaveUniqueNames()
         {
             List<Player> players = new List<Player>();
-            players.Add(new Player(1));
-            players.Add(new Player(2));
-            players.Add(new Player(3));
+            players.Add(new Player("1"));
+            players.Add(new Player("2"));
+            players.Add(new Player("3"));
             
             GameConfiguration config = new GameConfiguration(players);
             Assert.IsNotNull(config);

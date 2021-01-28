@@ -12,6 +12,8 @@ service subterfugeService {
     // Allows users to login
     rpc Login(AuthorizationRequest) returns (AuthorizationResponse) {}
     
+    rpc LoginWithToken(AuthorizedTokenRequest) returns (AuthorizationResponse) {}
+    
     // Allows users to register a new account
     rpc RegisterAccount(AccountRegistrationRequest) returns (AccountRegistrationResponse) {}
     
@@ -70,6 +72,10 @@ service subterfugeService {
 message AuthorizationRequest {
     string Username = 1;
     string Password = 2;
+}
+
+message AuthorizedTokenRequest {
+    string Token = 1;
 }
 
 message AuthorizationResponse {
