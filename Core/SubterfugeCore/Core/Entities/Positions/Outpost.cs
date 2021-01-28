@@ -231,10 +231,10 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// Undoes a sub launch
         /// </summary>
         /// <param name="sub"> The sub to undo</param>
-        public void UndoLaunch(Sub sub)
+        public void UndoLaunch(ICombatable sub)
         {
             this.AddDrillers(sub.GetDrillerCount());
-            Game.TimeMachine.GetState().RemoveSub(sub);
+            Game.TimeMachine.GetState().RemoveSub(sub as Sub);
         }
 
         /// <summary>
@@ -352,6 +352,26 @@ namespace SubterfugeCore.Core.Entities.Positions
         public int GetId()
         {
             return this._id;
+        }
+
+        ICombatable ILaunchable.LaunchSub(int drillerCount, ITargetable destination)
+        {
+            return LaunchSub(drillerCount, destination);
+        }
+
+        public float GetSpeed()
+        {
+            return 0f;
+        }
+
+        public Vector2 GetDirection()
+        {
+            return new Vector2(0, 0);
+        }
+
+        public GameTick GetExpectedArrival()
+        {
+            return null;
         }
     }
 }

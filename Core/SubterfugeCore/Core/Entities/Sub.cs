@@ -13,7 +13,7 @@ namespace SubterfugeCore.Core.Entities
     /// <summary>
     /// An instance of a Sub
     /// </summary>
-    public class Sub : GameObject, ITargetable, IDrillerCarrier, ISpecialistCarrier, ICombatable
+    public class Sub : GameObject, ICombatable
     {
         /// <summary>
         /// Unique identifier for each sub
@@ -352,7 +352,7 @@ namespace SubterfugeCore.Core.Entities
         /// <param name="drillerCount"></param>
         /// <param name="destination"></param>
         /// <returns></returns>
-        public Sub LaunchSub(int drillerCount, ITargetable destination)
+        public ICombatable LaunchSub(int drillerCount, ITargetable destination)
         {
             // Determine any specialist effects if a specialist left the sub.
             return new Sub(this, destination, Game.TimeMachine.CurrentTick, drillerCount, this._owner);
@@ -362,7 +362,7 @@ namespace SubterfugeCore.Core.Entities
         /// Undoes launching a sub from this object
         /// </summary>
         /// <param name="sub"></param>
-        public void UndoLaunch(Sub sub)
+        public void UndoLaunch(ICombatable sub)
         {
             return;
         }

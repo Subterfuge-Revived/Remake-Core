@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Numerics;
 using SubterfugeCore.Core.Players;
+using SubterfugeCore.Core.Timing;
+using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCore.Core.Interfaces
 {
@@ -8,6 +11,10 @@ namespace SubterfugeCore.Core.Interfaces
     /// </summary>
     public interface ICombatable : IDrillerCarrier, ISpecialistCarrier, ITargetable
     {
-        
+        float GetSpeed();
+
+        Vector2 GetDirection();
+
+        GameTick GetExpectedArrival();
     }
 }

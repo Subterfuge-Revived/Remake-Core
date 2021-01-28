@@ -14,12 +14,12 @@ namespace SubterfugeCore.Core.Interfaces
         /// <param name="drillerCount">The number of drillers to send</param>
         /// <param name="destination">The sub's destination</param>
         /// <returns>The launched sub</returns>
-        Sub LaunchSub(int drillerCount, ITargetable destination);
+        ICombatable LaunchSub(int drillerCount, ITargetable destination);
         
         /// <summary>
         /// Undoes a sub launch
         /// </summary>
         /// <param name="sub">The sub to undo launching</param>
-        void UndoLaunch(Sub sub);
+        void UndoLaunch(ICombatable sub);
     }
 }

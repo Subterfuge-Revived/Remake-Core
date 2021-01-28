@@ -39,7 +39,7 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// A reference to the sub once it is launched
         /// </summary>
-        private Sub _launchedSub;
+        private ICombatable _launchedSub;
         
         /// <summary>
         /// Any combat events that are generated because of the launch.
@@ -238,7 +238,7 @@ namespace SubterfugeCore.Core.GameEvents
         /// Gets the sub instance of the launch
         /// </summary>
         /// <returns>The sub that was launched</returns>
-        public Sub GetActiveSub()
+        public ICombatable GetActiveSub()
         {
             return this._launchedSub;
         }
