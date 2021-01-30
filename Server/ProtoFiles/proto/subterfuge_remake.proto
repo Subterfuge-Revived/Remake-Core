@@ -69,6 +69,11 @@ service subterfugeService {
 
 }
 
+message ResponseStatus {
+    bool isSuccess = 2;
+    string detail = 3;
+}
+
 message AuthorizationRequest {
     string Username = 1;
     string Password = 2;
@@ -79,8 +84,9 @@ message AuthorizedTokenRequest {
 }
 
 message AuthorizationResponse {
-    User User = 1;
-    string Token = 2;
+    ResponseStatus status = 1;
+    User User = 2;
+    string Token = 3;
 }
 
 message AccountRegistrationRequest {
@@ -91,8 +97,9 @@ message AccountRegistrationRequest {
 }
 
 message AccountRegistrationResponse {
-    User User = 1;
-    string Token = 2;
+    ResponseStatus status = 1;
+    User User = 2;
+    string Token = 3;
 }
 
 message User {
@@ -112,7 +119,8 @@ enum RoomStatus {
 }
 
 message OpenLobbiesResponse {
-    repeated Room Rooms = 1;
+    ResponseStatus status = 1;
+    repeated Room Rooms = 2;
 }
 
 message Room {
@@ -154,7 +162,8 @@ message CreateRoomRequest {
 }
 
 message CreateRoomResponse {
-    Room createdRoom = 1;
+    ResponseStatus status = 1;
+    Room createdRoom = 2;
 }
 
 message JoinRoomRequest {
@@ -162,7 +171,7 @@ message JoinRoomRequest {
 }
 
 message JoinRoomResponse {
-    bool Success = 1;
+    ResponseStatus status = 1;
 }
 
 message LeaveRoomRequest {
@@ -170,7 +179,7 @@ message LeaveRoomRequest {
 }
 
 message LeaveRoomResponse {
-    bool Success = 1;
+    ResponseStatus status = 1;
 }
 
 message StartGameEarlyRequest {
@@ -178,7 +187,7 @@ message StartGameEarlyRequest {
 }
 
 message StartGameEarlyResponse {
-    bool Success = 1;
+    ResponseStatus status = 1;
 }
 
 message GetGameRoomEventsRequest {
@@ -187,7 +196,8 @@ message GetGameRoomEventsRequest {
 }
 
 message GetGameRoomEventsResponse {
-    repeated GameEventModel GameEvents = 1;
+    ResponseStatus status = 1;
+    repeated GameEventModel GameEvents = 2;
 }
 
 message GameEventRequest {
@@ -201,8 +211,8 @@ message SubmitGameEventRequest {
 }
 
 message SubmitGameEventResponse {
-    bool Success = 1;
-    string EventId = 2;
+    ResponseStatus status = 1;
+    string EventId = 3;
 }
 
 message UpdateGameEventRequest {
@@ -217,7 +227,7 @@ message DeleteGameEventRequest {
 }
 
 message DeleteGameEventResponse {
-    bool Success = 1;
+    ResponseStatus status = 1;
 }
 
 message CreateMessageGroupRequest {
@@ -226,7 +236,7 @@ message CreateMessageGroupRequest {
 }
 
 message CreateMessageGroupResponse {
-    bool success = 1;
+    ResponseStatus status = 1;
     string GroupId = 2;
 }
 
@@ -237,7 +247,7 @@ message SendMessageRequest {
 }
 
 message SendMessageResponse {
-    bool Success = 1;
+    ResponseStatus status = 1;
 }
 
 message GetMessageGroupsRequest {
@@ -245,7 +255,8 @@ message GetMessageGroupsRequest {
 }
 
 message GetMessageGroupsResponse {
-    repeated MessageGroup MessageGroups = 1;
+    ResponseStatus status = 1;
+    repeated MessageGroup MessageGroups = 2;
 }
 
 message MessageGroup {
@@ -258,65 +269,84 @@ message BlockPlayerRequest {
     string UserIdToBlock = 1;
 }
 
-message BlockPlayerResponse { }
+message BlockPlayerResponse {
+    ResponseStatus status = 1;
+}
 
 message UnblockPlayerRequest {
     string UserIdToBlock = 1;
 }
 
-message UnblockPlayerResponse { }
+message UnblockPlayerResponse {
+    ResponseStatus status = 1;
+}
 
 message ViewBlockedPlayersRequest {}
 
 message ViewBlockedPlayersResponse {
-    repeated User BlockedUsers = 1;
+    ResponseStatus status = 1;
+    repeated User BlockedUsers = 2;
 }
 
 message SendFriendRequestRequest {
     string FriendId = 1;
 }
 
-message SendFriendRequestResponse {}
+message SendFriendRequestResponse {
+    ResponseStatus status = 1;
+}
 
 message AcceptFriendRequestRequest {
     string FriendId = 1;
 }
 
-message AcceptFriendRequestResponse {}
+message AcceptFriendRequestResponse {
+    ResponseStatus status = 1;
+}
 
 message DenyFriendRequestRequest {
     string FriendId = 1;
 }
 
-message DenyFriendRequestResponse {}
+message DenyFriendRequestResponse {
+    ResponseStatus status = 1;
+}
 
 message ViewFriendRequestsRequest {}
 
 message ViewFriendRequestsResponse {
-    repeated User IncomingFriends = 1;
+    ResponseStatus status = 1;
+    repeated User IncomingFriends = 2;
 }
 
 message RemoveFriendRequest {
     string FriendId = 1;
 }
 
-message RemoveFriendResponse {}
-
-message ViewFriendsRequest {
+message RemoveFriendResponse {
+    ResponseStatus status = 1;
 }
+
+message ViewFriendsRequest { }
 
 message ViewFriendsResponse {
-    repeated User Friends = 1;
+    ResponseStatus status = 1;
+    repeated User Friends = 2;
 }
 
-message HealthCheckRequest{}
-message HealthCheckResponse{}
-message AuthorizedHealthCheckRequest{}
-message AuthorizedHealthCheckResponse{}
+message HealthCheckRequest { }
+message HealthCheckResponse {
+    ResponseStatus status = 1;
+}
+message AuthorizedHealthCheckRequest { }
+message AuthorizedHealthCheckResponse {
+    ResponseStatus status = 1;
+}
 
 message PlayerCurrentGamesRequest{}
 message PlayerCurrentGamesResponse{
-    repeated Room games = 1;
+    ResponseStatus status = 1;
+    repeated Room games = 2;
 }
 
 message GetGroupMessagesRequest {
@@ -326,7 +356,8 @@ message GetGroupMessagesRequest {
 }
 
 message GetGroupMessagesResponse {
-    MessageGroup group = 1;
+    ResponseStatus status = 1;
+    MessageGroup group = 2;
 }
 
 

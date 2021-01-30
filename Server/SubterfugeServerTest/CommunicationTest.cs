@@ -64,7 +64,7 @@ namespace Tests
             request.UserIdsInGroup.Add(authHelper.getAccountId(playerOneInGame));
 
             CreateMessageGroupResponse groupResponse = client.CreateMessageGroup(request);
-            Assert.IsTrue(groupResponse.Success);
+            Assert.AreEqual(groupResponse.Status.IsSuccess, true);
             Assert.IsTrue(groupResponse.GroupId != null);
         }
 
@@ -80,7 +80,7 @@ namespace Tests
             request.UserIdsInGroup.Add(authHelper.getAccountId(playerOneInGame));
 
             CreateMessageGroupResponse groupResponse = client.CreateMessageGroup(request);
-            Assert.IsTrue(groupResponse.Success);
+            Assert.AreEqual(groupResponse.Status.IsSuccess, true);
             Assert.IsTrue(groupResponse.GroupId != null);
         }
 
@@ -96,7 +96,7 @@ namespace Tests
             request.UserIdsInGroup.Add(authHelper.getAccountId(playerOneInGame));
 
             CreateMessageGroupResponse groupResponse = client.CreateMessageGroup(request);
-            Assert.IsFalse(groupResponse.Success);
+            Assert.AreEqual(groupResponse.Status.IsSuccess, false);
         }
 
         [Test]
@@ -110,11 +110,11 @@ namespace Tests
             request.UserIdsInGroup.Add(authHelper.getAccountId(playerOneInGame));
 
             CreateMessageGroupResponse groupResponse = client.CreateMessageGroup(request);
-            Assert.IsTrue(groupResponse.Success);
+            Assert.AreEqual(groupResponse.Status.IsSuccess, true);
             Assert.IsTrue(groupResponse.GroupId != null);
             
             CreateMessageGroupResponse groupResponseTwo = client.CreateMessageGroup(request);
-            Assert.IsFalse(groupResponseTwo.Success);
+            Assert.AreEqual(groupResponseTwo.Status.IsSuccess, false);
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace Tests
             request.UserIdsInGroup.Add(authHelper.getAccountId(playerOneInGame));
 
             CreateMessageGroupResponse groupResponse = client.CreateMessageGroup(request);
-            Assert.IsTrue(groupResponse.Success);
+            Assert.AreEqual(groupResponse.Status.IsSuccess, true);
             Assert.IsTrue(groupResponse.GroupId != null);
             var groupId = groupResponse.GroupId;
 
@@ -138,7 +138,7 @@ namespace Tests
                 Message = "Hello!",
                 RoomId = gameId,
             });
-            Assert.IsTrue(response.Success);
+            Assert.AreEqual(response.Status.IsSuccess, true);
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace Tests
             request.UserIdsInGroup.Add(authHelper.getAccountId(playerOneInGame));
 
             CreateMessageGroupResponse groupResponse = client.CreateMessageGroup(request);
-            Assert.IsTrue(groupResponse.Success);
+            Assert.AreEqual(groupResponse.Status.IsSuccess, true);
             Assert.IsTrue(groupResponse.GroupId != null);
             var groupId = groupResponse.GroupId;
 
@@ -162,7 +162,7 @@ namespace Tests
                 Message = "Hello!",
                 RoomId = gameId,
             });
-            Assert.IsTrue(response.Success);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
             GetGroupMessagesResponse messageResponse = client.GetGroupMessages(new GetGroupMessagesRequest()
             {
@@ -170,6 +170,7 @@ namespace Tests
                 RoomId = gameId,
                 Pagination = 1,
             });
+            Assert.AreEqual(messageResponse.Status.IsSuccess, true);
             Assert.AreEqual(messageResponse.Group.Messages.Count, 1);
             Assert.AreEqual(messageResponse.Group.Messages[0].SenderId, authHelper.getAccountId(playerOneInGame));
         }
@@ -185,7 +186,7 @@ namespace Tests
             request.UserIdsInGroup.Add(authHelper.getAccountId(playerOneInGame));
 
             CreateMessageGroupResponse groupResponse = client.CreateMessageGroup(request);
-            Assert.IsTrue(groupResponse.Success);
+            Assert.AreEqual(groupResponse.Status.IsSuccess, true);
             Assert.IsTrue(groupResponse.GroupId != null);
             var groupId = groupResponse.GroupId;
             
@@ -211,6 +212,7 @@ namespace Tests
                 RoomId = gameId,
                 Pagination = 1,
             });
+            Assert.AreEqual(messageResponse.Status.IsSuccess, true);
             Assert.AreEqual(6, messageResponse.Group.Messages.Count);
             Assert.AreEqual(messageResponse.Group.Messages[0].SenderId, authHelper.getAccountId(playerOneInGame));
         }
@@ -227,7 +229,7 @@ namespace Tests
             request.UserIdsInGroup.Add(authHelper.getAccountId(playerThreeInGame));
 
             CreateMessageGroupResponse groupResponse = client.CreateMessageGroup(request);
-            Assert.IsTrue(groupResponse.Success);
+            Assert.AreEqual(groupResponse.Status.IsSuccess, true);
             Assert.IsTrue(groupResponse.GroupId != null);
             var groupId = groupResponse.GroupId;
             
@@ -252,6 +254,7 @@ namespace Tests
                 RoomId = gameId,
                 Pagination = 1,
             });
+            Assert.AreEqual(messageResponse.Status.IsSuccess, true);
             Assert.AreEqual(3, messageResponse.Group.Messages.Count);
             
             // Ensure messages are ordered by the most recently recieved ;)

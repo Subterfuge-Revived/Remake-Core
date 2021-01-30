@@ -8,6 +8,7 @@ using Grpc.Core.Interceptors;
 using Grpc.Core.Logging;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
+using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeServerConsole
 {
@@ -16,7 +17,7 @@ namespace SubterfugeServerConsole
         public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(TRequest request, ServerCallContext context, UnaryServerMethod<TRequest, TResponse> continuation)
         {
             string calledMethod = context.Method.Split('/').Last();
-            bool isValidRequest = false;
+            context.UserState["user"] = null;
             
             // Do not authorize these methods:
             string[] whitelist =
@@ -27,47 +28,27 @@ namespace SubterfugeServerConsole
                 "HealthCheck",
             };
             
-            if(whitelist.Contains(calledMethod))
-            {
-                isValidRequest = true;
-            }
-            else
-            {
+            if(!whitelist.Contains(calledMethod)) {
                 // The endpoint requires authorization before performing.
                 // Get JWT header
                 Metadata.Entry entry = context.RequestHeaders.Get("authorization");
-                string token;
                 if (entry?.Value != null)
                 {
-                    token = entry.Value;
-                }
-                else
-                {
-                    throw new RpcException(new Status(StatusCode.Unauthenticated, "Unauthorized."));
-                }
-
-
-                string uuid;
-                if (JwtManager.ValidateToken(token, out uuid))
-                {
-                    // Validate user exists.
-                    RedisUserModel user = await RedisUserModel.GetUserFromGuid(uuid);
-                    if (user != null)
+                    if (JwtManager.ValidateToken(entry.Value, out var uuid))
                     {
-                        isValidRequest = true;
-                        context.UserState["user"] = user;
+                        // Validate user exists.
+                        RedisUserModel user = await RedisUserModel.GetUserFromGuid(uuid);
+                        if (user != null)
+                        {
+                            context.UserState["user"] = user;
+                        }
                     }
                 }
             }
-
-            if (isValidRequest)
-            {
-                // Do regular request and return
-                var response = await base.UnaryServerHandler(request, context, continuation);
-                return response;
-            }
             
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Credentials."));
+            // Do regular request and return
+            var response = await base.UnaryServerHandler(request, context, continuation);
+            return response;
         }
     }
 }

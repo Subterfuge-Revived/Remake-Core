@@ -6,6 +6,7 @@ using Google.Protobuf;
 using Grpc.Core;
 using StackExchange.Redis;
 using SubterfugeRemakeService;
+using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeServerConsole.Connections.Models
 {
@@ -20,7 +21,7 @@ namespace SubterfugeServerConsole.Connections.Models
             MessageGroup = GroupModel.Parser.ParseFrom(groupChat);
         }
 
-        public async Task<Boolean> SendChatMessage(RedisUserModel user, string message)
+        public async Task<ResponseStatus> SendChatMessage(RedisUserModel user, string message)
         {
             // Set the creation time.
             MessageModel model = new MessageModel()
@@ -30,9 +31,8 @@ namespace SubterfugeServerConsole.Connections.Models
                 UnixTimeCreatedAt = DateTime.UtcNow.ToFileTimeUtc(),
             };
             
-            
             await RedisConnector.Redis.ListRightPushAsync(MessageListKey(), model.ToByteArray());
-            return true;
+            return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
 
         public async Task<List<MessageModel>> GetMessages(int pagination = 1)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
@@ -8,6 +9,7 @@ using Grpc.Core;
 using StackExchange.Redis;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
+using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeServerConsole.Connections.Models
 {
@@ -49,30 +51,30 @@ namespace SubterfugeServerConsole.Connections.Models
             GameTick.MINUTES_PER_TICK = RoomModel.MinutesPerTick;
         }
 
-        public async Task<Boolean> JoinRoom(RedisUserModel userModel)
+        public async Task<ResponseStatus> JoinRoom(RedisUserModel userModel)
         {
             List<RedisUserModel> playersInRoom = await GetPlayersInGame();
-            if(playersInRoom.Count >= RoomModel.MaxPlayers)
-                throw new RpcException(new Status(StatusCode.ResourceExhausted, "Room is full."));
+            if (playersInRoom.Count >= RoomModel.MaxPlayers)
+                return ResponseFactory.createResponse(ResponseType.ROOM_IS_FULL);
             
             if(playersInRoom.Any(it => it.UserModel.Id == userModel.UserModel.Id))
-                throw new RpcException(new Status(StatusCode.AlreadyExists, "Player is already in this game."));
+                return ResponseFactory.createResponse(ResponseType.DUPLICATE);
             
             if(RoomModel.RoomStatus != RoomStatus.Open)
-                throw new RpcException(new Status(StatusCode.Unavailable, "Cannot join a game that has already started."));
+                return ResponseFactory.createResponse(ResponseType.GAME_ALREADY_STARTED);
             
             // Check if any players in the room have the same device identifier
             if(playersInRoom.Any(it => it.UserModel.DeviceIdentifier == userModel.UserModel.DeviceIdentifier))
-                throw new RpcException(new Status(StatusCode.PermissionDenied, "Cannot join a game with someone using the same device."));
+                return ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED);
 
             await RedisConnector.Redis.SetAddAsync(GameRoomPlayerListKey(), userModel.UserModel.Id);
             await RedisConnector.Redis.SetAddAsync(UserGameListKey(userModel), RoomModel.RoomId);
             
             // Check if the player joining the game is the last player.
             if (playersInRoom.Count + 1 == RoomModel.MaxPlayers)
-                await StartGame();
+                return await StartGame();
             
-            return true;
+            return ResponseFactory.createResponse(ResponseType.SUCCESS);;
         }
 
         public async Task<Boolean> IsRoomFull()
@@ -85,7 +87,7 @@ namespace SubterfugeServerConsole.Connections.Models
             return (await GetPlayersInGame()).Any(it => it.UserModel.Id == player.UserModel.Id);
         }
         
-        public async Task<Boolean> LeaveRoom(RedisUserModel userModel)
+        public async Task<ResponseStatus> LeaveRoom(RedisUserModel userModel)
         {
             if (RoomModel.RoomStatus == RoomStatus.Open)
             {
@@ -107,17 +109,17 @@ namespace SubterfugeServerConsole.Connections.Models
                     // Finally, remove creator from game
                     await RedisConnector.Redis.SetRemoveAsync(GameRoomPlayerListKey(), userModel.UserModel.Id);
                     await RedisConnector.Redis.SetRemoveAsync(UserGameListKey(userModel), RoomModel.RoomId);
-                    return true;
+                    return ResponseFactory.createResponse(ResponseType.SUCCESS);
                 }
                 
                 await RedisConnector.Redis.SetRemoveAsync(GameRoomPlayerListKey(), userModel.UserModel.Id);
                 await RedisConnector.Redis.SetRemoveAsync(UserGameListKey(userModel), RoomModel.RoomId);
-                return true;
+                return ResponseFactory.createResponse(ResponseType.SUCCESS);
             }
             // TODO: Player left the game while ongoing.
             // Create a player leave game event and push to event list
 
-            return false;
+            return ResponseFactory.createResponse(ResponseType.INVALID_REQUEST);
         }
 
         public async Task<List<RedisUserModel>> GetPlayersInGame()
@@ -147,12 +149,20 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<SubmitGameEventResponse> UpdateGameEvent(RedisUserModel player, UpdateGameEventRequest request)
         {
             GameEventModel gameEvent = await GetGameEventFromGuid(request.EventId);
-            if (gameEvent == null || gameEvent.IssuedBy != player.UserModel.Id)
+            if (gameEvent == null)
             {
                 return new SubmitGameEventResponse()
                 {
-                    Success = false
-                };;
+                    Status = ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST)
+                };
+            }
+            
+            if (gameEvent.IssuedBy != player.UserModel.Id)
+            {
+                return new SubmitGameEventResponse()
+                {
+                    Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
+                };
             }
 
             // Ensure the event happens after current time.
@@ -161,8 +171,8 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new SubmitGameEventResponse()
                 {
-                    Success = false
-                };;
+                    Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST)
+                };
             }
             
             // TODO: validate event.
@@ -178,7 +188,7 @@ namespace SubterfugeServerConsole.Connections.Models
             await RedisConnector.Redis.SetAddAsync(UserGameEventsKey(player), gameEvent.EventId);
             return new SubmitGameEventResponse()
             {
-                Success = true,
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
                 EventId = gameEvent.EventId,
             }; 
         }
@@ -193,7 +203,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new SubmitGameEventResponse()
                 {
-                    Success = false
+                    Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST),
                 };;
             }
             
@@ -208,7 +218,7 @@ namespace SubterfugeServerConsole.Connections.Models
             await RedisConnector.Redis.SetAddAsync(UserGameEventsKey(player), eventModel.EventId);
             return new SubmitGameEventResponse()
             {
-                Success = true,
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
                 EventId = eventModel.EventId,
             };
         }
@@ -224,7 +234,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new DeleteGameEventResponse()
                 {
-                    Success = false
+                    Status = ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST)
                 };
             }
             
@@ -234,7 +244,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new DeleteGameEventResponse()
                 {
-                    Success = false
+                    Status = ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST)
                 };;
             }
             
@@ -242,29 +252,28 @@ namespace SubterfugeServerConsole.Connections.Models
             GameEventModel gameEvent = GameEventModel.Parser.ParseFrom(eventData);
             GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.UtcNow);
             
-            if (gameEvent.OccursAtTick <= currentTick.GetTick() || gameEvent.IssuedBy != player.UserModel.Id)
+            if (gameEvent.OccursAtTick <= currentTick.GetTick())
             {
                 return new DeleteGameEventResponse()
                 {
-                    Success = false
-                };;
+                    Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST)
+                };
             }
-            
-            // Determine if the event was issued by the player trying to delete the event.
-            if (player.UserModel.Id != gameEvent.IssuedBy)
+
+            if (gameEvent.IssuedBy != player.UserModel.Id)
             {
                 return new DeleteGameEventResponse()
                 {
-                    Success = false
-                };;
+                    Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
+                };
             }
-            
+
             // Remove game Event
             await RedisConnector.Redis.SetRemoveAsync(UserGameEventsKey(player), parsedGuid.ToString());
             await RedisConnector.Redis.HashDeleteAsync(GameEventsKey(), parsedGuid.ToString());
             return new DeleteGameEventResponse()
             {
-                Success = true
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             };
         }
         
@@ -324,7 +333,10 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 RedisUserModel user = await RedisUserModel.GetUserFromGuid(userId);
                 if(user == null)
-                    throw new RpcException(new Status(StatusCode.NotFound, "Player does not exist."));
+                    return new CreateMessageGroupResponse()
+                    {
+                        Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST),
+                    };
                 // Ensure the user is in the game room.
                 if (await IsPlayerInRoom(user))
                 {
@@ -334,7 +346,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 {
                     return new CreateMessageGroupResponse()
                     {
-                        Success = false,
+                        Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED),
                     };
                 }
             }
@@ -344,7 +356,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new CreateMessageGroupResponse()
                 {
-                    Success = false,
+                    Status = ResponseFactory.createResponse(ResponseType.DUPLICATE),
                 };;
             }
             // Create the group
@@ -362,7 +374,7 @@ namespace SubterfugeServerConsole.Connections.Models
             return new CreateMessageGroupResponse()
             {
                 GroupId = hash,
-                Success = true,
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             };
         }
 
@@ -409,17 +421,17 @@ namespace SubterfugeServerConsole.Connections.Models
             return events.FindAll(it => it.OccursAtTick <= currentTick.GetTick());
         }
         
-        public async Task<Boolean> StartGame()
+        public async Task<ResponseStatus> StartGame()
         {
             // Check that there is enough players to start early.
             if ((await GetPlayersInGame()).Count < 2)
-                return false;
+                return ResponseFactory.createResponse(ResponseType.INVALID_REQUEST);
             
             RoomModel.RoomStatus = RoomStatus.Ongoing;
             RoomModel.UnixTimeStarted = DateTime.UtcNow.ToFileTimeUtc();
             await UpdateDatabase();
             await RedisConnector.Redis.SetRemoveAsync(OpenLobbiesKey(), RoomModel.RoomId);
-            return true;
+            return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
 
         public static async Task<List<RedisRoomModel>> GetOpenLobbies()

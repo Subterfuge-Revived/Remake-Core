@@ -4,6 +4,7 @@ using Grpc.Core;
 using NUnit.Framework;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections;
+using SubterfugeServerConsole.Responses;
 using Tests.AuthTestingHelper;
 
 namespace Tests
@@ -37,7 +38,7 @@ namespace Tests
             };
 
             SendFriendRequestResponse response = client.SendFriendRequest(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
         }
         
         [Test]
@@ -51,12 +52,12 @@ namespace Tests
             };
 
             SendFriendRequestResponse response = client.SendFriendRequest(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
             authHelper.loginToAccount("userTwo");
 
             ViewFriendRequestsResponse friendRequestresponse = client.ViewFriendRequests(new ViewFriendRequestsRequest());
-            Console.WriteLine(friendRequestresponse);
+            Assert.AreEqual(friendRequestresponse.Status.IsSuccess, true);
             Assert.AreEqual(1, friendRequestresponse.IncomingFriends.Count);
             Assert.IsTrue(friendRequestresponse.IncomingFriends.Any((user) => user.Id == authHelper.getAccountId("userOne")));
         }
@@ -72,14 +73,11 @@ namespace Tests
             };
 
             SendFriendRequestResponse response = client.SendFriendRequest(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
-            var exception = Assert.Throws<RpcException>(() => client.SendFriendRequest(request));
-            Assert.IsTrue(exception != null);
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.AlreadyExists);
-            Assert.AreEqual(exception.Status.Detail, "You have already sent a request to this player.");
-
-            authHelper.loginToAccount("userTwo");
+            var errorResponse = client.SendFriendRequest(request);
+            Assert.AreEqual(errorResponse.Status.IsSuccess, false);
+            Assert.AreEqual(errorResponse.Status.Detail, ResponseType.DUPLICATE.ToString());
         }
 
         [Test]
@@ -93,7 +91,7 @@ namespace Tests
             };
 
             SendFriendRequestResponse response = client.SendFriendRequest(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
             authHelper.loginToAccount("userTwo");
             
@@ -103,9 +101,10 @@ namespace Tests
             };
 
             DenyFriendRequestResponse acceptResponse = client.DenyFriendRequest(friendRequest);
-            Assert.IsTrue(acceptResponse != null);
+            Assert.AreEqual(acceptResponse.Status.IsSuccess, true);
             
             ViewFriendRequestsResponse friendResponse = client.ViewFriendRequests(new ViewFriendRequestsRequest());
+            Assert.AreEqual(friendResponse.Status.IsSuccess, true);
             Assert.AreEqual(0, friendResponse.IncomingFriends.Count);
         }
         
@@ -120,7 +119,7 @@ namespace Tests
             };
 
             SendFriendRequestResponse response = client.SendFriendRequest(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
             authHelper.loginToAccount("userTwo");
             
@@ -130,7 +129,7 @@ namespace Tests
             };
 
             AcceptFriendRequestResponse acceptResponse = client.AcceptFriendRequest(friendRequest);
-            Assert.IsTrue(acceptResponse != null);
+            Assert.AreEqual(acceptResponse.Status.IsSuccess, true);
         }
         
         [Test]
@@ -144,7 +143,7 @@ namespace Tests
             };
 
             SendFriendRequestResponse response = client.SendFriendRequest(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
             authHelper.loginToAccount("userTwo");
             
@@ -154,9 +153,10 @@ namespace Tests
             };
 
             AcceptFriendRequestResponse acceptResponse = client.AcceptFriendRequest(friendRequest);
-            Assert.IsTrue(acceptResponse != null);
+            Assert.AreEqual(acceptResponse.Status.IsSuccess, true);
             
             ViewFriendsResponse friendResponse = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(friendResponse.Status.IsSuccess, true);
             Assert.AreEqual(1, friendResponse.Friends.Count);
             Assert.IsTrue(friendResponse.Friends.Any((friend) => friend.Id == authHelper.getAccountId("userOne")));
         }
@@ -172,7 +172,7 @@ namespace Tests
             };
 
             SendFriendRequestResponse response = client.SendFriendRequest(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
             authHelper.loginToAccount("userTwo");
             
@@ -182,11 +182,12 @@ namespace Tests
             };
 
             AcceptFriendRequestResponse acceptResponse = client.AcceptFriendRequest(friendRequest);
-            Assert.IsTrue(acceptResponse != null);
+            Assert.AreEqual(acceptResponse.Status.IsSuccess, true);
 
             authHelper.loginToAccount("userOne");
             
             ViewFriendsResponse friendResponse = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(friendResponse.Status.IsSuccess, true);
             Assert.AreEqual(1, friendResponse.Friends.Count);
             Assert.IsTrue(friendResponse.Friends.Any((friend) => friend.Id == authHelper.getAccountId("userTwo")));
         }
@@ -201,9 +202,9 @@ namespace Tests
                 FriendId = Guid.NewGuid().ToString()
             };
 
-            var exception = Assert.Throws<RpcException>(() => client.SendFriendRequest(request));
-            Console.WriteLine(exception);
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
+            var exception = client.SendFriendRequest(request);
+            Assert.AreEqual(exception.Status.IsSuccess, false);
+            Assert.AreEqual(exception.Status.Detail, ResponseType.PLAYER_DOES_NOT_EXIST.ToString());
         }
         
         [Test]
@@ -216,8 +217,9 @@ namespace Tests
                 FriendId = "asdfasdfasdf"
             };
 
-            var exception = Assert.Throws<RpcException>(() => client.SendFriendRequest(request));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
+           var exception = client.SendFriendRequest(request);
+           Assert.AreEqual(exception.Status.IsSuccess, false);
+           Assert.AreEqual(exception.Status.Detail, ResponseType.PLAYER_DOES_NOT_EXIST.ToString());
         }
 
         [Test]
@@ -238,8 +240,15 @@ namespace Tests
                 FriendId = authHelper.getAccountId("userOne")
             };
 
-            var exception = Assert.Throws<RpcException>(() => client.SendFriendRequest(request));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.Unavailable);
+            var exception = client.SendFriendRequest(request);
+            Assert.AreEqual(exception.Status.IsSuccess, false);
+            Assert.AreEqual(exception.Status.Detail, ResponseType.PLAYER_IS_BLOCKED.ToString());
+
+            authHelper.loginToAccount("userOne");
+            
+            var friendResponse = client.ViewFriendRequests(new ViewFriendRequestsRequest());
+            Assert.AreEqual(friendResponse.Status.IsSuccess, true);
+            Assert.AreEqual(0, friendResponse.IncomingFriends.Count);
         }
         
         [Test]
@@ -259,8 +268,9 @@ namespace Tests
                 FriendId = authHelper.getAccountId("userTwo")
             };
 
-            var exception = Assert.Throws<RpcException>(() => client.SendFriendRequest(request));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.Unavailable);
+            var exception = client.SendFriendRequest(request);
+            Assert.AreEqual(exception.Status.IsSuccess, false);
+            Assert.AreEqual(exception.Status.Detail, ResponseType.PLAYER_IS_BLOCKED.ToString());
         }
 
         [Test]
@@ -274,7 +284,7 @@ namespace Tests
             };
 
             SendFriendRequestResponse response = client.SendFriendRequest(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
             authHelper.loginToAccount("userTwo");
             
@@ -284,9 +294,10 @@ namespace Tests
             };
 
             AcceptFriendRequestResponse acceptResponse = client.AcceptFriendRequest(friendRequest);
-            Assert.IsTrue(acceptResponse != null);
+            Assert.AreEqual(acceptResponse.Status.IsSuccess, true);
             
             ViewFriendsResponse friendResponse = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(friendResponse.Status.IsSuccess, true);
             Assert.AreEqual(1, friendResponse.Friends.Count);
             Assert.IsTrue(friendResponse.Friends.Any((friend) => friend.Id == authHelper.getAccountId("userOne")));
             
@@ -296,16 +307,18 @@ namespace Tests
             };
 
             BlockPlayerResponse blockResponse = client.BlockPlayer(blockRequest);
-            Assert.IsTrue(blockResponse != null);
+            Assert.AreEqual(blockResponse.Status.IsSuccess, true);
             
             // Make sure the players are not friends.
             ViewFriendsResponse blockFriendListResponse = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(blockFriendListResponse.Status.IsSuccess, true);
             Assert.AreEqual(0, blockFriendListResponse.Friends.Count);
 
             authHelper.loginToAccount("userOne");
             
             // Make sure the players are not friends.
             ViewFriendsResponse blockFriendListResponseUserOne = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(blockFriendListResponseUserOne.Status.IsSuccess, true);
             Assert.AreEqual(0, blockFriendListResponseUserOne.Friends.Count);
         }
         
@@ -320,7 +333,7 @@ namespace Tests
             };
 
             SendFriendRequestResponse response = client.SendFriendRequest(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
             authHelper.loginToAccount("userTwo");
 
@@ -333,9 +346,8 @@ namespace Tests
             
             // Make sure the players are not friends.
             ViewFriendRequestsResponse blockFriendListResponse = client.ViewFriendRequests(new ViewFriendRequestsRequest());
+            Assert.AreEqual(blockFriendListResponse.Status.IsSuccess, true);
             Assert.AreEqual(0, blockFriendListResponse.IncomingFriends.Count);
-
-            authHelper.loginToAccount("userOne");
         }
         
         [Test]
@@ -349,7 +361,7 @@ namespace Tests
             };
 
             SendFriendRequestResponse response = client.SendFriendRequest(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
             BlockPlayerRequest blockRequest = new BlockPlayerRequest()
             {
@@ -361,6 +373,7 @@ namespace Tests
             
             // Make sure the players are not friends.
             ViewFriendRequestsResponse blockFriendListResponse = client.ViewFriendRequests(new ViewFriendRequestsRequest());
+            Assert.AreEqual(blockFriendListResponse.Status.IsSuccess, true);
             Assert.AreEqual(0, blockFriendListResponse.IncomingFriends.Count);
         }
         

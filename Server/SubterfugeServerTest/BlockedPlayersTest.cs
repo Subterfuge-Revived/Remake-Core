@@ -6,6 +6,7 @@ using NUnit.Framework;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
+using SubterfugeServerConsole.Responses;
 using Tests.AuthTestingHelper;
 
 namespace Tests
@@ -39,7 +40,7 @@ namespace Tests
             };
 
             BlockPlayerResponse response = client.BlockPlayer(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
         }
         
         [Test]
@@ -50,8 +51,9 @@ namespace Tests
                 UserIdToBlock = "asdfasdfasdf"
             };
 
-            var exception = Assert.Throws<RpcException>(() => client.BlockPlayer(request));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
+            var response = client.BlockPlayer(request);
+            Assert.AreEqual(response.Status.IsSuccess, false);
+            Assert.AreEqual(response.Status.Detail, ResponseType.PLAYER_DOES_NOT_EXIST.ToString());
         }
         
         [Test]
@@ -65,8 +67,9 @@ namespace Tests
             BlockPlayerResponse response = client.BlockPlayer(request);
             Assert.IsTrue(response != null);
 
-            var exception = Assert.Throws<RpcException>(() => client.BlockPlayer(request));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.AlreadyExists);
+            var errorResonse = client.BlockPlayer(request);
+            Assert.AreEqual(errorResonse.Status.IsSuccess, false);
+            Assert.AreEqual(errorResonse.Status.Detail, ResponseType.DUPLICATE.ToString());
         }
         
         [Test]
@@ -78,9 +81,10 @@ namespace Tests
             };
 
             BlockPlayerResponse response = client.BlockPlayer(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
             ViewBlockedPlayersResponse blockResponse = client.ViewBlockedPlayers(new ViewBlockedPlayersRequest());
+            Assert.AreEqual(blockResponse.Status.IsSuccess, true);
             Assert.AreEqual(1, blockResponse.BlockedUsers.Count);
             Assert.IsTrue(blockResponse.BlockedUsers.Any( it => it.Id == authHelper.getAccountId("userTwo")));
         }
@@ -94,9 +98,10 @@ namespace Tests
             };
 
             BlockPlayerResponse response = client.BlockPlayer(request);
-            Assert.IsTrue(response != null);
+            Assert.AreEqual(response.Status.IsSuccess, true);
 
             ViewBlockedPlayersResponse blockResponse = client.ViewBlockedPlayers(new ViewBlockedPlayersRequest());
+            Assert.AreEqual(blockResponse.Status.IsSuccess, true);
             Assert.AreEqual(1, blockResponse.BlockedUsers.Count);
             Assert.IsTrue(blockResponse.BlockedUsers.Any( it => it.Id == authHelper.getAccountId("userTwo")));
             
@@ -106,9 +111,10 @@ namespace Tests
             };
 
             UnblockPlayerResponse unblockResponse = client.UnblockPlayer(unblockRequest);
-            Assert.IsTrue(unblockResponse != null);
+            Assert.AreEqual(unblockResponse.Status.IsSuccess, true);
             
             ViewBlockedPlayersResponse blockedUserResponse = client.ViewBlockedPlayers(new ViewBlockedPlayersRequest());
+            Assert.AreEqual(blockedUserResponse.Status.IsSuccess, true);
             Assert.AreEqual(0, blockedUserResponse.BlockedUsers.Count);
         }
         
@@ -120,8 +126,9 @@ namespace Tests
                 UserIdToBlock = "asdfasdf"
             };
 
-            var exception = Assert.Throws<RpcException>(() => client.UnblockPlayer(unblockRequest));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
+            var response = client.UnblockPlayer(unblockRequest);
+            Assert.AreEqual(response.Status.IsSuccess, false);
+            Assert.AreEqual(response.Status.Detail, ResponseType.PLAYER_DOES_NOT_EXIST.ToString());
         }
         
         [Test]
@@ -132,8 +139,9 @@ namespace Tests
                 UserIdToBlock = authHelper.getAccountId("userTwo")
             };
 
-            var exception = Assert.Throws<RpcException>(() => client.UnblockPlayer(unblockRequest));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
+            var response = client.UnblockPlayer(unblockRequest);
+            Assert.AreEqual(response.Status.IsSuccess, false);
+            Assert.AreEqual(response.Status.Detail, ResponseType.INVALID_REQUEST.ToString());
         }
 
         [Test]
@@ -152,6 +160,7 @@ namespace Tests
             
             // Ensure players are friends
             ViewFriendsResponse friends = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(friends.Status.IsSuccess, true);
             Assert.AreEqual(1, friends.Friends.Count);
 
 
@@ -159,10 +168,11 @@ namespace Tests
             {
                 UserIdToBlock = authHelper.getAccountId("userOne"),
             });
-            Assert.IsTrue(blockResponse != null);
+            Assert.AreEqual(blockResponse.Status.IsSuccess, true);
             
             // Ensure players are not friends
             ViewFriendsResponse friendsAfterBlock = client.ViewFriends(new ViewFriendsRequest());
+            Assert.AreEqual(friendsAfterBlock.Status.IsSuccess, true);
             Assert.AreEqual(0, friendsAfterBlock.Friends.Count);
         }
         
@@ -171,13 +181,15 @@ namespace Tests
         {
             SuperUser admin = authHelper.CreateSuperUser();
 
-            var exception = Assert.Throws<RpcException>(() => client.BlockPlayer(new BlockPlayerRequest()
+            var errorResponse = client.BlockPlayer(new BlockPlayerRequest()
             {
                 UserIdToBlock = admin.userModel.UserModel.Id,
-            }));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.PermissionDenied);
+            });
+            Assert.AreEqual(errorResponse.Status.IsSuccess, false);
+            Assert.AreEqual(errorResponse.Status.Detail, ResponseType.PERMISSION_DENIED.ToString());
             
             ViewBlockedPlayersResponse blockedUserResponse = client.ViewBlockedPlayers(new ViewBlockedPlayersRequest());
+            Assert.AreEqual(errorResponse.Status.IsSuccess, true);
             Assert.AreEqual(0, blockedUserResponse.BlockedUsers.Count);
         }
     }

@@ -6,6 +6,7 @@ using SubterfugeCore.Core.Network;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
+using SubterfugeServerConsole.Responses;
 using Tests.AuthTestingHelper;
 
 namespace Tests
@@ -50,11 +51,13 @@ namespace Tests
             };
 
             CreateRoomResponse roomResponse = client.CreateNewRoom(createRequest);
+            Assert.AreEqual(roomResponse.Status.IsSuccess, true);
             Assert.IsTrue(roomResponse.CreatedRoom.RoomId != null);
             var roomId = roomResponse.CreatedRoom.RoomId;
             
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponse = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponse.Status.IsSuccess, true);
             Assert.AreEqual(1,openLobbiesResponse.Rooms.Count);
             Assert.AreEqual(roomId,openLobbiesResponse.Rooms[0].RoomId);
             Assert.AreEqual(authHelper.getAccountId("userOne"),openLobbiesResponse.Rooms[0].Creator.Id);
@@ -82,6 +85,7 @@ namespace Tests
             };
 
             CreateRoomResponse roomResponse = client.CreateNewRoom(createRequest);
+            Assert.AreEqual(roomResponse.Status.IsSuccess, true);
             Assert.IsTrue(roomResponse.CreatedRoom.RoomId != null);
             var roomId = roomResponse.CreatedRoom.RoomId;
 
@@ -89,6 +93,7 @@ namespace Tests
             
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponse = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponse.Status.IsSuccess, true);
             Assert.AreEqual(1,openLobbiesResponse.Rooms.Count);
             Assert.AreEqual(roomId,openLobbiesResponse.Rooms[0].RoomId);
             // Ensure the creator is a member of the game
@@ -101,9 +106,10 @@ namespace Tests
             };
 
             JoinRoomResponse joinResponse = client.JoinRoom(joinRequest);
-            Assert.IsTrue(joinResponse.Success);
+            Assert.AreEqual(joinResponse.Status.IsSuccess, true);
             
             OpenLobbiesResponse openLobbiesResponseAfterJoin = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponseAfterJoin.Status.IsSuccess, true);
             Assert.AreEqual(1,openLobbiesResponseAfterJoin.Rooms.Count);
             Assert.AreEqual(roomId,openLobbiesResponseAfterJoin.Rooms[0].RoomId);
             Assert.AreEqual(2,openLobbiesResponseAfterJoin.Rooms[0].Players.Count);
@@ -124,6 +130,7 @@ namespace Tests
             };
 
             CreateRoomResponse roomResponse = client.CreateNewRoom(createRequest);
+            Assert.AreEqual(roomResponse.Status.IsSuccess, true);
             Assert.IsTrue(roomResponse.CreatedRoom.RoomId != null);
             var roomId = roomResponse.CreatedRoom.RoomId;
 
@@ -135,11 +142,11 @@ namespace Tests
             };
 
             JoinRoomResponse joinResponse = client.JoinRoom(joinRequest);
-            Assert.IsTrue(joinResponse.Success);
+            Assert.AreEqual(joinResponse.Status.IsSuccess, true);
             
-            var exception = Assert.Throws<RpcException>(() => client.JoinRoom(joinRequest));
-            Assert.IsTrue(exception != null);
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.AlreadyExists);
+            var exception = client.JoinRoom(joinRequest);
+            Assert.AreEqual(exception.Status.IsSuccess, false);
+            Assert.AreEqual(exception.Status.Detail, ResponseType.DUPLICATE.ToString());
         }
 
         [Test]
@@ -156,6 +163,7 @@ namespace Tests
             };
 
             CreateRoomResponse roomResponse = client.CreateNewRoom(createRequest);
+            Assert.AreEqual(roomResponse.Status.IsSuccess, true);
             Assert.IsTrue(roomResponse.CreatedRoom.RoomId != null);
             var roomId = roomResponse.CreatedRoom.RoomId;
 
@@ -167,11 +175,12 @@ namespace Tests
             };
 
             JoinRoomResponse joinResponse = client.JoinRoom(joinRequest);
-            Assert.IsTrue(joinResponse.Success);
+            Assert.AreEqual(joinResponse.Status.IsSuccess, true);
             
             authHelper.loginToAccount("userThree");
-            var exception = Assert.Throws<RpcException>(() => client.JoinRoom(joinRequest));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.ResourceExhausted);
+            var exception = client.JoinRoom(joinRequest);
+            Assert.AreEqual(exception.Status.IsSuccess, false);
+            Assert.AreEqual(exception.Status.Detail, ResponseType.ROOM_IS_FULL.ToString());
         }
         
         [Test]
@@ -188,6 +197,7 @@ namespace Tests
             };
 
             CreateRoomResponse roomResponse = client.CreateNewRoom(createRequest);
+            Assert.AreEqual(roomResponse.Status.IsSuccess, true);
             Assert.IsTrue(roomResponse.CreatedRoom.RoomId != null);
             var roomId = roomResponse.CreatedRoom.RoomId;
 
@@ -199,14 +209,16 @@ namespace Tests
             };
 
             JoinRoomResponse joinResponse = client.JoinRoom(joinRequest);
-            Assert.IsTrue(joinResponse.Success);
+            Assert.AreEqual(joinResponse.Status.IsSuccess, true);
             
             // Check to see the room is not visible.
             OpenLobbiesResponse openLobbiesResponseAfterJoin = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponseAfterJoin.Status.IsSuccess, true);
             Assert.AreEqual(0,openLobbiesResponseAfterJoin.Rooms.Count);
             
             // Check to see the player can see the game because they are a member.
             PlayerCurrentGamesResponse playerGamesResponse = client.GetPlayerCurrentGames(new PlayerCurrentGamesRequest());
+            Assert.AreEqual(playerGamesResponse.Status.IsSuccess, true);
             Assert.AreEqual(1,playerGamesResponse.Games.Count);
         }
 
@@ -224,6 +236,7 @@ namespace Tests
             };
 
             CreateRoomResponse roomResponse = client.CreateNewRoom(createRequest);
+            Assert.AreEqual(roomResponse.Status.IsSuccess, true);
             Assert.IsTrue(roomResponse.CreatedRoom.RoomId != null);
             var roomId = roomResponse.CreatedRoom.RoomId;
 
@@ -231,6 +244,7 @@ namespace Tests
             
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponse = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponse.Status.IsSuccess, true);
             Assert.AreEqual(1,openLobbiesResponse.Rooms.Count);
             Assert.AreEqual(roomId,openLobbiesResponse.Rooms[0].RoomId);
             // Ensure the creator is a member of the game
@@ -243,10 +257,11 @@ namespace Tests
             };
 
             JoinRoomResponse joinResponse = client.JoinRoom(joinRequest);
-            Assert.IsTrue(joinResponse.Success);
+            Assert.AreEqual(joinResponse.Status.IsSuccess, true);
             
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponsAfterJoin = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponsAfterJoin.Status.IsSuccess, true);
             Assert.AreEqual(1,openLobbiesResponsAfterJoin.Rooms.Count);
             Assert.AreEqual(roomId,openLobbiesResponsAfterJoin.Rooms[0].RoomId);
             Assert.AreEqual(2,openLobbiesResponsAfterJoin.Rooms[0].Players.Count);
@@ -257,12 +272,12 @@ namespace Tests
             };
 
             LeaveRoomResponse leaveResponse = client.LeaveRoom(leaveRequest);
-            Assert.IsTrue(leaveResponse != null);
-            Assert.IsTrue(leaveResponse.Success);
+            Assert.AreEqual(leaveResponse.Status.IsSuccess, true);
             
             // Ensure that the player has left the game.
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponsAfterLeave = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponsAfterLeave.Status.IsSuccess, true);
             Assert.AreEqual(1,openLobbiesResponsAfterLeave.Rooms.Count);
             Assert.AreEqual(roomId,openLobbiesResponsAfterLeave.Rooms[0].RoomId);
             Assert.AreEqual(1,openLobbiesResponsAfterLeave.Rooms[0].Players.Count);
@@ -278,6 +293,7 @@ namespace Tests
 
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponse = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponse.Status.IsSuccess, true);
             Assert.AreEqual(4,openLobbiesResponse.Rooms.Count);
             
             
@@ -285,6 +301,7 @@ namespace Tests
             
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponseAfterCreate = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponseAfterCreate.Status.IsSuccess, true);
             Assert.AreEqual(5,openLobbiesResponseAfterCreate.Rooms.Count);
         }
 
@@ -306,11 +323,12 @@ namespace Tests
             };
 
             CreateRoomResponse roomResponse = client.CreateNewRoom(createRequest);
-            Assert.IsTrue(roomResponse.CreatedRoom.RoomId != null);
+            Assert.AreEqual(roomResponse.Status.IsSuccess, true);
             var roomId = roomResponse.CreatedRoom.RoomId;
             
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponse = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponse.Status.IsSuccess, true);
             Assert.AreEqual(1,openLobbiesResponse.Rooms.Count);
             Assert.AreEqual(roomId,openLobbiesResponse.Rooms[0].RoomId);
             Assert.AreEqual(authHelper.getAccountId("userOne"),openLobbiesResponse.Rooms[0].Creator.Id);
@@ -333,6 +351,7 @@ namespace Tests
             };
 
             CreateRoomResponse roomResponse = client.CreateNewRoom(createRequest);
+            Assert.AreEqual(roomResponse.Status.IsSuccess, true);
             Assert.IsTrue(roomResponse.CreatedRoom.RoomId != null);
             var roomId = roomResponse.CreatedRoom.RoomId;
             
@@ -343,16 +362,17 @@ namespace Tests
             };
 
             LeaveRoomResponse leaveResponse = client.LeaveRoom(leaveRequest);
-            Assert.IsTrue(leaveResponse != null);
-            Assert.IsTrue(leaveResponse.Success);
+            Assert.AreEqual(leaveResponse.Status.IsSuccess, true);
             
             // Ensure that the player has left the game.
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponsAfterLeave = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponsAfterLeave.Status.IsSuccess, true);
             Assert.AreEqual(0,openLobbiesResponsAfterLeave.Rooms.Count);
             
             // Ensure the player is not in the game.
              PlayerCurrentGamesResponse gamesResponse = client.GetPlayerCurrentGames(new PlayerCurrentGamesRequest());
+             Assert.AreEqual(gamesResponse.Status.IsSuccess, true);
             Assert.AreEqual(0,gamesResponse.Games.Count);
         }
         
@@ -370,6 +390,7 @@ namespace Tests
             };
 
             CreateRoomResponse roomResponse = client.CreateNewRoom(createRequest);
+            Assert.AreEqual(roomResponse.Status.IsSuccess, true);
             Assert.IsTrue(roomResponse.CreatedRoom.RoomId != null);
             var roomId = roomResponse.CreatedRoom.RoomId;
             
@@ -388,21 +409,23 @@ namespace Tests
             };
 
             LeaveRoomResponse leaveResponse = client.LeaveRoom(leaveRequest);
-            Assert.IsTrue(leaveResponse != null);
-            Assert.IsTrue(leaveResponse.Success);
+            Assert.AreEqual(leaveResponse.Status.IsSuccess, true);
             
             // Ensure that the player has left the game.
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponsAfterLeave = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponsAfterLeave.Status.IsSuccess, true);
             Assert.AreEqual(0,openLobbiesResponsAfterLeave.Rooms.Count);
             
             // Ensure the player is not in the game.
             PlayerCurrentGamesResponse gamesResponse = client.GetPlayerCurrentGames(new PlayerCurrentGamesRequest());
+            Assert.AreEqual(gamesResponse.Status.IsSuccess, true);
             Assert.AreEqual(0,gamesResponse.Games.Count);
             
             authHelper.loginToAccount("userTwo");
             // Ensure the player is not in the game.
             PlayerCurrentGamesResponse gamesTwoResponse = client.GetPlayerCurrentGames(new PlayerCurrentGamesRequest());
+            Assert.AreEqual(gamesTwoResponse.Status.IsSuccess, true);
             Assert.AreEqual(0,gamesTwoResponse.Games.Count);
         }
 
@@ -414,10 +437,10 @@ namespace Tests
 
             authHelper.loginToAccount("userTwo");
             JoinRoomResponse joinResponse = client.JoinRoom(new JoinRoomRequest()
-                {
-                    RoomId = roomId,
-                });
-            Assert.IsTrue(joinResponse.Success);
+            {
+                RoomId = roomId,
+            });
+            Assert.AreEqual(joinResponse.Status.IsSuccess, true);
             
             
             authHelper.loginToAccount("userOne");
@@ -426,11 +449,12 @@ namespace Tests
                 RoomId = roomId,
             });
             
-            Assert.IsTrue(startGameEarlyResponse.Success == true);
+            Assert.AreEqual(startGameEarlyResponse.Status.IsSuccess, true);
             
             // Ensure game cannot be seen in open lobbies.
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponse = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponse.Status.IsSuccess, true);
             Assert.AreEqual(0,openLobbiesResponse.Rooms.Count);
         }
 
@@ -444,12 +468,12 @@ namespace Tests
             {
                 RoomId = roomId,
             });
-            
-            Assert.IsFalse(startGameEarlyResponse.Success);
-            
+            Assert.AreEqual(startGameEarlyResponse.Status.IsSuccess, false);
+
             // Ensure game is still open
             // View open rooms.
             OpenLobbiesResponse openLobbiesResponse = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponse.Status.IsSuccess, true);
             Assert.AreEqual(1,openLobbiesResponse.Rooms.Count);
         }
 
@@ -505,6 +529,7 @@ namespace Tests
                 MaxPlayers = 4,
                 Goal = Goal.Domination,
             });
+            Assert.AreEqual(createResponse.Status.IsSuccess, true);
             var roomId = createResponse.CreatedRoom.RoomId;
 
             client.Login(new AuthorizationRequest()
@@ -513,11 +538,13 @@ namespace Tests
                 Password = one,
             });
 
-            var exception = Assert.Throws<RpcException>(() => client.JoinRoom(new JoinRoomRequest()
+            var exception = client.JoinRoom(new JoinRoomRequest()
             {
                 RoomId = roomId
-            }));
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.PermissionDenied);
+            });
+            
+            Assert.AreEqual(exception.Status.IsSuccess, false);
+            Assert.AreEqual(exception.Status.Detail, ResponseType.PERMISSION_DENIED.ToString());
         }
 
         [Test]
@@ -534,6 +561,7 @@ namespace Tests
             };
 
             CreateRoomResponse roomResponse = client.CreateNewRoom(createRequest);
+            Assert.AreEqual(roomResponse.Status.IsSuccess, true);
             Assert.IsTrue(roomResponse.CreatedRoom.RoomId != null);
             var roomId = roomResponse.CreatedRoom.RoomId;
 
@@ -545,14 +573,16 @@ namespace Tests
             };
 
             JoinRoomResponse joinResponse = client.JoinRoom(joinRequest);
-            Assert.IsTrue(joinResponse.Success);
+            Assert.AreEqual(joinResponse.Status.IsSuccess, true);
             
             // Check to see the room is not visible.
             OpenLobbiesResponse openLobbiesResponseAfterJoin = client.GetOpenLobbies(new OpenLobbiesRequest());
+            Assert.AreEqual(openLobbiesResponseAfterJoin.Status.IsSuccess, true);
             Assert.AreEqual(0,openLobbiesResponseAfterJoin.Rooms.Count);
             
             // Check to see the player can see the game because they are a member.
             PlayerCurrentGamesResponse playerGamesResponse = client.GetPlayerCurrentGames(new PlayerCurrentGamesRequest());
+            Assert.AreEqual(playerGamesResponse.Status.IsSuccess, true);
             Assert.AreEqual(1,playerGamesResponse.Games.Count);
 
             SuperUser superUser = authHelper.CreateSuperUser();
@@ -563,6 +593,7 @@ namespace Tests
             });
             
             PlayerCurrentGamesResponse adminGamesResponse = client.GetPlayerCurrentGames(new PlayerCurrentGamesRequest());
+            Assert.AreEqual(adminGamesResponse.Status.IsSuccess, true);
             Assert.AreEqual(1,adminGamesResponse.Games.Count);
         }
     }

@@ -8,6 +8,7 @@ using Google.Protobuf;
 using Grpc.Core;
 using StackExchange.Redis;
 using SubterfugeRemakeService;
+using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeServerConsole.Connections.Models
 {
@@ -83,10 +84,10 @@ namespace SubterfugeServerConsole.Connections.Models
             return friends;
         }
         
-        public async Task<Boolean> BlockUser(RedisUserModel requestingUser)
+        public async Task<ResponseStatus> BlockUser(RedisUserModel requestingUser)
         {
             if (requestingUser.HasClaim(UserClaim.Admin) || HasClaim(UserClaim.Admin))
-                throw new RpcException(new Status(StatusCode.PermissionDenied, "You cannot block an admin."));
+                return ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED);
             
             // When blocking a player we need to:
             // Remove players as friends if they were
@@ -106,12 +107,14 @@ namespace SubterfugeServerConsole.Connections.Models
                 await requestingUser.RemoveFriendRequestFrom(this);
             }
             
-            return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
+            await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
+            return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
         
-        public async Task<Boolean> UnblockUser(RedisUserModel requestingUser)
+        public async Task<ResponseStatus> UnblockUser(RedisUserModel requestingUser)
         {
-            return await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
+            await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:blocks", requestingUser.UserModel.Id);
+            return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
         
         public async Task<bool> IsBlocked(RedisUserModel otherUser)
@@ -139,38 +142,40 @@ namespace SubterfugeServerConsole.Connections.Models
             return await RedisConnector.Redis.SetContainsAsync($"user:{UserModel.Id}:friendRequests", friend.UserModel.Id);
         }
         
-        public async Task<Boolean> AddFriendRequestFrom(RedisUserModel requestingUser)
+        public async Task<ResponseStatus> AddFriendRequestFrom(RedisUserModel requestingUser)
         {
-            return await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:friendRequests", requestingUser.UserModel.Id);
+            await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:friendRequests", requestingUser.UserModel.Id);
+            return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
         
-        public async Task<Boolean> RemoveFriendRequestFrom(RedisUserModel requestingUser)
+        public async Task<ResponseStatus> RemoveFriendRequestFrom(RedisUserModel requestingUser)
         {
-            return await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:friendRequests", requestingUser.UserModel.Id);
+            await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:friendRequests", requestingUser.UserModel.Id);
+            return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
         
         /**
          * This method assumes that the passed in user has sent you a request already.
          */
-        public async Task<Boolean> AcceptFriendRequestFrom(RedisUserModel requestingUser)
+        public async Task<ResponseStatus> AcceptFriendRequestFrom(RedisUserModel requestingUser)
         {
             await RemoveFriendRequestFrom(requestingUser);
             await AddFriend(requestingUser);
-            return true;
+            return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
         
-        private async Task<Boolean> AddFriend(RedisUserModel requestingUser)
+        private async Task<ResponseStatus> AddFriend(RedisUserModel requestingUser)
         {
             await RedisConnector.Redis.SetAddAsync($"user:{UserModel.Id}:friends", requestingUser.UserModel.Id);
             await RedisConnector.Redis.SetAddAsync($"user:{requestingUser.UserModel.Id}:friends", UserModel.Id);
-            return true;
+            return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
         
-        public async Task<Boolean> RemoveFriend(RedisUserModel requestingUser)
+        public async Task<ResponseStatus> RemoveFriend(RedisUserModel requestingUser)
         {
             await RedisConnector.Redis.SetRemoveAsync($"user:{UserModel.Id}:friends", requestingUser.UserModel.Id);
             await RedisConnector.Redis.SetRemoveAsync($"user:{requestingUser.UserModel.Id}:friends", UserModel.Id);
-            return true;
+            return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
         
         public async Task<bool> IsFriend(RedisUserModel friend)

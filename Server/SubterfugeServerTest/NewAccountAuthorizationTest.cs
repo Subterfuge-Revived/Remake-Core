@@ -5,6 +5,7 @@ using SubterfugeRemakeService;
 using SubterfugeServerConsole;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
+using SubterfugeServerConsole.Responses;
 using Tests.AuthTestingHelper;
 
 namespace Tests
@@ -134,9 +135,9 @@ namespace Tests
 
              request.Email = "otherEmail@test.com";
              
-             var exception = Assert.Throws<RpcException>(() => client.RegisterAccount(request));
-             Assert.That(exception.Status.StatusCode, Is.EqualTo(StatusCode.AlreadyExists));
-             Assert.That(exception.Status.Detail, Is.EqualTo("Username already exists."));
+             var exception = client.RegisterAccount(request);
+             Assert.AreEqual(exception.Status.IsSuccess, false);
+             Assert.That(exception.Status.Detail, Is.EqualTo(ResponseType.DUPLICATE.ToString()));
          }
 
          [Test]

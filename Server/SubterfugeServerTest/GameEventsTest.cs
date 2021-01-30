@@ -6,6 +6,7 @@ using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
+using SubterfugeServerConsole.Responses;
 using Tests.AuthTestingHelper;
 
 namespace Tests
@@ -62,7 +63,7 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.IsTrue(eventResponse.Success);
+            Assert.AreEqual(eventResponse.Status.IsSuccess, true);
             Assert.IsTrue(eventResponse.EventId != null);
             
             // Submitting player can see their own events
@@ -70,6 +71,7 @@ namespace Tests
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
             Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
         }
@@ -77,7 +79,7 @@ namespace Tests
         [Test]
         public void PlayerCannotSubmitEventsToAGameThatDoesNotExist()
         {
-            var exception = Assert.Throws<RpcException>(() => client.SubmitGameEvent(new SubmitGameEventRequest()
+            var exception = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
                 EventData = new GameEventRequest()
                 {
@@ -85,16 +87,16 @@ namespace Tests
                     OccursAtTick = 42,
                 },
                 RoomId = "somegameId",
-            }));
-            Assert.IsTrue(exception != null);
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.NotFound);
+            });
+            Assert.AreEqual(exception.Status.IsSuccess, false);
+            Assert.AreEqual(exception.Status.Detail, ResponseType.ROOM_DOES_NOT_EXIST.ToString());
         }
 
         [Test]
         public void PlayerCannotSubmitEventsToAGameTheyAreNotIn()
         {
             authHelper.loginToAccount(playerOutOfGame);
-            var exception = Assert.Throws<RpcException>(() => client.SubmitGameEvent(new SubmitGameEventRequest()
+            var exception = client.SubmitGameEvent(new SubmitGameEventRequest()
             {
                 EventData = new GameEventRequest()
                 {
@@ -102,9 +104,9 @@ namespace Tests
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
-            }));
-            Assert.IsTrue(exception != null);
-            Assert.AreEqual(exception.Status.StatusCode, StatusCode.Unauthenticated);
+            });
+            Assert.AreEqual(exception.Status.IsSuccess, false);
+            Assert.AreEqual(exception.Status.Detail, ResponseType.PERMISSION_DENIED.ToString());
         }
 
         [Test]
@@ -119,7 +121,9 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.IsFalse(submitResponse.Success);
+            
+            Assert.AreEqual(submitResponse.Status.IsSuccess, false);
+            Assert.AreEqual(submitResponse.Status.Detail, ResponseType.INVALID_REQUEST.ToString());
         }
 
         [Test]
@@ -134,13 +138,15 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.IsTrue(eventResponse.Success);
+            Assert.AreEqual(eventResponse.Status.IsSuccess, true);
             Assert.IsTrue(eventResponse.EventId != null);
             
             GetGameRoomEventsResponse gameEventsBeforeDelete = client.GetGameRoomEvents(new GetGameRoomEventsRequest()
             {
                 RoomId = gameId
             });
+            
+            Assert.AreEqual(gameEventsBeforeDelete.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEventsBeforeDelete.GameEvents.Count);
             Assert.IsTrue(gameEventsBeforeDelete.GameEvents.Any(it => it.EventId == eventResponse.EventId));
 
@@ -149,13 +155,13 @@ namespace Tests
                 EventId = eventResponse.EventId,
                 RoomId = gameId,
             });
-            Assert.IsTrue(deleteResponse != null);
-            Assert.IsTrue(deleteResponse.Success);
+            Assert.AreEqual(deleteResponse.Status.IsSuccess, true);
 
             GetGameRoomEventsResponse gameEventsAfterDelete = client.GetGameRoomEvents(new GetGameRoomEventsRequest()
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEventsAfterDelete.Status.IsSuccess, true);
             Assert.AreEqual(0, gameEventsAfterDelete.GameEvents.Count);
         }
 
@@ -171,13 +177,14 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.IsTrue(eventResponse.Success);
+            Assert.AreEqual(eventResponse.Status.IsSuccess, true);
             Assert.IsTrue(eventResponse.EventId != null);
             
             GetGameRoomEventsResponse gameEventsBeforeDelete = client.GetGameRoomEvents(new GetGameRoomEventsRequest()
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEventsBeforeDelete.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEventsBeforeDelete.GameEvents.Count);
             Assert.IsTrue(gameEventsBeforeDelete.GameEvents.Any(it => it.EventId == eventResponse.EventId));
 
@@ -188,7 +195,8 @@ namespace Tests
                 EventId = eventResponse.EventId,
                 RoomId = gameId,
             });
-            Assert.IsFalse(deleteResponse.Success);
+            Assert.AreEqual(deleteResponse.Status.IsSuccess, false);
+            Assert.AreEqual(deleteResponse.Status.Detail, ResponseType.PERMISSION_DENIED.ToString());
             
             // Login to player 1 to see the event in the future.
             authHelper.loginToAccount(playerOneInGame);
@@ -196,6 +204,7 @@ namespace Tests
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEventsAfterDelete.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEventsAfterDelete.GameEvents.Count);
         }
 
@@ -211,7 +220,8 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.IsTrue(eventResponse.Success);
+            
+            Assert.AreEqual(eventResponse.Status.IsSuccess, true);
             Assert.IsTrue(eventResponse.EventId != null);
             
             // Submitting player can see their own events
@@ -219,6 +229,7 @@ namespace Tests
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
             Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
 
@@ -230,8 +241,7 @@ namespace Tests
                 EventId = eventResponse.EventId,
                 RoomId = gameId,
             });
-            Assert.IsTrue(deleteResponse != null);
-            Assert.IsFalse(deleteResponse.Success);
+            Assert.AreEqual(deleteResponse.Status.IsSuccess, false);
         }
 
         [Test]
@@ -246,13 +256,14 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.IsTrue(eventResponse.Success);
+            Assert.AreEqual(eventResponse.Status.IsSuccess, true);
             Assert.IsTrue(eventResponse.EventId != null);
             
             GetGameRoomEventsResponse gameEvents = client.GetGameRoomEvents(new GetGameRoomEventsRequest()
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
             Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
             
@@ -266,7 +277,7 @@ namespace Tests
                 RoomId = gameId,
                 EventId = eventResponse.EventId,
             });
-            Assert.IsTrue(updateResponse.Success);
+            Assert.AreEqual(updateResponse.Status.IsSuccess, true);
             Assert.IsTrue(updateResponse.EventId == eventResponse.EventId);
         }
 
@@ -282,13 +293,14 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.IsTrue(eventResponse.Success);
+            Assert.AreEqual(eventResponse.Status.IsSuccess, true);
             Assert.IsTrue(eventResponse.EventId != null);
             
             GetGameRoomEventsResponse gameEvents = client.GetGameRoomEvents(new GetGameRoomEventsRequest()
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
             Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
             
@@ -302,7 +314,7 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.AreEqual(submitGameEventResponse.Success, false);
+            Assert.AreEqual(submitGameEventResponse.Status.IsSuccess, false);
         }
 
         [Test]
@@ -317,7 +329,7 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.IsTrue(eventResponse.Success);
+            Assert.AreEqual(eventResponse.Status.IsSuccess, true);
             Assert.IsTrue(eventResponse.EventId != null);
             
             // Submitting player can see their own events
@@ -325,6 +337,7 @@ namespace Tests
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
             Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
             
@@ -341,8 +354,7 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.IsTrue(updateResponse != null);
-            Assert.IsTrue(updateResponse.Success);
+            Assert.AreEqual(updateResponse.Status.IsSuccess, true);
         }
 
         [Test]
@@ -357,13 +369,14 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.IsTrue(eventResponse.Success);
+            Assert.AreEqual(eventResponse.Status.IsSuccess, true);
             Assert.IsTrue(eventResponse.EventId != null);
             
             GetGameRoomEventsResponse gameEvents = client.GetGameRoomEvents(new GetGameRoomEventsRequest()
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
             Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
 
@@ -379,7 +392,8 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.AreEqual(submitGameEventResponse.Success, false);
+            Assert.AreEqual(submitGameEventResponse.Status.IsSuccess, false);
+            Assert.AreEqual(submitGameEventResponse.Status.Detail, ResponseType.PERMISSION_DENIED.ToString());
         }
 
         [Test]
@@ -411,6 +425,7 @@ namespace Tests
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEventsForSubmitter.Status.IsSuccess, true);
             Assert.AreEqual(5, gameEventsForSubmitter.GameEvents.Count);
 
             authHelper.loginToAccount(playerTwoInGame);
@@ -419,6 +434,7 @@ namespace Tests
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEventsForOther.Status.IsSuccess, true);
             Assert.AreEqual(3, gameEventsForOther.GameEvents.Count);
         }
         
@@ -434,7 +450,7 @@ namespace Tests
                 },
                 RoomId = gameId,
             });
-            Assert.IsTrue(eventResponse.Success);
+            Assert.AreEqual(eventResponse.Status.IsSuccess, true);
             Assert.IsTrue(eventResponse.EventId != null);
             
             // Submitting player can see their own events
@@ -442,6 +458,7 @@ namespace Tests
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
             Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
 
@@ -451,6 +468,7 @@ namespace Tests
             {
                 RoomId = gameId
             });
+            Assert.AreEqual(playerTwoGameEvents.Status.IsSuccess, true);
             Assert.AreEqual(0, playerTwoGameEvents.GameEvents.Count);
         }
 
@@ -487,6 +505,7 @@ namespace Tests
             {
                 RoomId = gameId,
             });
+            Assert.AreEqual(eventResponse.Status.IsSuccess, true);
             
             // Admin should be able to see all 5 events!
             Assert.AreEqual(5, eventResponse.GameEvents.Count);
