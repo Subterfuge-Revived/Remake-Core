@@ -2,7 +2,6 @@
 using System.Linq;
 using Grpc.Core;
 using NUnit.Framework;
-using SubterfugeCore.Core.Network;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;

@@ -49,7 +49,7 @@ namespace SubterfugeRemakeService {
             "cnZpY2UuVXNlchJFChFSYW5rZWRJbmZvcm1hdGlvbhgEIAEoCzIqLlN1YnRl",
             "cmZ1Z2VSZW1ha2VTZXJ2aWNlLlJhbmtlZEluZm9ybWF0aW9uEhEKCUFub255",
             "bW91cxgFIAEoCBIQCghSb29tTmFtZRgGIAEoCRIrCgRHb2FsGAcgASgOMh0u",
-            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR29hbBIMCgRTZWVkGAggASgDEhcK",
+            "U3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuR29hbBIMCgRTZWVkGAggASgFEhcK",
             "D1VuaXhUaW1lQ3JlYXRlZBgJIAEoAxIXCg9Vbml4VGltZVN0YXJ0ZWQYCiAB",
             "KAMSEgoKTWF4UGxheWVycxgLIAEoAxIuCgdQbGF5ZXJzGAwgAygLMh0uU3Vi",
             "dGVyZnVnZVJlbWFrZVNlcnZpY2UuVXNlchIaChJhbGxvd2VkU3BlY2lhbGlz",
@@ -154,7 +154,7 @@ namespace SubterfugeRemakeService {
             "ASgLMiouU3VidGVyZnVnZVJlbWFrZVNlcnZpY2UuUmFua2VkSW5mb3JtYXRp",
             "b24SEQoJQW5vbnltb3VzGAUgASgIEhAKCFJvb21OYW1lGAYgASgJEisKBEdv",
             "YWwYByABKA4yHS5TdWJ0ZXJmdWdlUmVtYWtlU2VydmljZS5Hb2FsEgwKBFNl",
-            "ZWQYCCABKAMSFwoPVW5peFRpbWVDcmVhdGVkGAkgASgDEhcKD1VuaXhUaW1l",
+            "ZWQYCCABKAUSFwoPVW5peFRpbWVDcmVhdGVkGAkgASgDEhcKD1VuaXhUaW1l",
             "U3RhcnRlZBgKIAEoAxISCgpNYXhQbGF5ZXJzGAsgASgDEhoKEmFsbG93ZWRT",
             "cGVjaWFsaXN0cxgMIAMoCRIWCg5NaW51dGVzUGVyVGljaxgNIAEoASJ0Cg5H",
             "YW1lRXZlbnRNb2RlbBIPCgdldmVudElkGAEgASgJEhYKDlVuaXhUaW1lSXNz",
@@ -1985,9 +1985,9 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "Seed" field.</summary>
     public const int SeedFieldNumber = 8;
-    private long seed_;
+    private int seed_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long Seed {
+    public int Seed {
       get { return seed_; }
       set {
         seed_ = value;
@@ -2098,7 +2098,7 @@ namespace SubterfugeRemakeService {
       if (Anonymous != false) hash ^= Anonymous.GetHashCode();
       if (RoomName.Length != 0) hash ^= RoomName.GetHashCode();
       if (Goal != 0) hash ^= Goal.GetHashCode();
-      if (Seed != 0L) hash ^= Seed.GetHashCode();
+      if (Seed != 0) hash ^= Seed.GetHashCode();
       if (UnixTimeCreated != 0L) hash ^= UnixTimeCreated.GetHashCode();
       if (UnixTimeStarted != 0L) hash ^= UnixTimeStarted.GetHashCode();
       if (MaxPlayers != 0L) hash ^= MaxPlayers.GetHashCode();
@@ -2146,9 +2146,9 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(56);
         output.WriteEnum((int) Goal);
       }
-      if (Seed != 0L) {
+      if (Seed != 0) {
         output.WriteRawTag(64);
-        output.WriteInt64(Seed);
+        output.WriteInt32(Seed);
       }
       if (UnixTimeCreated != 0L) {
         output.WriteRawTag(72);
@@ -2197,8 +2197,8 @@ namespace SubterfugeRemakeService {
       if (Goal != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Goal);
       }
-      if (Seed != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Seed);
+      if (Seed != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Seed);
       }
       if (UnixTimeCreated != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(UnixTimeCreated);
@@ -2252,7 +2252,7 @@ namespace SubterfugeRemakeService {
       if (other.Goal != 0) {
         Goal = other.Goal;
       }
-      if (other.Seed != 0L) {
+      if (other.Seed != 0) {
         Seed = other.Seed;
       }
       if (other.UnixTimeCreated != 0L) {
@@ -2315,7 +2315,7 @@ namespace SubterfugeRemakeService {
             break;
           }
           case 64: {
-            Seed = input.ReadInt64();
+            Seed = input.ReadInt32();
             break;
           }
           case 72: {
@@ -10023,9 +10023,9 @@ namespace SubterfugeRemakeService {
 
     /// <summary>Field number for the "Seed" field.</summary>
     public const int SeedFieldNumber = 8;
-    private long seed_;
+    private int seed_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long Seed {
+    public int Seed {
       get { return seed_; }
       set {
         seed_ = value;
@@ -10125,7 +10125,7 @@ namespace SubterfugeRemakeService {
       if (Anonymous != false) hash ^= Anonymous.GetHashCode();
       if (RoomName.Length != 0) hash ^= RoomName.GetHashCode();
       if (Goal != 0) hash ^= Goal.GetHashCode();
-      if (Seed != 0L) hash ^= Seed.GetHashCode();
+      if (Seed != 0) hash ^= Seed.GetHashCode();
       if (UnixTimeCreated != 0L) hash ^= UnixTimeCreated.GetHashCode();
       if (UnixTimeStarted != 0L) hash ^= UnixTimeStarted.GetHashCode();
       if (MaxPlayers != 0L) hash ^= MaxPlayers.GetHashCode();
@@ -10172,9 +10172,9 @@ namespace SubterfugeRemakeService {
         output.WriteRawTag(56);
         output.WriteEnum((int) Goal);
       }
-      if (Seed != 0L) {
+      if (Seed != 0) {
         output.WriteRawTag(64);
-        output.WriteInt64(Seed);
+        output.WriteInt32(Seed);
       }
       if (UnixTimeCreated != 0L) {
         output.WriteRawTag(72);
@@ -10222,8 +10222,8 @@ namespace SubterfugeRemakeService {
       if (Goal != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Goal);
       }
-      if (Seed != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Seed);
+      if (Seed != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Seed);
       }
       if (UnixTimeCreated != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(UnixTimeCreated);
@@ -10273,7 +10273,7 @@ namespace SubterfugeRemakeService {
       if (other.Goal != 0) {
         Goal = other.Goal;
       }
-      if (other.Seed != 0L) {
+      if (other.Seed != 0) {
         Seed = other.Seed;
       }
       if (other.UnixTimeCreated != 0L) {
@@ -10332,7 +10332,7 @@ namespace SubterfugeRemakeService {
             break;
           }
           case 64: {
-            Seed = input.ReadInt64();
+            Seed = input.ReadInt32();
             break;
           }
           case 72: {

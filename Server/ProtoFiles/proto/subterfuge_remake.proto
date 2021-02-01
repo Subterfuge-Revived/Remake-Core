@@ -131,7 +131,7 @@ message Room {
     bool Anonymous = 5;
     string RoomName = 6;
     Goal Goal = 7;
-    int64 Seed = 8;
+    int32 Seed = 8;
     int64 UnixTimeCreated = 9;
     int64 UnixTimeStarted = 10;
     int64 MaxPlayers = 11;
@@ -392,7 +392,7 @@ message RoomModel {
     bool Anonymous = 5;
     string RoomName = 6;
     Goal Goal = 7;
-    int64 Seed = 8;
+    int32 Seed = 8;
     int64 UnixTimeCreated = 9;
     int64 UnixTimeStarted = 10;
     int64 MaxPlayers = 11;

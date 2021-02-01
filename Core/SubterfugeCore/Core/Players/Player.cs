@@ -2,7 +2,6 @@
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.Network;
 using SubterfugeCore.Core.Config;
 
 namespace SubterfugeCore.Core.Players
