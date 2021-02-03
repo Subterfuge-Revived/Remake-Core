@@ -1,0 +1,420 @@
+﻿syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "subterfugeRemake.grpc.service";
+option java_outer_classname = "SubterfugeRemakeProto";
+option objc_class_prefix = "SRP";
+
+package SubterfugeRemakeService;
+
+service subterfugeService {
+
+    // Allows users to login
+    rpc Login(AuthorizationRequest) returns (AuthorizationResponse) {}
+    
+    rpc LoginWithToken(AuthorizedTokenRequest) returns (AuthorizationResponse) {}
+    
+    // Allows users to register a new account
+    rpc RegisterAccount(AccountRegistrationRequest) returns (AccountRegistrationResponse) {}
+    
+    rpc GetOpenLobbies(OpenLobbiesRequest) returns (OpenLobbiesResponse) {}
+    
+    rpc GetPlayerCurrentGames(PlayerCurrentGamesRequest) returns (PlayerCurrentGamesResponse) {}
+    
+    rpc CreateNewRoom(CreateRoomRequest) returns (CreateRoomResponse) {}
+    
+    rpc JoinRoom(JoinRoomRequest) returns (JoinRoomResponse) {}
+
+    rpc LeaveRoom(LeaveRoomRequest) returns (LeaveRoomResponse) {}
+    
+    rpc StartGameEarly (StartGameEarlyRequest) returns (StartGameEarlyResponse) {}
+    
+    rpc GetGameRoomEvents(GetGameRoomEventsRequest) returns (GetGameRoomEventsResponse) {}
+    
+    rpc SubmitGameEvent(SubmitGameEventRequest) returns (SubmitGameEventResponse) {}
+    
+    rpc UpdateGameEvent(UpdateGameEventRequest) returns (SubmitGameEventResponse) {}
+    
+    rpc DeleteGameEvent(DeleteGameEventRequest) returns (DeleteGameEventResponse) {}
+    
+    rpc CreateMessageGroup(CreateMessageGroupRequest) returns (CreateMessageGroupResponse) {}
+    
+    rpc SendMessage(SendMessageRequest) returns (SendMessageResponse) {}
+    
+    rpc GetMessageGroups(GetMessageGroupsRequest) returns (GetMessageGroupsResponse) {}
+
+    rpc GetGroupMessages(GetGroupMessagesRequest) returns (GetGroupMessagesResponse) {}
+    
+    rpc BlockPlayer(BlockPlayerRequest) returns (BlockPlayerResponse) {}
+
+    rpc UnblockPlayer(UnblockPlayerRequest) returns (UnblockPlayerResponse) {}
+
+    rpc ViewBlockedPlayers(ViewBlockedPlayersRequest) returns (ViewBlockedPlayersResponse) {}
+
+    rpc SendFriendRequest(SendFriendRequestRequest) returns (SendFriendRequestResponse) {}
+
+    rpc AcceptFriendRequest(AcceptFriendRequestRequest) returns (AcceptFriendRequestResponse) {}
+
+    rpc DenyFriendRequest(DenyFriendRequestRequest) returns (DenyFriendRequestResponse) {}
+
+    rpc ViewFriendRequests(ViewFriendRequestsRequest) returns (ViewFriendRequestsResponse) {}
+
+    rpc RemoveFriend(RemoveFriendRequest) returns (RemoveFriendResponse) {}
+
+    rpc ViewFriends(ViewFriendsRequest) returns (ViewFriendsResponse) {}
+    
+    rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
+
+    rpc AuthorizedHealthCheck(AuthorizedHealthCheckRequest) returns (AuthorizedHealthCheckResponse) {}
+
+}
+
+message ResponseStatus {
+    bool isSuccess = 2;
+    string detail = 3;
+}
+
+message AuthorizationRequest {
+    string Username = 1;
+    string Password = 2;
+}
+
+message AuthorizedTokenRequest {
+    string Token = 1;
+}
+
+message AuthorizationResponse {
+    ResponseStatus status = 1;
+    User User = 2;
+    string Token = 3;
+}
+
+message AccountRegistrationRequest {
+    string Username = 1;
+    string Password = 2;
+    string Email = 3;
+    string DeviceIdentifier = 4;
+}
+
+message AccountRegistrationResponse {
+    ResponseStatus status = 1;
+    User User = 2;
+    string Token = 3;
+}
+
+message User {
+    string Id = 1;
+    string Username = 2;
+}
+
+message OpenLobbiesRequest {
+    RoomStatus RoomStatus = 1;
+    bool FilterByPlayer = 2;
+}
+
+enum RoomStatus {
+    OPEN = 0;
+    ONGOING = 1;
+    CLOSED = 2;
+}
+
+message OpenLobbiesResponse {
+    ResponseStatus status = 1;
+    repeated Room Rooms = 2;
+}
+
+message Room {
+    string RoomId = 1;
+    RoomStatus RoomStatus = 2;
+    User Creator = 3;
+    RankedInformation RankedInformation = 4;
+    bool Anonymous = 5;
+    string RoomName = 6;
+    Goal Goal = 7;
+    int32 Seed = 8;
+    int64 UnixTimeCreated = 9;
+    int64 UnixTimeStarted = 10;
+    int64 MaxPlayers = 11;
+    repeated User Players = 12;
+    repeated string allowedSpecialists = 13;
+    double MinutesPerTick = 14;
+}
+
+message RankedInformation {
+    bool IsRanked = 1;
+    int64 MinRating = 2;
+    int64 MaxRating = 3;
+}
+
+enum Goal {
+    MINING = 0;
+    DOMINATION = 1;
+}
+
+message CreateRoomRequest {
+    bool isRanked = 4;
+    bool Anonymous = 5;
+    string RoomName = 6;
+    Goal Goal = 7;
+    int64 MaxPlayers = 11;
+    repeated string allowedSpecialists = 12;
+    double MinutesPerTick = 13;
+}
+
+message CreateRoomResponse {
+    ResponseStatus status = 1;
+    Room createdRoom = 2;
+}
+
+message JoinRoomRequest {
+    string RoomId = 1;
+}
+
+message JoinRoomResponse {
+    ResponseStatus status = 1;
+}
+
+message LeaveRoomRequest {
+    string RoomId = 1;
+}
+
+message LeaveRoomResponse {
+    ResponseStatus status = 1;
+}
+
+message StartGameEarlyRequest {
+    string RoomId = 1;    
+}
+
+message StartGameEarlyResponse {
+    ResponseStatus status = 1;
+}
+
+message GetGameRoomEventsRequest {
+    string RoomId = 1;
+    int64 AfterTick = 2;
+}
+
+message GetGameRoomEventsResponse {
+    ResponseStatus status = 1;
+    repeated GameEventModel GameEvents = 2;
+}
+
+message GameEventRequest {
+    int64 OccursAtTick = 3;
+    string EventData = 5;
+}
+
+message SubmitGameEventRequest {
+    string RoomId = 1;
+    GameEventRequest EventData = 2;
+}
+
+message SubmitGameEventResponse {
+    ResponseStatus status = 1;
+    string EventId = 3;
+}
+
+message UpdateGameEventRequest {
+    string RoomId = 1;
+    string eventId = 2;
+    GameEventRequest EventData = 3;
+}
+
+message DeleteGameEventRequest {
+    string RoomId = 1;
+    string EventId = 2;
+}
+
+message DeleteGameEventResponse {
+    ResponseStatus status = 1;
+}
+
+message CreateMessageGroupRequest {
+    string RoomId = 1;
+    repeated string UserIdsInGroup = 2;
+}
+
+message CreateMessageGroupResponse {
+    ResponseStatus status = 1;
+    string GroupId = 2;
+}
+
+message SendMessageRequest {
+    string RoomId = 1;
+    string GroupId = 2;
+    string Message = 3;
+}
+
+message SendMessageResponse {
+    ResponseStatus status = 1;
+}
+
+message GetMessageGroupsRequest {
+    string RoomId = 1;    
+}
+
+message GetMessageGroupsResponse {
+    ResponseStatus status = 1;
+    repeated MessageGroup MessageGroups = 2;
+}
+
+message MessageGroup {
+    string GroupId = 1;
+    repeated User GroupMembers = 2;
+    repeated MessageModel Messages = 3;
+}
+
+message BlockPlayerRequest {
+    string UserIdToBlock = 1;
+}
+
+message BlockPlayerResponse {
+    ResponseStatus status = 1;
+}
+
+message UnblockPlayerRequest {
+    string UserIdToBlock = 1;
+}
+
+message UnblockPlayerResponse {
+    ResponseStatus status = 1;
+}
+
+message ViewBlockedPlayersRequest {}
+
+message ViewBlockedPlayersResponse {
+    ResponseStatus status = 1;
+    repeated User BlockedUsers = 2;
+}
+
+message SendFriendRequestRequest {
+    string FriendId = 1;
+}
+
+message SendFriendRequestResponse {
+    ResponseStatus status = 1;
+}
+
+message AcceptFriendRequestRequest {
+    string FriendId = 1;
+}
+
+message AcceptFriendRequestResponse {
+    ResponseStatus status = 1;
+}
+
+message DenyFriendRequestRequest {
+    string FriendId = 1;
+}
+
+message DenyFriendRequestResponse {
+    ResponseStatus status = 1;
+}
+
+message ViewFriendRequestsRequest {}
+
+message ViewFriendRequestsResponse {
+    ResponseStatus status = 1;
+    repeated User IncomingFriends = 2;
+}
+
+message RemoveFriendRequest {
+    string FriendId = 1;
+}
+
+message RemoveFriendResponse {
+    ResponseStatus status = 1;
+}
+
+message ViewFriendsRequest { }
+
+message ViewFriendsResponse {
+    ResponseStatus status = 1;
+    repeated User Friends = 2;
+}
+
+message HealthCheckRequest { }
+message HealthCheckResponse {
+    ResponseStatus status = 1;
+}
+message AuthorizedHealthCheckRequest { }
+message AuthorizedHealthCheckResponse {
+    ResponseStatus status = 1;
+}
+
+message PlayerCurrentGamesRequest{}
+message PlayerCurrentGamesResponse{
+    ResponseStatus status = 1;
+    repeated Room games = 2;
+}
+
+message GetGroupMessagesRequest {
+    string roomId = 1;
+    string groupId = 2;
+    int32 pagination = 3;
+}
+
+message GetGroupMessagesResponse {
+    ResponseStatus status = 1;
+    MessageGroup group = 2;
+}
+
+
+// For database and server processing only.
+// Players should never be shown or given access to the full data model as it contains confidential information
+
+message UserModel {
+    string Id = 1;
+    string Username = 2;
+    string PasswordHash = 3;
+    string Email = 4;
+    string deviceIdentifier = 5;
+    bool emailVerified = 6;
+    repeated UserClaim claims = 7;
+    string pushNotificationIdentifier = 8;
+}
+
+enum UserClaim {
+    UNKNOWN = 0;
+    USER = 1;
+    DEV = 2;
+    ADMIN = 3;
+    EMAIL_VERIFIED = 4;
+    BANNED = 5;
+}
+
+message RoomModel {
+    string RoomId = 1;
+    RoomStatus RoomStatus = 2;
+    string creatorId = 3;
+    RankedInformation RankedInformation = 4;
+    bool Anonymous = 5;
+    string RoomName = 6;
+    Goal Goal = 7;
+    int32 Seed = 8;
+    int64 UnixTimeCreated = 9;
+    int64 UnixTimeStarted = 10;
+    int64 MaxPlayers = 11;
+    repeated string allowedSpecialists = 12;
+    double MinutesPerTick = 13;
+}
+
+message GameEventModel {
+    string eventId = 1;
+    int64 UnixTimeIssued = 2;
+    int64 OccursAtTick = 3;
+    string IssuedBy = 4;
+    string EventData = 5;
+}
+
+message GroupModel {
+    string GroupId = 1;
+    repeated User GroupMembers = 2;
+}
+
+message MessageModel {
+    int64 UnixTimeCreatedAt = 1;
+    string SenderId = 2;
+    string Message = 3;
+}

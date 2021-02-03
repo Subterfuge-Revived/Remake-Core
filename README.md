@@ -11,7 +11,9 @@
 
 ### [View the API Documentation](https://subterfuge-revived.github.io/Remake-Core/index.html)
 
-This repository is a class library that contains all of the core game-logic and functionality for the game. This class library gets built into a `dll` which is then consumed by the unity repository so that unity can parse and display the game state. This project also includes a DLL CLI tool which the backend repository makes use of in order to validate all player events when they are recieved. View tutorials and [documentation on the class library's API here](https://subterfuge-revived.github.io/Remake-Core/index.html).
+This repository is a combination of the class library which runs the game, as well as the game server and client libraries.
+
+For additional information on the game server, view the readme in the `Server` directory.
 
 ## Setup
 
@@ -29,28 +31,5 @@ Note: After cloning the repository you will have the `master` branch checked out
 
 ## Using the Core Libraries
 
-If using the Core `dll` class libraries within the frontend or backend repositories, be sure to [View the API Documentation][documentation on the class library's API here](https://subterfuge-revived.github.io/Remake-Core/index.html) to understand how to make use of the API to load a game and parse a game state.
+If using the Core `dll` class libraries, be sure to [View the API Documentation][documentation on the class library's API here](https://subterfuge-revived.github.io/Remake-Core/index.html) to understand how to make use of the API to load a game and parse a game state.
 
-
-Needed for Backend:
-### How to access dotnet on Linux for backend use of the CLI:
-
-- Get the latest link for dot net core 3.1 from the microsoft website
-https://dotnet.microsoft.com/download/dotnet-core/3.1
-- Select version 3.1 and copy the "Direct Link" URL.
-
-- Navigate to a folder of your choice where you would like to download dotnet to.
-- Make note of the current folder path at this point. Replace future occurances of `{path}` with your current path.
-- Note: Replace `{directLink}` in the first linux command below with the Direct Link to dotnet.
-
-
-1. Download dotnet: `wget {directLink}`
-2. Create a directory to extract the tar: `mkdir dotnet-arm32`
-3. Unzip to the directory: `tar zxf dotnet-sdk-3.1.102-linux-arm.tar.gz -C dotnet-arm32/`
-4. Allow using the `dotnet` command globally by setting the PATH:
-
-`export DOTNET_ROOT={path}/dotnet-arm32/`<br/>
-`export PATH=$PATH:{path}/dotnet-arm32/`<br/>
-
-5. Verify the installation worked:
-`dotnet --info`

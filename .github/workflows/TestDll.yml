@@ -22,22 +22,13 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout
       uses: actions/checkout@v2
-
-    # Install nuget packages
-    - name: Enter core project
-      run: cd SubterfugeCore
     - name: Install NuGet packages
-      run: dotnet restore
+      run: dotnet restore "Core/SubterfugeCore/SubterfugeCore.csproj"
     # Build the DLL
     - name: Build DLL
-      run: dotnet build
-    - name: Move to root
-      run: cd ..
-    - name: Move to Test project
-      run: cd SubterfugeCoreTest
-    # Run the automated tests
+      run: dotnet build "Core/SubterfugeCore/SubterfugeCore.csproj"
     - name: Run tests
-      run: dotnet test
+      run: dotnet test "Core/SubterfugeCoreTest/SubterfugeCoreTest.csproj"
   # A step to build docfx documents using a differnt container with docfx installed
   gen-docs:
     runs-on: ubuntu-18.04
@@ -48,4 +39,4 @@ jobs:
       uses: actions/checkout@v2
     # Run the docfx generation command.
     - name: Generate docs
-      run: docfx SubterfugeCore/docfx.json
+      run: docfx Core/SubterfugeCore/docfx.json

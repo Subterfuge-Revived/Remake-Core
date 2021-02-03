@@ -25,6 +25,8 @@ jobs:
 
     # Install nuget packages
     - name: Enter core project
+      run: cd Core
+    - name: Enter core project
       run: cd SubterfugeCore
     - name: Install NuGet packages
       run: dotnet restore
@@ -46,12 +48,12 @@ jobs:
       uses: actions/checkout@v2
     # Run the docfx generation command.
     - name: Generate docs
-      run: docfx SubterfugeCore/docfx.json
+      run: docfx Core/SubterfugeCore/docfx.json
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1.5.1
       with:
         # Build directory to deploy
-        build_dir: SubterfugeCore/_site/
+        build_dir: Core/SubterfugeCore/_site/
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   deploy:
@@ -68,6 +70,8 @@ jobs:
 
     # Install nuget packages
     - name: Enter core project
+      run: cd Core
+    - name: Enter core project
       run: cd SubterfugeCore
     - name: Install NuGet packages
       run: dotnet restore
@@ -78,7 +82,7 @@ jobs:
     - name: Zip releases
       uses: papeloto/action-zip@v1
       with:
-        files: SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/
+        files: Core/SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/
         dest: Release.zip
     - name: GH Release
       uses: softprops/action-gh-release@master
