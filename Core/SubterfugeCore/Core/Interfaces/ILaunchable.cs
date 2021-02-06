@@ -1,5 +1,6 @@
 ﻿using System;
 using SubterfugeCore.Core.Entities;
+using SubterfugeCore.Core.Interfaces.EventHandlers;
 
 namespace SubterfugeCore.Core.Interfaces
 {
