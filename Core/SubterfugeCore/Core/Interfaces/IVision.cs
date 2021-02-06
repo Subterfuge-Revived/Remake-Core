@@ -1,4 +1,7 @@
-﻿namespace SubterfugeCore.Core.Interfaces
+﻿using System;
+using SubterfugeCore.Core.Topologies;
+
+namespace SubterfugeCore.Core.Interfaces
 {
     public interface IVision
     {
