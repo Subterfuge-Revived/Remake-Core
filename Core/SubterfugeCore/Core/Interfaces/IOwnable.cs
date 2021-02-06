@@ -1,12 +1,13 @@
-﻿namespace SubterfugeCore.Core.Interfaces
+﻿using System;
+
+namespace SubterfugeCore.Core.Interfaces
 {
     /// <summary>
     /// Anything that can be owned by a player
     /// </summary>
     public interface IOwnable
     {
-        
-        int GetId();
+        Guid GetId();
     
         /// <summary>
         /// Get the owner

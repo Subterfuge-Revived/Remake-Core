@@ -93,8 +93,8 @@ namespace SubterfugeCore.Core.GameEvents
 
         class DeserializedLaunchEvent
         {
-            public int Source { get; set; }
-            public int Destination { get; set; }
+            public Guid Source { get; set; }
+            public Guid Destination { get; set; }
             public int GameTick { get; set; }
             public int Drillers { get; set; }
             public List<string> Specialists { get; set; }

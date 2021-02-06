@@ -13,12 +13,12 @@ namespace SubterfugeCore.Core.Entities
     /// <summary>
     /// An instance of a Sub
     /// </summary>
-    public class Sub : GameObject, ICombatable
+    public class Sub : GameObject, ICombatable, IVision
     {
         /// <summary>
         /// Unique identifier for each sub
         /// </summary>
-        private int _id;
+        private Guid _id;
         
         /// <summary>
         /// How many drillers are on the sub
@@ -70,7 +70,7 @@ namespace SubterfugeCore.Core.Entities
         /// <param name="owner">The owner</param>
         public Sub(ILaunchable source, ITargetable destination, GameTick launchTime, int drillerCount, Player owner) : base()
         {
-            this._id = IdGenerator.GetNextId();
+            this._id = Guid.NewGuid();
             this._source = source;
             this._destination = destination;
             this._launchTime = launchTime;
@@ -371,9 +371,19 @@ namespace SubterfugeCore.Core.Entities
         /// Gets the globally unique indentifier for the Sub.
         /// </summary>
         /// <returns>The Sub's Guid</returns>
-        public int GetId()
+        public Guid GetId()
         {
             return this._id;
+        }
+
+        public float getVisionRange()
+        {
+            return Config.Constants.BASE_OUTPOST_VISION_RADIUS * 0.2f;
+        }
+
+        public bool isInVisionRange(IPosition position)
+        {
+            return Vector2.Distance(this.GetCurrentPosition().ToVector2(), position.GetCurrentPosition().ToVector2()) <= getVisionRange();
         }
     }
 }

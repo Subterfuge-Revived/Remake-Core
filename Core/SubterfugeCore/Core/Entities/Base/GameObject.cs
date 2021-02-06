@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCore.Core.Entities.Base

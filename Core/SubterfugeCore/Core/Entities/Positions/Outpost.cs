@@ -13,12 +13,12 @@ namespace SubterfugeCore.Core.Entities.Positions
 	/// <summary>
 	/// Outpost class
 	/// </summary>
-    public class Outpost : GameObject, IOwnable, ITargetable, IDrillerCarrier, ILaunchable, ICombatable, IShieldable
+    public class Outpost : GameObject, IOwnable, ITargetable, IDrillerCarrier, ILaunchable, ICombatable, IShieldable, IVision
     {
         /// <summary>
         /// A unique identifier for the outpost
         /// </summary>
-        private int _id;
+        private Guid _id;
 
         /// <summary>
         /// A unique name that identifies the outpost.
@@ -68,7 +68,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// <param name="outpostPosition">The position of the outpost</param>
         public Outpost(RftVector outpostPosition)
         {
-            this._id = IdGenerator.GetNextId();
+            this._id = Guid.NewGuid();
             this.Position = outpostPosition;
             this._drillerCount = 0;
             this._outpostOwner = null;
@@ -85,7 +85,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// <param name="type">The type of outpost to create</param>
         public Outpost(RftVector outpostPosition, OutpostType type)
         {
-            this._id = IdGenerator.GetNextId();
+            this._id = Guid.NewGuid();
             this.Position = outpostPosition;
             this._drillerCount = 0;
             this._outpostOwner = null;
@@ -104,7 +104,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// <param name="type">The type of outpost to create</param>
         public Outpost(RftVector outpostPosition, Player outpostOwner, OutpostType type)
         {
-            this._id = IdGenerator.GetNextId();
+            this._id = Guid.NewGuid();
             this.Position = outpostPosition;
             this._drillerCount = outpostOwner == null ? 0 : 40;
             this._outpostOwner = outpostOwner;
@@ -349,7 +349,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// Gets the globally unique indentifier for the Outpost.
         /// </summary>
         /// <returns>The Outpost's Guid</returns>
-        public int GetId()
+        public Guid GetId()
         {
             return this._id;
         }
@@ -372,6 +372,16 @@ namespace SubterfugeCore.Core.Entities.Positions
         public GameTick GetExpectedArrival()
         {
             return null;
+        }
+        
+        public float getVisionRange()
+        {
+            return Config.Constants.BASE_OUTPOST_VISION_RADIUS;
+        }
+
+        public bool isInVisionRange(IPosition position)
+        {
+            return Vector2.Distance(this.GetCurrentPosition().ToVector2(), position.GetCurrentPosition().ToVector2()) <= getVisionRange();
         }
     }
 }

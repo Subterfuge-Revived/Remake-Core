@@ -13,6 +13,11 @@ namespace SubterfugeCore.Core.Entities.Specialists
     public abstract class Specialist : IOwnable
     {
         /// <summary>
+        /// The specialist's id
+        /// </summary>
+        private Guid _id;
+        
+        /// <summary>
         /// The specialist priority
         /// </summary>
         int _priority;
@@ -45,6 +50,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="owner">The player that owns the specialist</param>
         protected Specialist(String name, int priority, Player owner)
         {
+            this._id = Guid.NewGuid();
             this._specialistName = name;
             this._priority = priority;
             this._owner = owner;
@@ -122,9 +128,9 @@ namespace SubterfugeCore.Core.Entities.Specialists
             return this._priority;
         }
 
-        public int GetId()
+        public Guid GetId()
         {
-            throw new NotImplementedException();
+            return this._id;
         }
 
         /// <summary>
