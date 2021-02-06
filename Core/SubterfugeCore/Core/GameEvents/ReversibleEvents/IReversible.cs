@@ -9,13 +9,13 @@
         /// Applies the forward action
         /// </summary>
         /// <returns>If the action was successful</returns>
-        bool ForwardAction();
+        bool ForwardAction(GameState state);
         
         /// <summary>
         /// Applies the backward action
         /// </summary>
         /// <returns>If the backward action was successful</returns>
-        bool BackwardAction();
+        bool BackwardAction(GameState state);
 
         /// <summary>
         /// Function to verify if the event was successful during launch.

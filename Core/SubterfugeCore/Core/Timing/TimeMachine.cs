@@ -12,10 +12,6 @@ namespace SubterfugeCore.Core.Timing
         // Current representation of the game state
         private GameState _gameState;
 
-        // To determine the current position of the time machine.
-        public GameTick CurrentTick;
-        private GameTick _startTime;
-
         /// <summary>
         /// Creates a new instance of the TimeMachine. You will likely never need to call this as this is created in the
         /// `Game` object when the game is created.
@@ -23,8 +19,6 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="state">The initial GameState</param>
         public TimeMachine(GameState state)
         {
-            _startTime = state.GetStartTick();
-            CurrentTick = state.GetCurrentTick();
             _gameState = state;
         }
 
@@ -61,7 +55,7 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="tick">The GameTick to jump to</param>
         public void GoTo(GameTick tick)
         {
-            if (tick > CurrentTick)
+            if (tick > _gameState.CurrentTick)
             {
                 bool evaluating = true;
                 while (evaluating)
@@ -73,7 +67,7 @@ namespace SubterfugeCore.Core.Timing
                         {
                             // Move commands from the future to the past
                             GameEvent futureToPast = _futureEventQueue.Dequeue();
-                            futureToPast.ForwardAction();
+                            futureToPast.ForwardAction(_gameState);
                             _pastEventQueue.Enqueue(futureToPast);
                             continue;
                         }
@@ -92,7 +86,7 @@ namespace SubterfugeCore.Core.Timing
                         {
                             // Move commands from the past to the future
                             GameEvent pastToFuture = _pastEventQueue.Dequeue();
-                            pastToFuture.BackwardAction();
+                            pastToFuture.BackwardAction(_gameState);
                             _futureEventQueue.Enqueue(pastToFuture);
                             continue;
                         }
@@ -100,7 +94,6 @@ namespace SubterfugeCore.Core.Timing
                     evaluating = false;
                 }
             }
-            this.CurrentTick = tick;
             this._gameState.CurrentTick = tick;
         }
 
@@ -110,7 +103,7 @@ namespace SubterfugeCore.Core.Timing
         /// <returns>The GameTick that the timeMachine is showing</returns>
         public GameTick GetCurrentTick()
         {
-            return this.CurrentTick;
+            return _gameState.CurrentTick;
         }
 
         

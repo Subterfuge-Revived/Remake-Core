@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core
 {
@@ -18,7 +21,7 @@ namespace SubterfugeCore.Core
     public class Game
     {
         // Globally accessible time machine reference
-        public static TimeMachine TimeMachine;
+        public TimeMachine TimeMachine;
         
         public GameConfiguration Configuration { get; } = null;
 
@@ -32,7 +35,7 @@ namespace SubterfugeCore.Core
             // Create a generic game configuration with one player.
             List<Player> players = new List<Player>();
             players.Add(new Player("1"));
-            Configuration = new GameConfiguration(players);
+            Configuration = new GameConfiguration(players, DateTime.Now, new MapConfiguration(players));
             // Creates a new game state and makes a time machine to reference the state
             GameState state = new GameState(Configuration);
             TimeMachine = new TimeMachine(state);
@@ -50,7 +53,7 @@ namespace SubterfugeCore.Core
             TimeMachine = new TimeMachine(state);
 
             // Creates the map generator with a random seed
-            MapGenerator mapGenerator = new MapGenerator(gameConfiguration);
+            MapGenerator mapGenerator = new MapGenerator(gameConfiguration.MapConfiguration);
             
             // Generate the map
             List<Outpost> outpostsToGenerate = mapGenerator.GenerateMap();
@@ -66,6 +69,14 @@ namespace SubterfugeCore.Core
             
             // Add the outposts to the map
             state.GetOutposts().AddRange(outpostsToGenerate);
+        }
+
+        public void LoadGameEvents(List<GameEventModel> gameEvents)
+        {
+            foreach(var model in gameEvents)
+            {
+                
+            }
         }
 
     }

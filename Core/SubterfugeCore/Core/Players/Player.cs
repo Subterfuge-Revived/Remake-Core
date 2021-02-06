@@ -3,6 +3,7 @@ using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Config;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.Players
 {
@@ -42,50 +43,13 @@ namespace SubterfugeCore.Core.Players
         }
 
         /// <summary>
-        /// Checks if the player's queen is alive at the current game tick.
+        /// Creates a player from a protobuf player.
         /// </summary>
-        /// <returns>If the player's queen is alive</returns>
-        public bool IsAlive()
+        /// <param name="user">protobuf player</param>
+        public Player(User user)
         {
-            List<Specialist> playerSpecs = Game.TimeMachine.GetState().GetPlayerSpecialists(this);
-
-            // Find the player's queen.
-            foreach (Specialist spec in playerSpecs)
-            {
-                Queen playerQueen = spec as Queen;
-                if (playerQueen != null)
-                {
-                    return playerQueen.IsCaptured;
-                }
-            }
-
-            // Player doesn't have a queen. Odd but possible if stolen.
-            return false;
-        }
-
-        /// <summary>
-        /// Gets the driller count.
-        /// </summary>
-        /// <returns>The driller count.</returns>
-        public int GetDrillerCount()
-        {
-            List <Outpost> playerOutposts = Game.TimeMachine.GetState().GetPlayerOutposts(this);
-            List <Sub> playerSubs = Game.TimeMachine.GetState().GetPlayerSubs(this);
-            int drillerCount = 0;
-
-            // add all drillers from player outposts
-            foreach (Outpost outpost in playerOutposts)
-            {
-                drillerCount += outpost.GetDrillerCount();
-            }
-
-            // add all drillers from player subs
-            foreach (Sub sub in playerSubs)
-            {
-                drillerCount += sub.GetDrillerCount();
-            }
-
-            return drillerCount;
+            this.PlayerId = user.Id;
+            this.PlayerName = user.Username;
         }
 
         /// <summary>
@@ -104,28 +68,6 @@ namespace SubterfugeCore.Core.Players
         public string GetPlayerName()
         {
             return this.PlayerName;
-        }
-
-        /// <summary>
-        /// Get the player's driller capacity
-        /// </summary>
-        /// <returns>The player's driller capacity</returns>
-        public int GetDrillerCapacity()
-        {
-            List<Outpost> playerOutposts = Game.TimeMachine.GetState().GetOutposts();
-            int capacity = Constants.BASE_DRILLER_CAPACITY; // base capacity
-
-            // Generators increase capacity
-            foreach (Outpost outpost in playerOutposts)
-            {
-                if(outpost.GetOutpostType().Equals(OutpostType.Generator))
-                {
-                    capacity += Constants.BASE_GENERATOR_CAPACITY;
-                }
-
-            }
-
-            return capacity;
         }
     }
 }
