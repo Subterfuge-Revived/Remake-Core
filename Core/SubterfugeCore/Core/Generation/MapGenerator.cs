@@ -160,7 +160,7 @@ namespace SubterfugeCore.Core.Generation
                 {
                     // Get the X and Y pos to find distance
                     otherOutpost = playerOutposts[idx];
-                    vectorDistance = otherOutpost.GetPosition() - currentOutpostPosition;
+                    vectorDistance = otherOutpost.GetCurrentPosition() - currentOutpostPosition;
 
                     //ensure that the new location is not too close to other outposts
                     if (vectorDistance.Magnitude() < this.Configuration.MinimumOutpostDistance)

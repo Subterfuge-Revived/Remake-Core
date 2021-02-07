@@ -122,7 +122,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
             return this._priority;
         }
 
-        public int GetId()
+        public string GetId()
         {
             throw new NotImplementedException();
         }

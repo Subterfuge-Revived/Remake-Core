@@ -68,7 +68,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             loserSpecialists = loser.GetSpecialistManager().GetSpecialists();
         }
         
-        public bool ForwardAction()
+        public bool ForwardAction(GameState state)
         {
             if (isTie)
             {
@@ -87,7 +87,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                 else
                 {
                     // Remove the sub
-                    Game.TimeMachine.GetState().RemoveSub((Sub)loser);    
+                    state.RemoveSub((Sub)loser);    
                 }
             }
 
@@ -105,14 +105,14 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                 winner.GetSpecialistManager().transferSpecialistsTo(loser.GetSpecialistManager());
                 
                 // Remove the incoming sub.
-                Game.TimeMachine.GetState().RemoveSub((Sub)winner);
+                state.RemoveSub((Sub)winner);
             }
 
             this.isSuccess = true;
             return isSuccess;
         }
 
-        public bool BackwardAction()
+        public bool BackwardAction(GameState state)
         {
             if (isTie)
             {
@@ -131,7 +131,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                 else
                 {
                     // Put the sub back
-                    Game.TimeMachine.GetState().AddSub((Sub)loser);    
+                    state.AddSub((Sub)loser);    
                 }
             }
 
@@ -147,7 +147,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                 loser.GetSpecialistManager().uncaptureAll();
                 
                 // Put the incoming sub back
-                Game.TimeMachine.GetState().AddSub((Sub)winner);
+                state.AddSub((Sub)winner);
             }
 
             this.isSuccess = true;

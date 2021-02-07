@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using System.Text;
 using System.Threading;
+using Google.Protobuf;
 using Grpc.Core;
 using NUnit.Framework;
 using SubterfugeCore.Core.Timing;
@@ -58,7 +60,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -83,7 +85,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = "somegameId",
@@ -100,7 +102,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -116,7 +118,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = -20,
                 },
                 RoomId = gameId,
@@ -133,7 +135,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -172,7 +174,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -215,7 +217,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 2,
                 },
                 RoomId = gameId,
@@ -251,7 +253,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -271,7 +273,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "NewEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -288,7 +290,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -309,7 +311,7 @@ namespace Tests
                 EventId = "14141414",
                 EventData = new GameEventRequest()
                 {
-                    EventData = "NewEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -324,7 +326,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 2,
                 },
                 RoomId = gameId,
@@ -349,7 +351,7 @@ namespace Tests
                 EventId = eventResponse.EventId,
                 EventData = new GameEventRequest()
                 {
-                    EventData = "NewEventData",
+                    EventData = ByteString.CopyFromUtf8("NewEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -364,7 +366,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -387,7 +389,7 @@ namespace Tests
                 EventId = eventResponse.EventId,
                 EventData = new GameEventRequest()
                 {
-                    EventData = "NewEventData",
+                    EventData = ByteString.CopyFromUtf8("NewEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -404,7 +406,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 5,
                 },
                 RoomId = gameId,
@@ -445,7 +447,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 42,
                 },
                 RoomId = gameId,
@@ -480,7 +482,7 @@ namespace Tests
             {
                 EventData = new GameEventRequest()
                 {
-                    EventData = "MyEventData",
+                    EventData = ByteString.CopyFromUtf8("MyEventData"),
                     OccursAtTick = 5,
                 },
                 RoomId = gameId,

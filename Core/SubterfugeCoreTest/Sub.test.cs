@@ -26,9 +26,9 @@ namespace SubterfugeCoreTest
         {
 	        _map = new Rft(3000, 3000);
             _location = new RftVector(_map, 0, 0);
-            _outpost = new Outpost(_location, new Player("1"), OutpostType.Generator);
-            _tick = new GameTick(DateTime.Now, 10);
-            _sub = new Sub(_outpost, _outpost, _tick, 0, new Player("1"));
+            _outpost = new Outpost("0", _location, new Player("1"), OutpostType.Generator);
+            _tick = new GameTick(10);
+            _sub = new Sub("0", _outpost, _outpost, _tick, 0, new Player("1"));
             Game server = new Game();
         }
 

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
-using SubterfugeCore.Core.Entities.Base;
+using GameEventModels;
+using SubterfugeCore.Core.Entities.Managers;
 using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.Generation;
+using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
@@ -13,22 +16,22 @@ namespace SubterfugeCore.Core.Entities
     /// <summary>
     /// An instance of a Sub
     /// </summary>
-    public class Sub : GameObject, ICombatable
+    public class Sub : ICombatable, ILocalEventWatcher
     {
         /// <summary>
         /// Unique identifier for each sub
         /// </summary>
         private string _id;
-        
+
         /// <summary>
         /// How many drillers are on the sub
         /// </summary>
-        private int _drillerCount;
+        private DrillerManager _drillerManager;
         
         /// <summary>
         /// Where the sub is travelling from
         /// </summary>
-        private ILaunchable _source;
+        private ISubLauncher _source;
         
         /// <summary>
         /// Where the sub is travelling to
@@ -56,9 +59,24 @@ namespace SubterfugeCore.Core.Entities
         private SpecialistManager _specialistManager;
         
         /// <summary>
+        /// The shield manager for the outpost.
+        /// </summary>
+        private ShieldManager _shieldManager;
+
+        /// <summary>
         /// If the sub is captured.
         /// </summary>
-        public bool IsCaptured { get; set; }
+        public bool IsCaptured { get; set; } = false;
+        
+        /// <summary>
+        /// The sub's initial position.
+        /// </summary>
+        private RftVector StartPosition;
+
+        /// <summary>
+        /// A queue holding the game events this object will observe during its lifetime.
+        /// </summary>
+        private PriorityQueue<GameEvent> gameEvents;
 
         /// <summary>
         /// Sub constructor
@@ -68,16 +86,17 @@ namespace SubterfugeCore.Core.Entities
         /// <param name="launchTime">The time of launch</param>
         /// <param name="drillerCount">The amount of drillers to launch</param>
         /// <param name="owner">The owner</param>
-        public Sub(string id, ILaunchable source, ITargetable destination, GameTick launchTime, int drillerCount, Player owner) : base()
+        public Sub(string id, ISubLauncher source, ITargetable destination, GameTick launchTime, int drillerCount, Player owner) : base()
         {
             this._id = id;
             this._source = source;
             this._destination = destination;
             this._launchTime = launchTime;
-            this._drillerCount = drillerCount;
-            this.Position = source.GetCurrentPosition();
+            this._drillerManager = new DrillerManager(drillerCount);
+            this.StartPosition = source.GetCurrentPosition(launchTime);
             this._owner = owner;
             this._specialistManager = new SpecialistManager(3);
+            _shieldManager = new ShieldManager(5);
         }
 
         /// <summary>
@@ -99,79 +118,14 @@ namespace SubterfugeCore.Core.Entities
         }
 
         /// <summary>
-        /// Gets the estimated arrival time based on known information
-        /// </summary>
-        /// <returns>The estimated arrival time</returns>
-        public GameTick GetExpectedArrival()
-        {
-            GameTick baseTick;
-            RftVector direction;
-            int ticksToArrive;
-            if(Game.TimeMachine.GetState().GetCurrentTick() < this._launchTime)
-            {
-                baseTick = this._launchTime;
-                // Determine direction vector
-                direction = (this._destination.GetInterceptionPosition(this.Position, this.GetSpeed()) - this._source.GetCurrentPosition());
-                // Determine the number of ticks to arrive
-                ticksToArrive = (int)Math.Floor(direction.Magnitude() / this.GetSpeed());
-            } else
-            {
-                baseTick = Game.TimeMachine.GetState().GetCurrentTick();
-                // Determine direction vector
-                direction = (this._destination.GetInterceptionPosition(this.Position, this.GetSpeed()) - this.GetCurrentPosition());
-                // Determine the number of ticks to arrive
-                ticksToArrive = (int)Math.Floor(direction.Magnitude() / this.GetSpeed());
-            }
-            return baseTick.Advance(ticksToArrive);
-        }
-
-        /// <summary>
-        /// Get the number of drillers
-        /// </summary>
-        /// <returns>The number of drillers</returns>
-        public int GetDrillerCount()
-        {
-            return this._drillerCount;
-        }
-
-        /// <summary>
-        /// Gets the position of the current sub
-        /// </summary>
-        /// <returns>The sub's position</returns>
-        public override RftVector GetPosition()
-        {
-            // Determine number of ticks after launch:
-            int elapsedTicks = Game.TimeMachine.GetState().GetCurrentTick() - this._launchTime;
-
-            // Determine direction vector
-            Vector2 direction = (this._destination.GetInterceptionPosition(this.Position, this.GetSpeed()) - this._source.GetCurrentPosition()).Normalize();
-
-            if(elapsedTicks > 0)
-            {
-                this.Position = this._source.GetCurrentPosition() + new RftVector(RftVector.Map, (direction * (elapsedTicks * this.GetSpeed())));
-                return this.Position;
-            }
-            else
-            {
-                return new RftVector(RftVector.Map);
-            }
-        }
-        
-        /// <summary>
         /// Gets the rotation of the sub
         /// </summary>
         /// <returns>Gets the angle of the sub's path</returns>
-        public double GetRotation()
+        public double GetRotationRadians()
         {
             // Determine direction vector
-            Vector2 direction = (this._destination.GetInterceptionPosition(this.GetPosition(), this.GetSpeed()) - this._source.GetCurrentPosition()).Normalize();
-
-            double extraRotation = 0;
-            if(direction.X < 0)
-            {
-                extraRotation = Math.PI;
-            }
-            return Math.Atan(direction.Y / direction.X) + Math.PI/4.0f + extraRotation;
+            RftVector direction = GetDirection();
+            return Math.Atan2(direction.Y, direction.X);
         }
         
         /// <summary>
@@ -189,7 +143,7 @@ namespace SubterfugeCore.Core.Entities
         /// <returns>Gets the subs initial position</returns>
         public RftVector GetInitialPosition()
         {
-            return this._source.GetCurrentPosition();
+            return this.StartPosition;
         }
 
         /// <summary>
@@ -198,7 +152,7 @@ namespace SubterfugeCore.Core.Entities
         /// <returns>The destination of the sub</returns>
         public RftVector GetDestinationLocation()
         {
-            return this._destination.GetInterceptionPosition(this.GetPosition(), this.GetSpeed());
+            return this._destination.GetInterceptionPosition(this.StartPosition, this.GetSpeed());
         }
         
         /// <summary>
@@ -223,53 +177,86 @@ namespace SubterfugeCore.Core.Entities
         /// Get the combat location if this object is targeted by another
         /// </summary>
         /// <param name="targetFrom">The location that this sub is being targeted from</param>
-        /// <param name="speed">The speed this is being targeted by</param>
+        /// <param name="chaserSpeed">The speed this is being targeted by</param>
         /// <returns>The location of combat</returns>
-		public RftVector GetInterceptionPosition(RftVector targetFrom, float speed)
-		{
-		    if (targetFrom == this.GetPosition())
-		        return targetFrom;
+		public RftVector GetInterceptionPosition(RftVector targetFrom, float chaserSpeed)
+        {
+            // https://stackoverflow.com/questions/37250215/intersection-of-two-moving-objects-with-latitude-longitude-coordinates
+            
+            var distanceBetweenTargets = (StartPosition - targetFrom).Magnitude();
+            var directionBetweenTargets = Math.Atan2(StartPosition.Y - targetFrom.Y, StartPosition.X - targetFrom.X);
+            var alpha = Math.PI + directionBetweenTargets - Math.Atan2(this.GetDirection().Y, this.GetDirection().X);
 
-		    if (speed == 0)
-		        return targetFrom;
+            if (chaserSpeed == _speed)
+            {
+                if (Math.Cos(alpha) < 0)
+                {
+                    return null;
+                }
+                var radians = (directionBetweenTargets + alpha) % (Math.PI * 2);
+                return new RftVector((float)(Math.Cos(radians) * distanceBetweenTargets), (float)(Math.Sin(radians) * distanceBetweenTargets));
+            }
 
-		    // Determine target's distance to travel to destination:
-		    RftVector targetDestination = this.GetDestinationLocation();
+            // Solve with quadratic formula
+            var a = Math.Pow(chaserSpeed, 2) - Math.Pow(GetSpeed(), 2);
+            var b = 2 * distanceBetweenTargets * GetSpeed() * Math.Cos(alpha);
+            var c = -Math.Pow(distanceBetweenTargets, 2);
 
-		    // Check if the chaser can get there before it.
-		    RftVector chaserDestination = targetDestination - targetFrom;
+            var discriminant = Math.Pow(b, 2) - (4 * a * c);
+            if (discriminant < 0)
+                return null;
 
-		    float ticksToDestination = targetDestination.Magnitude()/ this.GetSpeed();
-		    float chaserTicksToDestination = chaserDestination.Magnitude() / speed;
-
-		    if (ticksToDestination > chaserTicksToDestination)
-		    {
-		        // Can intercept.
-		        // Determine interception point.
-
-		        int scalar = 1;
-		        bool searching = true;
-		        while (searching)
-		        {
-		            Vector2 destination = (this.GetDestinationLocation() - this.GetPosition()).Normalize();
-
-		            RftVector runnerLocation = this.GetPosition() + new RftVector(RftVector.Map, (destination * scalar));
-		            Vector2 chaserDirection = (runnerLocation - targetFrom).Normalize();
-		            RftVector chaserPosition = targetFrom + new RftVector(RftVector.Map, (chaserDirection * scalar));
-
-		            if((chaserPosition - runnerLocation).Magnitude() < 1)
-		            {
-		                return chaserPosition;
-		            }
-		            if(runnerLocation.Magnitude() > this.GetDestinationLocation().Magnitude())
-		            {
-		                return targetFrom;
-		            }
-		            scalar++;
-		        }
-		        return targetFrom;
-		    }
-		    return targetFrom;
+            var time = (Math.Sqrt(discriminant) - b) / (2 * a);
+            var x = StartPosition.X +
+                    (GetSpeed() * time) * Math.Cos(Math.Atan2(this.GetDirection().Y, this.GetDirection().X));
+            var y = StartPosition.Y +
+                    (GetSpeed() * time) * Math.Sin(Math.Atan2(this.GetDirection().Y, this.GetDirection().X));
+            
+            return new RftVector((float)x, (float)y);
+            
+		    // if (targetFrom == this.StartPosition)
+            //     return targetFrom;
+            //
+            // if (Math.Abs(chaserSpeed) < 0.001)
+            //     return targetFrom;
+            //
+            // // Determine target's distance to travel to destination:
+            // RftVector targetDestination = this.GetDestinationLocation();
+            //
+            // // Check if the chaser can get there before it.
+            // RftVector chaserDestination = targetDestination - targetFrom;
+            //
+            // float ticksToDestination = targetDestination.Magnitude()/ this.GetSpeed();
+            // float chaserTicksToDestination = chaserDestination.Magnitude() / chaserSpeed;
+            //
+            // if (ticksToDestination > chaserTicksToDestination)
+            // {
+            //     // Can intercept.
+            //     // Determine interception point.
+            //
+            //     int scalar = 1;
+            //     bool searching = true;
+            //     while (searching)
+            //     {
+            //         Vector2 destination = (this.GetDestinationLocation() - this.GetCurrentPosition()).Normalize();
+            //
+            //         RftVector runnerLocation = this.GetCurrentPosition() + new RftVector(RftVector.Map, (destination * scalar));
+            //         Vector2 chaserDirection = (runnerLocation - targetFrom).Normalize();
+            //         RftVector chaserPosition = targetFrom + new RftVector(RftVector.Map, (chaserDirection * scalar));
+            //
+            //         if((chaserPosition - runnerLocation).Magnitude() < 1)
+            //         {
+            //             return chaserPosition;
+            //         }
+            //         if(runnerLocation.Magnitude() > this.GetDestinationLocation().Magnitude())
+            //         {
+            //             return targetFrom;
+            //         }
+            //         scalar++;
+            //     }
+            //     return targetFrom;
+            // }
+            // return targetFrom;
 		}
         
         /// <summary>
@@ -283,79 +270,37 @@ namespace SubterfugeCore.Core.Entities
         }
 
         /// <summary>
-        /// Get the current location
+        /// The subs direction
         /// </summary>
-        /// <returns>The sub's current location</returns>
-        public RftVector GetCurrentPosition()
+        /// <returns>The sub's direction vector</returns>
+        public Vector2 GetDirectionNormalized()
         {
-            return this.GetPosition();
+            return (this.GetDestinationLocation() - this.StartPosition).Normalize();
         }
-
+        
         /// <summary>
         /// The subs direction
         /// </summary>
         /// <returns>The sub's direction vector</returns>
-        public Vector2 GetDirection()
+        public RftVector GetDirection()
         {
-            return (this.GetDestinationLocation() - this._source.GetCurrentPosition()).Normalize();
+            return (this.GetDestinationLocation() - this.StartPosition);
+        }
+
+        public GameTick GetExpectedArrival()
+        {
+            RftVector direction = this.GetDirection();
+            int ticksToArrive = (int)Math.Floor(direction.Magnitude() / this.GetSpeed());
+            return this._launchTime.Advance(ticksToArrive);
         }
 
         /// <summary>
         /// Get the launch source
         /// </summary>
         /// <returns>The source of the sub launch</returns>
-        public ILaunchable GetSource()
+        public ISubLauncher GetSource()
         {
             return this._source;
-        }
-        
-        /// <summary>
-        /// Set the driller count
-        /// </summary>
-        /// <param name="drillerCount">The number of drillers to set</param>
-        public void SetDrillerCount(int drillerCount)
-        {
-            this._drillerCount = drillerCount;
-        }
-
-        /// <summary>
-        /// Adds drillers to the sub
-        /// </summary>
-        /// <param name="drillersToAdd">The number of drillers to add</param>
-        public void AddDrillers(int drillersToAdd)
-        {
-            this._drillerCount += drillersToAdd;
-        }
-        
-        /// <summary>
-        /// Removes drillers from the sub
-        /// </summary>
-        /// <param name="drillersToRemove">The number of drillers to remove</param>
-        public void RemoveDrillers(int drillersToRemove)
-        {
-            this._drillerCount -= drillersToRemove;
-        }
-        
-        /// <summary>
-        /// If the sub has the specified number of drillers
-        /// </summary>
-        /// <param name="drillers">The number of drillers to check for</param>
-        /// <returns>If the sub has the specified number of drillers</returns>
-        public bool HasDrillers(int drillers)
-        {
-            return this._drillerCount >= drillers;
-        }
-
-        /// <summary>
-        /// Launches a sub from this object
-        /// </summary>
-        /// <param name="drillerCount"></param>
-        /// <param name="destination"></param>
-        /// <returns></returns>
-        public ICombatable LaunchSub(int drillerCount, ITargetable destination)
-        {
-            // Determine any specialist effects if a specialist left the sub.
-            return new Sub(this, destination, Game.TimeMachine.CurrentTick, drillerCount, this._owner);
         }
 
         /// <summary>
@@ -374,6 +319,98 @@ namespace SubterfugeCore.Core.Entities
         public string GetId()
         {
             return this._id;
+        }
+
+        public ICombatable LaunchSub(GameState state, LaunchEvent launchEvent)
+        {
+            // Determine any specialist effects if a specialist left the sub.
+            LaunchEventData launchData = launchEvent.GetEventData();
+            ICombatable destination = state.GetCombatableById(launchData.DestinationId);
+
+            if (destination != null && this.HasDrillers(launchData.DrillerCount))
+            {
+                this.RemoveDrillers(launchData.DrillerCount);
+                Sub launchedSub = new Sub(launchEvent.GetEventId(), this, destination, state.GetCurrentTick(), launchData.DrillerCount, this._owner);
+                state.AddSub(launchedSub);
+                return launchedSub;
+            }
+
+            return null;
+        }
+
+        public void UndoLaunch(GameState state, LaunchEvent launchEvent)
+        {
+            // Determine any specialist effects if a specialist left the sub.
+            LaunchEventData launchData = launchEvent.GetEventData();
+            ICombatable destination = state.GetCombatableById(launchData.DestinationId);
+
+            if (launchEvent.GetActiveSub() != null && launchEvent.GetActiveSub() is Sub)
+            {
+                Sub launchedSub = launchEvent.GetActiveSub() as Sub;
+                this.AddDrillers(launchData.DrillerCount);
+                launchedSub.GetSpecialistManager().transferSpecialistsTo(this._specialistManager);
+                state.RemoveSub(launchEvent.GetActiveSub() as Sub);
+            }
+        }
+
+        public ShieldManager GetShieldManager()
+        {
+            return this._shieldManager;
+        }
+        
+        // Driller Carrier Interface
+        public int GetDrillerCount()
+        {
+            return _drillerManager.GetDrillerCount();
+        }
+
+        public void SetDrillerCount(int drillerCount)
+        {
+            _drillerManager.SetDrillerCount(drillerCount);
+        }
+
+        public void AddDrillers(int drillersToAdd)
+        {
+            _drillerManager.AddDrillers(drillersToAdd);
+        }
+
+        public void RemoveDrillers(int drillersToRemove)
+        {
+            _drillerManager.RemoveDrillers(drillersToRemove);
+        }
+
+        public bool HasDrillers(int drillers)
+        {
+            return _drillerManager.HasDrillers(drillers);
+        }
+
+        public RftVector GetCurrentPosition(GameTick currentTick)
+        {
+            // Determine number of ticks after launch:
+            int elapsedTicks = currentTick - this._launchTime;
+
+            // Determine direction vector
+            Vector2 direction = (this._destination.GetInterceptionPosition(this.StartPosition, this.GetSpeed()) - this._source.GetCurrentPosition(currentTick)).Normalize();
+
+            if(elapsedTicks > 0)
+            {
+                this.StartPosition = this._source.GetCurrentPosition(currentTick) + new RftVector(RftVector.Map, (direction * (elapsedTicks * this.GetSpeed())));
+                return this.StartPosition;
+            }
+            else
+            {
+                return new RftVector(RftVector.Map);
+            }
+        }
+
+        public GameEvent GetNextEvent()
+        {
+            return this.gameEvents.Peek();
+        }
+
+        public List<GameEvent> GetEvents()
+        {
+            return this.gameEvents.GetQueue();
         }
     }
 }

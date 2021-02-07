@@ -14,9 +14,9 @@ namespace SubterfugeCore.Core.Interfaces
         /// Returns the combat location when being targeted from the specified location and speed.
         /// </summary>
         /// <param name="targetFrom">The location this object is being targeted from.</param>
-        /// <param name="speed">The speed the targeting object has.</param>
+        /// <param name="chaserSpeed">The speed the targeting object has.</param>
         /// <returns>The combat location</returns>
-        RftVector GetInterceptionPosition(RftVector targetFrom, float speed);
+        RftVector GetInterceptionPosition(RftVector targetFrom, float chaserSpeed);
         
         /// <summary>
         /// If you are targetable, you should be moving at some speed.
@@ -28,7 +28,13 @@ namespace SubterfugeCore.Core.Interfaces
         /// Get the direction you are travelling
         /// </summary>
         /// <returns>The direction the object is travelling</returns>
-        Vector2 GetDirection();
+        Vector2 GetDirectionNormalized();
+
+        /// <summary>
+        /// The subs direction
+        /// </summary>
+        /// <returns>The sub's direction vector</returns>
+        RftVector GetDirection();
 
         /// <summary>
         /// The gameTick when the object is expected to arrive at its destination (if any)

@@ -63,7 +63,7 @@ namespace SubterfugeCore.Core.Timing
 
                     if (_futureEventQueue.Count > 0)
                     {
-                        if (_futureEventQueue.Peek().GetTick() <= tick)
+                        if (_futureEventQueue.Peek().GetOccursAt() <= tick)
                         {
                             // Move commands from the future to the past
                             GameEvent futureToPast = _futureEventQueue.Dequeue();
@@ -82,7 +82,7 @@ namespace SubterfugeCore.Core.Timing
                 {
                     if (_pastEventQueue.Count > 0)
                     {
-                        if (_pastEventQueue.Peek().GetTick() >= tick)
+                        if (_pastEventQueue.Peek().GetOccursAt() >= tick)
                         {
                             // Move commands from the past to the future
                             GameEvent pastToFuture = _pastEventQueue.Dequeue();
@@ -113,7 +113,7 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="eventOfInterest">The GameEvent to jump to</param>
         public void GoTo(GameEvent eventOfInterest)
         {
-            this.GoTo(eventOfInterest.GetTick());
+            this.GoTo(eventOfInterest.GetOccursAt());
         }
         
         /// <summary>

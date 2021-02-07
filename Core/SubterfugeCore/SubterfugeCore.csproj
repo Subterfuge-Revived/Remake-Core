@@ -19,9 +19,6 @@
     <Compile Update="GameServer\GameEvents\Base\GameEventType.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="Core\Entities\Base\GameObject.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
     <Compile Update="Core\Entities\Sub.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
@@ -45,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Server\ProtoFiles\ProtoFiles.csproj" />
+    <ProjectReference Include="..\..\Server\ProtoGenerated\ProtoGenerated.csproj" />
   </ItemGroup>
 
 </Project>

@@ -17,18 +17,20 @@ namespace SubterfugeCoreTest
     [TestClass]
     public class TimeMachineTest
     {
+        private Game game = new Game();
+        
         [TestInitialize]
         public void Setup()
         {
-            Game game = new Game();
+            game = new Game();
 
         }
 
         [TestMethod]
         public void Constructor()
         {
-            Assert.IsNotNull(Game.TimeMachine);
-            Assert.IsNotNull(Game.TimeMachine.GetState());
+            Assert.IsNotNull(game.TimeMachine);
+            Assert.IsNotNull(game.TimeMachine.GetState());
         }
 
         [TestMethod]
@@ -36,42 +38,42 @@ namespace SubterfugeCoreTest
         {
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Outpost(new RftVector(map, 0, 0), player1, OutpostType.Generator);
+            Outpost outpost = new Outpost("0", new RftVector(map, 0, 0), player1, OutpostType.Generator);
             outpost.AddDrillers(10);
-            Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(), outpost.GetInterceptionPosition(sub.GetCurrentPosition(), sub.GetSpeed()));
+            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick());
 
-            Game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(1, Game.TimeMachine.GetQueuedEvents().Count);
-            Assert.AreEqual(arriveEvent, Game.TimeMachine.GetQueuedEvents()[0]);
+            game.TimeMachine.AddEvent(arriveEvent);
+            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
         }
 
         [TestMethod]
         public void CanAdvanceTime()
         {
-            GameTick initialTick = Game.TimeMachine.GetCurrentTick();
-            Game.TimeMachine.Advance(5);
+            GameTick initialTick = game.TimeMachine.GetCurrentTick();
+            game.TimeMachine.Advance(5);
             
-            Assert.IsTrue(initialTick < Game.TimeMachine.GetCurrentTick());
-            Assert.AreEqual(initialTick.Advance(5).GetTick(), Game.TimeMachine.GetCurrentTick().GetTick());
+            Assert.IsTrue(initialTick < game.TimeMachine.GetCurrentTick());
+            Assert.AreEqual(initialTick.Advance(5).GetTick(), game.TimeMachine.GetCurrentTick().GetTick());
         }
         
         [TestMethod]
         public void CanRewindTime()
         {
-            GameTick initialTick = Game.TimeMachine.GetCurrentTick();
-            Game.TimeMachine.Advance(5);
+            GameTick initialTick = game.TimeMachine.GetCurrentTick();
+            game.TimeMachine.Advance(5);
             
-            Assert.IsTrue(initialTick < Game.TimeMachine.GetCurrentTick());
-            Assert.AreEqual(initialTick.Advance(5).GetTick(), Game.TimeMachine.GetCurrentTick().GetTick());
+            Assert.IsTrue(initialTick < game.TimeMachine.GetCurrentTick());
+            Assert.AreEqual(initialTick.Advance(5).GetTick(), game.TimeMachine.GetCurrentTick().GetTick());
 
-            GameTick advancedTick = Game.TimeMachine.GetCurrentTick();
+            GameTick advancedTick = game.TimeMachine.GetCurrentTick();
             
-            Game.TimeMachine.Rewind(1);
+            game.TimeMachine.Rewind(1);
             
             
-            Assert.IsTrue(advancedTick > Game.TimeMachine.GetCurrentTick());
-            Assert.AreEqual(advancedTick.Rewind(1).GetTick(), Game.TimeMachine.GetCurrentTick().GetTick());
+            Assert.IsTrue(advancedTick > game.TimeMachine.GetCurrentTick());
+            Assert.AreEqual(advancedTick.Rewind(1).GetTick(), game.TimeMachine.GetCurrentTick().GetTick());
         }
         
         [TestMethod]
@@ -79,18 +81,18 @@ namespace SubterfugeCoreTest
         {
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Outpost(new RftVector(map, 0, 0), player1, OutpostType.Generator);
+            Outpost outpost = new Outpost("0", new RftVector(map, 0, 0), player1, OutpostType.Generator);
             outpost.AddDrillers(10);
-            Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetInterceptionPosition(sub.GetCurrentPosition(), sub.GetSpeed()));
+            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
-            Game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(1, Game.TimeMachine.GetQueuedEvents().Count);
-            Assert.AreEqual(arriveEvent, Game.TimeMachine.GetQueuedEvents()[0]);
+            game.TimeMachine.AddEvent(arriveEvent);
+            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
             
             // Go past the tick
-            Game.TimeMachine.Advance(6);
-            Assert.AreEqual(0, Game.TimeMachine.GetQueuedEvents().Count);
+            game.TimeMachine.Advance(6);
+            Assert.AreEqual(0, game.TimeMachine.GetQueuedEvents().Count);
         }
 
         [TestMethod]
@@ -98,23 +100,23 @@ namespace SubterfugeCoreTest
         {
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Outpost(new RftVector(map, 0, 0), player1, OutpostType.Generator);
+            Outpost outpost = new Outpost("0", new RftVector(map, 0, 0), player1, OutpostType.Generator);
             outpost.AddDrillers(10);
-            Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetInterceptionPosition(sub.GetCurrentPosition(), sub.GetSpeed()));
+            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
-            Game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(1, Game.TimeMachine.GetQueuedEvents().Count);
-            Assert.AreEqual(arriveEvent, Game.TimeMachine.GetQueuedEvents()[0]);
+            game.TimeMachine.AddEvent(arriveEvent);
+            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
             
             // Go past the tick
-            Game.TimeMachine.Advance(6);
-            Assert.AreEqual(0, Game.TimeMachine.GetQueuedEvents().Count);
+            game.TimeMachine.Advance(6);
+            Assert.AreEqual(0, game.TimeMachine.GetQueuedEvents().Count);
             
             // Rewind back
-            Game.TimeMachine.Rewind(6);
-            Assert.AreEqual(1, Game.TimeMachine.GetQueuedEvents().Count);
-            Assert.AreEqual(arriveEvent, Game.TimeMachine.GetQueuedEvents()[0]);
+            game.TimeMachine.Rewind(6);
+            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
         }
         
         [TestMethod]
@@ -122,28 +124,28 @@ namespace SubterfugeCoreTest
         {
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Outpost(new RftVector(map, 0, 0), player1, OutpostType.Generator);
+            Outpost outpost = new Outpost("0", new RftVector(map, 0, 0), player1, OutpostType.Generator);
             outpost.AddDrillers(10);
-            Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetInterceptionPosition(sub.GetCurrentPosition(), sub.GetSpeed()));
+            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
-            Game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(1, Game.TimeMachine.GetQueuedEvents().Count);
-            Assert.AreEqual(arriveEvent, Game.TimeMachine.GetQueuedEvents()[0]);
+            game.TimeMachine.AddEvent(arriveEvent);
+            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
             
-            Game.TimeMachine.RemoveEvent(arriveEvent);
-            Assert.AreEqual(0, Game.TimeMachine.GetQueuedEvents().Count);
+            game.TimeMachine.RemoveEvent(arriveEvent);
+            Assert.AreEqual(0, game.TimeMachine.GetQueuedEvents().Count);
         }
         
         [TestMethod]
         public void CanGoToAGameTick()
         {
 
-            GameTick initialTick = Game.TimeMachine.GetCurrentTick();
-            Game.TimeMachine.GoTo(GameTick.FromTickNumber(5));
+            GameTick initialTick = game.TimeMachine.GetCurrentTick();
+            game.TimeMachine.GoTo(new GameTick(5));
             
-            Assert.IsTrue(initialTick < Game.TimeMachine.GetCurrentTick());
-            Assert.AreEqual(initialTick.Advance(5).GetTick(), Game.TimeMachine.GetCurrentTick().GetTick());
+            Assert.IsTrue(initialTick < game.TimeMachine.GetCurrentTick());
+            Assert.AreEqual(initialTick.Advance(5).GetTick(), game.TimeMachine.GetCurrentTick().GetTick());
         }
         
         [TestMethod]
@@ -151,18 +153,18 @@ namespace SubterfugeCoreTest
         {
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Outpost(new RftVector(map, 0, 0), player1, OutpostType.Generator);
+            Outpost outpost = new Outpost("0", new RftVector(map, 0, 0), player1, OutpostType.Generator);
             outpost.AddDrillers(10);
-            Sub sub = new Sub(outpost, outpost, new GameTick(), 10, player1);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, GameTick.FromTickNumber(5), outpost.GetInterceptionPosition(sub.GetCurrentPosition(), sub.GetSpeed()));
+            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
-            Game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(1, Game.TimeMachine.GetQueuedEvents().Count);
-            Assert.AreEqual(arriveEvent, Game.TimeMachine.GetQueuedEvents()[0]);
+            game.TimeMachine.AddEvent(arriveEvent);
+            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
             
-            Game.TimeMachine.GoTo(arriveEvent);
-            Assert.AreEqual(arriveEvent.GetTick().GetTick(), Game.TimeMachine.GetCurrentTick().GetTick());
-            Assert.AreEqual(0, Game.TimeMachine.GetQueuedEvents().Count);
+            game.TimeMachine.GoTo(arriveEvent);
+            Assert.AreEqual(arriveEvent.GetOccursAt().GetTick(), game.TimeMachine.GetCurrentTick().GetTick());
+            Assert.AreEqual(0, game.TimeMachine.GetQueuedEvents().Count);
         }
 
     }

@@ -40,5 +40,18 @@ namespace SubterfugeCore.Core.Generation
             this.StartTime = startTime;
             this.MapConfiguration = configuration;
         }
+        
+        /// <summary>
+        /// The constructor for the GameConfiguration object requires a list of players to be passed in.
+        /// This is because you can never configure a game with zero players.
+        /// </summary>
+        /// <param name="players">A list of the players in the game</param>
+        public GameConfiguration(List<Player> players)
+        {
+            // Requires a list of players so that map generation can get the appropriate map & link ownership when generated.
+            this.Players = players;
+            this.StartTime = DateTime.Now;
+            this.MapConfiguration = new MapConfiguration(players);
+        }
     }
 }

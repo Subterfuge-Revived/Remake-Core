@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
@@ -57,26 +58,16 @@ namespace SubterfugeCore.Core
             
             // Generate the map
             List<Outpost> outpostsToGenerate = mapGenerator.GenerateMap();
-            
-            // Add factory driller production events to the time machine.
-            // TODO: Make this better.
-            foreach(Outpost o in outpostsToGenerate)
-            {
-                if (o.GetOutpostType() == OutpostType.Factory) {
-                    TimeMachine.AddEvent(new FactoryProduceDrillersEvent(o, state.GetCurrentTick().Advance(36)));
-                }
-            }
-            
+
             // Add the outposts to the map
             state.GetOutposts().AddRange(outpostsToGenerate);
         }
 
         public void LoadGameEvents(List<GameEventModel> gameEvents)
         {
-            foreach(var model in gameEvents)
-            {
-                
-            }
+            gameEvents
+                .ConvertAll<GameEvent>(m => GameEventFactory.parseGameEvent(m))
+                .ForEach( parsedEvent => TimeMachine.AddEvent(parsedEvent) );
         }
 
     }
