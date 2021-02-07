@@ -18,7 +18,7 @@ namespace SubterfugeCore.Core.Entities
         /// <summary>
         /// Unique identifier for each sub
         /// </summary>
-        private Guid _id;
+        private int _id;
         
         /// <summary>
         /// How many drillers are on the sub
@@ -70,7 +70,7 @@ namespace SubterfugeCore.Core.Entities
         /// <param name="owner">The owner</param>
         public Sub(ILaunchable source, ITargetable destination, GameTick launchTime, int drillerCount, Player owner) : base()
         {
-            this._id = Guid.NewGuid();
+            this._id = IdGenerator.GetNextId();
             this._source = source;
             this._destination = destination;
             this._launchTime = launchTime;
@@ -371,7 +371,7 @@ namespace SubterfugeCore.Core.Entities
         /// Gets the globally unique indentifier for the Sub.
         /// </summary>
         /// <returns>The Sub's Guid</returns>
-        public Guid GetId()
+        public int GetId()
         {
             return this._id;
         }

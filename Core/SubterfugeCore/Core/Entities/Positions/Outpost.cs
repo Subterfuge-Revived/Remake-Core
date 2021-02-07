@@ -18,7 +18,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// <summary>
         /// A unique identifier for the outpost
         /// </summary>
-        private Guid _id;
+        private int _id;
 
         /// <summary>
         /// A unique name that identifies the outpost.
@@ -68,7 +68,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// <param name="outpostPosition">The position of the outpost</param>
         public Outpost(RftVector outpostPosition)
         {
-            this._id = Guid.NewGuid();
+            this._id = IdGenerator.GetNextId();
             this.Position = outpostPosition;
             this._drillerCount = 0;
             this._outpostOwner = null;
@@ -85,7 +85,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// <param name="type">The type of outpost to create</param>
         public Outpost(RftVector outpostPosition, OutpostType type)
         {
-            this._id = Guid.NewGuid();
+            this._id = IdGenerator.GetNextId();
             this.Position = outpostPosition;
             this._drillerCount = 0;
             this._outpostOwner = null;
@@ -104,7 +104,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// <param name="type">The type of outpost to create</param>
         public Outpost(RftVector outpostPosition, Player outpostOwner, OutpostType type)
         {
-            this._id = Guid.NewGuid();
+            this._id = IdGenerator.GetNextId();
             this.Position = outpostPosition;
             this._drillerCount = outpostOwner == null ? 0 : 40;
             this._outpostOwner = outpostOwner;
@@ -349,7 +349,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// Gets the globally unique indentifier for the Outpost.
         /// </summary>
         /// <returns>The Outpost's Guid</returns>
-        public Guid GetId()
+        public int GetId()
         {
             return this._id;
         }
@@ -376,6 +376,10 @@ namespace SubterfugeCore.Core.Entities.Positions
         
         public float getVisionRange()
         {
+            if (GetOutpostType() == OutpostType.Watchtower)
+            {
+                return Config.Constants.BASE_WATCHTOWER_VISION_RADIUS;
+            }
             return Config.Constants.BASE_OUTPOST_VISION_RADIUS;
         }
 

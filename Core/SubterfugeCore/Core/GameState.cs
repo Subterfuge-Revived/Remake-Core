@@ -198,7 +198,7 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="guid">The Guid of the outpost you want to obtain.</param>
         /// <returns>The outpost matching the input Guid. Null if no results.</returns>
-        public Outpost GetOutpostById(Guid id)
+        public Outpost GetOutpostById(int id)
         {
             foreach (Outpost outpost in this._outposts)
             {
@@ -218,7 +218,7 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="guid">The guid of a sub to find.</param>
         /// <returns>The sub with the specified guid. Null if no sub exists with the specified Guid.</returns>
-        public Sub GetSubById(Guid id)
+        public Sub GetSubById(int id)
         {
             foreach (Sub sub in this._activeSubs)
             {

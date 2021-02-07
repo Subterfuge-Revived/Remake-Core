@@ -7,7 +7,7 @@ namespace SubterfugeCore.Core.Interfaces
     /// </summary>
     public interface IOwnable
     {
-        Guid GetId();
+        int GetId();
     
         /// <summary>
         /// Get the owner
