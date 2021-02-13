@@ -1,9 +1,12 @@
 # Creating a new Game
 
 In order to create a new game, you can use a combination of the `Game` and `GameConfiguration` objects.
-First, create a new `GameConfiguration` object to load specific information about the game's generation parameters.
+You must first create a new `GameConfiguration` object to tell the `Game` how to generate its state and map.
 Once the `GameConfiguration` object has been created, you can pass it into the `Game` constructor to create a new
-game based off of the configuration parameters. It is important to note that a `GameConfiguration` object requires a player list.
+game. It is important to note that a `GameConfiguration` object requires a list of the players who will be in the game.
+
+For a Multiplayer game, this will be a list of the players in the game, for a single player game these can be players with
+a random ID. An example of this is shown below:
 
 ```cs
 // Create a list of players for the game
@@ -24,9 +27,11 @@ config.maxiumumOutpostDistance = 100;
 config.minimumOutpostDistance = 5;
 config.outpostsPerPlayer = 7;     
 
-// Pass the game config to the game
+// Pass the game config to the game to start the game.
 Game game = new Game(config)
 ```
+
+### 
 
 Once the game has been created, most interaction will be done through the `TimeMachine` class. This class manages the
 game's simulation and allows you to advance and rewind through the game as well as get the `GameState` at the current
