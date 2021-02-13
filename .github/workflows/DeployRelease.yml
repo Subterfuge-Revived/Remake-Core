@@ -24,20 +24,13 @@ jobs:
       uses: actions/checkout@v2
 
     # Install nuget packages
-    - name: Enter core project
-      run: cd Core
-    - name: Enter core project
-      run: cd SubterfugeCore
     - name: Install NuGet packages
-      run: dotnet restore
+      run: dotnet restore "Core/SubterfugeCore/SubterfugeCore.csproj"
+    # Build the DLL
     - name: Build DLL
-      run: dotnet build
-    - name: Move to root
-      run: cd ..
-    - name: Move to Test project
-      run: cd SubterfugeCoreTest
+      run: dotnet build "Core/SubterfugeCore/SubterfugeCore.csproj"
     - name: Run tests
-      run: dotnet test
+      run: dotnet test "Core/SubterfugeCoreTest/SubterfugeCoreTest.csproj"
   # A step to build docfx documents using a differnt container with docfx installed to PATH
   upload-docs:
     runs-on: ubuntu-18.04
@@ -69,26 +62,13 @@ jobs:
       uses: actions/checkout@v2
 
     # Install nuget packages
-    - name: Enter core project
-      run: cd Core
-    - name: Enter core project
-      run: cd SubterfugeCore
+    # Install nuget packages
     - name: Install NuGet packages
-      run: dotnet restore
+      run: dotnet restore "Core/SubterfugeCore/SubterfugeCore.csproj"
+    # Build the DLL
     - name: Build DLL
-      run: dotnet build
-    - name: Move to root
-      run: cd ..
-    - name: Zip releases
-      uses: papeloto/action-zip@v1
+      run: dotnet build "Core/SubterfugeCore/SubterfugeCore.csproj"
+    - uses: actions/upload-artifact@v2
       with:
-        files: Core/SubterfugeCoreCLI/bin/Debug/netcoreapp2.1/
-        dest: Release.zip
-    - name: GH Release
-      uses: softprops/action-gh-release@master
-      with:
-       # Newline-delimited list of path globs for asset files to upload
-        files: Release.zip
-        tag_name: ${{ github.sha }}
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: DLLs
+        path: **/*.dll
