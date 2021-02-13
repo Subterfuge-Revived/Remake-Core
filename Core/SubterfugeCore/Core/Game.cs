@@ -77,6 +77,5 @@ namespace SubterfugeCore.Core
                 .ConvertAll<GameEvent>(m => GameEventFactory.parseGameEvent(m))
                 .ForEach( parsedEvent => TimeMachine.AddEvent(parsedEvent) );
         }
-
     }
 }

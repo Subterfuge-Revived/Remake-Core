@@ -44,6 +44,15 @@ namespace SubterfugeCore.Core.GameEvents
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
+        }
+
+        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        {
+            if (!Validator.ValidateICombatable(state, _combatant1) || !Validator.ValidateICombatable(state, _combatant2))
+            {
+                this.EventSuccess = false;
+                return false;
+            }
             
             // Determine additional events that should be triggered for this particular combat.
             if (_combatant1.GetOwner() == _combatant2.GetOwner())
@@ -54,15 +63,6 @@ namespace SubterfugeCore.Core.GameEvents
                 this._actions.Add(new SpecialistCombat(_combatant1, _combatant2));
                 this._actions.Add(new DrillerCombat(_combatant1, _combatant2));
                 this._actions.Add(new CombatCleanup(_combatant1, _combatant2));
-            }
-        }
-
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
-        {
-            if (!Validator.ValidateICombatable(state, _combatant1) || !Validator.ValidateICombatable(state, _combatant2))
-            {
-                this.EventSuccess = false;
-                return false;
             }
 
             foreach (IReversible action in this._actions)
