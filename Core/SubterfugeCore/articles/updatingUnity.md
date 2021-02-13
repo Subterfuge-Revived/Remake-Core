@@ -1,4 +1,4 @@
-﻿# Updating Unity
+﻿# Updating Unity Clients
 
 When change have been made to the Core repository, it is very likely that you will want to test
 if they are working by playing the game. In order to do this, the class library that is generated
@@ -13,7 +13,7 @@ Once the library is built, the output files can be found in the following direct
 `<projectRoot>/SubterfugeCore/obj/Debug/netstandard2.0/`
 
 At this directory, a number of files will be present but the main file of concern is `SubterfugeCore.dll`.
-Copy this file. This is the class library and unity uses the `.dll` to load in the classes into the editor.
+Copy this file. This is the class library which contains all the code needed to run the game on a client device.
 
 ### Updating Unity
 
@@ -23,8 +23,7 @@ explorer is open, delete the existing `SubterfugeCore` files and paste in the `.
 from your build. Once the new `.dll` has been placed in this directory, Unity will use the updated class
 library when running the game.
 
-NOTE: Please commit the `.dll` file with your unity commits. Git should automatically detect changes to this
-file but don't specifically exclude this file. If you make some updates to Unity while using an updated `.dll`
+NOTE: Please commit the `.dll` file with your unity commits. If you make some updates to Unity while using an updated `.dll`
 any other developer will need to have the same `.dll` file in order for the game to work.
 
 Also Note: When submitting PRs for the Core and unity repositories, if the Unity update includes a
