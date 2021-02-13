@@ -1,4 +1,7 @@
-﻿namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
+﻿using System;
+using SubterfugeCore.Core.Timing;
+
+namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {
     /// <summary>
     /// Any reversible action
@@ -9,13 +12,13 @@
         /// Applies the forward action
         /// </summary>
         /// <returns>If the action was successful</returns>
-        bool ForwardAction();
+        bool ForwardAction(TimeMachine timeMachine, GameState state);
         
         /// <summary>
         /// Applies the backward action
         /// </summary>
         /// <returns>If the backward action was successful</returns>
-        bool BackwardAction();
+        bool BackwardAction(TimeMachine timeMachine, GameState state);
 
         /// <summary>
         /// Function to verify if the event was successful during launch.

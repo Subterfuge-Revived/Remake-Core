@@ -16,7 +16,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <summary>
         /// The specialist's id
         /// </summary>
-        private int _id;
+        private string _id;
         
         /// <summary>
         /// The specialist priority
@@ -49,9 +49,9 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="name">The name of the specialist</param>
         /// <param name="priority">The specialist priority</param>
         /// <param name="owner">The player that owns the specialist</param>
-        protected Specialist(String name, int priority, Player owner)
+        protected Specialist(string id, String name, int priority, Player owner)
         {
-            this._id = IdGenerator.GetNextId();
+            this._id = id;
             this._specialistName = name;
             this._priority = priority;
             this._owner = owner;
@@ -129,7 +129,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
             return this._priority;
         }
 
-        public int GetId()
+        public string GetId()
         {
             return this._id;
         }

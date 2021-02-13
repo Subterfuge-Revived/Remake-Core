@@ -1,6 +1,7 @@
 ﻿using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.GameEvents.Validators;
 using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {
@@ -31,7 +32,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// Performs the reverse action of the driller combat to undo.
         /// </summary>
         /// <returns>if the event was reversed</returns>
-        public bool BackwardAction()
+        public bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             if (_eventSuccess)
             {
@@ -46,9 +47,9 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// Performs driller combat between two subs
         /// </summary>
         /// <returns>If the event was succesfull</returns>
-        public bool ForwardAction()
+        public bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            if (Validator.ValidateICombatable(_combatant1) && Validator.ValidateICombatable(_combatant2))
+            if (Validator.ValidateICombatable(state, _combatant1) && Validator.ValidateICombatable(state, _combatant2))
             {
                 _preCombatDrillers1 = _combatant1.GetDrillerCount();
                 _preCombatDrillers2 = _combatant2.GetDrillerCount();

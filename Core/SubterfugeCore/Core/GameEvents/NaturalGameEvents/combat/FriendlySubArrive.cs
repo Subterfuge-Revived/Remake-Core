@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SubterfugeCore.Core.Entities;
+﻿using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
+using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
+namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
 {
     /// <summary>
     /// Friendly sub arrival
@@ -31,14 +30,14 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// Undoes the sub's arrival
         /// </summary>
         /// <returns>If the event was undone</returns>
-        public bool BackwardAction()
+        public bool BackwardAction(TimeMachine timeMachine,  GameState state)
         {
             if (this._eventSuccess)
             {
                 this._outpost.RemoveDrillers(this._arrivingSub.GetDrillerCount());
                 this._outpost.GetSpecialistManager()
                     .RemoveSpecialists(this._arrivingSub.GetSpecialistManager().GetSpecialists());
-                Game.TimeMachine.GetState().AddSub(this._arrivingSub);
+                state.AddSub(this._arrivingSub);
                 return true;
             }
             else
@@ -51,13 +50,13 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// Perfoms a friendly sub arrival
         /// </summary>
         /// <returns>If the event was successful</returns>
-        public bool ForwardAction()
+        public bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            if (Game.TimeMachine.GetState().SubExists(this._arrivingSub))
+            if (state.SubExists(this._arrivingSub))
             {
                 this._outpost.AddDrillers(this._arrivingSub.GetDrillerCount());
                 this._outpost.GetSpecialistManager().AddSpecialists(this._arrivingSub.GetSpecialistManager().GetSpecialists());
-                Game.TimeMachine.GetState().RemoveSub(this._arrivingSub);
+                state.RemoveSub(this._arrivingSub);
                 this._eventSuccess = true;
             }
             else

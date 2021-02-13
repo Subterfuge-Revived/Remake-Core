@@ -3,7 +3,7 @@
     /// <summary>
     /// Anything that can hold drillers
     /// </summary>
-    public interface IDrillerCarrier : IPosition, IOwnable, ILaunchable
+    public interface IDrillerCarrier
     {
         /// <summary>
         /// Get the number of drillers at this location

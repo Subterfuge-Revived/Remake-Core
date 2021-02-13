@@ -99,7 +99,7 @@ namespace SubterfugeCore.Core.Topologies
 			if (this._x > map.Width / 2) this._x -= map.Width;
 			if (this._y > map.Height / 2) this._y -= map.Height;
 		}
-		
+
 		// Use (b-a).Magnitude();
 		// public float Dist(RftVector a, RftVector b) { return (b-a).Magnitude(); }
 

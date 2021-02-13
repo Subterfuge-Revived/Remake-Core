@@ -12,10 +12,6 @@ namespace SubterfugeCore.Core.Timing
         // Current representation of the game state
         private GameState _gameState;
 
-        // To determine the current position of the time machine.
-        public GameTick CurrentTick;
-        private GameTick _startTime;
-
         /// <summary>
         /// Creates a new instance of the TimeMachine. You will likely never need to call this as this is created in the
         /// `Game` object when the game is created.
@@ -23,8 +19,6 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="state">The initial GameState</param>
         public TimeMachine(GameState state)
         {
-            _startTime = state.GetStartTick();
-            CurrentTick = state.GetCurrentTick();
             _gameState = state;
         }
 
@@ -47,12 +41,24 @@ namespace SubterfugeCore.Core.Timing
         }
         
         /// <summary>
-        /// Removes a GameEvent from the future event queue
+        /// Removes a GameEvent from the game.
         /// </summary>
         /// <param name="gameEvent">The GameEvent to remove from the queue</param>
         public void RemoveEvent(GameEvent gameEvent)
         {
-            this._futureEventQueue.Remove(gameEvent);
+            if (this._futureEventQueue.GetQueue().Contains(gameEvent))
+            {
+                this._futureEventQueue.Remove(gameEvent);
+            }
+            else
+            {
+                // Go to 1 tick before the event occurs.
+                GameTick currentTick = GetCurrentTick();
+                GoTo(gameEvent);
+                Rewind(1);
+                this._futureEventQueue.Remove(gameEvent);
+                GoTo(currentTick);
+            }
         }
 
         /// <summary>
@@ -61,7 +67,7 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="tick">The GameTick to jump to</param>
         public void GoTo(GameTick tick)
         {
-            if (tick > CurrentTick)
+            if (tick > _gameState.CurrentTick)
             {
                 bool evaluating = true;
                 while (evaluating)
@@ -69,11 +75,11 @@ namespace SubterfugeCore.Core.Timing
 
                     if (_futureEventQueue.Count > 0)
                     {
-                        if (_futureEventQueue.Peek().GetTick() <= tick)
+                        if (_futureEventQueue.Peek().GetOccursAt() <= tick)
                         {
                             // Move commands from the future to the past
                             GameEvent futureToPast = _futureEventQueue.Dequeue();
-                            futureToPast.ForwardAction();
+                            futureToPast.ForwardAction(this, _gameState);
                             _pastEventQueue.Enqueue(futureToPast);
                             continue;
                         }
@@ -88,11 +94,11 @@ namespace SubterfugeCore.Core.Timing
                 {
                     if (_pastEventQueue.Count > 0)
                     {
-                        if (_pastEventQueue.Peek().GetTick() >= tick)
+                        if (_pastEventQueue.Peek().GetOccursAt() >= tick)
                         {
                             // Move commands from the past to the future
                             GameEvent pastToFuture = _pastEventQueue.Dequeue();
-                            pastToFuture.BackwardAction();
+                            pastToFuture.BackwardAction(this, _gameState);
                             _futureEventQueue.Enqueue(pastToFuture);
                             continue;
                         }
@@ -100,7 +106,6 @@ namespace SubterfugeCore.Core.Timing
                     evaluating = false;
                 }
             }
-            this.CurrentTick = tick;
             this._gameState.CurrentTick = tick;
         }
 
@@ -110,7 +115,7 @@ namespace SubterfugeCore.Core.Timing
         /// <returns>The GameTick that the timeMachine is showing</returns>
         public GameTick GetCurrentTick()
         {
-            return this.CurrentTick;
+            return _gameState.CurrentTick;
         }
 
         
@@ -120,7 +125,7 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="eventOfInterest">The GameEvent to jump to</param>
         public void GoTo(GameEvent eventOfInterest)
         {
-            this.GoTo(eventOfInterest.GetTick());
+            this.GoTo(eventOfInterest.GetOccursAt());
         }
         
         /// <summary>

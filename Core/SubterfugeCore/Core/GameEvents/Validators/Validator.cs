@@ -19,14 +19,14 @@ namespace SubterfugeCore.Core.GameEvents.Validators
         /// </summary>
         /// <param name="combatable">The ICombatable to validate</param>
         /// <returns></returns>
-        public static bool ValidateICombatable(ICombatable combatable)
+        public static bool ValidateICombatable(GameState state, ICombatable combatable)
         {
             if(combatable is Outpost)
             {
-                return ValidateOutpost((Outpost)combatable);
+                return ValidateOutpost(state, (Outpost)combatable);
             } else if (combatable is Sub)
             {
-                return ValidateSub((Sub)combatable);
+                return ValidateSub(state, (Sub)combatable);
             }
             return false;
         }
@@ -36,11 +36,11 @@ namespace SubterfugeCore.Core.GameEvents.Validators
         /// </summary>
         /// <param name="sub">The sub to validate</param>
         /// <returns>If the sub is valid</returns>
-        public static bool ValidateSub(Sub sub)
+        public static bool ValidateSub(GameState state, Sub sub)
         {
             if (sub == null)
                 return false;
-            if (!Game.TimeMachine.GetState().SubExists(sub))
+            if (!state.SubExists(sub))
                 return false;
             if (sub.GetDrillerCount() < 0)
                 return false;
@@ -50,7 +50,7 @@ namespace SubterfugeCore.Core.GameEvents.Validators
                 return false;
             if (sub.GetSpecialistManager().GetSpecialistCount() > sub.GetSpecialistManager().GetCapacity())
                 return false;
-            if (!Game.TimeMachine.GetState().PlayerExists(sub.GetOwner()))
+            if (!state.PlayerExists(sub.GetOwner()))
                 return false;
             return true;
         }
@@ -60,11 +60,11 @@ namespace SubterfugeCore.Core.GameEvents.Validators
         /// </summary>
         /// <param name="outpost">The outpost to validate</param>
         /// <returns>If the outpost is valid</returns>
-        public static bool ValidateOutpost(Outpost outpost)
+        public static bool ValidateOutpost(GameState state, Outpost outpost)
         {
             if (outpost == null)
                 return false;
-            if (!Game.TimeMachine.GetState().OutpostExists(outpost))
+            if (!state.OutpostExists(outpost))
                 return false;
             if (outpost.GetDrillerCount() < 0)
                 return false;
@@ -74,7 +74,7 @@ namespace SubterfugeCore.Core.GameEvents.Validators
                 return false;
             if (outpost.GetSpecialistManager().GetSpecialistCount() > outpost.GetSpecialistManager().GetCapacity())
                 return false;
-            if (outpost.GetOwner() != null && !Game.TimeMachine.GetState().PlayerExists(outpost.GetOwner()))
+            if (outpost.GetOwner() != null && !state.PlayerExists(outpost.GetOwner()))
                 return false;
             return true;
         }

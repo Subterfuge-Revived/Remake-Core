@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCore.Core.Interfaces
@@ -12,6 +13,6 @@ namespace SubterfugeCore.Core.Interfaces
         /// Get the current location
         /// </summary>
         /// <returns>The current location</returns>
-        RftVector GetCurrentPosition();
+        RftVector GetCurrentPosition(GameTick currentTick);
     }
 }

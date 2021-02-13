@@ -2,28 +2,21 @@
 using System.Numerics;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.Base;
+using SubterfugeCore.Core.GameEvents.NaturalGameEvents;
 using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.GameEvents.Validators;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.GameEvents
 {
     /// <summary>
     /// CombatEvent. It is considered a 'combat' if you arrive at any outpost, even your own.
     /// </summary>
-    public class CombatEvent : GameEvent
+    public class CombatEvent : NaturalGameEvent
     {
-        /// <summary>
-        /// The tick the combat occurs on
-        /// </summary>
-        private GameTick _eventTick;
-        
-        /// <summary>
-        /// Where the combat occurs
-        /// </summary>
-        private RftVector _combatLocation;
         
         /// <summary>
         /// One of the two combat participants
@@ -47,13 +40,19 @@ namespace SubterfugeCore.Core.GameEvents
         /// <param name="combatant2">The second combatant</param>
         /// <param name="tick">The tick the combat occurs</param>
         /// <param name="combatLocation">The location of the combat</param>
-        public CombatEvent(ICombatable combatant1, ICombatable combatant2, GameTick tick, RftVector combatLocation)
+        public CombatEvent(ICombatable combatant1, ICombatable combatant2, GameTick tick) : base(tick, Priority.NATURAL_PRIORITY_9)
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
-            this._eventTick = tick;
-            this._combatLocation = combatLocation;
-            this.EventName = "Combat Event";
+        }
+
+        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        {
+            if (!Validator.ValidateICombatable(state, _combatant1) || !Validator.ValidateICombatable(state, _combatant2))
+            {
+                this.EventSuccess = false;
+                return false;
+            }
             
             // Determine additional events that should be triggered for this particular combat.
             if (_combatant1.GetOwner() == _combatant2.GetOwner())
@@ -65,62 +64,37 @@ namespace SubterfugeCore.Core.GameEvents
                 this._actions.Add(new DrillerCombat(_combatant1, _combatant2));
                 this._actions.Add(new CombatCleanup(_combatant1, _combatant2));
             }
+
+            foreach (IReversible action in this._actions)
+            {
+                action.ForwardAction(timeMachine, state);
+            }
+            this.EventSuccess = true;
+            return true;
         }
-        
-        /// <summary>
-        /// Performs the reverse operation of the event
-        /// </summary>
-        public override bool BackwardAction()
+
+        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             if (EventSuccess)
             {
                 // perform actions in reverse
                 for (int i = _actions.Count - 1; i >= 0; i--)
                 {
-                    this._actions[i].BackwardAction();
+                    this._actions[i].BackwardAction(timeMachine, state);
                 }
             }
 
             return this.EventSuccess;
         }
 
+        public override Priority GetPriority()
+        {
+            return Priority.NATURAL_PRIORITY_9;
+        }
+
         public override bool WasEventSuccessful()
         {
             return this.EventSuccess;
-        }
-
-        public override string ToJson()
-        {
-            // Combat events shouldn't be stored in the database. No need for json.
-            return "";
-        }
-
-        /// <summary>
-        /// Performs the forward operation of the event
-        /// </summary>
-        public override bool ForwardAction()
-        {
-            if (!Validator.ValidateICombatable(_combatant1) || !Validator.ValidateICombatable(_combatant2))
-            {
-                this.EventSuccess = false;
-                return false;
-            }
-
-            foreach (IReversible action in this._actions)
-            {
-                action.ForwardAction();
-            }
-            this.EventSuccess = true;
-            return true;
-        }
-        
-        /// <summary>
-        /// Gets the tick the event occurs at
-        /// </summary>
-        /// <returns>The tick of the event</returns>
-        public override GameTick GetTick()
-        {
-            return this._eventTick;
         }
 
         /// <summary>

@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core
 {
@@ -17,9 +21,15 @@ namespace SubterfugeCore.Core
      */
     public class Game
     {
-        // Globally accessible time machine reference
-        public static TimeMachine TimeMachine;
+        /// <summary>
+        /// Time machine instance which controls the game state
+        /// </summary>
+        public TimeMachine TimeMachine;
         
+        /// <summary>
+        /// The game configuration. Determines things like the map generation config,
+        /// if the game is multiplayer, how many players are involved, etc.
+        /// </summary>
         public GameConfiguration Configuration { get; } = null;
 
         /// <summary>
@@ -32,7 +42,7 @@ namespace SubterfugeCore.Core
             // Create a generic game configuration with one player.
             List<Player> players = new List<Player>();
             players.Add(new Player("1"));
-            Configuration = new GameConfiguration(players);
+            Configuration = new GameConfiguration(players, DateTime.Now, new MapConfiguration(players));
             // Creates a new game state and makes a time machine to reference the state
             GameState state = new GameState(Configuration);
             TimeMachine = new TimeMachine(state);
@@ -45,28 +55,27 @@ namespace SubterfugeCore.Core
         /// <param name="gameConfiguration">Settings that determine how the game should be configured during generation.</param>
         public Game(GameConfiguration gameConfiguration)
         {
+            Configuration = gameConfiguration;
+            
             // Creates a new game state and makes a time machine to reference the state
             GameState state = new GameState(gameConfiguration);
             TimeMachine = new TimeMachine(state);
 
             // Creates the map generator with a random seed
-            MapGenerator mapGenerator = new MapGenerator(gameConfiguration);
+            MapGenerator mapGenerator = new MapGenerator(gameConfiguration.MapConfiguration);
             
             // Generate the map
-            List<Outpost> outpostsToGenerate = mapGenerator.GenerateMap();
-            
-            // Add factory driller production events to the time machine.
-            // TODO: Make this better.
-            foreach(Outpost o in outpostsToGenerate)
-            {
-                if (o.GetOutpostType() == OutpostType.Factory) {
-                    TimeMachine.AddEvent(new FactoryProduceDrillersEvent(o, state.GetCurrentTick().Advance(36)));
-                }
-            }
-            
+            List<Outpost> generatedOutposts = mapGenerator.GenerateMap();
+
             // Add the outposts to the map
-            state.GetOutposts().AddRange(outpostsToGenerate);
+            state.GetOutposts().AddRange(generatedOutposts);
         }
 
+        public void LoadGameEvents(List<GameEventModel> gameEvents)
+        {
+            gameEvents
+                .ConvertAll<GameEvent>(m => GameEventFactory.parseGameEvent(m))
+                .ForEach( parsedEvent => TimeMachine.AddEvent(parsedEvent) );
+        }
     }
 }

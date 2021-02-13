@@ -26,9 +26,9 @@ namespace SubterfugeCoreTest
         {
 	        _map = new Rft(3000, 3000);
             _location = new RftVector(_map, 0, 0);
-            _outpost = new Outpost(_location, new Player("1"), OutpostType.Generator);
-            _tick = new GameTick(DateTime.Now, 10);
-            _sub = new Sub(_outpost, _outpost, _tick, 0, new Player("1"));
+            _outpost = new Outpost("0", _location, new Player("1"), OutpostType.Generator);
+            _tick = new GameTick(10);
+            _sub = new Sub("0", _outpost, _outpost, _tick, 0, new Player("1"));
             Game server = new Game();
         }
 
@@ -58,19 +58,19 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanSeeLocationInVisionRange()
         {
-            RftVector currentLocation = _sub.GetCurrentPosition();
+            RftVector currentLocation = _sub.GetCurrentPosition(new GameTick(1));
             RftVector insideVisionRange = new RftVector(currentLocation.X + _sub.getVisionRange() - 1, currentLocation.Y);
-            Outpost insideRange = new Outpost(insideVisionRange, new Player("1"), OutpostType.Generator);
-            Assert.IsTrue(_sub.isInVisionRange(insideRange));
+            Outpost insideRange = new Outpost("0", insideVisionRange, new Player("1"), OutpostType.Generator);
+            Assert.IsTrue(_sub.isInVisionRange(new GameTick(1), insideRange));
         }
         
         [TestMethod]
         public void CanNotSeeLocationOutsideVisionRange()
         {
-            RftVector currentLocation = _sub.GetCurrentPosition();
+            RftVector currentLocation = _sub.GetCurrentPosition(new GameTick(1));
             RftVector outsideVisionRange = new RftVector(currentLocation.X + _sub.getVisionRange() + 1, currentLocation.Y);
-            Outpost outsideRange = new Outpost(outsideVisionRange, new Player("1"), OutpostType.Generator);
-            Assert.IsFalse(_sub.isInVisionRange(outsideRange));
+            Outpost outsideRange = new Outpost("0", outsideVisionRange, new Player("1"), OutpostType.Generator);
+            Assert.IsFalse(_sub.isInVisionRange(new GameTick(1), outsideRange));
         }
     }
 }

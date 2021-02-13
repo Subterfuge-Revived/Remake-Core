@@ -2,12 +2,12 @@
 {
     public class IdGenerator
     {
-        static int _lastId = 0;
+        int _lastId = 0;
 
-        public static int GetNextId()
+        public string GetNextId()
         {
             _lastId++;
-            return _lastId;
+            return _lastId.ToString();
         }
     }
 }

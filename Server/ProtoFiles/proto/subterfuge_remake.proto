@@ -8,7 +8,6 @@ option objc_class_prefix = "SRP";
 package SubterfugeRemakeService;
 
 service subterfugeService {
-
     // Allows users to login
     rpc Login(AuthorizationRequest) returns (AuthorizationResponse) {}
     
@@ -201,8 +200,9 @@ message GetGameRoomEventsResponse {
 }
 
 message GameEventRequest {
-    int64 OccursAtTick = 3;
-    string EventData = 5;
+    EventType eventType = 1;
+    int32 OccursAtTick = 3;
+    bytes EventData = 5;
 }
 
 message SubmitGameEventRequest {
@@ -403,9 +403,10 @@ message RoomModel {
 message GameEventModel {
     string eventId = 1;
     int64 UnixTimeIssued = 2;
-    int64 OccursAtTick = 3;
+    int32 OccursAtTick = 3;
     string IssuedBy = 4;
-    string EventData = 5;
+    bytes EventData = 5;
+    EventType eventType = 6;
 }
 
 message GroupModel {
@@ -417,4 +418,10 @@ message MessageModel {
     int64 UnixTimeCreatedAt = 1;
     string SenderId = 2;
     string Message = 3;
+}
+
+enum EventType {
+    UNKNOWN_EVENT = 0;
+    LAUNCH_EVENT = 1;
+    TOGGLE_SHIELD_EVENT = 2;
 }

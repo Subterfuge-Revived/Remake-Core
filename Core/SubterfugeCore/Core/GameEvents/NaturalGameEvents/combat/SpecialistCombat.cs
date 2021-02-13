@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {
@@ -30,45 +31,8 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             this._combatant2 = combatant2;
 
         }
-        
-        /// <summary>
-        /// Undoes the specialist combat
-        /// </summary>
-        /// <returns>If the event was undone</returns>
-        public bool BackwardAction()
-        {
-            if (!_eventSuccess)
-            {
-                return false;
-            }
 
-            List<Specialist> specialists = new List<Specialist>();
-            specialists.AddRange(_combatant1Specialists);
-            specialists.AddRange(_combatant2Specialists);
-
-            while (specialists.Count > 0)
-            {
-                Specialist lowPriority = null;
-                foreach (Specialist s in specialists)
-                {
-                    if (lowPriority == null || s.GetPriority() >= lowPriority.GetPriority())
-                    {
-                        lowPriority = s;
-                    }
-                }
-                // Apply the specialist effect to the enemey.
-                ICombatable enemy = _combatant1.GetOwner() == lowPriority.GetOwner() ? _combatant2 : _combatant1;
-                ICombatable friendly = _combatant1.GetOwner() == lowPriority.GetOwner() ? _combatant1 : _combatant2;
-                lowPriority.UndoEffect(friendly, enemy);
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Applies the specialist combat
-        /// </summary>
-        /// <returns>If the event was successful</returns>
-        public bool ForwardAction()
+        public bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             this._combatant1Specialists = _combatant1.GetSpecialistManager().GetSpecialists();
             this._combatant2Specialists = _combatant1.GetSpecialistManager().GetSpecialists();
@@ -100,7 +64,36 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             }
             return true;
         }
-        
+
+        public bool BackwardAction(TimeMachine timeMachine, GameState state)
+        {
+            if (!_eventSuccess)
+            {
+                return false;
+            }
+
+            List<Specialist> specialists = new List<Specialist>();
+            specialists.AddRange(_combatant1Specialists);
+            specialists.AddRange(_combatant2Specialists);
+
+            while (specialists.Count > 0)
+            {
+                Specialist lowPriority = null;
+                foreach (Specialist s in specialists)
+                {
+                    if (lowPriority == null || s.GetPriority() >= lowPriority.GetPriority())
+                    {
+                        lowPriority = s;
+                    }
+                }
+                // Apply the specialist effect to the enemey.
+                ICombatable enemy = _combatant1.GetOwner() == lowPriority.GetOwner() ? _combatant2 : _combatant1;
+                ICombatable friendly = _combatant1.GetOwner() == lowPriority.GetOwner() ? _combatant1 : _combatant2;
+                lowPriority.UndoEffect(friendly, enemy);
+            }
+            return true;
+        }
+
         /// <summary>
         /// Determines if the event was successful.
         /// </summary>

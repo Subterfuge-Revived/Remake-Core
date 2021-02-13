@@ -1,4 +1,5 @@
 ﻿using System;
+using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCore.Core.Interfaces
@@ -17,7 +18,7 @@ namespace SubterfugeCore.Core.Interfaces
         /// </summary>
         /// <param name="position">The position to check</param>
         /// <returns>If the object is in the vision range.</returns>
-        bool isInVisionRange(IPosition position);
+        bool isInVisionRange(GameTick tick, IPosition position);
 
     }
 }

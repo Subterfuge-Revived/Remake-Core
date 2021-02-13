@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
@@ -17,15 +19,29 @@ namespace SubterfugeCore.Core
     /// </summary>
     public class GameState
     {
-        // List of currently active subs
+        /// <summary>
+        /// A list of the currently existing subs
+        /// </summary>
         private List<Sub> _activeSubs = new List<Sub>();
-        // List of outposts
+        
+        /// <summary>
+        /// A list of the current oupost states
+        /// </summary>
         private List<Outpost> _outposts = new List<Outpost>();
-        // List of players
+        
+        /// <summary>
+        /// A list of the players in the game
+        /// </summary>
         private List<Player> _players = new List<Player>();
         
-        // current time and start time
+        /// <summary>
+        /// The current game tick
+        /// </summary>
         public GameTick CurrentTick;
+        
+        /// <summary>
+        /// The time the game started.
+        /// </summary>
         private GameTick _startTime;
         
         /// <summary>
@@ -37,7 +53,7 @@ namespace SubterfugeCore.Core
         public GameState(GameConfiguration configuration)
         {
             // Set the start time to the time the game was initialized at and set the current tick
-            this._startTime = new GameTick(DateTime.Now, 0);
+            this._startTime = new GameTick();
             this.CurrentTick = this._startTime;
             
             // Set the players.
@@ -199,13 +215,21 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="guid">The Guid of the outpost you want to obtain.</param>
         /// <returns>The outpost matching the input Guid. Null if no results.</returns>
-        public Outpost GetOutpostById(int id)
+        public ICombatable GetCombatableById(string id)
         {
             foreach (Outpost outpost in this._outposts)
             {
                 if (outpost.GetId() == id)
                 {
                     return outpost;
+                }
+            }
+            
+            foreach (Sub sub in this._activeSubs)
+            {
+                if (sub.GetId() == id)
+                {
+                    return sub;
                 }
             }
 
@@ -219,7 +243,7 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="guid">The guid of a sub to find.</param>
         /// <returns>The sub with the specified guid. Null if no sub exists with the specified Guid.</returns>
-        public Sub GetSubById(int id)
+        public Sub GetSubById(string id)
         {
             foreach (Sub sub in this._activeSubs)
             {
@@ -298,11 +322,44 @@ namespace SubterfugeCore.Core
             return specialists;
         }
 
+        /// <summary>
+        /// Determine if the player is alive
+        /// </summary>
+        /// <param name="player">The player</param>
+        /// <returns>If the player is alive</returns>
+        public bool isPlayerAlive(Player player)
+        {
+            List<Specialist> specs = GetPlayerSpecialists(player);
+            return specs.Find(spec => spec is Queen).IsCaptured;
+        }
+
+        /// <summary>
+        /// Gets the player's driller count
+        /// </summary>
+        /// <param name="player">The player's driller count</param>
+        /// <returns></returns>
+        public int getPlayerDrillerCount(Player player)
+        {
+            return GetPlayerOutposts(player).Sum( it => it.GetDrillerCount()) + GetPlayerSubs(player).Sum(it => it.GetDrillerCount());
+        }
+
+        /// <summary>
+        /// Determines the player's driller capacity
+        /// </summary>
+        /// <param name="player">player</param>
+        /// <returns>The player's driller capacity</returns>
+        public int getPlayerDrillerCapacity(Player player)
+        {
+            return GetPlayerOutposts(player)
+                       .FindAll(outpost => outpost.GetOutpostType().Equals(OutpostType.Generator)).Count *
+                   Constants.BASE_GENERATOR_CAPACITY;
+        }
+
         public bool isInVisionRange(IPosition position, Player player)
         {
             foreach(Outpost o in this._outposts)
             {
-                if (o.isInVisionRange(position))
+                if (o.isInVisionRange(CurrentTick, position))
                 {
                     return true;
                 }
@@ -310,7 +367,7 @@ namespace SubterfugeCore.Core
 
             foreach (Sub s in _activeSubs)
             {
-                if (s.isInVisionRange(position))
+                if (s.isInVisionRange(CurrentTick, position))
                 {
                     return true;
                 }

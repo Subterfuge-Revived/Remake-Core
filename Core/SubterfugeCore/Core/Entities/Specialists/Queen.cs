@@ -12,7 +12,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Creates an instance of a queen belonging to the player
         /// </summary>
         /// <param name="owner">The owner of the queen</param>
-        public Queen(Player owner) : base("Queen", 0, owner)
+        public Queen(string id, Player owner) : base(id, "Queen", 0, owner)
         {
             // Create up to X 'SpecialistHireAvaliable' Events
         }

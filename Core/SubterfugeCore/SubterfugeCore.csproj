@@ -19,9 +19,6 @@
     <Compile Update="GameServer\GameEvents\Base\GameEventType.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="Core\Entities\Base\GameObject.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
     <Compile Update="Core\Entities\Sub.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
@@ -40,12 +37,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Timing\Commands\" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.6.0-preview5.19224.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.6.0-preview5.19224.8" />
+    <ProjectReference Include="..\..\Server\ProtoGenerated\ProtoGenerated.csproj" />
   </ItemGroup>
 
 </Project>
