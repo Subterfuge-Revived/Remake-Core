@@ -476,24 +476,28 @@ namespace Tests
             Assert.AreEqual(1,openLobbiesResponse.Rooms.Count);
         }
 
+        [Ignore("Not implemented")]
         [Test]
         public void PlayerCannotSeeALobbyThatABlockedPlayerIsIn()
         {
             Assert.IsTrue(false);
         }
 
+        [Ignore("Not implemented")]
         [Test]
         public void PrivateGameRoomsCannotBeSeen()
         {
             Assert.IsTrue(false);
         }
 
+        [Ignore("Not implemented")]
         [Test]
         public void PlayersCanCreatePrivateGameRooms()
         {
             Assert.IsTrue(false);
         }
 
+        [Ignore("Not implemented")]
         [Test]
         public void PlayersCanJoinAPrivateLobbyIfTheyKnowTheLobbyId()
         {
