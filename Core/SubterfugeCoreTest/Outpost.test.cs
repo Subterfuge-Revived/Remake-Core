@@ -210,12 +210,30 @@ namespace SubterfugeCoreTest
             Assert.AreEqual(0, outpost.GetShieldManager().GetShields());
         }
 
+        [TestMethod]
         public void CanToggleSheilds()
         {
             Outpost outpost = new Outpost("0",new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
             bool initialState = outpost.GetShieldManager().IsShieldActive();
             outpost.GetShieldManager().ToggleShield();
             Assert.AreEqual(!initialState, outpost.GetShieldManager().IsShieldActive());
+        }
+
+        [TestMethod]
+        public void CanSeeLocationInVision()
+        {
+            Outpost outpost = new Outpost("0",new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost2 = new Outpost("1",new RftVector(_map, Constants.BASE_OUTPOST_VISION_RADIUS - 1, 0), new Player("2"), OutpostType.Mine);
+            Assert.IsTrue(outpost.isInVisionRange(new GameTick(1), outpost2));
+        }
+        
+        [TestMethod]
+        public void CannotSeeLocationOutOfVision()
+        {
+            
+            Outpost outpost = new Outpost("0",new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost2 = new Outpost("1",new RftVector(_map, Constants.BASE_OUTPOST_VISION_RADIUS + 1, 0), new Player("2"), OutpostType.Mine);
+            Assert.IsFalse(outpost.isInVisionRange(new GameTick(1), outpost2));
         }
     }
 }

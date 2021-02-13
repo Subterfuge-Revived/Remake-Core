@@ -25,6 +25,21 @@ namespace SubterfugeCore.Core.Config
 		/// </summary>
 		public const int INITIAL_DRILLERS_PER_OUTPOST = 30;
 
+		/// <summary>
+		/// The default vision range for an outpost.
+		/// </summary>
+		public const float BASE_OUTPOST_VISION_RADIUS = 50;
+
+		/// <summary>
+		/// The default vision for a watchtower.
+		/// </summary>
+		public const float BASE_WATCHTOWER_VISION_RADIUS = 75;
+
+		/// <summary>
+		/// The base sub vision radius
+		/// </summary>
+		public const float BASE_SUB_VISION_RADIUS = BASE_OUTPOST_VISION_RADIUS * 0.2f;
+
     }
 
 }

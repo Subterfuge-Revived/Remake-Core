@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SubterfugeCore.Core.Entities.Specialists.Effects;
+using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 
@@ -12,6 +13,11 @@ namespace SubterfugeCore.Core.Entities.Specialists
     
     public abstract class Specialist : IOwnable
     {
+        /// <summary>
+        /// The specialist's id
+        /// </summary>
+        private string _id;
+        
         /// <summary>
         /// The specialist priority
         /// </summary>
@@ -43,8 +49,9 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="name">The name of the specialist</param>
         /// <param name="priority">The specialist priority</param>
         /// <param name="owner">The player that owns the specialist</param>
-        protected Specialist(String name, int priority, Player owner)
+        protected Specialist(string id, String name, int priority, Player owner)
         {
+            this._id = id;
             this._specialistName = name;
             this._priority = priority;
             this._owner = owner;
@@ -124,7 +131,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
 
         public string GetId()
         {
-            throw new NotImplementedException();
+            return this._id;
         }
 
         /// <summary>

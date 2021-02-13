@@ -351,7 +351,29 @@ namespace SubterfugeCore.Core
         public int getPlayerDrillerCapacity(Player player)
         {
             return GetPlayerOutposts(player)
-                .FindAll(outpost => outpost.GetOutpostType().Equals(OutpostType.Generator)).Count * Constants.BASE_GENERATOR_CAPACITY;
+                       .FindAll(outpost => outpost.GetOutpostType().Equals(OutpostType.Generator)).Count *
+                   Constants.BASE_GENERATOR_CAPACITY;
+        }
+
+        public bool isInVisionRange(IPosition position, Player player)
+        {
+            foreach(Outpost o in this._outposts)
+            {
+                if (o.isInVisionRange(CurrentTick, position))
+                {
+                    return true;
+                }
+            }
+
+            foreach (Sub s in _activeSubs)
+            {
+                if (s.isInVisionRange(CurrentTick, position))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

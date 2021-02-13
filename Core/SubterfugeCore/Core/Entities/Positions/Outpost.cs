@@ -16,7 +16,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 	/// <summary>
 	/// Outpost class
 	/// </summary>
-    public class Outpost : IOwnable, ITargetable, IDrillerCarrier, ISubLauncher, ICombatable, IShieldable
+    public class Outpost : IOwnable, ITargetable, IDrillerCarrier, ISubLauncher, ICombatable, IShieldable, IVision
     {
         /// <summary>
         /// A unique identifier for the outpost
@@ -251,6 +251,20 @@ namespace SubterfugeCore.Core.Entities.Positions
         public bool HasDrillers(int drillers)
         {
             return _subLauncher.HasDrillers(drillers);
+        }
+        
+        public float getVisionRange()
+        {
+            if (GetOutpostType() == OutpostType.Watchtower)
+            {
+                return Config.Constants.BASE_WATCHTOWER_VISION_RADIUS;
+            }
+            return Config.Constants.BASE_OUTPOST_VISION_RADIUS;
+        }
+
+        public bool isInVisionRange(GameTick tick, IPosition position)
+        {
+            return Vector2.Distance(this.GetCurrentPosition(tick).ToVector2(), position.GetCurrentPosition(tick).ToVector2()) <= getVisionRange();
         }
     }
 }

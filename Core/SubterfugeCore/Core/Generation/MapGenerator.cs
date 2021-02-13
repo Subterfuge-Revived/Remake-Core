@@ -147,7 +147,13 @@ namespace SubterfugeCore.Core.Generation
                 direction = this.RandomGenerator.NextDouble() * Math.PI * 2;  // In radians
                 
                 // Determine the type of outpost that is generated
-                OutpostType type = (OutpostType)this.RandomGenerator.NextRand(0, 5);
+                OutpostType[] validTypes =
+                {
+                    OutpostType.Factory,
+                    OutpostType.Generator,
+                    OutpostType.Watchtower,
+                };
+                OutpostType type = validTypes[this.RandomGenerator.NextRand(0, 3)];
                 
                 //convert distance & direction into vector X and Y
                 x = Convert.ToInt32(Math.Cos(direction) * distance);
@@ -288,7 +294,7 @@ namespace SubterfugeCore.Core.Generation
                                 o.SetOwner(Configuration.players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
                             if (!queenGenerated)
                             {
-                                o.GetSpecialistManager().AddSpecialist(new Queen(o.GetOwner()));
+                                o.GetSpecialistManager().AddSpecialist(new Queen(Guid.NewGuid().ToString(), o.GetOwner()));
                                 queenGenerated = true;
                             }
                         }

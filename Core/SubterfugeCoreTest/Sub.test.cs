@@ -54,5 +54,23 @@ namespace SubterfugeCoreTest
         {
             Assert.IsTrue(typeof(ITargetable).IsAssignableFrom(_sub.GetType()));
         }
+
+        [TestMethod]
+        public void CanSeeLocationInVisionRange()
+        {
+            RftVector currentLocation = _sub.GetCurrentPosition(new GameTick(1));
+            RftVector insideVisionRange = new RftVector(currentLocation.X + _sub.getVisionRange() - 1, currentLocation.Y);
+            Outpost insideRange = new Outpost("0", insideVisionRange, new Player("1"), OutpostType.Generator);
+            Assert.IsTrue(_sub.isInVisionRange(new GameTick(1), insideRange));
+        }
+        
+        [TestMethod]
+        public void CanNotSeeLocationOutsideVisionRange()
+        {
+            RftVector currentLocation = _sub.GetCurrentPosition(new GameTick(1));
+            RftVector outsideVisionRange = new RftVector(currentLocation.X + _sub.getVisionRange() + 1, currentLocation.Y);
+            Outpost outsideRange = new Outpost("0", outsideVisionRange, new Player("1"), OutpostType.Generator);
+            Assert.IsFalse(_sub.isInVisionRange(new GameTick(1), outsideRange));
+        }
     }
 }
