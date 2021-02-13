@@ -13,7 +13,7 @@ namespace SubterfugeCore.Core.Entities
     /// <summary>
     /// An instance of a Sub
     /// </summary>
-    public class Sub : GameObject, ICombatable
+    public class Sub : GameObject, ICombatable, IVision
     {
         /// <summary>
         /// Unique identifier for each sub
@@ -374,6 +374,16 @@ namespace SubterfugeCore.Core.Entities
         public int GetId()
         {
             return this._id;
+        }
+
+        public float getVisionRange()
+        {
+            return Config.Constants.BASE_OUTPOST_VISION_RADIUS * 0.2f;
+        }
+
+        public bool isInVisionRange(IPosition position)
+        {
+            return Vector2.Distance(this.GetCurrentPosition().ToVector2(), position.GetCurrentPosition().ToVector2()) <= getVisionRange();
         }
     }
 }

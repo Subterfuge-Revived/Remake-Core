@@ -4,6 +4,7 @@ using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Generation;
+using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 
@@ -295,6 +296,27 @@ namespace SubterfugeCore.Core
             }
 
             return specialists;
+        }
+
+        public bool isInVisionRange(IPosition position, Player player)
+        {
+            foreach(Outpost o in this._outposts)
+            {
+                if (o.isInVisionRange(position))
+                {
+                    return true;
+                }
+            }
+
+            foreach (Sub s in _activeSubs)
+            {
+                if (s.isInVisionRange(position))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

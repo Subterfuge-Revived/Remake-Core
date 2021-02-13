@@ -13,7 +13,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 	/// <summary>
 	/// Outpost class
 	/// </summary>
-    public class Outpost : GameObject, IOwnable, ITargetable, IDrillerCarrier, ILaunchable, ICombatable, IShieldable
+    public class Outpost : GameObject, IOwnable, ITargetable, IDrillerCarrier, ILaunchable, ICombatable, IShieldable, IVision
     {
         /// <summary>
         /// A unique identifier for the outpost
@@ -372,6 +372,20 @@ namespace SubterfugeCore.Core.Entities.Positions
         public GameTick GetExpectedArrival()
         {
             return null;
+        }
+        
+        public float getVisionRange()
+        {
+            if (GetOutpostType() == OutpostType.Watchtower)
+            {
+                return Config.Constants.BASE_WATCHTOWER_VISION_RADIUS;
+            }
+            return Config.Constants.BASE_OUTPOST_VISION_RADIUS;
+        }
+
+        public bool isInVisionRange(IPosition position)
+        {
+            return Vector2.Distance(this.GetCurrentPosition().ToVector2(), position.GetCurrentPosition().ToVector2()) <= getVisionRange();
         }
     }
 }

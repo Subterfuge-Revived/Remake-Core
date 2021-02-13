@@ -2,6 +2,7 @@
 using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core;
+using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
@@ -172,12 +173,31 @@ namespace SubterfugeCoreTest
             Assert.AreEqual(0, outpost.GetShields());
         }
 
+        [TestMethod]
         public void CanToggleSheilds()
         {
             Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
             bool initialState = outpost.IsShieldActive();
             outpost.ToggleShield();
             Assert.AreEqual(!initialState, outpost.IsShieldActive());
+        }
+
+        [TestMethod]
+        public void CanSeeLocationInVision()
+        {
+            
+            Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost2 = new Outpost(new RftVector(_map, Constants.BASE_OUTPOST_VISION_RADIUS - 1, 0), new Player("2"), OutpostType.Mine);
+            Assert.IsTrue(outpost.isInVisionRange(outpost2));
+        }
+        
+        [TestMethod]
+        public void CannotSeeLocationOutOfVision()
+        {
+            
+            Outpost outpost = new Outpost(new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost2 = new Outpost(new RftVector(_map, Constants.BASE_OUTPOST_VISION_RADIUS + 1, 0), new Player("2"), OutpostType.Mine);
+            Assert.IsFalse(outpost.isInVisionRange(outpost2));
         }
     }
 }
