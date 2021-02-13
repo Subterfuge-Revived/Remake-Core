@@ -1,6 +1,7 @@
 ﻿using GameEventModels;
 using Google.Protobuf;
 using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.GameEvents
@@ -16,7 +17,7 @@ namespace SubterfugeCore.Core.GameEvents
         {
             return ToggleShieldEventData.Parser.ParseFrom(model.EventData);
         }
-        public override bool ForwardAction(GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             ICombatable source = state.GetCombatableById(GetEventData().SourceId);
             if (source != null)
@@ -32,7 +33,7 @@ namespace SubterfugeCore.Core.GameEvents
             return EventSuccess;
         }
 
-        public override bool BackwardAction(GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             if (EventSuccess)
             {

@@ -19,15 +19,29 @@ namespace SubterfugeCore.Core
     /// </summary>
     public class GameState
     {
-        // List of currently active subs
+        /// <summary>
+        /// A list of the currently existing subs
+        /// </summary>
         private List<Sub> _activeSubs = new List<Sub>();
-        // List of outposts
+        
+        /// <summary>
+        /// A list of the current oupost states
+        /// </summary>
         private List<Outpost> _outposts = new List<Outpost>();
-        // List of players
+        
+        /// <summary>
+        /// A list of the players in the game
+        /// </summary>
         private List<Player> _players = new List<Player>();
         
-        // current time and start time
+        /// <summary>
+        /// The current game tick
+        /// </summary>
         public GameTick CurrentTick;
+        
+        /// <summary>
+        /// The time the game started.
+        /// </summary>
         private GameTick _startTime;
         
         /// <summary>

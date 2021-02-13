@@ -16,7 +16,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 	/// <summary>
 	/// Outpost class
 	/// </summary>
-    public class Outpost : IOwnable, ITargetable, IDrillerCarrier, ISubLauncher, ICombatable, IShieldable, ILocalEventWatcher
+    public class Outpost : IOwnable, ITargetable, IDrillerCarrier, ISubLauncher, ICombatable, IShieldable
     {
         /// <summary>
         /// A unique identifier for the outpost
@@ -51,14 +51,9 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// <summary>
         /// Manages raw driller counts.
         /// </summary>
-        private DrillerManager _drillerManager;
+        private SubLauncher _subLauncher;
 
         private RftVector Position;
-        
-        /// <summary>
-        /// A queue holding the game events this object will observe during its lifetime.
-        /// </summary>
-        private PriorityQueue<GameEvent> gameEvents;
 
         /// <summary>
         /// Outpost constructor
@@ -68,7 +63,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         {
             this._id = id;
             this.Position = outpostStartPosition;
-            _drillerManager = new DrillerManager();
+            _subLauncher = new SubLauncher();
             this._outpostOwner = null;
             this._specialistManager = new SpecialistManager(100);
             _shieldManager = new ShieldManager(10);
@@ -83,7 +78,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         {
             this._id = id;
             this.Position = outpostStartPosition;
-            _drillerManager = new DrillerManager();
+            _subLauncher = new SubLauncher();
             this._outpostOwner = null;
             this._specialistManager = new SpecialistManager(100);
             _shieldManager = new ShieldManager(10);
@@ -100,7 +95,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         {
             this._id = id;
             this.Position = outpostStartPosition;
-            _drillerManager = outpostOwner == null ? new DrillerManager() : new DrillerManager(40);
+            _subLauncher = outpostOwner == null ? new SubLauncher() : new SubLauncher(40);
             this._outpostOwner = outpostOwner;
             this._specialistManager = new SpecialistManager(100);
             _shieldManager = new ShieldManager(10);
@@ -202,9 +197,8 @@ namespace SubterfugeCore.Core.Entities.Positions
             return Position;
         }
 
-        public ICombatable LaunchSub(GameState state, LaunchEvent launchEventData)
+        public Sub LaunchSub(GameState state, LaunchEvent launchEventData)
         {
-            return launchEventData.ForwardAction(state);
             LaunchEventData eventData = launchEventData.GetEventData();
             ICombatable destination = state.GetCombatableById(eventData.DestinationId);
             
@@ -212,7 +206,6 @@ namespace SubterfugeCore.Core.Entities.Positions
             {
                 this.RemoveDrillers(eventData.DrillerCount);
                 Sub launchedSub = new Sub(this._id, this, destination, state.GetCurrentTick(), eventData.DrillerCount, this.GetOwner());
-                launchEventData.ForwardAction(state);
                 state.AddSub(launchedSub);
                 return launchedSub;
             }
@@ -237,37 +230,27 @@ namespace SubterfugeCore.Core.Entities.Positions
         // Driller Carrier Interface
         public int GetDrillerCount()
         {
-            return _drillerManager.GetDrillerCount();
+            return _subLauncher.GetDrillerCount();
         }
 
         public void SetDrillerCount(int drillerCount)
         {
-            _drillerManager.SetDrillerCount(drillerCount);
+            _subLauncher.SetDrillerCount(drillerCount);
         }
 
         public void AddDrillers(int drillersToAdd)
         {
-            _drillerManager.AddDrillers(drillersToAdd);
+            _subLauncher.AddDrillers(drillersToAdd);
         }
 
         public void RemoveDrillers(int drillersToRemove)
         {
-            _drillerManager.RemoveDrillers(drillersToRemove);
+            _subLauncher.RemoveDrillers(drillersToRemove);
         }
 
         public bool HasDrillers(int drillers)
         {
-            return _drillerManager.HasDrillers(drillers);
-        }
-
-        public GameEvent GetNextEvent()
-        {
-            return this.gameEvents.Peek();
-        }
-
-        public List<GameEvent> GetEvents()
-        {
-            return this.gameEvents.GetQueue();
+            return _subLauncher.HasDrillers(drillers);
         }
     }
 }

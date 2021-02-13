@@ -76,7 +76,7 @@ namespace SubterfugeCoreTest
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
-            Assert.AreEqual(false, launch.ForwardAction(_game.TimeMachine.GetState()));
+            Assert.AreEqual(false, launch.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
         }
         
         [TestMethod]
@@ -105,7 +105,7 @@ namespace SubterfugeCoreTest
                 OccursAtTick = 1,
             });
 
-            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
@@ -137,13 +137,13 @@ namespace SubterfugeCoreTest
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
-            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
             Assert.AreEqual(outpostOneInitial - 1, outpost1.GetDrillerCount());
             
-            Assert.AreEqual(true, launch.BackwardAction(_game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch.BackwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
             Assert.AreEqual(outpostOneInitial, outpost1.GetDrillerCount());
             Assert.AreEqual(outpostTwoInitial, outpost2.GetDrillerCount());
             Assert.AreEqual(0, _game.TimeMachine.GetState().GetSubList().Count);
@@ -176,7 +176,7 @@ namespace SubterfugeCoreTest
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
-            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
@@ -230,8 +230,8 @@ namespace SubterfugeCoreTest
                 OccursAtTick = 1,
             });
             
-            Assert.AreEqual(true, launch1.ForwardAction(_game.TimeMachine.GetState()));
-            Assert.AreEqual(true, launch2.ForwardAction(_game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch1.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch2.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(2, _game.TimeMachine.GetState().GetSubList().Count);
@@ -269,7 +269,7 @@ namespace SubterfugeCoreTest
             Outpost outpost1 = new Outpost("0",new RftVector(new Rft(300, 300), 0, 0));
             Outpost outpost2 = new Outpost("1",new RftVector(new Rft(300, 300), 0, 0));
             outpost1.SetDrillerCount(10);
-            outpost2.SetDrillerCount(10);
+            outpost2.SetDrillerCount(5);
             outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
             outpost2.SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
             int outpostOneInitial = outpost1.GetDrillerCount();
@@ -283,18 +283,18 @@ namespace SubterfugeCoreTest
                 EventData = new LaunchEventData()
                 {
                     DestinationId = outpost2.GetId(),
-                    DrillerCount = 1,
+                    DrillerCount = 10,
                     SourceId = outpost1.GetId(),
                 }.ToByteString(),
                 EventId = "a",
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
-            Assert.AreEqual(true, launch1.ForwardAction(_game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch1.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
-            Assert.AreEqual(outpostOneInitial - 1, outpost1.GetDrillerCount());
+            Assert.AreEqual(outpostOneInitial - 10, outpost1.GetDrillerCount());
             
             // Ensure a combat event has been added.
             int combatEvents = 0;
@@ -315,7 +315,7 @@ namespace SubterfugeCoreTest
             
             Assert.AreEqual(true, combat.WasEventSuccessful());
             Assert.AreEqual(outpost1.GetOwner(), outpost2.GetOwner());
-            Assert.AreEqual(outpostTwoInitial + 1, outpost2.GetDrillerCount());
+            Assert.AreEqual(Math.Abs(outpostTwoInitial - outpostOneInitial), outpost2.GetDrillerCount());
         }
     }
 }

@@ -21,9 +21,15 @@ namespace SubterfugeCore.Core
      */
     public class Game
     {
-        // Globally accessible time machine reference
+        /// <summary>
+        /// Time machine instance which controls the game state
+        /// </summary>
         public TimeMachine TimeMachine;
         
+        /// <summary>
+        /// The game configuration. Determines things like the map generation config,
+        /// if the game is multiplayer, how many players are involved, etc.
+        /// </summary>
         public GameConfiguration Configuration { get; } = null;
 
         /// <summary>
@@ -57,10 +63,10 @@ namespace SubterfugeCore.Core
             MapGenerator mapGenerator = new MapGenerator(gameConfiguration.MapConfiguration);
             
             // Generate the map
-            List<Outpost> outpostsToGenerate = mapGenerator.GenerateMap();
+            List<Outpost> generatedOutposts = mapGenerator.GenerateMap();
 
             // Add the outposts to the map
-            state.GetOutposts().AddRange(outpostsToGenerate);
+            state.GetOutposts().AddRange(generatedOutposts);
         }
 
         public void LoadGameEvents(List<GameEventModel> gameEvents)

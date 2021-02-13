@@ -148,12 +148,12 @@ namespace SubterfugeCoreTest
             });
             
             int initialDrillers = _outpost.GetDrillerCount();
-            _outpost.LaunchSub(game.TimeMachine.GetState(), launchEvent);
+            launchEvent.ForwardAction(game.TimeMachine, game.TimeMachine.GetState());
             
             Assert.AreEqual(initialDrillers - 10, _outpost.GetDrillerCount());
             Assert.AreEqual(1, game.TimeMachine.GetState().GetSubList().Count);
             
-            _outpost.UndoLaunch(game.TimeMachine.GetState(), launchEvent);
+            launchEvent.BackwardAction(game.TimeMachine, game.TimeMachine.GetState());
             
             Assert.AreEqual(initialDrillers, _outpost.GetDrillerCount());
             Assert.AreEqual(0, game.TimeMachine.GetState().GetSubList().Count);

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {
@@ -31,7 +32,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 
         }
 
-        public bool ForwardAction(GameState state)
+        public bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             this._combatant1Specialists = _combatant1.GetSpecialistManager().GetSpecialists();
             this._combatant2Specialists = _combatant1.GetSpecialistManager().GetSpecialists();
@@ -64,7 +65,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             return true;
         }
 
-        public bool BackwardAction(GameState state)
+        public bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             if (!_eventSuccess)
             {

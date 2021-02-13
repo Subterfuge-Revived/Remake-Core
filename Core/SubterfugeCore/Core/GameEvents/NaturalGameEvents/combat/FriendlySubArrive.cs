@@ -2,6 +2,7 @@
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
 {
@@ -29,7 +30,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// Undoes the sub's arrival
         /// </summary>
         /// <returns>If the event was undone</returns>
-        public bool BackwardAction(GameState state)
+        public bool BackwardAction(TimeMachine timeMachine,  GameState state)
         {
             if (this._eventSuccess)
             {
@@ -49,7 +50,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// Perfoms a friendly sub arrival
         /// </summary>
         /// <returns>If the event was successful</returns>
-        public bool ForwardAction(GameState state)
+        public bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             if (state.SubExists(this._arrivingSub))
             {

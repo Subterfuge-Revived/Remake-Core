@@ -19,7 +19,7 @@ namespace SubterfugeCore.Core.Generation
         public readonly List<Player> Players;
 
         /// <summary>
-        /// A list of players in the game 
+        /// The Game's start time.
         /// </summary>
         public readonly DateTime StartTime;
 
@@ -27,6 +27,11 @@ namespace SubterfugeCore.Core.Generation
         /// Map generation configuration
         /// </summary>
         public readonly MapConfiguration MapConfiguration;
+
+        /// <summary>
+        /// Determines if the game is an online game
+        /// </summary>
+        public bool IsMultiplayer { get; set; } = false;
         
         /// <summary>
         /// The constructor for the GameConfiguration object requires a list of players to be passed in.

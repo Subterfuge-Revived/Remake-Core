@@ -47,7 +47,7 @@ namespace SubterfugeCore.Core.GameEvents
         
         public abstract GameEventModel ToGameEventModel();
 
-        public GameEventModel GetBaseGameEventModel()
+        protected GameEventModel GetBaseGameEventModel()
         {
             return new GameEventModel()
             {

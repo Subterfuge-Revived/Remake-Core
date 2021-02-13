@@ -16,7 +16,7 @@ namespace SubterfugeCore.Core.Entities
     /// <summary>
     /// An instance of a Sub
     /// </summary>
-    public class Sub : ICombatable, ILocalEventWatcher
+    public class Sub : ICombatable
     {
         /// <summary>
         /// Unique identifier for each sub
@@ -26,7 +26,7 @@ namespace SubterfugeCore.Core.Entities
         /// <summary>
         /// How many drillers are on the sub
         /// </summary>
-        private DrillerManager _drillerManager;
+        private SubLauncher _subLauncher;
         
         /// <summary>
         /// Where the sub is travelling from
@@ -36,7 +36,7 @@ namespace SubterfugeCore.Core.Entities
         /// <summary>
         /// Where the sub is travelling to
         /// </summary>
-        private ITargetable _destination;
+        private ICombatable _destination;
         
         /// <summary>
         /// The time the sub launched from its source
@@ -74,11 +74,6 @@ namespace SubterfugeCore.Core.Entities
         private RftVector StartPosition;
 
         /// <summary>
-        /// A queue holding the game events this object will observe during its lifetime.
-        /// </summary>
-        private PriorityQueue<GameEvent> gameEvents;
-
-        /// <summary>
         /// Sub constructor
         /// </summary>
         /// <param name="source">The initial location of the sub</param>
@@ -86,17 +81,22 @@ namespace SubterfugeCore.Core.Entities
         /// <param name="launchTime">The time of launch</param>
         /// <param name="drillerCount">The amount of drillers to launch</param>
         /// <param name="owner">The owner</param>
-        public Sub(string id, ISubLauncher source, ITargetable destination, GameTick launchTime, int drillerCount, Player owner) : base()
+        public Sub(string id, ISubLauncher source, ICombatable destination, GameTick launchTime, int drillerCount, Player owner) : base()
         {
             this._id = id;
             this._source = source;
             this._destination = destination;
             this._launchTime = launchTime;
-            this._drillerManager = new DrillerManager(drillerCount);
+            this._subLauncher = new SubLauncher(drillerCount);
             this.StartPosition = source.GetCurrentPosition(launchTime);
             this._owner = owner;
             this._specialistManager = new SpecialistManager(3);
             _shieldManager = new ShieldManager(5);
+        }
+
+        public ICombatable GetDestination()
+        {
+            return this._destination;
         }
 
         /// <summary>
@@ -153,15 +153,6 @@ namespace SubterfugeCore.Core.Entities
         public RftVector GetDestinationLocation()
         {
             return this._destination.GetInterceptionPosition(this.StartPosition, this.GetSpeed());
-        }
-        
-        /// <summary>
-        /// Get the destination
-        /// </summary>
-        /// <returns>The sub's destination</returns>
-        public ITargetable GetDestination()
-        {
-            return this._destination;
         }
 
         /// <summary>
@@ -321,7 +312,7 @@ namespace SubterfugeCore.Core.Entities
             return this._id;
         }
 
-        public ICombatable LaunchSub(GameState state, LaunchEvent launchEvent)
+        public Sub LaunchSub(GameState state, LaunchEvent launchEvent)
         {
             // Determine any specialist effects if a specialist left the sub.
             LaunchEventData launchData = launchEvent.GetEventData();
@@ -361,27 +352,27 @@ namespace SubterfugeCore.Core.Entities
         // Driller Carrier Interface
         public int GetDrillerCount()
         {
-            return _drillerManager.GetDrillerCount();
+            return _subLauncher.GetDrillerCount();
         }
 
         public void SetDrillerCount(int drillerCount)
         {
-            _drillerManager.SetDrillerCount(drillerCount);
+            _subLauncher.SetDrillerCount(drillerCount);
         }
 
         public void AddDrillers(int drillersToAdd)
         {
-            _drillerManager.AddDrillers(drillersToAdd);
+            _subLauncher.AddDrillers(drillersToAdd);
         }
 
         public void RemoveDrillers(int drillersToRemove)
         {
-            _drillerManager.RemoveDrillers(drillersToRemove);
+            _subLauncher.RemoveDrillers(drillersToRemove);
         }
 
         public bool HasDrillers(int drillers)
         {
-            return _drillerManager.HasDrillers(drillers);
+            return _subLauncher.HasDrillers(drillers);
         }
 
         public RftVector GetCurrentPosition(GameTick currentTick)
@@ -401,16 +392,6 @@ namespace SubterfugeCore.Core.Entities
             {
                 return new RftVector(RftVector.Map);
             }
-        }
-
-        public GameEvent GetNextEvent()
-        {
-            return this.gameEvents.Peek();
-        }
-
-        public List<GameEvent> GetEvents()
-        {
-            return this.gameEvents.GetQueue();
         }
     }
 }

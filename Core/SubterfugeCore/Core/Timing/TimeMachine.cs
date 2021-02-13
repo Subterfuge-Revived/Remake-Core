@@ -41,12 +41,24 @@ namespace SubterfugeCore.Core.Timing
         }
         
         /// <summary>
-        /// Removes a GameEvent from the future event queue
+        /// Removes a GameEvent from the game.
         /// </summary>
         /// <param name="gameEvent">The GameEvent to remove from the queue</param>
         public void RemoveEvent(GameEvent gameEvent)
         {
-            this._futureEventQueue.Remove(gameEvent);
+            if (this._futureEventQueue.GetQueue().Contains(gameEvent))
+            {
+                this._futureEventQueue.Remove(gameEvent);
+            }
+            else
+            {
+                // Go to 1 tick before the event occurs.
+                GameTick currentTick = GetCurrentTick();
+                GoTo(gameEvent);
+                Rewind(1);
+                this._futureEventQueue.Remove(gameEvent);
+                GoTo(currentTick);
+            }
         }
 
         /// <summary>
@@ -67,7 +79,7 @@ namespace SubterfugeCore.Core.Timing
                         {
                             // Move commands from the future to the past
                             GameEvent futureToPast = _futureEventQueue.Dequeue();
-                            futureToPast.ForwardAction(_gameState);
+                            futureToPast.ForwardAction(this, _gameState);
                             _pastEventQueue.Enqueue(futureToPast);
                             continue;
                         }
@@ -86,7 +98,7 @@ namespace SubterfugeCore.Core.Timing
                         {
                             // Move commands from the past to the future
                             GameEvent pastToFuture = _pastEventQueue.Dequeue();
-                            pastToFuture.BackwardAction(_gameState);
+                            pastToFuture.BackwardAction(this, _gameState);
                             _futureEventQueue.Enqueue(pastToFuture);
                             continue;
                         }

@@ -1,9 +1,10 @@
-﻿using SubterfugeCore.Core.GameEvents;
+﻿using SubterfugeCore.Core.Entities.Specialists;
+using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.Entities.Managers
 {
-    public class DrillerManager : IDrillerCarrier
+    public class SubLauncher : IDrillerCarrier
     {
         
         /// <summary>
@@ -11,12 +12,12 @@ namespace SubterfugeCore.Core.Entities.Managers
         /// </summary>
         int _drillerCount;
 
-        public DrillerManager()
+        public SubLauncher()
         {
             _drillerCount = 0;
         }
 
-        public DrillerManager(int drillerCount)
+        public SubLauncher(int drillerCount)
         {
             _drillerCount = drillerCount;
         }

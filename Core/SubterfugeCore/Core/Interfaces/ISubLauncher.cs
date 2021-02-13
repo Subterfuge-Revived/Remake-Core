@@ -1,4 +1,5 @@
 ﻿using GameEventModels;
+using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.GameEvents;
 
 namespace SubterfugeCore.Core.Interfaces
@@ -14,7 +15,7 @@ namespace SubterfugeCore.Core.Interfaces
         /// <param name="drillerCount">The number of drillers to send</param>
         /// <param name="destination">The sub's destination</param>
         /// <returns>The launched sub</returns>
-        ICombatable LaunchSub(GameState state, LaunchEvent launchEventData);
+        Sub LaunchSub(GameState state, LaunchEvent launchEventData);
         
         /// <summary>
         /// Undoes a sub launch

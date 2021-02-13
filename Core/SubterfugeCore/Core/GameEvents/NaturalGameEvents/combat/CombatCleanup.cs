@@ -6,6 +6,7 @@ using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
+using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 {
@@ -68,7 +69,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             loserSpecialists = loser.GetSpecialistManager().GetSpecialists();
         }
         
-        public bool ForwardAction(GameState state)
+        public bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             if (isTie)
             {
@@ -112,7 +113,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             return isSuccess;
         }
 
-        public bool BackwardAction(GameState state)
+        public bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             if (isTie)
             {

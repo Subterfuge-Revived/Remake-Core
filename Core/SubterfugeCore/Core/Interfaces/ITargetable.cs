@@ -8,7 +8,7 @@ namespace SubterfugeCore.Core.Interfaces
     /// <summary>
     /// Anything that can be targeted by a sub
     /// </summary>
-    public interface ITargetable : IPosition
+    public interface ITargetable : IPosition, IOwnable
     {
         /// <summary>
         /// Returns the combat location when being targeted from the specified location and speed.

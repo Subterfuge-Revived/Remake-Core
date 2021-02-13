@@ -57,7 +57,7 @@ namespace SubterfugeCore.Core.GameEvents
             }
         }
 
-        public override bool ForwardAction(GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             if (!Validator.ValidateICombatable(state, _combatant1) || !Validator.ValidateICombatable(state, _combatant2))
             {
@@ -67,20 +67,20 @@ namespace SubterfugeCore.Core.GameEvents
 
             foreach (IReversible action in this._actions)
             {
-                action.ForwardAction(state);
+                action.ForwardAction(timeMachine, state);
             }
             this.EventSuccess = true;
             return true;
         }
 
-        public override bool BackwardAction(GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             if (EventSuccess)
             {
                 // perform actions in reverse
                 for (int i = _actions.Count - 1; i >= 0; i--)
                 {
-                    this._actions[i].BackwardAction(state);
+                    this._actions[i].BackwardAction(timeMachine, state);
                 }
             }
 
