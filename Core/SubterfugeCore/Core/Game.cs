@@ -55,6 +55,8 @@ namespace SubterfugeCore.Core
         /// <param name="gameConfiguration">Settings that determine how the game should be configured during generation.</param>
         public Game(GameConfiguration gameConfiguration)
         {
+            Configuration = gameConfiguration;
+            
             // Creates a new game state and makes a time machine to reference the state
             GameState state = new GameState(gameConfiguration);
             TimeMachine = new TimeMachine(state);
