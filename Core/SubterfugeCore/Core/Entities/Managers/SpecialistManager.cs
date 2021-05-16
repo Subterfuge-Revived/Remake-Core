@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SubterfugeCore.Core.Entities.Specialists.Effects;
+using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Entities.Specialists
@@ -131,7 +133,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             return this._specialists.Count;
         }
-
+        
         /// <summary>
         /// Transfers all of the specialists from this specialist manager to the target specialist manager.
         /// </summary>
@@ -141,7 +143,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
             specialistManager.AddSpecialists(this._specialists);
             this._specialists.Clear();
         }
-
+        
         /// <summary>
         /// Sets all of the specialists within this specialist manager to be captured.
         /// </summary>
@@ -163,7 +165,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
                 s.IsCaptured = false;
             }
         }
-
+        
         /// <summary>
         /// Gets all of the specialists beloging to a specific player.
         /// </summary>
@@ -182,6 +184,5 @@ namespace SubterfugeCore.Core.Entities.Specialists
 
             return playerSpecs;
         }
-
     }
 }
