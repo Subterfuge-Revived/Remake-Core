@@ -65,7 +65,18 @@ service subterfugeService {
     rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
 
     rpc AuthorizedHealthCheck(AuthorizedHealthCheckRequest) returns (AuthorizedHealthCheckResponse) {}
+    
+    rpc SubmitCustomSpecialist(SubmitCustomSpecialistRequest) returns (SubmitCustomSpecialistResponse) {}
 
+    rpc GetCustomSpecialists(GetCustomSpecialistsRequest) returns (GetCustomSpecialistsResponse) {}
+
+    rpc GetPlayerCustomSpecialists(GetPlayerCustomSpecialistsRequest) returns (GetPlayerCustomSpecialistsResponse) {}
+
+    rpc CreateSpecialistPackage(CreateSpecialistPackageRequest) returns (CreateSpecialistPackageResponse) {}
+
+    rpc GetSpecialistPackages(GetSpecialistPackagesRequest) returns (GetSpecialistPackagesResponse) {}
+
+    rpc GetPlayerSpecialistPackages(GetPlayerSpecialistPackagesRequest) returns (GetPlayerSpecialistPackagesResponse) {}
 }
 
 message ResponseStatus {
@@ -360,6 +371,62 @@ message GetGroupMessagesResponse {
     MessageGroup group = 2;
 }
 
+message SubmitCustomSpecialistRequest {
+    SpecialistConfiguration Configuration = 1;
+}
+    
+message SubmitCustomSpecialistResponse {
+    ResponseStatus status = 1;
+    string SpecialistConfigurationId = 2;
+}
+
+message GetCustomSpecialistsRequest {
+    int64 pageNumber = 1;
+    string searchTerm = 2;
+}
+
+message GetCustomSpecialistsResponse {
+    ResponseStatus status = 1;
+    repeated SpecialistConfiguration CustomSpecialists = 2;
+}
+
+message CreateSpecialistPackageRequest {
+    SpecialistPackage SpecialistPackage = 1;
+}
+
+message CreateSpecialistPackageResponse {
+    ResponseStatus status = 1;
+    string SpecialistPackageId = 2;
+}
+
+message GetSpecialistPackagesRequest {
+    int64 pageNumber = 1;
+    string searchTerm = 2;
+}
+
+message GetSpecialistPackagesResponse {
+    ResponseStatus status = 1;
+    repeated SpecialistPackage SpecialistPackages = 2;
+}
+
+message GetPlayerCustomSpecialistsRequest {
+    string playerId = 1;
+}
+
+message GetPlayerCustomSpecialistsResponse {
+    ResponseStatus status = 1;
+    repeated SpecialistConfiguration PlayerSpecialists = 2;
+}
+
+message GetPlayerSpecialistPackagesRequest {
+    string playerId = 1;
+}
+
+message GetPlayerSpecialistPackagesResponse {
+    ResponseStatus status = 1;
+    repeated SpecialistPackage PlayerPackages = 2;
+}
+
 
 // For database and server processing only.
 // Players should never be shown or given access to the full data model as it contains confidential information
@@ -425,4 +492,97 @@ enum EventType {
     LAUNCH_EVENT = 1;
     TOGGLE_SHIELD_EVENT = 2;
     DRILL_MINE_EVENT = 3;
+}
+
+// Spec config
+
+enum EffectTrigger {
+    NoTrigger = 0;
+    Hire = 1;
+    Promote = 2;
+    SubLaunch = 3;
+    SubArrive = 4;
+    OutpostCombat = 5;
+    SubCombat = 6;
+    CombatLoss = 7;
+    CombatVictory = 8;
+    FactoryProduce = 9;
+    MineProduce = 10;
+    SubEnter = 11;
+}
+
+enum EffectTarget {
+    NoTarget = 0;
+    Firendly = 1;
+    Enemy = 2;
+    BothCombatParticipants = 3;
+    All = 4;
+}
+
+enum EffectTriggerRange {
+    Self = 0;
+    Local = 1;
+    ConstantRange = 2;
+    LocationVisionRange = 3;
+    PlayerVisionRange = 4;
+    Global = 5;
+}
+
+enum EffectModifier {
+    Driller = 0;
+    SpecialistCapacity = 1;
+    ShieldValue = 2;
+    ShieldRegeneration = 3;
+    ShieldMaxValue = 4;
+    Vision = 5;
+    Speed = 6;
+    KillPlayer = 7;
+    VictoryPlayer = 8;
+    KillSpecialist = 9;
+    NoEffect = 10;
+}
+
+enum EffectScale {
+    NoScale = 0;
+    ConstantValue = 1;
+    PlayerOutpostCount = 2;
+    PlayerMineCount = 3;
+    PlayerFactoryCount = 4;
+    PlayerDrillerCount = 5;
+    PlayerSpecialistCount = 6;
+}
+
+message SpecialistConfiguration {
+    string SpecialistId = 1;
+    int64 Priority = 2;
+    string SpecialistName = 3;
+    User Creator = 4;
+    repeated SpecialistEffectConfiguration specialistEffects = 5;
+}
+
+message SpecialistEffectConfiguration {
+    int64 Value = 1;
+    EffectTrigger EffectTrigger = 2;
+    EffectTarget EffectTarget = 3;
+    EffectTriggerRange EffectTriggerRange = 4;
+    EffectModifier EffectModifier = 5;
+    SpecialistEffectScale EffectScale = 6;
+}
+
+message SpecialistEffectScale {
+    EffectScale EffectScale = 6;
+    EffectTarget EffectScaleTarget = 7;
+    EffectTriggerRange ScaleTriggerRange = 8;
+}
+
+message SpecialistPackage {
+    User Creator = 1;
+    string PackageName = 2;
+    string SpecialistPackageId = 3;
+    repeated string specialistIds = 4;
+    repeated string SpecialistPackageIds = 5;
+}
+
+message SpecialistPackageConfiguration {
+    repeated SpecialistConfiguration SpecialistConfigurations = 2;
 }

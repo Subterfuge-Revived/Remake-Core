@@ -66,6 +66,18 @@ namespace SubterfugeRemakeService {
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.HealthCheckResponse> __Marshaller_SubterfugeRemakeService_HealthCheckResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.HealthCheckResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizedHealthCheckRequest> __Marshaller_SubterfugeRemakeService_AuthorizedHealthCheckRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AuthorizedHealthCheckRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SubterfugeRemakeService.AuthorizedHealthCheckResponse> __Marshaller_SubterfugeRemakeService_AuthorizedHealthCheckResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.AuthorizedHealthCheckResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SubmitCustomSpecialistRequest> __Marshaller_SubterfugeRemakeService_SubmitCustomSpecialistRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SubmitCustomSpecialistRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.SubmitCustomSpecialistResponse> __Marshaller_SubterfugeRemakeService_SubmitCustomSpecialistResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.SubmitCustomSpecialistResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetCustomSpecialistsRequest> __Marshaller_SubterfugeRemakeService_GetCustomSpecialistsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetCustomSpecialistsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetCustomSpecialistsResponse> __Marshaller_SubterfugeRemakeService_GetCustomSpecialistsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetCustomSpecialistsResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetPlayerCustomSpecialistsRequest> __Marshaller_SubterfugeRemakeService_GetPlayerCustomSpecialistsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetPlayerCustomSpecialistsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetPlayerCustomSpecialistsResponse> __Marshaller_SubterfugeRemakeService_GetPlayerCustomSpecialistsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetPlayerCustomSpecialistsResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateSpecialistPackageRequest> __Marshaller_SubterfugeRemakeService_CreateSpecialistPackageRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.CreateSpecialistPackageRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.CreateSpecialistPackageResponse> __Marshaller_SubterfugeRemakeService_CreateSpecialistPackageResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.CreateSpecialistPackageResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetSpecialistPackagesRequest> __Marshaller_SubterfugeRemakeService_GetSpecialistPackagesRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetSpecialistPackagesRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetSpecialistPackagesResponse> __Marshaller_SubterfugeRemakeService_GetSpecialistPackagesResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetSpecialistPackagesResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetPlayerSpecialistPackagesRequest> __Marshaller_SubterfugeRemakeService_GetPlayerSpecialistPackagesRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetPlayerSpecialistPackagesRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SubterfugeRemakeService.GetPlayerSpecialistPackagesResponse> __Marshaller_SubterfugeRemakeService_GetPlayerSpecialistPackagesResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SubterfugeRemakeService.GetPlayerSpecialistPackagesResponse.Parser.ParseFrom);
 
     static readonly grpc::Method<global::SubterfugeRemakeService.AuthorizationRequest, global::SubterfugeRemakeService.AuthorizationResponse> __Method_Login = new grpc::Method<global::SubterfugeRemakeService.AuthorizationRequest, global::SubterfugeRemakeService.AuthorizationResponse>(
         grpc::MethodType.Unary,
@@ -263,6 +275,48 @@ namespace SubterfugeRemakeService {
         __Marshaller_SubterfugeRemakeService_AuthorizedHealthCheckRequest,
         __Marshaller_SubterfugeRemakeService_AuthorizedHealthCheckResponse);
 
+    static readonly grpc::Method<global::SubterfugeRemakeService.SubmitCustomSpecialistRequest, global::SubterfugeRemakeService.SubmitCustomSpecialistResponse> __Method_SubmitCustomSpecialist = new grpc::Method<global::SubterfugeRemakeService.SubmitCustomSpecialistRequest, global::SubterfugeRemakeService.SubmitCustomSpecialistResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "SubmitCustomSpecialist",
+        __Marshaller_SubterfugeRemakeService_SubmitCustomSpecialistRequest,
+        __Marshaller_SubterfugeRemakeService_SubmitCustomSpecialistResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.GetCustomSpecialistsRequest, global::SubterfugeRemakeService.GetCustomSpecialistsResponse> __Method_GetCustomSpecialists = new grpc::Method<global::SubterfugeRemakeService.GetCustomSpecialistsRequest, global::SubterfugeRemakeService.GetCustomSpecialistsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetCustomSpecialists",
+        __Marshaller_SubterfugeRemakeService_GetCustomSpecialistsRequest,
+        __Marshaller_SubterfugeRemakeService_GetCustomSpecialistsResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.GetPlayerCustomSpecialistsRequest, global::SubterfugeRemakeService.GetPlayerCustomSpecialistsResponse> __Method_GetPlayerCustomSpecialists = new grpc::Method<global::SubterfugeRemakeService.GetPlayerCustomSpecialistsRequest, global::SubterfugeRemakeService.GetPlayerCustomSpecialistsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetPlayerCustomSpecialists",
+        __Marshaller_SubterfugeRemakeService_GetPlayerCustomSpecialistsRequest,
+        __Marshaller_SubterfugeRemakeService_GetPlayerCustomSpecialistsResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.CreateSpecialistPackageRequest, global::SubterfugeRemakeService.CreateSpecialistPackageResponse> __Method_CreateSpecialistPackage = new grpc::Method<global::SubterfugeRemakeService.CreateSpecialistPackageRequest, global::SubterfugeRemakeService.CreateSpecialistPackageResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "CreateSpecialistPackage",
+        __Marshaller_SubterfugeRemakeService_CreateSpecialistPackageRequest,
+        __Marshaller_SubterfugeRemakeService_CreateSpecialistPackageResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.GetSpecialistPackagesRequest, global::SubterfugeRemakeService.GetSpecialistPackagesResponse> __Method_GetSpecialistPackages = new grpc::Method<global::SubterfugeRemakeService.GetSpecialistPackagesRequest, global::SubterfugeRemakeService.GetSpecialistPackagesResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetSpecialistPackages",
+        __Marshaller_SubterfugeRemakeService_GetSpecialistPackagesRequest,
+        __Marshaller_SubterfugeRemakeService_GetSpecialistPackagesResponse);
+
+    static readonly grpc::Method<global::SubterfugeRemakeService.GetPlayerSpecialistPackagesRequest, global::SubterfugeRemakeService.GetPlayerSpecialistPackagesResponse> __Method_GetPlayerSpecialistPackages = new grpc::Method<global::SubterfugeRemakeService.GetPlayerSpecialistPackagesRequest, global::SubterfugeRemakeService.GetPlayerSpecialistPackagesResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetPlayerSpecialistPackages",
+        __Marshaller_SubterfugeRemakeService_GetPlayerSpecialistPackagesRequest,
+        __Marshaller_SubterfugeRemakeService_GetPlayerSpecialistPackagesResponse);
+
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
@@ -421,6 +475,36 @@ namespace SubterfugeRemakeService {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.AuthorizedHealthCheckResponse> AuthorizedHealthCheck(global::SubterfugeRemakeService.AuthorizedHealthCheckRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.SubmitCustomSpecialistResponse> SubmitCustomSpecialist(global::SubterfugeRemakeService.SubmitCustomSpecialistRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.GetCustomSpecialistsResponse> GetCustomSpecialists(global::SubterfugeRemakeService.GetCustomSpecialistsRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.GetPlayerCustomSpecialistsResponse> GetPlayerCustomSpecialists(global::SubterfugeRemakeService.GetPlayerCustomSpecialistsRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.CreateSpecialistPackageResponse> CreateSpecialistPackage(global::SubterfugeRemakeService.CreateSpecialistPackageRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.GetSpecialistPackagesResponse> GetSpecialistPackages(global::SubterfugeRemakeService.GetSpecialistPackagesRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SubterfugeRemakeService.GetPlayerSpecialistPackagesResponse> GetPlayerSpecialistPackages(global::SubterfugeRemakeService.GetPlayerSpecialistPackagesRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -954,6 +1038,102 @@ namespace SubterfugeRemakeService {
       {
         return CallInvoker.AsyncUnaryCall(__Method_AuthorizedHealthCheck, null, options, request);
       }
+      public virtual global::SubterfugeRemakeService.SubmitCustomSpecialistResponse SubmitCustomSpecialist(global::SubterfugeRemakeService.SubmitCustomSpecialistRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SubmitCustomSpecialist(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.SubmitCustomSpecialistResponse SubmitCustomSpecialist(global::SubterfugeRemakeService.SubmitCustomSpecialistRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_SubmitCustomSpecialist, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.SubmitCustomSpecialistResponse> SubmitCustomSpecialistAsync(global::SubterfugeRemakeService.SubmitCustomSpecialistRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SubmitCustomSpecialistAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.SubmitCustomSpecialistResponse> SubmitCustomSpecialistAsync(global::SubterfugeRemakeService.SubmitCustomSpecialistRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_SubmitCustomSpecialist, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.GetCustomSpecialistsResponse GetCustomSpecialists(global::SubterfugeRemakeService.GetCustomSpecialistsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetCustomSpecialists(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.GetCustomSpecialistsResponse GetCustomSpecialists(global::SubterfugeRemakeService.GetCustomSpecialistsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetCustomSpecialists, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.GetCustomSpecialistsResponse> GetCustomSpecialistsAsync(global::SubterfugeRemakeService.GetCustomSpecialistsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetCustomSpecialistsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.GetCustomSpecialistsResponse> GetCustomSpecialistsAsync(global::SubterfugeRemakeService.GetCustomSpecialistsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetCustomSpecialists, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.GetPlayerCustomSpecialistsResponse GetPlayerCustomSpecialists(global::SubterfugeRemakeService.GetPlayerCustomSpecialistsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetPlayerCustomSpecialists(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.GetPlayerCustomSpecialistsResponse GetPlayerCustomSpecialists(global::SubterfugeRemakeService.GetPlayerCustomSpecialistsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetPlayerCustomSpecialists, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.GetPlayerCustomSpecialistsResponse> GetPlayerCustomSpecialistsAsync(global::SubterfugeRemakeService.GetPlayerCustomSpecialistsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetPlayerCustomSpecialistsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.GetPlayerCustomSpecialistsResponse> GetPlayerCustomSpecialistsAsync(global::SubterfugeRemakeService.GetPlayerCustomSpecialistsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetPlayerCustomSpecialists, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.CreateSpecialistPackageResponse CreateSpecialistPackage(global::SubterfugeRemakeService.CreateSpecialistPackageRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return CreateSpecialistPackage(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.CreateSpecialistPackageResponse CreateSpecialistPackage(global::SubterfugeRemakeService.CreateSpecialistPackageRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_CreateSpecialistPackage, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.CreateSpecialistPackageResponse> CreateSpecialistPackageAsync(global::SubterfugeRemakeService.CreateSpecialistPackageRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return CreateSpecialistPackageAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.CreateSpecialistPackageResponse> CreateSpecialistPackageAsync(global::SubterfugeRemakeService.CreateSpecialistPackageRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_CreateSpecialistPackage, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.GetSpecialistPackagesResponse GetSpecialistPackages(global::SubterfugeRemakeService.GetSpecialistPackagesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetSpecialistPackages(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.GetSpecialistPackagesResponse GetSpecialistPackages(global::SubterfugeRemakeService.GetSpecialistPackagesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetSpecialistPackages, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.GetSpecialistPackagesResponse> GetSpecialistPackagesAsync(global::SubterfugeRemakeService.GetSpecialistPackagesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetSpecialistPackagesAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.GetSpecialistPackagesResponse> GetSpecialistPackagesAsync(global::SubterfugeRemakeService.GetSpecialistPackagesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetSpecialistPackages, null, options, request);
+      }
+      public virtual global::SubterfugeRemakeService.GetPlayerSpecialistPackagesResponse GetPlayerSpecialistPackages(global::SubterfugeRemakeService.GetPlayerSpecialistPackagesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetPlayerSpecialistPackages(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SubterfugeRemakeService.GetPlayerSpecialistPackagesResponse GetPlayerSpecialistPackages(global::SubterfugeRemakeService.GetPlayerSpecialistPackagesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetPlayerSpecialistPackages, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.GetPlayerSpecialistPackagesResponse> GetPlayerSpecialistPackagesAsync(global::SubterfugeRemakeService.GetPlayerSpecialistPackagesRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetPlayerSpecialistPackagesAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SubterfugeRemakeService.GetPlayerSpecialistPackagesResponse> GetPlayerSpecialistPackagesAsync(global::SubterfugeRemakeService.GetPlayerSpecialistPackagesRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetPlayerSpecialistPackages, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override subterfugeServiceClient NewInstance(ClientBaseConfiguration configuration)
       {
@@ -993,7 +1173,13 @@ namespace SubterfugeRemakeService {
           .AddMethod(__Method_RemoveFriend, serviceImpl.RemoveFriend)
           .AddMethod(__Method_ViewFriends, serviceImpl.ViewFriends)
           .AddMethod(__Method_HealthCheck, serviceImpl.HealthCheck)
-          .AddMethod(__Method_AuthorizedHealthCheck, serviceImpl.AuthorizedHealthCheck).Build();
+          .AddMethod(__Method_AuthorizedHealthCheck, serviceImpl.AuthorizedHealthCheck)
+          .AddMethod(__Method_SubmitCustomSpecialist, serviceImpl.SubmitCustomSpecialist)
+          .AddMethod(__Method_GetCustomSpecialists, serviceImpl.GetCustomSpecialists)
+          .AddMethod(__Method_GetPlayerCustomSpecialists, serviceImpl.GetPlayerCustomSpecialists)
+          .AddMethod(__Method_CreateSpecialistPackage, serviceImpl.CreateSpecialistPackage)
+          .AddMethod(__Method_GetSpecialistPackages, serviceImpl.GetSpecialistPackages)
+          .AddMethod(__Method_GetPlayerSpecialistPackages, serviceImpl.GetPlayerSpecialistPackages).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
@@ -1030,6 +1216,12 @@ namespace SubterfugeRemakeService {
       serviceBinder.AddMethod(__Method_ViewFriends, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.ViewFriendsRequest, global::SubterfugeRemakeService.ViewFriendsResponse>(serviceImpl.ViewFriends));
       serviceBinder.AddMethod(__Method_HealthCheck, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.HealthCheckRequest, global::SubterfugeRemakeService.HealthCheckResponse>(serviceImpl.HealthCheck));
       serviceBinder.AddMethod(__Method_AuthorizedHealthCheck, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.AuthorizedHealthCheckRequest, global::SubterfugeRemakeService.AuthorizedHealthCheckResponse>(serviceImpl.AuthorizedHealthCheck));
+      serviceBinder.AddMethod(__Method_SubmitCustomSpecialist, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.SubmitCustomSpecialistRequest, global::SubterfugeRemakeService.SubmitCustomSpecialistResponse>(serviceImpl.SubmitCustomSpecialist));
+      serviceBinder.AddMethod(__Method_GetCustomSpecialists, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.GetCustomSpecialistsRequest, global::SubterfugeRemakeService.GetCustomSpecialistsResponse>(serviceImpl.GetCustomSpecialists));
+      serviceBinder.AddMethod(__Method_GetPlayerCustomSpecialists, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.GetPlayerCustomSpecialistsRequest, global::SubterfugeRemakeService.GetPlayerCustomSpecialistsResponse>(serviceImpl.GetPlayerCustomSpecialists));
+      serviceBinder.AddMethod(__Method_CreateSpecialistPackage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.CreateSpecialistPackageRequest, global::SubterfugeRemakeService.CreateSpecialistPackageResponse>(serviceImpl.CreateSpecialistPackage));
+      serviceBinder.AddMethod(__Method_GetSpecialistPackages, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.GetSpecialistPackagesRequest, global::SubterfugeRemakeService.GetSpecialistPackagesResponse>(serviceImpl.GetSpecialistPackages));
+      serviceBinder.AddMethod(__Method_GetPlayerSpecialistPackages, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::SubterfugeRemakeService.GetPlayerSpecialistPackagesRequest, global::SubterfugeRemakeService.GetPlayerSpecialistPackagesResponse>(serviceImpl.GetPlayerSpecialistPackages));
     }
 
   }
