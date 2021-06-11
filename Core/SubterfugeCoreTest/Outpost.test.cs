@@ -32,8 +32,8 @@ namespace SubterfugeCoreTest
             this._map = new Rft(3000, 3000);
             this._outpostLocation = new RftVector(_map, 0, 0);
             this._outpostLocation = new RftVector(_map, 15, 15);
-            this._outpost = new Outpost("0", _outpostLocation, new Player("1"), OutpostType.Factory);
-            this._outpost2 = new Outpost("1", _outpostLocation, new Player("1"), OutpostType.Factory);
+            this._outpost = new Factory("0", _outpostLocation, new Player("1"));
+            this._outpost2 = new Factory("1", _outpostLocation, new Player("1"));
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanRemoveDrillers()
         {
-            Outpost outpost = new Outpost("0", new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
             int initialDrillers = outpost.GetDrillerCount();
             outpost.RemoveDrillers(40);
             Assert.AreEqual(initialDrillers - 40, outpost.GetDrillerCount());
@@ -80,7 +80,7 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanAddDrillers()
         {
-            Outpost outpost = new Outpost("0", new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
             int initialDrillers = outpost.GetDrillerCount();
             outpost.AddDrillers(40);
             Assert.AreEqual(initialDrillers + 40, outpost.GetDrillerCount());
@@ -89,7 +89,7 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanSetDrillerCount()
         {
-            Outpost outpost = new Outpost("0", new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
             outpost.SetDrillerCount(420);
             Assert.AreEqual(420, outpost.GetDrillerCount());
         }
@@ -162,7 +162,7 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanRemoveShields()
         {
-            Outpost outpost = new Outpost("0", new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
             outpost.GetShieldManager().SetShields(10);
             int initialShields = outpost.GetShieldManager().GetShields();
             outpost.GetShieldManager().RemoveShields(5);
@@ -172,7 +172,7 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanAddShields()
         {
-            Outpost outpost = new Outpost("0", new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
             int initialShield = outpost.GetShieldManager().GetShields();
             outpost.GetShieldManager().AddShield(1);
             Assert.AreEqual(initialShield + 1, outpost.GetShieldManager().GetShields());
@@ -181,7 +181,7 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanSetShields()
         {
-            Outpost outpost = new Outpost("0", new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
             outpost.GetShieldManager().SetShields(1);
             Assert.AreEqual(1, outpost.GetShieldManager().GetShields());
         }
@@ -189,7 +189,7 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void ShieldCapacityWorks()
         {
-            Outpost outpost = new Outpost("0", new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
             outpost.GetShieldManager().SetShieldCapacity(100);
             outpost.GetShieldManager().SetShields(5);
             outpost.GetShieldManager().AddShield(100);
@@ -203,7 +203,7 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CannotHaveNegativeShield()
         {
-            Outpost outpost = new Outpost("0", new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
             outpost.GetShieldManager().SetShields(10);
             int initialShields = outpost.GetShieldManager().GetShields();
             outpost.GetShieldManager().RemoveShields(15);
@@ -213,7 +213,7 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanToggleSheilds()
         {
-            Outpost outpost = new Outpost("0",new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
+            Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), new Player("1"));
             bool initialState = outpost.GetShieldManager().IsShieldActive();
             outpost.GetShieldManager().ToggleShield();
             Assert.AreEqual(!initialState, outpost.GetShieldManager().IsShieldActive());
@@ -222,8 +222,8 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanSeeLocationInVision()
         {
-            Outpost outpost = new Outpost("0",new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
-            Outpost outpost2 = new Outpost("1",new RftVector(_map, Constants.BASE_OUTPOST_VISION_RADIUS - 1, 0), new Player("2"), OutpostType.Mine);
+            Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), new Player("1"));
+            Outpost outpost2 = new Mine("1",new RftVector(_map, Constants.BASE_OUTPOST_VISION_RADIUS - 1, 0), new Player("2"));
             Assert.IsTrue(outpost.isInVisionRange(new GameTick(1), outpost2));
         }
         
@@ -231,8 +231,8 @@ namespace SubterfugeCoreTest
         public void CannotSeeLocationOutOfVision()
         {
             
-            Outpost outpost = new Outpost("0",new RftVector(_map, 0, 0), new Player("1"), OutpostType.Mine);
-            Outpost outpost2 = new Outpost("1",new RftVector(_map, Constants.BASE_OUTPOST_VISION_RADIUS + 1, 0), new Player("2"), OutpostType.Mine);
+            Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), new Player("1"));
+            Outpost outpost2 = new Mine("1",new RftVector(_map, Constants.BASE_OUTPOST_VISION_RADIUS + 1, 0), new Player("2"));
             Assert.IsFalse(outpost.isInVisionRange(new GameTick(1), outpost2));
         }
     }

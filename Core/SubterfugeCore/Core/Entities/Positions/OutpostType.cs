@@ -12,7 +12,6 @@ namespace SubterfugeCore.Core.Entities.Positions
         Generator,
         Factory,
         Mine,
-        Destroyed,
         Watchtower
     }
 }
