@@ -84,11 +84,19 @@ namespace SubterfugeCore.Core.Entities.Positions
 			return this._drillersPerProduction;
 		}
 
+		/// <summary>
+		/// Gets the number of ticks between two production cycle of this factory.
+		/// </summary>
+		/// <returns>An integer representing the number of ticks a production cycle takes.</returns>
 		public int GetTicksPerProduction()
 		{
 			return this._ticksPerProduction;
 		}
 
+		/// <summary>
+		/// Gets the tick of the first production at this factory, which is not necessarily the same as the number of ticks between two production cycles.
+		/// </summary>
+		/// <returns>The GameTick during which the first production of this factory occurs.</returns>
 		public GameTick GetTicksToFirstProduction()
 		{
 			return this._ticksToFirstProduction;
