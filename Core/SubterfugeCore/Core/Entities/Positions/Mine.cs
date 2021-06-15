@@ -28,7 +28,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 			return OutpostType.Mine;
 		}
 
-		public override float getVisionRange()
+		public override float GetVisionRange()
 		{
 			return Constants.BASE_OUTPOST_VISION_RADIUS;
 		}

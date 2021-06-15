@@ -59,7 +59,7 @@ namespace SubterfugeCoreTest
         public void CanSeeLocationInVisionRange()
         {
             RftVector currentLocation = _sub.GetCurrentPosition(new GameTick(1));
-            RftVector insideVisionRange = new RftVector(currentLocation.X + _sub.getVisionRange() - 1, currentLocation.Y);
+            RftVector insideVisionRange = new RftVector(currentLocation.X + _sub.GetVisionRange() - 1, currentLocation.Y);
             Outpost insideRange = new Generator("0", insideVisionRange, new Player("1"));
             Assert.IsTrue(_sub.isInVisionRange(new GameTick(1), insideRange));
         }
@@ -68,7 +68,7 @@ namespace SubterfugeCoreTest
         public void CanNotSeeLocationOutsideVisionRange()
         {
             RftVector currentLocation = _sub.GetCurrentPosition(new GameTick(1));
-            RftVector outsideVisionRange = new RftVector(currentLocation.X + _sub.getVisionRange() + 1, currentLocation.Y);
+            RftVector outsideVisionRange = new RftVector(currentLocation.X + _sub.GetVisionRange() + 1, currentLocation.Y);
             Outpost outsideRange = new Generator("0", outsideVisionRange, new Player("1"));
             Assert.IsFalse(_sub.isInVisionRange(new GameTick(1), outsideRange));
         }

@@ -10,7 +10,7 @@ namespace SubterfugeCore.Core.Interfaces
         /// Gets the range of vision for the current object
         /// </summary>
         /// <returns>The object's vision range</returns>
-        float getVisionRange();
+        float GetVisionRange();
 
 
         /// <summary>

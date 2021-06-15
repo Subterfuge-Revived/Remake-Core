@@ -246,12 +246,12 @@ namespace SubterfugeCore.Core.Entities.Positions
 
         public bool isInVisionRange(GameTick tick, IPosition position)
         {
-            return Vector2.Distance(this.GetCurrentPosition(tick).ToVector2(), position.GetCurrentPosition(tick).ToVector2()) <= getVisionRange();
+            return Vector2.Distance(this.GetCurrentPosition(tick).ToVector2(), position.GetCurrentPosition(tick).ToVector2()) <= GetVisionRange();
         }
 
         // abstract methods
 
-        public abstract float getVisionRange();
+        public abstract float GetVisionRange();
 
         /// <summary>
         /// Gets the outpost type

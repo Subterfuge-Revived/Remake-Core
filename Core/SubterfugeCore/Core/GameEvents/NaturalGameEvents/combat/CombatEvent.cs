@@ -57,7 +57,7 @@ namespace SubterfugeCore.Core.GameEvents
             // Determine additional events that should be triggered for this particular combat.
             if (_combatant1.GetOwner() == _combatant2.GetOwner())
             {
-                this._actions.Add(new FriendlySubArrive(_combatant1, _combatant2));
+                this._actions.Add(new FriendlySubArrive(_combatant1, _combatant2, base.GetOccursAt()));
             } else
             {
                 this._actions.Add(new SpecialistCombat(_combatant1, _combatant2));

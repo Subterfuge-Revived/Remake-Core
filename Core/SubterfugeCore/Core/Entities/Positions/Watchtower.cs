@@ -28,7 +28,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 			return OutpostType.Watchtower;
 		}
 
-		public override float getVisionRange()
+		public override float GetVisionRange()
 		{
 			return Constants.BASE_WATCHTOWER_VISION_RADIUS;
 		}
