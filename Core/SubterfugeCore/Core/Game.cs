@@ -73,7 +73,7 @@ namespace SubterfugeCore.Core
             // All owned factories should start producing drillers
             foreach (Outpost o in generatedOutposts)
             {
-                if (o is Factory)
+                if (o is Factory && o.GetOwner() != null)
                 {
                     Factory f = (Factory)o;
                     TimeMachine.AddEvent(new FactoryProduction(f, f.GetTicksToFirstProduction()));
