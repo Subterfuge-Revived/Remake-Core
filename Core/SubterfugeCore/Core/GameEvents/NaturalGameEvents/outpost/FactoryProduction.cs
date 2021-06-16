@@ -12,10 +12,10 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 	/// </summary>
 	public class FactoryProduction : NaturalGameEvent
 	{
-		Factory _producingFactory;
-		int _productionAmount;
+		private Factory _producingFactory;
+		private int _productionAmount;
+		private FactoryProduction _nextProduction;
 		private bool _eventSuccess = false;
-		FactoryProduction _nextProduction;
 
 		public FactoryProduction(Factory factory, GameTick occursAt) : base(occursAt, Base.Priority.NATURAL_PRIORITY_9)
 		{
@@ -26,7 +26,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 		public override bool ForwardAction(TimeMachine timemachine, GameState state)
 		{
 			this._productionAmount = this._producingFactory.GetDrillerProduction(state);
-			if (state.OutpostExists(_producingFactory) && this._productionAmount > 0)
+			if (state.OutpostExists(_producingFactory) && this._productionAmount > 0 && !this._producingFactory.IsDestroyed())
 			{
 				this._producingFactory.AddDrillers(this._productionAmount);
 				this._eventSuccess = true;

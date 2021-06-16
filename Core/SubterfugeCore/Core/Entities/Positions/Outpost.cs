@@ -31,7 +31,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// <summary>
         /// Is the outpost destroyed
         /// </summary>
-        public bool _isDestroyed;
+        private bool _isDestroyed;
 
         /// <summary>
         /// The owner of the outpost
@@ -102,6 +102,15 @@ namespace SubterfugeCore.Core.Entities.Positions
         public Player GetOwner()
         {
             return this._outpostOwner;
+        }
+
+        /// <summary>
+        /// Returns if the outpost is destroyed
+        /// </summary>
+        /// <returns>True if the outpost is destroyed, and false otherwise</returns>
+        public bool IsDestroyed()
+        {
+            return _isDestroyed;
         }
         
         /// <summary>
