@@ -15,16 +15,22 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         {
             this.EventId = Guid.NewGuid().ToString();
             this._occursAt = occursAt;
+            this._priority = priority;
         }
         
         public override GameTick GetOccursAt()
         {
-            return _occursAt;
+            return this._occursAt;
         }
 
         public override string GetEventId()
         {
-            return EventId;
+            return this.EventId;
         }
-    }
+
+		public override Priority GetPriority()
+		{
+            return this._priority;
+		}
+	}
 }

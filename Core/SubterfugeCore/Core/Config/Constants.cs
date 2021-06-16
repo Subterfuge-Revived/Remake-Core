@@ -21,6 +21,11 @@ namespace SubterfugeCore.Core.Config
 		public const int BASE_FACTORY_PRODUCTION = 6;
 
 		/// <summary>
+		/// The base time (in minutes) per production
+		/// </summary>
+		public const int MINUTES_PER_PRODUCTION = 480;
+
+		/// <summary>
 		/// The initial number of drillers an outpost will have when generated.
 		/// </summary>
 		public const int INITIAL_DRILLERS_PER_OUTPOST = 30;

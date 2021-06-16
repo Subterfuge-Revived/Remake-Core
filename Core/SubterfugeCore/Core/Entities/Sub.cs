@@ -394,14 +394,14 @@ namespace SubterfugeCore.Core.Entities
             }
         }
 
-        public float getVisionRange()
+        public float GetVisionRange()
         {
             return Config.Constants.BASE_OUTPOST_VISION_RADIUS * 0.2f;
         }
 
         public bool isInVisionRange(GameTick tick, IPosition position)
         {
-            return Vector2.Distance(this.GetCurrentPosition(tick).ToVector2(), position.GetCurrentPosition(tick).ToVector2()) <= getVisionRange();
+            return Vector2.Distance(this.GetCurrentPosition(tick).ToVector2(), position.GetCurrentPosition(tick).ToVector2()) <= GetVisionRange();
         }
     }
 }

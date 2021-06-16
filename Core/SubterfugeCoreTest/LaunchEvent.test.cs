@@ -56,8 +56,8 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CannotLaunchFromNonGeneratedOutposts()
         {
-            Outpost outpost1 = new Outpost("0",new RftVector(new Rft(300, 300), 0, 0));
-            Outpost outpost2 = new Outpost("1",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
             int outpostOneInitial = outpost1.GetDrillerCount();
             int outpostTwoInitial = outpost2.GetDrillerCount();
             
@@ -82,8 +82,8 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanLaunchSingleSub()
         {
-            Outpost outpost1 = new Outpost("0",new RftVector(new Rft(300, 300), 0, 0));
-            Outpost outpost2 = new Outpost("1",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
             outpost1.SetDrillerCount(10);
             outpost2.SetDrillerCount(10);
             int outpostOneInitial = outpost1.GetDrillerCount();
@@ -115,8 +115,8 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanUndoSubLaunch()
         {
-            Outpost outpost1 = new Outpost("0",new RftVector(new Rft(300, 300), 0, 0));
-            Outpost outpost2 = new Outpost("1",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
             outpost1.SetDrillerCount(10);
             outpost2.SetDrillerCount(10);
             int outpostOneInitial = outpost1.GetDrillerCount();
@@ -152,8 +152,8 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void CanGetTheLaunchedSub()
         {
-            Outpost outpost1 = new Outpost("0",new RftVector(new Rft(300, 300), 0, 0));
-            Outpost outpost2 = new Outpost("1",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
             outpost1.SetDrillerCount(10);
             outpost2.SetDrillerCount(10);
             outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
@@ -192,8 +192,8 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void SubLaunchCreatesCombatEvents()
         {
-            Outpost outpost1 = new Outpost("0",new RftVector(new Rft(300, 300), 0, 0));
-            Outpost outpost2 = new Outpost("1",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
             outpost1.SetDrillerCount(10);
             outpost2.SetDrillerCount(10);
             outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
@@ -266,8 +266,8 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void SubsArriveAfterLaunch()
         {
-            Outpost outpost1 = new Outpost("0",new RftVector(new Rft(300, 300), 0, 0));
-            Outpost outpost2 = new Outpost("1",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
             outpost1.SetDrillerCount(10);
             outpost2.SetDrillerCount(5);
             outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);

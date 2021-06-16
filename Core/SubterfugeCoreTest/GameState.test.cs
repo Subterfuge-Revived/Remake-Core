@@ -35,7 +35,7 @@ namespace SubterfugeCoreTest
             
             _state = new GameState(config);
             _map = new Rft(300,300);
-            _outpost = new Outpost("0",new RftVector(_map, 0, 0), _player1, OutpostType.Generator);
+            _outpost = new Generator("0",new RftVector(_map, 0, 0), _player1);
             _outpost.AddDrillers(10);
             _tempSub = new Sub("1", _outpost, _outpost, new GameTick(), 10, _player1);
         }

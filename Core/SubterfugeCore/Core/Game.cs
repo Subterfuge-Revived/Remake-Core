@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
@@ -69,6 +69,16 @@ namespace SubterfugeCore.Core
 
             // Add the outposts to the map
             state.GetOutposts().AddRange(generatedOutposts);
+
+            // All owned factories should start producing drillers
+            foreach (Outpost o in generatedOutposts)
+            {
+                if (o is Factory && o.GetOwner() != null)
+                {
+                    Factory f = (Factory)o;
+                    TimeMachine.AddEvent(new FactoryProduction(f, f.GetTicksToFirstProduction()));
+                }
+            }
         }
 
         public void LoadGameEvents(List<GameEventModel> gameEvents)

@@ -16,7 +16,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 	/// <summary>
 	/// Outpost class
 	/// </summary>
-    public class Outpost : IOwnable, ITargetable, IDrillerCarrier, ISubLauncher, ICombatable, IShieldable, IVision
+    public abstract class Outpost : IOwnable, ITargetable, IDrillerCarrier, ISubLauncher, ICombatable, IShieldable, IVision
     {
         /// <summary>
         /// A unique identifier for the outpost
@@ -27,7 +27,12 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// A unique name that identifies the outpost.
         /// </summary>
         public string Name { get; set; } = "Undefined";
-        
+
+        /// <summary>
+        /// Is the outpost destroyed
+        /// </summary>
+        private bool _isDestroyed;
+
         /// <summary>
         /// The owner of the outpost
         /// </summary>
@@ -37,11 +42,6 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// The outposts's specialist manager
         /// </summary>
         private SpecialistManager _specialistManager;
-
-        /// <summary>
-        /// The outpost type
-        /// </summary>
-        OutpostType _type;
 
         /// <summary>
         /// The shield manager for the outpost.
@@ -62,44 +62,28 @@ namespace SubterfugeCore.Core.Entities.Positions
         public Outpost(string id, RftVector outpostStartPosition)
         {
             this._id = id;
+            this._isDestroyed = false;
             this.Position = outpostStartPosition;
             _subLauncher = new SubLauncher();
             this._outpostOwner = null;
             this._specialistManager = new SpecialistManager(100);
             _shieldManager = new ShieldManager(10);
-        }
-
-        /// <summary>
-        /// Outpost constructor
-        /// </summary>
-        /// <param name="outpostStartPosition">The outpost position</param>
-        /// <param name="type">The type of outpost to create</param>
-        public Outpost(string id, RftVector outpostStartPosition, OutpostType type)
-        {
-            this._id = id;
-            this.Position = outpostStartPosition;
-            _subLauncher = new SubLauncher();
-            this._outpostOwner = null;
-            this._specialistManager = new SpecialistManager(100);
-            _shieldManager = new ShieldManager(10);
-            this._type = type;
-        }
+		}
 
         /// <summary>
         /// Outpost constructor
         /// </summary>
         /// <param name="outpostStartPosition">The outpost position</param>
         /// <param name="outpostOwner">The outpost's owner</param>
-        /// <param name="type">The type of outpost to create</param>
-        public Outpost(string id, RftVector outpostStartPosition, Player outpostOwner, OutpostType type)
+        public Outpost(string id, RftVector outpostStartPosition, Player outpostOwner)
         {
             this._id = id;
+            this._isDestroyed = false;
             this.Position = outpostStartPosition;
             _subLauncher = outpostOwner == null ? new SubLauncher() : new SubLauncher(40);
             this._outpostOwner = outpostOwner;
             this._specialistManager = new SpecialistManager(100);
             _shieldManager = new ShieldManager(10);
-            this._type = type;
         }
 
         /// <summary>
@@ -118,6 +102,31 @@ namespace SubterfugeCore.Core.Entities.Positions
         public Player GetOwner()
         {
             return this._outpostOwner;
+        }
+
+        /// <summary>
+        /// Returns if the outpost is destroyed
+        /// </summary>
+        /// <returns>True if the outpost is destroyed, and false otherwise</returns>
+        public bool IsDestroyed()
+        {
+            return _isDestroyed;
+        }
+        
+        /// <summary>
+        /// Destroys the outpost
+        /// </summary>
+        public void destroyOutpost()
+        {
+            this._isDestroyed = true;
+        }
+
+        /// <summary>
+        /// Restores (undestroys) the outpost
+        /// </summary>
+        public void restoreOutpost()
+        {
+            this._isDestroyed = false;
         }
 
         /// <summary>
@@ -152,15 +161,6 @@ namespace SubterfugeCore.Core.Entities.Positions
         public ShieldManager GetShieldManager()
         {
             return _shieldManager;
-        }
-
-        /// <summary>
-        /// Gets the outpost type
-        /// </summary>
-        /// <returns>The type of outpost</returns>
-        public OutpostType GetOutpostType()
-        {
-            return this._type;
         }
 
         /// <summary>
@@ -252,19 +252,20 @@ namespace SubterfugeCore.Core.Entities.Positions
         {
             return _subLauncher.HasDrillers(drillers);
         }
-        
-        public float getVisionRange()
-        {
-            if (GetOutpostType() == OutpostType.Watchtower)
-            {
-                return Config.Constants.BASE_WATCHTOWER_VISION_RADIUS;
-            }
-            return Config.Constants.BASE_OUTPOST_VISION_RADIUS;
-        }
 
         public bool isInVisionRange(GameTick tick, IPosition position)
         {
-            return Vector2.Distance(this.GetCurrentPosition(tick).ToVector2(), position.GetCurrentPosition(tick).ToVector2()) <= getVisionRange();
+            return Vector2.Distance(this.GetCurrentPosition(tick).ToVector2(), position.GetCurrentPosition(tick).ToVector2()) <= GetVisionRange();
         }
+
+        // abstract methods
+
+        public abstract float GetVisionRange();
+
+        /// <summary>
+        /// Gets the outpost type
+        /// </summary>
+        /// <returns>The type of outpost</returns>
+        public abstract OutpostType GetOutpostType();
     }
 }

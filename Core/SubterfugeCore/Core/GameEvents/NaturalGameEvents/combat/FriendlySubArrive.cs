@@ -1,6 +1,6 @@
 ﻿using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.GameEvents.ReversibleEvents;
+using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
 
@@ -9,7 +9,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
     /// <summary>
     /// Friendly sub arrival
     /// </summary>
-    public class FriendlySubArrive : IReversible
+    public class FriendlySubArrive : NaturalGameEvent
     {
         Sub _arrivingSub;
         Outpost _outpost;
@@ -20,7 +20,8 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// </summary>
         /// <param name="combatant1">Combatant 1</param>
         /// <param name="combatant2">Combatant 2</param>
-        public FriendlySubArrive(ICombatable combatant1, ICombatable combatant2)
+        /// <param name="occursAt">Tick of sub arrival</param>
+        public FriendlySubArrive(ICombatable combatant1, ICombatable combatant2, GameTick occursAt) : base(occursAt, Priority.NATURAL_PRIORITY_9)
         {
             this._arrivingSub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
             this._outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);
@@ -30,7 +31,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// Undoes the sub's arrival
         /// </summary>
         /// <returns>If the event was undone</returns>
-        public bool BackwardAction(TimeMachine timeMachine,  GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine,  GameState state)
         {
             if (this._eventSuccess)
             {
@@ -50,9 +51,9 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// Perfoms a friendly sub arrival
         /// </summary>
         /// <returns>If the event was successful</returns>
-        public bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            if (state.SubExists(this._arrivingSub))
+            if (state.SubExists(this._arrivingSub) && state.OutpostExists(this._outpost))
             {
                 this._outpost.AddDrillers(this._arrivingSub.GetDrillerCount());
                 this._outpost.GetSpecialistManager().AddSpecialists(this._arrivingSub.GetSpecialistManager().GetSpecialists());
@@ -70,9 +71,9 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// Determines if the event was successful.
         /// </summary>
         /// <returns>If the event is successful</returns>
-        public bool WasEventSuccessful()
+        public override bool WasEventSuccessful()
         {
             return this._eventSuccess;
         }
-    }
+	}
 }

@@ -15,7 +15,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         bool ForwardAction(TimeMachine timeMachine, GameState state);
         
         /// <summary>
-        /// Applies the backward action
+        /// Applies the backward action. Snould never be called before ForwardAction.
         /// </summary>
         /// <returns>If the backward action was successful</returns>
         bool BackwardAction(TimeMachine timeMachine, GameState state);

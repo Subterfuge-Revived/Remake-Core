@@ -350,14 +350,33 @@ namespace SubterfugeCore.Core
         /// <returns>The player's driller capacity</returns>
         public int getPlayerDrillerCapacity(Player player)
         {
-            return GetPlayerOutposts(player)
+            return (GetPlayerOutposts(player)
                        .FindAll(outpost => outpost.GetOutpostType().Equals(OutpostType.Generator)).Count *
-                   Constants.BASE_GENERATOR_CAPACITY;
+                   Constants.BASE_GENERATOR_CAPACITY) + Constants.BASE_DRILLER_CAPACITY;
         }
 
+        /// <summary>
+        /// Determines how many extra drillers the specified player's electrical
+        /// can support.
+        /// </summary>
+        /// <param name="player">player</param>
+        /// <returns>The amount of extra drillers the player can have.
+        /// If it returns 0 or less, the player is out of electricity. </returns>
+        public int GetExtraDrillerCapcity(Player player)
+        {
+            return getPlayerDrillerCapacity(player) - getPlayerDrillerCount(player);
+        }
+
+        /// <summary>
+        /// Determines whether a position on the map is visible to the
+        /// specified player.
+        /// </summary>
+        /// <param name="position">position</param>
+        /// <param name="player">player</param>
+        /// <returns>True if the position is visible and false otherwise.</returns>
         public bool isInVisionRange(IPosition position, Player player)
         {
-            foreach(Outpost o in this._outposts)
+            foreach(Outpost o in GetPlayerOutposts(player))
             {
                 if (o.isInVisionRange(CurrentTick, position))
                 {
@@ -365,7 +384,7 @@ namespace SubterfugeCore.Core
                 }
             }
 
-            foreach (Sub s in _activeSubs)
+            foreach (Sub s in GetPlayerSubs(player))
             {
                 if (s.isInVisionRange(CurrentTick, position))
                 {

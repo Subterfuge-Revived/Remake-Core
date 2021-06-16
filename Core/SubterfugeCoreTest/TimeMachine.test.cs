@@ -38,7 +38,7 @@ namespace SubterfugeCoreTest
         {
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Outpost("0", new RftVector(map, 0, 0), player1, OutpostType.Generator);
+            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
             outpost.AddDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick());
@@ -81,7 +81,7 @@ namespace SubterfugeCoreTest
         {
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Outpost("0", new RftVector(map, 0, 0), player1, OutpostType.Generator);
+            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
             outpost.AddDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
@@ -100,7 +100,7 @@ namespace SubterfugeCoreTest
         {
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Outpost("0", new RftVector(map, 0, 0), player1, OutpostType.Generator);
+            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
             outpost.AddDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
@@ -124,7 +124,7 @@ namespace SubterfugeCoreTest
         {
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Outpost("0", new RftVector(map, 0, 0), player1, OutpostType.Generator);
+            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
             outpost.AddDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
@@ -153,7 +153,7 @@ namespace SubterfugeCoreTest
         {
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Outpost("0", new RftVector(map, 0, 0), player1, OutpostType.Generator);
+            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
             outpost.AddDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
