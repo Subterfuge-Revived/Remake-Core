@@ -20,11 +20,11 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    # Build proto files
-    - name: Generate Proto
-      run: dotnet build "ProtoFiles/ProtoFiles.csproj"
     - name: Checkout
       uses: actions/checkout@v2
+    # Build proto files
+    - name: Generate Proto
+      run: dotnet build "Server/ProtoFiles/ProtoFiles.csproj"
     - name: Install NuGet packages
       run: dotnet restore "Core/SubterfugeCore/SubterfugeCore.csproj"
     # Build the DLL
