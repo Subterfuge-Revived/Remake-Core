@@ -365,3 +365,6 @@ MigrationBackup/
 
 #redis
 redis/
+
+# Protobuf generated files:
+Server/ProtoGenerated/generated/*
