@@ -20,6 +20,26 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         {
             SpecialistEffect effect = null;
             NumericSpecialistEffect numericSpecialistEffect = new NumericSpecialistEffect();
+
+            switch (effectConfiguration.EffectType)
+            {
+                case EffectModifier.Driller:
+                case EffectModifier.Speed:
+                case EffectModifier.Vision:
+                case EffectModifier.ShieldRegeneration:
+                case EffectModifier.ShieldValue:
+                case EffectModifier.ShieldMaxValue:
+                    effect = new NumericSpecialistEffect();
+                    break;
+                case EffectModifier.KillPlayer:
+                case EffectModifier.KillSpecialist:
+                case EffectModifier.VictoryPlayer:
+                    // TODO
+                    // effect = new ToggleableSpecialistEffect();
+                    effect = new NumericSpecialistEffect();
+                    break;
+            }
+            
             numericSpecialistEffect.Effector = effectConfiguration.EffectType;
 
             if (effect.GetType() == typeof(NumericSpecialistEffect))
