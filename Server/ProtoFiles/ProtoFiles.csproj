@@ -8,12 +8,11 @@
     <ItemGroup>
       <PackageReference Include="Google.Protobuf" Version="3.14.0" />
       <PackageReference Include="Grpc" Version="2.26.0" />
-      <PackageReference Include="Grpc.Tools" Version="2.26.0" />
+      <PackageReference Include="Grpc.Tools" Version="2.26.0" PrivateAssets="All" />
     </ItemGroup>
 	
 	<ItemGroup>
-      <None Remove="proto\subterfuge_remake.proto" />
-      <Protobuf Include="proto\*.proto" ProtoRoot="proto" OutputDir="../ProtoGenerated/generated" CompileOutput="False" />
+      <Protobuf Include="**/*.proto" ProtoRoot="proto" OutputDir="../ProtoGenerated/generated" CompileOutput="False" />
     </ItemGroup>
 
 </Project>
