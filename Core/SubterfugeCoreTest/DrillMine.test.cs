@@ -47,7 +47,7 @@ namespace SubterfugeCoreTest
 					SourceId = o1.GetId()
 				}.ToByteString(),
 				EventId = Guid.NewGuid().ToString(),
-				EventType = EventType.DrillMine,
+				EventType = EventType.DrillMineEvent,
 				OccursAtTick = 100
 			};
 			model2 = new GameEventModel()
@@ -57,7 +57,7 @@ namespace SubterfugeCoreTest
 					SourceId = o2.GetId()
 				}.ToByteString(),
 				EventId = Guid.NewGuid().ToString(),
-				EventType = EventType.DrillMine,
+				EventType = EventType.DrillMineEvent,
 				OccursAtTick = 200
 			};
 		}
@@ -110,7 +110,7 @@ namespace SubterfugeCoreTest
 					SourceId = o1.GetId()
 				}.ToByteString(),
 				EventId = Guid.NewGuid().ToString(),
-				EventType = EventType.DrillMine,
+				EventType = EventType.DrillMineEvent,
 				OccursAtTick = 200
 			});
 			o1.AddDrillers(150);
