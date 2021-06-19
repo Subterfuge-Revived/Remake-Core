@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using SubterfugeRemakeService;
+using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
 
 namespace SubterfugeCore.Core.GameEvents.Base
 {
@@ -13,6 +14,8 @@ namespace SubterfugeCore.Core.GameEvents.Base
                     return new LaunchEvent(model);
                 case EventType.ToggleShieldEvent:
                     return new ToggleShieldEvent(model);
+                case EventType.DrillMineEvent:
+                    return new DrillMineEvent(model);
                 case EventType.UnknownEvent:
                     return null;
                 default:

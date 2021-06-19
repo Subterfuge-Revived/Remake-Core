@@ -20,7 +20,7 @@ namespace SubterfugeCore.Core.GameEvents
         public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             ICombatable source = state.GetCombatableById(GetEventData().SourceId);
-            if (source != null)
+            if (source != null && !source.GetOwner().IsEliminated())
             {
                 source.GetShieldManager().ToggleShield();
                 EventSuccess = true;

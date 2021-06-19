@@ -276,6 +276,23 @@ namespace SubterfugeCore.Core
         }
 
         /// <summary>
+        /// Replaces an outpost in the game state with another outpost. The two outposts should have the same Outpost-level fields, only differing in subclass.
+        /// </summary>
+        /// <param name="remove">An outpost in the game state to remove.</param>
+        /// <param name="add">An outpost not in the game state to add.</param>
+        /// <returns>True if the replacement was successful, and false otherwise.</returns>
+        public bool ReplaceOutpost(Outpost remove, Outpost add)
+        {
+            if (_outposts.Contains(remove) && !_outposts.Contains(add))
+            {
+                _outposts.Remove(remove);
+                _outposts.Add(add);
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Gets a list of all specilists in the game
         /// </summary>
         /// <returns>A list of all specliasts in the game</returns>

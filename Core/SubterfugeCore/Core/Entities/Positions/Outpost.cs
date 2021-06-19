@@ -29,7 +29,7 @@ namespace SubterfugeCore.Core.Entities.Positions
         public string Name { get; set; } = "Undefined";
 
         /// <summary>
-        /// Is the outpost destroyed
+        /// Is the outpost destroyed. WARNING: any modifications to this variable should be accomplished via GameState.GetCombatableById in case the object in the game state has changed.
         /// </summary>
         private bool _isDestroyed;
 
@@ -84,6 +84,29 @@ namespace SubterfugeCore.Core.Entities.Positions
             this._outpostOwner = outpostOwner;
             this._specialistManager = new SpecialistManager(100);
             _shieldManager = new ShieldManager(10);
+        }
+
+        /// <summary>
+        /// Outpost constructor; should only be used when it is necessary to change the type of an outpost (i.e. when converting an outpost to a mine)
+        /// </summary>
+        /// <param name="id">The id of the outpost</param>
+        /// <param name="name">The name of the outpost</param>
+        /// <param name="isDestroyed">Whether the outpost is destroyed</param>
+        /// <param name="owner">The owner of the outpost</param>
+        /// <param name="specialists">The SpecialistManger for an outpost</param>
+        /// <param name="shields">The ShieldManager for an outpost</param>
+        /// <param name="drillers">The SubLauncher for an outpost</param>
+        /// <param name="pos">The position of an outpost</param>
+        public Outpost(Outpost o)
+        {
+            this._id = o.GetId();
+            this.Name = o.Name;
+            this._isDestroyed = o.IsDestroyed();
+            this._outpostOwner = o.GetOwner();
+            this._specialistManager = o.GetSpecialistManager();
+            this._shieldManager = o.GetShieldManager();
+            this._subLauncher = o.GetSubLauncher();
+            this.Position = o.GetCurrentPosition();
         }
 
         /// <summary>
@@ -224,6 +247,11 @@ namespace SubterfugeCore.Core.Entities.Positions
                 launchedSub.GetSpecialistManager().transferSpecialistsTo(this._specialistManager);
                 state.RemoveSub(launchEventData.GetActiveSub() as Sub);
             }
+        }
+
+        public SubLauncher GetSubLauncher()
+        {
+            return _subLauncher;
         }
 
         

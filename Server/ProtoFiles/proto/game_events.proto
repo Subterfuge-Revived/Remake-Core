@@ -9,12 +9,16 @@ package GameEventModels;
 
 
 message LaunchEventData {
-  string sourceId = 2;
-  string destinationId = 3;
-  int32 drillerCount = 4;
-  repeated string specialistIds = 5;
+	string sourceId = 2;
+	string destinationId = 3;
+	int32 drillerCount = 4;
+	repeated string specialistIds = 5;
 }
 
 message ToggleShieldEventData {
-  string sourceId = 1;
+	string sourceId = 1;
+}
+
+message DrillMineEventData {
+	string sourceId = 1;
 }

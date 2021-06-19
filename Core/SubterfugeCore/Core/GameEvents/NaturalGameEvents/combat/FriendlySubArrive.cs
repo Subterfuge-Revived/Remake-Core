@@ -13,7 +13,6 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
     {
         Sub _arrivingSub;
         Outpost _outpost;
-        private bool _eventSuccess = false;
 
         /// <summary>
         /// Friendly sub arrival event
@@ -33,7 +32,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// <returns>If the event was undone</returns>
         public override bool BackwardAction(TimeMachine timeMachine,  GameState state)
         {
-            if (this._eventSuccess)
+            if (base.EventSuccess)
             {
                 this._outpost.RemoveDrillers(this._arrivingSub.GetDrillerCount());
                 this._outpost.GetSpecialistManager()
@@ -58,13 +57,13 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
                 this._outpost.AddDrillers(this._arrivingSub.GetDrillerCount());
                 this._outpost.GetSpecialistManager().AddSpecialists(this._arrivingSub.GetSpecialistManager().GetSpecialists());
                 state.RemoveSub(this._arrivingSub);
-                this._eventSuccess = true;
+                base.EventSuccess = true;
             }
             else
             {
-                this._eventSuccess = false;
+                base.EventSuccess = false;
             }
-            return this._eventSuccess;
+            return base.EventSuccess;
         }
         
         /// <summary>
@@ -73,7 +72,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// <returns>If the event is successful</returns>
         public override bool WasEventSuccessful()
         {
-            return this._eventSuccess;
+            return base.EventSuccess;
         }
 	}
 }

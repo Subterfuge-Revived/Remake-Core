@@ -424,4 +424,5 @@ enum EventType {
     UNKNOWN_EVENT = 0;
     LAUNCH_EVENT = 1;
     TOGGLE_SHIELD_EVENT = 2;
+    DRILL_MINE_EVENT = 3;
 }
