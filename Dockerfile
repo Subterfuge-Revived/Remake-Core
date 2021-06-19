@@ -2,7 +2,7 @@
 FROM microsoft/aspnetcore-build:2.0 as builder
 WORKDIR /app
 COPY . .
-RUN dotnet restore "Core/ProtoFiles/ProtoFiles.csproj"
+RUN dotnet restore "Server/ProtoFiles/ProtoFiles.csproj"
 RUN dotnet build "Server/ProtoFiles/ProtoFiles.csproj"
 RUN dotnet restore "Core/SubterfugeCore/SubterfugeCore.csproj"
 RUN dotnet build "Core/SubterfugeCore/SubterfugeCore.csproj"
