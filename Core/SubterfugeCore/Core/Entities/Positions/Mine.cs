@@ -10,7 +10,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 		/// <summary>
 		/// The rate at which mines produce neptunium. Rate is proportional to number of outposts owned.
 		/// </summary>
-		public static int TICKS_PER_PRODUCTION_PER_MINE = (int)(1440 / GameTick.MINUTES_PER_TICK); // One neptunium per day per outpost
+		public static int TICKS_PER_PRODUCTION_PER_MINE = (int)(1440 / GameTick.MINUTES_PER_TICK); // One neptunium per day (1440 minutes) per outpost
 
 		/// <summary>
 		/// Mine constructor

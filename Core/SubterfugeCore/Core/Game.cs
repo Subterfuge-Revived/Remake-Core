@@ -112,7 +112,7 @@ namespace SubterfugeCore.Core
 				case GameMode.DOMINATION:
                     foreach (Player p in TimeMachine.GetState().GetPlayers())
                     {
-                        if (!p.IsEliminated() && TimeMachine.GetState().GetPlayerOutposts(p).Count > TimeMachine.GetState().GetOutposts().Count)
+                        if (!p.IsEliminated() && TimeMachine.GetState().GetPlayerOutposts(p).Count > TimeMachine.GetState().GetOutposts().Count / 2)
                         {
                             return p;
                         }

@@ -283,7 +283,6 @@ namespace SubterfugeCore.Core
         /// <returns>True if the replacement was successful, and false otherwise.</returns>
         public bool ReplaceOutpost(Outpost remove, Outpost add)
         {
-            // Security: Should this method explicitly check if the two outposts' Outpost-level fields are identical, or just trust that all calls to this method satisfy this prereq?
             if (_outposts.Contains(remove) && !_outposts.Contains(add))
             {
                 _outposts.Remove(remove);
