@@ -63,8 +63,15 @@ namespace SubterfugeServerConsole.Connections.Models
             foreach(HashEntry entry in values)
             {
                 SpecialistConfigurationModel model = new SpecialistConfigurationModel(entry.Value);
-                if (model.SpecialistConfig.Creator.Username.Contains(searchTerm) ||
-                    model.SpecialistConfig.SpecialistName.Contains(searchTerm))
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    if (model.SpecialistConfig.Creator.Username.Contains(searchTerm) ||
+                        model.SpecialistConfig.SpecialistName.Contains(searchTerm))
+                    {
+                        results.Add(model);
+                    }
+                }
+                else
                 {
                     results.Add(model);
                 }
