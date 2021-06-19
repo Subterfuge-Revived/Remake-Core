@@ -558,6 +558,7 @@ message SpecialistConfiguration {
     string SpecialistName = 3;
     User Creator = 4;
     repeated SpecialistEffectConfiguration specialistEffects = 5;
+    string PromotesFrom = 6;
 }
 
 message SpecialistEffectConfiguration {
