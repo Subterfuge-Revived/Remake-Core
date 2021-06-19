@@ -70,7 +70,7 @@ namespace SubterfugeCore.Core.GameEvents
         public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             this._launchedSub = state.GetCombatableById(GetEventData().SourceId).LaunchSub(state, this);
-            if (_launchedSub != null && _launchedSub is Sub)
+            if (_launchedSub != null && _launchedSub is Sub && !_launchedSub.GetOwner().IsEliminated())
             {
                 combatEvents.AddRange(CreateCombatEvents(_launchedSub as Sub, state));
                 foreach(GameEvent e in combatEvents)

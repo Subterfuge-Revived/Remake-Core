@@ -32,6 +32,8 @@ namespace SubterfugeCore.Core
         /// </summary>
         public GameConfiguration Configuration { get; } = null;
 
+        public GameMode GameMode { get; set; } = GameMode.MINING;
+
         /// <summary>
         /// Creates a new game. Does not generate outposts.
         /// Only use this constructor for testing purposes, it sets up a `GameState` and `TimeMachine` instance
@@ -86,6 +88,42 @@ namespace SubterfugeCore.Core
             gameEvents
                 .ConvertAll<GameEvent>(m => GameEventFactory.parseGameEvent(m))
                 .ForEach( parsedEvent => TimeMachine.AddEvent(parsedEvent) );
+        }
+
+        /// <summary>
+        /// Determines if the game is in a game over state. In Mining, ties are broken by
+        /// whoever happens to be first in the list of players.
+        /// </summary>
+        /// <returns>null if the game is not over, or the Player who has won if it is over.</returns>
+        public Player IsGameOver()
+        {
+            switch (GameMode)
+            {
+                case GameMode.MINING:
+                    foreach (Player p in TimeMachine.GetState().GetPlayers())
+                    {
+                        if (!p.IsEliminated() && p.GetNeptunium() >= Constants.MINING_NEPTUNIUM_TO_WIN)
+                        {
+                            return p;
+                        }
+                    }
+                    return null;
+
+				case GameMode.DOMINATION:
+                    foreach (Player p in TimeMachine.GetState().GetPlayers())
+                    {
+                        if (!p.IsEliminated() && TimeMachine.GetState().GetPlayerOutposts(p).Count > TimeMachine.GetState().GetOutposts().Count)
+                        {
+                            return p;
+                        }
+                    }
+                    return null;
+
+                // Other cases to be implemented
+
+                default:
+                    return null;
+            }
         }
     }
 }

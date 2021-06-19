@@ -84,6 +84,8 @@ namespace SubterfugeCoreTest
         {
             Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
             Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
+            outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
+            outpost2.SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
             outpost1.SetDrillerCount(10);
             outpost2.SetDrillerCount(10);
             int outpostOneInitial = outpost1.GetDrillerCount();
@@ -104,7 +106,6 @@ namespace SubterfugeCoreTest
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
-
             Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
             
             // Ensure the sub was launched, outpost lost drillers, etc.
@@ -117,6 +118,8 @@ namespace SubterfugeCoreTest
         {
             Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
             Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
+            outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
+            outpost2.SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
             outpost1.SetDrillerCount(10);
             outpost2.SetDrillerCount(10);
             int outpostOneInitial = outpost1.GetDrillerCount();

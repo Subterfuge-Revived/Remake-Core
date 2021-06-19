@@ -15,7 +15,6 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 		private Factory _producingFactory;
 		private int _productionAmount;
 		private FactoryProduction _nextProduction;
-		private bool _eventSuccess = false;
 
 		public FactoryProduction(Factory factory, GameTick occursAt) : base(occursAt, Base.Priority.NATURAL_PRIORITY_9)
 		{
@@ -29,7 +28,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 			if (state.OutpostExists(_producingFactory) && this._productionAmount > 0 && !this._producingFactory.IsDestroyed())
 			{
 				this._producingFactory.AddDrillers(this._productionAmount);
-				this._eventSuccess = true;
+				base.EventSuccess = true;
 				if (this._nextProduction == null)
 				{
 					this._nextProduction = new FactoryProduction(this._producingFactory, base.GetOccursAt().Advance(this._producingFactory.GetTicksPerProduction()));
@@ -38,14 +37,14 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 			}
 			else
 			{
-				this._eventSuccess = false;
+				base.EventSuccess = false;
 			}
-			return this._eventSuccess;
+			return base.EventSuccess;
 		}
 
 		public override bool BackwardAction(TimeMachine timemachine, GameState state)
 		{
-			if (_eventSuccess)
+			if (base.EventSuccess)
 			{
 				this._producingFactory.RemoveDrillers(this._productionAmount);
 				return true;
@@ -55,7 +54,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 
 		public override bool WasEventSuccessful()
 		{
-			return this._eventSuccess;
+			return base.EventSuccess;
 		}
 	}
 }

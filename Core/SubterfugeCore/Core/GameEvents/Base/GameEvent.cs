@@ -42,9 +42,9 @@ namespace SubterfugeCore.Core.GameEvents.Base
         public abstract GameTick GetOccursAt();
         
         /// <summary>
-        /// Get the tick the game event occurs at
+        /// Get the id of this game event.
         /// </summary>
-        /// <returns>The tick the game event occurs at.</returns>
+        /// <returns>The id of this game event.</returns>
         public abstract string GetEventId();
         
         /// <summary>

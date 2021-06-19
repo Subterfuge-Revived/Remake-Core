@@ -41,10 +41,23 @@ namespace SubterfugeCore.Core.Config
 		public const float BASE_WATCHTOWER_VISION_RADIUS = 75;
 
 		/// <summary>
-		/// The base sub vision radius
+		/// The base sub vision radius.
 		/// </summary>
 		public const float BASE_SUB_VISION_RADIUS = BASE_OUTPOST_VISION_RADIUS * 0.2f;
 
-    }
+		/// <summary>
+		/// The amount of neptunium required to win.
+		/// </summary>
+		public const int MINING_NEPTUNIUM_TO_WIN = 200;
 
+		/// <summary>
+		/// The driller cost for the first {2} drilled mines.
+		/// </summary>
+		public static readonly int[] MINING_COST_INITIAL = { 50, 100 };
+
+		/// <summary>
+		/// The driller cost increase for each mine beyond the first {2} drilled mines.
+		/// </summary>
+		public const int MINING_COST_INCREASE = 100;
+    }
 }
