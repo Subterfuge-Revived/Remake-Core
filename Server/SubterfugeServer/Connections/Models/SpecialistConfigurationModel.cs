@@ -40,7 +40,7 @@ namespace SubterfugeServerConsole.Connections.Models
             };
 
             await RedisConnector.Redis.HashSetAsync(specialistConfigurationKey(), specialistRecord);
-            await RedisConnector.Redis.SetAddAsync($"user:{SpecialistConfig.Creator}:specialists", SpecialistConfig.SpecialistId);
+            await RedisConnector.Redis.SetAddAsync($"user:{SpecialistConfig.Creator.Id}:specialists", SpecialistConfig.SpecialistId);
             return true;
         }
 

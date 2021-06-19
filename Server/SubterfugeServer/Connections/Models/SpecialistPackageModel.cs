@@ -33,7 +33,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 new HashEntry(SpecialistPackage.SpecialistPackageId, SpecialistPackage.ToByteArray()),
             };
 
-            await RedisConnector.Redis.SetAddAsync($"user:{SpecialistPackage.Creator}:specialistPackages", SpecialistPackage.SpecialistPackageId);
+            await RedisConnector.Redis.SetAddAsync($"user:{SpecialistPackage.Creator.Id}:specialistPackages", SpecialistPackage.SpecialistPackageId);
             await RedisConnector.Redis.HashSetAsync(specialistPackageKey(), specialistRecord);
             return true;
         }
