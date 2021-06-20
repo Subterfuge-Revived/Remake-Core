@@ -143,10 +143,10 @@ namespace Tests
          [Test]
          public void SuperUserAccountHasAdminClaims()
          {
-             SuperUser superUser = RedisUserModel.CreateSuperUser().Result;
+             SuperUser superUser = DatabaseUserModel.CreateSuperUser().Result;
              
              // Fetch the user from the database.
-             RedisUserModel user = RedisUserModel.GetUserFromGuid(superUser.userModel.UserModel.Id).Result;
+             DatabaseUserModel user = DatabaseUserModel.GetUserFromGuid(superUser.userModel.UserModel.Id).Result;
              // Ensure the user has admin power
              Assert.IsTrue(user.HasClaim(UserClaim.Admin));
              Assert.IsTrue(user.HasClaim(UserClaim.Dev));

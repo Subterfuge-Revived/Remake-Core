@@ -5,7 +5,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using Grpc.Core;
-using StackExchange.Redis;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections;
@@ -18,7 +17,7 @@ namespace SubterfugeServerConsole
     {
         public override async Task<OpenLobbiesResponse> GetOpenLobbies(OpenLobbiesRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new OpenLobbiesResponse()
                 {
@@ -26,7 +25,7 @@ namespace SubterfugeServerConsole
                 };
             
             OpenLobbiesResponse roomResponse = new OpenLobbiesResponse();
-            List<Room> rooms = (await RedisRoomModel.GetOpenLobbies()).ConvertAll(it => it.asRoom().Result);
+            List<Room> rooms = (await DatabaseRoomModel.GetOpenLobbies()).ConvertAll(it => it.asRoom().Result);
             roomResponse.Rooms.AddRange(rooms);
             roomResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             
@@ -35,7 +34,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<PlayerCurrentGamesResponse> GetPlayerCurrentGames(PlayerCurrentGamesRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new PlayerCurrentGamesResponse()
                 {
@@ -51,7 +50,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<CreateRoomResponse> CreateNewRoom(CreateRoomRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new CreateRoomResponse()
                 {
@@ -66,7 +65,7 @@ namespace SubterfugeServerConsole
                 };
                 
             
-            RedisRoomModel roomModel = new RedisRoomModel(request, user);
+            DatabaseRoomModel roomModel = new DatabaseRoomModel(request, user);
             await roomModel.CreateInDatabase();
                 
                
@@ -79,14 +78,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<JoinRoomResponse> JoinRoom(JoinRoomRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new JoinRoomResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new JoinRoomResponse()
                 {
@@ -101,14 +100,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<LeaveRoomResponse> LeaveRoom(LeaveRoomRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new LeaveRoomResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new LeaveRoomResponse()
                 {
@@ -123,14 +122,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<StartGameEarlyResponse> StartGameEarly(StartGameEarlyRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new StartGameEarlyResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new StartGameEarlyResponse()
                 {
@@ -153,21 +152,21 @@ namespace SubterfugeServerConsole
         public override async Task<GetGameRoomEventsResponse> GetGameRoomEvents(GetGameRoomEventsRequest request, ServerCallContext context)
         {
             
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new GetGameRoomEventsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new GetGameRoomEventsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
 
-            List<RedisUserModel> playersInGame = await room.GetPlayersInGame();
+            List<DatabaseUserModel> playersInGame = await room.GetPlayersInGame();
             if (playersInGame.All(it => it.UserModel.Id != user.UserModel.Id) && !user.HasClaim(UserClaim.Admin))
                 return new GetGameRoomEventsResponse()
                 {
@@ -195,14 +194,14 @@ namespace SubterfugeServerConsole
         
         public override async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new SubmitGameEventResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new SubmitGameEventResponse()
                 {
@@ -220,14 +219,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new SubmitGameEventResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new SubmitGameEventResponse()
                 {
@@ -240,14 +239,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<DeleteGameEventResponse> DeleteGameEvent(DeleteGameEventRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new DeleteGameEventResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new DeleteGameEventResponse()
                 {
@@ -259,14 +258,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<CreateMessageGroupResponse> CreateMessageGroup(CreateMessageGroupRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new CreateMessageGroupResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new CreateMessageGroupResponse()
                 {
@@ -290,14 +289,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<SendMessageResponse> SendMessage(SendMessageRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new SendMessageResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new SendMessageResponse()
                 {
@@ -325,14 +324,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<GetMessageGroupsResponse> GetMessageGroups(GetMessageGroupsRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new GetMessageGroupsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new GetMessageGroupsResponse()
                 {
@@ -352,14 +351,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<GetGroupMessagesResponse> GetGroupMessages(GetGroupMessagesRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new GetGroupMessagesResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            RedisRoomModel room = await RedisRoomModel.GetRoomFromGuid(request.RoomId);
+            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new GetGroupMessagesResponse()
                 {
@@ -388,14 +387,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<BlockPlayerResponse> BlockPlayer(BlockPlayerRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new BlockPlayerResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.UserIdToBlock);
+            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.UserIdToBlock);
             if (friend == null) 
                 return new BlockPlayerResponse()
                 {
@@ -417,7 +416,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new UnblockPlayerResponse()
                 {
@@ -425,7 +424,7 @@ namespace SubterfugeServerConsole
                 };
             
             // Check if player is valid.
-            RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.UserIdToBlock);
+            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.UserIdToBlock);
             if (friend == null) 
                 return new UnblockPlayerResponse()
                 {
@@ -448,7 +447,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<ViewBlockedPlayersResponse> ViewBlockedPlayers(ViewBlockedPlayersRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new ViewBlockedPlayersResponse()
                 {
@@ -463,14 +462,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<SendFriendRequestResponse> SendFriendRequest(SendFriendRequestRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new SendFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.FriendId);
+            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.FriendId);
             if (friend == null)
                 return new SendFriendRequestResponse()
                 {
@@ -499,14 +498,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<AcceptFriendRequestResponse> AcceptFriendRequest(AcceptFriendRequestRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new AcceptFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.FriendId);
+            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.FriendId);
             if(friend == null)
                 return new AcceptFriendRequestResponse()
                 {
@@ -527,7 +526,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<ViewFriendRequestsResponse> ViewFriendRequests(ViewFriendRequestsRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new ViewFriendRequestsResponse()
                 {
@@ -543,14 +542,14 @@ namespace SubterfugeServerConsole
         
         public override async Task<DenyFriendRequestResponse> DenyFriendRequest(DenyFriendRequestRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new DenyFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.FriendId);
+            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.FriendId);
             if(friend == null)
                 return new DenyFriendRequestResponse()
                 {
@@ -571,14 +570,14 @@ namespace SubterfugeServerConsole
 
         public override async Task<RemoveFriendResponse> RemoveFriend(RemoveFriendRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new RemoveFriendResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            RedisUserModel friend = await RedisUserModel.GetUserFromGuid(request.FriendId);
+            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.FriendId);
             if(friend == null)
                 return new RemoveFriendResponse()
                 {
@@ -597,7 +596,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<ViewFriendsResponse> ViewFriends(ViewFriendsRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
             if(user == null)
                 return new ViewFriendsResponse()
                 {
@@ -629,7 +628,7 @@ namespace SubterfugeServerConsole
         public override async Task<AuthorizationResponse> Login(AuthorizationRequest request, ServerCallContext context)
         {
             // Try to get a user
-            RedisUserModel user = await RedisUserModel.GetUserFromUsername(request.Username);
+            DatabaseUserModel user = await DatabaseUserModel.GetUserFromUsername(request.Username);
             
             if (user == null || !JwtManager.VerifyPasswordHash(request.Password, user.UserModel.PasswordHash))
                 return new AuthorizationResponse()
@@ -658,7 +657,7 @@ namespace SubterfugeServerConsole
             if (JwtManager.ValidateToken(request.Token, out var uuid))
             {
                 // Validate user exists.
-                RedisUserModel user = await RedisUserModel.GetUserFromGuid(uuid);
+                DatabaseUserModel user = await DatabaseUserModel.GetUserFromGuid(uuid);
                 if (user != null)
                 {
                     context.UserState["user"] = user;
@@ -679,7 +678,7 @@ namespace SubterfugeServerConsole
         public override async Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest request,
             ServerCallContext context)
         {
-            RedisUserModel user = await RedisUserModel.GetUserFromUsername(request.Username);
+            DatabaseUserModel user = await DatabaseUserModel.GetUserFromUsername(request.Username);
             if(user != null)
                 return new AccountRegistrationResponse()
                 {
@@ -687,7 +686,7 @@ namespace SubterfugeServerConsole
                 };
             
             // Create a new user model
-            RedisUserModel model = new RedisUserModel(request);
+            DatabaseUserModel model = new DatabaseUserModel(request);
             await model.SaveToDatabase();
             string token = JwtManager.GenerateToken(model.UserModel.Id);
             context.ResponseTrailers.Add("Authorization", token);

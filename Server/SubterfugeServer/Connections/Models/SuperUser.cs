@@ -6,10 +6,10 @@ namespace SubterfugeServerConsole.Connections.Models
     public class SuperUser
     {
 
-        public RedisUserModel userModel;
+        public DatabaseUserModel userModel;
         public readonly string password;
         
-        public SuperUser(RedisUserModel user, string password)
+        public SuperUser(DatabaseUserModel user, string password)
         {
             this.userModel = user;
             this.password = password;

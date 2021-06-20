@@ -1,30 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
-using StackExchange.Redis;
+using MongoDB.Driver;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeServerConsole.Connections.Models
 {
-    public class RedisRoomModel
+    public class DatabaseRoomModel
     {
 
         public RoomModel RoomModel;
 
-        public RedisRoomModel(RedisValue value)
+        public DatabaseRoomModel(RoomModel model)
         {
-            RoomModel = RoomModel.Parser.ParseFrom(value);
-            GameTick.MINUTES_PER_TICK = RoomModel.MinutesPerTick;
+            RoomModel = model;
         }
 
-        public RedisRoomModel(CreateRoomRequest request, RedisUserModel creator)
+        public DatabaseRoomModel(CreateRoomRequest request, DatabaseUserModel creator)
         {
             Guid roomId = Guid.NewGuid();
             RoomModel = new RoomModel()
@@ -51,69 +48,62 @@ namespace SubterfugeServerConsole.Connections.Models
             GameTick.MINUTES_PER_TICK = RoomModel.MinutesPerTick;
         }
 
-        public async Task<ResponseStatus> JoinRoom(RedisUserModel userModel)
+        public async Task<ResponseStatus> JoinRoom(DatabaseUserModel userModel)
         {
-            List<RedisUserModel> playersInRoom = await GetPlayersInGame();
-            if (playersInRoom.Count >= RoomModel.MaxPlayers)
+            if (IsRoomFull())
                 return ResponseFactory.createResponse(ResponseType.ROOM_IS_FULL);
             
-            if(playersInRoom.Any(it => it.UserModel.Id == userModel.UserModel.Id))
+            if(IsPlayerInRoom(userModel))
                 return ResponseFactory.createResponse(ResponseType.DUPLICATE);
             
             if(RoomModel.RoomStatus != RoomStatus.Open)
                 return ResponseFactory.createResponse(ResponseType.GAME_ALREADY_STARTED);
             
+            List<DatabaseUserModel> playersInRoom = new List<DatabaseUserModel>();
+            foreach (string userId in RoomModel.PlayersInGame)
+            {
+                playersInRoom.Add(await DatabaseUserModel.GetUserFromGuid(userId));
+            }
+            
             // Check if any players in the room have the same device identifier
             if(playersInRoom.Any(it => it.UserModel.DeviceIdentifier == userModel.UserModel.DeviceIdentifier))
                 return ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED);
 
-            await RedisConnector.Redis.SetAddAsync(GameRoomPlayerListKey(), userModel.UserModel.Id);
-            await RedisConnector.Redis.SetAddAsync(UserGameListKey(userModel), RoomModel.RoomId);
+            RoomModel.PlayersInGame.Add(userModel.UserModel.Id);
+            MongoConnector.getGameRoomCollection().ReplaceOne((it => it.RoomId == RoomModel.RoomId), RoomModel);
             
             // Check if the player joining the game is the last player.
-            if (playersInRoom.Count + 1 == RoomModel.MaxPlayers)
+            if (RoomModel.PlayersInGame.Count == RoomModel.MaxPlayers)
                 return await StartGame();
             
             return ResponseFactory.createResponse(ResponseType.SUCCESS);;
         }
 
-        public async Task<Boolean> IsRoomFull()
+        public Boolean IsRoomFull()
         {
-            return (await GetPlayersInGame()).Count >= RoomModel.MaxPlayers;
+            return RoomModel.PlayersInGame.Count >= RoomModel.MaxPlayers;
         }
         
-        public async Task<Boolean> IsPlayerInRoom(RedisUserModel player)
+        public Boolean IsPlayerInRoom(DatabaseUserModel player)
         {
-            return (await GetPlayersInGame()).Any(it => it.UserModel.Id == player.UserModel.Id);
+            return RoomModel.PlayersInGame.Contains(player.UserModel.Id);
         }
-        
-        public async Task<ResponseStatus> LeaveRoom(RedisUserModel userModel)
+
+        public async Task<ResponseStatus> LeaveRoom(DatabaseUserModel userModel)
         {
             if (RoomModel.RoomStatus == RoomStatus.Open)
             {
                 // Check if the player leaving was the host.
                 if (RoomModel.CreatorId == userModel.UserModel.Id)
                 {
-                    // Remove all players from the game.
-                    foreach (var player in await GetPlayersInGame())
-                    {
-                        // Make sure we don't infinitely loop.
-                        if(player.UserModel.Id != RoomModel.CreatorId)
-                            await LeaveRoom(player);
-                    }
-                    
-                    // Destroy room.
-                    await RedisConnector.Redis.HashDeleteAsync(GameRoomsHashKey(), RoomModel.RoomId);
-                    await RedisConnector.Redis.SetRemoveAsync(OpenLobbiesKey(), RoomModel.RoomId);
-                    
-                    // Finally, remove creator from game
-                    await RedisConnector.Redis.SetRemoveAsync(GameRoomPlayerListKey(), userModel.UserModel.Id);
-                    await RedisConnector.Redis.SetRemoveAsync(UserGameListKey(userModel), RoomModel.RoomId);
+                    // Delete the game
+                    MongoConnector.getGameRoomCollection().DeleteOne(it => it.RoomId == RoomModel.RoomId);
                     return ResponseFactory.createResponse(ResponseType.SUCCESS);
                 }
-                
-                await RedisConnector.Redis.SetRemoveAsync(GameRoomPlayerListKey(), userModel.UserModel.Id);
-                await RedisConnector.Redis.SetRemoveAsync(UserGameListKey(userModel), RoomModel.RoomId);
+
+                // Otherwise, just remove the player from the player list.
+                RoomModel.PlayersInGame.Remove(userModel.UserModel.Id);
+                MongoConnector.getGameRoomCollection().ReplaceOne((it => it.RoomId == RoomModel.RoomId), RoomModel);
                 return ResponseFactory.createResponse(ResponseType.SUCCESS);
             }
             // TODO: Player left the game while ongoing.
@@ -122,31 +112,16 @@ namespace SubterfugeServerConsole.Connections.Models
             return ResponseFactory.createResponse(ResponseType.INVALID_REQUEST);
         }
 
-        public async Task<List<RedisUserModel>> GetPlayersInGame()
+        public async Task<List<GameEventModel>> GetPlayerGameEvents(DatabaseUserModel player)
         {
-            List<RedisUserModel> players = new List<RedisUserModel>();
-            RedisValue[] playerIds = await RedisConnector.Redis.SetMembersAsync(GameRoomPlayerListKey());
-            foreach(var playerId in playerIds)
-            {
-                players.Add(await RedisUserModel.GetUserFromGuid(playerId));
-            }
-
-            return players;
-        }
-
-        public async Task<List<GameEventModel>> GetPlayerGameEvents(RedisUserModel player)
-        {
-            List<GameEventModel> events = new List<GameEventModel>();
-            RedisValue[] eventIds = await RedisConnector.Redis.SetMembersAsync(UserGameEventsKey(player));
-            foreach (var eventId in eventIds)
-            {
-                events.Add(await GetGameEventFromGuid(eventId));
-            }
+            List<GameEventModel> events = MongoConnector.getGameEventCollection()
+                .Find(it => it.IssuedBy == player.UserModel.Id)
+                .ToList();
             events.Sort((a, b) => a.OccursAtTick.CompareTo(b.OccursAtTick));
             return events;
         }
 
-        public async Task<SubmitGameEventResponse> UpdateGameEvent(RedisUserModel player, UpdateGameEventRequest request)
+        public async Task<SubmitGameEventResponse> UpdateGameEvent(DatabaseUserModel player, UpdateGameEventRequest request)
         {
             GameEventModel gameEvent = await GetGameEventFromGuid(request.EventId);
             if (gameEvent == null)
@@ -176,16 +151,12 @@ namespace SubterfugeServerConsole.Connections.Models
             }
             
             // TODO: validate event.
+            
+            // Overwrite data with request data.
             gameEvent.EventData = request.EventData.EventData;
             gameEvent.OccursAtTick = request.EventData.OccursAtTick;
-
-            HashEntry[] entries = new[]
-            {
-                new HashEntry(gameEvent.EventId, gameEvent.ToByteArray()),
-            };
             
-            await RedisConnector.Redis.HashSetAsync(GameEventsKey(), entries);
-            await RedisConnector.Redis.SetAddAsync(UserGameEventsKey(player), gameEvent.EventId);
+            MongoConnector.getGameEventCollection().ReplaceOne((it => it.RoomId == RoomModel.RoomId), gameEvent);
             return new SubmitGameEventResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
@@ -193,7 +164,7 @@ namespace SubterfugeServerConsole.Connections.Models
             }; 
         }
 
-        public async Task<SubmitGameEventResponse> AddPlayerGameEvent(RedisUserModel player,  GameEventRequest request)
+        public async Task<SubmitGameEventResponse> AddPlayerGameEvent(DatabaseUserModel player,  GameEventRequest request)
         {
             GameEventModel eventModel = toGameEventModel(player, request);
 
@@ -209,13 +180,7 @@ namespace SubterfugeServerConsole.Connections.Models
             
             // TODO: validate event.
             
-            HashEntry[] entries = new[]
-            {
-                new HashEntry(eventModel.EventId, eventModel.ToByteArray()),
-            };
-            
-            await RedisConnector.Redis.HashSetAsync(GameEventsKey(), entries);
-            await RedisConnector.Redis.SetAddAsync(UserGameEventsKey(player), eventModel.EventId);
+            MongoConnector.getGameEventCollection().InsertOne(eventModel);
             return new SubmitGameEventResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
@@ -223,7 +188,7 @@ namespace SubterfugeServerConsole.Connections.Models
             };
         }
         
-        public async Task<DeleteGameEventResponse> RemovePlayerGameEvent(RedisUserModel player, string eventId)
+        public async Task<DeleteGameEventResponse> RemovePlayerGameEvent(DatabaseUserModel player, string eventId)
         {
             Guid parsedGuid;
             try
@@ -237,10 +202,10 @@ namespace SubterfugeServerConsole.Connections.Models
                     Status = ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST)
                 };
             }
-            
+
             // Get the event to check some things...
-            RedisValue eventData = await RedisConnector.Redis.HashGetAsync(GameEventsKey(), parsedGuid.ToString());
-            if (!eventData.HasValue)
+            GameEventModel gameEvent = MongoConnector.getGameEventCollection().Find(it => it.EventId == eventId).FirstOrDefault();
+            if (gameEvent == null)
             {
                 return new DeleteGameEventResponse()
                 {
@@ -249,7 +214,6 @@ namespace SubterfugeServerConsole.Connections.Models
             }
             
             // Determine if the event has already passed.
-            GameEventModel gameEvent = GameEventModel.Parser.ParseFrom(eventData);
             GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.UtcNow);
             
             if (gameEvent.OccursAtTick <= currentTick.GetTick())
@@ -269,8 +233,7 @@ namespace SubterfugeServerConsole.Connections.Models
             }
 
             // Remove game Event
-            await RedisConnector.Redis.SetRemoveAsync(UserGameEventsKey(player), parsedGuid.ToString());
-            await RedisConnector.Redis.HashDeleteAsync(GameEventsKey(), parsedGuid.ToString());
+            MongoConnector.getGameEventCollection().DeleteOne(it => it.EventId == eventId);
             return new DeleteGameEventResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
@@ -289,7 +252,7 @@ namespace SubterfugeServerConsole.Connections.Models
             return groupChatList;
         }
         
-        public async Task<List<GroupChatModel>> GetPlayerGroupChats(RedisUserModel user)
+        public async Task<List<GroupChatModel>> GetPlayerGroupChats(DatabaseUserModel user)
         {
             // Get all group chats
             List<GroupChatModel> groupChatList = new List<GroupChatModel>();
@@ -331,7 +294,7 @@ namespace SubterfugeServerConsole.Connections.Models
             string hash = "";
             foreach (var userId in groupMembers)
             {
-                RedisUserModel user = await RedisUserModel.GetUserFromGuid(userId);
+                DatabaseUserModel user = await DatabaseUserModel.GetUserFromGuid(userId);
                 if(user == null)
                     return new CreateMessageGroupResponse()
                     {
@@ -364,7 +327,7 @@ namespace SubterfugeServerConsole.Connections.Models
             newGroup.GroupId = hash;
             foreach (string s in groupMembers)
             {
-                RedisUserModel model = await RedisUserModel.GetUserFromGuid(s);
+                DatabaseUserModel model = await DatabaseUserModel.GetUserFromGuid(s);
                 if (model != null)
                 {
                     newGroup.GroupMembers.Add(model.asUser());                        
@@ -380,90 +343,55 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public async Task<GameEventModel> GetGameEventFromGuid(string eventId)
         {
-            Guid parsedGuid;
-            try
-            {
-                parsedGuid = Guid.Parse(eventId);
-            }
-            catch (FormatException)
-            {
-                return null;
-            }
-            
-            RedisValue eventData = await RedisConnector.Redis.HashGetAsync(GameEventsKey(), parsedGuid.ToString());
-            if (eventData.HasValue)
-            {
-                return GameEventModel.Parser.ParseFrom(eventData);
-            }
-
-            return null;
+            return MongoConnector.getGameEventCollection().Find(it => it.EventId == eventId).FirstOrDefault();
         }
 
         public async Task<List<GameEventModel>> GetAllGameEvents()
         {
-            List<GameEventModel> events = new List<GameEventModel>();
-            HashEntry[] eventHashes = await RedisConnector.Redis.HashGetAllAsync(GameEventsKey());
-            foreach (var eventHash in eventHashes)
-            {
-                events.Add(GameEventModel.Parser.ParseFrom(eventHash.Value));
-            }
-            return events;
+            return MongoConnector.getGameEventCollection().Find(it => it.RoomId == RoomModel.RoomId).ToList();
         }
         
         public async Task<List<GameEventModel>> GetAllPastGameEvents()
         {
-            List<GameEventModel> events = await GetAllGameEvents();
+
+            List<GameEventModel> events = MongoConnector.getGameEventCollection().Find(it => it.RoomId == RoomModel.RoomId).ToList();
             
             // Get current game tick
             GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.UtcNow);
             events.Sort((a, b) => a.OccursAtTick.CompareTo(b.OccursAtTick));
-            // Filter
             return events.FindAll(it => it.OccursAtTick <= currentTick.GetTick());
         }
         
         public async Task<ResponseStatus> StartGame()
         {
             // Check that there is enough players to start early.
-            if ((await GetPlayersInGame()).Count < 2)
+            if (RoomModel.PlayersInGame.Count < 2)
                 return ResponseFactory.createResponse(ResponseType.INVALID_REQUEST);
             
-            RoomModel.RoomStatus = RoomStatus.Ongoing;
-            RoomModel.UnixTimeStarted = DateTime.UtcNow.ToFileTimeUtc();
-            await UpdateDatabase();
-            await RedisConnector.Redis.SetRemoveAsync(OpenLobbiesKey(), RoomModel.RoomId);
+            var update = Builders<RoomModel>.Update.Set(it => it.RoomStatus, RoomStatus.Ongoing);
+            MongoConnector.getGameRoomCollection().UpdateOne((it => it.RoomId == RoomModel.RoomId), update);
             return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
 
-        public static async Task<List<RedisRoomModel>> GetOpenLobbies()
+        public static async Task<List<DatabaseRoomModel>> GetOpenLobbies()
         {
-            List<RedisRoomModel> rooms = new List<RedisRoomModel>();
-            RedisValue[] roomIds = await RedisConnector.Redis.SetMembersAsync("openlobbies");
-            foreach (var roomId in roomIds)
-            {
-                rooms.Add(await GetRoomFromGuid(roomId));
-            }
-
+            List<DatabaseRoomModel> rooms = MongoConnector.getGameRoomCollection()
+                .Find(it => it.RoomStatus == RoomStatus.Open)
+                .ToList()
+                .Select(it => new DatabaseRoomModel(it))
+                .ToList();
             return rooms;
         }
         
 
-        public static async Task<RedisRoomModel> GetRoomFromGuid(string roomGuid)
+        public static async Task<DatabaseRoomModel> GetRoomFromGuid(string roomGuid)
         {
-            Guid parsedGuid;
-            try
+            RoomModel room = MongoConnector.getGameRoomCollection()
+                .Find((it => it.RoomId == roomGuid))
+                .FirstOrDefault();
+            if (room != null)
             {
-                parsedGuid = Guid.Parse(roomGuid);
-            }
-            catch (FormatException)
-            {
-                return null;
-            }
-
-            
-            RedisValue roomData = await RedisConnector.Redis.HashGetAsync("games", parsedGuid.ToString());
-            if (roomData.HasValue)
-            {
-                return new RedisRoomModel(roomData);
+                return new DatabaseRoomModel(room);
             }
 
             return null;
@@ -471,36 +399,14 @@ namespace SubterfugeServerConsole.Connections.Models
         
         public async Task<Boolean> UpdateDatabase()
         {
-            HashEntry[] roomRecord =
-            {
-                new HashEntry(RoomModel.RoomId, RoomModel.ToByteArray()),
-            };
-            await RedisConnector.Redis.HashSetAsync(GameRoomsHashKey(), roomRecord);
-
-            if (RoomModel.RoomStatus == RoomStatus.Open)
-            {
-                await RedisConnector.Redis.SetAddAsync(OpenLobbiesKey(), RoomModel.RoomId);
-            }
+            // TODO
 
             return true;
         }
 
         public async Task<Boolean> CreateInDatabase()
         {
-            HashEntry[] roomRecord =
-            {
-                new HashEntry(RoomModel.RoomId, RoomModel.ToByteArray()),
-            };
-            await RedisConnector.Redis.HashSetAsync(GameRoomsHashKey(), roomRecord);
-            
-            if (RoomModel.RoomStatus == RoomStatus.Open)
-            {
-                await RedisConnector.Redis.SetAddAsync(OpenLobbiesKey(), RoomModel.RoomId);
-            }
-            
-            // Add the creator as a player in the game
-            await JoinRoom(await RedisUserModel.GetUserFromGuid(RoomModel.CreatorId));
-            
+            MongoConnector.getGameRoomCollection().InsertOne(RoomModel);
             return true;
         }
 
@@ -511,7 +417,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 RoomId = RoomModel.RoomId,
                 RoomStatus = RoomModel.RoomStatus,
-                Creator = (await RedisUserModel.GetUserFromGuid(RoomModel.CreatorId)).asUser(),
+                Creator = (await DatabaseUserModel.GetUserFromGuid(RoomModel.CreatorId)).asUser(),
                 RankedInformation = RoomModel.RankedInformation,
                 Anonymous = RoomModel.Anonymous, 
                 RoomName = RoomModel.RoomName,
@@ -522,7 +428,13 @@ namespace SubterfugeServerConsole.Connections.Models
                 MaxPlayers = RoomModel.MaxPlayers,
                 MinutesPerTick = RoomModel.MinutesPerTick,
             };
-            List<RedisUserModel> playersInGame = await GetPlayersInGame();
+
+            List<DatabaseUserModel> playersInGame = new List<DatabaseUserModel>();
+            foreach (string playerId in RoomModel.PlayersInGame)
+            {
+                playersInGame.Add(await DatabaseUserModel.GetUserFromGuid(playerId));
+            }
+            
             room.Players.AddRange(playersInGame.ConvertAll(it => it.asUser()));
             room.AllowedSpecialists.AddRange(RoomModel.AllowedSpecialists);
             return room;
@@ -543,7 +455,7 @@ namespace SubterfugeServerConsole.Connections.Models
             return $"game:{RoomModel.RoomId}:events";
         }
 
-        private string UserGameEventsKey(RedisUserModel user)
+        private string UserGameEventsKey(DatabaseUserModel user)
         {
             return $"game:{RoomModel.RoomId}:user:{user.UserModel.Id}:events";
         }
@@ -558,12 +470,12 @@ namespace SubterfugeServerConsole.Connections.Models
             return $"game:{RoomModel.RoomId}:chats";
         }
 
-        private string UserGameListKey(RedisUserModel user)
+        private string UserGameListKey(DatabaseUserModel user)
         {
             return $"users:{user.UserModel.Id}:games";
         }
 
-        private GameEventModel toGameEventModel(RedisUserModel requestor, GameEventRequest request)
+        private GameEventModel toGameEventModel(DatabaseUserModel requestor, GameEventRequest request)
         {
             Guid eventId;
             eventId = Guid.NewGuid();
@@ -575,6 +487,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 IssuedBy = requestor.UserModel.Id,
                 OccursAtTick = request.OccursAtTick,
                 EventData = request.EventData,
+                RoomId = RoomModel.RoomId,
             };
         }
     }

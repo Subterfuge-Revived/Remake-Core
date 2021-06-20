@@ -13,15 +13,15 @@ namespace SubterfugeServerConsole.Connections.Models
     public class GroupChatModel
     {
         public GroupModel MessageGroup;
-        public RedisRoomModel RoomModel;
+        public DatabaseRoomModel RoomModel;
         
-        public GroupChatModel(RedisRoomModel roomModel, RedisValue groupChat)
+        public GroupChatModel(DatabaseRoomModel roomModel, RedisValue groupChat)
         {
             RoomModel = roomModel;
             MessageGroup = GroupModel.Parser.ParseFrom(groupChat);
         }
 
-        public async Task<ResponseStatus> SendChatMessage(RedisUserModel user, string message)
+        public async Task<ResponseStatus> SendChatMessage(DatabaseUserModel user, string message)
         {
             // Set the creation time.
             MessageModel model = new MessageModel()
@@ -50,7 +50,7 @@ namespace SubterfugeServerConsole.Connections.Models
             return parsedMessages;
         }
 
-        public Boolean IsPlayerInGroup(RedisUserModel user)
+        public Boolean IsPlayerInGroup(DatabaseUserModel user)
         {
             return MessageGroup.GroupMembers.Any(it => it.Id == user.UserModel.Id);
         }

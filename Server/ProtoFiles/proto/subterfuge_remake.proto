@@ -431,6 +431,20 @@ message GetPlayerSpecialistPackagesResponse {
 // For database and server processing only.
 // Players should never be shown or given access to the full data model as it contains confidential information
 
+message FriendModel {
+    string playerId = 1;
+    string friendId = 2;
+    FriendStatus FriendStatus = 3;
+    int64 UnixTimeCreated = 4;
+}
+
+enum FriendStatus {
+    STATUS_NO_RELATION = 0;
+    STATUS_PENDING = 1;
+    STATUS_FRIENDS = 2;
+    STATUS_BLOCKED = 3;
+}
+
 message UserModel {
     string Id = 1;
     string Username = 2;
@@ -465,6 +479,7 @@ message RoomModel {
     int64 MaxPlayers = 11;
     repeated string allowedSpecialists = 12;
     double MinutesPerTick = 13;
+    repeated string playersInGame = 14;
 }
 
 message GameEventModel {
@@ -474,6 +489,7 @@ message GameEventModel {
     string IssuedBy = 4;
     bytes EventData = 5;
     EventType eventType = 6;
+    string roomId = 7;
 }
 
 message GroupModel {

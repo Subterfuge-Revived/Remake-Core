@@ -23,8 +23,7 @@ using SubterfugeServerConsole.Connections;
         
         static void Main(string[] args)
         {
-            
-            RedisConnector redis = new RedisConnector(dbHost, dbPort.ToString(), false);
+            MongoConnector mongo = new MongoConnector(dbHost, dbPort.ToString(), false);
             SubterfugeServer grpcService = new SubterfugeServer();
 
             Server server = new Server
@@ -34,7 +33,7 @@ using SubterfugeServerConsole.Connections;
             };
             
             Console.WriteLine($"Listening on {Port}...");
-            RedisUserModel.CreateSuperUser(); // Creates a super user with admin powers.
+            DatabaseUserModel.CreateSuperUser(); // Creates a super user with admin powers.
             server.Start();
             Shutdown.WaitOne();
             server.ShutdownAsync().Wait();
