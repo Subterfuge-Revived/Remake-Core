@@ -21,7 +21,7 @@ namespace Tests
             client = ClientHelper.GetClient();
             
             // Clear the database every test.
-            RedisConnector.Server.FlushDatabase();
+            MongoConnector.FlushCollections();
             
             
             // Create three new user accounts.

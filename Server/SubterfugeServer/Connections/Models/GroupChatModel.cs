@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf;
-using Grpc.Core;
-using StackExchange.Redis;
+using MongoDB.Driver;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Responses;
 
@@ -15,10 +14,10 @@ namespace SubterfugeServerConsole.Connections.Models
         public GroupModel MessageGroup;
         public DatabaseRoomModel RoomModel;
         
-        public GroupChatModel(DatabaseRoomModel roomModel, RedisValue groupChat)
+        public GroupChatModel(DatabaseRoomModel roomModel, GroupModel groupModel)
         {
             RoomModel = roomModel;
-            MessageGroup = GroupModel.Parser.ParseFrom(groupChat);
+            MessageGroup = groupModel;
         }
 
         public async Task<ResponseStatus> SendChatMessage(DatabaseUserModel user, string message)
@@ -26,12 +25,15 @@ namespace SubterfugeServerConsole.Connections.Models
             // Set the creation time.
             MessageModel model = new MessageModel()
             {
-                Message = message,
+                RoomId = RoomModel.RoomModel.RoomId,
+                GroupId = MessageGroup.GroupId,
                 SenderId = user.UserModel.Id,
+                Message = message,
                 UnixTimeCreatedAt = DateTime.UtcNow.ToFileTimeUtc(),
             };
             
-            await RedisConnector.Redis.ListRightPushAsync(MessageListKey(), model.ToByteArray());
+            MongoConnector.GetMessagesCollection().InsertOne(model);
+            
             return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
 
@@ -40,12 +42,13 @@ namespace SubterfugeServerConsole.Connections.Models
             // pagination fetches the last 50 messages in the chat.
             var start =  pagination <= 1 ? -1 : -50 * (pagination - 1);
             var end = -50 * pagination;
-            RedisValue[] messages = await RedisConnector.Redis.ListRangeAsync(MessageListKey(), end, start);
-            List<MessageModel> parsedMessages = new List<MessageModel>();
-            foreach(var messageBytes in messages.Reverse())
-            {
-                parsedMessages.Add(MessageModel.Parser.ParseFrom(messageBytes));
-            }
+            List<MessageModel> parsedMessages = MongoConnector.GetMessagesCollection()
+                .Find(message => message.GroupId == MessageGroup.GroupId && message.RoomId == RoomModel.RoomModel.RoomId)
+                .SortBy(message => message.UnixTimeCreatedAt)
+                .Skip(pagination * 50)
+                .ToList()
+                .Take(50)
+                .ToList();
 
             return parsedMessages;
         }
@@ -64,11 +67,6 @@ namespace SubterfugeServerConsole.Connections.Models
             model.GroupMembers.AddRange(MessageGroup.GroupMembers);
             model.Messages.AddRange(await GetMessages(messagesPagination));
             return model;
-        }
-
-        private string MessageListKey()
-        {
-            return $"game:{RoomModel.RoomModel.RoomId}:groups:{MessageGroup.GroupId}:messages";
         }
     }
 }

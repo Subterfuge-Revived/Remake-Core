@@ -15,8 +15,8 @@ namespace Tests.AuthTestingHelper
             String dbHost = "db"; // For docker
             // String dbHost = "localhost"; // For local
             int dbPort = 6379;
-        
-            RedisConnector db = new RedisConnector(dbHost, dbPort.ToString(), true);
+            
+            MongoConnector mongo = new MongoConnector(dbHost, dbPort.ToString(), true);
             return new SubterfugeClient.SubterfugeClient(Hostname, Port.ToString());
         }
     }

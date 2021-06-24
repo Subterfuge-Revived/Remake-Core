@@ -495,12 +495,16 @@ message GameEventModel {
 message GroupModel {
     string GroupId = 1;
     repeated User GroupMembers = 2;
+    string roomId = 3;
 }
 
 message MessageModel {
-    int64 UnixTimeCreatedAt = 1;
-    string SenderId = 2;
-    string Message = 3;
+    string messageId = 1;
+    string roomId = 2;
+    string groupId = 3;
+    int64 UnixTimeCreatedAt = 4;
+    string SenderId = 5;
+    string Message = 6;
 }
 
 enum EventType {

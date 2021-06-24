@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using Google.Protobuf;
 using Grpc.Core;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
-using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
 using SubterfugeServerConsole.Responses;
 
@@ -42,8 +39,8 @@ namespace SubterfugeServerConsole
                 };
             
             PlayerCurrentGamesResponse currentGameResponse = new PlayerCurrentGamesResponse();
-            List<Room> rooms = (await user.GetActiveRooms()).ConvertAll(it => it.asRoom().Result);
-            currentGameResponse.Games.AddRange(rooms);
+            List<DatabaseRoomModel> rooms = await user.GetActiveRooms();
+            currentGameResponse.Games.AddRange(Task.WhenAll(rooms.Select(async it => await it.asRoom()).ToList()).Result);
             currentGameResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return currentGameResponse;
         }
@@ -165,9 +162,8 @@ namespace SubterfugeServerConsole
                 {
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
-
-            List<DatabaseUserModel> playersInGame = await room.GetPlayersInGame();
-            if (playersInGame.All(it => it.UserModel.Id != user.UserModel.Id) && !user.HasClaim(UserClaim.Admin))
+            
+            if (room.RoomModel.PlayersInGame.All(it => it != user.UserModel.Id) && !user.HasClaim(UserClaim.Admin))
                 return new GetGameRoomEventsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
@@ -208,7 +204,7 @@ namespace SubterfugeServerConsole
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
             
-            if(!await room.IsPlayerInRoom(user))
+            if(!room.IsPlayerInRoom(user))
                 return new SubmitGameEventResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
@@ -455,7 +451,15 @@ namespace SubterfugeServerConsole
                 };
             
             ViewBlockedPlayersResponse response = new ViewBlockedPlayersResponse();
-            response.BlockedUsers.AddRange((await user.GetBlockedUsers()).ConvertAll(it => it.asUser()));
+
+            var blockedUsers = Task.WhenAll(
+                user.GetBlockedUsers()
+                    .Result
+                    .Select(async it => (await DatabaseUserModel.GetUserFromGuid(it.FriendId)).asUser())
+            ).Result.ToList();
+                
+            
+            response.BlockedUsers.AddRange(blockedUsers);
             response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return response;
         }
@@ -534,8 +538,13 @@ namespace SubterfugeServerConsole
                 };
             
             ViewFriendRequestsResponse response = new ViewFriendRequestsResponse();
-            List<User> users = (await user.GetFriendRequests()).ConvertAll(input => input.asUser());
-            response.IncomingFriends.AddRange(users);
+            List<User> friendRequests = Task.WhenAll(
+                user.GetFriendRequests()
+                    .Result
+                    .Select(async it => (await DatabaseUserModel.GetUserFromGuid(it.FriendId)).asUser())
+            ).Result.ToList();
+            
+            response.IncomingFriends.AddRange(friendRequests);
             response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return response;
         }
@@ -604,7 +613,12 @@ namespace SubterfugeServerConsole
                 };
 
             ViewFriendsResponse response = new ViewFriendsResponse();
-            response.Friends.AddRange((await user.GetFriends()).ConvertAll(input => input.asUser()));
+            List<User> friends = Task.WhenAll(
+                user.GetFriends()
+                    .Result
+                    .Select(async it => (await DatabaseUserModel.GetUserFromGuid(it.FriendId)).asUser())
+            ).Result.ToList();
+            response.Friends.AddRange(friends);
             response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return response;
         }
