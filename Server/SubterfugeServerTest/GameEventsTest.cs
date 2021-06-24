@@ -75,7 +75,7 @@ namespace Tests
             });
             Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
-            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
+            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace Tests
             
             Assert.AreEqual(gameEventsBeforeDelete.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEventsBeforeDelete.GameEvents.Count);
-            Assert.IsTrue(gameEventsBeforeDelete.GameEvents.Any(it => it.EventId == eventResponse.EventId));
+            Assert.IsTrue(gameEventsBeforeDelete.GameEvents.Any(it => it.Id == eventResponse.EventId));
 
             DeleteGameEventResponse deleteResponse = client.DeleteGameEvent(new DeleteGameEventRequest()
             {
@@ -188,7 +188,7 @@ namespace Tests
             });
             Assert.AreEqual(gameEventsBeforeDelete.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEventsBeforeDelete.GameEvents.Count);
-            Assert.IsTrue(gameEventsBeforeDelete.GameEvents.Any(it => it.EventId == eventResponse.EventId));
+            Assert.IsTrue(gameEventsBeforeDelete.GameEvents.Any(it => it.Id == eventResponse.EventId));
 
             authHelper.loginToAccount(playerTwoInGame);
 
@@ -233,7 +233,7 @@ namespace Tests
             });
             Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
-            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
+            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
 
             Thread.Sleep(3000);
             
@@ -267,7 +267,7 @@ namespace Tests
             });
             Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
-            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
+            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
             
             SubmitGameEventResponse updateResponse = client.UpdateGameEvent(new UpdateGameEventRequest()
             {
@@ -304,7 +304,7 @@ namespace Tests
             });
             Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
-            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
+            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
             
             var submitGameEventResponse = client.UpdateGameEvent(new UpdateGameEventRequest()
             {
@@ -341,7 +341,7 @@ namespace Tests
             });
             Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
-            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
+            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
             
             Thread.Sleep(3000);
             
@@ -380,7 +380,7 @@ namespace Tests
             });
             Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
-            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
+            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
 
             authHelper.loginToAccount(playerTwoInGame);
             
@@ -462,7 +462,7 @@ namespace Tests
             });
             Assert.AreEqual(gameEvents.Status.IsSuccess, true);
             Assert.AreEqual(1, gameEvents.GameEvents.Count);
-            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.EventId == eventResponse.EventId));
+            Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
 
             authHelper.loginToAccount(playerTwoInGame);
             // Other player cannot see the first player's plans as they are in the future

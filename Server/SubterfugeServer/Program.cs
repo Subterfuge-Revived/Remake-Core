@@ -10,20 +10,20 @@ using SubterfugeServerConsole.Connections;
 {
     class Program
     {
-        private const String Hostname = "server"; // For docker
-        // private const String Hostname = "localhost"; // For local
+        // private const String Hostname = "server"; // For docker
+        private const String Hostname = "localhost"; // For local
         private const int Port = 5000;
         
-        private const String dbHost = "db"; // For docker
-        // private const String dbHost = "localhost"; // For local
-        private const int dbPort = 6379;
+        // private const String dbHost = "db"; // For docker
+        private const String dbHost = "localhost"; // For local
+        private const int dbPort = 27017;
         
             
         public static ManualResetEvent Shutdown = new ManualResetEvent(false);
         
         static void Main(string[] args)
         {
-            MongoConnector mongo = new MongoConnector(dbHost, dbPort.ToString(), false);
+            MongoConnector mongo = new MongoConnector(dbHost, dbPort, false);
             SubterfugeServer grpcService = new SubterfugeServer();
 
             Server server = new Server

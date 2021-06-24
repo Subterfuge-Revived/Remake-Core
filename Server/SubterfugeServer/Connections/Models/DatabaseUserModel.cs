@@ -49,14 +49,17 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<List<FriendModel>> GetFriends()
         {
             List<FriendModel> friends = MongoConnector.GetFriendCollection()
-                .Find(it => it.PlayerId == UserModel.Id && it.FriendStatus == FriendStatus.StatusFriends).ToList();
+                .Find(it => 
+                    (it.PlayerId == UserModel.Id || it.FriendId == UserModel.Id) 
+                    && it.FriendStatus == FriendStatus.StatusFriends).ToList();
             return friends;
         }
         
         public async Task<List<FriendModel>> GetBlockedUsers()
         {
             List<FriendModel> blockedUsers = MongoConnector.GetFriendCollection()
-                .Find(it => it.PlayerId == UserModel.Id && it.FriendStatus == FriendStatus.StatusBlocked).ToList();
+                .Find(it => (it.PlayerId == UserModel.Id)
+                            && it.FriendStatus == FriendStatus.StatusBlocked).ToList();
             return blockedUsers;
         }
         
@@ -65,8 +68,25 @@ namespace SubterfugeServerConsole.Connections.Models
             if (requestingUser.HasClaim(UserClaim.Admin) || HasClaim(UserClaim.Admin))
                 return ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED);
             
-            var update = Builders<FriendModel>.Update.Set(it => it.FriendStatus, FriendStatus.StatusBlocked);
-            MongoConnector.GetFriendCollection().UpdateOne((it => it.FriendId == requestingUser.UserModel.Id && it.PlayerId == UserModel.Id), update);
+            // Check if a relationship already exists for the two players.
+            var relationExists = MongoConnector.GetFriendCollection()
+                .Find(it => (it.PlayerId == UserModel.Id && it.FriendId == requestingUser.UserModel.Id))
+                .CountDocuments() != 0;
+            
+            // Remove all pre-existing relations
+            await MongoConnector.GetFriendCollection().DeleteManyAsync(it =>
+                (it.FriendId == requestingUser.UserModel.Id && it.PlayerId == UserModel.Id) ||
+                (it.PlayerId == requestingUser.UserModel.Id && it.FriendId == UserModel.Id));
+            
+            await MongoConnector.GetFriendCollection().InsertOneAsync(new FriendModel
+            {
+                Id = Guid.NewGuid().ToString(),
+                FriendId = requestingUser.UserModel.Id,
+                FriendStatus = FriendStatus.StatusBlocked,
+                PlayerId = UserModel.Id,
+                UnixTimeCreated = DateTime.UtcNow.ToFileTimeUtc(),
+            });
+
             return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
         
@@ -94,7 +114,7 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<List<FriendModel>> GetFriendRequests()
         {
             List<FriendModel> friendRequests = MongoConnector.GetFriendCollection()
-                .Find(it => it.FriendId == UserModel.Id && it.FriendStatus == FriendStatus.StatusPending).ToList();
+                .Find(it => it.PlayerId == UserModel.Id && it.FriendStatus == FriendStatus.StatusPending).ToList();
             return friendRequests;
         }
 
@@ -102,7 +122,7 @@ namespace SubterfugeServerConsole.Connections.Models
         {
             FriendModel friendRequest = MongoConnector.GetFriendCollection().Find(it =>
                 it.FriendStatus == FriendStatus.StatusPending &&
-                (it.FriendId == UserModel.Id && it.PlayerId == friend.UserModel.Id)).FirstOrDefault();
+                (it.PlayerId == UserModel.Id && it.FriendId == friend.UserModel.Id)).FirstOrDefault();
             if (friendRequest == null)
             {
                 return false;

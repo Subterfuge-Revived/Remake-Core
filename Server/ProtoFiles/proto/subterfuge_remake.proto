@@ -432,10 +432,11 @@ message GetPlayerSpecialistPackagesResponse {
 // Players should never be shown or given access to the full data model as it contains confidential information
 
 message FriendModel {
-    string playerId = 1;
-    string friendId = 2;
-    FriendStatus FriendStatus = 3;
-    int64 UnixTimeCreated = 4;
+    string Id = 1;
+    string playerId = 2;
+    string friendId = 3;
+    FriendStatus FriendStatus = 4;
+    int64 UnixTimeCreated = 5;
 }
 
 enum FriendStatus {
@@ -466,7 +467,7 @@ enum UserClaim {
 }
 
 message RoomModel {
-    string RoomId = 1;
+    string Id = 1;
     RoomStatus RoomStatus = 2;
     string creatorId = 3;
     RankedInformation RankedInformation = 4;
@@ -483,7 +484,7 @@ message RoomModel {
 }
 
 message GameEventModel {
-    string eventId = 1;
+    string Id = 1;
     int64 UnixTimeIssued = 2;
     int32 OccursAtTick = 3;
     string IssuedBy = 4;
@@ -493,13 +494,13 @@ message GameEventModel {
 }
 
 message GroupModel {
-    string GroupId = 1;
+    string Id = 1;
     repeated User GroupMembers = 2;
     string roomId = 3;
 }
 
 message MessageModel {
-    string messageId = 1;
+    string Id = 1;
     string roomId = 2;
     string groupId = 3;
     int64 UnixTimeCreatedAt = 4;

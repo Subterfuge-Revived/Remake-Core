@@ -25,8 +25,9 @@ namespace SubterfugeServerConsole.Connections.Models
             // Set the creation time.
             MessageModel model = new MessageModel()
             {
-                RoomId = RoomModel.RoomModel.RoomId,
-                GroupId = MessageGroup.GroupId,
+                Id = new Guid().ToString(),
+                RoomId = RoomModel.RoomModel.Id,
+                GroupId = MessageGroup.Id,
                 SenderId = user.UserModel.Id,
                 Message = message,
                 UnixTimeCreatedAt = DateTime.UtcNow.ToFileTimeUtc(),
@@ -43,7 +44,7 @@ namespace SubterfugeServerConsole.Connections.Models
             var start =  pagination <= 1 ? -1 : -50 * (pagination - 1);
             var end = -50 * pagination;
             List<MessageModel> parsedMessages = MongoConnector.GetMessagesCollection()
-                .Find(message => message.GroupId == MessageGroup.GroupId && message.RoomId == RoomModel.RoomModel.RoomId)
+                .Find(message => message.GroupId == MessageGroup.Id && message.RoomId == RoomModel.RoomModel.Id)
                 .SortBy(message => message.UnixTimeCreatedAt)
                 .Skip(pagination * 50)
                 .ToList()
@@ -62,7 +63,7 @@ namespace SubterfugeServerConsole.Connections.Models
         {
             MessageGroup model = new MessageGroup()
             {
-                GroupId = MessageGroup.GroupId,
+                GroupId = MessageGroup.Id,
             };
             model.GroupMembers.AddRange(MessageGroup.GroupMembers);
             model.Messages.AddRange(await GetMessages(messagesPagination));

@@ -62,7 +62,7 @@ namespace SubterfugeServerConsole
                 };
                 
             
-            DatabaseRoomModel roomModel = new DatabaseRoomModel(request, user);
+            DatabaseRoomModel roomModel = new DatabaseRoomModel(request, user.asUser());
             await roomModel.CreateInDatabase();
                 
                
@@ -616,8 +616,18 @@ namespace SubterfugeServerConsole
             List<User> friends = Task.WhenAll(
                 user.GetFriends()
                     .Result
-                    .Select(async it => (await DatabaseUserModel.GetUserFromGuid(it.FriendId)).asUser())
-            ).Result.ToList();
+                    .Select(async it =>
+                        {
+                            if (it.PlayerId == user.UserModel.Id)
+                            {
+                                return (await DatabaseUserModel.GetUserFromGuid(it.FriendId)).asUser();
+                            }
+                            else
+                            {
+                                return (await DatabaseUserModel.GetUserFromGuid(it.PlayerId)).asUser();
+                            }
+                        }
+                    )).Result.ToList();
             response.Friends.AddRange(friends);
             response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return response;
