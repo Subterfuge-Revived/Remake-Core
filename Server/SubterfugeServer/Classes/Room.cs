@@ -280,7 +280,7 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<CreateMessageGroupResponse> CreateMessageGroup(List<String> groupMembers)
         {
             // Ensure all members are in the room.
-            if (!groupMembers.Except(RoomModel.PlayersInGame).Any())
+            if (groupMembers.Except(RoomModel.PlayersInGame).Any())
             {
                 // A player in the group is not in the game.
                 return new CreateMessageGroupResponse()
@@ -315,6 +315,7 @@ namespace SubterfugeServerConsole.Connections.Models
             // Otherwise, create the group
             GroupModel newGroup = new GroupModel();
             newGroup.Id = Guid.NewGuid().ToString();
+            newGroup.RoomId = RoomModel.Id;
             foreach (string s in groupMembers)
             {
                 DbUserModel model = await DbUserModel.GetUserFromGuid(s);
