@@ -6,12 +6,13 @@ using Grpc.Core;
 using Grpc.Core.Interceptors;
 using SubterfugeClient.Authorization;
 using SubterfugeRemakeService;
+using SubterfugeServerConsole;
 
 namespace SubterfugeClient
 {
     public class SubterfugeClient : subterfugeService.subterfugeServiceClient
     {
-        public SubterfugeClient(string host, string port) : base(new Channel($"{host}:{port}", ChannelCredentials.Insecure).Intercept((new JwtClientInterceptor())))
+        public SubterfugeClient(string host, string port) : base(new Channel($"{host}:{port}", ChannelCredentials.Insecure).Intercept(new LoggerInterceptor()).Intercept((new JwtClientInterceptor())))
         {
             Auth auth = new Auth();
         }

@@ -1,6 +1,4 @@
-﻿using System.Net;
-using StackExchange.Redis;
-using SubterfugeRemakeService;
+﻿using SubterfugeRemakeService;
 
 namespace SubterfugeServerConsole.Responses
 {

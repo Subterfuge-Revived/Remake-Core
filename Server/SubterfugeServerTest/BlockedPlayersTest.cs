@@ -22,8 +22,8 @@ namespace Tests
             client = ClientHelper.GetClient();
             
             // Clear the database every test.
-            RedisConnector.Server.FlushDatabase();
-            
+            MongoConnector.FlushCollections();
+
             // Create two new user accounts.
             authHelper = new AuthTestHelper(client);
             authHelper.createAccount("userOne");
@@ -183,7 +183,7 @@ namespace Tests
 
             var errorResponse = client.BlockPlayer(new BlockPlayerRequest()
             {
-                UserIdToBlock = admin.userModel.UserModel.Id,
+                UserIdToBlock = admin.DbUserModel.UserModel.Id,
             });
             Assert.AreEqual(errorResponse.Status.IsSuccess, false);
             Assert.AreEqual(errorResponse.Status.Detail, ResponseType.PERMISSION_DENIED.ToString());

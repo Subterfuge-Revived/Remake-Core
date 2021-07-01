@@ -365,6 +365,7 @@ MigrationBackup/
 
 #redis
 redis/
+mongodb/
 
 # Protobuf generated files:
 Server/ProtoGenerated/generated/*

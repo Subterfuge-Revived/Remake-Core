@@ -431,6 +431,21 @@ message GetPlayerSpecialistPackagesResponse {
 // For database and server processing only.
 // Players should never be shown or given access to the full data model as it contains confidential information
 
+message FriendModel {
+    string Id = 1;
+    string playerId = 2;
+    string friendId = 3;
+    FriendStatus FriendStatus = 4;
+    int64 UnixTimeCreated = 5;
+}
+
+enum FriendStatus {
+    STATUS_NO_RELATION = 0;
+    STATUS_PENDING = 1;
+    STATUS_FRIENDS = 2;
+    STATUS_BLOCKED = 3;
+}
+
 message UserModel {
     string Id = 1;
     string Username = 2;
@@ -452,7 +467,7 @@ enum UserClaim {
 }
 
 message RoomModel {
-    string RoomId = 1;
+    string Id = 1;
     RoomStatus RoomStatus = 2;
     string creatorId = 3;
     RankedInformation RankedInformation = 4;
@@ -465,26 +480,32 @@ message RoomModel {
     int64 MaxPlayers = 11;
     repeated string allowedSpecialists = 12;
     double MinutesPerTick = 13;
+    repeated string playersInGame = 14;
 }
 
 message GameEventModel {
-    string eventId = 1;
+    string Id = 1;
     int64 UnixTimeIssued = 2;
     int32 OccursAtTick = 3;
     string IssuedBy = 4;
     bytes EventData = 5;
     EventType eventType = 6;
+    string roomId = 7;
 }
 
 message GroupModel {
-    string GroupId = 1;
-    repeated User GroupMembers = 2;
+    string Id = 1;
+    repeated string GroupMembers = 2;
+    string roomId = 3;
 }
 
 message MessageModel {
-    int64 UnixTimeCreatedAt = 1;
-    string SenderId = 2;
-    string Message = 3;
+    string Id = 1;
+    string roomId = 2;
+    string groupId = 3;
+    int64 UnixTimeCreatedAt = 4;
+    string SenderId = 5;
+    string Message = 6;
 }
 
 enum EventType {
@@ -553,7 +574,7 @@ enum EffectScale {
 }
 
 message SpecialistConfiguration {
-    string SpecialistId = 1;
+    string Id = 1;
     int64 Priority = 2;
     string SpecialistName = 3;
     User Creator = 4;
@@ -579,7 +600,7 @@ message SpecialistEffectScale {
 message SpecialistPackage {
     User Creator = 1;
     string PackageName = 2;
-    string SpecialistPackageId = 3;
+    string Id = 3;
     repeated string specialistIds = 4;
     repeated string SpecialistPackageIds = 5;
 }

@@ -46,7 +46,7 @@ namespace SubterfugeCoreTest
 				{
 					SourceId = o1.GetId()
 				}.ToByteString(),
-				EventId = Guid.NewGuid().ToString(),
+				Id = Guid.NewGuid().ToString(),
 				EventType = EventType.DrillMineEvent,
 				OccursAtTick = 100
 			};
@@ -56,7 +56,7 @@ namespace SubterfugeCoreTest
 				{
 					SourceId = o2.GetId()
 				}.ToByteString(),
-				EventId = Guid.NewGuid().ToString(),
+				Id = Guid.NewGuid().ToString(),
 				EventType = EventType.DrillMineEvent,
 				OccursAtTick = 200
 			};
@@ -109,7 +109,7 @@ namespace SubterfugeCoreTest
 				{
 					SourceId = o1.GetId()
 				}.ToByteString(),
-				EventId = Guid.NewGuid().ToString(),
+				Id = Guid.NewGuid().ToString(),
 				EventType = EventType.DrillMineEvent,
 				OccursAtTick = 200
 			});

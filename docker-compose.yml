@@ -12,12 +12,16 @@ services:
       - 5000:5000
   
   db:
-    image: "redis:rc-alpine"
-    command: redis-server --requirepass TODO:changethis
+    image: "mongo:5.0-rc"
+    command: --auth
     volumes:
-      - "./redis/:/data"
+      - "./mongodb:/data/db"
     ports:
-      - 6379:6379
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=subterfugeDb
       
   server_test:
     build:
