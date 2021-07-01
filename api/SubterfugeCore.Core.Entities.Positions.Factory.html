@@ -1,0 +1,533 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Factory
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Factory
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="SubterfugeCore.Core.Entities.Positions.Factory">
+  
+  
+  <h1 id="SubterfugeCore_Core_Entities_Positions_Factory" data-uid="SubterfugeCore.Core.Entities.Positions.Factory" class="text-break">Class Factory
+  </h1>
+  <div class="markdown level0 summary"><p>Factory Class
+TODO: be able to halt production (e.g. electrical runs out)
+TODO: randomize first production time
+TODO: be able to change production cycle time</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html">Outpost</a></div>
+    <div class="level2"><span class="xref">Factory</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="SubterfugeCore.Core.Interfaces.ICombatable.html">ICombatable</a></div>
+    <div><a class="xref" href="SubterfugeCore.Core.Interfaces.IDrillerCarrier.html">IDrillerCarrier</a></div>
+    <div><a class="xref" href="SubterfugeCore.Core.Interfaces.ISpecialistCarrier.html">ISpecialistCarrier</a></div>
+    <div><a class="xref" href="SubterfugeCore.Core.Interfaces.ITargetable.html">ITargetable</a></div>
+    <div><a class="xref" href="SubterfugeCore.Core.Interfaces.ISubLauncher.html">ISubLauncher</a></div>
+    <div><a class="xref" href="SubterfugeCore.Core.Interfaces.IPosition.html">IPosition</a></div>
+    <div><a class="xref" href="SubterfugeCore.Core.Interfaces.IOwnable.html">IOwnable</a></div>
+    <div><a class="xref" href="SubterfugeCore.Core.Interfaces.IShieldable.html">IShieldable</a></div>
+    <div><a class="xref" href="SubterfugeCore.Core.Interfaces.IVision.html">IVision</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_Name">Outpost.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_SetOwner_SubterfugeCore_Core_Players_Player_">Outpost.SetOwner(Player)</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetOwner">Outpost.GetOwner()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_IsDestroyed">Outpost.IsDestroyed()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_destroyOutpost">Outpost.destroyOutpost()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_restoreOutpost">Outpost.restoreOutpost()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetInterceptionPosition_SubterfugeCore_Core_Topologies_RftVector_System_Single_">Outpost.GetInterceptionPosition(RftVector, Single)</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetCurrentPosition">Outpost.GetCurrentPosition()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetSpecialistManager">Outpost.GetSpecialistManager()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetShieldManager">Outpost.GetShieldManager()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetId">Outpost.GetId()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetSpeed">Outpost.GetSpeed()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetDirectionNormalized">Outpost.GetDirectionNormalized()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_SubterfugeCore_Core_Interfaces_ITargetable_GetDirection">Outpost.ITargetable.GetDirection()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetExpectedArrival">Outpost.GetExpectedArrival()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetCurrentPosition_SubterfugeCore_Core_Timing_GameTick_">Outpost.GetCurrentPosition(GameTick)</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_LaunchSub_SubterfugeCore_Core_GameState_SubterfugeCore_Core_GameEvents_LaunchEvent_">Outpost.LaunchSub(GameState, LaunchEvent)</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_UndoLaunch_SubterfugeCore_Core_GameState_SubterfugeCore_Core_GameEvents_LaunchEvent_">Outpost.UndoLaunch(GameState, LaunchEvent)</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetSubLauncher">Outpost.GetSubLauncher()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetDrillerCount">Outpost.GetDrillerCount()</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_SetDrillerCount_System_Int32_">Outpost.SetDrillerCount(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_AddDrillers_System_Int32_">Outpost.AddDrillers(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_RemoveDrillers_System_Int32_">Outpost.RemoveDrillers(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_HasDrillers_System_Int32_">Outpost.HasDrillers(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_isInVisionRange_SubterfugeCore_Core_Timing_GameTick_SubterfugeCore_Core_Interfaces_IPosition_">Outpost.isInVisionRange(GameTick, IPosition)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="SubterfugeCore.Core.Entities.Positions.html">SubterfugeCore.Core.Entities.Positions</a></h6>
+  <h6><strong>Assembly</strong>: SubterfugeCore.dll</h6>
+  <h5 id="SubterfugeCore_Core_Entities_Positions_Factory_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Factory : Outpost, ICombatable, IDrillerCarrier, ISpecialistCarrier, ITargetable, ISubLauncher, IPosition, IOwnable, IShieldable, IVision</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="SubterfugeCore_Core_Entities_Positions_Factory__ctor_" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.#ctor*"></a>
+  <h4 id="SubterfugeCore_Core_Entities_Positions_Factory__ctor_System_String_SubterfugeCore_Core_Topologies_RftVector_" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.#ctor(System.String,SubterfugeCore.Core.Topologies.RftVector)">Factory(String, RftVector)</h4>
+  <div class="markdown level1 summary"><p>Factory Constructor</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Factory(string id, RftVector outpostStartPosition)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="SubterfugeCore.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td><span class="parametername">outpostStartPosition</span></td>
+        <td><p>Position of outpost</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SubterfugeCore_Core_Entities_Positions_Factory__ctor_" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.#ctor*"></a>
+  <h4 id="SubterfugeCore_Core_Entities_Positions_Factory__ctor_System_String_SubterfugeCore_Core_Topologies_RftVector_SubterfugeCore_Core_Players_Player_" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.#ctor(System.String,SubterfugeCore.Core.Topologies.RftVector,SubterfugeCore.Core.Players.Player)">Factory(String, RftVector, Player)</h4>
+  <div class="markdown level1 summary"><p>Factory Constructor</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Factory(string id, RftVector outpostStartPosition, Player outpostOwner)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="SubterfugeCore.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td><span class="parametername">outpostStartPosition</span></td>
+        <td><p>Position of outpost</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="SubterfugeCore.Core.Players.Player.html">Player</a></td>
+        <td><span class="parametername">outpostOwner</span></td>
+        <td><p>Owner of outpost</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="SubterfugeCore_Core_Entities_Positions_Factory_STANDARD_TICKS_PER_PRODUCTION" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.STANDARD_TICKS_PER_PRODUCTION">STANDARD_TICKS_PER_PRODUCTION</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int STANDARD_TICKS_PER_PRODUCTION</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="SubterfugeCore_Core_Entities_Positions_Factory_GetDrillerProduction_" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetDrillerProduction*"></a>
+  <h4 id="SubterfugeCore_Core_Entities_Positions_Factory_GetDrillerProduction_SubterfugeCore_Core_GameState_" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetDrillerProduction(SubterfugeCore.Core.GameState)">GetDrillerProduction(GameState)</h4>
+  <div class="markdown level1 summary"><p>Gets the number of drillers that would be produced by this factory if
+a production cycle occurred in the current GameState.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetDrillerProduction(GameState state)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SubterfugeCore.Core.GameState.html">GameState</a></td>
+        <td><span class="parametername">state</span></td>
+        <td><p>The current game state</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>Either the remaining extra driller capacity or
+the driller production of the factory, whichever is lower.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SubterfugeCore_Core_Entities_Positions_Factory_GetDrillerProductionCapacity_" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetDrillerProductionCapacity*"></a>
+  <h4 id="SubterfugeCore_Core_Entities_Positions_Factory_GetDrillerProductionCapacity" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetDrillerProductionCapacity">GetDrillerProductionCapacity()</h4>
+  <div class="markdown level1 summary"><p>Gets the maximum driller production per cycle of this factory.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetDrillerProductionCapacity()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>The maximum driller production per cycle.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SubterfugeCore_Core_Entities_Positions_Factory_GetOutpostType_" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetOutpostType*"></a>
+  <h4 id="SubterfugeCore_Core_Entities_Positions_Factory_GetOutpostType" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetOutpostType">GetOutpostType()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override OutpostType GetOutpostType()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SubterfugeCore.Core.Entities.Positions.OutpostType.html">OutpostType</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetOutpostType">Outpost.GetOutpostType()</a></div>
+  
+  
+  <a id="SubterfugeCore_Core_Entities_Positions_Factory_GetTicksPerProduction_" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetTicksPerProduction*"></a>
+  <h4 id="SubterfugeCore_Core_Entities_Positions_Factory_GetTicksPerProduction" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetTicksPerProduction">GetTicksPerProduction()</h4>
+  <div class="markdown level1 summary"><p>Gets the number of ticks between two production cycle of this factory.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetTicksPerProduction()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>An integer representing the number of ticks a production cycle takes.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SubterfugeCore_Core_Entities_Positions_Factory_GetTicksToFirstProduction_" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetTicksToFirstProduction*"></a>
+  <h4 id="SubterfugeCore_Core_Entities_Positions_Factory_GetTicksToFirstProduction" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetTicksToFirstProduction">GetTicksToFirstProduction()</h4>
+  <div class="markdown level1 summary"><p>Gets the tick of the first production at this factory, which is not necessarily the same as the number of ticks between two production cycles.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick GetTicksToFirstProduction()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SubterfugeCore.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><p>The GameTick during which the first production of this factory occurs.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SubterfugeCore_Core_Entities_Positions_Factory_GetVisionRange_" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetVisionRange*"></a>
+  <h4 id="SubterfugeCore_Core_Entities_Positions_Factory_GetVisionRange" data-uid="SubterfugeCore.Core.Entities.Positions.Factory.GetVisionRange">GetVisionRange()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override float GetVisionRange()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="SubterfugeCore.Core.Entities.Positions.Outpost.html#SubterfugeCore_Core_Entities_Positions_Outpost_GetVisionRange">Outpost.GetVisionRange()</a></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="SubterfugeCore.Core.Interfaces.ICombatable.html">ICombatable</a>
+  </div>
+  <div>
+      <a class="xref" href="SubterfugeCore.Core.Interfaces.IDrillerCarrier.html">IDrillerCarrier</a>
+  </div>
+  <div>
+      <a class="xref" href="SubterfugeCore.Core.Interfaces.ISpecialistCarrier.html">ISpecialistCarrier</a>
+  </div>
+  <div>
+      <a class="xref" href="SubterfugeCore.Core.Interfaces.ITargetable.html">ITargetable</a>
+  </div>
+  <div>
+      <a class="xref" href="SubterfugeCore.Core.Interfaces.ISubLauncher.html">ISubLauncher</a>
+  </div>
+  <div>
+      <a class="xref" href="SubterfugeCore.Core.Interfaces.IPosition.html">IPosition</a>
+  </div>
+  <div>
+      <a class="xref" href="SubterfugeCore.Core.Interfaces.IOwnable.html">IOwnable</a>
+  </div>
+  <div>
+      <a class="xref" href="SubterfugeCore.Core.Interfaces.IShieldable.html">IShieldable</a>
+  </div>
+  <div>
+      <a class="xref" href="SubterfugeCore.Core.Interfaces.IVision.html">IVision</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

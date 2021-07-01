@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>The Map </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="The Map ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="the-map">The Map</h1>
+
+<p>Within the game, the map wraps along the two edges.
+This means that if a sub flies off the right edge of the map, it will reappear
+on the left side of the map moving in the same direction. While this implementation is not a sphere
+(it is a tarus/donut), this design makes it very easy for players to interact with the game.
+Specifically, this makes it so that players can scroll the map seamlessly on their device. In order
+to perform the wrapping of values from one side of the map to the other, the library uses a class
+called the <code>Rft Vector</code>.</p>
+<h3 id="rftvector">RftVector</h3>
+<p>Rft is an acronym for Rectangular Flat Torus.</p>
+<p>In order to perform this map wrapping, the <code>RftVector</code> class implements the map
+wrapping automatically. The RftVector uses the <code>%</code> (modulo) operator to ensure that objects on the map
+stay within the map boundaries. There are two important things to know when using this class.</p>
+<p>First: To make use of the <code>RftVector</code>, you must initialize the dimensions of its boundary. While
+the RftVector indicates a single vector, the class needs to know the dimensions of the map in
+order to wrap the coordinates to the correct location. Without setting the boundary size, an exception
+will be thrown. The map boundary for <code>RftVector</code>s are automatically set when a <code>Game()</code>
+object is generated, however if you have not instantiated a <code>Game()</code>, you must specify the boundary of the vector.
+This can be done by using the <code>RftVector.map</code> static variable. Creating a 200x200 map would be done as follows:</p>
+<pre><code class="lang-cs">// Set the dimentions
+RftVector.map = new Rft(200, 200);
+
+// Create a new vector
+RftVector myLocation = new RftVector(10, 50);
+</code></pre>
+<p>Second: It is important to note that with the <code>RftVector</code> the origin (0, 0) is at the CENTER
+of the map instead of being in the top left or bottom right corner. This means that in a map of 200x200 the origin (0, 0) is actually at (100, 100) in
+the middle of the map. This is because of how the wrapping needs to occur in order for
+the <code>RftVector</code> to operate the right way. Therefore, a coordinate of (30, 10) with the origin in
+the bottom right would actually be a coordinate of <code>((Width/2)-10, (Height/2)-30)</code> in Rft.</p>
+<pre><code>            |
+            |
+----------------------------
+            |
+    .       |
+            |
+</code></pre>
+<h3 id="location-position-and-movement">Location, Position, and movement</h3>
+<p>While the coordinates may cause some confusion at first, the implementation of the <code>RftVector</code>
+class makes performing any coordinate map operations extremely easy.
+The <code>RftVector</code> has operator overloads that allow adding and subtracting two locations together
+(vector math). This makes it very easy to automatically wrap a moving object on the map. All
+locations in the game are represented with the <code>RftVector</code>. You can easily access the <code>x</code> and <code>y</code>
+components of a vector as well as get the magnitude, and a normalized vector. If more functionality is
+required, the RftVector also allows converting to a <code>Vector2</code> which is a more comprehensive vector library.</p>
+<pre><code class="lang-cs">RftVector myPosition = new RftVector(140, 29);
+myVector.x // 140
+myVector.y // 29
+myVector.Magnitude() // The length of the vector
+myVector.Normalize() // returns an `RftVector` of magnitude 1 in the same direction
+
+RftVector myDirection = new RftVector(4, -5);
+
+// Easily add the direction to the position to move
+// If you move over the map edge, Rft will automatically wrap.
+myPosition += myDirection;
+</code></pre>
+<p>When doing vector math, the RftVector will automatically wrap the coordinates.
+Consider the following:</p>
+<pre><code class="lang-cs">// Set a 200x200 map size; meaning (100, 100) and (-100, -100) are the map extents
+RftVector.map = new Rft(200, 200)
+
+// We have a sub at (0, 95)
+RftVector myLocation = new RftVector(0, 95);
+
+// We have a velocity of (0, 10);
+RftVector myVelocity = new RftVector(0, 10);
+
+// We update our position based on our velocity:
+myLocation = myLocation + myVelocity;
+</code></pre>
+<p>At this point, the resulting vector would be (0, 105). However, based on our map boundary the
+map extremes are at (0, 100), and 0, -100). Thus the resulting point exceeds the (0, 100) bound
+by 5 units. With the RftVector implementation, the resulting <code>myLocation</code> variable would have
+a value of (0, -95); this is a value of 5 units from the left edge of the map.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

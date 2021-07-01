@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class MapConfiguration
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class MapConfiguration
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="SubterfugeCore.Core.Config.MapConfiguration">
+  
+  
+  <h1 id="SubterfugeCore_Core_Config_MapConfiguration" data-uid="SubterfugeCore.Core.Config.MapConfiguration" class="text-break">Class MapConfiguration
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">MapConfiguration</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="SubterfugeCore.Core.Config.html">SubterfugeCore.Core.Config</a></h6>
+  <h6><strong>Assembly</strong>: SubterfugeCore.dll</h6>
+  <h5 id="SubterfugeCore_Core_Config_MapConfiguration_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MapConfiguration : object</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="SubterfugeCore_Core_Config_MapConfiguration__ctor_" data-uid="SubterfugeCore.Core.Config.MapConfiguration.#ctor*"></a>
+  <h4 id="SubterfugeCore_Core_Config_MapConfiguration__ctor_List_SubterfugeCore_Core_Players_Player__" data-uid="SubterfugeCore.Core.Config.MapConfiguration.#ctor(List{SubterfugeCore.Core.Players.Player})">MapConfiguration(List&lt;Player&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MapConfiguration(List&lt;Player&gt; players)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="SubterfugeCore.Core.Players.Player.html">Player</a>&gt;</td>
+        <td><span class="parametername">players</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="SubterfugeCore_Core_Config_MapConfiguration_DormantsPerPlayer_" data-uid="SubterfugeCore.Core.Config.MapConfiguration.DormantsPerPlayer*"></a>
+  <h4 id="SubterfugeCore_Core_Config_MapConfiguration_DormantsPerPlayer" data-uid="SubterfugeCore.Core.Config.MapConfiguration.DormantsPerPlayer">DormantsPerPlayer</h4>
+  <div class="markdown level1 summary"><p>The number of dormant outposts to generate within each player's outposts. These are additional un-owned
+outposts that are generated within the player's territory. These outposts are still generated using the
+generation parameters above so the total number of outposts in a player's territory is equal to
+dormantsPerPlayer + outpostsPerPlayer. The dormants are assigned to the farthest outposts from the center
+of the player's territory.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int DormantsPerPlayer { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SubterfugeCore_Core_Config_MapConfiguration_MaxiumumOutpostDistance_" data-uid="SubterfugeCore.Core.Config.MapConfiguration.MaxiumumOutpostDistance*"></a>
+  <h4 id="SubterfugeCore_Core_Config_MapConfiguration_MaxiumumOutpostDistance" data-uid="SubterfugeCore.Core.Config.MapConfiguration.MaxiumumOutpostDistance">MaxiumumOutpostDistance</h4>
+  <div class="markdown level1 summary"><p>The farthest away two outposts can be. Outposts are generated around a central outpost so this is
+essentially the radius of the player's territory. Ex. setting this to 100 means that the total size
+of a player's territory is up to 200x200</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int MaxiumumOutpostDistance { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SubterfugeCore_Core_Config_MapConfiguration_MinimumOutpostDistance_" data-uid="SubterfugeCore.Core.Config.MapConfiguration.MinimumOutpostDistance*"></a>
+  <h4 id="SubterfugeCore_Core_Config_MapConfiguration_MinimumOutpostDistance" data-uid="SubterfugeCore.Core.Config.MapConfiguration.MinimumOutpostDistance">MinimumOutpostDistance</h4>
+  <div class="markdown level1 summary"><p>The closest possible distance that two outposts can be together before trying to re-evaluate a new position.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int MinimumOutpostDistance { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SubterfugeCore_Core_Config_MapConfiguration_OutpostsPerPlayer_" data-uid="SubterfugeCore.Core.Config.MapConfiguration.OutpostsPerPlayer*"></a>
+  <h4 id="SubterfugeCore_Core_Config_MapConfiguration_OutpostsPerPlayer" data-uid="SubterfugeCore.Core.Config.MapConfiguration.OutpostsPerPlayer">OutpostsPerPlayer</h4>
+  <div class="markdown level1 summary"><p>The number of outposts that each player should be assigned when the map is generated</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int OutpostsPerPlayer { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SubterfugeCore_Core_Config_MapConfiguration_players_" data-uid="SubterfugeCore.Core.Config.MapConfiguration.players*"></a>
+  <h4 id="SubterfugeCore_Core_Config_MapConfiguration_players" data-uid="SubterfugeCore.Core.Config.MapConfiguration.players">players</h4>
+  <div class="markdown level1 summary"><p>The number of dormant outposts to generate within each player's outposts. These are additional un-owned
+outposts that are generated within the player's territory. These outposts are still generated using the
+generation parameters above so the total number of outposts in a player's territory is equal to
+dormantsPerPlayer + outpostsPerPlayer. The dormants are assigned to the farthest outposts from the center
+of the player's territory.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Player&gt; players { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="SubterfugeCore.Core.Players.Player.html">Player</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SubterfugeCore_Core_Config_MapConfiguration_Seed_" data-uid="SubterfugeCore.Core.Config.MapConfiguration.Seed*"></a>
+  <h4 id="SubterfugeCore_Core_Config_MapConfiguration_Seed" data-uid="SubterfugeCore.Core.Config.MapConfiguration.Seed">Seed</h4>
+  <div class="markdown level1 summary"><p>The seed to be used for the random number generator when creating the map.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Seed { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
