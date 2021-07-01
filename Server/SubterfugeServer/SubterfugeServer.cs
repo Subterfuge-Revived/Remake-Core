@@ -7,6 +7,7 @@ using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections.Models;
 using SubterfugeServerConsole.Responses;
+using Room = SubterfugeServerConsole.Connections.Models.Room;
 
 namespace SubterfugeServerConsole
 {
@@ -14,15 +15,15 @@ namespace SubterfugeServerConsole
     {
         public override async Task<OpenLobbiesResponse> GetOpenLobbies(OpenLobbiesRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new OpenLobbiesResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
             OpenLobbiesResponse roomResponse = new OpenLobbiesResponse();
-            List<Room> rooms = (await DatabaseRoomModel.GetOpenLobbies()).ConvertAll(it => it.asRoom().Result);
+            List<SubterfugeRemakeService.Room> rooms = (await Room.GetOpenLobbies()).ConvertAll(it => it.asRoom().Result);
             roomResponse.Rooms.AddRange(rooms);
             roomResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             
@@ -31,15 +32,15 @@ namespace SubterfugeServerConsole
 
         public override async Task<PlayerCurrentGamesResponse> GetPlayerCurrentGames(PlayerCurrentGamesRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new PlayerCurrentGamesResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
             PlayerCurrentGamesResponse currentGameResponse = new PlayerCurrentGamesResponse();
-            List<DatabaseRoomModel> rooms = await user.GetActiveRooms();
+            List<Room> rooms = await dbUserModel.GetActiveRooms();
             currentGameResponse.Games.AddRange(Task.WhenAll(rooms.Select(async it => await it.asRoom()).ToList()).Result);
             currentGameResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return currentGameResponse;
@@ -47,8 +48,8 @@ namespace SubterfugeServerConsole
 
         public override async Task<CreateRoomResponse> CreateNewRoom(CreateRoomRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new CreateRoomResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
@@ -62,27 +63,27 @@ namespace SubterfugeServerConsole
                 };
                 
             
-            DatabaseRoomModel roomModel = new DatabaseRoomModel(request, user.asUser());
-            await roomModel.CreateInDatabase();
+            Room room = new Room(request, dbUserModel.asUser());
+            await room.CreateInDatabase();
                 
                
             return new CreateRoomResponse()
             {
-                CreatedRoom = await roomModel.asRoom(),
+                CreatedRoom = await room.asRoom(),
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             };
         }
 
         public override async Task<JoinRoomResponse> JoinRoom(JoinRoomRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new JoinRoomResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
+            Room room = await Room.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new JoinRoomResponse()
                 {
@@ -91,20 +92,20 @@ namespace SubterfugeServerConsole
 
             return new JoinRoomResponse()
             {
-                Status = await room.JoinRoom(user)
+                Status = await room.JoinRoom(dbUserModel)
             };
         }
 
         public override async Task<LeaveRoomResponse> LeaveRoom(LeaveRoomRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new LeaveRoomResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
+            Room room = await Room.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new LeaveRoomResponse()
                 {
@@ -113,27 +114,27 @@ namespace SubterfugeServerConsole
             
             return new LeaveRoomResponse()
             {
-                Status = await room.LeaveRoom(user)
+                Status = await room.LeaveRoom(dbUserModel)
             };
         }
 
         public override async Task<StartGameEarlyResponse> StartGameEarly(StartGameEarlyRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new StartGameEarlyResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
+            Room room = await Room.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new StartGameEarlyResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
 
-            if (room.RoomModel.CreatorId == user.UserModel.Id)
+            if (room.RoomModel.CreatorId == dbUserModel.UserModel.Id)
             {
                 return new StartGameEarlyResponse()
                 {
@@ -149,21 +150,21 @@ namespace SubterfugeServerConsole
         public override async Task<GetGameRoomEventsResponse> GetGameRoomEvents(GetGameRoomEventsRequest request, ServerCallContext context)
         {
             
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new GetGameRoomEventsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
+            Room room = await Room.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new GetGameRoomEventsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
             
-            if (room.RoomModel.PlayersInGame.All(it => it != user.UserModel.Id) && !user.HasClaim(UserClaim.Admin))
+            if (room.RoomModel.PlayersInGame.All(it => it != dbUserModel.UserModel.Id) && !dbUserModel.HasClaim(UserClaim.Admin))
                 return new GetGameRoomEventsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
@@ -175,10 +176,10 @@ namespace SubterfugeServerConsole
             GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(room.RoomModel.UnixTimeStarted), DateTime.UtcNow);
             
             // Admins see all events :)
-            if (!user.HasClaim(UserClaim.Admin))
+            if (!dbUserModel.HasClaim(UserClaim.Admin))
             {
                 events = events.FindAll(it =>
-                    it.OccursAtTick <= currentTick.GetTick() || it.IssuedBy == user.UserModel.Id);
+                    it.OccursAtTick <= currentTick.GetTick() || it.IssuedBy == dbUserModel.UserModel.Id);
             }
 
             GetGameRoomEventsResponse response = new GetGameRoomEventsResponse();
@@ -190,39 +191,39 @@ namespace SubterfugeServerConsole
         
         public override async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new SubmitGameEventResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
+            Room room = await Room.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new SubmitGameEventResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
             
-            if(!room.IsPlayerInRoom(user))
+            if(!room.IsPlayerInRoom(dbUserModel))
                 return new SubmitGameEventResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
                 };
 
-            return await room.AddPlayerGameEvent(user, request.EventData);
+            return await room.AddPlayerGameEvent(dbUserModel, request.EventData);
         }
 
         public override async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new SubmitGameEventResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
+            Room room = await Room.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new SubmitGameEventResponse()
                 {
@@ -230,38 +231,38 @@ namespace SubterfugeServerConsole
                 };
             
             // GameEventToUpdate.
-            return await room.UpdateGameEvent(user, request);
+            return await room.UpdateGameEvent(dbUserModel, request);
         }
 
         public override async Task<DeleteGameEventResponse> DeleteGameEvent(DeleteGameEventRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new DeleteGameEventResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
+            Room room = await Room.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new DeleteGameEventResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
 
-            return await room.RemovePlayerGameEvent(user, request.EventId);
+            return await room.RemovePlayerGameEvent(dbUserModel, request.EventId);
         }
 
         public override async Task<CreateMessageGroupResponse> CreateMessageGroup(CreateMessageGroupRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new CreateMessageGroupResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
+            Room room = await Room.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new CreateMessageGroupResponse()
                 {
@@ -274,7 +275,7 @@ namespace SubterfugeServerConsole
                     Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED),
                 };
             
-            if(!request.UserIdsInGroup.Contains(user.UserModel.Id))
+            if(!request.UserIdsInGroup.Contains(dbUserModel.UserModel.Id))
                 return new CreateMessageGroupResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST)
@@ -285,28 +286,28 @@ namespace SubterfugeServerConsole
 
         public override async Task<SendMessageResponse> SendMessage(SendMessageRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new SendMessageResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
+            Room room = await Room.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new SendMessageResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
 
-            GroupChatModel groupChat = await room.GetGroupChatById(request.GroupId);
+            GroupChat groupChat = await room.GetGroupChatById(request.GroupId);
             if(groupChat == null)
                 return new SendMessageResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.CHAT_GROUP_DOES_NOT_EXIST)
                 };
             
-            if(!groupChat.IsPlayerInGroup(user))
+            if(!groupChat.IsPlayerInGroup(dbUserModel))
                 return new SendMessageResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
@@ -314,27 +315,27 @@ namespace SubterfugeServerConsole
 
             return new SendMessageResponse()
             {
-                Status = await groupChat.SendChatMessage(user, request.Message)
+                Status = await groupChat.SendChatMessage(dbUserModel, request.Message)
             };
         }
 
         public override async Task<GetMessageGroupsResponse> GetMessageGroups(GetMessageGroupsRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new GetMessageGroupsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
+            Room room = await Room.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new GetMessageGroupsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
 
-            List<GroupChatModel> groupChats = await room.GetPlayerGroupChats(user);
+            List<GroupChat> groupChats = await room.GetPlayerGroupChats(dbUserModel);
             GetMessageGroupsResponse response = new GetMessageGroupsResponse();
             foreach (var groupModel in groupChats)
             {
@@ -347,28 +348,28 @@ namespace SubterfugeServerConsole
 
         public override async Task<GetGroupMessagesResponse> GetGroupMessages(GetGroupMessagesRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new GetGroupMessagesResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
-            DatabaseRoomModel room = await DatabaseRoomModel.GetRoomFromGuid(request.RoomId);
+            Room room = await Room.GetRoomFromGuid(request.RoomId);
             if(room == null)
                 return new GetGroupMessagesResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
             
-            GroupChatModel groupChat = await room.GetGroupChatById(request.GroupId);
+            GroupChat groupChat = await room.GetGroupChatById(request.GroupId);
             if(groupChat == null)
                 return new GetGroupMessagesResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.CHAT_GROUP_DOES_NOT_EXIST)
                 };
             
-            if(!groupChat.IsPlayerInGroup(user))
+            if(!groupChat.IsPlayerInGroup(dbUserModel))
                 return new GetGroupMessagesResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
@@ -383,27 +384,27 @@ namespace SubterfugeServerConsole
 
         public override async Task<BlockPlayerResponse> BlockPlayer(BlockPlayerRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new BlockPlayerResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.UserIdToBlock);
+            DbUserModel friend = await DbUserModel.GetUserFromGuid(request.UserIdToBlock);
             if (friend == null) 
                 return new BlockPlayerResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
                 };
             
-            if(await user.IsBlocked(friend))
+            if(await dbUserModel.IsBlocked(friend))
                 return new BlockPlayerResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.DUPLICATE)
                 };
 
-            await user.BlockUser(friend);
+            await dbUserModel.BlockUser(friend);
             return new BlockPlayerResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
@@ -412,15 +413,15 @@ namespace SubterfugeServerConsole
 
         public override async Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new UnblockPlayerResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
             // Check if player is valid.
-            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.UserIdToBlock);
+            DbUserModel friend = await DbUserModel.GetUserFromGuid(request.UserIdToBlock);
             if (friend == null) 
                 return new UnblockPlayerResponse()
                 {
@@ -428,13 +429,13 @@ namespace SubterfugeServerConsole
                 };
             
             // Check if player is blocked.
-            if(!await user.IsBlocked(friend))
+            if(!await dbUserModel.IsBlocked(friend))
                 return new UnblockPlayerResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST)
                 };
 
-            await user.UnblockUser(friend);
+            await dbUserModel.UnblockUser(friend);
             return new UnblockPlayerResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
@@ -443,8 +444,8 @@ namespace SubterfugeServerConsole
 
         public override async Task<ViewBlockedPlayersResponse> ViewBlockedPlayers(ViewBlockedPlayersRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new ViewBlockedPlayersResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
@@ -453,9 +454,9 @@ namespace SubterfugeServerConsole
             ViewBlockedPlayersResponse response = new ViewBlockedPlayersResponse();
 
             var blockedUsers = Task.WhenAll(
-                user.GetBlockedUsers()
+                dbUserModel.GetBlockedUsers()
                     .Result
-                    .Select(async it => (await DatabaseUserModel.GetUserFromGuid(it.FriendId)).asUser())
+                    .Select(async it => (await DbUserModel.GetUserFromGuid(it.FriendId)).asUser())
             ).Result.ToList();
                 
             
@@ -466,34 +467,34 @@ namespace SubterfugeServerConsole
 
         public override async Task<SendFriendRequestResponse> SendFriendRequest(SendFriendRequestRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new SendFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.FriendId);
+            DbUserModel friend = await DbUserModel.GetUserFromGuid(request.FriendId);
             if (friend == null)
                 return new SendFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
                 };
             
-            if(await friend.HasFriendRequestFrom(user))
+            if(await friend.HasFriendRequestFrom(dbUserModel))
                 return new SendFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.DUPLICATE)
                 };
             
-            if(await friend.IsBlocked(user) || await user.IsBlocked(friend))
+            if(await friend.IsBlocked(dbUserModel) || await dbUserModel.IsBlocked(friend))
                 return new SendFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PLAYER_IS_BLOCKED)
                 };
             
             // Add request to the other player.
-            await friend.AddFriendRequestFrom(user);
+            await friend.AddFriendRequestFrom(dbUserModel);
             return new SendFriendRequestResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
@@ -502,21 +503,21 @@ namespace SubterfugeServerConsole
 
         public override async Task<AcceptFriendRequestResponse> AcceptFriendRequest(AcceptFriendRequestRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new AcceptFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.FriendId);
+            DbUserModel friend = await DbUserModel.GetUserFromGuid(request.FriendId);
             if(friend == null)
                 return new AcceptFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
                 };
 
-            if(!await user.HasFriendRequestFrom(friend))
+            if(!await dbUserModel.HasFriendRequestFrom(friend))
                 return new AcceptFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.FRIEND_REQUEST_DOES_NOT_EXIST)
@@ -524,24 +525,24 @@ namespace SubterfugeServerConsole
 
             return new AcceptFriendRequestResponse()
             {
-                Status = await user.AcceptFriendRequestFrom(friend),
+                Status = await dbUserModel.AcceptFriendRequestFrom(friend),
             };
         }
 
         public override async Task<ViewFriendRequestsResponse> ViewFriendRequests(ViewFriendRequestsRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new ViewFriendRequestsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
             
             ViewFriendRequestsResponse response = new ViewFriendRequestsResponse();
-            List<User> friendRequests = Task.WhenAll(
-                user.GetFriendRequests()
+            List<SubterfugeRemakeService.User> friendRequests = Task.WhenAll(
+                dbUserModel.GetFriendRequests()
                     .Result
-                    .Select(async it => (await DatabaseUserModel.GetUserFromGuid(it.FriendId)).asUser())
+                    .Select(async it => (await DbUserModel.GetUserFromGuid(it.FriendId)).asUser())
             ).Result.ToList();
             
             response.IncomingFriends.AddRange(friendRequests);
@@ -551,21 +552,21 @@ namespace SubterfugeServerConsole
         
         public override async Task<DenyFriendRequestResponse> DenyFriendRequest(DenyFriendRequestRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new DenyFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.FriendId);
+            DbUserModel friend = await DbUserModel.GetUserFromGuid(request.FriendId);
             if(friend == null)
                 return new DenyFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
                 };
             
-            if(!await user.HasFriendRequestFrom(friend))
+            if(!await dbUserModel.HasFriendRequestFrom(friend))
                 return new DenyFriendRequestResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.FRIEND_REQUEST_DOES_NOT_EXIST)
@@ -573,58 +574,58 @@ namespace SubterfugeServerConsole
 
             return new DenyFriendRequestResponse()
             {
-                Status = await user.RemoveFriendRequestFrom(friend),
+                Status = await dbUserModel.RemoveFriendRequestFrom(friend),
             };
         }
 
         public override async Task<RemoveFriendResponse> RemoveFriend(RemoveFriendRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new RemoveFriendResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
-            DatabaseUserModel friend = await DatabaseUserModel.GetUserFromGuid(request.FriendId);
+            DbUserModel friend = await DbUserModel.GetUserFromGuid(request.FriendId);
             if(friend == null)
                 return new RemoveFriendResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
                 };
             
-            if(!await user.IsFriend(friend))
+            if(!await dbUserModel.IsFriend(friend))
                 return new RemoveFriendResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST)
                 };
                 
-            await user.RemoveFriend(friend);
+            await dbUserModel.RemoveFriend(friend);
             return new RemoveFriendResponse();
         }
 
         public override async Task<ViewFriendsResponse> ViewFriends(ViewFriendsRequest request, ServerCallContext context)
         {
-            DatabaseUserModel user = context.UserState["user"] as DatabaseUserModel;
-            if(user == null)
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
                 return new ViewFriendsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 };
 
             ViewFriendsResponse response = new ViewFriendsResponse();
-            List<User> friends = Task.WhenAll(
-                user.GetFriends()
+            List<SubterfugeRemakeService.User> friends = Task.WhenAll(
+                dbUserModel.GetFriends()
                     .Result
                     .Select(async it =>
                         {
-                            if (it.PlayerId == user.UserModel.Id)
+                            if (it.PlayerId == dbUserModel.UserModel.Id)
                             {
-                                return (await DatabaseUserModel.GetUserFromGuid(it.FriendId)).asUser();
+                                return (await DbUserModel.GetUserFromGuid(it.FriendId)).asUser();
                             }
                             else
                             {
-                                return (await DatabaseUserModel.GetUserFromGuid(it.PlayerId)).asUser();
+                                return (await DbUserModel.GetUserFromGuid(it.PlayerId)).asUser();
                             }
                         }
                     )).Result.ToList();
@@ -652,20 +653,20 @@ namespace SubterfugeServerConsole
         public override async Task<AuthorizationResponse> Login(AuthorizationRequest request, ServerCallContext context)
         {
             // Try to get a user
-            DatabaseUserModel user = await DatabaseUserModel.GetUserFromUsername(request.Username);
+            DbUserModel dbUserModel = await DbUserModel.GetUserFromUsername(request.Username);
             
-            if (user == null || !JwtManager.VerifyPasswordHash(request.Password, user.UserModel.PasswordHash))
+            if (dbUserModel == null || !JwtManager.VerifyPasswordHash(request.Password, dbUserModel.UserModel.PasswordHash))
                 return new AuthorizationResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.INVALID_CREDENTIALS)
                 };
 
-            string token = JwtManager.GenerateToken(user.UserModel.Id);
+            string token = JwtManager.GenerateToken(dbUserModel.UserModel.Id);
             context.ResponseTrailers.Add("Authorization", token);
             return new AuthorizationResponse
             {
                 Token = token,
-                User = user.asUser(),
+                User = dbUserModel.asUser(),
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             };
         }
@@ -681,15 +682,15 @@ namespace SubterfugeServerConsole
             if (JwtManager.ValidateToken(request.Token, out var uuid))
             {
                 // Validate user exists.
-                DatabaseUserModel user = await DatabaseUserModel.GetUserFromGuid(uuid);
-                if (user != null)
+                DbUserModel dbUserModel = await DbUserModel.GetUserFromGuid(uuid);
+                if (dbUserModel != null)
                 {
-                    context.UserState["user"] = user;
+                    context.UserState["user"] = dbUserModel;
                     return new AuthorizationResponse()
                     {
                         Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
                         Token = request.Token,
-                        User = user.asUser(),
+                        User = dbUserModel.asUser(),
                     };
                 }
             }
@@ -702,15 +703,15 @@ namespace SubterfugeServerConsole
         public override async Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest request,
             ServerCallContext context)
         {
-            DatabaseUserModel user = await DatabaseUserModel.GetUserFromUsername(request.Username);
-            if(user != null)
+            DbUserModel dbUserModel = await DbUserModel.GetUserFromUsername(request.Username);
+            if(dbUserModel != null)
                 return new AccountRegistrationResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.DUPLICATE)
                 };
             
             // Create a new user model
-            DatabaseUserModel model = new DatabaseUserModel(request);
+            DbUserModel model = new DbUserModel(request);
             await model.SaveToDatabase();
             string token = JwtManager.GenerateToken(model.UserModel.Id);
             context.ResponseTrailers.Add("Authorization", token);

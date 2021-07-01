@@ -483,7 +483,7 @@ namespace Tests
                 EventData = new GameEventRequest()
                 {
                     EventData = ByteString.CopyFromUtf8("MyEventData"),
-                    OccursAtTick = 5,
+                    OccursAtTick = 123,
                 },
                 RoomId = gameId,
             };
@@ -499,7 +499,7 @@ namespace Tests
             SuperUser admin = authHelper.CreateSuperUser();
             client.Login(new AuthorizationRequest()
             {
-                Username = admin.userModel.UserModel.Username,
+                Username = admin.DbUserModel.UserModel.Username,
                 Password = admin.password,
             });
 

@@ -183,7 +183,7 @@ namespace Tests
 
             var errorResponse = client.BlockPlayer(new BlockPlayerRequest()
             {
-                UserIdToBlock = admin.userModel.UserModel.Id,
+                UserIdToBlock = admin.DbUserModel.UserModel.Id,
             });
             Assert.AreEqual(errorResponse.Status.IsSuccess, false);
             Assert.AreEqual(errorResponse.Status.Detail, ResponseType.PERMISSION_DENIED.ToString());

@@ -592,7 +592,7 @@ namespace Tests
             client.Login(new AuthorizationRequest()
             {
                 Password = superUser.password,
-                Username = superUser.userModel.UserModel.Username,
+                Username = superUser.DbUserModel.UserModel.Username,
             });
             
             PlayerCurrentGamesResponse adminGamesResponse = client.GetPlayerCurrentGames(new PlayerCurrentGamesRequest());

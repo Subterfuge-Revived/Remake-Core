@@ -143,14 +143,14 @@ namespace Tests
          [Test]
          public void SuperUserAccountHasAdminClaims()
          {
-             SuperUser superUser = DatabaseUserModel.CreateSuperUser().Result;
+             SuperUser superUser = DbUserModel.CreateSuperUser().Result;
              
              // Fetch the user from the database.
-             DatabaseUserModel user = DatabaseUserModel.GetUserFromGuid(superUser.userModel.UserModel.Id).Result;
+             DbUserModel dbUserModel = DbUserModel.GetUserFromGuid(superUser.DbUserModel.UserModel.Id).Result;
              // Ensure the user has admin power
-             Assert.IsTrue(user.HasClaim(UserClaim.Admin));
-             Assert.IsTrue(user.HasClaim(UserClaim.Dev));
-             Assert.IsTrue(user.HasClaim(UserClaim.EmailVerified));
+             Assert.IsTrue(dbUserModel.HasClaim(UserClaim.Admin));
+             Assert.IsTrue(dbUserModel.HasClaim(UserClaim.Dev));
+             Assert.IsTrue(dbUserModel.HasClaim(UserClaim.EmailVerified));
          }
         
     }

@@ -495,7 +495,7 @@ message GameEventModel {
 
 message GroupModel {
     string Id = 1;
-    repeated User GroupMembers = 2;
+    repeated string GroupMembers = 2;
     string roomId = 3;
 }
 

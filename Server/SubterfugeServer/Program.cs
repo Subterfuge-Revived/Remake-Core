@@ -28,12 +28,12 @@ using SubterfugeServerConsole.Connections;
 
             Server server = new Server
             {
-                Services = {subterfugeService.BindService(grpcService).Intercept(new JwtInterceptor())},
+                Services = {subterfugeService.BindService(grpcService).Intercept(new LoggerInterceptor()).Intercept(new JwtInterceptor())},
                 Ports = {new ServerPort(Hostname, Port, ServerCredentials.Insecure)}
             };
             
             Console.WriteLine($"Listening on {Port}...");
-            DatabaseUserModel.CreateSuperUser(); // Creates a super user with admin powers.
+            DbUserModel.CreateSuperUser(); // Creates a super user with admin powers.
             server.Start();
             Shutdown.WaitOne();
             server.ShutdownAsync().Wait();

@@ -36,7 +36,7 @@ namespace Tests.AuthTestingHelper
 
         public SuperUser CreateSuperUser()
         {
-            return DatabaseUserModel.CreateSuperUser().Result;
+            return DbUserModel.CreateSuperUser().Result;
         }
 
         public String createAccount(String username)

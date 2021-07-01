@@ -37,10 +37,10 @@ namespace SubterfugeServerConsole
                     if (JwtManager.ValidateToken(entry.Value, out var uuid))
                     {
                         // Validate user exists.
-                        DatabaseUserModel user = await DatabaseUserModel.GetUserFromGuid(uuid);
-                        if (user != null)
+                        DbUserModel dbUserModel = await DbUserModel.GetUserFromGuid(uuid);
+                        if (dbUserModel != null)
                         {
-                            context.UserState["user"] = user;
+                            context.UserState["user"] = dbUserModel;
                         }
                     }
                 }

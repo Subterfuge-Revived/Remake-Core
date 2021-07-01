@@ -9,26 +9,26 @@ using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeServerConsole.Connections.Models
 {
-    public class GroupChatModel
+    public class GroupChat
     {
         public GroupModel MessageGroup;
-        public DatabaseRoomModel RoomModel;
+        public Room Room;
         
-        public GroupChatModel(DatabaseRoomModel roomModel, GroupModel groupModel)
+        public GroupChat(Room room, GroupModel groupModel)
         {
-            RoomModel = roomModel;
+            Room = room;
             MessageGroup = groupModel;
         }
 
-        public async Task<ResponseStatus> SendChatMessage(DatabaseUserModel user, string message)
+        public async Task<ResponseStatus> SendChatMessage(DbUserModel dbUserModel, string message)
         {
             // Set the creation time.
             MessageModel model = new MessageModel()
             {
-                Id = new Guid().ToString(),
-                RoomId = RoomModel.RoomModel.Id,
+                Id = Guid.NewGuid().ToString(),
+                RoomId = Room.RoomModel.Id,
                 GroupId = MessageGroup.Id,
-                SenderId = user.UserModel.Id,
+                SenderId = dbUserModel.UserModel.Id,
                 Message = message,
                 UnixTimeCreatedAt = DateTime.UtcNow.ToFileTimeUtc(),
             };
@@ -44,9 +44,9 @@ namespace SubterfugeServerConsole.Connections.Models
             var start =  pagination <= 1 ? -1 : -50 * (pagination - 1);
             var end = -50 * pagination;
             List<MessageModel> parsedMessages = MongoConnector.GetMessagesCollection()
-                .Find(message => message.GroupId == MessageGroup.Id && message.RoomId == RoomModel.RoomModel.Id)
-                .SortBy(message => message.UnixTimeCreatedAt)
-                .Skip(pagination * 50)
+                .Find(message => message.GroupId == MessageGroup.Id && message.RoomId == Room.RoomModel.Id)
+                .SortByDescending(message => message.UnixTimeCreatedAt)
+                .Skip((pagination - 1) * 50)
                 .ToList()
                 .Take(50)
                 .ToList();
@@ -54,9 +54,9 @@ namespace SubterfugeServerConsole.Connections.Models
             return parsedMessages;
         }
 
-        public Boolean IsPlayerInGroup(DatabaseUserModel user)
+        public Boolean IsPlayerInGroup(DbUserModel dbUserModel)
         {
-            return MessageGroup.GroupMembers.Any(it => it.Id == user.UserModel.Id);
+            return MessageGroup.GroupMembers.Any(it => it == dbUserModel.UserModel.Id);
         }
 
         public async Task<MessageGroup> asMessageGroup(int messagesPagination = 1)
@@ -65,7 +65,13 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 GroupId = MessageGroup.Id,
             };
-            model.GroupMembers.AddRange(MessageGroup.GroupMembers);
+            
+            // Convert UserIds to Users.
+            foreach(string userId in MessageGroup.GroupMembers)
+            {
+                model.GroupMembers.Add((await DbUserModel.GetUserFromGuid(userId)).asUser());
+            }
+            
             model.Messages.AddRange(await GetMessages(messagesPagination));
             return model;
         }
