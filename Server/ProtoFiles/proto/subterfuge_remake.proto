@@ -574,7 +574,7 @@ enum EffectScale {
 }
 
 message SpecialistConfiguration {
-    string SpecialistId = 1;
+    string Id = 1;
     int64 Priority = 2;
     string SpecialistName = 3;
     User Creator = 4;
@@ -600,7 +600,7 @@ message SpecialistEffectScale {
 message SpecialistPackage {
     User Creator = 1;
     string PackageName = 2;
-    string SpecialistPackageId = 3;
+    string Id = 3;
     repeated string specialistIds = 4;
     repeated string SpecialistPackageIds = 5;
 }

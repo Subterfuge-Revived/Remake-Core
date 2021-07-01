@@ -725,7 +725,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<SubmitCustomSpecialistResponse> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DbUserModel user = context.UserState["user"] as DbUserModel;
             if(user == null)
                 return new SubmitCustomSpecialistResponse()
                 {
@@ -738,7 +738,7 @@ namespace SubterfugeServerConsole
             await configModel.saveToRedis();
 
             // Get the generated specialist ID
-            string specialistId = configModel.SpecialistConfig.SpecialistId;
+            string specialistId = configModel.SpecialistConfig.Id;
 
             return new SubmitCustomSpecialistResponse()
             {
@@ -749,7 +749,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<GetCustomSpecialistsResponse> GetCustomSpecialists(GetCustomSpecialistsRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DbUserModel user = context.UserState["user"] as DbUserModel;
             if(user == null)
                 return new GetCustomSpecialistsResponse()
                 {
@@ -774,7 +774,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<GetPlayerCustomSpecialistsResponse> GetPlayerCustomSpecialists(GetPlayerCustomSpecialistsRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DbUserModel user = context.UserState["user"] as DbUserModel;
             if(user == null)
                 return new GetPlayerCustomSpecialistsResponse()
                 {
@@ -782,7 +782,7 @@ namespace SubterfugeServerConsole
                 };
             
             // Get the requested user from their id
-            RedisUserModel player = await RedisUserModel.GetUserFromGuid(request.PlayerId);
+            DbUserModel player = await DbUserModel.GetUserFromGuid(request.PlayerId);
             if (player == null)
             {
                 return new GetPlayerCustomSpecialistsResponse()
@@ -807,7 +807,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<CreateSpecialistPackageResponse> CreateSpecialistPackage(CreateSpecialistPackageRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DbUserModel user = context.UserState["user"] as DbUserModel;
             if(user == null)
                 return new CreateSpecialistPackageResponse()
                 {
@@ -817,10 +817,10 @@ namespace SubterfugeServerConsole
             // Set author
             request.SpecialistPackage.Creator = user.asUser();
             SpecialistPackageModel packageModel = new SpecialistPackageModel(request.SpecialistPackage);
-            await packageModel.saveToRedis();
+            await packageModel.SaveToDatabase();
 
             // Get the generated specialist ID
-            string packageId = packageModel.SpecialistPackage.SpecialistPackageId;
+            string packageId = packageModel.SpecialistPackage.Id;
 
             return new CreateSpecialistPackageResponse()
             {
@@ -831,7 +831,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(GetSpecialistPackagesRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DbUserModel user = context.UserState["user"] as DbUserModel;
             if(user == null)
                 return new GetSpecialistPackagesResponse()
                 {
@@ -856,7 +856,7 @@ namespace SubterfugeServerConsole
 
         public override async Task<GetPlayerSpecialistPackagesResponse> GetPlayerSpecialistPackages(GetPlayerSpecialistPackagesRequest request, ServerCallContext context)
         {
-            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            DbUserModel user = context.UserState["user"] as DbUserModel;
             if(user == null)
                 return new GetPlayerSpecialistPackagesResponse()
                 {
@@ -864,7 +864,7 @@ namespace SubterfugeServerConsole
                 };
             
             // Get the requested user from their id
-            RedisUserModel player = await RedisUserModel.GetUserFromGuid(request.PlayerId);
+            DbUserModel player = await DbUserModel.GetUserFromGuid(request.PlayerId);
             if (player == null)
             {
                 return new GetPlayerSpecialistPackagesResponse()

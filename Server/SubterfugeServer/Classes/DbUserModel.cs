@@ -193,6 +193,24 @@ namespace SubterfugeServerConsole.Connections.Models
 
             return null;
         }
+        
+        public async Task<List<SpecialistConfigurationModel>> GetSpecialistConfigurations()
+        {
+            return MongoConnector.GetSpecialistCollection()
+                .Find(it => it.Creator.Id == UserModel.Id)
+                .ToList()
+                .Select(it => new SpecialistConfigurationModel(it.ToProto()))
+                .ToList();
+        }
+        
+        public async Task<List<SpecialistPackageModel>> GetSpecialistPackages()
+        {
+            return MongoConnector.GetSpecialistPackageCollection()
+                .Find(it => it.Creator.Id == UserModel.Id)
+                .ToList()
+                .Select(it => new SpecialistPackageModel(it.ToProto()))
+                .ToList();
+        }
 
         public static async Task<DbUserModel> GetUserFromGuid(string guid)
         {

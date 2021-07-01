@@ -18,7 +18,7 @@ namespace Tests
             client = ClientHelper.GetClient();
             
             // Clear the database every test.
-            RedisConnector.Server.FlushDatabase();
+            MongoConnector.FlushCollections();
             
             // Create two new user accounts.
             authHelper = new AuthTestHelper(client);
@@ -57,7 +57,7 @@ namespace Tests
             
             GetCustomSpecialistsResponse specResponse = client.GetCustomSpecialists(new GetCustomSpecialistsRequest());
             Assert.IsTrue(specResponse.CustomSpecialists.Count == 1);
-            Assert.AreEqual(specUuid, specResponse.CustomSpecialists[0].SpecialistId);
+            Assert.AreEqual(specUuid, specResponse.CustomSpecialists[0].Id);
             Assert.AreEqual(specName, specResponse.CustomSpecialists[0].SpecialistName);
             Assert.AreEqual(1, specResponse.CustomSpecialists[0].Priority);
             Assert.AreEqual(EffectModifier.Driller, specResponse.CustomSpecialists[0].SpecialistEffects[0].EffectModifier);
@@ -214,8 +214,8 @@ namespace Tests
             });
             
             Assert.True(playerPackages.PlayerPackages.Count == 2);
-            Assert.True(playerPackages.PlayerPackages.Count(it => it.SpecialistPackageId == packageInPackageResponse.SpecialistPackageId) == 1);
-            Assert.True(playerPackages.PlayerPackages.Count(it => it.SpecialistPackageId == packageResponse.SpecialistPackageId) == 1);
+            Assert.True(playerPackages.PlayerPackages.Count(it => it.Id == packageInPackageResponse.SpecialistPackageId) == 1);
+            Assert.True(playerPackages.PlayerPackages.Count(it => it.Id == packageResponse.SpecialistPackageId) == 1);
         }
         
         [Test]
@@ -249,8 +249,8 @@ namespace Tests
             GetSpecialistPackagesResponse specialistPackagesResponse = client.GetSpecialistPackages(new GetSpecialistPackagesRequest());
             
             Assert.True(specialistPackagesResponse.SpecialistPackages.Count == 2);
-            Assert.True(specialistPackagesResponse.SpecialistPackages.Count(it => it.SpecialistPackageId == playerTwoPackage.SpecialistPackageId) == 1);
-            Assert.True(specialistPackagesResponse.SpecialistPackages.Count(it => it.SpecialistPackageId == playerOnePackage.SpecialistPackageId) == 1);
+            Assert.True(specialistPackagesResponse.SpecialistPackages.Count(it => it.Id == playerTwoPackage.SpecialistPackageId) == 1);
+            Assert.True(specialistPackagesResponse.SpecialistPackages.Count(it => it.Id == playerOnePackage.SpecialistPackageId) == 1);
         }
 
         private SubmitCustomSpecialistResponse submitCustomSpecialist(String specialistName)

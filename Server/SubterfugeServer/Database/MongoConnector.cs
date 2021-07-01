@@ -79,6 +79,19 @@ namespace SubterfugeServerConsole.Connections
             Console.WriteLine("Indexing Messages");
             await GetMessageGroupCollection().Indexes.CreateOneAsync(new CreateIndexModel<GroupModelMapper>(Builders<GroupModelMapper>.IndexKeys.Ascending(group => group.Id)));
             await GetMessageGroupCollection().Indexes.CreateOneAsync(new CreateIndexModel<GroupModelMapper>(Builders<GroupModelMapper>.IndexKeys.Ascending(group => group.RoomId)));
+            
+            // Index Specialist Configurations
+            Console.WriteLine("Indexing Specialist Configurations");
+            await GetSpecialistCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfigurationMapper>(Builders<SpecialistConfigurationMapper>.IndexKeys.Ascending(spec => spec.Id)));
+            await GetSpecialistCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfigurationMapper>(Builders<SpecialistConfigurationMapper>.IndexKeys.Ascending(spec => spec.Creator.Id)));
+            await GetSpecialistCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfigurationMapper>(Builders<SpecialistConfigurationMapper>.IndexKeys.Ascending(spec => spec.PromotesFrom)));
+            await GetSpecialistCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfigurationMapper>(Builders<SpecialistConfigurationMapper>.IndexKeys.Text(spec => spec.SpecialistName)));
+            
+            // Index Specialist Configurations
+            Console.WriteLine("Indexing Specialist Packages");
+            await GetSpecialistPackageCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackageMapper>(Builders<SpecialistPackageMapper>.IndexKeys.Ascending(package => package.Id)));
+            await GetSpecialistPackageCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackageMapper>(Builders<SpecialistPackageMapper>.IndexKeys.Ascending(package => package.Creator.Id)));
+            await GetSpecialistPackageCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackageMapper>(Builders<SpecialistPackageMapper>.IndexKeys.Text(package => package.PackageName)));
 
             Console.WriteLine("Indexes created.");
         }
@@ -112,6 +125,16 @@ namespace SubterfugeServerConsole.Connections
         {
             return _database.GetCollection<GroupModelMapper>("MessageGroups");
         }
+        
+        public static IMongoCollection<SpecialistConfigurationMapper> GetSpecialistCollection()
+        {
+            return _database.GetCollection<SpecialistConfigurationMapper>("Specialists");
+        }
+
+        public static IMongoCollection<SpecialistPackageMapper> GetSpecialistPackageCollection()
+        {
+            return _database.GetCollection<SpecialistPackageMapper>("SpecialistPackages");
+        }
 
         public static void FlushCollections()
         {
@@ -124,6 +147,8 @@ namespace SubterfugeServerConsole.Connections
                 GetGameEventCollection().DeleteMany(FilterDefinition<GameEventModelMapper>.Empty);
                 GetMessagesCollection().DeleteMany(FilterDefinition<MessageModel>.Empty);
                 GetMessageGroupCollection().DeleteMany(FilterDefinition<GroupModelMapper>.Empty);
+                GetSpecialistCollection().DeleteMany(FilterDefinition<SpecialistConfigurationMapper>.Empty);
+                GetSpecialistPackageCollection().DeleteMany(FilterDefinition<SpecialistPackageMapper>.Empty);
             }
         }
         
