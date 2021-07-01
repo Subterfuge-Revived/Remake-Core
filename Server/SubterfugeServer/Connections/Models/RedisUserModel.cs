@@ -194,6 +194,48 @@ namespace SubterfugeServerConsole.Connections.Models
             return null;
         }
 
+        public async Task<List<SpecialistConfigurationModel>> GetSpecialistConfigurations()
+        {
+            RedisValue[] specialists = await RedisConnector.Redis.SetMembersAsync(playerSpecialistSetKey());
+            List<SpecialistConfigurationModel> specialistConfigurationModels = new List<SpecialistConfigurationModel>();
+            foreach(string specialistId in specialists)
+            {
+                SpecialistConfigurationModel model = await SpecialistConfigurationModel.fromId(specialistId);
+                if (model != null)
+                {
+                    specialistConfigurationModels.Add(model);
+                }
+            }
+
+            return specialistConfigurationModels;
+        }
+        
+        public async Task<List<SpecialistPackageModel>> GetSpecialistPackages()
+        {
+            RedisValue[] specialists = await RedisConnector.Redis.SetMembersAsync(playerSpecialistPackagesKey());
+            List<SpecialistPackageModel> specialistConfigurationModels = new List<SpecialistPackageModel>();
+            foreach(string specialistId in specialists)
+            {
+                SpecialistPackageModel model = await SpecialistPackageModel.fromId(specialistId);
+                if (model != null)
+                {
+                    specialistConfigurationModels.Add(model);
+                }
+            }
+
+            return specialistConfigurationModels;
+        }
+        
+        private string playerSpecialistSetKey()
+        {
+            return $"user:{UserModel.Id}:specialists";
+        }
+        
+        private string playerSpecialistPackagesKey()
+        {
+            return $"user:{UserModel.Id}:specialistPackages";
+        }
+
         public static async Task<RedisUserModel> GetUserFromGuid(string guid)
         {
             Guid parsedGuid;

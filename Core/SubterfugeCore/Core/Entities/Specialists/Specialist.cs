@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using SubterfugeCore.Core.Entities.Specialists.Effects;
-using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 
@@ -10,14 +9,8 @@ namespace SubterfugeCore.Core.Entities.Specialists
     /// <summary>
     /// Base class for a specialist.
     /// </summary>
-    
-    public abstract class Specialist : IOwnable
+    public class Specialist : IOwnable
     {
-        /// <summary>
-        /// The specialist's id
-        /// </summary>
-        private string _id;
-        
         /// <summary>
         /// The specialist priority
         /// </summary>
@@ -27,6 +20,12 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// The name of the specialist
         /// </summary>
         String _specialistName;
+        
+        /// <summary>
+        /// The name of the specialist
+        /// </summary>
+        /// TODO: Generate the id from a known seed.
+        String _specialistId = Guid.NewGuid().ToString();
         
         /// <summary>
         /// The player who owns the specialist
@@ -49,9 +48,8 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="name">The name of the specialist</param>
         /// <param name="priority">The specialist priority</param>
         /// <param name="owner">The player that owns the specialist</param>
-        protected Specialist(string id, String name, int priority, Player owner)
+        public Specialist(String name, int priority, Player owner)
         {
-            this._id = id;
             this._specialistName = name;
             this._priority = priority;
             this._owner = owner;
@@ -92,11 +90,11 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// </summary>
         /// <param name="friendly">The friendly combatable to effect</param>
         /// <param name="enemy">The enemy combatable to effect</param>
-        public void ApplyEffect(ICombatable friendly, ICombatable enemy)
+        public void ApplyEffect(GameState state, ICombatable friendly, ICombatable enemy)
         {
-            foreach(ISpecialistEffect effect in this._specialistEffects)
+            foreach(SpecialistEffect effect in this._specialistEffects)
             {
-                effect.ForwardEffect(friendly, enemy);
+                effect.GetForwardEffectDeltas(state, friendly, enemy);
             }
         }
 
@@ -105,20 +103,13 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// </summary>
         /// <param name="friendly">The friendly combatable to reverse effects to</param>
         /// <param name="enemy">The enemy combatable to reverse effects to</param>
-        public void UndoEffect(ICombatable friendly, ICombatable enemy)
+        public void UndoEffect(GameState state, ICombatable friendly, ICombatable enemy)
         {
-            foreach (ISpecialistEffect effect in this._specialistEffects)
+            foreach (SpecialistEffect effect in this._specialistEffects)
             {
-                effect.BackwardEffect(friendly, enemy);
+                effect.GetBackwardEffectDeltas(state, friendly, enemy);
             }
         }
-
-        /// <summary>
-        /// Gets a textual description of a specialist effect.
-        /// </summary>
-        /// <param name="effect">The specialist effect to textualize</param>
-        /// <returns>Player friendly text that explains the result of this effect.</returns>
-        public abstract string GetEffectAsText(ISpecialistEffect effect);
 
         /// <summary>
         /// Returns the specialist's priority.
@@ -129,9 +120,13 @@ namespace SubterfugeCore.Core.Entities.Specialists
             return this._priority;
         }
 
+        /// <summary>
+        /// Returns the specialist id.
+        /// </summary>
+        /// <returns>The specialist's id</returns>
         public string GetId()
         {
-            return this._id;
+            return _specialistId;
         }
 
         /// <summary>
@@ -160,9 +155,9 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             // Loop through specialist effects.
             // Determine if the effect should be triggered.
-            foreach (ISpecialistEffect specialistEffect in this._specialistEffects)
+            foreach (SpecialistEffect specialistEffect in this._specialistEffects)
             {
-                if (specialistEffect.GetEffectTrigger() == trigger)
+                if (specialistEffect._effectTrigger == trigger)
                 {
                     // specialistEffect.forwardEffect();
                 }
