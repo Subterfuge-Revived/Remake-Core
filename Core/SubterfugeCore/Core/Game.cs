@@ -8,6 +8,7 @@ using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
+using SubterfugeCore.Core.GameEvents.NaturalGameEvents.vision;
 
 namespace SubterfugeCore.Core
 {
@@ -48,6 +49,10 @@ namespace SubterfugeCore.Core
             // Creates a new game state and makes a time machine to reference the state
             GameState state = new GameState(Configuration);
             TimeMachine = new TimeMachine(state);
+
+            // Initial vision should be determined
+            TimeMachine.PreviousTick();
+            TimeMachine.NextTick();
         }
 
         /// <summary>
@@ -71,6 +76,10 @@ namespace SubterfugeCore.Core
 
             // Add the outposts to the map
             state.GetOutposts().AddRange(generatedOutposts);
+
+            // Initial vision should be determined
+            TimeMachine.PreviousTick();
+            TimeMachine.NextTick();
 
             // All owned factories should start producing drillers
             foreach (Outpost o in generatedOutposts)

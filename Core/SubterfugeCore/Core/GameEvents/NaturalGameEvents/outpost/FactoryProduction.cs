@@ -16,7 +16,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 		private int _productionAmount;
 		private FactoryProduction _nextProduction;
 
-		public FactoryProduction(Factory factory, GameTick occursAt) : base(occursAt, Base.Priority.NATURAL_PRIORITY_9)
+		public FactoryProduction(Factory factory, GameTick occursAt) : base(occursAt, Base.Priority.NATURAL_PRIORITY_7)
 		{
 			this._producingFactory = factory;
 			this._nextProduction = null;

@@ -8,6 +8,7 @@ using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;
@@ -69,7 +70,9 @@ namespace SubterfugeCore.Core.GameEvents
         /// </summary>
         public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            this._launchedSub = state.GetCombatableById(GetEventData().SourceId).LaunchSub(state, this);
+            Console.WriteLine(GetEventData().SourceId);
+            ICombatable combatable = state.GetCombatableById(GetEventData().SourceId);
+            this._launchedSub = combatable.LaunchSub(state, this);
             if (_launchedSub != null && _launchedSub is Sub && !_launchedSub.GetOwner().IsEliminated())
             {
                 combatEvents.AddRange(CreateCombatEvents(_launchedSub as Sub, state));
@@ -150,7 +153,7 @@ namespace SubterfugeCore.Core.GameEvents
                             int ticksUntilCombat = (int)Math.Floor(speedRatio * ticksBetweenSubs);
 
                             // Determine collision position:
-                            RftVector combatPosition = new RftVector(RftVector.Map, launchedSub.GetDirection().ToVector2() * ticksUntilCombat);
+                            RftVector combatPosition = new RftVector(RftVector.Map, launchedSub.GetDirection() * ticksUntilCombat);
 
                             CombatEvent combatEvent = new CombatEvent(sub, launchedSub, state.CurrentTick.Advance(ticksUntilCombat));
                             _combatEvents.Add(combatEvent);
@@ -160,5 +163,15 @@ namespace SubterfugeCore.Core.GameEvents
             }
             return _combatEvents;
         }
-    }
+
+		public override void DetermineVisibility()
+		{
+            this.VisibleTo = new List<Player>(_launchedSub.GetVisibleTo());
+		}
+
+		public override Priority GetPriority()
+		{
+            return Priority.NATURAL_PRIORITY_9;
+		}
+	}
 }

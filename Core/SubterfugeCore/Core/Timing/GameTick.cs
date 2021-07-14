@@ -24,9 +24,8 @@ namespace SubterfugeCore.Core.Timing
         private int _tickNumber;
 
         /// <summary>
-        /// GameTick constructor. Requires a DateTime and an integer tick number
+        /// GameTick constructor. 
         /// </summary>
-        /// <param name="startTime">The DateTime that the tick starts</param>
         /// <param name="tickNumber">The integer number of the tick</param>
         public GameTick(int tickNumber) {
             this._tickNumber = tickNumber;
@@ -45,7 +44,7 @@ namespace SubterfugeCore.Core.Timing
         }
 
         /// <summary>
-        /// Generic GameTick constructor. Sets tick 0 at the current time.
+        /// Generic GameTick constructor. Sets the GameTick to 0.
         /// </summary>
         public GameTick()
         {
@@ -91,11 +90,7 @@ namespace SubterfugeCore.Core.Timing
         /// <returns>A GameTick in the past</returns>
         public GameTick Rewind(int ticks)
         {
-            if (this._tickNumber >= ticks)
-            {
-                return new GameTick(this._tickNumber - ticks);
-            }
-            return this.Rewind(this.GetTick());
+            return new GameTick(this._tickNumber - ticks);
         }
 
         /// <summary>

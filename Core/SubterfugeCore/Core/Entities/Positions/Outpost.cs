@@ -53,7 +53,15 @@ namespace SubterfugeCore.Core.Entities.Positions
         /// </summary>
         private SubLauncher _subLauncher;
 
+        /// <summary>
+        /// The position of the outpost in an Rft.
+        /// </summary>
         private RftVector Position;
+
+        /// <summary>
+        /// The players who can see this outpost.
+        /// </summary>
+        private List<Player> _visibleTo;
 
         /// <summary>
         /// Outpost constructor
@@ -64,10 +72,11 @@ namespace SubterfugeCore.Core.Entities.Positions
             this._id = id;
             this._isDestroyed = false;
             this.Position = outpostStartPosition;
-            _subLauncher = new SubLauncher();
+            this._subLauncher = new SubLauncher();
             this._outpostOwner = null;
             this._specialistManager = new SpecialistManager(100);
-            _shieldManager = new ShieldManager(10);
+            this._shieldManager = new ShieldManager(10);
+            this._visibleTo = new List<Player>();
 		}
 
         /// <summary>
@@ -80,10 +89,11 @@ namespace SubterfugeCore.Core.Entities.Positions
             this._id = id;
             this._isDestroyed = false;
             this.Position = outpostStartPosition;
-            _subLauncher = outpostOwner == null ? new SubLauncher() : new SubLauncher(40);
+            this._subLauncher = outpostOwner == null ? new SubLauncher() : new SubLauncher(40);
             this._outpostOwner = outpostOwner;
             this._specialistManager = new SpecialistManager(100);
-            _shieldManager = new ShieldManager(10);
+            this._shieldManager = new ShieldManager(10);
+            this._visibleTo = new List<Player> {outpostOwner};
         }
 
         /// <summary>
@@ -107,6 +117,7 @@ namespace SubterfugeCore.Core.Entities.Positions
             this._shieldManager = o.GetShieldManager();
             this._subLauncher = o.GetSubLauncher();
             this.Position = o.GetCurrentPosition();
+            this._visibleTo = o.GetVisibleTo();
         }
 
         /// <summary>
@@ -205,9 +216,9 @@ namespace SubterfugeCore.Core.Entities.Positions
             return new Vector2(0, 0);
         }
 
-        RftVector ITargetable.GetDirection()
+        Vector2 ITargetable.GetDirection()
         {
-            return new RftVector(0, 0);
+            return new Vector2(0, 0);
         }
 
         public GameTick GetExpectedArrival()
@@ -246,6 +257,28 @@ namespace SubterfugeCore.Core.Entities.Positions
                 this.AddDrillers(launchData.DrillerCount);
                 launchedSub.GetSpecialistManager().transferSpecialistsTo(this._specialistManager);
                 state.RemoveSub(launchEventData.GetActiveSub() as Sub);
+            }
+        }
+
+        public bool IsVisibleTo(Player player) 
+        {
+            return _visibleTo.Contains(player);
+        }
+
+        public List<Player> GetVisibleTo() 
+        {
+            return this._visibleTo;
+        }
+
+        public void SetVisibleTo(Player player, bool visible) 
+        {
+            if (visible && !this._visibleTo.Contains(player))
+            {
+                this._visibleTo.Add(player);
+            }
+            else if (!visible && this._visibleTo.Contains(player))
+            {
+                this._visibleTo.Remove(player);
             }
         }
 

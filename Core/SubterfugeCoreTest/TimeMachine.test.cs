@@ -11,24 +11,28 @@ using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Topologies;
+using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
+using SubterfugeRemakeService;
+using GameEventModels;
+using Google.Protobuf;
 
 namespace SubterfugeCoreTest
 {
     [TestClass]
     public class TimeMachineTest
     {
-        private Game game = new Game();
+        private Game game;
         
         [TestInitialize]
         public void Setup()
         {
             game = new Game();
-
         }
 
         [TestMethod]
         public void Constructor()
         {
+            Assert.IsNotNull(game);
             Assert.IsNotNull(game.TimeMachine);
             Assert.IsNotNull(game.TimeMachine.GetState());
         }
@@ -115,8 +119,9 @@ namespace SubterfugeCoreTest
             
             // Rewind back
             game.TimeMachine.Rewind(6);
-            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
-            Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
+            // no longer true due to vision events
+            // Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.IsTrue(game.TimeMachine.GetQueuedEvents().Contains(arriveEvent));
         }
         
         [TestMethod]
@@ -154,16 +159,25 @@ namespace SubterfugeCoreTest
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
-            outpost.AddDrillers(10);
+            outpost.AddDrillers(50);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
+            DrillMineEvent drillEvent = new DrillMineEvent(new GameEventModel()
+            {
+                EventData = new DrillMineEventData()
+                {
+                    SourceId = outpost.GetId()
+                }.ToByteString(),
+                EventId = Guid.NewGuid().ToString(),
+                EventType = EventType.DrillMineEvent,
+                OccursAtTick = 5
+            });
 
-            game.TimeMachine.AddEvent(arriveEvent);
+            game.TimeMachine.AddEvent(drillEvent);
             Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
-            Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
-            
-            game.TimeMachine.GoTo(arriveEvent);
-            Assert.AreEqual(arriveEvent.GetOccursAt().GetTick(), game.TimeMachine.GetCurrentTick().GetTick());
+            Assert.AreEqual(drillEvent, game.TimeMachine.GetQueuedEvents()[0]);
+
+            game.TimeMachine.GoTo(drillEvent);
+            Assert.AreEqual(drillEvent.GetOccursAt().GetTick(), game.TimeMachine.GetCurrentTick().GetTick());
             Assert.AreEqual(0, game.TimeMachine.GetQueuedEvents().Count);
         }
 

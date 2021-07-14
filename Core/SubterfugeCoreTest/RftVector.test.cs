@@ -212,5 +212,43 @@ namespace SubterfugeCoreTest
             Assert.AreEqual(0, sum.Y);
         }
 
+        [TestMethod]
+        public void DistanceAndDirectionCalculationWraps()
+        {
+            int mapDimensions = 100;
+            Rft map = new Rft(mapDimensions, mapDimensions);
+
+            // Regular distance
+            RftVector vector1 = new RftVector(map, -20, -20);
+            RftVector vector2 = new RftVector(10, 20);
+            Assert.AreEqual(vector1.Distance(vector2), 50f);
+            Assert.AreEqual(vector2.Distance(vector1), 50f);
+            Assert.AreEqual((vector2 - vector1).ToVector2(), new Vector2(30, 40));
+            Assert.AreEqual((vector1 - vector2).ToVector2(), new Vector2(-30, -40));
+
+            // Wrap around left/right
+            RftVector vector3 = new RftVector(40, -20);
+            RftVector vector4 = new RftVector(-30, 20);
+            Assert.AreEqual(vector3.Distance(vector4), 50f);
+            Assert.AreEqual(vector4.Distance(vector3), 50f);
+            Assert.AreEqual((vector4 - vector3).ToVector2(), new Vector2(30, 40));
+            Assert.AreEqual((vector3 - vector4).ToVector2(), new Vector2(-30, -40));
+
+            // Wrap around top/bottom
+            RftVector vector5 = new RftVector(-20, 30);
+            RftVector vector6 = new RftVector(10, -30);
+            Assert.AreEqual(vector5.Distance(vector6), 50f);
+            Assert.AreEqual(vector6.Distance(vector5), 50f);
+            Assert.AreEqual((vector6 - vector5).ToVector2(), new Vector2(30, 40));
+            Assert.AreEqual((vector5 - vector6).ToVector2(), new Vector2(-30, -40));
+
+            // Wrap around left/right and top/bottom
+            RftVector vector7 = new RftVector(40, 30);
+            RftVector vector8 = new RftVector(-30, -30);
+            Assert.AreEqual(vector7.Distance(vector8), 50f);
+            Assert.AreEqual(vector8.Distance(vector7), 50f);
+            Assert.AreEqual((vector8 - vector7).ToVector2(), new Vector2(30, 40));
+            Assert.AreEqual((vector7 - vector8).ToVector2(), new Vector2(-30, -40));
+        }
     }
 }

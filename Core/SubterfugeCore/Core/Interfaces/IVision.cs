@@ -4,7 +4,7 @@ using SubterfugeCore.Core.Topologies;
 
 namespace SubterfugeCore.Core.Interfaces
 {
-    public interface IVision
+    public interface IVision : ICombatable
     {
         /// <summary>
         /// Gets the range of vision for the current object

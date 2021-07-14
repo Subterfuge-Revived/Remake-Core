@@ -28,7 +28,10 @@ namespace SubterfugeCore.Core.Timing
 
         public List<T> GetQueue()
         {
-            return this.StoredValues;
+            if (this.Count == 0)
+                return new List<T>();
+            else
+                return StoredValues.GetRange(1, StoredValues.Count - 1);
         }
 
         /// <summary>

@@ -5,8 +5,10 @@ using GameEventModels;
 using Google.Protobuf;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
+using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
 using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 
@@ -29,12 +31,15 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 		public override bool ForwardAction(TimeMachine timeMachine, GameState state)
 		{
 			ICombatable combatable = state.GetCombatableById(GetEventData().SourceId);
+			Console.WriteLine(combatable is null);
 			if (combatable != null && combatable is Outpost && !(combatable is Mine) && !((Outpost)combatable).IsDestroyed())
 			{
+				Console.WriteLine("check 1");
 				_original = (Outpost)combatable;
 				if (state.GetOutposts().Contains(_original) && !_original.GetOwner().IsEliminated() && _original.GetDrillerCount() >= _original.GetOwner().GetRequiredDrillersToMine())
 				{
 					_drilledMine = new Mine(_original);
+					Console.WriteLine("_drilledMine instantiated");
 					if (state.ReplaceOutpost(_original, _drilledMine))
 					{
 						_drilledMine.RemoveDrillers(_original.GetOwner().GetRequiredDrillersToMine());
@@ -72,6 +77,23 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 		public override bool WasEventSuccessful()
 		{
 			return EventSuccess;
+		}
+
+		/// <summary>
+		/// Returns a new list of players who can see the DrillMineEvent. Throws a null reference exception if the event was not successful.
+		/// </summary>
+		public override void DetermineVisibility()
+		{
+			if (_drilledMine is null)
+			{
+				throw new NullReferenceException();
+			}
+			this.VisibleTo = new List<Player>(_drilledMine.GetVisibleTo());
+		}
+
+		public override Priority GetPriority()
+		{
+			return Priority.NATURAL_PRIORITY_9;
 		}
 	}
 }

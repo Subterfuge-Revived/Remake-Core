@@ -31,7 +31,7 @@ namespace SubterfugeCore.Core.Generation
         /// <summary>
         /// Rft for map wrapping
         /// </summary>
-        public Rft map = new Rft(300, 300);
+        public Rft map;
 
         /// <summary>
         /// The generation configuration object.
@@ -64,8 +64,17 @@ namespace SubterfugeCore.Core.Generation
             this.Configuration = mapConfiguration;
 
             // Set the map size.
-            int halfPlayers = (int)(Math.Floor(mapConfiguration.players.Count / 2.0));
-            RftVector.Map = new Rft(mapConfiguration.MaxiumumOutpostDistance * 4, halfPlayers * mapConfiguration.MaxiumumOutpostDistance * 2);
+            int halfPlayers = (int)(Math.Ceiling(mapConfiguration.players.Count / 2.0));
+            if (mapConfiguration.MaxiumumOutpostDistance > 0) // Problems if mapConfiguration.MaxDistance = 0
+            {
+                map = new Rft(mapConfiguration.MaxiumumOutpostDistance * 4, halfPlayers * mapConfiguration.MaxiumumOutpostDistance * 2);
+            }
+            else
+            {
+                map = new Rft(300, 300);
+            }
+            RftVector.Map = map;
+            Console.WriteLine(map.Width + " " + map.Height);
         }
 
         /// <summary>
@@ -136,7 +145,7 @@ namespace SubterfugeCore.Core.Generation
             double distance;
             bool usableLocation = true;
             int x, y, idx;
-            RftVector vectorDistance;
+            float vectorDistance;
             RftVector currentOutpostPosition;
             Outpost currentOutpost, otherOutpost;
 
@@ -167,10 +176,10 @@ namespace SubterfugeCore.Core.Generation
                 {
                     // Get the X and Y pos to find distance
                     otherOutpost = playerOutposts[idx];
-                    vectorDistance = otherOutpost.GetCurrentPosition() - currentOutpostPosition;
+                    vectorDistance = otherOutpost.GetCurrentPosition().Distance(currentOutpostPosition);
 
                     //ensure that the new location is not too close to other outposts
-                    if (vectorDistance.Magnitude() < this.Configuration.MinimumOutpostDistance)
+                    if (vectorDistance < this.Configuration.MinimumOutpostDistance)
                     {
                         usableLocation = false;
                     }

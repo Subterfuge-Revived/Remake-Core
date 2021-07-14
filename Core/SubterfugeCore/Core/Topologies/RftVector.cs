@@ -109,6 +109,16 @@ namespace SubterfugeCore.Core.Topologies
 		public float Magnitude() {return (float)Math.Sqrt(_x*_x + _y*_y);}
 
 		/// <summary>
+		/// Calculates the shortest distance between this RftVector instance and another RftVector instance on a Map.
+		/// </summary>
+		/// <param name="other">The other RftVector from which the distance is desired</param>
+		/// <returns>The distance between the two RftVectors.</returns>
+		public float Distance(RftVector other)
+		{
+			return (this - other).Magnitude();
+		}
+
+		/// <summary>
 		/// Returns Vector2: the RftVector normalized to have magnitude 1. (0, 0) normalized will return (1, 0).
 		/// </summary>
 		public Vector2 Normalize()
@@ -125,7 +135,7 @@ namespace SubterfugeCore.Core.Topologies
 		{
 			return new Vector2(this._x, this._y);
 		}
-		
+
 		/// <summary>
 		/// No args: returns 3x3 lattice centered at origin. 8 args: returns sufficient lattice to cover viewport.
 		/// </summary>
@@ -158,7 +168,18 @@ namespace SubterfugeCore.Core.Topologies
 			}
 			return positions;
 		}*/
-		
+
+		/// <summary>
+		/// Static Distance overload to calculate the distance between two RftVectors.
+		/// </summary>
+		/// <param name="vector1">The first RftVector</param>
+		/// <param name="vector2">The second RftVector</param>
+		/// <returns>The distance between the two vectors</returns>		
+		public static float Distance(RftVector vector1, RftVector vector2)
+		{
+			return vector1.Distance(vector2);
+		}
+
 		public static RftVector operator +(RftVector a) => a;
 		public static RftVector operator -(RftVector a) => new RftVector(Map, -a._x, -a._y);
 
@@ -166,5 +187,9 @@ namespace SubterfugeCore.Core.Topologies
 			new RftVector(Map, a._x + b._x, a._y + b._y);
 
 		public static RftVector operator -(RftVector a, RftVector b) => a + (-b);
+
+		public static RftVector operator +(RftVector a, Vector2 b) => new RftVector(Map, a._x + b.X, a._y + b.Y);
+
+		public static RftVector operator -(RftVector a, Vector2 b) => a + (-b);
 	}
 }
