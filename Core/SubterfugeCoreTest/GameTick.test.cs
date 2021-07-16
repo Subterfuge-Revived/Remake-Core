@@ -70,17 +70,11 @@ namespace SubterfugeCoreTest
         public void Rewind()
         {
             int ticksToReverse = 10;
-            GameTick tenTicksBefore = _tick.Rewind(ticksToReverse);
-
-            // Should not be able to reverse 
-            Assert.AreEqual(true, tenTicksBefore == _tick);
-
             // Advance and then go back
             GameTick startingTick = _tick.Advance(ticksToReverse).Rewind(ticksToReverse);
 
             Assert.AreEqual(_time, startingTick.GetDate(_time));
             Assert.AreEqual(_tickNumber, startingTick.GetTick());
-
         }
 
         [TestMethod]
@@ -103,6 +97,7 @@ namespace SubterfugeCoreTest
             DateTime start = _tick.GetDate(_time);
             GameTick forward = _tick.Advance(10);
             Assert.AreEqual(forward.GetDate(_time).ToLongTimeString(), start.AddMinutes(GameTick.MINUTES_PER_TICK * 10).ToLongTimeString());
+            GameTick.MINUTES_PER_TICK = 15.0;
         }
 
     }

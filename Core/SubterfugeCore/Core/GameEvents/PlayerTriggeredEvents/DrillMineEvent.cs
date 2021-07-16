@@ -31,15 +31,12 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 		public override bool ForwardAction(TimeMachine timeMachine, GameState state)
 		{
 			ICombatable combatable = state.GetCombatableById(GetEventData().SourceId);
-			Console.WriteLine(combatable is null);
 			if (combatable != null && combatable is Outpost && !(combatable is Mine) && !((Outpost)combatable).IsDestroyed())
 			{
-				Console.WriteLine("check 1");
 				_original = (Outpost)combatable;
 				if (state.GetOutposts().Contains(_original) && !_original.GetOwner().IsEliminated() && _original.GetDrillerCount() >= _original.GetOwner().GetRequiredDrillersToMine())
 				{
 					_drilledMine = new Mine(_original);
-					Console.WriteLine("_drilledMine instantiated");
 					if (state.ReplaceOutpost(_original, _drilledMine))
 					{
 						_drilledMine.RemoveDrillers(_original.GetOwner().GetRequiredDrillersToMine());

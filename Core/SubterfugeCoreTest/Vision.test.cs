@@ -21,12 +21,14 @@ namespace SubterfugeCoreTest
 	public class Vision
 	{
 		private Game game;
+		private Rft map;
 		private Player player1, player2;
 
 		[TestInitialize]
 		public void Setup()
 		{
 			game = new Game();
+			map = new Rft(600, 600);
 			player1 = game.TimeMachine.GetState().GetPlayers()[0];
 			player2 = new Player("002");
 			game.TimeMachine.GetState().GetPlayers().Add(player2);
@@ -36,19 +38,19 @@ namespace SubterfugeCoreTest
 		[TestMethod]
 		public void RecalculateVisionEveryTick()
 		{
-
+			game.TimeMachine.Advance(100);
+			// 101 because vision is also checked at start of game (tick = 0)
+			Assert.AreEqual(101, game.TimeMachine.GetVisionManager().GetRecalculateVisionEvents().Count);
 		}
 
 		[TestMethod]
 		public void NoVisionWhenOutOfRange()
 		{
 			// Distance between two outposts is 150; standard outpost vision range is 144
-			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(new Rft(600, 600), 0, 0), player1);
-			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(150, 0), player2);
+			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 0, 0), player1);
+			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 150, 0), player2);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost1);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost2);
-
-			//Console.WriteLine(game.TimeMachine.GetState().GetOutposts().Count + " outposts, " + game.TimeMachine.GetState().GetSubList().Count + " subs");
 
 			Assert.AreEqual(150, outpost1.GetCurrentPosition().Distance(outpost2.GetCurrentPosition()));
 
@@ -64,8 +66,8 @@ namespace SubterfugeCoreTest
 		public void VisionWhenInRange()
 		{
 			// Distance between two outposts is 140; standard outpost vision range is 144
-			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(new Rft(600, 600), 0, 0), player1);
-			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(140, 0), player2);
+			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 0, 0), player1);
+			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 140, 0), player2);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost1);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost2);
 
@@ -83,8 +85,8 @@ namespace SubterfugeCoreTest
 		public void NoVisionEventBetweenAllyEntities()
 		{
 			// Distance between two outposts is 140; standard outpost vision range is 144
-			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(new Rft(600, 600), 0, 0), player1);
-			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(140, 0), player1);
+			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 0, 0), player1);
+			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 140, 0), player1);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost1);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost2);game.TimeMachine.NextTick();
 
@@ -97,8 +99,8 @@ namespace SubterfugeCoreTest
 		public void WatchTowerVision()
 		{
 			// Distance between two outposts is 200; standard outpost vision range is 144, watchtower is 144 * 1.5 = 216
-			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(new Rft(600, 600), 0, 0), player1);
-			Outpost outpost2 = new Watchtower(Guid.NewGuid().ToString(), new RftVector(200, 0), player2);
+			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 0, 0), player1);
+			Outpost outpost2 = new Watchtower(Guid.NewGuid().ToString(), new RftVector(map, 200, 0), player2);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost1);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost2); game.TimeMachine.NextTick();
 
@@ -112,8 +114,8 @@ namespace SubterfugeCoreTest
 		[TestMethod]
 		public void SubEntersOutpostVision()
 		{
-			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(new Rft(600, 600), 0, 0), player1);
-			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(288, 0), player2);
+			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 0, 0), player1);
+			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 288, 0), player2);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost1);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost2);
 			outpost1.AddDrillers(10);
@@ -130,7 +132,6 @@ namespace SubterfugeCoreTest
 				OccursAtTick = 1,
 			});
 			game.TimeMachine.AddEvent(launch);
-			Console.WriteLine(outpost1.GetId());
 			game.TimeMachine.Advance(97); 
 			// Launches tick 1, should take 96 ticks to enter vision
 			Assert.AreEqual(1, game.TimeMachine.GetVisionManager().GetRecalculateVisionEvent(97).GetVisionEvents().Count);
@@ -139,11 +140,11 @@ namespace SubterfugeCoreTest
 		}
 
 		[TestMethod]
-		public void SubExistsOutpostVision()
+		public void SubExitsOutpostVision()
 		{
-			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(new Rft(600, 600), 0, 0), player1);
-			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(72, 0), player2);
-			Outpost outpost3 = new Generator(Guid.NewGuid().ToString(), new RftVector(200, 0), player2);
+			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 0, 0), player1);
+			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 72, 0), player2);
+			Outpost outpost3 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 200, 0), player2);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost1);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost2);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost3);
@@ -161,7 +162,6 @@ namespace SubterfugeCoreTest
 				OccursAtTick = 1,
 			});
 			game.TimeMachine.AddEvent(launch);
-			Console.WriteLine(outpost1.GetId());
 			game.TimeMachine.Advance(50);
 			// Launches tick 1, should take 48 + 1 ticks to exit vision
 			Assert.AreEqual(1, game.TimeMachine.GetVisionManager().GetRecalculateVisionEvent(50).GetVisionEvents().Count);
@@ -174,8 +174,8 @@ namespace SubterfugeCoreTest
 		[TestMethod]
 		public void SubVision()
 		{
-			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(new Rft(600, 600), 0, 0), player1);
-			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(288, 0), player2);
+			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 0, 0), player1);
+			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 288, 0), player2);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost1);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost2);
 			outpost1.AddDrillers(10);
@@ -192,7 +192,6 @@ namespace SubterfugeCoreTest
 				OccursAtTick = 1,
 			});
 			game.TimeMachine.AddEvent(launch);
-			Console.WriteLine(outpost1.GetId());
 			game.TimeMachine.Advance(174);
 			// Launches tick 1, distance is 2 * standard outpost radius so takes ceiling of 96 * 1.8 ticks for outpost to be in sub vision = tick 174
 			Assert.AreEqual(1, game.TimeMachine.GetVisionManager().GetRecalculateVisionEvent(174).GetVisionEvents().Count);
@@ -203,10 +202,10 @@ namespace SubterfugeCoreTest
 		[TestMethod]
 		public void NewOwnerCreatesVisionEvent()
 		{
-			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(new Rft(600, 600), 0, 0), player1);
+			Outpost outpost1 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 0, 0), player1);
 			// Outposts 1 and 3 have vision of each other
-			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(288, 0), player2);
-			Outpost outpost3 = new Generator(Guid.NewGuid().ToString(), new RftVector(0, 100), player1);
+			Outpost outpost2 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 288, 0), player2);
+			Outpost outpost3 = new Generator(Guid.NewGuid().ToString(), new RftVector(map, 0, 100), player1);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost1);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost2);
 			game.TimeMachine.GetState().GetOutposts().Add(outpost3);

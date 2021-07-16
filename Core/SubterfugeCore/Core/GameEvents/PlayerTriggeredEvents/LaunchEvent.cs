@@ -70,7 +70,6 @@ namespace SubterfugeCore.Core.GameEvents
         /// </summary>
         public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            Console.WriteLine(GetEventData().SourceId);
             ICombatable combatable = state.GetCombatableById(GetEventData().SourceId);
             this._launchedSub = combatable.LaunchSub(state, this);
             if (_launchedSub != null && _launchedSub is Sub && !_launchedSub.GetOwner().IsEliminated())
