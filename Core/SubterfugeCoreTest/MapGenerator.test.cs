@@ -350,7 +350,7 @@ namespace SubterfugeCoreTest
             Outpost outpost1 = generatedOutposts[0];
             Outpost outpost2 = generatedOutposts[1];
 
-            float distance = (outpost1.GetCurrentPosition()-outpost2.GetCurrentPosition()).Magnitude();
+            float distance = outpost1.GetCurrentPosition().Distance(outpost2.GetCurrentPosition());
             Assert.IsTrue(distance >= config.MapConfiguration.MinimumOutpostDistance);
         }
 

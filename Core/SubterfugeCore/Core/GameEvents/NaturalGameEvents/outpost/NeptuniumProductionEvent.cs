@@ -16,7 +16,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 		/// </summary>
 		private NeptuniumProductionEvent _nextProduction;
 
-		public NeptuniumProductionEvent(Mine mine, GameTick occursAt) : base(occursAt, Priority.LOW_PRIORTY)
+		public NeptuniumProductionEvent(Mine mine, GameTick occursAt) : base(occursAt, Priority.NATURAL_PRIORITY_1)
 		{
 			this._mine = mine;
 			this._nextProduction = null;

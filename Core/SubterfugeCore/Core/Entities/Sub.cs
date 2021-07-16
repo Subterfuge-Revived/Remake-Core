@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using GameEventModels;
+using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Managers;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.GameEvents;
@@ -67,6 +68,11 @@ namespace SubterfugeCore.Core.Entities
         /// If the sub is captured.
         /// </summary>
         public bool IsCaptured { get; set; } = false;
+
+        /// <summary>
+        /// The players who can see this sub.
+        /// </summary>
+        public List<Player> _visibleTo;
         
         /// <summary>
         /// The sub's initial position.
@@ -91,7 +97,8 @@ namespace SubterfugeCore.Core.Entities
             this.StartPosition = source.GetCurrentPosition(launchTime);
             this._owner = owner;
             this._specialistManager = new SpecialistManager(3);
-            _shieldManager = new ShieldManager(5);
+            this._shieldManager = new ShieldManager(5);
+            this._visibleTo = new List<Player> {owner};
         }
 
         public ICombatable GetDestination()
@@ -124,7 +131,7 @@ namespace SubterfugeCore.Core.Entities
         public double GetRotationRadians()
         {
             // Determine direction vector
-            RftVector direction = GetDirection();
+            Vector2 direction = GetDirection();
             return Math.Atan2(direction.Y, direction.X);
         }
         
@@ -266,22 +273,22 @@ namespace SubterfugeCore.Core.Entities
         /// <returns>The sub's direction vector</returns>
         public Vector2 GetDirectionNormalized()
         {
-            return (this.GetDestinationLocation() - this.StartPosition).Normalize();
+            return Vector2.Normalize(this.GetDirection());
         }
         
         /// <summary>
         /// The subs direction
         /// </summary>
         /// <returns>The sub's direction vector</returns>
-        public RftVector GetDirection()
+        public Vector2 GetDirection()
         {
-            return (this.GetDestinationLocation() - this.StartPosition);
+            return (this.GetDestinationLocation() - this.StartPosition).ToVector2();
         }
 
         public GameTick GetExpectedArrival()
         {
-            RftVector direction = this.GetDirection();
-            int ticksToArrive = (int)Math.Floor(direction.Magnitude() / this.GetSpeed());
+            Vector2 direction = this.GetDirection();
+            int ticksToArrive = (int)Math.Floor(direction.Length() / this.GetSpeed());
             return this._launchTime.Advance(ticksToArrive);
         }
 
@@ -348,7 +355,29 @@ namespace SubterfugeCore.Core.Entities
         {
             return this._shieldManager;
         }
-        
+
+        public bool IsVisibleTo(Player player)
+        {
+            return this._visibleTo.Contains(player);
+        }
+
+        public List<Player> GetVisibleTo()
+        {
+            return this._visibleTo;
+        }
+
+        public void SetVisibleTo(Player player, bool visible)
+        {
+            if (visible && !this._visibleTo.Contains(player))
+            {
+                this._visibleTo.Add(player);
+            }
+            else if (!visible && this._visibleTo.Contains(player))
+            {
+                this._visibleTo.Remove(player);
+            }
+        }
+
         // Driller Carrier Interface
         public int GetDrillerCount()
         {
@@ -385,7 +414,7 @@ namespace SubterfugeCore.Core.Entities
 
             if(elapsedTicks > 0)
             {
-                this.StartPosition = this._source.GetCurrentPosition(currentTick) + new RftVector(RftVector.Map, (direction * (elapsedTicks * this.GetSpeed())));
+                this.StartPosition = this._source.GetCurrentPosition(currentTick) + new RftVector(RftVector.Map, direction * (elapsedTicks * this.GetSpeed() * Constants.STANDARD_SUB_RFT_UNITS_PER_DAY / 1440 * (float) GameTick.MINUTES_PER_TICK));
                 return this.StartPosition;
             }
             else

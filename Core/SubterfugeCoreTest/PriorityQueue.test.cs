@@ -73,6 +73,16 @@ namespace SubterfugeCoreTest
             Assert.IsTrue(_queue.Equals(_queue));
         }
 
+        [TestMethod]
+        public void GetQueue()
+        {
+            Assert.AreEqual(0, _queue.GetQueue().Count);
+
+            _queue.Enqueue(1);
+            Assert.AreEqual(1, _queue.GetQueue().Count);
+            Assert.AreEqual(1, _queue.GetQueue()[0]);
+        }
+
         [TestCleanup]
         public void ResetQueue()
         {

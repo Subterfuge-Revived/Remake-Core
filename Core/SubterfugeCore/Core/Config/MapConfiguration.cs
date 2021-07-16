@@ -15,6 +15,8 @@ namespace SubterfugeCore.Core.Config
         /// </summary>
         public int Seed { get; set; } = 0;
 
+        //Maybe make these distances dependent on sonar range?
+
         /// <summary>
         /// The closest possible distance that two outposts can be together before trying to re-evaluate a new position.
         /// </summary>

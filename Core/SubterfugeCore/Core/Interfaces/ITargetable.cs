@@ -34,7 +34,7 @@ namespace SubterfugeCore.Core.Interfaces
         /// The subs direction
         /// </summary>
         /// <returns>The sub's direction vector</returns>
-        RftVector GetDirection();
+        Vector2 GetDirection();
 
         /// <summary>
         /// The gameTick when the object is expected to arrive at its destination (if any)

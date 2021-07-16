@@ -3,6 +3,7 @@ using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Config;
+using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.Players

@@ -30,7 +30,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 
 		public override float GetVisionRange()
 		{
-			return Constants.BASE_WATCHTOWER_VISION_RADIUS;
+			return Constants.BASE_OUTPOST_VISION_RADIUS * Constants.WATCHTOWER_VISION_RADIUS_MULTIPLIER;
 		}
 	}
 }

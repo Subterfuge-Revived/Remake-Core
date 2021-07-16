@@ -20,7 +20,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// <param name="combatant1">Combatant 1</param>
         /// <param name="combatant2">Combatant 2</param>
         /// <param name="occursAt">Tick of sub arrival</param>
-        public FriendlySubArrive(ICombatable combatant1, ICombatable combatant2, GameTick occursAt) : base(occursAt, Priority.NATURAL_PRIORITY_9)
+        public FriendlySubArrive(ICombatable combatant1, ICombatable combatant2, GameTick occursAt) : base(occursAt, Priority.NATURAL_PRIORITY_6)
         {
             this._arrivingSub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
             this._outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);

@@ -196,7 +196,7 @@ namespace SubterfugeCoreTest
         public void SubLaunchCreatesCombatEvents()
         {
             Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
-            Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
+            Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 10, 0));
             outpost1.SetDrillerCount(10);
             outpost2.SetDrillerCount(10);
             outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);

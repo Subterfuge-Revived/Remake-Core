@@ -219,7 +219,7 @@ namespace SubterfugeCore.Core
         {
             foreach (Outpost outpost in this._outposts)
             {
-                if (outpost.GetId() == id)
+                if (outpost.GetId().Equals(id))
                 {
                     return outpost;
                 }
@@ -227,7 +227,7 @@ namespace SubterfugeCore.Core
             
             foreach (Sub sub in this._activeSubs)
             {
-                if (sub.GetId() == id)
+                if (sub.GetId().Equals(id))
                 {
                     return sub;
                 }
