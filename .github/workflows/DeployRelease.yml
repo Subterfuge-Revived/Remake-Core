@@ -57,7 +57,7 @@ jobs:
     # The container image to pull from dockerhub
     container: microsoft/dotnet:latest
     # Test and upload-docs must both succeed before deploying a release
-    needs: [test, upload-docs]
+    needs: [unitTest, upload-docs]
     steps:
         # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout
