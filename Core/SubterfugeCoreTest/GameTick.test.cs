@@ -99,6 +99,5 @@ namespace SubterfugeCoreTest
             Assert.AreEqual(forward.GetDate(_time).ToLongTimeString(), start.AddMinutes(GameTick.MINUTES_PER_TICK * 10).ToLongTimeString());
             GameTick.MINUTES_PER_TICK = 15.0;
         }
-
     }
 }

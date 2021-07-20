@@ -250,5 +250,18 @@ namespace SubterfugeCoreTest
             Assert.AreEqual((vector8 - vector7).ToVector2(), new Vector2(30, 40));
             Assert.AreEqual((vector7 - vector8).ToVector2(), new Vector2(-30, -40));
         }
+
+        [TestMethod]
+        public void RftPlusVector2()
+        {
+            int mapDimensions = 100;
+            Rft map = new Rft(mapDimensions, mapDimensions);
+
+            RftVector rftVector = new RftVector(map, 20, 40);
+            Vector2 vector = new Vector2(-25, 5);
+
+            Assert.IsTrue(new RftVector(-5, 45).Equals(rftVector + vector));
+            Assert.AreEqual(new RftVector(45, 35), rftVector - vector);
+        }
     }
 }

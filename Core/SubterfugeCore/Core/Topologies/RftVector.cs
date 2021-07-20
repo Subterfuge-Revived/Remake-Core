@@ -180,6 +180,13 @@ namespace SubterfugeCore.Core.Topologies
 			return vector1.Distance(vector2);
 		}
 
+		public override bool Equals(object obj)
+		{
+			if (!(obj is RftVector)) return false;
+			RftVector other = (RftVector)obj;
+			return other.X == this.X && other.Y == this.Y;
+		}
+
 		public static RftVector operator +(RftVector a) => a;
 		public static RftVector operator -(RftVector a) => new RftVector(Map, -a._x, -a._y);
 
