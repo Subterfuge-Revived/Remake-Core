@@ -698,5 +698,170 @@ namespace SubterfugeServerConsole
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             };    
         }
+
+        public override async Task<SubmitCustomSpecialistResponse> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request, ServerCallContext context)
+        {
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if(user == null)
+                return new SubmitCustomSpecialistResponse()
+                {
+                    Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
+                };
+
+            // Set author
+            request.Configuration.Creator = user.asUser();
+            SpecialistConfigurationModel configModel = new SpecialistConfigurationModel(request.Configuration);
+            await configModel.saveToRedis();
+
+            // Get the generated specialist ID
+            string specialistId = configModel.SpecialistConfig.SpecialistId;
+
+            return new SubmitCustomSpecialistResponse()
+            {
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+                SpecialistConfigurationId = specialistId,
+            };
+        }
+
+        public override async Task<GetCustomSpecialistsResponse> GetCustomSpecialists(GetCustomSpecialistsRequest request, ServerCallContext context)
+        {
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if(user == null)
+                return new GetCustomSpecialistsResponse()
+                {
+                    Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
+                };
+            
+            // Search through all specialists for the search term.
+            List<SpecialistConfigurationModel> results = (await SpecialistConfigurationModel.search(request.SearchTerm)).Skip((int)request.PageNumber * 50).Take(50).ToList();
+
+            GetCustomSpecialistsResponse response = new GetCustomSpecialistsResponse()
+            {
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            };
+            
+            foreach (SpecialistConfigurationModel model in results)
+            {
+                response.CustomSpecialists.Add(model.SpecialistConfig);   
+            }
+
+            return response;
+        }
+
+        public override async Task<GetPlayerCustomSpecialistsResponse> GetPlayerCustomSpecialists(GetPlayerCustomSpecialistsRequest request, ServerCallContext context)
+        {
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if(user == null)
+                return new GetPlayerCustomSpecialistsResponse()
+                {
+                    Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
+                };
+            
+            // Get the requested user from their id
+            RedisUserModel player = await RedisUserModel.GetUserFromGuid(request.PlayerId);
+            if (player == null)
+            {
+                return new GetPlayerCustomSpecialistsResponse()
+                {
+                    Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
+                };
+            }
+            List<SpecialistConfigurationModel> results = await player.GetSpecialistConfigurations();
+
+            GetPlayerCustomSpecialistsResponse response = new GetPlayerCustomSpecialistsResponse()
+            {
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            };
+            
+            foreach (SpecialistConfigurationModel model in results)
+            {
+                response.PlayerSpecialists.Add(model.SpecialistConfig);   
+            }
+
+            return response;
+        }
+
+        public override async Task<CreateSpecialistPackageResponse> CreateSpecialistPackage(CreateSpecialistPackageRequest request, ServerCallContext context)
+        {
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if(user == null)
+                return new CreateSpecialistPackageResponse()
+                {
+                    Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
+                };
+
+            // Set author
+            request.SpecialistPackage.Creator = user.asUser();
+            SpecialistPackageModel packageModel = new SpecialistPackageModel(request.SpecialistPackage);
+            await packageModel.saveToRedis();
+
+            // Get the generated specialist ID
+            string packageId = packageModel.SpecialistPackage.SpecialistPackageId;
+
+            return new CreateSpecialistPackageResponse()
+            {
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+                SpecialistPackageId = packageId,
+            };
+        }
+
+        public override async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(GetSpecialistPackagesRequest request, ServerCallContext context)
+        {
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if(user == null)
+                return new GetSpecialistPackagesResponse()
+                {
+                    Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
+                };
+            
+            // Search through all specialists for the search term.
+            List<SpecialistPackageModel> results = (await SpecialistPackageModel.search(request.SearchTerm)).Skip((int)request.PageNumber * 50).Take(50).ToList();
+
+            GetSpecialistPackagesResponse response = new GetSpecialistPackagesResponse()
+            {
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            };
+            
+            foreach (SpecialistPackageModel model in results)
+            {
+                response.SpecialistPackages.Add(model.SpecialistPackage);   
+            }
+
+            return response;
+        }
+
+        public override async Task<GetPlayerSpecialistPackagesResponse> GetPlayerSpecialistPackages(GetPlayerSpecialistPackagesRequest request, ServerCallContext context)
+        {
+            RedisUserModel user = context.UserState["user"] as RedisUserModel;
+            if(user == null)
+                return new GetPlayerSpecialistPackagesResponse()
+                {
+                    Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
+                };
+            
+            // Get the requested user from their id
+            RedisUserModel player = await RedisUserModel.GetUserFromGuid(request.PlayerId);
+            if (player == null)
+            {
+                return new GetPlayerSpecialistPackagesResponse()
+                {
+                    Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
+                };
+            }
+            List<SpecialistPackageModel> results = await player.GetSpecialistPackages();
+
+            GetPlayerSpecialistPackagesResponse response = new GetPlayerSpecialistPackagesResponse()
+            {
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            };
+            
+            foreach (SpecialistPackageModel model in results)
+            {
+                response.PlayerPackages.Add(model.SpecialistPackage);   
+            }
+
+            return response;
+        }
+
     }
 }

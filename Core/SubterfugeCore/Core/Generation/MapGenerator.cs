@@ -306,7 +306,7 @@ namespace SubterfugeCore.Core.Generation
                                 o.SetOwner(Configuration.players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
                             if (!queenGenerated)
                             {
-                                o.GetSpecialistManager().AddSpecialist(new Queen(Guid.NewGuid().ToString(), o.GetOwner()));
+                                o.GetSpecialistManager().AddSpecialist(new Queen(o.GetOwner()));
                                 queenGenerated = true;
                             }
                         }

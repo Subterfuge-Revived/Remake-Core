@@ -60,7 +60,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                 // Apply the specialist effect to the enemey.
                 ICombatable enemy = _combatant1.GetOwner() == topPriority.GetOwner() ? _combatant2 : _combatant1;
                 ICombatable friendly = _combatant1.GetOwner() == topPriority.GetOwner() ? _combatant1 : _combatant2;
-                topPriority.ApplyEffect(friendly, enemy);
+                topPriority.ApplyEffect(state, friendly, enemy);
             }
             return true;
         }
@@ -89,7 +89,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                 // Apply the specialist effect to the enemey.
                 ICombatable enemy = _combatant1.GetOwner() == lowPriority.GetOwner() ? _combatant2 : _combatant1;
                 ICombatable friendly = _combatant1.GetOwner() == lowPriority.GetOwner() ? _combatant1 : _combatant2;
-                lowPriority.UndoEffect(friendly, enemy);
+                lowPriority.UndoEffect(state, friendly, enemy);
             }
             return true;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
+using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
@@ -26,6 +27,12 @@ namespace SubterfugeCore.Core
         /// Time machine instance which controls the game state
         /// </summary>
         public TimeMachine TimeMachine;
+
+        /// <summary>
+        /// The specialist pool for the game. Provides a list of the possible specialists that can be obtained
+        /// as well as their configuration.
+        /// </summary>
+        public SpecialistPool SpecialistPool;
         
         /// <summary>
         /// The game configuration. Determines things like the map generation config,
@@ -116,16 +123,19 @@ namespace SubterfugeCore.Core
                             return p;
                         }
                     }
+
                     return null;
 
-				case GameMode.DOMINATION:
+                case GameMode.DOMINATION:
                     foreach (Player p in TimeMachine.GetState().GetPlayers())
                     {
-                        if (!p.IsEliminated() && TimeMachine.GetState().GetPlayerOutposts(p).Count > TimeMachine.GetState().GetOutposts().Count / 2)
+                        if (!p.IsEliminated() && TimeMachine.GetState().GetPlayerOutposts(p).Count >
+                            TimeMachine.GetState().GetOutposts().Count / 2)
                         {
                             return p;
                         }
                     }
+
                     return null;
 
                 // Other cases to be implemented
@@ -133,6 +143,11 @@ namespace SubterfugeCore.Core
                 default:
                     return null;
             }
+        }
+
+        public SpecialistPool GetSpecialistPool()
+        {
+            return SpecialistPool;
         }
     }
 }

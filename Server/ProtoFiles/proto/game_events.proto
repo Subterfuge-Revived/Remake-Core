@@ -7,6 +7,9 @@ option objc_class_prefix = "GEM";
 
 package GameEventModels;
 
+service GameEvents {
+	
+}
 
 message LaunchEventData {
 	string sourceId = 2;

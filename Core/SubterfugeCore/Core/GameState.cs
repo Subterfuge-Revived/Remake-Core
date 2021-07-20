@@ -411,5 +411,30 @@ namespace SubterfugeCore.Core
 
             return false;
         }
+        
+        /// <summary>
+        /// Gets a list of all ICombatable instances of a particular player.
+        /// </summary>
+        /// <param name="player">The player to get combatables for</param>
+        /// <returns>The list of the player's property</returns>
+        public List<ICombatable> getPlayerTargetables(Player player)
+        {
+            List<ICombatable> targetables = new List<ICombatable>();
+            targetables.AddRange(this.GetPlayerOutposts(player));
+            targetables.AddRange(this.GetPlayerSubs(player));
+            return targetables;
+        }
+
+        /// <summary>
+        /// Gets a list of all game objects
+        /// </summary>
+        /// <returns>A list of all game objects.</returns>
+        public List<ICombatable> GetAllGameObjects()
+        {
+            List<ICombatable> gameObjects = new List<ICombatable>();
+            gameObjects.AddRange(_activeSubs);
+            gameObjects.AddRange(_outposts);
+            return gameObjects;
+        }
     }
 }
