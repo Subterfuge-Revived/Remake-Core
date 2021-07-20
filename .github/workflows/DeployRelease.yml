@@ -11,7 +11,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  test:
+  unitTest:
     # The type of runner that the job will run on
     runs-on: ubuntu-18.04
     # The container image to pull from dockerhub
@@ -22,7 +22,9 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout
       uses: actions/checkout@v2
-
+    # Build proto files
+    - name: Generate Proto
+      run: dotnet build "Server/ProtoFiles/ProtoFiles.csproj"
     # Install nuget packages
     - name: Install NuGet packages
       run: dotnet restore "Core/SubterfugeCore/SubterfugeCore.csproj"
@@ -55,13 +57,15 @@ jobs:
     # The container image to pull from dockerhub
     container: microsoft/dotnet:latest
     # Test and upload-docs must both succeed before deploying a release
-    needs: [test, upload-docs]
+    needs: [unitTest, upload-docs]
     steps:
         # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout
       uses: actions/checkout@v2
 
-    # Install nuget packages
+    # Build proto files
+    - name: Generate Proto
+      run: dotnet build "Server/ProtoFiles/ProtoFiles.csproj"
     # Install nuget packages
     - name: Install NuGet packages
       run: dotnet restore "Core/SubterfugeCore/SubterfugeCore.csproj"
