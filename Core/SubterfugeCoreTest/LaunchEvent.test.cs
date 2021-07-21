@@ -47,7 +47,7 @@ namespace SubterfugeCoreTest
                     DrillerCount = 10,
                     SourceId = "0",
                 }.ToByteString(),
-                EventId = "123",
+                Id = "123",
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 10,
             }));
@@ -72,7 +72,7 @@ namespace SubterfugeCoreTest
                     DrillerCount = 1,
                     SourceId = outpost1.GetId(),
                 }.ToByteString(),
-                EventId = "a",
+                Id = "a",
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
@@ -102,7 +102,7 @@ namespace SubterfugeCoreTest
                     DrillerCount = 1,
                     SourceId = outpost1.GetId(),
                 }.ToByteString(),
-                EventId = "a",
+                Id = "a",
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
@@ -136,7 +136,7 @@ namespace SubterfugeCoreTest
                     DrillerCount = 1,
                     SourceId = outpost1.GetId(),
                 }.ToByteString(),
-                EventId = "a",
+                Id = "a",
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
@@ -175,7 +175,7 @@ namespace SubterfugeCoreTest
                     DrillerCount = 1,
                     SourceId = outpost1.GetId(),
                 }.ToByteString(),
-                EventId = "a",
+                Id = "a",
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
@@ -215,7 +215,7 @@ namespace SubterfugeCoreTest
                     DrillerCount = 1,
                     SourceId = outpost1.GetId(),
                 }.ToByteString(),
-                EventId = "a",
+                Id = "a",
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
@@ -228,7 +228,7 @@ namespace SubterfugeCoreTest
                     DrillerCount = 1,
                     SourceId = outpost2.GetId(),
                 }.ToByteString(),
-                EventId = "a",
+                Id = "a",
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
@@ -289,7 +289,7 @@ namespace SubterfugeCoreTest
                     DrillerCount = 10,
                     SourceId = outpost1.GetId(),
                 }.ToByteString(),
-                EventId = "a",
+                Id = "a",
                 EventType = EventType.LaunchEvent,
                 OccursAtTick = 1,
             });
