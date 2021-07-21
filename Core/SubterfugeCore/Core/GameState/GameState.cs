@@ -5,6 +5,9 @@ using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
+using SubterfugeCore.Core.Entities.Specialists.Effects;
+using SubterfugeCore.Core.GameEvents.Reversible;
+using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
@@ -435,6 +438,24 @@ namespace SubterfugeCore.Core
             gameObjects.AddRange(_activeSubs);
             gameObjects.AddRange(_outposts);
             return gameObjects;
+        }
+
+        /// <summary>
+        /// Applies the list of game state effects to the game state in order.
+        /// </summary>
+        /// <param name="gameStateEffects">An ordered list of GameState effects that should be applied in order.</param>
+        public void Apply(List<GameStateEffect> gameStateDeltas)
+        {
+            gameStateDeltas.ForEach(it => it.ForwardAction());
+        }
+
+        /// <summary>
+        /// Reverts the list of game state effects to the game state in order.
+        /// </summary>
+        /// <param name="gameStateEffects">An ordered list of GameState effects that should be reverted in order.</param>
+        public void Revert(List<GameStateEffect> gameStateDeltas)
+        {
+            gameStateDeltas.ForEach(it => it.BackwardAction());
         }
     }
 }

@@ -9,7 +9,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
     /// <summary>
     /// Friendly sub arrival
     /// </summary>
-    public class FriendlySubArrive : NaturalGameEvent
+    public class FriendlySubArrive : GameEvent
     {
         Sub _arrivingSub;
         Outpost _outpost;

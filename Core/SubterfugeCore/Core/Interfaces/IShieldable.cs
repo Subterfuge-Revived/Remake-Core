@@ -5,7 +5,7 @@ namespace SubterfugeCore.Core.Interfaces
     /// <summary>
     /// Anything that can be shielded
     /// </summary>
-    public interface IShieldable
+    public interface IShieldable : IOwnable
     {
         ShieldManager GetShieldManager();
     }

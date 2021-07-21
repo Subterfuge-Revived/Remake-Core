@@ -82,7 +82,14 @@ namespace SubterfugeCore.Core.Entities
 
         public void SetShieldCapacity(int capactiy)
         {
-            this._shieldCapacity = capactiy;
+            if (capactiy < 0)
+            {
+                this._shieldCapacity = 0;
+            }
+            else
+            {
+                this._shieldCapacity = capactiy;
+            }
         }
     }
 }

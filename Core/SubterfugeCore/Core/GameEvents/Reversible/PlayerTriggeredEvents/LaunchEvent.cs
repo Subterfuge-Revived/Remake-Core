@@ -6,6 +6,7 @@ using Google.Protobuf;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.Base;
+using SubterfugeCore.Core.GameEvents.Reversible.PlayerTriggeredEvents;
 using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
@@ -19,71 +20,43 @@ namespace SubterfugeCore.Core.GameEvents
     /// </summary>
     public class LaunchEvent : PlayerTriggeredEvent
     {
+        private LaunchEventData _launchEventData;
+        
         /// <summary>
         /// A reference to the sub once it is launched
         /// </summary>
         private ICombatable _launchedSub;
         
         private List<GameEvent> combatEvents = new List<GameEvent>();
-        public LaunchEvent(GameEventModel launchData) : base(launchData)
+        public LaunchEvent(GameEventModel eventModel) : base(eventModel)
         {
         }
+
+        public LaunchEvent(ICombatable launchedSub, ITargetable destination, GameTick occursAt) : base(
+            Guid.NewGuid().ToString(),
+            EventType.LaunchEvent,
+            launchedSub.GetOwner(),
+            occursAt,
+            new LaunchEventData()
+            {
+                SourceId = launchedSub.GetId(),
+                DestinationId = destination.GetOwner().GetId(),
+                DrillerCount = launchedSub.GetDrillerCount(),
+            }.ToByteString()
+        ) {}
 
         /// <summary>
         /// Performs the backwards event
         /// </summary>
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override void BackwardAction(TimeMachine timeMachine)
         {
-            if (this.EventSuccess)
-            {
-                state.GetCombatableById(GetEventData().SourceId).UndoLaunch(state, this);
+            GameState state = timeMachine.GetState();
+                state.GetCombatableById(_launchEventData.SourceId).UndoLaunch(state, this);
                 foreach(GameEvent e in combatEvents)
                 {
                     timeMachine.RemoveEvent(e);
                 }
                 combatEvents.Clear();
-            }
-
-            return this.EventSuccess;
-        }
-
-        public override bool WasEventSuccessful()
-        {
-            return this.EventSuccess;
-        }
-
-        public override GameEventModel ToGameEventModel()
-        {
-            GameEventModel baseModel = GetBaseGameEventModel();
-            baseModel.EventData = GetEventData().ToByteString();
-            return baseModel;
-        }
-
-        public LaunchEventData GetEventData()
-        {
-            return LaunchEventData.Parser.ParseFrom(model.EventData);
-        }
-
-        /// <summary>
-        /// Performs the forward event
-        /// </summary>
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
-        {
-            this._launchedSub = state.GetCombatableById(GetEventData().SourceId).LaunchSub(state, this);
-            if (_launchedSub != null && _launchedSub is Sub && !_launchedSub.GetOwner().IsEliminated())
-            {
-                combatEvents.AddRange(CreateCombatEvents(_launchedSub as Sub, state));
-                foreach(GameEvent e in combatEvents)
-                {
-                    timeMachine.AddEvent(e);
-                }
-                this.EventSuccess = true;
-            } else
-            {
-                this.EventSuccess = false;
-            }
-
-            return this.EventSuccess;
         }
 
         /// <summary>
@@ -159,6 +132,28 @@ namespace SubterfugeCore.Core.GameEvents
                 }
             }
             return _combatEvents;
+        }
+
+        public override void ForwardAction(TimeMachine timeMachine)
+        {
+            GameState state = timeMachine.GetState();
+            this._launchedSub = state.GetCombatableById(_launchEventData.SourceId).LaunchSub(state, this);
+            if (_launchedSub != null && _launchedSub is Sub && !_launchedSub.GetOwner().IsEliminated())
+            {
+                combatEvents.AddRange(CreateCombatEvents(_launchedSub as Sub, state));
+                foreach(GameEvent e in combatEvents)
+                {
+                    timeMachine.AddEvent(e);
+                }
+            }
+        }
+
+        public override void parseGameEventModel(GameEventModel eventModel)
+        {
+            if (eventModel.EventType == EventType.LaunchEvent)
+            {
+                _launchEventData = LaunchEventData.Parser.ParseFrom(eventModel.EventData);
+            }
         }
     }
 }

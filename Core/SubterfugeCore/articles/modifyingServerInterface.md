@@ -21,6 +21,8 @@ ByteArray[] message = ProtoMessage.toByteArray()
 ProtoMessage parsed = ProtoMessage.Parser.parseFrom(message)
 ```
 
-### Redis
+### MongoDB
 
-View all of the [Redis commands](https://redis.io/commands) to understand how data is being stored. If you are confused, message @R10t--
+For a database, the server uses MongoDB. MongoDB is a document based database which allows JSON objects to be stored in a database. View the [NuGet package](https://www.nuget.org/packages/mongodb.driver)
+or [learn how to use the MongoDB API](https://mongodb.github.io/mongo-csharp-driver/2.12/getting_started/quick_tour/) from the MongoDB docs. Luckily, MongoDB supports most Protobuf messages
+with the exception of any Protobuf object which includes a `List<>` type. If the protobuf object contains a list, a conversion class will be required in the server.

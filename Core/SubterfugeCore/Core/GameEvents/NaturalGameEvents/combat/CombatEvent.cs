@@ -3,6 +3,7 @@ using System.Numerics;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents;
+using SubterfugeCore.Core.GameEvents.Reversible;
 using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.GameEvents.Validators;
 using SubterfugeCore.Core.Interfaces;
@@ -15,7 +16,7 @@ namespace SubterfugeCore.Core.GameEvents
     /// <summary>
     /// CombatEvent. It is considered a 'combat' if you arrive at any outpost, even your own.
     /// </summary>
-    public class CombatEvent : NaturalGameEvent
+    public class CombatEvent : GameStateEffect
     {
         
         /// <summary>
@@ -107,6 +108,19 @@ namespace SubterfugeCore.Core.GameEvents
             combatants.Add(_combatant1);
             combatants.Add(_combatant2);
             return combatants;
+        }
+
+        public override List<IReversible> GetEvents()
+        {
+            return new List<IReversible>()
+            {
+                // Remove shields first.
+                
+                // Damage drillers by shield count.
+                
+                new AlterDrillerEffect(_combatant1, _combatant2.GetDrillerCount()),
+                new AlterDrillerEffect(_combatant2, _combatant1.GetDrillerCount()),
+            };
         }
     }
 }

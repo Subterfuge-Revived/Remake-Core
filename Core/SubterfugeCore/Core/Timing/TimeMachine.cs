@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using SubterfugeCore.Core.GameEvents.Base;
+using SubterfugeCore.Core.GameEvents.Reversible;
+using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 
 namespace SubterfugeCore.Core.Timing
 {
@@ -70,41 +72,49 @@ namespace SubterfugeCore.Core.Timing
             if (tick > _gameState.CurrentTick)
             {
                 bool evaluating = true;
+                List<GameStateEffect> gameStateEffects = new List<GameStateEffect>();
                 while (evaluating)
                 {
 
                     if (_futureEventQueue.Count > 0)
                     {
-                        if (_futureEventQueue.Peek().GetOccursAt() <= tick)
+                        if (_futureEventQueue.Peek().GameTick <= tick)
                         {
                             // Move commands from the future to the past
                             GameEvent futureToPast = _futureEventQueue.Dequeue();
-                            futureToPast.ForwardAction(this, _gameState);
+                            gameStateEffects.Add(futureToPast.GameStateEffect);
                             _pastEventQueue.Enqueue(futureToPast);
                             continue;
                         }
                     }
                     evaluating = false;
                 }
+                
+                // Apply all of the effects to the game state.
+                this._gameState.Apply(gameStateEffects);
             }
             else
             {
                 bool evaluating = true;
+                List<GameStateEffect> gameStateEffects = new List<GameStateEffect>();
                 while (evaluating)
                 {
                     if (_pastEventQueue.Count > 0)
                     {
-                        if (_pastEventQueue.Peek().GetOccursAt() >= tick)
+                        if (_pastEventQueue.Peek().GameTick >= tick)
                         {
                             // Move commands from the past to the future
                             GameEvent pastToFuture = _pastEventQueue.Dequeue();
-                            pastToFuture.BackwardAction(this, _gameState);
+                            gameStateEffects.Add(pastToFuture.GameStateEffect);
                             _futureEventQueue.Enqueue(pastToFuture);
                             continue;
                         }
                     }
                     evaluating = false;
                 }
+                
+                // Apply all of the effects to the game state.
+                this._gameState.Revert(gameStateEffects);
             }
             this._gameState.CurrentTick = tick;
         }
@@ -125,7 +135,7 @@ namespace SubterfugeCore.Core.Timing
         /// <param name="eventOfInterest">The GameEvent to jump to</param>
         public void GoTo(GameEvent eventOfInterest)
         {
-            this.GoTo(eventOfInterest.GetOccursAt());
+            this.GoTo(eventOfInterest.GameTick);
         }
         
         /// <summary>
