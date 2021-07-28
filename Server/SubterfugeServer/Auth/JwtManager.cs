@@ -53,7 +53,7 @@ namespace SubterfugeServerConsole
             username = null;
 
             ClaimsPrincipal simplePrinciple = GetPrincipal(token);
-            ClaimsIdentity identity = simplePrinciple.Identity as ClaimsIdentity;
+            ClaimsIdentity identity = simplePrinciple?.Identity as ClaimsIdentity;
 
             if (identity == null)
                 return false;

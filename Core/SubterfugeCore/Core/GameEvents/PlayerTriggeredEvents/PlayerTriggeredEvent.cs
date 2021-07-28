@@ -44,7 +44,7 @@ namespace SubterfugeCore.Core.GameEvents
 
         public override string GetEventId()
         {
-            return model.EventId;
+            return model.Id;
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace SubterfugeCore.Core.GameEvents
         {
             return new GameEventModel()
             {
-                EventId = GetEventId(),
+                Id = GetEventId(),
                 EventType = GetEventType(),
                 IssuedBy = IssuedBy().GetId(),
                 OccursAtTick = GetOccursAt().GetTick(),
