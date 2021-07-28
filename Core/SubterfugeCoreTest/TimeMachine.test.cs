@@ -167,7 +167,7 @@ namespace SubterfugeCoreTest
                 {
                     SourceId = outpost.GetId()
                 }.ToByteString(),
-                EventId = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 EventType = EventType.DrillMineEvent,
                 OccursAtTick = 5
             });
