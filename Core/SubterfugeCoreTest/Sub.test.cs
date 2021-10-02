@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore;
 using SubterfugeCore.Core.Entities.Positions;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using SubterfugeCore.Core;
 using SubterfugeCore.Core.Entities;
@@ -20,6 +21,9 @@ namespace SubterfugeCoreTest
         Outpost _outpost;
         GameTick _tick;
         Sub _sub;
+        TestUtils testUtils = new TestUtils();
+        Player player = new Player("1");
+        private Game game;
 
         [TestInitialize]
         public void Setup()
@@ -29,7 +33,7 @@ namespace SubterfugeCoreTest
             _outpost = new Generator("0", _location, new Player("1"));
             _tick = new GameTick(10);
             _sub = new Sub("0", _outpost, _outpost, _tick, 0, new Player("1"));
-            Game server = new Game();
+            Game server = new Game(testUtils.GetDefaultGameConfiguration(new List<Player> { player }));
         }
 
         [TestMethod]

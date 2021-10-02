@@ -126,34 +126,48 @@ enum RoomStatus {
     OPEN = 0;
     ONGOING = 1;
     CLOSED = 2;
+    PRIVATE = 3;
 }
 
 message OpenLobbiesResponse {
     ResponseStatus status = 1;
-    repeated Room Rooms = 2;
+    repeated GameConfiguration Rooms = 2;
 }
 
-message Room {
-    string RoomId = 1;
+message GameConfiguration {
+    string Id = 1;
     RoomStatus RoomStatus = 2;
     User Creator = 3;
-    RankedInformation RankedInformation = 4;
-    bool Anonymous = 5;
+    GameSettings GameSettings = 4;
+    MapConfiguration MapConfiguration = 5;
     string RoomName = 6;
-    Goal Goal = 7;
-    int32 Seed = 8;
     int64 UnixTimeCreated = 9;
     int64 UnixTimeStarted = 10;
-    int64 MaxPlayers = 11;
     repeated User Players = 12;
-    repeated string allowedSpecialists = 13;
-    double MinutesPerTick = 14;
 }
 
-message RankedInformation {
-    bool IsRanked = 1;
-    int64 MinRating = 2;
-    int64 MaxRating = 3;
+message GameSettings {
+    repeated SpecialistConfiguration allowedSpecialists = 1;
+    double MinutesPerTick = 2;
+    Goal Goal = 3;
+    bool IsRanked = 4;
+    bool Anonymous = 5;
+    int32 MaxPlayers = 6;
+}
+
+message MapConfiguration {
+    int32 Seed = 1;
+    int32 OutpostsPerPlayer = 2;
+    int32 MinimumOutpostDistance = 3;
+    int32 MaximumOutpostDistance = 4;
+    int32 DormantsPerPlayer = 5;
+    OutpostWeighting OutpostDistribution = 6;
+}
+
+message OutpostWeighting {
+    float generatorWeight = 1;
+    float factoryWeight = 2;
+    float watchtowerWeight = 3;
 }
 
 enum Goal {
@@ -162,18 +176,15 @@ enum Goal {
 }
 
 message CreateRoomRequest {
-    bool isRanked = 4;
-    bool Anonymous = 5;
+    GameSettings GameSettings = 2;
+    MapConfiguration MapConfiguration = 3;
     string RoomName = 6;
-    Goal Goal = 7;
-    int64 MaxPlayers = 11;
-    repeated string allowedSpecialists = 12;
-    double MinutesPerTick = 13;
+    bool isPrivate = 7;
 }
 
 message CreateRoomResponse {
     ResponseStatus status = 1;
-    Room createdRoom = 2;
+    GameConfiguration createdRoom = 2;
 }
 
 message JoinRoomRequest {
@@ -357,7 +368,7 @@ message AuthorizedHealthCheckResponse {
 message PlayerCurrentGamesRequest{}
 message PlayerCurrentGamesResponse{
     ResponseStatus status = 1;
-    repeated Room games = 2;
+    repeated GameConfiguration games = 2;
 }
 
 message GetGroupMessagesRequest {
@@ -464,23 +475,6 @@ enum UserClaim {
     ADMIN = 3;
     EMAIL_VERIFIED = 4;
     BANNED = 5;
-}
-
-message RoomModel {
-    string Id = 1;
-    RoomStatus RoomStatus = 2;
-    string creatorId = 3;
-    RankedInformation RankedInformation = 4;
-    bool Anonymous = 5;
-    string RoomName = 6;
-    Goal Goal = 7;
-    int32 Seed = 8;
-    int64 UnixTimeCreated = 9;
-    int64 UnixTimeStarted = 10;
-    int64 MaxPlayers = 11;
-    repeated string allowedSpecialists = 12;
-    double MinutesPerTick = 13;
-    repeated string playersInGame = 14;
 }
 
 message GameEventModel {

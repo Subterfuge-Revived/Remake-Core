@@ -9,6 +9,7 @@ using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core
 {
@@ -57,7 +58,7 @@ namespace SubterfugeCore.Core
             this.CurrentTick = this._startTime;
             
             // Set the players.
-            this._players = configuration.Players;
+            this._players = configuration.Players.Select(it => new Player(it)).ToList();
         }
 
         /// <summary>

@@ -42,22 +42,6 @@ namespace SubterfugeCore.Core
         public GameMode GameMode { get; set; } = GameMode.MINING;
 
         /// <summary>
-        /// Creates a new game. Does not generate outposts.
-        /// Only use this constructor for testing purposes, it sets up a `GameState` and `TimeMachine` instance
-        /// without any data.
-        /// </summary>
-        public Game()
-        {
-            // Create a generic game configuration with one player.
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            Configuration = new GameConfiguration(players, DateTime.Now, new MapConfiguration(players));
-            // Creates a new game state and makes a time machine to reference the state
-            GameState state = new GameState(Configuration);
-            TimeMachine = new TimeMachine(state);
-        }
-
-        /// <summary>
         /// Creates a new game using the provided GameConfiguration. Calling this constructor will trigger
         /// map generation and generate the map based on the GameConfiguration that was passed into the game.
         /// </summary>
@@ -71,7 +55,7 @@ namespace SubterfugeCore.Core
             TimeMachine = new TimeMachine(state);
 
             // Creates the map generator with a random seed
-            MapGenerator mapGenerator = new MapGenerator(gameConfiguration.MapConfiguration);
+            MapGenerator mapGenerator = new MapGenerator(gameConfiguration.MapConfiguration, state.GetPlayers());
             
             // Generate the map
             List<Outpost> generatedOutposts = mapGenerator.GenerateMap();

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Google.Protobuf;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using SubterfugeCore.Core;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Responses;
@@ -15,39 +16,30 @@ namespace SubterfugeServerConsole.Connections.Models
     public class Room
     {
 
-        public RoomModel RoomModel;
+        public GameConfiguration GameConfiguration;
 
-        public Room(RoomModel model)
+        public Room(GameConfiguration model)
         {
-            RoomModel = model;
+            GameConfiguration = model;
         }
 
         public Room(CreateRoomRequest request, SubterfugeRemakeService.User creator)
         {
             Guid roomId = Guid.NewGuid();
-            RoomModel = new RoomModel()
+            GameConfiguration = new GameConfiguration()
             {
-                Anonymous = request.Anonymous,
-                CreatorId = creator.Id,
-                Goal = request.Goal,
-                MaxPlayers = request.MaxPlayers,
-                RankedInformation = new RankedInformation()
-                {
-                    IsRanked = request.IsRanked,
-                    MinRating = 500,
-                    MaxRating = 1500, // TODO: +-100 of user rank
-                },
                 Id = roomId.ToString(),
+                RoomStatus = request.IsPrivate ? RoomStatus.Private : RoomStatus.Open,
                 RoomName = request.RoomName,
-                RoomStatus = RoomStatus.Open,
-                Seed = new Random().Next(),
                 UnixTimeCreated =  DateTime.UtcNow.ToFileTimeUtc(),
                 UnixTimeStarted = 0,
-                MinutesPerTick = request.MinutesPerTick,
-                PlayersInGame = { creator.Id }
+                Creator = creator,
+
+                GameSettings = request.GameSettings,
+                MapConfiguration = request.MapConfiguration,
             };
-            RoomModel.AllowedSpecialists.AddRange(request.AllowedSpecialists);
-            GameTick.MINUTES_PER_TICK = RoomModel.MinutesPerTick;
+            GameConfiguration.Players.Add(creator);
+            GameTick.MINUTES_PER_TICK = request.GameSettings.MinutesPerTick;
         }
 
         public async Task<ResponseStatus> JoinRoom(DbUserModel dbUserModel)
@@ -58,24 +50,24 @@ namespace SubterfugeServerConsole.Connections.Models
             if(IsPlayerInRoom(dbUserModel))
                 return ResponseFactory.createResponse(ResponseType.DUPLICATE);
             
-            if(RoomModel.RoomStatus != RoomStatus.Open)
+            if(GameConfiguration.RoomStatus != RoomStatus.Open)
                 return ResponseFactory.createResponse(ResponseType.GAME_ALREADY_STARTED);
             
             List<DbUserModel> playersInRoom = new List<DbUserModel>();
-            foreach (string userId in RoomModel.PlayersInGame)
+            foreach (User user in GameConfiguration.Players)
             {
-                playersInRoom.Add(await DbUserModel.GetUserFromGuid(userId));
+                playersInRoom.Add(await DbUserModel.GetUserFromGuid(user.Id));
             }
             
             // Check if any players in the room have the same device identifier
             if(playersInRoom.Any(it => it.UserModel.DeviceIdentifier == dbUserModel.UserModel.DeviceIdentifier))
                 return ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED);
 
-            RoomModel.PlayersInGame.Add(dbUserModel.UserModel.Id);
-            MongoConnector.GetGameRoomCollection().ReplaceOne((it => it.Id == RoomModel.Id), new RoomModelMapper(RoomModel));
+            GameConfiguration.Players.Add(dbUserModel.asUser());
+            MongoConnector.GetGameRoomCollection().ReplaceOne((it => it.Id == GameConfiguration.Id), new GameConfigurationMapper(GameConfiguration));
             
             // Check if the player joining the game is the last player.
-            if (RoomModel.PlayersInGame.Count == RoomModel.MaxPlayers)
+            if (GameConfiguration.Players.Count == GameConfiguration.GameSettings.MaxPlayers)
                 return await StartGame();
             
             return ResponseFactory.createResponse(ResponseType.SUCCESS);;
@@ -83,29 +75,29 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public Boolean IsRoomFull()
         {
-            return RoomModel.PlayersInGame.Count >= RoomModel.MaxPlayers;
+            return GameConfiguration.Players.Count >= GameConfiguration.GameSettings.MaxPlayers;
         }
         
         public Boolean IsPlayerInRoom(DbUserModel player)
         {
-            return RoomModel.PlayersInGame.Contains(player.UserModel.Id);
+            return GameConfiguration.Players.Contains(player.asUser());
         }
 
         public async Task<ResponseStatus> LeaveRoom(DbUserModel dbUserModel)
         {
-            if (RoomModel.RoomStatus == RoomStatus.Open)
+            if (GameConfiguration.RoomStatus == RoomStatus.Open)
             {
                 // Check if the player leaving was the host.
-                if (RoomModel.CreatorId == dbUserModel.UserModel.Id)
+                if (GameConfiguration.Creator.Id == dbUserModel.UserModel.Id)
                 {
                     // Delete the game
-                    MongoConnector.GetGameRoomCollection().DeleteOne(it => it.Id == RoomModel.Id);
+                    MongoConnector.GetGameRoomCollection().DeleteOne(it => it.Id == GameConfiguration.Id);
                     return ResponseFactory.createResponse(ResponseType.SUCCESS);
                 }
 
                 // Otherwise, just remove the player from the player list.
-                RoomModel.PlayersInGame.Remove(dbUserModel.UserModel.Id);
-                MongoConnector.GetGameRoomCollection().ReplaceOne((it => it.Id == RoomModel.Id), new RoomModelMapper(RoomModel));
+                GameConfiguration.Players.Remove(dbUserModel.asUser());
+                MongoConnector.GetGameRoomCollection().ReplaceOne((it => it.Id == GameConfiguration.Id), new GameConfigurationMapper(GameConfiguration));
                 return ResponseFactory.createResponse(ResponseType.SUCCESS);
             }
             // TODO: Player left the game while ongoing.
@@ -145,7 +137,7 @@ namespace SubterfugeServerConsole.Connections.Models
             }
 
             // Ensure the event happens after current time.
-            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.UtcNow);
+            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(GameConfiguration.UnixTimeStarted), DateTime.UtcNow);
             if (request.EventData.OccursAtTick <= currentTick.GetTick())
             {
                 return new SubmitGameEventResponse()
@@ -160,7 +152,7 @@ namespace SubterfugeServerConsole.Connections.Models
             gameEvent.EventData = request.EventData.EventData;
             gameEvent.OccursAtTick = request.EventData.OccursAtTick;
             
-            MongoConnector.GetGameEventCollection().ReplaceOne((it => it.RoomId == RoomModel.Id), new GameEventModelMapper(gameEvent));
+            MongoConnector.GetGameEventCollection().ReplaceOne((it => it.RoomId == GameConfiguration.Id), new GameEventModelMapper(gameEvent));
             return new SubmitGameEventResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
@@ -173,7 +165,7 @@ namespace SubterfugeServerConsole.Connections.Models
             GameEventModel eventModel = toGameEventModel(player, request);
 
             // Ensure the event happens after current time.
-            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.UtcNow);
+            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(GameConfiguration.UnixTimeStarted), DateTime.UtcNow);
             if (eventModel.OccursAtTick <= currentTick.GetTick())
             {
                 return new SubmitGameEventResponse()
@@ -218,7 +210,7 @@ namespace SubterfugeServerConsole.Connections.Models
             }
             
             // Determine if the event has already passed.
-            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.UtcNow);
+            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(GameConfiguration.UnixTimeStarted), DateTime.UtcNow);
             
             if (gameEvent.OccursAtTick <= currentTick.GetTick())
             {
@@ -248,7 +240,7 @@ namespace SubterfugeServerConsole.Connections.Models
         {
             // Get all group chats
             List<GroupChat> groupChatList = MongoConnector.GetMessageGroupCollection()
-                .Find(group => group.RoomId == RoomModel.Id)
+                .Find(group => group.RoomId == GameConfiguration.Id)
                 .ToList()
                 .Select(group => new GroupChat(this, group.ToProto()))
                 .ToList();
@@ -259,7 +251,7 @@ namespace SubterfugeServerConsole.Connections.Models
         {
             // Get all group chats the player is in
             List<GroupChat> groupChatList = MongoConnector.GetMessageGroupCollection()
-                .Find(group => group.RoomId == RoomModel.Id && group.GroupMembers.Contains(dbUserModel.UserModel.Id))
+                .Find(group => group.RoomId == GameConfiguration.Id && group.GroupMembers.Contains(dbUserModel.UserModel.Id))
                 .ToList()
                 .Select(group => new GroupChat(this, group.ToProto()))
                 .ToList();
@@ -280,7 +272,7 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<CreateMessageGroupResponse> CreateMessageGroup(List<String> groupMembers)
         {
             // Ensure all members are in the room.
-            if (groupMembers.Except(RoomModel.PlayersInGame).Any())
+            if (groupMembers.Except(GameConfiguration.Players.Select(it => it.Id)).Any())
             {
                 // A player in the group is not in the game.
                 return new CreateMessageGroupResponse()
@@ -291,7 +283,7 @@ namespace SubterfugeServerConsole.Connections.Models
 
             // Get all group chats for the room
             List<GroupChat> roomGroupChats = MongoConnector.GetMessageGroupCollection()
-                .Find(group => group.RoomId == RoomModel.Id)
+                .Find(group => group.RoomId == GameConfiguration.Id)
                 .ToList()
                 .Select(group => new GroupChat(this, group.ToProto()))
                 .ToList();
@@ -315,7 +307,7 @@ namespace SubterfugeServerConsole.Connections.Models
             // Otherwise, create the group
             GroupModel newGroup = new GroupModel();
             newGroup.Id = Guid.NewGuid().ToString();
-            newGroup.RoomId = RoomModel.Id;
+            newGroup.RoomId = GameConfiguration.Id;
             foreach (string s in groupMembers)
             {
                 DbUserModel model = await DbUserModel.GetUserFromGuid(s);
@@ -347,7 +339,7 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<List<GameEventModel>> GetAllGameEvents()
         {
             return MongoConnector.GetGameEventCollection()
-                .Find(it => it.RoomId == RoomModel.Id)
+                .Find(it => it.RoomId == GameConfiguration.Id)
                 .ToList()
                 .Select(it => it.ToProto())
                 .ToList();;
@@ -357,13 +349,13 @@ namespace SubterfugeServerConsole.Connections.Models
         {
 
             List<GameEventModel> events = MongoConnector.GetGameEventCollection()
-                .Find(it => it.RoomId == RoomModel.Id)
+                .Find(it => it.RoomId == GameConfiguration.Id)
                 .ToList()
                 .Select(it => it.ToProto())
                 .ToList();
             
             // Get current game tick
-            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(RoomModel.UnixTimeStarted), DateTime.UtcNow);
+            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(GameConfiguration.UnixTimeStarted), DateTime.UtcNow);
             events.Sort((a, b) => a.OccursAtTick.CompareTo(b.OccursAtTick));
             return events.FindAll(it => it.OccursAtTick <= currentTick.GetTick());
         }
@@ -371,13 +363,14 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<ResponseStatus> StartGame()
         {
             // Check that there is enough players to start early.
-            if (RoomModel.PlayersInGame.Count < 2)
+            if (GameConfiguration.Players.Count < 2)
                 return ResponseFactory.createResponse(ResponseType.INVALID_REQUEST);
-            
-            var update = Builders<RoomModelMapper>.Update
+
+            var update = Builders<GameConfigurationMapper>.Update
                 .Set(it => it.RoomStatus, RoomStatus.Ongoing)
-                .Set(it => it.UnixTimeStarted, DateTime.UtcNow.ToFileTimeUtc());
-            MongoConnector.GetGameRoomCollection().UpdateOne((it => it.Id == RoomModel.Id), update);
+                .Set(it => it.UnixTimeStarted, DateTime.UtcNow.ToFileTimeUtc())
+                .Set(it => it.MaxPlayers, GameConfiguration.Players.Count);
+            MongoConnector.GetGameRoomCollection().UpdateOne((it => it.Id == GameConfiguration.Id), update);
             return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
 
@@ -394,7 +387,7 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public static async Task<Room> GetRoomFromGuid(string roomGuid)
         {
-            RoomModelMapper room = MongoConnector.GetGameRoomCollection()
+            GameConfigurationMapper room = MongoConnector.GetGameRoomCollection()
                 .Find((it => it.Id == roomGuid))
                 .FirstOrDefault();
             if (room != null)
@@ -407,40 +400,10 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public async Task<Boolean> CreateInDatabase()
         {
-            MongoConnector.GetGameRoomCollection().InsertOne(new RoomModelMapper(RoomModel));
+            MongoConnector.GetGameRoomCollection().InsertOne(new GameConfigurationMapper(GameConfiguration));
             return true;
         }
-
-        public async Task<SubterfugeRemakeService.Room> asRoom()
-        {
-            // TODO: If the room is anonymous, hide the creator and player ids.
-            SubterfugeRemakeService.Room room = new SubterfugeRemakeService.Room()
-            {
-                RoomId = RoomModel.Id,
-                RoomStatus = RoomModel.RoomStatus,
-                Creator = (await DbUserModel.GetUserFromGuid(RoomModel.CreatorId)).asUser(),
-                RankedInformation = RoomModel.RankedInformation,
-                Anonymous = RoomModel.Anonymous, 
-                RoomName = RoomModel.RoomName,
-                Goal = RoomModel.Goal,
-                Seed = RoomModel.Seed,
-                UnixTimeCreated = RoomModel.UnixTimeCreated,
-                UnixTimeStarted = RoomModel.UnixTimeStarted,
-                MaxPlayers = RoomModel.MaxPlayers,
-                MinutesPerTick = RoomModel.MinutesPerTick,
-            };
-
-            List<DbUserModel> playersInGame = new List<DbUserModel>();
-            foreach (string playerId in RoomModel.PlayersInGame)
-            {
-                playersInGame.Add(await DbUserModel.GetUserFromGuid(playerId));
-            }
-            
-            room.Players.AddRange(playersInGame.ConvertAll(it => it.asUser()));
-            room.AllowedSpecialists.AddRange(RoomModel.AllowedSpecialists);
-            return room;
-        }
-
+        
         private GameEventModel toGameEventModel(DbUserModel requestor, GameEventRequest request)
         {
             Guid eventId;
@@ -453,7 +416,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 IssuedBy = requestor.UserModel.Id,
                 OccursAtTick = request.OccursAtTick,
                 EventData = request.EventData,
-                RoomId = RoomModel.Id,
+                RoomId = GameConfiguration.Id,
             };
         }
     }

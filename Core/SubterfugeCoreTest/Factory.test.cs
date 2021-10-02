@@ -11,6 +11,7 @@ using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCoreTest
 {
@@ -20,6 +21,7 @@ namespace SubterfugeCoreTest
 		Game game;
 		TimeMachine tm;
 		Factory f = null;
+		TestUtils testUtils = new TestUtils();
 
 		[TestInitialize]
 		public void Setup()
@@ -27,7 +29,7 @@ namespace SubterfugeCoreTest
 			List<Player> playerlist = new List<Player>();
 			Player player = new Player("Player 1");
 			playerlist.Add(player);
-			GameConfiguration config = new GameConfiguration(playerlist);
+			GameConfiguration config = testUtils.GetDefaultGameConfiguration(playerlist);
 			config.MapConfiguration.OutpostsPerPlayer = 10;
 			game = new Game(config);
 			tm = game.TimeMachine;

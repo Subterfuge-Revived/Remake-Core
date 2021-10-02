@@ -21,17 +21,18 @@ namespace Tests.AuthTestingHelper
 
         public CreateRoomResponse CreateGameRoom(string roomName)
         {
-            CreateRoomRequest createRequest = new CreateRoomRequest()
+            return client.CreateNewRoom(new CreateRoomRequest()
             {
-                Anonymous = false,
-                Goal = Goal.Domination,
-                MaxPlayers = 5,
-                IsRanked = false,
+                GameSettings = new GameSettings()
+                {
+                    Anonymous = false,
+                    Goal = Goal.Domination,
+                    IsRanked = false,
+                    MaxPlayers = 5,
+                    MinutesPerTick = (1.0 / 60.0), // One second per tick
+                },
                 RoomName = roomName,
-                AllowedSpecialists = { "a","b","c" },
-            };
-
-            return client.CreateNewRoom(createRequest);
+            });
         }
 
         public SuperUser CreateSuperUser()

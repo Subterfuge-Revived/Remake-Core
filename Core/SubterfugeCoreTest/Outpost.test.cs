@@ -25,6 +25,7 @@ namespace SubterfugeCoreTest
         RftVector _outpostLocation;
         Outpost _outpost;
         Outpost _outpost2;
+        private TestUtils testUtils = new TestUtils();
 
         [TestInitialize]
         public void Setup()
@@ -100,8 +101,7 @@ namespace SubterfugeCoreTest
             List<Player> players = new List<Player>();
             players.Add(new Player("1"));
             
-            GameConfiguration config = new GameConfiguration(players, DateTime.Now, new MapConfiguration(players));
-            Game game = new Game(config);
+            Game game = new Game(testUtils.GetDefaultGameConfiguration(players));
             game.TimeMachine.GetState().GetOutposts().Add(_outpost);
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 
@@ -129,8 +129,7 @@ namespace SubterfugeCoreTest
             List<Player> players = new List<Player>();
             players.Add(new Player("1"));
             
-            GameConfiguration config = new GameConfiguration(players, DateTime.Now, new MapConfiguration(players));
-            Game game = new Game(config);
+            Game game = new Game(testUtils.GetDefaultGameConfiguration(players));
             game.TimeMachine.GetState().GetOutposts().Add(_outpost);
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 

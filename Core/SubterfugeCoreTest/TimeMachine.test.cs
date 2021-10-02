@@ -17,12 +17,14 @@ namespace SubterfugeCoreTest
     [TestClass]
     public class TimeMachineTest
     {
-        private Game game = new Game();
+        TestUtils testUtils = new TestUtils();
+        Player player = new Player("1");
+        private Game game;
         
         [TestInitialize]
         public void Setup()
         {
-            game = new Game();
+            game = new Game(testUtils.GetDefaultGameConfiguration(new List<Player> { player }));
 
         }
 
@@ -44,7 +46,7 @@ namespace SubterfugeCoreTest
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick());
 
             game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(2, game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
         }
 
@@ -87,12 +89,12 @@ namespace SubterfugeCoreTest
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(2, game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
             
             // Go past the tick
             game.TimeMachine.Advance(6);
-            Assert.AreEqual(0, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
         }
 
         [TestMethod]
@@ -106,16 +108,16 @@ namespace SubterfugeCoreTest
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(2, game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
             
             // Go past the tick
             game.TimeMachine.Advance(6);
-            Assert.AreEqual(0, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
             
             // Rewind back
             game.TimeMachine.Rewind(6);
-            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(2, game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
         }
         
@@ -130,11 +132,11 @@ namespace SubterfugeCoreTest
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(2, game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
             
             game.TimeMachine.RemoveEvent(arriveEvent);
-            Assert.AreEqual(0, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
         }
         
         [TestMethod]
@@ -159,12 +161,12 @@ namespace SubterfugeCoreTest
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(2, game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, game.TimeMachine.GetQueuedEvents()[0]);
             
             game.TimeMachine.GoTo(arriveEvent);
             Assert.AreEqual(arriveEvent.GetOccursAt().GetTick(), game.TimeMachine.GetCurrentTick().GetTick());
-            Assert.AreEqual(0, game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(1, game.TimeMachine.GetQueuedEvents().Count);
         }
 
     }

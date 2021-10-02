@@ -49,9 +49,9 @@ namespace SubterfugeServerConsole.Connections
 
             // Index Game Rooms
             Console.WriteLine("Indexing Game Rooms");
-            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<RoomModelMapper>(Builders<RoomModelMapper>.IndexKeys.Ascending(room => room.Id)));
-            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<RoomModelMapper>(Builders<RoomModelMapper>.IndexKeys.Ascending(room => room.RoomName)));
-            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<RoomModelMapper>(Builders<RoomModelMapper>.IndexKeys.Ascending(room => room.UnixTimeCreated)));
+            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfigurationMapper>(Builders<GameConfigurationMapper>.IndexKeys.Ascending(room => room.Id)));
+            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfigurationMapper>(Builders<GameConfigurationMapper>.IndexKeys.Ascending(room => room.RoomName)));
+            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfigurationMapper>(Builders<GameConfigurationMapper>.IndexKeys.Ascending(room => room.UnixTimeCreated)));
             
             // Index Friend relations
             Console.WriteLine("Indexing User Relations");
@@ -101,9 +101,9 @@ namespace SubterfugeServerConsole.Connections
             return _database.GetCollection<UserModelMapper>("Users");
         }
         
-        public static IMongoCollection<RoomModelMapper> GetGameRoomCollection()
+        public static IMongoCollection<GameConfigurationMapper> GetGameRoomCollection()
         {
-            return _database.GetCollection<RoomModelMapper>("GameRooms");
+            return _database.GetCollection<GameConfigurationMapper>("GameRooms");
         }
         
         public static IMongoCollection<FriendModel> GetFriendCollection()
@@ -142,7 +142,7 @@ namespace SubterfugeServerConsole.Connections
             {
                 Console.WriteLine("Flushing database!");
                 GetUserCollection().DeleteMany(FilterDefinition<UserModelMapper>.Empty);
-                GetGameRoomCollection().DeleteMany(FilterDefinition<RoomModelMapper>.Empty);
+                GetGameRoomCollection().DeleteMany(FilterDefinition<GameConfigurationMapper>.Empty);
                 GetFriendCollection().DeleteMany(FilterDefinition<FriendModel>.Empty);
                 GetGameEventCollection().DeleteMany(FilterDefinition<GameEventModelMapper>.Empty);
                 GetMessagesCollection().DeleteMany(FilterDefinition<MessageModel>.Empty);
