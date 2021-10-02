@@ -26,7 +26,7 @@ namespace SubterfugeServerConsole.Connections.Models
             MessageModel model = new MessageModel()
             {
                 Id = Guid.NewGuid().ToString(),
-                RoomId = Room.RoomModel.Id,
+                RoomId = Room.GameConfiguration.Id,
                 GroupId = MessageGroup.Id,
                 SenderId = dbUserModel.UserModel.Id,
                 Message = message,
@@ -44,7 +44,7 @@ namespace SubterfugeServerConsole.Connections.Models
             var start =  pagination <= 1 ? -1 : -50 * (pagination - 1);
             var end = -50 * pagination;
             List<MessageModel> parsedMessages = MongoConnector.GetMessagesCollection()
-                .Find(message => message.GroupId == MessageGroup.Id && message.RoomId == Room.RoomModel.Id)
+                .Find(message => message.GroupId == MessageGroup.Id && message.RoomId == Room.GameConfiguration.Id)
                 .SortByDescending(message => message.UnixTimeCreatedAt)
                 .Skip((pagination - 1) * 50)
                 .ToList()

@@ -44,6 +44,7 @@ namespace SubterfugeCore.Core.Players
         public Player(string playerId)
         {
             this.PlayerId = playerId;
+            this.PlayerName = playerId;
             this._numMinesBuilt = 0;
             this._neptunium = 0;
             this._isEliminated = false;
@@ -140,6 +141,57 @@ namespace SubterfugeCore.Core.Players
         public bool IsEliminated()
         {
             return this._isEliminated;
+        }
+
+        public User toUser()
+        {
+            return new User()
+            {
+                Id = PlayerId,
+                Username = PlayerName,
+            };
+        }
+
+        public override bool Equals(object obj)
+        {
+            var player = obj as Player;
+            if (player is null)
+            {
+                return false;
+            }
+
+            return this == player;
+        }
+
+        public override int GetHashCode()
+        {
+            return (PlayerId != null ? PlayerId.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(Player p1, Player p2)
+        {
+            if (p1 is null && p2 is null)
+            {
+                return true;
+            }
+            if (p1 is null || p2 is null)
+            {
+                return false;
+            }
+            return (p1.PlayerId == p2.PlayerId);
+        }
+        
+        public static bool operator !=(Player p1, Player p2)
+        {
+            if (p1 is null && p2 is null)
+            {
+                return false;
+            }
+            if (p1 is null || p2 is null)
+            {
+                return true;
+            }
+            return (p1.PlayerId != p2.PlayerId);
         }
     }
 }

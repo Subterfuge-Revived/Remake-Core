@@ -11,6 +11,7 @@ using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCoreTest
 {
@@ -22,6 +23,7 @@ namespace SubterfugeCoreTest
         Player _player1;
         Outpost _outpost;
         Sub _tempSub;
+        private TestUtils testUtils = new TestUtils();
 
 
         [TestInitialize]
@@ -29,8 +31,8 @@ namespace SubterfugeCoreTest
         {
             _player1 = new Player("1");
             List<Player> players = new List<Player>();
-            
-            GameConfiguration config = new GameConfiguration(players, DateTime.Now, new MapConfiguration(players));
+
+            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
             
             _state = new GameState(config);

@@ -27,6 +27,7 @@ namespace SubterfugeCoreTest
 		Player p;
 		Outpost o1, o2;
 		GameEventModel model1, model2;
+		TestUtils testUtils = new TestUtils();
 
 		[TestInitialize]
 		public void Setup()
@@ -34,7 +35,7 @@ namespace SubterfugeCoreTest
 			p = new Player("Player 1");
 			List<Player> playerlist = new List<Player>();
 			playerlist.Add(p);
-			GameConfiguration config = new GameConfiguration(playerlist);
+			GameConfiguration config = testUtils.GetDefaultGameConfiguration(playerlist);
 			config.MapConfiguration.OutpostsPerPlayer = 12;
 			game = new Game(config);
 			tm = game.TimeMachine;
@@ -48,7 +49,7 @@ namespace SubterfugeCoreTest
 				}.ToByteString(),
 				Id = Guid.NewGuid().ToString(),
 				EventType = EventType.DrillMineEvent,
-				OccursAtTick = 100
+				OccursAtTick = 10
 			};
 			model2 = new GameEventModel()
 			{
@@ -58,7 +59,7 @@ namespace SubterfugeCoreTest
 				}.ToByteString(),
 				Id = Guid.NewGuid().ToString(),
 				EventType = EventType.DrillMineEvent,
-				OccursAtTick = 200
+				OccursAtTick = 20
 			};
 		}
 
@@ -83,7 +84,7 @@ namespace SubterfugeCoreTest
 		{
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
 			tm.AddEvent(drillMine);
-			tm.Advance(100);
+			tm.Advance(10);
 			Assert.IsFalse(drillMine.WasEventSuccessful());
 		}
 
@@ -93,7 +94,7 @@ namespace SubterfugeCoreTest
 			o1.AddDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
 			tm.AddEvent(drillMine);
-			tm.Advance(100);
+			tm.Advance(10);
 			Assert.IsTrue(drillMine.WasEventSuccessful());
 			Assert.IsFalse(tm.GetState().GetOutposts().Contains(o1));
 		}
@@ -111,7 +112,7 @@ namespace SubterfugeCoreTest
 				}.ToByteString(),
 				Id = Guid.NewGuid().ToString(),
 				EventType = EventType.DrillMineEvent,
-				OccursAtTick = 200
+				OccursAtTick = 25
 			});
 			o1.AddDrillers(150);
 			o2.AddDrillers(300);
@@ -119,7 +120,7 @@ namespace SubterfugeCoreTest
 			tm.AddEvent(drillMine);
 			tm.AddEvent(drillMineAgain);
 			tm.AddEvent(drillSecondMine);
-			tm.Advance(200);
+			tm.Advance(25);
 			Assert.IsFalse(drillMineAgain.WasEventSuccessful());
 			Assert.IsFalse(drillSecondMine.WasEventSuccessful());
 		}
@@ -133,14 +134,14 @@ namespace SubterfugeCoreTest
 			DrillMineEvent drillSecondMine = new DrillMineEvent(model2);
 			tm.AddEvent(drillFirstMine);
 			tm.AddEvent(drillSecondMine);
-			tm.Advance(200);
+			tm.Advance(20);
 			Assert.IsTrue(drillFirstMine.WasEventSuccessful());
 			Assert.IsFalse(drillSecondMine.WasEventSuccessful());
-			tm.Rewind(200);
+			tm.Rewind(20);
 			o2.AddDrillers(100);
-			tm.Advance(200);
+			tm.Advance(20);
 			Assert.IsTrue(drillSecondMine.WasEventSuccessful());
-			Assert.IsTrue(p.GetRequiredDrillersToMine() == 200);
+			Assert.AreEqual(200, o1.GetOwner().GetRequiredDrillersToMine());
 		}
 
 		[TestMethod]
@@ -149,7 +150,7 @@ namespace SubterfugeCoreTest
 			o1.AddDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
 			tm.AddEvent(drillMine);
-			tm.Advance(100);
+			tm.Advance(10);
 			Assert.IsTrue(tm.GetQueuedEvents().Exists(IsNeptuniumProductionEvent));
 		}
 
@@ -159,8 +160,8 @@ namespace SubterfugeCoreTest
 			o1.AddDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
 			tm.AddEvent(drillMine);
-			tm.Advance(100 + 1440 / (int)GameTick.MINUTES_PER_TICK);
-			Assert.IsTrue(p.GetNeptunium() == 12);
+			tm.Advance(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
+			Assert.IsTrue(o1.GetOwner().GetNeptunium() == 12);
 		}
 
 		[TestMethod]
@@ -169,8 +170,8 @@ namespace SubterfugeCoreTest
 			o1.AddDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
 			tm.AddEvent(drillMine);
-			tm.Advance(100 + 1440 / (int)GameTick.MINUTES_PER_TICK);
-			tm.Rewind(100 + 1440 / (int)GameTick.MINUTES_PER_TICK);
+			tm.Advance(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
+			tm.Rewind(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
 			Assert.IsTrue(tm.GetState().GetOutposts().Contains(o1));
 			Assert.IsTrue(p.GetNeptunium() == 0);
 			Assert.IsTrue(o1.GetDrillerCount() == 50);

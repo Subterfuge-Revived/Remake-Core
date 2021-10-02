@@ -23,6 +23,7 @@ namespace SubterfugeCoreTest
     public class LaunchEventTest
     {
         private Game _game;
+        private TestUtils testUtils = new TestUtils();
 
 
         [TestInitialize]
@@ -31,8 +32,8 @@ namespace SubterfugeCoreTest
             List<Player> players = new List<Player>();
             players.Add(new Player("1"));
             players.Add(new Player("2"));
-            
-            GameConfiguration config = new GameConfiguration(players, DateTime.Now, new MapConfiguration(players));
+            ;
+            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
             _game = new Game(config);
         }
 

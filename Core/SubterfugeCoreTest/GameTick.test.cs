@@ -1,8 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore;
 using System;
+using System.Collections.Generic;
 using SubterfugeCore.Core;
+using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCoreTest
 {
@@ -12,6 +15,7 @@ namespace SubterfugeCoreTest
         DateTime _time;
         int _tickNumber;
         GameTick _tick;
+        private TestUtils testUtils = new TestUtils();
 
 
         [TestInitialize]
@@ -20,8 +24,8 @@ namespace SubterfugeCoreTest
             _time = DateTime.Now;
             _tickNumber = 0;
             _tick = new GameTick(_tickNumber);
-            Game server = new Game();
-
+            GameConfiguration config = testUtils.GetDefaultGameConfiguration(new List<Player>{ new Player("1") });
+            Game server = new Game(config);
         }
 
         [TestMethod]

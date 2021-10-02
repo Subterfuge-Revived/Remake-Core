@@ -240,7 +240,7 @@ namespace SubterfugeServerConsole.Connections.Models
             }
             
             // Otherwise, only show public games.
-            userGames.AddRange(MongoConnector.GetGameRoomCollection().Find(it => it.PlayersInGame.Contains(UserModel.Id)).ToList().Select(it => new Room(it.ToProto())));
+            userGames.AddRange(MongoConnector.GetGameRoomCollection().Find(it => it.PlayersInGame.Contains(asUser())).ToList().Select(it => new Room(it.ToProto())));
             return userGames;
         }
 

@@ -34,10 +34,16 @@ namespace Tests
             authHelper.loginToAccount(playerOneInGame);
             gameId = client.CreateNewRoom(new CreateRoomRequest()
             {
-                MaxPlayers = 3,
+                GameSettings = new GameSettings()
+                {
+                    Anonymous = false,
+                    Goal = Goal.Domination,
+                    IsRanked = false,
+                    MaxPlayers = 3,
+                    MinutesPerTick = (1.0/60.0), // One second per tick
+                },
                 RoomName = "TestRoom",
-                MinutesPerTick = (1.0/60.0), // One second per tick
-            }).CreatedRoom.RoomId;
+            }).CreatedRoom.Id;
             authHelper.loginToAccount(playerTwoInGame);
             client.JoinRoom(new JoinRoomRequest()
             {

@@ -7,6 +7,7 @@ using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.Generation
 {
@@ -36,20 +37,25 @@ namespace SubterfugeCore.Core.Generation
         /// <summary>
         /// The generation configuration object.
         /// </summary>
-        public MapConfiguration Configuration;
+        private MapConfiguration mapConfiguration;
 
         /// <summary>
         /// Id Generator for outposts.
         /// </summary>
         private IdGenerator generator = new IdGenerator();
+        
+        private List<Player> players;
 
         /// <summary>
         /// Map Generation constructor to seed map generation
         /// </summary>
         /// <param name="seed">The seed to set the random number generator</param>
-        public MapGenerator(MapConfiguration mapConfiguration)
+        public MapGenerator(MapConfiguration mapConfiguration, List<Player> players)
         {
-            if (mapConfiguration.players.Count <= 0)
+            this.players = players;
+            this.mapConfiguration = mapConfiguration;
+            
+            if (players.Count <= 0)
             {
                 throw new PlayerCountException("A game must have at least one player.");
             }
@@ -61,11 +67,10 @@ namespace SubterfugeCore.Core.Generation
 
             this.RandomGenerator = new SeededRandom(mapConfiguration.Seed);
             this.NameGenerator = new NameGenerator(RandomGenerator);
-            this.Configuration = mapConfiguration;
 
             // Set the map size.
-            int halfPlayers = (int)(Math.Floor(mapConfiguration.players.Count / 2.0));
-            RftVector.Map = new Rft(mapConfiguration.MaxiumumOutpostDistance * 4, halfPlayers * mapConfiguration.MaxiumumOutpostDistance * 2);
+            int halfPlayers = (int)(Math.Floor(players.Count / 2.0));
+            RftVector.Map = new Rft(mapConfiguration.MaximumOutpostDistance * 4, halfPlayers * mapConfiguration.MaximumOutpostDistance * 2);
         }
 
         /// <summary>
@@ -103,8 +108,8 @@ namespace SubterfugeCore.Core.Generation
                 double resultX = translatedX * cs - translatedY * sn;
                 double resultY = translatedY * cs - translatedX * sn;
 
-                resultX += this.Configuration.MaxiumumOutpostDistance;
-                resultY += this.Configuration.MaxiumumOutpostDistance;
+                resultX += mapConfiguration.MaximumOutpostDistance;
+                resultY += mapConfiguration.MaximumOutpostDistance;
 
                 newPosition.X = (float)resultX;
                 newPosition.Y = (float)resultY;
@@ -141,10 +146,10 @@ namespace SubterfugeCore.Core.Generation
             Outpost currentOutpost, otherOutpost;
 
             // Loop to generate outposts until the number of generated outposts is valid
-            while (playerOutposts.Count < this.Configuration.OutpostsPerPlayer + this.Configuration.DormantsPerPlayer)
+            while (playerOutposts.Count < mapConfiguration.OutpostsPerPlayer + mapConfiguration.DormantsPerPlayer)
             {
                 // calculate the new outposts location within allowable raidius
-                distance = this.RandomGenerator.NextDouble() * (this.Configuration.MaxiumumOutpostDistance - this.Configuration.MinimumOutpostDistance) + this.Configuration.MinimumOutpostDistance;
+                distance = this.RandomGenerator.NextDouble() * (mapConfiguration.MaximumOutpostDistance - mapConfiguration.MinimumOutpostDistance) + mapConfiguration.MinimumOutpostDistance;
                 direction = this.RandomGenerator.NextDouble() * Math.PI * 2;  // In radians
 
                 // Determine the type of outpost that is generated
@@ -170,7 +175,7 @@ namespace SubterfugeCore.Core.Generation
                     vectorDistance = otherOutpost.GetCurrentPosition() - currentOutpostPosition;
 
                     //ensure that the new location is not too close to other outposts
-                    if (vectorDistance.Magnitude() < this.Configuration.MinimumOutpostDistance)
+                    if (vectorDistance.Magnitude() < mapConfiguration.MinimumOutpostDistance)
                     {
                         usableLocation = false;
                     }
@@ -208,7 +213,7 @@ namespace SubterfugeCore.Core.Generation
             foreach (Outpost o in outposts)
             {
                 // Add outposts to the closestOutposts list until it has "outpostsPerPlayer" outposts
-                if (closestOutposts.Count < this.Configuration.OutpostsPerPlayer)
+                if (closestOutposts.Count < mapConfiguration.OutpostsPerPlayer)
                 {
                     closestOutposts.Add(o);
                 }
@@ -221,12 +226,12 @@ namespace SubterfugeCore.Core.Generation
                     closestOutposts.Sort((a, b) => (int)((centroid - a.GetCurrentPosition()).Magnitude() - (centroid - b.GetCurrentPosition()).Magnitude()));
 
                     // Determine the distance of the farthest outpost
-                    float farthestDistance = (centroid - closestOutposts[this.Configuration.OutpostsPerPlayer - 1].GetCurrentPosition()).Magnitude();
+                    float farthestDistance = (centroid - closestOutposts[mapConfiguration.OutpostsPerPlayer - 1].GetCurrentPosition()).Magnitude();
 
                     // If the current outpost is closer, put the current outpost in the list, replacing the farther outpost.
                     if (currentDistance < farthestDistance)
                     {
-                        closestOutposts[this.Configuration.OutpostsPerPlayer - 1] = o;
+                        closestOutposts[mapConfiguration.OutpostsPerPlayer - 1] = o;
                     }
                 }
             }
@@ -256,8 +261,8 @@ namespace SubterfugeCore.Core.Generation
             List<Outpost> firstPlayerOutposts = this.GeneratePlayerOutposts();
 
             // Set the ownership of the central X generated outposts to the first player.
-            if (this.Configuration.OutpostsPerPlayer > 0 && Configuration.players.Count > 0)
-                this.SetOutpostOwner(firstPlayerOutposts, Configuration.players[0]);
+            if (this.mapConfiguration.OutpostsPerPlayer > 0 && players.Count > 0)
+                this.SetOutpostOwner(firstPlayerOutposts, players[0]);
 
             // Tile the outposts based on the # of players on a 2xn grid
             // Example:
@@ -266,7 +271,7 @@ namespace SubterfugeCore.Core.Generation
             // 2 4 6 8 10
             //
             // Each # is a player, each player has a (2 * maxSeedDistance)x(2 * maxSeedDistance) area
-            int width = (int)(Math.Ceiling(this.Configuration.players.Count / 2.0f)); // calculate n
+            int width = (int)(Math.Ceiling(players.Count / 2.0f)); // calculate n
             int height = 2;
 
             // Counter for looping through all players
@@ -283,18 +288,18 @@ namespace SubterfugeCore.Core.Generation
                 while (heightCounter <= height)
                 {
                     // Stop early if there is an odd number of players. Ex. w/ 7 players we don't want to generate the 8th grid.
-                    if (playersGenerated < Configuration.players.Count)
+                    if (playersGenerated < players.Count)
                     {
                         // Translate the first player's outposts based on the width/height counter for this player.
                         // Function also applies a random rotation.
-                        List<Outpost> translatedOutposts = this.TranslateOutposts(firstPlayerOutposts, new RftVector(map, this.Configuration.MaxiumumOutpostDistance * widthCounter * 2, this.Configuration.MaxiumumOutpostDistance * heightCounter * 2));
+                        List<Outpost> translatedOutposts = this.TranslateOutposts(firstPlayerOutposts, new RftVector(map, mapConfiguration.MaximumOutpostDistance * widthCounter * 2, mapConfiguration.MaximumOutpostDistance * heightCounter * 2));
 
                         // Update the owner to the new player
                         bool queenGenerated = false;
                         foreach (Outpost o in translatedOutposts)
                         {
                             if (o.GetOwner() != null)
-                                o.SetOwner(Configuration.players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
+                                o.SetOwner(players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
                             if (!queenGenerated)
                             {
                                 o.GetSpecialistManager().AddSpecialist(new Queen(o.GetOwner()));

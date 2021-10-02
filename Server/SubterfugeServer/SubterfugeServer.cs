@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
+using SubterfugeCore.Core;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections.Models;
@@ -23,7 +24,7 @@ namespace SubterfugeServerConsole
                 };
             
             OpenLobbiesResponse roomResponse = new OpenLobbiesResponse();
-            List<SubterfugeRemakeService.Room> rooms = (await Room.GetOpenLobbies()).ConvertAll(it => it.asRoom().Result);
+            List<SubterfugeRemakeService.GameConfiguration> rooms = (await Room.GetOpenLobbies()).Select(it => it.GameConfiguration).ToList();
             roomResponse.Rooms.AddRange(rooms);
             roomResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             
@@ -40,8 +41,8 @@ namespace SubterfugeServerConsole
                 };
             
             PlayerCurrentGamesResponse currentGameResponse = new PlayerCurrentGamesResponse();
-            List<Room> rooms = await dbUserModel.GetActiveRooms();
-            currentGameResponse.Games.AddRange(Task.WhenAll(rooms.Select(async it => await it.asRoom()).ToList()).Result);
+            List<GameConfiguration> rooms = (await dbUserModel.GetActiveRooms()).Select(it => it.GameConfiguration).ToList();
+            currentGameResponse.Games.AddRange(rooms);
             currentGameResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return currentGameResponse;
         }
@@ -56,7 +57,7 @@ namespace SubterfugeServerConsole
                 };
             
             // Ensure max players is over 1
-            if(request.MaxPlayers < 2)
+            if(request.GameSettings.MaxPlayers < 2)
                 return new CreateRoomResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST)
@@ -69,7 +70,7 @@ namespace SubterfugeServerConsole
                
             return new CreateRoomResponse()
             {
-                CreatedRoom = await room.asRoom(),
+                CreatedRoom = room.GameConfiguration,
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             };
         }
@@ -134,7 +135,7 @@ namespace SubterfugeServerConsole
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
 
-            if (room.RoomModel.CreatorId == dbUserModel.UserModel.Id)
+            if (room.GameConfiguration.Creator.Id == dbUserModel.UserModel.Id)
             {
                 return new StartGameEarlyResponse()
                 {
@@ -164,7 +165,7 @@ namespace SubterfugeServerConsole
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
             
-            if (room.RoomModel.PlayersInGame.All(it => it != dbUserModel.UserModel.Id) && !dbUserModel.HasClaim(UserClaim.Admin))
+            if (room.GameConfiguration.Players.All(it => it.Id != dbUserModel.UserModel.Id) && !dbUserModel.HasClaim(UserClaim.Admin))
                 return new GetGameRoomEventsResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
@@ -173,7 +174,7 @@ namespace SubterfugeServerConsole
             List<GameEventModel> events = await room.GetAllGameEvents();
             // Filter out only the player's events and events that have occurred in the past.
             // Get current tick to determine events in the past.
-            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(room.RoomModel.UnixTimeStarted), DateTime.UtcNow);
+            GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(room.GameConfiguration.UnixTimeStarted), DateTime.UtcNow);
             
             // Admins see all events :)
             if (!dbUserModel.HasClaim(UserClaim.Admin))
@@ -269,7 +270,7 @@ namespace SubterfugeServerConsole
                     Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
                 };
             
-            if(room.RoomModel.RoomStatus != RoomStatus.Ongoing)
+            if(room.GameConfiguration.RoomStatus != RoomStatus.Ongoing)
                 return new CreateMessageGroupResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED),
