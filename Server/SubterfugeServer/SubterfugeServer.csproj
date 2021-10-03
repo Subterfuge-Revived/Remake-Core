@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <RootNamespace>SubterfugeServerConsole</RootNamespace>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<TargetFrameworks>netstandard2.0;netcoreapp2.0</TargetFrameworks>
 		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<TargetFrameworks>netstandard2.0;netcoreapp2.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>

@@ -17,6 +17,6 @@ RUN dotnet publish "Server/SubterfugeServer/SubterfugeServer.csproj" -o out -f n
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1
 WORKDIR /app
-COPY --from=publish /app/Server/SubterfugeServer/out/ .
+COPY --from=publish /app/out/ .
 EXPOSE 5000
 ENTRYPOINT ["dotnet", "SubterfugeServer.dll"]
