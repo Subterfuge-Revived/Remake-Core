@@ -4,7 +4,8 @@
         <RootNamespace>SubterfugeServerConsole</RootNamespace>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-		<TargetFrameworks>netstandard2.0;netcoreapp2.0</TargetFrameworks>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
