@@ -10,7 +10,7 @@ WORKDIR /app
 CMD ["dotnet", "test", "Server/SubterfugeServerTest/SubterfugeServerTest.csproj"]
 
 FROM builder as publish
-RUN dotnet publish "Server/SubterfugeServer/SubterfugeServer.csproj" -o out -f netcoreapp2.1 -r linux-x64 --self-contained true -c Release
+RUN dotnet publish "Server/SubterfugeServer/SubterfugeServer.csproj" -o out -c Release
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/runtime:5.0
