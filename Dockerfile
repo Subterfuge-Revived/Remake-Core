@@ -2,9 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 as builder
 WORKDIR /app
 COPY . .
-RUN dotnet restore "Server/ProtoFiles/ProtoFiles.csproj"
 RUN dotnet build "Server/ProtoFiles/ProtoFiles.csproj"
-RUN dotnet restore "Core/SubterfugeCore/SubterfugeCore.csproj"
 RUN dotnet build "Core/SubterfugeCore/SubterfugeCore.csproj"
 
 FROM builder as test
