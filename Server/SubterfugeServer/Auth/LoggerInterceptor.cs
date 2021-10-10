@@ -8,11 +8,18 @@ namespace SubterfugeServerConsole
 {
     public class LoggerInterceptor : Interceptor
     {
+        private string[] blacklist =
+        {
+            "Login",
+            "LoginWithToken",
+            "RegisterAccount",
+        };
         public override TResponse BlockingUnaryCall<TRequest, TResponse>(TRequest request, ClientInterceptorContext<TRequest, TResponse> context,
             BlockingUnaryCallContinuation<TRequest, TResponse> continuation)
         {
             string calledMethod = context.Method.Name;
-            Console.WriteLine($"{calledMethod}: {request}");
+            logMessage(calledMethod, request);
+
             TResponse response = null;
             try
             {
@@ -21,8 +28,9 @@ namespace SubterfugeServerConsole
             catch (Exception e)
             {
                 Console.WriteLine($"{calledMethod}: {e.Message}");
+                Console.WriteLine($"{calledMethod}: {e.StackTrace}");
             }
-            Console.WriteLine($"{calledMethod}: {response}");
+            logMessage(calledMethod, response);
             return response;
         }
 
@@ -30,7 +38,7 @@ namespace SubterfugeServerConsole
             UnaryServerMethod<TRequest, TResponse> continuation)
         {
             string calledMethod = context.Method.Split('/').Last();
-            Console.WriteLine($"{calledMethod}: {request}");
+            logMessage(calledMethod, request);
             TResponse response = null;
             try
             {
@@ -41,8 +49,15 @@ namespace SubterfugeServerConsole
                 Console.WriteLine($"{calledMethod}: {e.Message}");
                 Console.WriteLine($"{calledMethod}: {e.StackTrace}");
             }
-            Console.WriteLine($"{calledMethod}: {response}");
+            logMessage(calledMethod, response);
             return response;
+        }
+
+        public void logMessage<TRequest>(String calledMethod, TRequest request)
+        {
+            if(blacklist.Contains(calledMethod)) {
+                Console.WriteLine($"{calledMethod}: {request}");
+            }
         }
     }
 }

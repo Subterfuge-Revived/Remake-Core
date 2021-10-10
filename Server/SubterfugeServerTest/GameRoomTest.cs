@@ -45,7 +45,7 @@ namespace Tests
             Assert.AreEqual(roomId,openLobbiesResponse.Rooms[0].Id);
             Assert.AreEqual(authHelper.getAccountId("userOne"),openLobbiesResponse.Rooms[0].Creator.Id);
             Assert.AreEqual("userOne",openLobbiesResponse.Rooms[0].Creator.Username);
-            Assert.AreEqual("My Room!",openLobbiesResponse.Rooms[0].RoomName);
+            Assert.AreEqual("My room!",openLobbiesResponse.Rooms[0].RoomName);
             Assert.AreEqual(RoomStatus.Open,openLobbiesResponse.Rooms[0].RoomStatus);
             Assert.AreEqual(false,openLobbiesResponse.Rooms[0].GameSettings.Anonymous);
             Assert.AreEqual(Goal.Domination,openLobbiesResponse.Rooms[0].GameSettings.Goal);
@@ -322,8 +322,7 @@ namespace Tests
         [Test]
         public void PlayerCanStartAGameEarlyIfTwoPlayersAreInTheLobby()
         {
-            CreateRoomResponse roomResponse = authHelper.CreateGameRoom("room1");
-            var roomId = roomResponse.CreatedRoom.Id;
+            var roomId = createRoom();
 
             authHelper.loginToAccount("userTwo");
             JoinRoomResponse joinResponse = client.JoinRoom(new JoinRoomRequest()
@@ -351,8 +350,7 @@ namespace Tests
         [Test]
         public void PlayerCannotStartAGameEarlyWithNobodyInTheLobby()
         {
-            CreateRoomResponse roomResponse = authHelper.CreateGameRoom("room1");
-            var roomId = roomResponse.CreatedRoom.Id;
+            var roomId = createRoom();
             
             StartGameEarlyResponse startGameEarlyResponse = client.StartGameEarly(new StartGameEarlyRequest()
             {
@@ -478,8 +476,8 @@ namespace Tests
 
         private void assertSuccessResponse(ResponseStatus response)
         {
-            Assert.AreEqual(response.IsSuccess, true);
-            Assert.AreEqual(response.Detail, ResponseType.SUCCESS.ToString());
+            Assert.AreEqual(true, response.IsSuccess);
+            Assert.AreEqual(ResponseType.SUCCESS.ToString(), response.Detail);
         }
         
         private MapConfiguration createMapConfiguration()

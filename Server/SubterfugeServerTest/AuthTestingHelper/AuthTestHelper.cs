@@ -32,6 +32,20 @@ namespace Tests.AuthTestingHelper
                     MinutesPerTick = (1.0 / 60.0), // One second per tick
                 },
                 RoomName = roomName,
+                MapConfiguration = new MapConfiguration()
+                {
+                    Seed = 123123,
+                    OutpostsPerPlayer = 3,
+                    MinimumOutpostDistance = 100,
+                    MaximumOutpostDistance = 1200,
+                    DormantsPerPlayer = 3,
+                    OutpostDistribution = new OutpostWeighting()
+                    {
+                        FactoryWeight = 0.33f,
+                        GeneratorWeight = 0.33f,
+                        WatchtowerWeight = 0.33f,
+                    }
+                }
             });
         }
 
