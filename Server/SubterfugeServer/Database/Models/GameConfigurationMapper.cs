@@ -58,7 +58,7 @@ namespace SubterfugeServerConsole.Connections
             isAnonymous = gameConfiguration.GameSettings.Anonymous;
             MaxPlayers = gameConfiguration.GameSettings.MaxPlayers;
 
-            Seed = gameConfiguration.MapConfiguration.Seed;
+            Seed = gameConfiguration?.MapConfiguration?.Seed ?? new Random().Next();
             OutpostsPerPlayer = gameConfiguration.MapConfiguration.OutpostsPerPlayer;
             MinimumOutpostDistance = gameConfiguration.MapConfiguration.MinimumOutpostDistance;
             MaximumOutpostDistance = gameConfiguration.MapConfiguration.MaximumOutpostDistance;

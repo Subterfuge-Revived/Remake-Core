@@ -10,7 +10,8 @@ namespace SubterfugeServerConsole.Responses
             {
                 return new ResponseStatus()
                 {
-                    IsSuccess = true
+                    IsSuccess = true,
+                    Detail = type.ToString(),
                 };
             }
             return new ResponseStatus()
