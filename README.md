@@ -32,3 +32,16 @@ Note: After cloning the repository you will have the `master` branch checked out
 
 If using the Core `dll` class libraries, be sure to [View the API Documentation][documentation on the class library's API here](https://subterfuge-revived.github.io/Remake-Core/index.html) to understand how to make use of the API to load a game and parse a game state.
 
+## Running Unit tests
+
+Once you have the project loaded, you should have two folders, each containing a number of projects. Within each project, a `Test` project is present which is used
+to validate that the code is running as expected. In order to run the test projects, you can simply right click the test project and click "Run tests in <project>".
+
+If your IDE does not have the ability to do this, the following command can be executed to run the tests:
+
+```
+dotnet test Core/SubterfugeCoreTest
+```
+
+Additionally note: The `SubterfugeServerTest` project requires the database to be started. Please see the [Server readme](Server/README.md) for
+more information on starting the database.
