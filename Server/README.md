@@ -29,7 +29,7 @@ Note: After cloning the repository you will have the `master` branch checked out
 
 ## Server Deployment
 
-To deploy the server ensure you are in the server directory (if you are reading this you are in the server directory):
+To deploy the server ensure you are in the `/Server` directory (This file is in the server directory):
 
 `cd Server`
 
@@ -37,12 +37,13 @@ Deploy the server with:
 
 `docker-compose up -d`
 
-Having problems? This deployment doesn't let you run the debugger. If you need to run the debugger on your project to test things, start the redis server alone with:
+The above command, however, won't let you run the debugger. If you need to run the debugger on your project to test things, you should
+start the database alone with:
 
 `docker-compose up db -d`
 
-To start a local server with debugging, modify `SubterfugeServer/Program.cs` line 16 and 12 to reference `localhost` instead of pointing to the docker container names. This will allow
-you to debug the server locally. You can then run the `SubterfugeClient` repository to send sample requests to the server for debugging.
+Once started, you can then start your server locally (with debugging) if needed. First, modify `SubterfugeServer/Program.cs` line 16 and 12 to reference `localhost` instead of pointing to the docker container names.
+You can then run the `SubterfugeClient` repository to send sample requests to the server for debugging, or run the `SubterfugeServerTest` repository to run the entire test suite against the server.
 
 # Repositories
 
@@ -55,7 +56,7 @@ services, service endpoints, and more.
 
 <b>When you modify a `.proto` file, ensure that you `Build` this project! </b> When this project is built, it will create auto-generated files within the `ProtoGenerated` project.
 
-#### ProtoGenerated`
+#### ProtoGenerated
 
 This project SHOULD NEVER BE MODIFIED. This project contains the generated `.cs` files that get created from the `.proto` files in the `ProtoFiles` project. This is a seperate repository
 because this repository doesn't include some of the Protobuf development libraries that are used to generate this code, thus making this project smaller. Additionally, the `ProtoFiles` project
@@ -85,36 +86,6 @@ This will be the case for many other tables and the right design will need to be
 To start a local server with debugging, modify `SubterfugeServer/Program.cs` line 16 and 12 to reference `localhost` instead of pointing to the docker container names. This will allow
 you to debug the server locally. You can then run the `SubterfugeClient` repository to send sample requests to the server for debugging.
 
-# Redis Table Design
+# MongoDB Table Design
 
-```
-Key -> Value
-
-// user info
-user:<userid> -> User
-username:<username> -> userid // To lookup username when logging in & prevent duplicate usernames
-
-// friend/blocks
-user:<userid>:friendRequests -> Incoming Friend Requests
-user:<userid>:friends -> Friends
-user:<userid>:blocks -> BlockedPlayers
-user:<userid>:stats -> Stats    // Player stats
-user:<userid>:messages          // Out of game messaging
-user:<userid>:lobbies:open  -> gameId        // List of open lobbies the player is in or created
-user:<userid>:lobbies:ongoing  -> gameId     // List of ongoing lobbies the player is in
-user:<userid>:lobbies:ended  -> gameId       // List of ended lobbies the player is in
-
-// lobbies
-openlobbies -> gameid           // list of open game rooms
-
-// game info
-game:<gameid> -> gameroom       // generic game info like seed, players involved, etc.
-game:<gameid>:event:<eventId>   // Serialized event info
-game:<gameid>:events            // List of event Ids.
-game:<gameid>:groups:<groupId>:messages // List of Serialized messages in the group including author, time sent, etc.
-game:<gameid>:groups  // List of Serialized data with of the id, group members, created date, etc.
-
-// specialists
-specialists:<specid> -> specConfig  // Database to store custom specs
-userSpecialists -> specid           // list of user created specialists
-```
+View the database models [here](https://github.com/Subterfuge-Revived/Remake-Core/tree/master/Server/SubterfugeServer/Database/Models)
