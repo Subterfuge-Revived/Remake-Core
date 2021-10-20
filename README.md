@@ -18,7 +18,7 @@ For additional information on the game server, view the readme in the `Server` d
 
 1. Install a C# IDE like [Jetbrains Rider](https://www.jetbrains.com/rider/) or [Visual Studios Community 2019](https://visualstudio.microsoft.com/).
 
-2. Once you have installed an IDE, ensure that you have the [.NET standard 2.0 framework](https://dotnet.microsoft.com/download/dotnet-core/2.0).
+2. Once you have installed an IDE, ensure that you have the [.NET standard 2.0 framework](https://dotnet.microsoft.com/download/dotnet-core/2.0) and [.Net Core 5.0](https://dotnet.microsoft.com/download/dotnet/5.0).
 
 3. I'm sure if you're here this step is done but, you need to [download Git](https://git-scm.com/downloads) to gain access to the code
 
