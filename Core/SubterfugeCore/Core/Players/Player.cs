@@ -38,6 +38,11 @@ namespace SubterfugeCore.Core.Players
         private bool _isEliminated;
 
         /// <summary>
+        /// Creates a new PlayerCurrency class to handle the player's currency
+        /// </summary>
+        public PlayerCurrency playerCurrency = new PlayerCurrency();
+
+        /// <summary>
         /// Constructor to create an instance of a player based off of their player Id
         /// </summary>
         /// <param name="playerId">The player's ID in the database</param>
