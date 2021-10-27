@@ -151,5 +151,23 @@ namespace SubterfugeCore.Core.Players
 				return false;
 			}
 		}
+
+		/// <summary>
+        /// Used to get the value of a certian currency
+        /// </summart>
+        /// <param name="currencyName">The name of the currency</param>
+        /// <returns> A number when succeeded</returns>  
+		public int GetCurrency(String currencyName)
+        {
+			if (Currencies.ContainsKey(currencyName)==true)
+            {
+				int Value = (int)Currencies[currencyName]["Amount"];
+				return Value; // Returns the currency value
+            }
+			else
+            {
+				return null; // Return null if no key is found
+            }
+        }
 	}
 }
