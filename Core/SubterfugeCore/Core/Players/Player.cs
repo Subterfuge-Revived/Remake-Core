@@ -38,9 +38,9 @@ namespace SubterfugeCore.Core.Players
         private bool _isEliminated;
 
         /// <summary>
-        /// Creates a new PlayerCurrency class to handle the player's currency
+        /// The player's currency tracker
         /// </summary>
-        public PlayerCurrency playerCurrency = new PlayerCurrency();
+        public PlayerCurrency playerCurrency;
 
         /// <summary>
         /// Constructor to create an instance of a player based off of their player Id
@@ -53,6 +53,7 @@ namespace SubterfugeCore.Core.Players
             this._numMinesBuilt = 0;
             this._neptunium = 0;
             this._isEliminated = false;
+            this.playerCurrency = new PlayerCurrency();
         }
 
         /// <summary>
@@ -64,6 +65,10 @@ namespace SubterfugeCore.Core.Players
         {
             this.PlayerId = playerId;
             this.PlayerName = name;
+            this._numMinesBuilt = 0;
+            this._neptunium = 0;
+            this._isEliminated = false;
+            this.playerCurrency = new PlayerCurrency();
         }
 
         /// <summary>
@@ -74,6 +79,10 @@ namespace SubterfugeCore.Core.Players
         {
             this.PlayerId = user.Id;
             this.PlayerName = user.Username;
+            this._numMinesBuilt = 0;
+            this._neptunium = 0;
+            this._isEliminated = false;
+            this.playerCurrency = new PlayerCurrency();
         }
 
         /// <summary>
