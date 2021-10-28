@@ -152,6 +152,47 @@ namespace Tests
              Assert.IsTrue(dbUserModel.HasClaim(UserClaim.Dev));
              Assert.IsTrue(dbUserModel.HasClaim(UserClaim.EmailVerified));
          }
+
+         [Test]
+         public void CanGetUserRolesOnNewAccount()
+         {
+             String username = "Username";
+             String password = "Password";
+             
+             AccountRegistrationRequest request = new AccountRegistrationRequest()
+             {
+                 Email = "Test@test.com",
+                 Password = password,
+                 Username = username,
+             };
+ 
+             AccountRegistrationResponse response = client.RegisterAccount(request);
+ 
+             Assert.IsTrue(response.Token != null);
+             Assert.IsTrue(response.User.Id != null);
+             Assert.AreEqual(response.User.Username, username);
+
+             GetRolesResponse roleResponse = client.GetRoles(new GetRolesRequest() { });
+             Assert.IsTrue(roleResponse.Status.IsSuccess);
+             Assert.IsTrue(roleResponse.Claims.Contains(UserClaim.User));
+             Assert.IsFalse(roleResponse.Claims.Contains(UserClaim.Admin));
+         }
+         
+         [Test]
+         public void SuperUserAccountHasAdminClaimsFromRolesEndpoint()
+         {
+             SuperUser superUser = DbUserModel.CreateSuperUser().Result;
+             client.Login(new AuthorizationRequest()
+             {
+                 Password = superUser.password,
+                 Username = superUser.DbUserModel.UserModel.Username
+             });
+
+             GetRolesResponse roleResponse = client.GetRoles(new GetRolesRequest() { });
+             Assert.IsTrue(roleResponse.Status.IsSuccess);
+             Assert.IsTrue(roleResponse.Claims.Contains(UserClaim.User));
+             Assert.IsTrue(roleResponse.Claims.Contains(UserClaim.Admin));
+         }
         
     }
 }

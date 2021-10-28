@@ -16,6 +16,8 @@ service subterfugeService {
     // Allows users to register a new account
     rpc RegisterAccount(AccountRegistrationRequest) returns (AccountRegistrationResponse) {}
     
+    rpc GetRoles(GetRolesRequest) returns (GetRolesResponse) {}
+    
     rpc GetOpenLobbies(OpenLobbiesRequest) returns (OpenLobbiesResponse) {}
     
     rpc GetPlayerCurrentGames(PlayerCurrentGamesRequest) returns (PlayerCurrentGamesResponse) {}
@@ -436,6 +438,13 @@ message GetPlayerSpecialistPackagesRequest {
 message GetPlayerSpecialistPackagesResponse {
     ResponseStatus status = 1;
     repeated SpecialistPackage PlayerPackages = 2;
+}
+
+message GetRolesRequest { }
+
+message GetRolesResponse {
+    ResponseStatus status = 1;
+    repeated UserClaim claims = 2;
 }
 
 
