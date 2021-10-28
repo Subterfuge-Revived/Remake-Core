@@ -14,6 +14,20 @@ namespace SubterfugeServerConsole
 {
     public class SubterfugeServer : subterfugeService.subterfugeServiceBase
     {
+        
+        public override Task<GetRolesResponse> GetRoles(GetRolesRequest request, ServerCallContext context)
+        {
+            DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
+            if(dbUserModel == null)
+                return Task.FromResult(new GetRolesResponse()
+                {
+                    Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
+                });
+            var response = new GetRolesResponse();
+            response.Claims.AddRange(dbUserModel.UserModel.Claims);
+            return Task.FromResult(response);
+        }
+
         public override async Task<OpenLobbiesResponse> GetOpenLobbies(OpenLobbiesRequest request, ServerCallContext context)
         {
             DbUserModel dbUserModel = context.UserState["user"] as DbUserModel;
