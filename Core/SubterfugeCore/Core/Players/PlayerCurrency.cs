@@ -157,7 +157,7 @@ namespace SubterfugeCore.Core.Players
         /// </summart>
         /// <param name="currencyName">The name of the currency</param>
         /// <returns> A number when succeeded</returns>  
-		public GetCurrency(String currencyName)
+		public int? GetCurrency(String currencyName)
         {
 			if (Currencies.ContainsKey(currencyName)==true)
             {
