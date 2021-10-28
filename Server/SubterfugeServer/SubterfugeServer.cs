@@ -23,7 +23,10 @@ namespace SubterfugeServerConsole
                 {
                     Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
                 });
-            var response = new GetRolesResponse();
+            
+            var response = new GetRolesResponse() {
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
+            };
             response.Claims.AddRange(dbUserModel.UserModel.Claims);
             return Task.FromResult(response);
         }
