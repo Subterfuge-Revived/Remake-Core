@@ -634,12 +634,14 @@ namespace SubterfugeServerConsole
                 };
 
             ViewFriendsResponse response = new ViewFriendsResponse();
-            List<SubterfugeRemakeService.User> friends = (await Task.WhenAll(
+            var friends = (await Task.WhenAll(
                 (await dbUserModel.GetFriends())
-                    .Select(async it => (await DbUserModel.GetUserFromGuid(it.FriendId)).AsUser()))
-                ).ToList()
-                .FindAll( it => it.Id != dbUserModel.UserModel.Id) // Filter out yourself from the list.
-                .ToList();
+                    .Select(async it =>
+                    {
+                        return it.PlayerId == dbUserModel.UserModel.Id ? (await DbUserModel.GetUserFromGuid(it.FriendId)).AsUser() : (await DbUserModel.GetUserFromGuid(it.PlayerId)).AsUser();
+                    }
+                    )
+                )).ToList();
             
             response.Friends.AddRange(friends);
             response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
