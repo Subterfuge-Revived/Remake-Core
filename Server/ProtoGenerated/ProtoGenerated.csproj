@@ -5,8 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Google.Protobuf" Version="3.8.0" />
-      <PackageReference Include="Grpc" Version="2.34.0" />
+      <PackageReference Include="Google.Protobuf" Version="3.19.1" />
+      <PackageReference Include="Grpc" Version="2.41.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="generated" />
     </ItemGroup>
 
 </Project>
