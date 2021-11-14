@@ -27,9 +27,13 @@ namespace SubterfugeServerConsole.Connections.Models
             return true;
         }
         
-        public static async Task<SpecialistPackageModel> fromId(string packageId)
+        public static async Task<SpecialistPackageModel> FromId(string packageId)
         {
-            SpecialistPackageMapper mapper = MongoConnector.GetSpecialistPackageCollection().Find(it => it.Id == packageId).FirstOrDefault();
+            SpecialistPackageMapper mapper = (await MongoConnector.GetSpecialistPackageCollection()
+                .FindAsync(it => it.Id == packageId))
+                .ToList()
+                .FirstOrDefault();
+            
             if (mapper != null)
             {
                 return new SpecialistPackageModel(mapper.ToProto());
@@ -38,11 +42,10 @@ namespace SubterfugeServerConsole.Connections.Models
             return null;
         }
         
-        public static async Task<List<SpecialistPackageModel>> search(string searchTerm)
+        public static async Task<List<SpecialistPackageModel>> Search(string searchTerm)
         {
-            return MongoConnector.GetSpecialistPackageCollection()
-                .Find(it => it.Creator.Username.Contains(searchTerm) || 
-                            it.PackageName.Contains(searchTerm))
+            return (await MongoConnector.GetSpecialistPackageCollection()
+                .FindAsync(it => it.Creator.Username.Contains(searchTerm) || it.PackageName.Contains(searchTerm)))
                 .ToList()
                 .Select(it => new SpecialistPackageModel(it.ToProto()))
                 .ToList();

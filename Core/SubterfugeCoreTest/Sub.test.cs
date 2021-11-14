@@ -23,7 +23,6 @@ namespace SubterfugeCoreTest
         Sub _sub;
         TestUtils testUtils = new TestUtils();
         Player player = new Player("1");
-        private Game game;
 
         [TestInitialize]
         public void Setup()
@@ -33,7 +32,7 @@ namespace SubterfugeCoreTest
             _outpost = new Generator("0", _location, new Player("1"));
             _tick = new GameTick(10);
             _sub = new Sub("0", _outpost, _outpost, _tick, 0, new Player("1"));
-            Game server = new Game(testUtils.GetDefaultGameConfiguration(new List<Player> { player }));
+            var game = new Game(testUtils.GetDefaultGameConfiguration(new List<Player> { player }));
         }
 
         [TestMethod]

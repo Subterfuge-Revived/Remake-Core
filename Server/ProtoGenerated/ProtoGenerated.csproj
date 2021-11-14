@@ -13,4 +13,8 @@
       <Folder Include="generated" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="generated" />
+    </ItemGroup>
+
 </Project>

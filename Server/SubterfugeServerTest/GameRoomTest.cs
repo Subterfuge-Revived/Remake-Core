@@ -236,10 +236,6 @@ namespace Tests
         [Test]
         public void PlayerWhoCreatesALobbyIsAMemberOfThatLobby()
         {
-            var roomName = "My Room!";
-            var anon = false;
-            var isRanked = false;
-            var goal = Goal.Domination;
             var roomId = createRoom();
             
             // View open rooms.
