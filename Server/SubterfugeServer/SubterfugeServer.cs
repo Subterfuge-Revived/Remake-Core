@@ -81,7 +81,7 @@ namespace SubterfugeServerConsole
                 };
                 
             
-            Room room = new Room(request, dbUserModel.asUser());
+            Room room = new Room(request, dbUserModel.AsUser());
             await room.CreateInDatabase();
                 
                
@@ -471,11 +471,14 @@ namespace SubterfugeServerConsole
             
             ViewBlockedPlayersResponse response = new ViewBlockedPlayersResponse();
 
-            var blockedUsers = Task.WhenAll(
-                dbUserModel.GetBlockedUsers()
-                    .Result
-                    .Select(async it => (await DbUserModel.GetUserFromGuid(it.FriendId)).asUser())
-            ).Result.ToList();
+            var blockedUsers = await Task.WhenAll(
+                (await dbUserModel.GetBlockedUsers())
+                    .Select(
+                        async it => (
+                            await DbUserModel.GetUserFromGuid(it.FriendId)
+                        ).AsUser()
+                    )
+                );
                 
             
             response.BlockedUsers.AddRange(blockedUsers);
@@ -557,11 +560,10 @@ namespace SubterfugeServerConsole
                 };
             
             ViewFriendRequestsResponse response = new ViewFriendRequestsResponse();
-            List<SubterfugeRemakeService.User> friendRequests = Task.WhenAll(
-                dbUserModel.GetFriendRequests()
-                    .Result
-                    .Select(async it => (await DbUserModel.GetUserFromGuid(it.FriendId)).asUser())
-            ).Result.ToList();
+            var friendRequests = await Task.WhenAll(
+                (await dbUserModel.GetFriendRequests())
+                    .Select(async it => (await DbUserModel.GetUserFromGuid(it.FriendId)).AsUser())
+            );
             
             response.IncomingFriends.AddRange(friendRequests);
             response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
@@ -632,21 +634,13 @@ namespace SubterfugeServerConsole
                 };
 
             ViewFriendsResponse response = new ViewFriendsResponse();
-            List<SubterfugeRemakeService.User> friends = Task.WhenAll(
-                dbUserModel.GetFriends()
-                    .Result
-                    .Select(async it =>
-                        {
-                            if (it.PlayerId == dbUserModel.UserModel.Id)
-                            {
-                                return (await DbUserModel.GetUserFromGuid(it.FriendId)).asUser();
-                            }
-                            else
-                            {
-                                return (await DbUserModel.GetUserFromGuid(it.PlayerId)).asUser();
-                            }
-                        }
-                    )).Result.ToList();
+            List<SubterfugeRemakeService.User> friends = (await Task.WhenAll(
+                (await dbUserModel.GetFriends())
+                    .Select(async it => (await DbUserModel.GetUserFromGuid(it.FriendId)).AsUser()))
+                ).ToList()
+                .FindAll( it => it.Id != dbUserModel.UserModel.Id) // Filter out yourself from the list.
+                .ToList();
+            
             response.Friends.AddRange(friends);
             response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return response;
@@ -684,7 +678,7 @@ namespace SubterfugeServerConsole
             return new AuthorizationResponse
             {
                 Token = token,
-                User = dbUserModel.asUser(),
+                User = dbUserModel.AsUser(),
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             };
         }
@@ -708,7 +702,7 @@ namespace SubterfugeServerConsole
                     {
                         Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
                         Token = request.Token,
-                        User = dbUserModel.asUser(),
+                        User = dbUserModel.AsUser(),
                     };
                 }
             }
@@ -736,7 +730,7 @@ namespace SubterfugeServerConsole
             return new AccountRegistrationResponse
             {
                 Token = token,
-                User = model.asUser(),
+                User = model.AsUser(),
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             };    
         }
@@ -751,7 +745,7 @@ namespace SubterfugeServerConsole
                 };
 
             // Set author
-            request.Configuration.Creator = user.asUser();
+            request.Configuration.Creator = user.AsUser();
             SpecialistConfigurationModel configModel = new SpecialistConfigurationModel(request.Configuration);
             await configModel.saveToRedis();
 
@@ -775,7 +769,7 @@ namespace SubterfugeServerConsole
                 };
             
             // Search through all specialists for the search term.
-            List<SpecialistConfigurationModel> results = (await SpecialistConfigurationModel.search(request.SearchTerm)).Skip((int)request.PageNumber * 50).Take(50).ToList();
+            List<SpecialistConfigurationModel> results = (await SpecialistConfigurationModel.Search(request.SearchTerm)).Skip((int)request.PageNumber * 50).Take(50).ToList();
 
             GetCustomSpecialistsResponse response = new GetCustomSpecialistsResponse()
             {
@@ -833,7 +827,7 @@ namespace SubterfugeServerConsole
                 };
 
             // Set author
-            request.SpecialistPackage.Creator = user.asUser();
+            request.SpecialistPackage.Creator = user.AsUser();
             SpecialistPackageModel packageModel = new SpecialistPackageModel(request.SpecialistPackage);
             await packageModel.SaveToDatabase();
 
@@ -857,7 +851,7 @@ namespace SubterfugeServerConsole
                 };
             
             // Search through all specialists for the search term.
-            List<SpecialistPackageModel> results = (await SpecialistPackageModel.search(request.SearchTerm)).Skip((int)request.PageNumber * 50).Take(50).ToList();
+            List<SpecialistPackageModel> results = (await SpecialistPackageModel.Search(request.SearchTerm)).Skip((int)request.PageNumber * 50).Take(50).ToList();
 
             GetSpecialistPackagesResponse response = new GetSpecialistPackagesResponse()
             {

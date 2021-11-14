@@ -30,7 +30,11 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public static async Task<SpecialistConfigurationModel> fromId(string specialistId)
         {
-            SpecialistConfigurationMapper mapper = MongoConnector.GetSpecialistCollection().Find(it => it.Id == specialistId).FirstOrDefault();
+            SpecialistConfigurationMapper mapper = (await MongoConnector.GetSpecialistCollection()
+                .FindAsync(it => it.Id == specialistId))
+                .ToList()
+                .FirstOrDefault();
+            
             if (mapper != null)
             {
                 return new SpecialistConfigurationModel(mapper.ToProto());
@@ -39,11 +43,10 @@ namespace SubterfugeServerConsole.Connections.Models
             return null;
         }
         
-        public static async Task<List<SpecialistConfigurationModel>> search(string searchTerm)
+        public static async Task<List<SpecialistConfigurationModel>> Search(string searchTerm)
         {
-            return MongoConnector.GetSpecialistCollection()
-                .Find(it => it.Creator.Username.Contains(searchTerm) || 
-                            it.SpecialistName.Contains(searchTerm))
+            return (await MongoConnector.GetSpecialistCollection()
+                .FindAsync(it => it.Creator.Username.Contains(searchTerm) || it.SpecialistName.Contains(searchTerm)))
                 .ToList()
                 .Select(it => new SpecialistConfigurationModel(it.ToProto()))
                 .ToList();

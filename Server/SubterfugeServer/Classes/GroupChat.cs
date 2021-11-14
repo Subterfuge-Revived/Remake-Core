@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Responses;
@@ -33,7 +34,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 UnixTimeCreatedAt = DateTime.UtcNow.ToFileTimeUtc(),
             };
             
-            MongoConnector.GetMessagesCollection().InsertOne(model);
+            await MongoConnector.GetMessagesCollection().InsertOneAsync(model);
             
             return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
@@ -43,9 +44,16 @@ namespace SubterfugeServerConsole.Connections.Models
             // pagination fetches the last 50 messages in the chat.
             var start =  pagination <= 1 ? -1 : -50 * (pagination - 1);
             var end = -50 * pagination;
-            List<MessageModel> parsedMessages = MongoConnector.GetMessagesCollection()
-                .Find(message => message.GroupId == MessageGroup.Id && message.RoomId == Room.GameConfiguration.Id)
-                .SortByDescending(message => message.UnixTimeCreatedAt)
+            List<MessageModel> parsedMessages = (await MongoConnector.GetMessagesCollection()
+                .FindAsync(
+                    message => message.GroupId == MessageGroup.Id && message.RoomId == Room.GameConfiguration.Id, 
+                    new FindOptions<MessageModel>() 
+                    {
+                        Sort = Builders<MessageModel>.Sort.Descending(it => it.UnixTimeCreatedAt)
+                        
+                    }
+                ))
+                .ToList()
                 .Skip((pagination - 1) * 50)
                 .ToList()
                 .Take(50)
@@ -69,7 +77,7 @@ namespace SubterfugeServerConsole.Connections.Models
             // Convert UserIds to Users.
             foreach(string userId in MessageGroup.GroupMembers)
             {
-                model.GroupMembers.Add((await DbUserModel.GetUserFromGuid(userId)).asUser());
+                model.GroupMembers.Add((await DbUserModel.GetUserFromGuid(userId)).AsUser());
             }
             
             model.Messages.AddRange(await GetMessages(messagesPagination));

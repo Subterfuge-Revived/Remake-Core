@@ -9,4 +9,8 @@
       <PackageReference Include="Grpc" Version="2.34.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="generated" />
+    </ItemGroup>
+
 </Project>
