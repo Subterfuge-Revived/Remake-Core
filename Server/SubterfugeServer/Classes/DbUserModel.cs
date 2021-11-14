@@ -49,12 +49,11 @@ namespace SubterfugeServerConsole.Connections.Models
         
         public async Task<List<FriendModel>> GetFriends()
         {
-            List<FriendModel> friends = (await MongoConnector.GetFriendCollection()
+            return (await MongoConnector.GetFriendCollection()
                 .FindAsync(it => 
                     (it.PlayerId == UserModel.Id || it.FriendId == UserModel.Id) 
                     && it.FriendStatus == FriendStatus.StatusFriends))
                 .ToList();
-            return friends;
         }
         
         public async Task<List<FriendModel>> GetBlockedUsers()
