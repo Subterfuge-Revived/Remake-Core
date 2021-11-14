@@ -6,9 +6,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Google.Protobuf" Version="3.14.0" />
-      <PackageReference Include="Grpc" Version="2.26.0" />
-      <PackageReference Include="Grpc.Tools" Version="2.26.0" PrivateAssets="All" />
+      <PackageReference Include="Google.Protobuf" Version="3.19.1" />
+      <PackageReference Include="Grpc" Version="2.41.1" />
+      <PackageReference Include="Grpc.Tools" Version="2.41.1" PrivateAssets="All" />
     </ItemGroup>
 	
 	<ItemGroup>
