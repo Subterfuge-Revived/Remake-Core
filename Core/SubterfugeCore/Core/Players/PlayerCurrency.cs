@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using SubterfugeCore.Core.Players;
+using System.Runtime.InteropServices;
+using SubterfugeCore.Core.Entities.Base;
 
 namespace SubterfugeCore.Core.Players
 {
@@ -19,7 +19,7 @@ namespace SubterfugeCore.Core.Players
 		/// <param name="currencyValue">The inital value of the currency</param>
 		/// <param name="canBeNegative">Can the currency go into the negatives</param>
 		/// <returns>True if succeeded</returns>
-		public bool CreateCurrency(String currencyName, int currencyValue, bool canBeNegative)
+		private bool CreateCurrency(String currencyName, int currencyValue, bool? canBeNegative)
 		{
 			if (Currencies.ContainsKey(currencyName) == false)
 			{
@@ -82,7 +82,8 @@ namespace SubterfugeCore.Core.Players
 			}
 			else
 			{
-				return false; // Return false if no value exists
+				bool returnedCurrency = SetCurrency(currencyName, addition);
+				return returnedCurrency;
 			}
 		}
 
@@ -109,21 +110,24 @@ namespace SubterfugeCore.Core.Players
 		/// </summary>
 		/// <param name="currencyName">The name of the currency</param>
 		/// <param name="newValue">The value of the currency</param>
+		/// <param name="canGoNegative">Used when creating a new currency, or altering the bool of another one</param>
 		/// <returns>True if succeeded</returns>
-		public bool SetCurrency(String currencyName, int newValue)
+		public bool SetCurrency(String currencyName, int newValue, [Optional] bool? canGoNegative)
 		{
 			if (Currencies.ContainsKey(currencyName) == true)
 			{
-				bool CanGoNegative = (bool)Currencies[currencyName]["CanBeNegative"];
+				if (canGoNegative == (bool?)Currencies[currencyName]["CanBeNegative"]) {
+					canGoNegative = (bool?)Currencies[currencyName]["CanBeNegative"];
+                }
 
 				if (newValue < 0)
 				{
-					if (CanGoNegative == true)
+					if (canGoNegative == true)
 					{
 						var newCurrencyValues = new Dictionary<String, Object>()
 						{
 							["Amount"] = newValue,
-							["CanBeNegative"] = CanGoNegative
+							["CanBeNegative"] = canGoNegative
 						};
 						Currencies.Remove(currencyName);
 						Currencies.Add(currencyName, newCurrencyValues);
@@ -139,7 +143,7 @@ namespace SubterfugeCore.Core.Players
 					var newCurrencyValues = new Dictionary<String, Object>()
 					{
 						["Amount"] = newValue,
-						["CanBeNegative"] = CanGoNegative
+						["CanBeNegative"] = canGoNegative
 					};
 					Currencies.Remove(currencyName);
 					Currencies.Add(currencyName, newCurrencyValues);
@@ -148,7 +152,11 @@ namespace SubterfugeCore.Core.Players
 			}
 			else
 			{
-				return false;
+				if (canGoNegative == null){
+					canGoNegative = true;
+				}
+				CreateCurrency(currencyName, newValue, canGoNegative);
+				return true;
 			}
 		}
 

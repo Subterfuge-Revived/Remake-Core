@@ -2,6 +2,7 @@
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
+using SubterfugeCore.Core.Entities.Base;
 using SubterfugeCore.Core.Config;
 using SubterfugeRemakeService;
 
