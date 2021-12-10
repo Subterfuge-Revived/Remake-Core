@@ -5,6 +5,7 @@ using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Entities.Base;
 using SubterfugeCore.Core.Config;
 using SubterfugeRemakeService;
+using SubterfugeCore.Core.Players.Currency;
 
 namespace SubterfugeCore.Core.Players
 {
@@ -41,7 +42,7 @@ namespace SubterfugeCore.Core.Players
         /// <summary>
         /// The player's currency tracker
         /// </summary>
-        public PlayerCurrency playerCurrency;
+        public CurrencyManager currencyManager;
 
         /// <summary>
         /// Constructor to create an instance of a player based off of their player Id
@@ -54,7 +55,7 @@ namespace SubterfugeCore.Core.Players
             this._numMinesBuilt = 0;
             this._neptunium = 0;
             this._isEliminated = false;
-            this.playerCurrency = new PlayerCurrency();
+            this.currencyManager = new CurrencyManager();
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace SubterfugeCore.Core.Players
             this._numMinesBuilt = 0;
             this._neptunium = 0;
             this._isEliminated = false;
-            this.playerCurrency = new PlayerCurrency();
+            this.currencyManager = new CurrencyManager();
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace SubterfugeCore.Core.Players
             this._numMinesBuilt = 0;
             this._neptunium = 0;
             this._isEliminated = false;
-            this.playerCurrency = new PlayerCurrency();
+            this.currencyManager = new CurrencyManager();
         }
 
         /// <summary>
