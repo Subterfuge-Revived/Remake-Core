@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using SubterfugeCore.Core.Entities.Base;
 
-namespace SubterfugeCore.Core.Players
+namespace SubterfugeCore.Core.Players.Currency
 {
-	public class PlayerCurrency
+	public class CurrencyManager
 	{
 		/// <summary>
 		/// A table of all the player's currencies
 		/// </summary>
-		private Dictionary<String, Dictionary<String,Object>> Currencies = new Dictionary<String, Dictionary<String, Object>>();
+		private Dictionary<String, Currency> Currencies = new Dictionary<String, Currency>();
 
 		/// <summary>
 		/// Creates a new currency as long as one with the same name doesn't already exist. Returns false if failed.
@@ -23,11 +22,10 @@ namespace SubterfugeCore.Core.Players
 		{
 			if (Currencies.ContainsKey(currencyName) == false)
 			{
-				var currencyValues = new Dictionary<String, Object>() {
-					["Amount"] = currencyValue,
-					["CanBeNegative"] = canBeNegative
-				};
-				Currencies.Add(currencyName, currencyValues);
+				Currency newCurrency = new Currency();
+				newCurrency.value = currencyValue;
+				newCurrency.canBeNegative = canBeNegative;
+				Currencies.Add(currencyName, newCurrency);
 				return true; // Return true if the value was successfully created
 			}
 			else
@@ -46,21 +44,15 @@ namespace SubterfugeCore.Core.Players
 		{
 			if (Currencies.ContainsKey(currencyName) == true)
 			{
-				bool CanGoNegative = (bool)Currencies[currencyName]["CanBeNegative"];
-				int OldValue = (int)Currencies[currencyName]["Amount"];
+				bool CanGoNegative = (bool)Currencies[currencyName].canBeNegative;
+				int OldValue = (int)Currencies[currencyName].value;
 				int NewValue = OldValue + addition;
 
 				if (NewValue < 0)
 				{
 					if (CanGoNegative == true)
 					{
-						var newCurrencyValues = new Dictionary<String, Object>()
-						{
-							["Amount"] = NewValue,
-							["CanBeNegative"] = CanGoNegative
-						};
-						Currencies.Remove(currencyName);
-						Currencies.Add(currencyName, newCurrencyValues);
+						Currencies[currencyName].value = NewValue;
 						return true; // Successfully set negative value
 					}
 					else
@@ -70,14 +62,8 @@ namespace SubterfugeCore.Core.Players
 				}
 				else
 				{
-					var newCurrencyValues = new Dictionary<String, Object>()
-					{
-						["Amount"] = NewValue,
-						["CanBeNegative"] = CanGoNegative
-					};
-					Currencies.Remove(currencyName);
-					Currencies.Add(currencyName, newCurrencyValues);
-					return true; // Returns true if the value is set and is positive
+					Currencies[currencyName].value = NewValue;
+					return true; // Successfully set negative value
 				}
 			}
 			else
@@ -116,22 +102,16 @@ namespace SubterfugeCore.Core.Players
 		{
 			if (Currencies.ContainsKey(currencyName) == true)
 			{
-				if (canGoNegative == (bool?)Currencies[currencyName]["CanBeNegative"]) {
-					canGoNegative = (bool?)Currencies[currencyName]["CanBeNegative"];
+				if (canGoNegative == (bool?)Currencies[currencyName].canBeNegative) {
+					canGoNegative = (bool?)Currencies[currencyName].canBeNegative;
                 }
 
 				if (newValue < 0)
 				{
 					if (canGoNegative == true)
 					{
-						var newCurrencyValues = new Dictionary<String, Object>()
-						{
-							["Amount"] = newValue,
-							["CanBeNegative"] = canGoNegative
-						};
-						Currencies.Remove(currencyName);
-						Currencies.Add(currencyName, newCurrencyValues);
-						return true;
+						Currencies[currencyName].value = newValue;
+						return true; // Successfully set negative value
 					}
 					else
 					{
@@ -140,14 +120,8 @@ namespace SubterfugeCore.Core.Players
 				}
 				else
 				{
-					var newCurrencyValues = new Dictionary<String, Object>()
-					{
-						["Amount"] = newValue,
-						["CanBeNegative"] = canGoNegative
-					};
-					Currencies.Remove(currencyName);
-					Currencies.Add(currencyName, newCurrencyValues);
-					return true;
+					Currencies[currencyName].value = newValue;
+					return true; // Successfully set negative value
 				}
 			}
 			else
@@ -169,7 +143,7 @@ namespace SubterfugeCore.Core.Players
         {
 			if (Currencies.ContainsKey(currencyName)==true)
             {
-				int Value = (int)Currencies[currencyName]["Amount"];
+				int Value = (int)Currencies[currencyName].value;
 				return Value; // Returns the currency value
             }
 			else
