@@ -9,23 +9,21 @@ namespace SubterfugeCore.Core.Players.Currency
 		/// <summary>
 		/// A table of all the player's currencies
 		/// </summary>
-		private Dictionary<String, Currency> Currencies = new Dictionary<String, Currency>();
+		private Dictionary<CurrencyType, Currency> Currencies = new Dictionary<CurrencyType, Currency>();
 
 		/// <summary>
 		/// Creates a new currency as long as one with the same name doesn't already exist. Returns false if failed.
 		/// </summary>
-		/// <param name="currencyName">The name of the currency</param>
+		/// <param name="currencyType">The type of currency (specified in Currency.cs CurrencyType enum)</param>
 		/// <param name="currencyValue">The inital value of the currency</param>
 		/// <param name="canBeNegative">Can the currency go into the negatives</param>
 		/// <returns>True if succeeded</returns>
-		private bool CreateCurrency(String currencyName, int currencyValue, bool? canBeNegative)
+		private bool CreateCurrency(CurrencyType currencyType, int currencyValue, bool? canBeNegative)
 		{
-			if (Currencies.ContainsKey(currencyName) == false)
+			if (Currencies.ContainsKey(currencyType) == false)
 			{
-				Currency newCurrency = new Currency();
-				newCurrency.value = currencyValue;
-				newCurrency.canBeNegative = canBeNegative;
-				Currencies.Add(currencyName, newCurrency);
+				Currency newCurrency = new Currency(currencyValue, canBeNegative);
+				Currencies.Add(currencyType, newCurrency);
 				return true; // Return true if the value was successfully created
 			}
 			else
@@ -37,22 +35,22 @@ namespace SubterfugeCore.Core.Players.Currency
 		/// <summary>
 		/// Add a value to a created currency. Returns false if failed. Pass a negative value to subtract.
 		/// </summary>
-		/// <param name="currencyName">The name of the currency</param>
+		/// <param name="currencyType">The type of currency (specified in Currency.cs CurrencyType enum)</param>
 		/// <param name="addition">The value to add to the currency. Make negative if you wish to subtract.</param>
 		/// <returns>True if succeeded</returns>
-		public bool AddCurrency(String currencyName, int addition)
+		public bool AddCurrency(CurrencyType currencyType, int addition)
 		{
-			if (Currencies.ContainsKey(currencyName) == true)
+			if (Currencies.ContainsKey(currencyType) == true)
 			{
-				bool CanGoNegative = (bool)Currencies[currencyName].canBeNegative;
-				int OldValue = (int)Currencies[currencyName].value;
+				bool CanGoNegative = (bool)Currencies[currencyType].canBeNegative;
+				int OldValue = (int)Currencies[currencyType].value;
 				int NewValue = OldValue + addition;
 
 				if (NewValue < 0)
 				{
 					if (CanGoNegative == true)
 					{
-						Currencies[currencyName].value = NewValue;
+						Currencies[currencyType].value = NewValue;
 						return true; // Successfully set negative value
 					}
 					else
@@ -62,55 +60,37 @@ namespace SubterfugeCore.Core.Players.Currency
 				}
 				else
 				{
-					Currencies[currencyName].value = NewValue;
+					Currencies[currencyType].value = NewValue;
 					return true; // Successfully set negative value
 				}
 			}
 			else
 			{
-				bool returnedCurrency = SetCurrency(currencyName, addition);
+				bool returnedCurrency = SetCurrency(currencyType, addition);
 				return returnedCurrency;
-			}
-		}
-
-		/// <summary>
-		/// Destroys the given currency, removing it from the system. Returns false if failed.
-		/// </summary>
-		/// <param name="currencyName">The name of the currency</param>
-		/// <returns>True if succeeded</returns>
-		public bool DestroyCurrency(String currencyName)
-		{
-			if (Currencies.ContainsKey(currencyName) == true)
-			{
-				Currencies.Remove(currencyName);
-				return true;
-			}
-			else
-			{
-				return false;
 			}
 		}
 
 		/// <summary>
 		/// Directly sets the currency's value. Returns false if failed. Must adhere to the CanBeNegative value.
 		/// </summary>
-		/// <param name="currencyName">The name of the currency</param>
+		/// <param name="currencyType">The type of currency (specified in Currency.cs CurrencyType enum)</param>
 		/// <param name="newValue">The value of the currency</param>
 		/// <param name="canGoNegative">Used when creating a new currency, or altering the bool of another one</param>
 		/// <returns>True if succeeded</returns>
-		public bool SetCurrency(String currencyName, int newValue, [Optional] bool? canGoNegative)
+		public bool SetCurrency(CurrencyType currencyType, int newValue, [Optional] bool? canGoNegative)
 		{
-			if (Currencies.ContainsKey(currencyName) == true)
+			if (Currencies.ContainsKey(currencyType) == true)
 			{
-				if (canGoNegative == (bool?)Currencies[currencyName].canBeNegative) {
-					canGoNegative = (bool?)Currencies[currencyName].canBeNegative;
+				if (canGoNegative == (bool?)Currencies[currencyType].canBeNegative) {
+					canGoNegative = (bool?)Currencies[currencyType].canBeNegative;
                 }
 
 				if (newValue < 0)
 				{
 					if (canGoNegative == true)
 					{
-						Currencies[currencyName].value = newValue;
+						Currencies[currencyType].value = newValue;
 						return true; // Successfully set negative value
 					}
 					else
@@ -120,7 +100,7 @@ namespace SubterfugeCore.Core.Players.Currency
 				}
 				else
 				{
-					Currencies[currencyName].value = newValue;
+					Currencies[currencyType].value = newValue;
 					return true; // Successfully set negative value
 				}
 			}
@@ -129,21 +109,21 @@ namespace SubterfugeCore.Core.Players.Currency
 				if (canGoNegative == null){
 					canGoNegative = true;
 				}
-				CreateCurrency(currencyName, newValue, canGoNegative);
+				CreateCurrency(currencyType, newValue, canGoNegative);
 				return true;
 			}
 		}
 
 		/// <summary>
         /// Used to get the value of a certian currency
-        /// </summart>
-        /// <param name="currencyName">The name of the currency</param>
+        /// </summary>
+        /// <param name="currencyType">The type of currency (specified in Currency.cs CurrencyType enum)</param>
         /// <returns> A number when succeeded</returns>  
-		public int? GetCurrency(String currencyName)
+		public int? GetCurrency(CurrencyType currencyType)
         {
-			if (Currencies.ContainsKey(currencyName)==true)
+			if (Currencies.ContainsKey(currencyType)==true)
             {
-				int Value = (int)Currencies[currencyName].value;
+				int Value = (int)Currencies[currencyType].value;
 				return Value; // Returns the currency value
             }
 			else
