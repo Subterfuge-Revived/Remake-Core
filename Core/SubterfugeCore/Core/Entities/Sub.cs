@@ -332,7 +332,7 @@ namespace SubterfugeCore.Core.Entities
                 { 
                 if(effect.EffectTrigger)
                 }
-                   
+
             }
             
 
