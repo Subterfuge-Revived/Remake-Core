@@ -1,0 +1,78 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy Release
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  unitTest:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-18.04
+    # The container image to pull from dockerhub
+    container: mcr.microsoft.com/dotnet/sdk:5.0
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout
+      uses: actions/checkout@v2
+    # Build proto files
+    - name: Generate Proto
+      run: dotnet build "Server/ProtoFiles/ProtoFiles.csproj"
+    # Install nuget packages
+    - name: Install NuGet packages
+      run: dotnet restore "Core/SubterfugeCore/SubterfugeCore.csproj"
+    # Build the DLL
+    - name: Build DLL
+      run: dotnet build "Core/SubterfugeCore/SubterfugeCore.csproj"
+    - name: Run tests
+      run: dotnet test "Core/SubterfugeCoreTest/SubterfugeCoreTest.csproj"
+  # A step to build docfx documents using a differnt container with docfx installed to PATH
+  upload-docs:
+    runs-on: ubuntu-18.04
+    container: erothejoker/docker-docfx:latest
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout
+      uses: actions/checkout@v2
+    # Run the docfx generation command.
+    - name: Generate docs
+      run: docfx Core/SubterfugeCore/docfx.json
+    - name: GitHub Pages
+      uses: crazy-max/ghaction-github-pages@v1.5.1
+      with:
+        # Build directory to deploy
+        build_dir: Core/SubterfugeCore/_site/
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-18.04
+    # The container image to pull from dockerhub
+    container: mcr.microsoft.com/dotnet/sdk:5.0
+    # Test and upload-docs must both succeed before deploying a release
+    needs: [unitTest, upload-docs]
+    steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Build proto files
+    - name: Generate Proto
+      run: dotnet build "Server/ProtoFiles/ProtoFiles.csproj"
+    # Install nuget packages
+    - name: Install NuGet packages
+      run: dotnet restore "Core/SubterfugeCore/SubterfugeCore.csproj"
+    # Build the DLL
+    - name: Build DLL
+      run: dotnet build "Core/SubterfugeCore/SubterfugeCore.csproj"
+    - uses: actions/upload-artifact@v2
+      with:
+        name: DLLs
+        path: ./**/*.dll

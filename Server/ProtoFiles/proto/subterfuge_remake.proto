@@ -1,0 +1,613 @@
+﻿syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "subterfugeRemake.grpc.service";
+option java_outer_classname = "SubterfugeRemakeProto";
+option objc_class_prefix = "SRP";
+
+package SubterfugeRemakeService;
+
+service subterfugeService {
+    // Allows users to login
+    rpc Login(AuthorizationRequest) returns (AuthorizationResponse) {}
+    
+    rpc LoginWithToken(AuthorizedTokenRequest) returns (AuthorizationResponse) {}
+    
+    // Allows users to register a new account
+    rpc RegisterAccount(AccountRegistrationRequest) returns (AccountRegistrationResponse) {}
+    
+    rpc GetRoles(GetRolesRequest) returns (GetRolesResponse) {}
+    
+    rpc GetOpenLobbies(OpenLobbiesRequest) returns (OpenLobbiesResponse) {}
+    
+    rpc GetPlayerCurrentGames(PlayerCurrentGamesRequest) returns (PlayerCurrentGamesResponse) {}
+    
+    rpc CreateNewRoom(CreateRoomRequest) returns (CreateRoomResponse) {}
+    
+    rpc JoinRoom(JoinRoomRequest) returns (JoinRoomResponse) {}
+
+    rpc LeaveRoom(LeaveRoomRequest) returns (LeaveRoomResponse) {}
+    
+    rpc StartGameEarly (StartGameEarlyRequest) returns (StartGameEarlyResponse) {}
+    
+    rpc GetGameRoomEvents(GetGameRoomEventsRequest) returns (GetGameRoomEventsResponse) {}
+    
+    rpc SubmitGameEvent(SubmitGameEventRequest) returns (SubmitGameEventResponse) {}
+    
+    rpc UpdateGameEvent(UpdateGameEventRequest) returns (SubmitGameEventResponse) {}
+    
+    rpc DeleteGameEvent(DeleteGameEventRequest) returns (DeleteGameEventResponse) {}
+    
+    rpc CreateMessageGroup(CreateMessageGroupRequest) returns (CreateMessageGroupResponse) {}
+    
+    rpc SendMessage(SendMessageRequest) returns (SendMessageResponse) {}
+    
+    rpc GetMessageGroups(GetMessageGroupsRequest) returns (GetMessageGroupsResponse) {}
+
+    rpc GetGroupMessages(GetGroupMessagesRequest) returns (GetGroupMessagesResponse) {}
+    
+    rpc BlockPlayer(BlockPlayerRequest) returns (BlockPlayerResponse) {}
+
+    rpc UnblockPlayer(UnblockPlayerRequest) returns (UnblockPlayerResponse) {}
+
+    rpc ViewBlockedPlayers(ViewBlockedPlayersRequest) returns (ViewBlockedPlayersResponse) {}
+
+    rpc SendFriendRequest(SendFriendRequestRequest) returns (SendFriendRequestResponse) {}
+
+    rpc AcceptFriendRequest(AcceptFriendRequestRequest) returns (AcceptFriendRequestResponse) {}
+
+    rpc DenyFriendRequest(DenyFriendRequestRequest) returns (DenyFriendRequestResponse) {}
+
+    rpc ViewFriendRequests(ViewFriendRequestsRequest) returns (ViewFriendRequestsResponse) {}
+
+    rpc RemoveFriend(RemoveFriendRequest) returns (RemoveFriendResponse) {}
+
+    rpc ViewFriends(ViewFriendsRequest) returns (ViewFriendsResponse) {}
+    
+    rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
+
+    rpc AuthorizedHealthCheck(AuthorizedHealthCheckRequest) returns (AuthorizedHealthCheckResponse) {}
+    
+    rpc SubmitCustomSpecialist(SubmitCustomSpecialistRequest) returns (SubmitCustomSpecialistResponse) {}
+
+    rpc GetCustomSpecialists(GetCustomSpecialistsRequest) returns (GetCustomSpecialistsResponse) {}
+
+    rpc GetPlayerCustomSpecialists(GetPlayerCustomSpecialistsRequest) returns (GetPlayerCustomSpecialistsResponse) {}
+
+    rpc CreateSpecialistPackage(CreateSpecialistPackageRequest) returns (CreateSpecialistPackageResponse) {}
+
+    rpc GetSpecialistPackages(GetSpecialistPackagesRequest) returns (GetSpecialistPackagesResponse) {}
+
+    rpc GetPlayerSpecialistPackages(GetPlayerSpecialistPackagesRequest) returns (GetPlayerSpecialistPackagesResponse) {}
+}
+
+message ResponseStatus {
+    bool isSuccess = 2;
+    string detail = 3;
+}
+
+message AuthorizationRequest {
+    string Username = 1;
+    string Password = 2;
+}
+
+message AuthorizedTokenRequest {
+    string Token = 1;
+}
+
+message AuthorizationResponse {
+    ResponseStatus status = 1;
+    User User = 2;
+    string Token = 3;
+}
+
+message AccountRegistrationRequest {
+    string Username = 1;
+    string Password = 2;
+    string Email = 3;
+    string DeviceIdentifier = 4;
+}
+
+message AccountRegistrationResponse {
+    ResponseStatus status = 1;
+    User User = 2;
+    string Token = 3;
+}
+
+message User {
+    string Id = 1;
+    string Username = 2;
+}
+
+message OpenLobbiesRequest {
+    RoomStatus RoomStatus = 1;
+    bool FilterByPlayer = 2;
+}
+
+enum RoomStatus {
+    OPEN = 0;
+    ONGOING = 1;
+    CLOSED = 2;
+    PRIVATE = 3;
+}
+
+message OpenLobbiesResponse {
+    ResponseStatus status = 1;
+    repeated GameConfiguration Rooms = 2;
+}
+
+message GameConfiguration {
+    string Id = 1;
+    RoomStatus RoomStatus = 2;
+    User Creator = 3;
+    GameSettings GameSettings = 4;
+    MapConfiguration MapConfiguration = 5;
+    string RoomName = 6;
+    int64 UnixTimeCreated = 9;
+    int64 UnixTimeStarted = 10;
+    repeated User Players = 12;
+}
+
+message GameSettings {
+    repeated SpecialistConfiguration allowedSpecialists = 1;
+    double MinutesPerTick = 2;
+    Goal Goal = 3;
+    bool IsRanked = 4;
+    bool Anonymous = 5;
+    int32 MaxPlayers = 6;
+}
+
+message MapConfiguration {
+    int32 Seed = 1;
+    int32 OutpostsPerPlayer = 2;
+    int32 MinimumOutpostDistance = 3;
+    int32 MaximumOutpostDistance = 4;
+    int32 DormantsPerPlayer = 5;
+    OutpostWeighting OutpostDistribution = 6;
+}
+
+message OutpostWeighting {
+    float generatorWeight = 1;
+    float factoryWeight = 2;
+    float watchtowerWeight = 3;
+}
+
+enum Goal {
+    MINING = 0;
+    DOMINATION = 1;
+}
+
+message CreateRoomRequest {
+    GameSettings GameSettings = 2;
+    MapConfiguration MapConfiguration = 3;
+    string RoomName = 6;
+    bool isPrivate = 7;
+}
+
+message CreateRoomResponse {
+    ResponseStatus status = 1;
+    GameConfiguration createdRoom = 2;
+}
+
+message JoinRoomRequest {
+    string RoomId = 1;
+}
+
+message JoinRoomResponse {
+    ResponseStatus status = 1;
+}
+
+message LeaveRoomRequest {
+    string RoomId = 1;
+}
+
+message LeaveRoomResponse {
+    ResponseStatus status = 1;
+}
+
+message StartGameEarlyRequest {
+    string RoomId = 1;    
+}
+
+message StartGameEarlyResponse {
+    ResponseStatus status = 1;
+}
+
+message GetGameRoomEventsRequest {
+    string RoomId = 1;
+    int64 AfterTick = 2;
+}
+
+message GetGameRoomEventsResponse {
+    ResponseStatus status = 1;
+    repeated GameEventModel GameEvents = 2;
+}
+
+message GameEventRequest {
+    EventType eventType = 1;
+    int32 OccursAtTick = 3;
+    bytes EventData = 5;
+}
+
+message SubmitGameEventRequest {
+    string RoomId = 1;
+    GameEventRequest EventData = 2;
+}
+
+message SubmitGameEventResponse {
+    ResponseStatus status = 1;
+    string EventId = 3;
+}
+
+message UpdateGameEventRequest {
+    string RoomId = 1;
+    string eventId = 2;
+    GameEventRequest EventData = 3;
+}
+
+message DeleteGameEventRequest {
+    string RoomId = 1;
+    string EventId = 2;
+}
+
+message DeleteGameEventResponse {
+    ResponseStatus status = 1;
+}
+
+message CreateMessageGroupRequest {
+    string RoomId = 1;
+    repeated string UserIdsInGroup = 2;
+}
+
+message CreateMessageGroupResponse {
+    ResponseStatus status = 1;
+    string GroupId = 2;
+}
+
+message SendMessageRequest {
+    string RoomId = 1;
+    string GroupId = 2;
+    string Message = 3;
+}
+
+message SendMessageResponse {
+    ResponseStatus status = 1;
+}
+
+message GetMessageGroupsRequest {
+    string RoomId = 1;    
+}
+
+message GetMessageGroupsResponse {
+    ResponseStatus status = 1;
+    repeated MessageGroup MessageGroups = 2;
+}
+
+message MessageGroup {
+    string GroupId = 1;
+    repeated User GroupMembers = 2;
+    repeated MessageModel Messages = 3;
+}
+
+message BlockPlayerRequest {
+    string UserIdToBlock = 1;
+}
+
+message BlockPlayerResponse {
+    ResponseStatus status = 1;
+}
+
+message UnblockPlayerRequest {
+    string UserIdToBlock = 1;
+}
+
+message UnblockPlayerResponse {
+    ResponseStatus status = 1;
+}
+
+message ViewBlockedPlayersRequest {}
+
+message ViewBlockedPlayersResponse {
+    ResponseStatus status = 1;
+    repeated User BlockedUsers = 2;
+}
+
+message SendFriendRequestRequest {
+    string FriendId = 1;
+}
+
+message SendFriendRequestResponse {
+    ResponseStatus status = 1;
+}
+
+message AcceptFriendRequestRequest {
+    string FriendId = 1;
+}
+
+message AcceptFriendRequestResponse {
+    ResponseStatus status = 1;
+}
+
+message DenyFriendRequestRequest {
+    string FriendId = 1;
+}
+
+message DenyFriendRequestResponse {
+    ResponseStatus status = 1;
+}
+
+message ViewFriendRequestsRequest {}
+
+message ViewFriendRequestsResponse {
+    ResponseStatus status = 1;
+    repeated User IncomingFriends = 2;
+}
+
+message RemoveFriendRequest {
+    string FriendId = 1;
+}
+
+message RemoveFriendResponse {
+    ResponseStatus status = 1;
+}
+
+message ViewFriendsRequest { }
+
+message ViewFriendsResponse {
+    ResponseStatus status = 1;
+    repeated User Friends = 2;
+}
+
+message HealthCheckRequest { }
+message HealthCheckResponse {
+    ResponseStatus status = 1;
+}
+message AuthorizedHealthCheckRequest { }
+message AuthorizedHealthCheckResponse {
+    ResponseStatus status = 1;
+}
+
+message PlayerCurrentGamesRequest{}
+message PlayerCurrentGamesResponse{
+    ResponseStatus status = 1;
+    repeated GameConfiguration games = 2;
+}
+
+message GetGroupMessagesRequest {
+    string roomId = 1;
+    string groupId = 2;
+    int32 pagination = 3;
+}
+
+message GetGroupMessagesResponse {
+    ResponseStatus status = 1;
+    MessageGroup group = 2;
+}
+
+message SubmitCustomSpecialistRequest {
+    SpecialistConfiguration Configuration = 1;
+}
+    
+message SubmitCustomSpecialistResponse {
+    ResponseStatus status = 1;
+    string SpecialistConfigurationId = 2;
+}
+
+message GetCustomSpecialistsRequest {
+    int64 pageNumber = 1;
+    string searchTerm = 2;
+}
+
+message GetCustomSpecialistsResponse {
+    ResponseStatus status = 1;
+    repeated SpecialistConfiguration CustomSpecialists = 2;
+}
+
+message CreateSpecialistPackageRequest {
+    SpecialistPackage SpecialistPackage = 1;
+}
+
+message CreateSpecialistPackageResponse {
+    ResponseStatus status = 1;
+    string SpecialistPackageId = 2;
+}
+
+message GetSpecialistPackagesRequest {
+    int64 pageNumber = 1;
+    string searchTerm = 2;
+}
+
+message GetSpecialistPackagesResponse {
+    ResponseStatus status = 1;
+    repeated SpecialistPackage SpecialistPackages = 2;
+}
+
+message GetPlayerCustomSpecialistsRequest {
+    string playerId = 1;
+}
+
+message GetPlayerCustomSpecialistsResponse {
+    ResponseStatus status = 1;
+    repeated SpecialistConfiguration PlayerSpecialists = 2;
+}
+
+message GetPlayerSpecialistPackagesRequest {
+    string playerId = 1;
+}
+
+message GetPlayerSpecialistPackagesResponse {
+    ResponseStatus status = 1;
+    repeated SpecialistPackage PlayerPackages = 2;
+}
+
+message GetRolesRequest { }
+
+message GetRolesResponse {
+    ResponseStatus status = 1;
+    repeated UserClaim claims = 2;
+}
+
+
+// For database and server processing only.
+// Players should never be shown or given access to the full data model as it contains confidential information
+
+message FriendModel {
+    string Id = 1;
+    string playerId = 2;
+    string friendId = 3;
+    FriendStatus FriendStatus = 4;
+    int64 UnixTimeCreated = 5;
+}
+
+enum FriendStatus {
+    STATUS_NO_RELATION = 0;
+    STATUS_PENDING = 1;
+    STATUS_FRIENDS = 2;
+    STATUS_BLOCKED = 3;
+}
+
+message UserModel {
+    string Id = 1;
+    string Username = 2;
+    string PasswordHash = 3;
+    string Email = 4;
+    string deviceIdentifier = 5;
+    bool emailVerified = 6;
+    repeated UserClaim claims = 7;
+    string pushNotificationIdentifier = 8;
+}
+
+enum UserClaim {
+    UNKNOWN = 0;
+    USER = 1;
+    DEV = 2;
+    ADMIN = 3;
+    EMAIL_VERIFIED = 4;
+    BANNED = 5;
+}
+
+message GameEventModel {
+    string Id = 1;
+    int64 UnixTimeIssued = 2;
+    int32 OccursAtTick = 3;
+    string IssuedBy = 4;
+    bytes EventData = 5;
+    EventType eventType = 6;
+    string roomId = 7;
+}
+
+message GroupModel {
+    string Id = 1;
+    repeated string GroupMembers = 2;
+    string roomId = 3;
+}
+
+message MessageModel {
+    string Id = 1;
+    string roomId = 2;
+    string groupId = 3;
+    int64 UnixTimeCreatedAt = 4;
+    string SenderId = 5;
+    string Message = 6;
+}
+
+enum EventType {
+    UNKNOWN_EVENT = 0;
+    LAUNCH_EVENT = 1;
+    TOGGLE_SHIELD_EVENT = 2;
+    DRILL_MINE_EVENT = 3;
+}
+
+// Spec config
+
+enum EffectTrigger {
+    NoTrigger = 0;
+    Hire = 1;
+    Promote = 2;
+    SubLaunch = 3;
+    SubArrive = 4;
+    OutpostCombat = 5;
+    SubCombat = 6;
+    CombatLoss = 7;
+    CombatVictory = 8;
+    FactoryProduce = 9;
+    MineProduce = 10;
+    SubEnter = 11;
+}
+
+enum EffectTarget {
+    NoTarget = 0;
+    Firendly = 1;
+    Enemy = 2;
+    BothCombatParticipants = 3;
+    All = 4;
+}
+
+enum EffectTriggerRange {
+    Self = 0;
+    Local = 1;
+    ConstantRange = 2;
+    LocationVisionRange = 3;
+    PlayerVisionRange = 4;
+    Global = 5;
+}
+
+enum EffectModifier {
+    Driller = 0;
+    SpecialistCapacity = 1;
+    ShieldValue = 2;
+    ShieldRegeneration = 3;
+    ShieldMaxValue = 4;
+    Vision = 5;
+    Speed = 6;
+    KillPlayer = 7;
+    VictoryPlayer = 8;
+    KillSpecialist = 9;
+    NoEffect = 10;
+}
+
+enum EffectScale {
+    NoScale = 0;
+    ConstantValue = 1;
+    PlayerOutpostCount = 2;
+    PlayerMineCount = 3;
+    PlayerFactoryCount = 4;
+    PlayerDrillerCount = 5;
+    PlayerSpecialistCount = 6;
+}
+
+message SpecialistConfiguration {
+    string Id = 1;
+    int64 Priority = 2;
+    string SpecialistName = 3;
+    User Creator = 4;
+    repeated SpecialistEffectConfiguration specialistEffects = 5;
+    string PromotesFrom = 6;
+}
+
+message SpecialistEffectConfiguration {
+    int64 Value = 1;
+    EffectTrigger EffectTrigger = 2;
+    EffectTarget EffectTarget = 3;
+    EffectTriggerRange EffectTriggerRange = 4;
+    EffectModifier EffectModifier = 5;
+    SpecialistEffectScale EffectScale = 6;
+}
+
+message SpecialistEffectScale {
+    EffectScale EffectScale = 6;
+    EffectTarget EffectScaleTarget = 7;
+    EffectTriggerRange ScaleTriggerRange = 8;
+}
+
+message SpecialistPackage {
+    User Creator = 1;
+    string PackageName = 2;
+    string Id = 3;
+    repeated string specialistIds = 4;
+    repeated string SpecialistPackageIds = 5;
+}
+
+message SpecialistPackageConfiguration {
+    repeated SpecialistConfiguration SpecialistConfigurations = 2;
+}

@@ -1,0 +1,35 @@
+﻿version: '3'
+
+services:
+  server:
+    build: .
+    image: subterfuge_server
+    depends_on:
+      - db
+    volumes:
+      - ".:/var/www"
+    ports:
+      - 5000:5000
+  
+  db:
+    image: "mongo:5.0-rc"
+    command: --auth
+    volumes:
+      - "./mongodb:/data/db"
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=subterfugeDb
+      
+  server_test:
+    build:
+      context: .
+      target: test
+    depends_on:
+      - db
+      - server
+
+volumes:
+  db: {  }

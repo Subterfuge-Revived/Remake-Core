@@ -1,0 +1,27 @@
+﻿syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "subterfugeRemake.grpc.service";
+option java_outer_classname = "GameEventModels";
+option objc_class_prefix = "GEM";
+
+package GameEventModels;
+
+service GameEvents {
+	
+}
+
+message LaunchEventData {
+	string sourceId = 2;
+	string destinationId = 3;
+	int32 drillerCount = 4;
+	repeated string specialistIds = 5;
+}
+
+message ToggleShieldEventData {
+	string sourceId = 1;
+}
+
+message DrillMineEventData {
+	string sourceId = 1;
+}
