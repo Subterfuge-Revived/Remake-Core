@@ -1,5 +1,7 @@
 ﻿using GameEventModels;
 using Google.Protobuf;
+using SubterfugeCore.Core.Components;
+using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
@@ -19,10 +21,11 @@ namespace SubterfugeCore.Core.GameEvents
         }
         public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            ICombatable source = state.GetCombatableById(GetEventData().SourceId);
-            if (source != null && !source.GetOwner().IsEliminated())
+            ShieldManager shieldManager = state.GetEntity(GetEventData().SourceId).GetComponent<ShieldManager>();
+            DrillerCarrier drillerCarrier = state.GetEntity(GetEventData().SourceId).GetComponent<DrillerCarrier>();
+            if (shieldManager != null && !drillerCarrier.GetOwner().IsEliminated())
             {
-                source.GetShieldManager().ToggleShield();
+                shieldManager.ToggleShield();
                 EventSuccess = true;
             }
             else
@@ -37,8 +40,8 @@ namespace SubterfugeCore.Core.GameEvents
         {
             if (EventSuccess)
             {
-                ICombatable source = state.GetCombatableById(GetEventData().SourceId);
-                source.GetShieldManager().ToggleShield();
+                ShieldManager shieldManager = state.GetEntity(GetEventData().SourceId).GetComponent<ShieldManager>();
+                shieldManager.ToggleShield();
             }
             return EventSuccess;
         }

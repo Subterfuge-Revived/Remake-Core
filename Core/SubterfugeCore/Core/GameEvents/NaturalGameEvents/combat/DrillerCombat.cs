@@ -1,4 +1,5 @@
-﻿using SubterfugeCore.Core.Entities;
+﻿using SubterfugeCore.Core.Components;
+using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.GameEvents.Validators;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
@@ -10,8 +11,8 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
     /// </summary>
     public class DrillerCombat : IReversible
     {
-        ICombatable _combatant1;
-        ICombatable _combatant2;
+        Entity _combatant1;
+        Entity _combatant2;
         bool _eventSuccess = false;
 
         int _preCombatDrillers1;
@@ -22,7 +23,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// </summary>
         /// <param name="combatant1">Combatant 1</param>
         /// <param name="combatant2">Combatant 2</param>
-        public DrillerCombat(ICombatable combatant1, ICombatable combatant2)
+        public DrillerCombat(Entity combatant1, Entity combatant2)
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
@@ -37,8 +38,8 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             if (_eventSuccess)
             {
                 // Restore driller counts.
-                _combatant1.SetDrillerCount(_preCombatDrillers1);
-                _combatant2.SetDrillerCount(_preCombatDrillers2);
+                _combatant1.GetComponent<DrillerCarrier>().SetDrillerCount(_preCombatDrillers1);
+                _combatant2.GetComponent<DrillerCarrier>().SetDrillerCount(_preCombatDrillers2);
             }
             return _eventSuccess;
         }
@@ -51,10 +52,10 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         {
             if (Validator.ValidateICombatable(state, _combatant1) && Validator.ValidateICombatable(state, _combatant2))
             {
-                _preCombatDrillers1 = _combatant1.GetDrillerCount();
-                _preCombatDrillers2 = _combatant2.GetDrillerCount();
-                _combatant1.RemoveDrillers(_preCombatDrillers2);
-                _combatant2.RemoveDrillers(_preCombatDrillers1);
+                _preCombatDrillers1 = _combatant1.GetComponent<DrillerCarrier>().GetDrillerCount();
+                _preCombatDrillers2 = _combatant2.GetComponent<DrillerCarrier>().GetDrillerCount();
+                _combatant1.GetComponent<DrillerCarrier>().RemoveDrillers(_preCombatDrillers2);
+                _combatant2.GetComponent<DrillerCarrier>().RemoveDrillers(_preCombatDrillers1);
                 this._eventSuccess = true; 
             }
             else

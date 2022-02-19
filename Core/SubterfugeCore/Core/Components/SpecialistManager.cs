@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Specialists.Effects;
+using SubterfugeCore.Core.EventArgs;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 
@@ -10,7 +12,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
     /// <summary>
     /// Specialist management class to facilitate adding and removing specialists from ISpecialistCarrier classes.
     /// </summary>
-    public class SpecialistManager
+    public class SpecialistManager : EntityComponent
     {
         /// <summary>
         /// The maximum number of specialists that can be stored in this carrier
@@ -22,21 +24,28 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// </summary>
         List<Specialist> _specialists = new List<Specialist>();
 
+        
+        public event EventHandler<OnAddSpecialistEventArgs> OnAddSpecialist;
+        public event EventHandler<OnRemoveSpecialistEventArgs> OnRemoveSpecialist;
+        public event EventHandler<OnSpecialistCapacityChangeEventArgs> OnSpecialistCapacityChange;
+        public event EventHandler<OnSpecialistCapturedEventArgs> OnSpecialistCaptured;
+        public event EventHandler<OnSpecialistUncapturedEventArgs> OnSpecialistUncaptured;
+
         /// <summary>
         /// Constructor for the specialist manager. Sets the capacity to 3 by default.
         /// </summary>
-        public SpecialistManager()
+        public SpecialistManager(Entity parent) : base(parent)
         {
-            this._capacity = 3;  // default capacity
+            _capacity = 3;  // default capacity
         }
         
         /// <summary>
         /// Constructor with a specific capacity
         /// </summary>
         /// <param name="capacity">The capacity of the manager</param>
-        public SpecialistManager(int capacity)
+        public SpecialistManager(Entity parent, int capacity) : base(parent)
         {
-            this._capacity = capacity;
+            _capacity = capacity;
         }
         
         /// <summary>
@@ -45,7 +54,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <returns>A list of the held specialists</returns>
         public List<Specialist> GetSpecialists()
         {
-            return this._specialists;
+            return _specialists;
         }
 
         /// <summary>
@@ -54,7 +63,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <returns>If a specialist can be added</returns>
         public bool CanAddSpecialist()
         {
-            return this._specialists.Count < _capacity;
+            return _specialists.Count < _capacity;
         }
 
         /// <summary>
@@ -63,8 +72,15 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="specialist">The specialist to add to the location</param>
         public void AddSpecialist(Specialist specialist)
         {
-            if(this._specialists.Count < _capacity)
-                this._specialists.Add(specialist);
+            if (_specialists.Count < _capacity)
+            {
+                _specialists.Add(specialist);
+                OnAddSpecialist?.Invoke(this, new OnAddSpecialistEventArgs()
+                {
+                    AddedSpecialist = specialist,
+                    AddedTo = this,
+                });
+            }
         }
 
         /// <summary>
@@ -75,9 +91,14 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             foreach(Specialist s in specialists)
             {
-                if(this._specialists.Count < _capacity)
+                if(_specialists.Count < _capacity)
                 {
-                    this._specialists.Add(s);
+                    _specialists.Add(s);
+                    OnAddSpecialist?.Invoke(this, new OnAddSpecialistEventArgs()
+                    {
+                        AddedSpecialist = s,
+                        AddedTo = this,
+                    });
                 }
             }
         }
@@ -88,7 +109,12 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="specialist">The specialist to remove</param>
         public void RemoveSpecialist(Specialist specialist)
         {
-            this._specialists.Remove(specialist);
+            _specialists.Remove(specialist);
+            OnRemoveSpecialist?.Invoke(this, new OnRemoveSpecialistEventArgs()
+            {
+                RemovedSpecialist = specialist,
+                RemovedFrom = this,
+            });
         }
 
         /// <summary>
@@ -99,9 +125,14 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             foreach(Specialist s in specialists)
             {
-                if (this._specialists.Contains(s))
+                if (_specialists.Contains(s))
                 {
-                    this._specialists.Remove(s);
+                    _specialists.Remove(s);
+                    OnRemoveSpecialist?.Invoke(this, new OnRemoveSpecialistEventArgs()
+                    {
+                        RemovedSpecialist = s,
+                        RemovedFrom = this,
+                    });
                 }
             }
         }
@@ -112,7 +143,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <returns>The capacity of specialists</returns>
         public int GetCapacity()
         {
-            return this._capacity;
+            return _capacity;
         }
 
         /// <summary>
@@ -121,7 +152,14 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="capacity">The capacity to set</param>
         public void SetCapacity(int capacity)
         {
-            this._capacity = capacity;
+            var previousCapacity = _capacity;
+            _capacity = capacity;
+            OnSpecialistCapacityChange?.Invoke(this, new OnSpecialistCapacityChangeEventArgs()
+            {
+                newCapacity = capacity,
+                previousCapacity = previousCapacity,
+                SpecialistManager = this,
+            });
         }
 
         
@@ -131,7 +169,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <returns>The current number of specialists</returns>
         public int GetSpecialistCount()
         {
-            return this._specialists.Count;
+            return _specialists.Count;
         }
         
         /// <summary>
@@ -140,8 +178,27 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="specialistManager"></param>
         public void transferSpecialistsTo(SpecialistManager specialistManager)
         {
-            specialistManager.AddSpecialists(this._specialists);
-            this._specialists.Clear();
+            foreach(Specialist s in _specialists)
+            {
+                RemoveSpecialist(s);
+                specialistManager.AddSpecialist(s);
+            }
+        }
+        
+        /// <summary>
+        /// Transfers all of the specialists from this specialist manager to the target specialist manager.
+        /// </summary>
+        /// <param name="specialistManager"></param>
+        public void transferSpecialistsById(SpecialistManager destinationSpecialistManager, List<string> specialistIds)
+        {
+            foreach (Specialist s in _specialists)
+            {
+                if(specialistIds.Contains(s.GetId()))
+                {
+                    RemoveSpecialist(s);
+                    destinationSpecialistManager.AddSpecialist(s);
+                }
+            }
         }
         
         /// <summary>
@@ -152,6 +209,11 @@ namespace SubterfugeCore.Core.Entities.Specialists
             foreach(Specialist s in _specialists)
             {
                 s.IsCaptured = true;
+                OnSpecialistCaptured?.Invoke(this, new OnSpecialistCapturedEventArgs()
+                {
+                    CapturedSpecialist = s,
+                    SpecialistManager = this,
+                });
             }
         }
 
@@ -163,6 +225,11 @@ namespace SubterfugeCore.Core.Entities.Specialists
             foreach(Specialist s in _specialists)
             {
                 s.IsCaptured = false;
+                OnSpecialistUncaptured?.Invoke(this, new OnSpecialistUncapturedEventArgs()
+                {
+                    UncapturedSpecialist = s,
+                    SpecialistManager = this,
+                });
             }
         }
         

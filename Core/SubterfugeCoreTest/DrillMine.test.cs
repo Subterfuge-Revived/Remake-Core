@@ -73,7 +73,7 @@ namespace SubterfugeCoreTest
 		public void ExtractFromGameEventModel()
 		{
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
-			ICombatable combatable = tm.GetState().GetCombatableById(drillMine.GetEventData().SourceId);
+			ICombatable combatable = tm.GetState().GetEntity(drillMine.GetEventData().SourceId);
 			Assert.IsNotNull(combatable);
 			Assert.IsTrue(combatable is Outpost);
 			Assert.IsFalse(combatable is Mine);

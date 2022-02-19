@@ -1,4 +1,5 @@
 using System;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
@@ -34,6 +35,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 		/// <summary>
 		/// Factory Constructor
 		/// </summary>
+		/// <param name="id">ID of the outpost</param>
 		/// <param name="outpostStartPosition">Position of outpost</param>
 		public Factory(string id, RftVector outpostStartPosition) : base(id, outpostStartPosition)
 		{
@@ -45,6 +47,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 		/// <summary>
 		/// Factory Constructor
 		/// </summary>
+		/// <param name="id">ID of the outpost</param>
 		/// <param name="outpostStartPosition">Position of outpost</param>
 		/// <param name="outpostOwner">Owner of outpost</param>
 		public Factory(string id, RftVector outpostStartPosition, Player outpostOwner) : base(id, outpostStartPosition, outpostOwner)
@@ -58,11 +61,6 @@ namespace SubterfugeCore.Core.Entities.Positions
 			return OutpostType.Factory;
 		}
 
-		public override float GetVisionRange()
-		{
-			return Constants.BASE_OUTPOST_VISION_RADIUS;
-		}
-
 		/// <summary>
 		/// Gets the number of drillers that would be produced by this factory if
 		/// a production cycle occurred in the current GameState.
@@ -72,7 +70,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 		/// the driller production of the factory, whichever is lower. </returns>
 		public int GetDrillerProduction(GameState state)
 		{
-			return Math.Min(state.GetExtraDrillerCapcity(GetOwner()), this._drillersPerProduction);
+			return Math.Min(state.GetExtraDrillerCapcity(GetComponent<DrillerCarrier>().GetOwner()), this._drillersPerProduction);
 		}
 
 		/// <summary>

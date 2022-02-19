@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Interfaces;
@@ -19,7 +20,7 @@ namespace SubterfugeCore.Core.GameEvents.Validators
         /// </summary>
         /// <param name="combatable">The ICombatable to validate</param>
         /// <returns></returns>
-        public static bool ValidateICombatable(GameState state, ICombatable combatable)
+        public static bool ValidateICombatable(GameState state, Entity combatable)
         {
             if(combatable is Outpost)
             {
@@ -42,15 +43,15 @@ namespace SubterfugeCore.Core.GameEvents.Validators
                 return false;
             if (!state.SubExists(sub))
                 return false;
-            if (sub.GetDrillerCount() < 0)
+            if (sub.GetComponent<DrillerCarrier>().GetDrillerCount() < 0)
                 return false;
-            if (sub.GetSpecialistManager() == null)
+            if (sub.GetComponent<SpecialistManager>() == null)
                 return false;
-            if (sub.GetSpecialistManager().GetSpecialistCount() < 0)
+            if (sub.GetComponent<SpecialistManager>().GetSpecialistCount() < 0)
                 return false;
-            if (sub.GetSpecialistManager().GetSpecialistCount() > sub.GetSpecialistManager().GetCapacity())
+            if (sub.GetComponent<SpecialistManager>().GetSpecialistCount() > sub.GetComponent<SpecialistManager>().GetCapacity())
                 return false;
-            if (!state.PlayerExists(sub.GetOwner()))
+            if (sub.GetComponent<DrillerCarrier>().GetOwner() != null && !state.PlayerExists(sub.GetComponent<DrillerCarrier>().GetOwner()))
                 return false;
             return true;
         }
@@ -66,15 +67,15 @@ namespace SubterfugeCore.Core.GameEvents.Validators
                 return false;
             if (!state.OutpostExists(outpost))
                 return false;
-            if (outpost.GetDrillerCount() < 0)
+            if (outpost.GetComponent<DrillerCarrier>().GetDrillerCount() < 0)
                 return false;
-            if (outpost.GetSpecialistManager() == null)
+            if (outpost.GetComponent<SpecialistManager>() == null)
                 return false;
-            if (outpost.GetSpecialistManager().GetSpecialistCount() < 0)
+            if (outpost.GetComponent<SpecialistManager>().GetSpecialistCount() < 0)
                 return false;
-            if (outpost.GetSpecialistManager().GetSpecialistCount() > outpost.GetSpecialistManager().GetCapacity())
+            if (outpost.GetComponent<SpecialistManager>().GetSpecialistCount() > outpost.GetComponent<SpecialistManager>().GetCapacity())
                 return false;
-            if (outpost.GetOwner() != null && !state.PlayerExists(outpost.GetOwner()))
+            if (outpost.GetComponent<DrillerCarrier>().GetOwner() != null && !state.PlayerExists(outpost.GetComponent<DrillerCarrier>().GetOwner()))
                 return false;
             return true;
         }

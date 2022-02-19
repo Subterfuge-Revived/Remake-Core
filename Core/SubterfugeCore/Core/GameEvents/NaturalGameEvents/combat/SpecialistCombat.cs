@@ -2,7 +2,10 @@
 using SubterfugeCore.Core.GameEvents.Validators;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
+using SubterfugeCore.Core.Components;
+using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
 
@@ -13,8 +16,8 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
     /// </summary>
     public class SpecialistCombat : IReversible
     {
-        ICombatable _combatant1;
-        ICombatable _combatant2;
+        Entity _combatant1;
+        Entity _combatant2;
         bool _eventSuccess = false;
 
         List<Specialist> _combatant1Specialists = new List<Specialist>();
@@ -25,7 +28,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// </summary>
         /// <param name="combatant1">Combatant 1</param>
         /// <param name="combatant2">Combatant 2</param>
-        public SpecialistCombat(ICombatable combatant1, ICombatable combatant2)
+        public SpecialistCombat(Entity combatant1, Entity combatant2)
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
@@ -34,12 +37,12 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 
         public bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            this._combatant1Specialists = _combatant1.GetSpecialistManager().GetSpecialists();
-            this._combatant2Specialists = _combatant1.GetSpecialistManager().GetSpecialists();
+            this._combatant1Specialists = _combatant1.GetComponent<SpecialistManager>().GetSpecialists();
+            this._combatant2Specialists = _combatant1.GetComponent<SpecialistManager>().GetSpecialists();
 
             List<Specialist> specialists = new List<Specialist>();
-            specialists.AddRange(_combatant1.GetSpecialistManager().GetSpecialists());
-            specialists.AddRange(_combatant2.GetSpecialistManager().GetSpecialists());
+            specialists.AddRange(_combatant1.GetComponent<SpecialistManager>().GetSpecialists());
+            specialists.AddRange(_combatant2.GetComponent<SpecialistManager>().GetSpecialists());
 
             while (specialists.Count > 0)
             {
@@ -58,8 +61,8 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                     }
                 }
                 // Apply the specialist effect to the enemey.
-                ICombatable enemy = _combatant1.GetOwner() == topPriority.GetOwner() ? _combatant2 : _combatant1;
-                ICombatable friendly = _combatant1.GetOwner() == topPriority.GetOwner() ? _combatant1 : _combatant2;
+                Entity enemy = _combatant1.GetComponent<DrillerCarrier>().GetOwner() == topPriority.GetOwner() ? _combatant2 : _combatant1;
+                Entity friendly = _combatant1.GetComponent<DrillerCarrier>().GetOwner() == topPriority.GetOwner() ? _combatant1 : _combatant2;
                 topPriority.ApplyEffect(state, friendly, enemy);
             }
             return true;
@@ -87,8 +90,8 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                     }
                 }
                 // Apply the specialist effect to the enemey.
-                ICombatable enemy = _combatant1.GetOwner() == lowPriority.GetOwner() ? _combatant2 : _combatant1;
-                ICombatable friendly = _combatant1.GetOwner() == lowPriority.GetOwner() ? _combatant1 : _combatant2;
+                Entity enemy = _combatant1.GetComponent<DrillerCarrier>().GetOwner() == lowPriority.GetOwner() ? _combatant2 : _combatant1;
+                Entity friendly = _combatant1.GetComponent<DrillerCarrier>().GetOwner() == lowPriority.GetOwner() ? _combatant1 : _combatant2;
                 lowPriority.UndoEffect(state, friendly, enemy);
             }
             return true;

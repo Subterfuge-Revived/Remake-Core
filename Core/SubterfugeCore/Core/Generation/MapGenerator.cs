@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
@@ -92,7 +93,7 @@ namespace SubterfugeCore.Core.Generation
             foreach (Outpost outpost in outposts)
             {
                 // Get original outpost location
-                RftVector position = outpost.GetCurrentPosition();
+                RftVector position = outpost.GetComponent<PositionManager>().GetStaticPosition();
 
                 // New vector for the copied location
                 RftVector newPosition = new RftVector(RftVector.Map, position.X, position.Y);
@@ -119,8 +120,8 @@ namespace SubterfugeCore.Core.Generation
 
                 // Add a new outpost to the translated outposts list
                 Outpost newOutpost = CreateOutpost(newPosition, outpost.GetOutpostType());
-                newOutpost.SetOwner(outpost.GetOwner());
-                newOutpost.Name = this.NameGenerator.GetRandomName();
+                newOutpost.GetComponent<DrillerCarrier>().SetOwner(outpost.GetComponent<DrillerCarrier>().GetOwner());
+                newOutpost.GetComponent<IdentityManager>().SetName(NameGenerator.GetRandomName());
                 translatedOutposts.Add(newOutpost);
             }
             // Return the translated outposts.
@@ -172,7 +173,7 @@ namespace SubterfugeCore.Core.Generation
                 {
                     // Get the X and Y pos to find distance
                     otherOutpost = playerOutposts[idx];
-                    vectorDistance = otherOutpost.GetCurrentPosition() - currentOutpostPosition;
+                    vectorDistance = otherOutpost.GetComponent<PositionManager>().GetStaticPosition() - currentOutpostPosition;
 
                     //ensure that the new location is not too close to other outposts
                     if (vectorDistance.Magnitude() < mapConfiguration.MinimumOutpostDistance)
@@ -185,7 +186,7 @@ namespace SubterfugeCore.Core.Generation
                 if (usableLocation || playerOutposts.Count == 0)
                 {
                     currentOutpost = CreateOutpost(currentOutpostPosition, type);
-                    currentOutpost.Name = this.NameGenerator.GetRandomName();
+                    currentOutpost.GetComponent<IdentityManager>().SetName(NameGenerator.GetRandomName());
                     playerOutposts.Add(currentOutpost);
                 }
             }
@@ -220,13 +221,13 @@ namespace SubterfugeCore.Core.Generation
                 else
                 {
                     // Determine the distance to the current outpost from the centroid
-                    float currentDistance = (centroid - o.GetCurrentPosition()).Magnitude();
+                    float currentDistance = (centroid - o.GetComponent<PositionManager>().GetStaticPosition()).Magnitude();
 
                     // Sort the closestOutpost list to determine the farthest outpost (maybe this one is closer).
-                    closestOutposts.Sort((a, b) => (int)((centroid - a.GetCurrentPosition()).Magnitude() - (centroid - b.GetCurrentPosition()).Magnitude()));
+                    closestOutposts.Sort((a, b) => (int)((centroid - a.GetComponent<PositionManager>().GetStaticPosition()).Magnitude() - (centroid - b.GetComponent<PositionManager>().GetStaticPosition()).Magnitude()));
 
                     // Determine the distance of the farthest outpost
-                    float farthestDistance = (centroid - closestOutposts[mapConfiguration.OutpostsPerPlayer - 1].GetCurrentPosition()).Magnitude();
+                    float farthestDistance = (centroid - closestOutposts[mapConfiguration.OutpostsPerPlayer - 1].GetComponent<PositionManager>().GetStaticPosition()).Magnitude();
 
                     // If the current outpost is closer, put the current outpost in the list, replacing the farther outpost.
                     if (currentDistance < farthestDistance)
@@ -240,8 +241,8 @@ namespace SubterfugeCore.Core.Generation
             // And provide some drillers.
             foreach (Outpost closeOutpost in closestOutposts)
             {
-                closeOutpost.SetOwner(player);
-                closeOutpost.AddDrillers(Constants.INITIAL_DRILLERS_PER_OUTPOST);
+                closeOutpost.GetComponent<DrillerCarrier>().SetOwner(player);
+                closeOutpost.GetComponent<DrillerCarrier>().AddDrillers(Constants.INITIAL_DRILLERS_PER_OUTPOST);
             }
         }
 
@@ -298,11 +299,11 @@ namespace SubterfugeCore.Core.Generation
                         bool queenGenerated = false;
                         foreach (Outpost o in translatedOutposts)
                         {
-                            if (o.GetOwner() != null)
-                                o.SetOwner(players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
+                            if (o.GetComponent<DrillerCarrier>().GetOwner() != null)
+                                o.GetComponent<DrillerCarrier>().SetOwner(players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
                             if (!queenGenerated)
                             {
-                                o.GetSpecialistManager().AddSpecialist(new Queen(o.GetOwner()));
+                                o.GetComponent<SpecialistManager>().AddSpecialist(new Queen(o.GetComponent<DrillerCarrier>().GetOwner()));
                                 queenGenerated = true;
                             }
                         }

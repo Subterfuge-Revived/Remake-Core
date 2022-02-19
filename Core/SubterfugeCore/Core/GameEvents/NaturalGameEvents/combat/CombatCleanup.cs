@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
@@ -13,8 +14,8 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
     public class CombatCleanup : IReversible
     {
 
-        private ICombatable winner;
-        private ICombatable loser;
+        private Entity winner;
+        private Entity loser;
         private bool isSuccess = false;
         private bool isTie = false;
         
@@ -22,14 +23,14 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         private Player losingPlayer;
         private List<Specialist> loserSpecialists;
 
-        public CombatCleanup(ICombatable combatant1, ICombatable combatant2)
+        public CombatCleanup(Entity combatant1, Entity combatant2)
         {
             // Determine the losing sub:
-            if (combatant1.GetDrillerCount() < combatant2.GetDrillerCount())
+            if (combatant1.GetComponent<DrillerCarrier>().GetDrillerCount() < combatant2.GetComponent<DrillerCarrier>().GetDrillerCount())
             {
                 loser = combatant1;
                 winner = combatant2;
-            } else if (combatant1.GetDrillerCount() > combatant2.GetDrillerCount())
+            } else if (combatant1.GetComponent<DrillerCarrier>().GetDrillerCount() > combatant2.GetComponent<DrillerCarrier>().GetDrillerCount())
             {
                 loser = combatant2;
                 winner = combatant1;
@@ -37,14 +38,14 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             else
             {
                 // Tie. Compare specialist count.
-                if (combatant1.GetSpecialistManager().GetSpecialistCount() <
-                    combatant2.GetSpecialistManager().GetSpecialistCount())
+                if (combatant1.GetComponent<SpecialistManager>().GetSpecialistCount() <
+                    combatant2.GetComponent<SpecialistManager>().GetSpecialistCount())
                 {
                     loser = combatant1;
                     winner = combatant2;
                 }
-                else if (combatant2.GetSpecialistManager().GetSpecialistCount() >
-                         combatant2.GetSpecialistManager().GetSpecialistCount())
+                else if (combatant1.GetComponent<SpecialistManager>().GetSpecialistCount() >
+                         combatant2.GetComponent<SpecialistManager>().GetSpecialistCount())
                 {
                     loser = combatant2;
                     winner = combatant1;
@@ -64,9 +65,9 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                 }
             }
 
-            initialLoserDrillerCount = loser.GetDrillerCount();
-            losingPlayer = loser.GetOwner();
-            loserSpecialists = loser.GetSpecialistManager().GetSpecialists();
+            initialLoserDrillerCount = loser.GetComponent<DrillerCarrier>().GetDrillerCount();
+            losingPlayer = loser.GetComponent<DrillerCarrier>().GetOwner();
+            loserSpecialists = loser.GetComponent<SpecialistManager>().GetSpecialists();
         }
         
         public bool ForwardAction(TimeMachine timeMachine, GameState state)
@@ -80,10 +81,10 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             if (loser is Sub)
             {
                 // Cleanup the sub.
-                if (loser.GetSpecialistManager().GetSpecialistCount() > 0)
+                if (loser.GetComponent<SpecialistManager>().GetSpecialistCount() > 0)
                 {
-                    loser.GetSpecialistManager().captureAll();
-                    ((Sub) loser).IsCaptured = true;
+                    loser.GetComponent<SpecialistManager>().captureAll();
+                    ((Sub) loser).GetComponent<DrillerCarrier>().SetCaptured(true);
                 }
                 else
                 {
@@ -95,15 +96,15 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             if (loser is Outpost)
             {
                 // Transfer Ownership and give drillers.
-                loser.SetOwner(winner.GetOwner());
+                loser.GetComponent<DrillerCarrier>().SetOwner(winner.GetComponent<DrillerCarrier>().GetOwner());
                 
                 // Remove the winning sub and make it arrive at the outpost.
-                loser.SetDrillerCount(0);
-                loser.AddDrillers(winner.GetDrillerCount());
+                loser.GetComponent<DrillerCarrier>().SetDrillerCount(0);
+                loser.GetComponent<DrillerCarrier>().AddDrillers(winner.GetComponent<DrillerCarrier>().GetDrillerCount());
                 
                 // Transfer any specialists to the outpost.
-                loser.GetSpecialistManager().captureAll();
-                winner.GetSpecialistManager().transferSpecialistsTo(loser.GetSpecialistManager());
+                loser.GetComponent<SpecialistManager>().captureAll();
+                winner.GetComponent<SpecialistManager>().transferSpecialistsTo(loser.GetComponent<SpecialistManager>());
                 
                 // Remove the incoming sub.
                 state.RemoveSub((Sub)winner);
@@ -124,10 +125,10 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             if (loser is Sub)
             {
                 // Undo the sub cleanup
-                if (loser.GetSpecialistManager().GetSpecialistCount() > 0)
+                if (loser.GetComponent<SpecialistManager>().GetSpecialistCount() > 0)
                 {
-                    loser.GetSpecialistManager().uncaptureAll();
-                    ((Sub) loser).IsCaptured = false;
+                    loser.GetComponent<SpecialistManager>().uncaptureAll();
+                    ((Sub) loser).GetComponent<DrillerCarrier>().SetCaptured(false);
                 }
                 else
                 {
@@ -139,13 +140,13 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
             if (loser is Outpost)
             {
                 // Transfer Ownership and give drillers.
-                loser.SetOwner(losingPlayer);
-                loser.SetDrillerCount(initialLoserDrillerCount);
+                loser.GetComponent<DrillerCarrier>().SetOwner(losingPlayer);
+                loser.GetComponent<DrillerCarrier>().SetDrillerCount(initialLoserDrillerCount);
                 
                 // Put the winner's specialists back
-                winner.GetSpecialistManager().AddSpecialists(loser.GetSpecialistManager().GetPlayerSpecialists(winner.GetOwner()));
+                winner.GetComponent<SpecialistManager>().AddSpecialists(loser.GetComponent<SpecialistManager>().GetPlayerSpecialists(winner.GetComponent<DrillerCarrier>().GetOwner()));
                 // Uncapture the losing player's specialists
-                loser.GetSpecialistManager().uncaptureAll();
+                loser.GetComponent<SpecialistManager>().uncaptureAll();
                 
                 // Put the incoming sub back
                 state.AddSub((Sub)winner);
