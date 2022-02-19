@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
 using SubterfugeCore.Core.Interfaces;
@@ -39,7 +40,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="state">The game state to get the effects for.</param>
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
-        public abstract List<EffectDelta> GetForwardEffectDeltas(GameState state, ICombatable friendly, ICombatable enemy);
+        public abstract List<EffectDelta> GetForwardEffectDeltas(GameState state, Entity friendly, Entity enemy);
         
         /// <summary>
         /// Applies the event's backwards action
@@ -47,11 +48,11 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="state">The game state to get the effects for.</param>
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
-        public abstract List<EffectDelta> GetBackwardEffectDeltas(GameState state, ICombatable friendly, ICombatable enemy);
+        public abstract List<EffectDelta> GetBackwardEffectDeltas(GameState state, Entity friendly, Entity enemy);
 
-        public List<ICombatable> getEffectTargets(GameState state, ICombatable friendly, ICombatable enemy)
+        public List<Entity> getEffectTargets(GameState state, Entity friendly, Entity enemy)
         {
-            List<ICombatable> targets = new List<ICombatable>();
+            List<Entity> targets = new List<Entity>();
             
             // Filter based on the trigger range first
             switch (_effectTriggerRange)
@@ -86,10 +87,10 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                 case EffectTarget.Both:
                     break;
                 case EffectTarget.Enemy:
-                    targets = targets.FindAll(x => x.GetOwner() != friendly.GetOwner());
+                    targets = targets.FindAll(x => x.GetComponent<DrillerCarrier>().GetOwner() != friendly.GetComponent<DrillerCarrier>().GetOwner());
                     break;
                 case EffectTarget.Friendly:
-                    targets = targets.FindAll(x => x.GetOwner() == friendly.GetOwner());
+                    targets = targets.FindAll(x => x.GetComponent<DrillerCarrier>().GetOwner() == friendly.GetComponent<DrillerCarrier>().GetOwner());
                     break;
                 case EffectTarget.None:
                     targets.RemoveAll(x => true);

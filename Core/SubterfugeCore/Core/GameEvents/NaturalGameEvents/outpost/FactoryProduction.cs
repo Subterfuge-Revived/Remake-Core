@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.Timing;
@@ -25,9 +26,9 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 		public override bool ForwardAction(TimeMachine timemachine, GameState state)
 		{
 			this._productionAmount = this._producingFactory.GetDrillerProduction(state);
-			if (state.OutpostExists(_producingFactory) && this._productionAmount > 0 && !this._producingFactory.IsDestroyed())
+			if (state.OutpostExists(_producingFactory) && this._productionAmount > 0 && !this._producingFactory.GetComponent<DrillerCarrier>().IsDestroyed())
 			{
-				this._producingFactory.AddDrillers(this._productionAmount);
+				this._producingFactory.GetComponent<DrillerCarrier>().AddDrillers(this._productionAmount);
 				base.EventSuccess = true;
 				if (this._nextProduction == null)
 				{
@@ -46,7 +47,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 		{
 			if (base.EventSuccess)
 			{
-				this._producingFactory.RemoveDrillers(this._productionAmount);
+				this._producingFactory.GetComponent<DrillerCarrier>().RemoveDrillers(this._productionAmount);
 				return true;
 			}
 			return false;

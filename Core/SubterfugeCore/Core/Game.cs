@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
@@ -66,7 +67,7 @@ namespace SubterfugeCore.Core
             // All owned factories should start producing drillers
             foreach (Outpost o in generatedOutposts)
             {
-                if (o is Factory && o.GetOwner() != null)
+                if (o is Factory && o.GetComponent<DrillerCarrier>().GetOwner() != null)
                 {
                     Factory f = (Factory)o;
                     TimeMachine.AddEvent(new FactoryProduction(f, f.GetTicksToFirstProduction()));

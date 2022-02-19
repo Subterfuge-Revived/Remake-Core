@@ -90,7 +90,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// </summary>
         /// <param name="friendly">The friendly combatable to effect</param>
         /// <param name="enemy">The enemy combatable to effect</param>
-        public void ApplyEffect(GameState state, ICombatable friendly, ICombatable enemy)
+        public void ApplyEffect(GameState state, Entity friendly, Entity enemy)
         {
             foreach(SpecialistEffect effect in this._specialistEffects)
             {
@@ -103,7 +103,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// </summary>
         /// <param name="friendly">The friendly combatable to reverse effects to</param>
         /// <param name="enemy">The enemy combatable to reverse effects to</param>
-        public void UndoEffect(GameState state, ICombatable friendly, ICombatable enemy)
+        public void UndoEffect(GameState state, Entity friendly, Entity enemy)
         {
             foreach (SpecialistEffect effect in this._specialistEffects)
             {

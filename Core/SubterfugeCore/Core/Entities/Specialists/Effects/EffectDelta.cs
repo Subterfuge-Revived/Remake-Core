@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
 using SubterfugeCore.Core.Interfaces;
 
@@ -23,9 +24,9 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <summary>
         /// A reference to the target to apply the effects to.
         /// </summary>
-        public ICombatable EffectMe { get; set; }
+        public Entity EffectMe { get; set; }
 
-        public EffectDelta(int value, ICombatable effectMe, EffectModifier modifier)
+        public EffectDelta(int value, Entity effectMe, EffectModifier modifier)
         {
             this.Value = value;
             this.Modifier = modifier;
@@ -41,11 +42,11 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             switch (Modifier)
             {
                 case EffectModifier.Driller:
-                    EffectMe.AddDrillers(Value);
+                    EffectMe.GetComponent<DrillerCarrier>().AddDrillers(Value);
                     break;
                 case EffectModifier.SpecialistCapacity:
-                    int capacity = EffectMe.GetSpecialistManager().GetCapacity();
-                    EffectMe.GetSpecialistManager().SetCapacity(capacity + Value);
+                    int capacity = EffectMe.GetComponent<SpecialistManager>().GetCapacity();
+                    EffectMe.GetComponent<SpecialistManager>().SetCapacity(capacity + Value);
                     break;
                 case EffectModifier.Vision:
                 case EffectModifier.ShieldValue:
@@ -68,11 +69,11 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             switch (Modifier)
             {
                 case EffectModifier.Driller:
-                    EffectMe.RemoveDrillers(Value);
+                    EffectMe.GetComponent<DrillerCarrier>().RemoveDrillers(Value);
                     break;
                 case EffectModifier.SpecialistCapacity:
-                    int capacity = EffectMe.GetSpecialistManager().GetCapacity();
-                    EffectMe.GetSpecialistManager().SetCapacity(capacity - Value);
+                    int capacity = EffectMe.GetComponent<SpecialistManager>().GetCapacity();
+                    EffectMe.GetComponent<SpecialistManager>().SetCapacity(capacity - Value);
                     break;
                 case EffectModifier.Vision:
                 case EffectModifier.ShieldValue:

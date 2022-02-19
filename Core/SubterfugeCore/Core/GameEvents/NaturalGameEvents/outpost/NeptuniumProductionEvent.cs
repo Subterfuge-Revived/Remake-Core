@@ -1,4 +1,5 @@
-﻿using SubterfugeCore.Core.GameEvents.Base;
+﻿using SubterfugeCore.Core.Components;
+using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Timing;
 
@@ -24,10 +25,10 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 
 		public override bool ForwardAction(TimeMachine timeMachine, GameState state)
 		{
-			if (!_mine.GetOwner().IsEliminated() && state.GetOutposts().Contains(_mine) && !_mine.IsDestroyed())
+			if (!_mine.GetComponent<DrillerCarrier>().GetOwner().IsEliminated() && state.GetOutposts().Contains(_mine) && !_mine.GetComponent<DrillerCarrier>().IsDestroyed())
 			{
-				_mine.GetOwner().AlterNeptunium(1);
-				this._nextProduction = new NeptuniumProductionEvent(_mine, GetOccursAt().Advance(Mine.TICKS_PER_PRODUCTION_PER_MINE / state.GetPlayerOutposts(_mine.GetOwner()).Count));
+				_mine.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(1);
+				this._nextProduction = new NeptuniumProductionEvent(_mine, GetOccursAt().Advance(Mine.TICKS_PER_PRODUCTION_PER_MINE / state.GetPlayerOutposts(_mine.GetComponent<DrillerCarrier>().GetOwner()).Count));
 				timeMachine.AddEvent(this._nextProduction);
 				EventSuccess = true;
 			}
@@ -42,7 +43,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 		{
 			if (EventSuccess)
 			{
-				_mine.GetOwner().AlterNeptunium(-1);
+				_mine.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(-1);
 			}
 			return EventSuccess;
 		}

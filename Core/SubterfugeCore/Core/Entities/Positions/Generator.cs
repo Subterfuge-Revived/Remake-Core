@@ -9,6 +9,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 		/// <summary>
 		/// Generator constructor
 		/// </summary>
+		/// <param name="id">ID of the outpost</param>
 		/// <param name="outpostStartPosition">Position of outpost</param>
 		public Generator(string id, RftVector outpostStartPosition) : base(id, outpostStartPosition)
 		{
@@ -17,6 +18,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 		/// <summary>
 		/// Generator constructor
 		/// </summary>
+		/// <param name="id">ID of the outpost</param>
 		/// <param name="outpostStartPosition">Position of outpost</param>
 		/// <param name="outpostOwner">Owner of outpost</param>
 		public Generator(string id, RftVector outpostStartPosition, Player outpostOwner) : base(id, outpostStartPosition, outpostOwner)
@@ -26,11 +28,6 @@ namespace SubterfugeCore.Core.Entities.Positions
 		public override OutpostType GetOutpostType()
 		{
 			return OutpostType.Generator;
-		}
-
-		public override float GetVisionRange()
-		{
-			return Constants.BASE_OUTPOST_VISION_RADIUS;
 		}
 	}
 }

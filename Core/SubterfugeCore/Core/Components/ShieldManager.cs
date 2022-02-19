@@ -1,8 +1,11 @@
-﻿using SubterfugeCore.Core.Interfaces;
+﻿using System;
+using SubterfugeCore.Core.Components;
+using SubterfugeCore.Core.EventArgs;
+using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.Entities
 {
-    public class ShieldManager
+    public class ShieldManager : EntityComponent
     {
         /// <summary>
         /// The outposts shields
@@ -18,8 +21,21 @@ namespace SubterfugeCore.Core.Entities
         /// The maximum number of shields the outpost can have.
         /// </summary>
         int _shieldCapacity;
+
         
-        public ShieldManager(int shieldCapacity)
+        // Shield Toggle Events:
+        public event EventHandler<OnForwardToggleShieldsEventArgs> OnShieldEnable;
+        public event EventHandler<OnForwardToggleShieldsEventArgs> OnShieldDisable;
+        
+        // Shield Capacity Events:
+        public event EventHandler<OnForwardToggleShieldsEventArgs> OnShieldCapacityChange;
+        
+        // Shield Modification Events:
+        public event EventHandler<OnForwardToggleShieldsEventArgs> OnShieldValueChange;
+        
+        
+        
+        public ShieldManager(Entity parent, int shieldCapacity) : base(parent)
         {
             _shields = 0;
             _shieldActive = true;

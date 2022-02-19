@@ -1,5 +1,7 @@
-﻿using SubterfugeCore.Core.Entities;
+﻿using SubterfugeCore.Core.Components;
+using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
+using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
@@ -20,7 +22,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// <param name="combatant1">Combatant 1</param>
         /// <param name="combatant2">Combatant 2</param>
         /// <param name="occursAt">Tick of sub arrival</param>
-        public FriendlySubArrive(ICombatable combatant1, ICombatable combatant2, GameTick occursAt) : base(occursAt, Priority.NATURAL_PRIORITY_9)
+        public FriendlySubArrive(Entity combatant1, Entity combatant2, GameTick occursAt) : base(occursAt, Priority.NATURAL_PRIORITY_9)
         {
             this._arrivingSub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
             this._outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);
@@ -34,9 +36,9 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         {
             if (base.EventSuccess)
             {
-                this._outpost.RemoveDrillers(this._arrivingSub.GetDrillerCount());
-                this._outpost.GetSpecialistManager()
-                    .RemoveSpecialists(this._arrivingSub.GetSpecialistManager().GetSpecialists());
+                this._outpost.GetComponent<DrillerCarrier>().RemoveDrillers(this._arrivingSub.GetComponent<DrillerCarrier>().GetDrillerCount());
+                this._outpost.GetComponent<SpecialistManager>()
+                    .RemoveSpecialists(this._arrivingSub.GetComponent<SpecialistManager>().GetSpecialists());
                 state.AddSub(this._arrivingSub);
                 return true;
             }
@@ -54,8 +56,8 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         {
             if (state.SubExists(this._arrivingSub) && state.OutpostExists(this._outpost))
             {
-                this._outpost.AddDrillers(this._arrivingSub.GetDrillerCount());
-                this._outpost.GetSpecialistManager().AddSpecialists(this._arrivingSub.GetSpecialistManager().GetSpecialists());
+                this._outpost.GetComponent<DrillerCarrier>().AddDrillers(this._arrivingSub.GetComponent<DrillerCarrier>().GetDrillerCount());
+                this._outpost.GetComponent<SpecialistManager>().AddSpecialists(this._arrivingSub.GetComponent<SpecialistManager>().GetSpecialists());
                 state.RemoveSub(this._arrivingSub);
                 base.EventSuccess = true;
             }

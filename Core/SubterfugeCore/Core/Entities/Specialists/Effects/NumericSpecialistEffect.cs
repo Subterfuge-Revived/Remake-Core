@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
 using SubterfugeCore.Core.Interfaces;
@@ -33,7 +34,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
         /// <returns></returns>
-        public float getForwardEffectDelta(GameState state, int startValue, ICombatable friendly, ICombatable enemy)
+        public float getForwardEffectDelta(GameState state, int startValue, Entity friendly, Entity enemy)
         {
             if (EffectScale == null)
             {
@@ -52,7 +53,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
         /// <returns></returns>
-        public float getBackwardsEffectDelta(GameState state, int endValue, ICombatable friendly, ICombatable enemy)
+        public float getBackwardsEffectDelta(GameState state, int endValue, Entity friendly, Entity enemy)
         {
             if (EffectScale == null)
             {
@@ -69,17 +70,17 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="friendly">The original friendly triggering the event (if any)</param>
         /// <param name="enemy">The enemy participating in the event (if any)</param>
         /// <returns>A list of effect deltas to be applied</returns>
-        public override List<EffectDelta> GetForwardEffectDeltas(GameState state, ICombatable friendly, ICombatable enemy)
+        public override List<EffectDelta> GetForwardEffectDeltas(GameState state, Entity friendly, Entity enemy)
         {
-            List<ICombatable> targets = this.getEffectTargets(state, friendly, enemy);
+            List<Entity> targets = this.getEffectTargets(state, friendly, enemy);
             List<EffectDelta> deltas = new List<EffectDelta>();
 
-            foreach (ICombatable target in targets)
+            foreach (Entity target in targets)
             {
-                int friendlyDelta = (int)this.getForwardEffectDelta(state,friendly.GetDrillerCount(), friendly, enemy);
-                int enemyDelta = (int)this.getForwardEffectDelta(state,enemy.GetDrillerCount(), friendly, enemy);
+                int friendlyDelta = (int)this.getForwardEffectDelta(state,friendly.GetComponent<DrillerCarrier>().GetDrillerCount(), friendly, enemy);
+                int enemyDelta = (int)this.getForwardEffectDelta(state,enemy.GetComponent<DrillerCarrier>().GetDrillerCount(), friendly, enemy);
 
-                if (target.GetOwner() == friendly.GetOwner())
+                if (target.GetComponent<DrillerCarrier>().GetOwner() == friendly.GetComponent<DrillerCarrier>().GetOwner())
                 {
                     deltas.Add(new EffectDelta(friendlyDelta, target, Effector));
                 }
@@ -100,17 +101,17 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="friendly">The friendly triggering the event (if any)</param>
         /// <param name="enemy">The enemy participating in the event (if any)</param>
         /// <returns></returns>
-        public override List<EffectDelta> GetBackwardEffectDeltas(GameState state, ICombatable friendly, ICombatable enemy)
+        public override List<EffectDelta> GetBackwardEffectDeltas(GameState state, Entity friendly, Entity enemy)
         {
-            List<ICombatable> targets = this.getEffectTargets(state, friendly, enemy);
+            List<Entity> targets = this.getEffectTargets(state, friendly, enemy);
             List<EffectDelta> deltas = new List<EffectDelta>();
 
-            foreach (ICombatable target in targets)
+            foreach (Entity target in targets)
             {
-                int friendlyDelta = (int)this.getBackwardsEffectDelta(state,friendly.GetDrillerCount(), friendly, enemy);
-                int enemyDelta = (int)this.getBackwardsEffectDelta(state,enemy.GetDrillerCount(), friendly, enemy);
+                int friendlyDelta = (int)this.getBackwardsEffectDelta(state,friendly.GetComponent<DrillerCarrier>().GetDrillerCount(), friendly, enemy);
+                int enemyDelta = (int)this.getBackwardsEffectDelta(state,enemy.GetComponent<DrillerCarrier>().GetDrillerCount(), friendly, enemy);
 
-                if (target.GetOwner() == friendly.GetOwner())
+                if (target.GetComponent<DrillerCarrier>().GetOwner() == friendly.GetComponent<DrillerCarrier>().GetOwner())
                 {
                     deltas.Add(new EffectDelta(friendlyDelta, target, Effector));
                 }

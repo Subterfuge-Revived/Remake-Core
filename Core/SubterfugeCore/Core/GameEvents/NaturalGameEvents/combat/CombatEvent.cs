@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using SubterfugeCore.Core.Components;
+using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents;
@@ -21,12 +23,12 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// One of the two combat participants
         /// </summary>
-        private ICombatable _combatant1;
+        private Entity _combatant1;
         
         /// <summary>
         /// One of the two combat participants
         /// </summary>
-        private ICombatable _combatant2;
+        private Entity _combatant2;
         
         /// <summary>
         /// A list of combat actions that will occur when the event is triggered.
@@ -40,7 +42,7 @@ namespace SubterfugeCore.Core.GameEvents
         /// <param name="combatant2">The second combatant</param>
         /// <param name="tick">The tick the combat occurs</param>
         /// <param name="combatLocation">The location of the combat</param>
-        public CombatEvent(ICombatable combatant1, ICombatable combatant2, GameTick tick) : base(tick, Priority.NATURAL_PRIORITY_9)
+        public CombatEvent(Entity combatant1, Entity combatant2, GameTick tick) : base(tick, Priority.NATURAL_PRIORITY_9)
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
@@ -55,7 +57,7 @@ namespace SubterfugeCore.Core.GameEvents
             }
             
             // Determine additional events that should be triggered for this particular combat.
-            if (_combatant1.GetOwner() == _combatant2.GetOwner())
+            if (_combatant1.GetComponent<DrillerCarrier>().GetOwner() == _combatant2.GetComponent<DrillerCarrier>().GetOwner())
             {
                 this._actions.Add(new FriendlySubArrive(_combatant1, _combatant2, base.GetOccursAt()));
             } else
@@ -101,9 +103,9 @@ namespace SubterfugeCore.Core.GameEvents
         /// Returns a list of two objects containing both objects participating in combat.
         /// </summary>
         /// <returns>A list of the combatants</returns>
-        public List<ICombatable> GetCombatants()
+        public List<Entity> GetCombatants()
         {
-            List<ICombatable> combatants = new List<ICombatable>();
+            List<Entity> combatants = new List<Entity>();
             combatants.Add(_combatant1);
             combatants.Add(_combatant2);
             return combatants;

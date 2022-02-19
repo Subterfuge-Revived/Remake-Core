@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using GameEventModels;
 using Google.Protobuf;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
+using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
 using SubterfugeCore.Core.Interfaces;
@@ -28,18 +30,19 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 
 		public override bool ForwardAction(TimeMachine timeMachine, GameState state)
 		{
-			ICombatable combatable = state.GetCombatableById(GetEventData().SourceId);
-			if (combatable != null && combatable is Outpost && !(combatable is Mine) && !((Outpost)combatable).IsDestroyed())
+			Entity drillLocation = state.GetEntity(GetEventData().SourceId);
+			if (drillLocation != null && drillLocation is Outpost && !(drillLocation is Mine) && !((Outpost)drillLocation).GetComponent<DrillerCarrier>().IsDestroyed())
 			{
-				_original = (Outpost)combatable;
-				if (state.GetOutposts().Contains(_original) && !_original.GetOwner().IsEliminated() && _original.GetDrillerCount() >= _original.GetOwner().GetRequiredDrillersToMine())
+				_original = (Outpost)drillLocation;
+				var drillerCarrier = drillLocation.GetComponent<DrillerCarrier>();
+				if (state.GetOutposts().Contains(_original) && !drillerCarrier.GetOwner().IsEliminated() && drillerCarrier.GetDrillerCount() >= drillerCarrier.GetOwner().GetRequiredDrillersToMine())
 				{
 					_drilledMine = new Mine(_original);
 					if (state.ReplaceOutpost(_original, _drilledMine))
 					{
-						_drilledMine.RemoveDrillers(_original.GetOwner().GetRequiredDrillersToMine());
-						_original.GetOwner().AlterMinesDrilled(1);
-						timeMachine.AddEvent(new NeptuniumProductionEvent(_drilledMine, GetOccursAt().Advance(Mine.TICKS_PER_PRODUCTION_PER_MINE / state.GetPlayerOutposts(_drilledMine.GetOwner()).Count)));
+						drillerCarrier.RemoveDrillers(drillerCarrier.GetOwner().GetRequiredDrillersToMine());
+						drillerCarrier.GetOwner().AlterMinesDrilled(1);
+						timeMachine.AddEvent(new NeptuniumProductionEvent(_drilledMine, GetOccursAt().Advance(Mine.TICKS_PER_PRODUCTION_PER_MINE / state.GetPlayerOutposts(drillerCarrier.GetOwner()).Count)));
 						EventSuccess = true;
 					}
 				}
@@ -55,9 +58,10 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 		{
 			if (EventSuccess)
 			{
+				var drillerCarrier = _drilledMine.GetComponent<DrillerCarrier>();
 				state.ReplaceOutpost(_drilledMine, _original);
-				_original.GetOwner().AlterMinesDrilled(-1);
-				_original.AddDrillers(_original.GetOwner().GetRequiredDrillersToMine());
+				drillerCarrier.GetOwner().AlterMinesDrilled(-1);
+				drillerCarrier.AddDrillers(drillerCarrier.GetOwner().GetRequiredDrillersToMine());
 			}
 			return EventSuccess;
 		}

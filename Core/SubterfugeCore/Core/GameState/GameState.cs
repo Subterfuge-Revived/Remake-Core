@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
@@ -9,6 +11,7 @@ using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
+using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core
@@ -137,6 +140,11 @@ namespace SubterfugeCore.Core
             this._activeSubs.Add(sub);
         }
 
+        public void AddOutpost(Outpost outpost)
+        {
+            this._outposts.Add(outpost);
+        }
+
         /// <summary>
         /// Revmoes a sub from the list of active subs
         /// </summary>
@@ -163,9 +171,11 @@ namespace SubterfugeCore.Core
             foreach (Sub sub in this._activeSubs)
             {
 
-                if (sub.GetDestination() == destination || sub.GetDestination() == source)
+                if (
+                    sub.GetComponent<PositionManager>().GetExpectedDestination(CurrentTick) == destination.GetComponent<PositionManager>().GetPositionAt(CurrentTick) || 
+                    sub.GetComponent<PositionManager>().GetPositionAt(CurrentTick) == source.GetComponent<PositionManager>().GetPositionAt(CurrentTick))
                 {
-                    if (sub.GetSource() == source || sub.GetSource() == destination)
+                    if (sub.GetComponent<PositionManager>().GetSource() == source || sub.GetComponent<PositionManager>().GetSource() == destination)
                     {
                         // Sub is on the path.
                         subsOnPath.Add(sub);
@@ -185,7 +195,7 @@ namespace SubterfugeCore.Core
             List<Sub> playerSubs = new List<Sub>();
             foreach(Sub sub in this._activeSubs)
             {
-                if(sub.GetOwner() == player)
+                if(sub.GetComponent<DrillerCarrier>().GetOwner() == player)
                 {
                     playerSubs.Add(sub);
                 }
@@ -203,7 +213,7 @@ namespace SubterfugeCore.Core
             List<Outpost> playerOutposts = new List<Outpost>();
             foreach (Outpost outpost in this._outposts)
             {
-                if (outpost.GetOwner() == player)
+                if (outpost.GetComponent<DrillerCarrier>().GetOwner() == player)
                 {
                     playerOutposts.Add(outpost);
                 }
@@ -212,15 +222,15 @@ namespace SubterfugeCore.Core
         }
 
         /// <summary>
-        /// Gets an outpost by its GUID
+        /// Gets an entity by its ID
         /// </summary>
-        /// <param name="guid">The Guid of the outpost you want to obtain.</param>
+        /// <param name="id">The ID of the outpost you want to obtain.</param>
         /// <returns>The outpost matching the input Guid. Null if no results.</returns>
-        public ICombatable GetCombatableById(string id)
+        public Entity GetEntity(string id)
         {
             foreach (Outpost outpost in this._outposts)
             {
-                if (outpost.GetId() == id)
+                if (outpost.GetComponent<IdentityManager>().GetId() == id)
                 {
                     return outpost;
                 }
@@ -228,31 +238,12 @@ namespace SubterfugeCore.Core
             
             foreach (Sub sub in this._activeSubs)
             {
-                if (sub.GetId() == id)
+                if (sub.GetComponent<IdentityManager>().GetId() == id)
                 {
                     return sub;
                 }
             }
 
-            return null;
-        }
-
-
-
-        /// <summary>
-        /// Gets a sub by its Guid
-        /// </summary>
-        /// <param name="guid">The guid of a sub to find.</param>
-        /// <returns>The sub with the specified guid. Null if no sub exists with the specified Guid.</returns>
-        public Sub GetSubById(string id)
-        {
-            foreach (Sub sub in this._activeSubs)
-            {
-                if (sub.GetId() == id)
-                {
-                    return sub;
-                }
-            }
             return null;
         }
 
@@ -297,17 +288,17 @@ namespace SubterfugeCore.Core
         /// Gets a list of all specilists in the game
         /// </summary>
         /// <returns>A list of all specliasts in the game</returns>
-        public List<Specialist> GetSpecialists()
+        public List<Specialist> GetAllSpecialists()
         {
             List<Specialist> specialists = new List<Specialist>();
             foreach(Outpost o in this._outposts)
             {
-                specialists.AddRange(o.GetSpecialistManager().GetSpecialists());
+                specialists.AddRange(o.GetComponent<SpecialistManager>().GetSpecialists());
             }
 
             foreach (Sub s in _activeSubs)
             {
-                specialists.AddRange(s.GetSpecialistManager().GetSpecialists());
+                specialists.AddRange(s.GetComponent<SpecialistManager>().GetSpecialists());
             }
 
             return specialists;
@@ -323,17 +314,17 @@ namespace SubterfugeCore.Core
             List<Specialist> specialists = new List<Specialist>();
             foreach(Outpost o in this._outposts)
             {
-                if (o.GetOwner() == player)
+                if (o.GetComponent<DrillerCarrier>().GetOwner() == player)
                 {
-                    specialists.AddRange(o.GetSpecialistManager().GetSpecialists());
+                    specialists.AddRange(o.GetComponent<SpecialistManager>().GetSpecialists());
                 }
             }
 
             foreach (Sub s in _activeSubs)
             {
-                if (s.GetOwner() == player)
+                if (s.GetComponent<DrillerCarrier>().GetOwner() == player)
                 {
-                    specialists.AddRange(s.GetSpecialistManager().GetSpecialists());
+                    specialists.AddRange(s.GetComponent<SpecialistManager>().GetSpecialists());
                 }
             }
 
@@ -358,7 +349,7 @@ namespace SubterfugeCore.Core
         /// <returns></returns>
         public int getPlayerDrillerCount(Player player)
         {
-            return GetPlayerOutposts(player).Sum( it => it.GetDrillerCount()) + GetPlayerSubs(player).Sum(it => it.GetDrillerCount());
+            return GetPlayerOutposts(player).Sum( it => it.GetComponent<DrillerCarrier>().GetDrillerCount()) + GetPlayerSubs(player).Sum(it => it.GetComponent<DrillerCarrier>().GetDrillerCount());
         }
 
         /// <summary>
@@ -392,11 +383,11 @@ namespace SubterfugeCore.Core
         /// <param name="position">position</param>
         /// <param name="player">player</param>
         /// <returns>True if the position is visible and false otherwise.</returns>
-        public bool isInVisionRange(IPosition position, Player player)
+        public bool isInVisionRange(PositionManager positionManager, Player player)
         {
             foreach(Outpost o in GetPlayerOutposts(player))
             {
-                if (o.isInVisionRange(CurrentTick, position))
+                if (o.GetComponent<VisionManager>().IsInVisionRange(CurrentTick, positionManager))
                 {
                     return true;
                 }
@@ -404,7 +395,7 @@ namespace SubterfugeCore.Core
 
             foreach (Sub s in GetPlayerSubs(player))
             {
-                if (s.isInVisionRange(CurrentTick, position))
+                if (s.GetComponent<VisionManager>().IsInVisionRange(CurrentTick, positionManager))
                 {
                     return true;
                 }
@@ -418,24 +409,49 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="player">The player to get combatables for</param>
         /// <returns>The list of the player's property</returns>
-        public List<ICombatable> getPlayerTargetables(Player player)
+        public List<Entity> getPlayerTargetables(Player player)
         {
-            List<ICombatable> targetables = new List<ICombatable>();
-            targetables.AddRange(this.GetPlayerOutposts(player));
-            targetables.AddRange(this.GetPlayerSubs(player));
-            return targetables;
+            List<Entity> entites = new List<Entity>();
+            entites.AddRange(GetPlayerOutposts(player));
+            entites.AddRange(GetPlayerSubs(player));
+            return entites;
         }
 
         /// <summary>
         /// Gets a list of all game objects
         /// </summary>
         /// <returns>A list of all game objects.</returns>
-        public List<ICombatable> GetAllGameObjects()
+        public List<Entity> GetAllGameObjects()
         {
-            List<ICombatable> gameObjects = new List<ICombatable>();
+            List<Entity> gameObjects = new List<Entity>();
             gameObjects.AddRange(_activeSubs);
             gameObjects.AddRange(_outposts);
             return gameObjects;
+        }
+        
+        /// <summary>
+        /// Gets a list of all entities within range of a particular location
+        /// </summary>
+        /// <param name="range">The range to search</param>
+        /// <param name="pos">The position to check</param>
+        /// <returns>A list of entities in range of the position</returns>
+        public List<Entity> EntitesInRange(float range, RftVector pos)
+        {
+            var gameObjects = GetAllGameObjects();
+            List<Entity> gameObjectsinRange = new List<Entity>();
+
+
+            foreach (Entity e in gameObjects)
+            {
+                if (Vector2.Distance(e.GetComponent<PositionManager>().GetPositionAt(GetCurrentTick()).ToVector2(), pos.ToVector2()) < range)
+                {
+                    gameObjectsinRange.Add(e);
+                }
+            }
+            return gameObjectsinRange;
+
+
+
         }
     }
 }

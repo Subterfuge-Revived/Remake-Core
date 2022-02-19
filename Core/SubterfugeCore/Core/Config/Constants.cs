@@ -29,6 +29,11 @@ namespace SubterfugeCore.Core.Config
 		/// The initial number of drillers an outpost will have when generated.
 		/// </summary>
 		public const int INITIAL_DRILLERS_PER_OUTPOST = 30;
+		
+		/// <summary>
+		/// The initial number of drillers an outpost will have when generated.
+		/// </summary>
+		public const int INITIAL_MAX_SHIELDS_PER_OUTPOST = 20;
 
 		/// <summary>
 		/// The default vision range for an outpost.
