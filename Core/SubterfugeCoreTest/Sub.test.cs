@@ -5,12 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using SubterfugeCore.Core;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
+using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
-/*
+
 namespace SubterfugeCoreTest
 {
     [TestClass]
@@ -21,8 +23,6 @@ namespace SubterfugeCoreTest
         Outpost _outpost;
         GameTick _tick;
         Sub _sub;
-        TestUtils testUtils = new TestUtils();
-        Player player = new Player("1");
 
         [TestInitialize]
         public void Setup()
@@ -32,49 +32,54 @@ namespace SubterfugeCoreTest
             _outpost = new Generator("0", _location, new Player("1"));
             _tick = new GameTick(10);
             _sub = new Sub("0", _outpost, _outpost, _tick, 0, new Player("1"));
-            var game = new Game(testUtils.GetDefaultGameConfiguration(new List<Player> { player }));
         }
 
         [TestMethod]
-        public void Constructor()
+        public void HasDrillerCarrier()
         {
-            Assert.AreEqual(_location.X, _sub.GetInitialPosition().X);
-            Assert.AreEqual(_location.Y, _sub.GetInitialPosition().Y);
-            Assert.AreEqual(_location.X, _sub.GetDestinationLocation().X);
-            Assert.AreEqual(_location.Y, _sub.GetDestinationLocation().Y);
-            Assert.AreEqual(_tick, _sub.GetLaunchTick());
-            Assert.AreEqual(0, _sub.GetDrillerCount());
-        }
-
-        [TestMethod]
-        public void IsIOwnable()
-        {
-            Assert.IsTrue(typeof(IOwnable).IsAssignableFrom(_sub.GetType()));
-        }
-
-        [TestMethod]
-        public void IsITargetable()
-        {
-            Assert.IsTrue(typeof(ITargetable).IsAssignableFrom(_sub.GetType()));
-        }
-
-        [TestMethod]
-        public void CanSeeLocationInVisionRange()
-        {
-            RftVector currentLocation = _sub.GetCurrentPosition(new GameTick(1));
-            RftVector insideVisionRange = new RftVector(currentLocation.X + _sub.GetVisionRange() - 1, currentLocation.Y);
-            Outpost insideRange = new Generator("0", insideVisionRange, new Player("1"));
-            Assert.IsTrue(_sub.isInVisionRange(new GameTick(1), insideRange));
+            Assert.IsNotNull(_sub.GetComponent<DrillerCarrier>());
         }
         
         [TestMethod]
-        public void CanNotSeeLocationOutsideVisionRange()
+        public void HasSpeedManager()
         {
-            RftVector currentLocation = _sub.GetCurrentPosition(new GameTick(1));
-            RftVector outsideVisionRange = new RftVector(currentLocation.X + _sub.GetVisionRange() + 1, currentLocation.Y);
-            Outpost outsideRange = new Generator("0", outsideVisionRange, new Player("1"));
-            Assert.IsFalse(_sub.isInVisionRange(new GameTick(1), outsideRange));
+            Assert.IsNotNull(_sub.GetComponent<SpeedManager>());
+        }
+        
+        [TestMethod]
+        public void HasPositionManager()
+        {
+            Assert.IsNotNull(_sub.GetComponent<PositionManager>());
+        }
+        
+        [TestMethod]
+        public void HasSpecialistManager()
+        {
+            Assert.IsNotNull(_sub.GetComponent<SpecialistManager>());
+        }
+        
+        [TestMethod]
+        public void HasIdentityManager()
+        {
+            Assert.IsNotNull(_sub.GetComponent<IdentityManager>());
+        }
+        
+        [TestMethod]
+        public void HasShieldManager()
+        {
+            Assert.IsNotNull(_sub.GetComponent<ShieldManager>());
+        }
+        
+        [TestMethod]
+        public void HasSubLauncher()
+        {
+            Assert.IsNotNull(_sub.GetComponent<SubLauncher>());
+        }
+        
+        [TestMethod]
+        public void HasVisionManager()
+        {
+            Assert.IsNotNull(_sub.GetComponent<VisionManager>());
         }
     }
 }
-*/

@@ -164,7 +164,7 @@ namespace SubterfugeCoreTest
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
 			tm.AddEvent(drillMine);
 			tm.Advance(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
-			Assert.IsTrue(o1.GetComponent<DrillerCarrier>().GetOwner().GetNeptunium() == 12);
+			Assert.AreEqual(12, o1.GetComponent<DrillerCarrier>().GetOwner().GetNeptunium());
 		}
 
 		[TestMethod]
@@ -176,8 +176,9 @@ namespace SubterfugeCoreTest
 			tm.Advance(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
 			tm.Rewind(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
 			Assert.IsTrue(tm.GetState().GetOutposts().Contains(o1));
-			Assert.IsTrue(p.GetNeptunium() == 0);
-			Assert.IsTrue(o1.GetComponent<DrillerCarrier>().GetDrillerCount() == 50);
+			Assert.AreEqual(0, p.GetNeptunium());
+			Assert.AreEqual(0, tm.GetCurrentTick().GetTick());
+			Assert.AreEqual(Constants.INITIAL_DRILLERS_PER_OUTPOST + 50, o1.GetComponent<DrillerCarrier>().GetDrillerCount());
 		}
 
 		private bool IsNeptuniumProductionEvent(GameEvent e)

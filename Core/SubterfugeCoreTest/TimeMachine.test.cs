@@ -6,12 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using SubterfugeCore.Core;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Topologies;
-/*
+
 namespace SubterfugeCoreTest
 {
     [TestClass]
@@ -41,7 +42,7 @@ namespace SubterfugeCoreTest
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
-            outpost.AddDrillers(10);
+            outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick());
 
@@ -84,7 +85,7 @@ namespace SubterfugeCoreTest
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
-            outpost.AddDrillers(10);
+            outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
@@ -103,7 +104,7 @@ namespace SubterfugeCoreTest
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
-            outpost.AddDrillers(10);
+            outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
@@ -127,7 +128,7 @@ namespace SubterfugeCoreTest
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
-            outpost.AddDrillers(10);
+            outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
@@ -156,7 +157,7 @@ namespace SubterfugeCoreTest
             Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
-            outpost.AddDrillers(10);
+            outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
@@ -171,5 +172,3 @@ namespace SubterfugeCoreTest
 
     }
 }
-
-*/

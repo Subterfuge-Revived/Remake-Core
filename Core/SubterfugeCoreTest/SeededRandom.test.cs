@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core.Timing;
-/*
+
 namespace SubterfugeCoreTest
 {
     [TestClass]
@@ -43,4 +43,3 @@ namespace SubterfugeCoreTest
 
     }
 }
-*/
