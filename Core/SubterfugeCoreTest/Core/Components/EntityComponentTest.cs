@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 
-namespace SubterfugeCoreTest
+namespace SubterfugeCoreTest.Core.Components
 {
     [TestClass]
     public class EntityComponentTest
@@ -31,39 +30,34 @@ namespace SubterfugeCoreTest
                 return returnMe;
             }
         }
-        
-        class TestEntity : Entity
+
+        private class TestEntity : Entity
         {
-            public TestEntity(int returnInt) : base()
+            public TestEntity(int returnInt)
             {
                 AddComponent(new TestReturnIntComponent(this, returnInt));
             }
         }
-        
-        class DuplicateComponentEntity : Entity
+
+        private class DuplicateComponentEntity : Entity
         {
-            public DuplicateComponentEntity(int firstReturn, int SecondReturn) : base()
+            public DuplicateComponentEntity(int firstReturn, int secondReturn)
             {
                 AddComponent(new TestReturnIntComponent(this, firstReturn));
-                AddComponent(new TestReturnIntComponent(this, SecondReturn));
+                AddComponent(new TestReturnIntComponent(this, secondReturn));
             }
         }
-        
-        class ManyComponentEntity : Entity
+
+        private class ManyComponentEntity : Entity
         {
-            public ManyComponentEntity(int returnValue) : base()
+            public ManyComponentEntity(int returnValue)
             {
                 AddComponent(new TestReturnIntComponent(this, returnValue));
                 AddComponent(new ReturnSevenComponent(this));
             }
         }
         
-        class TestNullComponent : Entity
-        {
-            public TestNullComponent() : base()
-            {
-            }
-        }
+        class TestNullComponent : Entity { }
 
         [TestMethod]
         public void CanAddComponentsToAnEntity()

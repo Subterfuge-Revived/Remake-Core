@@ -6,7 +6,7 @@ using SubterfugeCore.Core.Topologies;
 namespace SubterfugeCoreTest
 {
     [TestClass]
-    public class RftVector_test
+    public class RftVectorTest
     {
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace SubterfugeCoreTest
             Rft map = new Rft(mapSize, mapSize);
 
             int firstPointLocation = 25;
-            RftVector vector = new RftVector(map, firstPointLocation, firstPointLocation);
+            new RftVector(map, firstPointLocation, firstPointLocation);
             
             Assert.AreEqual(map, RftVector.Map);
         }
@@ -70,15 +70,8 @@ namespace SubterfugeCoreTest
             int mapDelta = 200;
 
             int wrappedDimension;
-            if ((pointDimensions % mapDimensions) > mapDimensions / 2)
-            {
-                wrappedDimension = (pointDimensions % mapDimensions) - (mapDimensions);
-            }
-            else
-            {
-                wrappedDimension = (pointDimensions % mapDimensions);
-            }
-            
+            wrappedDimension = (pointDimensions % mapDimensions);
+
             Rft map = new Rft(mapDimensions, mapDimensions);
             RftVector vectorTest = new RftVector(map, pointDimensions, pointDimensions);
             
@@ -88,16 +81,9 @@ namespace SubterfugeCoreTest
             Assert.AreEqual(mapDimensions, map.Width);
             
             RftVector.Map = new Rft(mapDelta, mapDelta);
-            
-            if ((pointDimensions % mapDimensions) > mapDimensions / 2)
-            {
-                wrappedDimension = (pointDimensions % mapDimensions) - (mapDimensions);
-            }
-            else
-            {
-                wrappedDimension = (pointDimensions % mapDimensions);
-            }
-            
+
+            wrappedDimension = (pointDimensions % mapDimensions);
+
             Assert.AreEqual(wrappedDimension, vectorTest.X);
             Assert.AreEqual(wrappedDimension, vectorTest.Y);
             Assert.AreEqual(mapDelta, RftVector.Map.Height);
@@ -169,7 +155,7 @@ namespace SubterfugeCoreTest
         public void CannotMakeVectorWithoutSettingMap()
         {
             RftVector.Map = null;
-            RftVector vectorFailure = new RftVector(123, 123);
+            new RftVector(123, 123);
         }
 
         [TestMethod]

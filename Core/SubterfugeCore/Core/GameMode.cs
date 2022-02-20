@@ -5,9 +5,9 @@
     /// </summary>
     public enum GameMode
     {
-        MINING,
-        DOMINATION,
-        SANDBOX,
-        PUZZLE
+        Mining,
+        Domination,
+        Sandbox,
+        Puzzle
     }
 }

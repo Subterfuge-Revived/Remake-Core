@@ -93,7 +93,7 @@ namespace SubterfugeCore.Core.Generation
             foreach (Outpost outpost in outposts)
             {
                 // Get original outpost location
-                RftVector position = outpost.GetComponent<PositionManager>().GetStaticPosition();
+                RftVector position = outpost.GetComponent<PositionManager>().GetPositionAt(new GameTick(0));
 
                 // New vector for the copied location
                 RftVector newPosition = new RftVector(RftVector.Map, position.X, position.Y);
@@ -173,7 +173,7 @@ namespace SubterfugeCore.Core.Generation
                 {
                     // Get the X and Y pos to find distance
                     otherOutpost = playerOutposts[idx];
-                    vectorDistance = otherOutpost.GetComponent<PositionManager>().GetStaticPosition() - currentOutpostPosition;
+                    vectorDistance = otherOutpost.GetComponent<PositionManager>().GetPositionAt(new GameTick(0)) - currentOutpostPosition;
 
                     //ensure that the new location is not too close to other outposts
                     if (vectorDistance.Magnitude() < mapConfiguration.MinimumOutpostDistance)
@@ -221,13 +221,13 @@ namespace SubterfugeCore.Core.Generation
                 else
                 {
                     // Determine the distance to the current outpost from the centroid
-                    float currentDistance = (centroid - o.GetComponent<PositionManager>().GetStaticPosition()).Magnitude();
+                    float currentDistance = (centroid - o.GetComponent<PositionManager>().GetPositionAt(new GameTick(0))).Magnitude();
 
                     // Sort the closestOutpost list to determine the farthest outpost (maybe this one is closer).
-                    closestOutposts.Sort((a, b) => (int)((centroid - a.GetComponent<PositionManager>().GetStaticPosition()).Magnitude() - (centroid - b.GetComponent<PositionManager>().GetStaticPosition()).Magnitude()));
+                    closestOutposts.Sort((a, b) => (int)((centroid - a.GetComponent<PositionManager>().GetPositionAt(new GameTick(0))).Magnitude() - (centroid - b.GetComponent<PositionManager>().GetPositionAt(new GameTick(0))).Magnitude()));
 
                     // Determine the distance of the farthest outpost
-                    float farthestDistance = (centroid - closestOutposts[mapConfiguration.OutpostsPerPlayer - 1].GetComponent<PositionManager>().GetStaticPosition()).Magnitude();
+                    float farthestDistance = (centroid - closestOutposts[mapConfiguration.OutpostsPerPlayer - 1].GetComponent<PositionManager>().GetPositionAt(new GameTick(0))).Magnitude();
 
                     // If the current outpost is closer, put the current outpost in the list, replacing the farther outpost.
                     if (currentDistance < farthestDistance)

@@ -1,14 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SubterfugeCore;
 using SubterfugeCore.Core.Entities.Positions;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
-using SubterfugeCore.Core;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;

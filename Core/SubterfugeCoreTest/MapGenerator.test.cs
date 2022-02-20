@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SubterfugeCore;
-using SubterfugeCore.Core;
 using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Config;
-using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;
 
 namespace SubterfugeCoreTest
@@ -21,21 +15,23 @@ namespace SubterfugeCoreTest
     [TestClass]
     public class MapGeneratorTest
     {
-        private TestUtils testUtils = new TestUtils();
+        private readonly TestUtils _testUtils = new TestUtils();
 
         [TestMethod]
         public void Constructor()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            players.Add(new Player("2"));
-            players.Add(new Player("3"));
-            players.Add(new Player("4"));
+            List<Player> players = new List<Player>
+            {
+                new Player("1"),
+                new Player("2"),
+                new Player("3"),
+                new Player("4")
+            };
 
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
             Random rand = new Random(DateTime.Now.Millisecond);
-            int seed = rand.Next();
+            config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 3;
             config.MapConfiguration.MaximumOutpostDistance = 100;
             config.MapConfiguration.MinimumOutpostDistance = 5;
@@ -48,16 +44,18 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void GeneratesTheRightNumberOfOutposts()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            players.Add(new Player("2"));
-            players.Add(new Player("3"));
-            players.Add(new Player("4"));
-            
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
+            List<Player> players = new List<Player>
+            {
+                new Player("1"),
+                new Player("2"),
+                new Player("3"),
+                new Player("4")
+            };
+
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
             Random rand = new Random(DateTime.Now.Millisecond);
-            int seed = rand.Next();
+            config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 3;
             config.MapConfiguration.MaximumOutpostDistance = 100;
             config.MapConfiguration.MinimumOutpostDistance = 5;
@@ -71,16 +69,18 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void GeneratesOutpostsForAllPlayers()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            players.Add(new Player("2"));
-            players.Add(new Player("3"));
-            players.Add(new Player("4"));
-            
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
+            List<Player> players = new List<Player>
+            {
+                new Player("1"),
+                new Player("2"),
+                new Player("3"),
+                new Player("4")
+            };
+
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
             Random rand = new Random(DateTime.Now.Millisecond);
-            int seed = rand.Next();
+            config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 0;
             config.MapConfiguration.MaximumOutpostDistance = 100;
             config.MapConfiguration.MinimumOutpostDistance = 5;
@@ -103,16 +103,18 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void GeneratesEqualOutpostsForAllPlayers()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            players.Add(new Player("2"));
-            players.Add(new Player("3"));
-            players.Add(new Player("4"));
-            
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
+            List<Player> players = new List<Player>
+            {
+                new Player("1"),
+                new Player("2"),
+                new Player("3"),
+                new Player("4")
+            };
+
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
             Random rand = new Random(DateTime.Now.Millisecond);
-            int seed = rand.Next();
+            config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 3;
             config.MapConfiguration.MaximumOutpostDistance = 100;
             config.MapConfiguration.MinimumOutpostDistance = 5;
@@ -144,16 +146,18 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void AllPlayersHaveAQueen()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            players.Add(new Player("2"));
-            players.Add(new Player("3"));
-            players.Add(new Player("4"));
-            
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
+            List<Player> players = new List<Player>
+            {
+                new Player("1"),
+                new Player("2"),
+                new Player("3"),
+                new Player("4")
+            };
+
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
             Random rand = new Random(DateTime.Now.Millisecond);
-            int seed = rand.Next();
+            config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 3;
             config.MapConfiguration.MaximumOutpostDistance = 100;
             config.MapConfiguration.MinimumOutpostDistance = 5;
@@ -182,18 +186,15 @@ namespace SubterfugeCoreTest
             }
         }
 
-        // TODO: Re-enable
-        // [TestMethod]
-        /*
+        [TestMethod]
         public void MaxOutpostDistanceRespected()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
+            List<Player> players = new List<Player> { new Player("1") };
+
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
             Random rand = new Random(DateTime.Now.Millisecond);
-            int seed = rand.Next();
+            config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 0;
             config.MapConfiguration.MaximumOutpostDistance = 0;
             config.MapConfiguration.MinimumOutpostDistance = 0;
@@ -206,22 +207,20 @@ namespace SubterfugeCoreTest
             // Should be at 0,0
             foreach (Outpost o in generatedOutposts)
             {
-                Assert.AreEqual(0, o.GetComponent<PositionManager>().GetCurrentPosition().X);
-                Assert.AreEqual(0, o.GetComponent<PositionManager>().GetCurrentPosition().Y);
+                Assert.AreEqual(0, o.GetComponent<PositionManager>().GetPositionAt(new GameTick(0)).X);
+                Assert.AreEqual(0, o.GetComponent<PositionManager>().GetPositionAt(new GameTick(0)).Y);
             }
         }
-        */
         
         [TestMethod]
         public void OutpostsPerPlayerRespected()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
+            List<Player> players = new List<Player> { new Player("1") };
+
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
             Random rand = new Random(DateTime.Now.Millisecond);
-            int seed = rand.Next();
+            config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 0;
             config.MapConfiguration.MaximumOutpostDistance = 0;
             config.MapConfiguration.MinimumOutpostDistance = 0;
@@ -240,8 +239,8 @@ namespace SubterfugeCoreTest
         public void CannotCreateGameWithNoPlayers()
         {
             List<Player> players = new List<Player>();
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players);
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
+            new MapGenerator(config.MapConfiguration, players);
             
         }
         
@@ -249,24 +248,22 @@ namespace SubterfugeCoreTest
         [ExpectedException(typeof(OutpostPerPlayerException))]
         public void cannotCreateGameWithAtLeastOneOutpostPerPlayer()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
+            List<Player> players = new List<Player> { new Player("1") };
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             config.MapConfiguration.OutpostsPerPlayer = 0;
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players);
+            new MapGenerator(config.MapConfiguration, players);
             
         }
         
         [TestMethod]
         public void DormantsPerPlayerRespected()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
+            List<Player> players = new List<Player> { new Player("1") };
+
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
             Random rand = new Random(DateTime.Now.Millisecond);
-            int seed = rand.Next();
+            config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 7;
             config.MapConfiguration.MaximumOutpostDistance = 0;
             config.MapConfiguration.MinimumOutpostDistance = 0;
@@ -288,17 +285,15 @@ namespace SubterfugeCoreTest
             Assert.AreEqual(config.MapConfiguration.DormantsPerPlayer, dormants);
         }
         
-        /*
         [TestMethod]
         public void MinimumOutpostDistanceRespected()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
+            List<Player> players = new List<Player> { new Player("1") };
+
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
             Random rand = new Random(DateTime.Now.Millisecond);
-            int seed = rand.Next();
+            config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 0;
             config.MapConfiguration.MaximumOutpostDistance = 2;
             config.MapConfiguration.MinimumOutpostDistance = 1;
@@ -313,23 +308,24 @@ namespace SubterfugeCoreTest
             Outpost outpost1 = generatedOutposts[0];
             Outpost outpost2 = generatedOutposts[1];
 
-            float distance = (outpost1.GetCurrentPosition()-outpost2.GetCurrentPosition()).Magnitude();
+            float distance = (outpost1.GetComponent<PositionManager>().GetPositionAt(new GameTick(0))-outpost2.GetComponent<PositionManager>().GetPositionAt(new GameTick(0))).Magnitude();
             Assert.IsTrue(distance >= config.MapConfiguration.MinimumOutpostDistance);
         }
-        */
 
         [TestMethod]
         public void AllOutpostsHaveUniqueNames()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            players.Add(new Player("2"));
-            players.Add(new Player("3"));
-            
-            GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
+            List<Player> players = new List<Player>
+            {
+                new Player("1"),
+                new Player("2"),
+                new Player("3")
+            };
+
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
             Random rand = new Random(DateTime.Now.Millisecond);
-            int seed = rand.Next();
+            config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 3;
             config.MapConfiguration.MaximumOutpostDistance = 200;
             config.MapConfiguration.MinimumOutpostDistance = 20;
