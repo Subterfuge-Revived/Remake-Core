@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Threading;
+﻿using System.Collections.Generic;
 using GameEventModels;
 using Google.Protobuf;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,8 +9,6 @@ using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.GameEvents;
-using SubterfugeCore.Core.Generation;
-using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
@@ -28,7 +23,7 @@ namespace SubterfugeCoreTest
         RftVector _outpostLocation;
         Outpost _outpost;
         Outpost _outpost2;
-        private TestUtils testUtils = new TestUtils();
+        private readonly TestUtils _testUtils = new TestUtils();
 
         [TestInitialize]
         public void Setup()
@@ -91,21 +86,22 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void GetPosition()
         {
-            Assert.AreEqual(_outpostLocation.X, _outpost.GetComponent<PositionManager>().GetStaticPosition().X);
-            Assert.AreEqual(_outpostLocation.Y, _outpost.GetComponent<PositionManager>().GetStaticPosition().Y);
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetComponent<PositionManager>().GetPositionAt(new GameTick(0)).X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetComponent<PositionManager>().GetPositionAt(new GameTick(0)).Y);
         }
+        
         [TestMethod]
         public void GetTargetLocation()
         {
             // Outpost target location should always be the outpost's location
-            Assert.AreEqual(_outpostLocation.X, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 0, 0), 0.25f, new GameTick()).X);
-            Assert.AreEqual(_outpostLocation.Y, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 0, 0), 0.25f, new GameTick()).Y);
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 0, 0), 0.25f).X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 0, 0), 0.25f).Y);
 
-            Assert.AreEqual(_outpostLocation.X, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 100, 100), 1, new GameTick()).X);
-            Assert.AreEqual(_outpostLocation.Y, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 100, 100), 1, new GameTick()).Y);
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 100, 100), 1).X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 100, 100), 1).Y);
 
-            Assert.AreEqual(_outpostLocation.X, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 999, 999), 999, new GameTick()).X);
-            Assert.AreEqual(_outpostLocation.Y, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 999, 999), 999, new GameTick()).Y);
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 999, 999), 999).X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetComponent<PositionManager>().GetInterceptionPosition(new RftVector(_map, 999, 999), 999).Y);
         }
 
         [TestMethod]
@@ -134,14 +130,13 @@ namespace SubterfugeCoreTest
             Assert.AreEqual(420, outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
         }
         
-        /*
         [TestMethod]
         public void CanLaunchSubs()
         {
             List<Player> players = new List<Player>();
             players.Add(new Player("1"));
             
-            Game game = new Game(testUtils.GetDefaultGameConfiguration(players));
+            Game game = new Game(_testUtils.GetDefaultGameConfiguration(players));
             game.TimeMachine.GetState().GetOutposts().Add(_outpost);
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 
@@ -170,7 +165,7 @@ namespace SubterfugeCoreTest
             List<Player> players = new List<Player>();
             players.Add(new Player("1"));
             
-            Game game = new Game(testUtils.GetDefaultGameConfiguration(players));
+            Game game = new Game(_testUtils.GetDefaultGameConfiguration(players));
             game.TimeMachine.GetState().GetOutposts().Add(_outpost);
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 
@@ -198,7 +193,6 @@ namespace SubterfugeCoreTest
             Assert.AreEqual(initialDrillers, _outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(0, game.TimeMachine.GetState().GetSubList().Count);
         }
-        */
         
         [TestMethod]
         public void CanRemoveShields()
@@ -246,13 +240,12 @@ namespace SubterfugeCoreTest
         {
             Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
             outpost.GetComponent<ShieldManager>().SetShields(10);
-            int initialShields = outpost.GetComponent<ShieldManager>().GetShields();
             outpost.GetComponent<ShieldManager>().RemoveShields(15);
             Assert.AreEqual(0, outpost.GetComponent<ShieldManager>().GetShields());
         }
 
         [TestMethod]
-        public void CanToggleSheilds()
+        public void CanToggleShields()
         {
             Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), new Player("1"));
             bool initialState = outpost.GetComponent<ShieldManager>().IsShieldActive();

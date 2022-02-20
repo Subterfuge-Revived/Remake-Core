@@ -14,24 +14,24 @@ namespace SubterfugeCoreTest.Core.Components
     [TestClass]
     public class VisionManagerTest
     {
-        private Mock<IEntity> mockEntity;
-        private Mock<IEntity> mockSecondEntity;
+        private Mock<IEntity> _mockEntity;
+        private Mock<IEntity> _mockSecondEntity;
         
-        public void mockVisionManagerEntity(
+        public void MockVisionManagerEntity(
             RftVector initialLocation,
             IEntity destination,
             GameTick startTime,
             float visionRange = 1.0f
         )
         {
-            mockEntity = new Mock<IEntity>();
-            mockSecondEntity = new Mock<IEntity>();
-            mockEntity.Setup(it => it.GetComponent<SpeedManager>())
-                .Returns(new SpeedManager(mockEntity.Object, 1.0f));
-            mockEntity.Setup(it => it.GetComponent<PositionManager>())
-                .Returns(new PositionManager(mockEntity.Object, initialLocation, destination, startTime));
-            mockEntity.Setup(it => it.GetComponent<VisionManager>())
-                .Returns(new VisionManager(mockEntity.Object, visionRange));
+            _mockEntity = new Mock<IEntity>();
+            _mockSecondEntity = new Mock<IEntity>();
+            _mockEntity.Setup(it => it.GetComponent<SpeedManager>())
+                .Returns(new SpeedManager(_mockEntity.Object, 1.0f));
+            _mockEntity.Setup(it => it.GetComponent<PositionManager>())
+                .Returns(new PositionManager(_mockEntity.Object, initialLocation, destination, startTime));
+            _mockEntity.Setup(it => it.GetComponent<VisionManager>())
+                .Returns(new VisionManager(_mockEntity.Object, visionRange));
         }
         
         [TestMethod]
@@ -41,8 +41,8 @@ namespace SubterfugeCoreTest.Core.Components
             var destination = new Generator("A", new RftVector(0, 0));
             var initialLocation = new RftVector(0, 0);
             
-            mockVisionManagerEntity(initialLocation, destination, new GameTick());
-            Assert.IsNotNull(mockEntity.Object.GetComponent<VisionManager>());
+            MockVisionManagerEntity(initialLocation, destination, new GameTick());
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<VisionManager>());
         }
         
         [TestMethod]
@@ -53,9 +53,9 @@ namespace SubterfugeCoreTest.Core.Components
             var initialLocation = new RftVector(0, 0);
             var initialVisionRange = 10.0f;
             
-            mockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
-            Assert.IsNotNull(mockEntity.Object.GetComponent<VisionManager>());
-            Assert.AreEqual(initialVisionRange, mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
+            MockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<VisionManager>());
+            Assert.AreEqual(initialVisionRange, _mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
         }
         
         [TestMethod]
@@ -66,18 +66,18 @@ namespace SubterfugeCoreTest.Core.Components
             var initialLocation = new RftVector(0, 0);
             var initialVisionRange = 10.0f;
             
-            mockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
-            Assert.IsNotNull(mockEntity.Object.GetComponent<VisionManager>());
-            Assert.AreEqual(initialVisionRange, mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
+            MockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<VisionManager>());
+            Assert.AreEqual(initialVisionRange, _mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
             
             
 
             float newVisionRange = 1.0f;
             var mockGameState = new Mock<IGameState>();
             mockGameState.Setup(it => it.EntitesInRange(It.IsAny<float>(), It.IsAny<RftVector>())).Returns(new List<IEntity>());
-            mockEntity.Object.GetComponent<VisionManager>().SetVisionRange(newVisionRange, mockGameState.Object, new GameTick());
+            _mockEntity.Object.GetComponent<VisionManager>().SetVisionRange(newVisionRange, mockGameState.Object, new GameTick());
             
-            Assert.AreEqual(newVisionRange, mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
+            Assert.AreEqual(newVisionRange, _mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
         }
         
         [TestMethod]
@@ -88,15 +88,15 @@ namespace SubterfugeCoreTest.Core.Components
             var initialLocation = new RftVector(0, 0);
             var initialVisionRange = 1.0f;
 
-            mockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
+            MockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
             var positionInsideVisionRange = new RftVector(0.5f, 0.0f);
-            mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
-                .Returns(new SpeedManager(mockSecondEntity.Object,0.0f));
-            mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
-                .Returns(new PositionManager(mockSecondEntity.Object, positionInsideVisionRange, destination, new GameTick()));
-            Assert.IsNotNull(mockEntity.Object.GetComponent<VisionManager>());
-            Assert.AreEqual(initialVisionRange, mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
-            Assert.IsTrue(mockEntity.Object.GetComponent<VisionManager>().IsInVisionRange(new GameTick(), mockSecondEntity.Object.GetComponent<PositionManager>()));
+            _mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
+                .Returns(new SpeedManager(_mockSecondEntity.Object,0.0f));
+            _mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
+                .Returns(new PositionManager(_mockSecondEntity.Object, positionInsideVisionRange, destination, new GameTick()));
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<VisionManager>());
+            Assert.AreEqual(initialVisionRange, _mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
+            Assert.IsTrue(_mockEntity.Object.GetComponent<VisionManager>().IsInVisionRange(new GameTick(), _mockSecondEntity.Object.GetComponent<PositionManager>()));
         }
         
         [TestMethod]
@@ -107,22 +107,21 @@ namespace SubterfugeCoreTest.Core.Components
             var initialLocation = new RftVector(0, 0);
             var initialVisionRange = 1.0f;
 
-            mockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
+            MockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
             
             var positionInsideVisionRange = new RftVector(0.5f, 0.0f);
-            mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
-                .Returns(new SpeedManager(mockSecondEntity.Object,0.0f));
-            mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
-                .Returns(new PositionManager(mockSecondEntity.Object, positionInsideVisionRange, destination, new GameTick()));
-            List<IEntity> secondEntity = new List<IEntity>(); 
-            secondEntity.Add(mockSecondEntity.Object);
+            _mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
+                .Returns(new SpeedManager(_mockSecondEntity.Object,0.0f));
+            _mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
+                .Returns(new PositionManager(_mockSecondEntity.Object, positionInsideVisionRange, destination, new GameTick()));
+            List<IEntity> secondEntity = new List<IEntity> { _mockSecondEntity.Object };
             var mockGameState = new Mock<IGameState>();
             mockGameState.Setup(it => it.EntitesInRange(It.IsAny<float>(), It.IsAny<RftVector>())).Returns(secondEntity);
             mockGameState.Setup(it => it.GetAllGameObjects()).Returns(secondEntity);
             
-            Assert.IsNotNull(mockEntity.Object.GetComponent<VisionManager>());
-            Assert.AreEqual(initialVisionRange, mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
-            Assert.IsTrue(mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(mockSecondEntity.Object));
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<VisionManager>());
+            Assert.AreEqual(initialVisionRange, _mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
+            Assert.IsTrue(_mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(_mockSecondEntity.Object));
         }
         
         [TestMethod]
@@ -133,16 +132,16 @@ namespace SubterfugeCoreTest.Core.Components
             var initialLocation = new RftVector(0, 0);
             var initialVisionRange = 1.0f;
 
-            mockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
+            MockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
             
             var positionOutsideVisionRange = new RftVector(1.1f, 0.0f);
-            mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
-                .Returns(new SpeedManager(mockSecondEntity.Object,0.0f));
-            mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
-                .Returns(new PositionManager(mockSecondEntity.Object, positionOutsideVisionRange, destination, new GameTick()));
-            Assert.IsNotNull(mockEntity.Object.GetComponent<VisionManager>());
-            Assert.AreEqual(initialVisionRange, mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
-            Assert.IsFalse(mockEntity.Object.GetComponent<VisionManager>().IsInVisionRange(new GameTick(), mockSecondEntity.Object.GetComponent<PositionManager>()));
+            _mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
+                .Returns(new SpeedManager(_mockSecondEntity.Object,0.0f));
+            _mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
+                .Returns(new PositionManager(_mockSecondEntity.Object, positionOutsideVisionRange, destination, new GameTick()));
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<VisionManager>());
+            Assert.AreEqual(initialVisionRange, _mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
+            Assert.IsFalse(_mockEntity.Object.GetComponent<VisionManager>().IsInVisionRange(new GameTick(), _mockSecondEntity.Object.GetComponent<PositionManager>()));
         }
         
         [TestMethod]
@@ -153,23 +152,22 @@ namespace SubterfugeCoreTest.Core.Components
             var initialLocation = new RftVector(0, 0);
             var initialVisionRange = 1.0f;
 
-            mockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
+            MockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
             
             var positionInsideVisionRange = new RftVector(0.5f, 0.0f);
-            mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
-                .Returns(new SpeedManager(mockSecondEntity.Object,0.0f));
-            mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
-                .Returns(new PositionManager(mockSecondEntity.Object, positionInsideVisionRange, destination, new GameTick()));
+            _mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
+                .Returns(new SpeedManager(_mockSecondEntity.Object,0.0f));
+            _mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
+                .Returns(new PositionManager(_mockSecondEntity.Object, positionInsideVisionRange, destination, new GameTick()));
             List<IEntity> emptyList = new List<IEntity>();
-            List<IEntity> secondEntity = new List<IEntity>(); 
-            secondEntity.Add(mockSecondEntity.Object);
+            List<IEntity> secondEntity = new List<IEntity> { _mockSecondEntity.Object };
             var mockGameState = new Mock<IGameState>();
             mockGameState.Setup(it => it.EntitesInRange(It.IsAny<float>(), It.IsAny<RftVector>())).Returns(emptyList);
             mockGameState.Setup(it => it.GetAllGameObjects()).Returns(secondEntity);
             
-            Assert.IsNotNull(mockEntity.Object.GetComponent<VisionManager>());
-            Assert.AreEqual(initialVisionRange, mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
-            Assert.IsFalse(mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(mockSecondEntity.Object));
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<VisionManager>());
+            Assert.AreEqual(initialVisionRange, _mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
+            Assert.IsFalse(_mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(_mockSecondEntity.Object));
         }
         
         // Test Vision event handlers
@@ -181,12 +179,12 @@ namespace SubterfugeCoreTest.Core.Components
             var initialLocation = new RftVector(0, 0);
             var initialVisionRange = 10.0f;
             
-            mockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
-            Assert.IsNotNull(mockEntity.Object.GetComponent<VisionManager>());
-            Assert.AreEqual(initialVisionRange, mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
+            MockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<VisionManager>());
+            Assert.AreEqual(initialVisionRange, _mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
 
             OnVisionRangeChangeEventArgs visionRangeChangeArgs = null;
-            mockEntity.Object.GetComponent<VisionManager>().OnVisionRangeChange += (sender, args) =>
+            _mockEntity.Object.GetComponent<VisionManager>().OnVisionRangeChange += (sender, args) =>
             {
                 visionRangeChangeArgs = args;
             };
@@ -195,13 +193,13 @@ namespace SubterfugeCoreTest.Core.Components
             float newVisionRange = 1.0f;
             var mockGameState = new Mock<IGameState>();
             mockGameState.Setup(it => it.EntitesInRange(It.IsAny<float>(), It.IsAny<RftVector>())).Returns(new List<IEntity>());
-            mockEntity.Object.GetComponent<VisionManager>().SetVisionRange(newVisionRange, mockGameState.Object, new GameTick());
+            _mockEntity.Object.GetComponent<VisionManager>().SetVisionRange(newVisionRange, mockGameState.Object, new GameTick());
             
-            Assert.AreEqual(newVisionRange, mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
+            Assert.AreEqual(newVisionRange, _mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
             Assert.IsNotNull(visionRangeChangeArgs);
             Assert.AreEqual(initialVisionRange, visionRangeChangeArgs.PreviousVisionRange);
             Assert.AreEqual(newVisionRange, visionRangeChangeArgs.NewVisionRange);
-            Assert.AreEqual(mockEntity.Object.GetComponent<VisionManager>(), visionRangeChangeArgs.VisionManager);
+            Assert.AreEqual(_mockEntity.Object.GetComponent<VisionManager>(), visionRangeChangeArgs.VisionManager);
         }
         
         [TestMethod]
@@ -212,37 +210,36 @@ namespace SubterfugeCoreTest.Core.Components
             var initialLocation = new RftVector(0, 0);
             var initialVisionRange = 1.0f;
 
-            mockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
+            MockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
             
             var positionInsideVisionRange = new RftVector(0.5f, 0.0f);
-            mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
-                .Returns(new SpeedManager(mockSecondEntity.Object,0.0f));
-            mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
-                .Returns(new PositionManager(mockSecondEntity.Object, positionInsideVisionRange, destination, new GameTick()));
+            _mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
+                .Returns(new SpeedManager(_mockSecondEntity.Object,0.0f));
+            _mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
+                .Returns(new PositionManager(_mockSecondEntity.Object, positionInsideVisionRange, destination, new GameTick()));
             List<IEntity> emptyList = new List<IEntity>();
-            List<IEntity> secondEntity = new List<IEntity>(); 
-            secondEntity.Add(mockSecondEntity.Object);
+            List<IEntity> secondEntity = new List<IEntity> { _mockSecondEntity.Object };
             var mockGameState = new Mock<IGameState>();
             mockGameState.Setup(it => it.EntitesInRange(It.IsAny<float>(), It.IsAny<RftVector>())).Returns(emptyList);
             mockGameState.Setup(it => it.GetAllGameObjects()).Returns(secondEntity);
             
-            Assert.IsNotNull(mockEntity.Object.GetComponent<VisionManager>());
-            Assert.AreEqual(initialVisionRange, mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
-            Assert.IsFalse(mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(mockSecondEntity.Object));
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<VisionManager>());
+            Assert.AreEqual(initialVisionRange, _mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
+            Assert.IsFalse(_mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(_mockSecondEntity.Object));
             
             // Update to have the entity in rage.
             mockGameState.Setup(it => it.EntitesInRange(It.IsAny<float>(), It.IsAny<RftVector>())).Returns(secondEntity);
 
             OnEntityEnterVisionRangeEventArgs enterVisionArgs = null;
-            mockEntity.Object.GetComponent<VisionManager>().OnEntityEnterVisionRange += (sender, args) =>
+            _mockEntity.Object.GetComponent<VisionManager>().OnEntityEnterVisionRange += (sender, args) =>
             {
                 enterVisionArgs = args;
             };
             
-            Assert.IsTrue(mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(mockSecondEntity.Object));
+            Assert.IsTrue(_mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(_mockSecondEntity.Object));
             Assert.IsNotNull(enterVisionArgs);
-            Assert.AreEqual(mockSecondEntity.Object, enterVisionArgs.EntityInVision);
-            Assert.AreEqual(mockEntity.Object.GetComponent<VisionManager>(), enterVisionArgs.VisionManager);
+            Assert.AreEqual(_mockSecondEntity.Object, enterVisionArgs.EntityInVision);
+            Assert.AreEqual(_mockEntity.Object.GetComponent<VisionManager>(), enterVisionArgs.VisionManager);
         }
 
         [TestMethod]
@@ -253,36 +250,35 @@ namespace SubterfugeCoreTest.Core.Components
             var initialLocation = new RftVector(0, 0);
             var initialVisionRange = 1.0f;
 
-            mockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
+            MockVisionManagerEntity(initialLocation, destination, new GameTick(), initialVisionRange);
             
             var positionInsideVisionRange = new RftVector(0.5f, 0.0f);
-            mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
-                .Returns(new SpeedManager(mockSecondEntity.Object,0.0f));
-            mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
-                .Returns(new PositionManager(mockSecondEntity.Object, positionInsideVisionRange, destination, new GameTick()));
-            List<IEntity> secondEntity = new List<IEntity>(); 
-            secondEntity.Add(mockSecondEntity.Object);
+            _mockSecondEntity.Setup(it => it.GetComponent<SpeedManager>())
+                .Returns(new SpeedManager(_mockSecondEntity.Object,0.0f));
+            _mockSecondEntity.Setup(it => it.GetComponent<PositionManager>())
+                .Returns(new PositionManager(_mockSecondEntity.Object, positionInsideVisionRange, destination, new GameTick()));
+            List<IEntity> secondEntity = new List<IEntity> { _mockSecondEntity.Object };
             var mockGameState = new Mock<IGameState>();
             mockGameState.Setup(it => it.EntitesInRange(It.IsAny<float>(), It.IsAny<RftVector>())).Returns(secondEntity);
             mockGameState.Setup(it => it.GetAllGameObjects()).Returns(secondEntity);
             
-            Assert.IsNotNull(mockEntity.Object.GetComponent<VisionManager>());
-            Assert.AreEqual(initialVisionRange, mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
-            Assert.IsTrue(mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(mockSecondEntity.Object));
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<VisionManager>());
+            Assert.AreEqual(initialVisionRange, _mockEntity.Object.GetComponent<VisionManager>().GetVisionRange());
+            Assert.IsTrue(_mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(_mockSecondEntity.Object));
             
             // Make entity leave vision range
             mockGameState.Setup(it => it.EntitesInRange(It.IsAny<float>(), It.IsAny<RftVector>())).Returns(new List<IEntity>());
             
             OnEntityLeaveVisionRangeEventArgs leaveVisionArgs = null;
-            mockEntity.Object.GetComponent<VisionManager>().OnEntityLeaveVisionRange += (sender, args) =>
+            _mockEntity.Object.GetComponent<VisionManager>().OnEntityLeaveVisionRange += (sender, args) =>
             {
                 leaveVisionArgs = args;
             };
 
-            Assert.IsFalse(mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(mockSecondEntity.Object));
+            Assert.IsFalse(_mockEntity.Object.GetComponent<VisionManager>().GetEntitiesInVisionRange(mockGameState.Object, new GameTick()).Contains(_mockSecondEntity.Object));
             Assert.IsNotNull(leaveVisionArgs);
-            Assert.AreEqual(mockSecondEntity.Object, leaveVisionArgs.EntityLeavingVision);
-            Assert.AreEqual(mockEntity.Object.GetComponent<VisionManager>(), leaveVisionArgs.VisionManager);
+            Assert.AreEqual(_mockSecondEntity.Object, leaveVisionArgs.EntityLeavingVision);
+            Assert.AreEqual(_mockEntity.Object.GetComponent<VisionManager>(), leaveVisionArgs.VisionManager);
         }
     }
 }

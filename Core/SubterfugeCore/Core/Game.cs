@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
@@ -33,14 +32,8 @@ namespace SubterfugeCore.Core
         /// as well as their configuration.
         /// </summary>
         public SpecialistPool SpecialistPool;
-        
-        /// <summary>
-        /// The game configuration. Determines things like the map generation config,
-        /// if the game is multiplayer, how many players are involved, etc.
-        /// </summary>
-        public GameConfiguration Configuration { get; } = null;
 
-        public GameMode GameMode { get; set; } = GameMode.MINING;
+        public GameMode GameMode { get; set; } = GameMode.Mining;
 
         /// <summary>
         /// Creates a new game using the provided GameConfiguration. Calling this constructor will trigger
@@ -49,8 +42,6 @@ namespace SubterfugeCore.Core
         /// <param name="gameConfiguration">Settings that determine how the game should be configured during generation.</param>
         public Game(GameConfiguration gameConfiguration)
         {
-            Configuration = gameConfiguration;
-            
             // Creates a new game state and makes a time machine to reference the state
             GameState state = new GameState(gameConfiguration);
             TimeMachine = new TimeMachine(state);
@@ -91,7 +82,7 @@ namespace SubterfugeCore.Core
         {
             switch (GameMode)
             {
-                case GameMode.MINING:
+                case GameMode.Mining:
                     foreach (Player p in TimeMachine.GetState().GetPlayers())
                     {
                         if (!p.IsEliminated() && p.GetNeptunium() >= Constants.MINING_NEPTUNIUM_TO_WIN)
@@ -102,7 +93,7 @@ namespace SubterfugeCore.Core
 
                     return null;
 
-                case GameMode.DOMINATION:
+                case GameMode.Domination:
                     foreach (Player p in TimeMachine.GetState().GetPlayers())
                     {
                         if (!p.IsEliminated() && TimeMachine.GetState().GetPlayerOutposts(p).Count >

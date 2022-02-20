@@ -109,7 +109,7 @@ namespace SubterfugeCore.Core.GameEvents
             List<GameEvent> _combatEvents = new List<GameEvent>();
             
             // Create the combat event for arrival
-            CombatEvent arriveCombat = new CombatEvent(launchedSub, state.GetEntity(GetEventData().DestinationId), launchedSub.GetComponent<PositionManager>().GetExpectedArrival(state.CurrentTick));
+            CombatEvent arriveCombat = new CombatEvent(launchedSub, state.GetEntity(GetEventData().DestinationId), launchedSub.GetComponent<PositionManager>().GetExpectedArrival());
             _combatEvents.Add(arriveCombat);
 
             // Determine any combat events that may exist along the way.

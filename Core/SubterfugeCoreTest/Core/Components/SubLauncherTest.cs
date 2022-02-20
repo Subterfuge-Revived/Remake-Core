@@ -18,36 +18,36 @@ namespace SubterfugeCoreTest.Core.Components
     [TestClass]
     public class SubLauncherTest
     {
-        private Mock<IEntity> mockEntity;
+        private Mock<IEntity> _mockEntity;
         private Player initialOwner = new Player("1");
         
-        public void mockSubLauncherEntity(
+        public void MockSubLauncherEntity(
             int initialDrillers,
             Player owner,
             int specialistCapacity
         )
         {
-            mockEntity = new Mock<IEntity>();
-            mockEntity.Setup(it => it.GetComponent<DrillerCarrier>())
-                .Returns(new DrillerCarrier(mockEntity.Object, initialDrillers, owner));
-            mockEntity.Setup(it => it.GetComponent<SpecialistManager>())
-                .Returns(new SpecialistManager(mockEntity.Object, specialistCapacity));
-            mockEntity.Setup(it => it.GetComponent<SubLauncher>())
-                .Returns(new SubLauncher(mockEntity.Object));
+            _mockEntity = new Mock<IEntity>();
+            _mockEntity.Setup(it => it.GetComponent<DrillerCarrier>())
+                .Returns(new DrillerCarrier(_mockEntity.Object, initialDrillers, owner));
+            _mockEntity.Setup(it => it.GetComponent<SpecialistManager>())
+                .Returns(new SpecialistManager(_mockEntity.Object, specialistCapacity));
+            _mockEntity.Setup(it => it.GetComponent<SubLauncher>())
+                .Returns(new SubLauncher(_mockEntity.Object));
         }
         
         [TestMethod]
         public void CanInitializeSubLauncher()
         {
-            mockSubLauncherEntity(10, initialOwner, 3);
-            Assert.IsNotNull(mockEntity.Object.GetComponent<SubLauncher>());
+            MockSubLauncherEntity(10, initialOwner, 3);
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<SubLauncher>());
         }
         
         [TestMethod]
         public void CanLaunchASub()
         {
-            mockSubLauncherEntity(10, initialOwner, 3);
-            Assert.IsNotNull(mockEntity.Object.GetComponent<SubLauncher>());
+            MockSubLauncherEntity(10, initialOwner, 3);
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<SubLauncher>());
 
             var mockGameState = new Mock<IGameState>();
             var launchEventData = new LaunchEventData()
@@ -76,7 +76,7 @@ namespace SubterfugeCoreTest.Core.Components
             Sub capturedSub = null;
             mockGameState.Setup(it => it.AddSub(It.IsAny<Sub>())).Callback<Sub>(sub => { capturedSub = sub; });
             
-            mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
+            _mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
             
             // Verify the sub was added to the state
             mockGameState.Verify(it => it.AddSub(It.IsAny<Sub>()), Times.Once);
@@ -90,11 +90,11 @@ namespace SubterfugeCoreTest.Core.Components
         [TestMethod]
         public void CanUndoASubLaunch()
         {
-            mockSubLauncherEntity(10, initialOwner, 3);
-            Assert.IsNotNull(mockEntity.Object.GetComponent<SubLauncher>());
+            MockSubLauncherEntity(10, initialOwner, 3);
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<SubLauncher>());
 
             OnSubLaunchEventArgs subLaunchEventData = null;
-            mockEntity.Object.GetComponent<SubLauncher>().OnSubLaunch += (sender, args) =>
+            _mockEntity.Object.GetComponent<SubLauncher>().OnSubLaunch += (sender, args) =>
             {
                 subLaunchEventData = args;
             };
@@ -123,7 +123,7 @@ namespace SubterfugeCoreTest.Core.Components
             mockGameState.Setup(it => it.GetEntity(launchEventData.SourceId)).Returns(source);
             mockGameState.Setup(it => it.GetEntity(launchEventData.DestinationId)).Returns(destination);
             
-            mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
+            _mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
 
             Assert.IsNotNull(subLaunchEventData);
             Assert.AreEqual(destination, subLaunchEventData.Destination);
@@ -138,7 +138,7 @@ namespace SubterfugeCoreTest.Core.Components
             Assert.AreEqual(initialOwner, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetOwner());
             Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            mockEntity.Object.GetComponent<SubLauncher>().UndoLaunch(mockGameState.Object, launchEvent);
+            _mockEntity.Object.GetComponent<SubLauncher>().UndoLaunch(mockGameState.Object, launchEvent);
             
             // Verify the sub that was launched is removed from the state
             mockGameState.Verify(it => it.RemoveSub(subLaunchEventData.LaunchedSub), Times.Once);
@@ -148,11 +148,11 @@ namespace SubterfugeCoreTest.Core.Components
         [TestMethod]
         public void LaunchingASubTriggersAnOnLaunchEvent()
         {
-            mockSubLauncherEntity(10, initialOwner, 3);
-            Assert.IsNotNull(mockEntity.Object.GetComponent<SubLauncher>());
+            MockSubLauncherEntity(10, initialOwner, 3);
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<SubLauncher>());
 
             OnSubLaunchEventArgs subLaunchEventData = null;
-            mockEntity.Object.GetComponent<SubLauncher>().OnSubLaunch += (sender, args) =>
+            _mockEntity.Object.GetComponent<SubLauncher>().OnSubLaunch += (sender, args) =>
             {
                 subLaunchEventData = args;
             };
@@ -184,7 +184,7 @@ namespace SubterfugeCoreTest.Core.Components
             Sub capturedSub = null;
             mockGameState.Setup(it => it.AddSub(It.IsAny<Sub>())).Callback<Sub>(sub => { capturedSub = sub; });
 
-            mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
+            _mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
             // Verify the sub was added to the state
             mockGameState.Verify(it => it.AddSub(subLaunchEventData.LaunchedSub), Times.Once);
             Assert.IsNotNull(capturedSub);
@@ -208,17 +208,17 @@ namespace SubterfugeCoreTest.Core.Components
         [TestMethod]
         public void UndoingALaunchTriggersAnUndoLaunchEvent()
         {
-            mockSubLauncherEntity(10, initialOwner, 3);
-            Assert.IsNotNull(mockEntity.Object.GetComponent<SubLauncher>());
+            MockSubLauncherEntity(10, initialOwner, 3);
+            Assert.IsNotNull(_mockEntity.Object.GetComponent<SubLauncher>());
 
             OnSubLaunchEventArgs subLaunchEventData = null;
-            mockEntity.Object.GetComponent<SubLauncher>().OnSubLaunch += (sender, args) =>
+            _mockEntity.Object.GetComponent<SubLauncher>().OnSubLaunch += (sender, args) =>
             {
                 subLaunchEventData = args;
             };
             
             OnUndoSubLaunchEventArgs undoSubLaunchEvent = null;
-            mockEntity.Object.GetComponent<SubLauncher>().OnUndoSubLaunch += (sender, args) =>
+            _mockEntity.Object.GetComponent<SubLauncher>().OnUndoSubLaunch += (sender, args) =>
             {
                 undoSubLaunchEvent = args;
             };
@@ -250,7 +250,7 @@ namespace SubterfugeCoreTest.Core.Components
             Sub capturedSub = null;
             mockGameState.Setup(it => it.AddSub(It.IsAny<Sub>())).Callback<Sub>(sub => { capturedSub = sub; });
             
-            mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
+            _mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
             // Verify the sub was added to the state
             mockGameState.Verify(it => it.AddSub(subLaunchEventData.LaunchedSub), Times.Once);
             Assert.IsNotNull(capturedSub);
@@ -268,7 +268,7 @@ namespace SubterfugeCoreTest.Core.Components
             Assert.AreEqual(initialOwner, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetOwner());
             Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
             
-            mockEntity.Object.GetComponent<SubLauncher>().UndoLaunch(mockGameState.Object, launchEvent);
+            _mockEntity.Object.GetComponent<SubLauncher>().UndoLaunch(mockGameState.Object, launchEvent);
             
             // Verify the sub that was launched is removed from the state
             mockGameState.Verify(it => it.RemoveSub(subLaunchEventData.LaunchedSub), Times.Once);

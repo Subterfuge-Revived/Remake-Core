@@ -8,7 +8,7 @@ using SubterfugeCore.Core.Timing;
 namespace SubterfugeCoreTest
 {
     [TestClass]
-    public class NameGenerator_test
+    public class NameGeneratorTest
     {
         private NameGenerator _generator;
 

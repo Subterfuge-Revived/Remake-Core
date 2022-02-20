@@ -358,7 +358,7 @@ namespace SubterfugeCore.Core
             {
 
                 if (
-                    sub.GetComponent<PositionManager>().GetExpectedDestination(CurrentTick) == destination.GetComponent<PositionManager>().GetPositionAt(CurrentTick) || 
+                    sub.GetComponent<PositionManager>().GetExpectedDestination() == destination.GetComponent<PositionManager>().GetPositionAt(CurrentTick) || 
                     sub.GetComponent<PositionManager>().GetPositionAt(CurrentTick) == source.GetComponent<PositionManager>().GetPositionAt(CurrentTick))
                 {
                     // TODO:

@@ -28,7 +28,7 @@ namespace SubterfugeCore.Core.Config
 		/// <summary>
 		/// The initial number of drillers an outpost will have when generated.
 		/// </summary>
-		public const int INITIAL_DRILLERS_PER_OUTPOST = 30;
+		public const int INITIAL_DRILLERS_PER_OUTPOST = 10;
 		
 		/// <summary>
 		/// The initial number of drillers an outpost will have when generated.

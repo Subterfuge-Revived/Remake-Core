@@ -21,8 +21,7 @@ namespace SubterfugeCoreTest
                     Goal = Goal.Domination,
                     MinutesPerTick = 15,
                     IsRanked = false,
-                    MaxPlayers = players.Count,
-                    AllowedSpecialists = { }
+                    MaxPlayers = players.Count
                 },
                 MapConfiguration = new MapConfiguration()
                 {

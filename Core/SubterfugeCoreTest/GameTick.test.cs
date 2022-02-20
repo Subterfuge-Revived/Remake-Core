@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SubterfugeCore;
 using System;
 using System.Collections.Generic;
 using SubterfugeCore.Core;
@@ -26,7 +25,7 @@ namespace SubterfugeCoreTest
             _tickNumber = 0;
             _tick = new GameTick(_tickNumber);
             GameConfiguration config = testUtils.GetDefaultGameConfiguration(new List<Player>{ new Player("1") });
-            Game server = new Game(config);
+            new Game(config);
         }
 
         [TestMethod]
