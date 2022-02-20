@@ -5,7 +5,9 @@ using GameEventModels;
 using Google.Protobuf;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
+using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Entities.Positions;
@@ -17,7 +19,6 @@ using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;
 
-/*
 namespace SubterfugeCoreTest
 {
 	
@@ -47,7 +48,7 @@ namespace SubterfugeCoreTest
 			{
 				EventData = new DrillMineEventData()
 				{
-					SourceId = o1.GetId()
+					SourceId = o1.GetComponent<IdentityManager>().GetId()
 				}.ToByteString(),
 				Id = Guid.NewGuid().ToString(),
 				EventType = EventType.DrillMineEvent,
@@ -57,7 +58,7 @@ namespace SubterfugeCoreTest
 			{
 				EventData = new DrillMineEventData()
 				{
-					SourceId = o2.GetId()
+					SourceId = o2.GetComponent<IdentityManager>().GetId()
 				}.ToByteString(),
 				Id = Guid.NewGuid().ToString(),
 				EventType = EventType.DrillMineEvent,
@@ -75,7 +76,7 @@ namespace SubterfugeCoreTest
 		public void ExtractFromGameEventModel()
 		{
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
-			ICombatable combatable = tm.GetState().GetEntity(drillMine.GetEventData().SourceId);
+			IEntity combatable = tm.GetState().GetEntity(drillMine.GetEventData().SourceId);
 			Assert.IsNotNull(combatable);
 			Assert.IsTrue(combatable is Outpost);
 			Assert.IsFalse(combatable is Mine);
@@ -93,7 +94,7 @@ namespace SubterfugeCoreTest
 		[TestMethod]
 		public void DrillFirstMine()
 		{
-			o1.AddDrillers(50);
+			o1.GetComponent<DrillerCarrier>().AddDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
 			tm.AddEvent(drillMine);
 			tm.Advance(10);
@@ -110,15 +111,15 @@ namespace SubterfugeCoreTest
 			{
 				EventData = new DrillMineEventData()
 				{
-					SourceId = o1.GetId()
+					SourceId = o1.GetComponent<IdentityManager>().GetId()
 				}.ToByteString(),
 				Id = Guid.NewGuid().ToString(),
 				EventType = EventType.DrillMineEvent,
 				OccursAtTick = 25
 			});
-			o1.AddDrillers(150);
-			o2.AddDrillers(300);
-			o2.destroyOutpost();
+			o1.GetComponent<DrillerCarrier>().AddDrillers(150);
+			o2.GetComponent<DrillerCarrier>().AddDrillers(300);
+			o2.GetComponent<DrillerCarrier>().Destroy();
 			tm.AddEvent(drillMine);
 			tm.AddEvent(drillMineAgain);
 			tm.AddEvent(drillSecondMine);
@@ -130,8 +131,8 @@ namespace SubterfugeCoreTest
 		[TestMethod]
 		public void MiningCostIncreases()
 		{
-			o1.AddDrillers(50);
-			o2.AddDrillers(50);
+			o1.GetComponent<DrillerCarrier>().AddDrillers(50);
+			o2.GetComponent<DrillerCarrier>().AddDrillers(50);
 			DrillMineEvent drillFirstMine = new DrillMineEvent(model1);
 			DrillMineEvent drillSecondMine = new DrillMineEvent(model2);
 			tm.AddEvent(drillFirstMine);
@@ -140,16 +141,16 @@ namespace SubterfugeCoreTest
 			Assert.IsTrue(drillFirstMine.WasEventSuccessful());
 			Assert.IsFalse(drillSecondMine.WasEventSuccessful());
 			tm.Rewind(20);
-			o2.AddDrillers(100);
+			o2.GetComponent<DrillerCarrier>().AddDrillers(100);
 			tm.Advance(20);
 			Assert.IsTrue(drillSecondMine.WasEventSuccessful());
-			Assert.AreEqual(200, o1.GetOwner().GetRequiredDrillersToMine());
+			Assert.AreEqual(200, o1.GetComponent<DrillerCarrier>().GetOwner().GetRequiredDrillersToMine());
 		}
 
 		[TestMethod]
 		public void NeptuniumProductionEventCreated()
 		{
-			o1.AddDrillers(50);
+			o1.GetComponent<DrillerCarrier>().AddDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
 			tm.AddEvent(drillMine);
 			tm.Advance(10);
@@ -159,24 +160,24 @@ namespace SubterfugeCoreTest
 		[TestMethod]
 		public void RegularNeptuniumProduction()
 		{
-			o1.AddDrillers(50);
+			o1.GetComponent<DrillerCarrier>().AddDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
 			tm.AddEvent(drillMine);
 			tm.Advance(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
-			Assert.IsTrue(o1.GetOwner().GetNeptunium() == 12);
+			Assert.IsTrue(o1.GetComponent<DrillerCarrier>().GetOwner().GetNeptunium() == 12);
 		}
 
 		[TestMethod]
 		public void RewindTest()
 		{
-			o1.AddDrillers(50);
+			o1.GetComponent<DrillerCarrier>().AddDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(model1);
 			tm.AddEvent(drillMine);
 			tm.Advance(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
 			tm.Rewind(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
 			Assert.IsTrue(tm.GetState().GetOutposts().Contains(o1));
 			Assert.IsTrue(p.GetNeptunium() == 0);
-			Assert.IsTrue(o1.GetDrillerCount() == 50);
+			Assert.IsTrue(o1.GetComponent<DrillerCarrier>().GetDrillerCount() == 50);
 		}
 
 		private bool IsNeptuniumProductionEvent(GameEvent e)
@@ -185,4 +186,3 @@ namespace SubterfugeCoreTest
 		}
 	}
 }
-*/
