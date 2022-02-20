@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.Entities.Base;
-using SubterfugeCore.Core.Config;
+﻿using SubterfugeCore.Core.Config;
 using SubterfugeRemakeService;
 using SubterfugeCore.Core.Players.Currency;
 
