@@ -11,7 +11,7 @@ using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Topologies;
-
+/*
 namespace SubterfugeCoreTest
 {
     [TestClass]
@@ -171,3 +171,5 @@ namespace SubterfugeCoreTest
 
     }
 }
+
+*/

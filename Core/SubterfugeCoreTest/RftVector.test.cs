@@ -2,7 +2,7 @@
 using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core.Topologies;
-
+/*
 namespace SubterfugeCoreTest
 {
     [TestClass]
@@ -214,3 +214,4 @@ namespace SubterfugeCoreTest
 
     }
 }
+*/

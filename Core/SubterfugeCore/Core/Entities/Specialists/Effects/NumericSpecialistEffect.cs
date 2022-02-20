@@ -72,10 +72,10 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <returns>A list of effect deltas to be applied</returns>
         public override List<EffectDelta> GetForwardEffectDeltas(GameState state, Entity friendly, Entity enemy)
         {
-            List<Entity> targets = this.getEffectTargets(state, friendly, enemy);
+            List<IEntity> targets = this.getEffectTargets(state, friendly, enemy);
             List<EffectDelta> deltas = new List<EffectDelta>();
 
-            foreach (Entity target in targets)
+            foreach (IEntity target in targets)
             {
                 int friendlyDelta = (int)this.getForwardEffectDelta(state,friendly.GetComponent<DrillerCarrier>().GetDrillerCount(), friendly, enemy);
                 int enemyDelta = (int)this.getForwardEffectDelta(state,enemy.GetComponent<DrillerCarrier>().GetDrillerCount(), friendly, enemy);
@@ -103,10 +103,10 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <returns></returns>
         public override List<EffectDelta> GetBackwardEffectDeltas(GameState state, Entity friendly, Entity enemy)
         {
-            List<Entity> targets = this.getEffectTargets(state, friendly, enemy);
+            List<IEntity> targets = this.getEffectTargets(state, friendly, enemy);
             List<EffectDelta> deltas = new List<EffectDelta>();
 
-            foreach (Entity target in targets)
+            foreach (IEntity target in targets)
             {
                 int friendlyDelta = (int)this.getBackwardsEffectDelta(state,friendly.GetComponent<DrillerCarrier>().GetDrillerCount(), friendly, enemy);
                 int enemyDelta = (int)this.getBackwardsEffectDelta(state,enemy.GetComponent<DrillerCarrier>().GetDrillerCount(), friendly, enemy);

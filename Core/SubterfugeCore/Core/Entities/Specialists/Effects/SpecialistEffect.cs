@@ -50,9 +50,9 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="enemy">The enemy participant. Null if none.</param>
         public abstract List<EffectDelta> GetBackwardEffectDeltas(GameState state, Entity friendly, Entity enemy);
 
-        public List<Entity> getEffectTargets(GameState state, Entity friendly, Entity enemy)
+        public List<IEntity> getEffectTargets(GameState state, Entity friendly, Entity enemy)
         {
-            List<Entity> targets = new List<Entity>();
+            List<IEntity> targets = new List<IEntity>();
             
             // Filter based on the trigger range first
             switch (_effectTriggerRange)

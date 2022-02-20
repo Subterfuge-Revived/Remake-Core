@@ -1,7 +1,6 @@
 ﻿using System;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.EventArgs;
-using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.Entities
 {
@@ -24,22 +23,34 @@ namespace SubterfugeCore.Core.Entities
 
         
         // Shield Toggle Events:
-        public event EventHandler<OnForwardToggleShieldsEventArgs> OnShieldEnable;
-        public event EventHandler<OnForwardToggleShieldsEventArgs> OnShieldDisable;
+        public event EventHandler<OnShieldEnableEventArgs> OnShieldEnable;
+        public event EventHandler<OnShieldDisableEventArgs> OnShieldDisable;
         
         // Shield Capacity Events:
-        public event EventHandler<OnForwardToggleShieldsEventArgs> OnShieldCapacityChange;
+        public event EventHandler<OnShieldCapacityChangeEventArgs> OnShieldCapacityChange;
         
         // Shield Modification Events:
-        public event EventHandler<OnForwardToggleShieldsEventArgs> OnShieldValueChange;
+        public event EventHandler<OnShieldValueChangeEventArgs> OnShieldValueChange;
         
         
-        
-        public ShieldManager(Entity parent, int shieldCapacity) : base(parent)
+        public ShieldManager(
+            IEntity parent,
+            int shieldCapacity,
+            int initialShields = 0
+            ) : base(parent)
         {
-            _shields = 0;
-            _shieldActive = true;
-            _shieldCapacity = shieldCapacity;
+            if (initialShields > shieldCapacity)
+            {
+                _shields = shieldCapacity;
+                _shieldActive = true;
+                _shieldCapacity = shieldCapacity;
+            }
+            else
+            {
+                _shields = initialShields;
+                _shieldActive = true;
+                _shieldCapacity = shieldCapacity;
+            }
         }
         
         public int GetShields()
@@ -49,6 +60,7 @@ namespace SubterfugeCore.Core.Entities
 
         public void SetShields(int shieldValue)
         {
+            var previousValue = _shields;
             if(shieldValue > this._shieldCapacity)
             {
                 this._shields = this._shieldCapacity;
@@ -56,10 +68,16 @@ namespace SubterfugeCore.Core.Entities
             {
                 this._shields = shieldValue;
             }
+            OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
+            {
+                previousValue = previousValue,
+                ShieldManager = this,
+            });
         }
 
         public void RemoveShields(int shieldsToRemove)
         {
+            var previousValue = _shields;
             if (this._shields - shieldsToRemove < 0)
             {
                 this._shields = 0;
@@ -68,11 +86,30 @@ namespace SubterfugeCore.Core.Entities
             {
                 this._shields -= shieldsToRemove;
             }
+            OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
+            {
+                previousValue = previousValue,
+                ShieldManager = this,
+            });
         }
 
         public void ToggleShield()
         {
             this._shieldActive = !this._shieldActive;
+            if (_shieldActive)
+            {
+                OnShieldEnable?.Invoke(this, new OnShieldEnableEventArgs()
+                {
+                    ShieldManager = this
+                });
+            }
+            else
+            {
+                OnShieldDisable?.Invoke(this, new OnShieldDisableEventArgs()
+                {
+                    ShieldManager = this
+                });
+            }
         }
 
         public bool IsShieldActive()
@@ -82,6 +119,7 @@ namespace SubterfugeCore.Core.Entities
 
         public void AddShield(int shields)
         {
+            var previousValue = _shields;
             if(this._shields + shields > this._shieldCapacity)
             {
                 this._shields = this._shieldCapacity;
@@ -89,6 +127,11 @@ namespace SubterfugeCore.Core.Entities
             {
                 this._shields += shields;
             }
+            OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
+            {
+                previousValue = previousValue,
+                ShieldManager = this,
+            });
         }
 
         public int GetShieldCapacity()
@@ -98,7 +141,18 @@ namespace SubterfugeCore.Core.Entities
 
         public void SetShieldCapacity(int capactiy)
         {
+            var previousCapacity = _shieldCapacity;
             this._shieldCapacity = capactiy;
+            if (_shields > _shieldCapacity)
+            {
+                this._shields = _shieldCapacity;
+            }
+            
+            OnShieldCapacityChange?.Invoke(this, new OnShieldCapacityChangeEventArgs()
+            {
+                previousCapacity = previousCapacity,
+                ShieldManager = this,
+            });
         }
     }
 }

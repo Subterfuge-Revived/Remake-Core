@@ -7,9 +7,9 @@ namespace SubterfugeCore.Core.Components
 
     public abstract class EntityComponent
     {
-        public Entity Parent { get; set; }
+        public IEntity Parent { get; set; }
         
-        public EntityComponent(Entity parent)
+        public EntityComponent(IEntity parent)
         {
             Parent = parent;
         }

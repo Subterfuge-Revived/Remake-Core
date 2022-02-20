@@ -28,7 +28,6 @@ namespace SubterfugeCore.Core.Entities.Specialists
             if (specialistPool.ContainsKey(configuration.SpecialistName))
             {
                 throw new Exception("Specialist name already exists.");
-                return false;
             }
             specialistPool.Add(configuration.SpecialistName, configuration);
             return true;

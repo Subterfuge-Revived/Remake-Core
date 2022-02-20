@@ -10,7 +10,7 @@ namespace SubterfugeCore.Core.Components
         
         public event EventHandler<OnSpeedChangedEventArgs> OnSpeedChanged;
 
-        public SpeedManager(Entity parent, float initialSpeed) : base(parent)
+        public SpeedManager(IEntity parent, float initialSpeed) : base(parent)
         {
             _speed = initialSpeed;
         }

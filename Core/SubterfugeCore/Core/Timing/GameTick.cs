@@ -7,6 +7,11 @@ namespace SubterfugeCore.Core.Timing
     /// </summary>
     public class GameTick
     {
+        public override int GetHashCode()
+        {
+            return _tickNumber;
+        }
+
         protected bool Equals(GameTick other)
         {
             return _tickNumber == other._tickNumber;
@@ -21,7 +26,7 @@ namespace SubterfugeCore.Core.Timing
         }
 
         public static double MINUTES_PER_TICK = 15.0;
-        private int _tickNumber;
+        private readonly int _tickNumber;
 
         /// <summary>
         /// GameTick constructor. Requires a DateTime and an integer tick number
