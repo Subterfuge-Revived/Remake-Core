@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Specialists.Effects;
@@ -28,22 +29,12 @@ namespace SubterfugeCore.Core.Entities.Specialists
         public event EventHandler<OnAddSpecialistEventArgs> OnAddSpecialist;
         public event EventHandler<OnRemoveSpecialistEventArgs> OnRemoveSpecialist;
         public event EventHandler<OnSpecialistCapacityChangeEventArgs> OnSpecialistCapacityChange;
-        public event EventHandler<OnSpecialistCapturedEventArgs> OnSpecialistCaptured;
-        public event EventHandler<OnSpecialistUncapturedEventArgs> OnSpecialistUncaptured;
-
-        /// <summary>
-        /// Constructor for the specialist manager. Sets the capacity to 3 by default.
-        /// </summary>
-        public SpecialistManager(Entity parent) : base(parent)
-        {
-            _capacity = 3;  // default capacity
-        }
         
         /// <summary>
         /// Constructor with a specific capacity
         /// </summary>
         /// <param name="capacity">The capacity of the manager</param>
-        public SpecialistManager(Entity parent, int capacity) : base(parent)
+        public SpecialistManager(IEntity parent, int capacity = 3) : base(parent)
         {
             _capacity = capacity;
         }
@@ -61,16 +52,16 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Determines if a specialist can be added to this location
         /// </summary>
         /// <returns>If a specialist can be added</returns>
-        public bool CanAddSpecialist()
+        public bool CanAddSpecialists(int specsToAdd = 1)
         {
-            return _specialists.Count < _capacity;
+            return (_specialists.Count + specsToAdd) <= _capacity;
         }
 
         /// <summary>
         /// Adds a specialist to the location
         /// </summary>
         /// <param name="specialist">The specialist to add to the location</param>
-        public void AddSpecialist(Specialist specialist)
+        public bool AddSpecialist(Specialist specialist)
         {
             if (_specialists.Count < _capacity)
             {
@@ -80,19 +71,23 @@ namespace SubterfugeCore.Core.Entities.Specialists
                     AddedSpecialist = specialist,
                     AddedTo = this,
                 });
+                return true;
             }
+            return false;
         }
 
         /// <summary>
         /// Adds a list of specialists
         /// </summary>
         /// <param name="specialists">A list of specialists to add</param>
-        public void AddSpecialists(List<Specialist> specialists)
+        public int AddSpecialists(List<Specialist> specialists)
         {
+            var addedSpecialists = 0;
             foreach(Specialist s in specialists)
             {
                 if(_specialists.Count < _capacity)
                 {
+                    addedSpecialists++;
                     _specialists.Add(s);
                     OnAddSpecialist?.Invoke(this, new OnAddSpecialistEventArgs()
                     {
@@ -101,32 +96,41 @@ namespace SubterfugeCore.Core.Entities.Specialists
                     });
                 }
             }
+
+            return addedSpecialists;
         }
 
         /// <summary>
         /// Removes a specialist
         /// </summary>
         /// <param name="specialist">The specialist to remove</param>
-        public void RemoveSpecialist(Specialist specialist)
+        public bool RemoveSpecialist(Specialist specialist)
         {
-            _specialists.Remove(specialist);
-            OnRemoveSpecialist?.Invoke(this, new OnRemoveSpecialistEventArgs()
+            if (_specialists.Contains(specialist))
             {
-                RemovedSpecialist = specialist,
-                RemovedFrom = this,
-            });
+                _specialists.Remove(specialist);
+                OnRemoveSpecialist?.Invoke(this, new OnRemoveSpecialistEventArgs()
+                {
+                    RemovedSpecialist = specialist,
+                    RemovedFrom = this,
+                });
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
         /// Removes a list of specialsits
         /// </summary>
         /// <param name="specialists">The list of specialists to remove</param>
-        public void RemoveSpecialists(List<Specialist> specialists)
+        public int RemoveSpecialists(List<Specialist> specialists)
         {
+            var removedSpecialists = 0;
             foreach(Specialist s in specialists)
             {
                 if (_specialists.Contains(s))
                 {
+                    removedSpecialists++;
                     _specialists.Remove(s);
                     OnRemoveSpecialist?.Invoke(this, new OnRemoveSpecialistEventArgs()
                     {
@@ -135,6 +139,8 @@ namespace SubterfugeCore.Core.Entities.Specialists
                     });
                 }
             }
+
+            return removedSpecialists;
         }
 
         /// <summary>
@@ -171,34 +177,46 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             return _specialists.Count;
         }
-        
+
         /// <summary>
         /// Transfers all of the specialists from this specialist manager to the target specialist manager.
         /// </summary>
         /// <param name="specialistManager"></param>
-        public void transferSpecialistsTo(SpecialistManager specialistManager)
+        public bool transferSpecialistsTo(SpecialistManager specialistManager)
         {
-            foreach(Specialist s in _specialists)
+            if (specialistManager.CanAddSpecialists(this._specialists.Count))
             {
-                RemoveSpecialist(s);
-                specialistManager.AddSpecialist(s);
+                List<Specialist> toRemove = new List<Specialist>(_specialists);
+                foreach (Specialist s in toRemove)
+                {
+                    RemoveSpecialist(s);
+                    specialistManager.AddSpecialist(s);
+                }
+
+                return true;
             }
+            return false;
         }
         
         /// <summary>
         /// Transfers all of the specialists from this specialist manager to the target specialist manager.
         /// </summary>
         /// <param name="specialistManager"></param>
-        public void transferSpecialistsById(SpecialistManager destinationSpecialistManager, List<string> specialistIds)
+        public bool transferSpecialistsById(SpecialistManager destinationSpecialistManager, List<string> specialistIds)
         {
-            foreach (Specialist s in _specialists)
+            var specialistsMatchingId = _specialists.Where(it => specialistIds.Contains(it.GetId())).ToList();
+            if (destinationSpecialistManager.CanAddSpecialists(specialistsMatchingId.Count))
             {
-                if(specialistIds.Contains(s.GetId()))
+                foreach (Specialist s in specialistsMatchingId)
                 {
                     RemoveSpecialist(s);
                     destinationSpecialistManager.AddSpecialist(s);
                 }
+
+                return true;
             }
+
+            return false;
         }
         
         /// <summary>
@@ -208,12 +226,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             foreach(Specialist s in _specialists)
             {
-                s.IsCaptured = true;
-                OnSpecialistCaptured?.Invoke(this, new OnSpecialistCapturedEventArgs()
-                {
-                    CapturedSpecialist = s,
-                    SpecialistManager = this,
-                });
+                s.SetCaptured(true);
             }
         }
 
@@ -224,12 +237,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             foreach(Specialist s in _specialists)
             {
-                s.IsCaptured = false;
-                OnSpecialistUncaptured?.Invoke(this, new OnSpecialistUncapturedEventArgs()
-                {
-                    UncapturedSpecialist = s,
-                    SpecialistManager = this,
-                });
+                s.SetCaptured(false);
             }
         }
         

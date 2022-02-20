@@ -8,22 +8,16 @@ namespace SubterfugeCore.Core.Components
         private string id;
         private string name;
         
-        public IdentityManager(Entity parent, string id, string name) : base(parent)
+        public IdentityManager(IEntity parent, string id, string name) : base(parent)
         {
             this.id = id;
             this.name = name;
         }
         
-        public IdentityManager(Entity parent, string name) : base(parent)
+        public IdentityManager(IEntity parent, string name = null) : base(parent)
         {
             this.id = Guid.NewGuid().ToString();
             this.name = name;
-        }
-
-        public IdentityManager(Entity parent) : base(parent)
-        {
-            this.id = Guid.NewGuid().ToString();
-            this.name = null;
         }
 
         public void SetName(string name)

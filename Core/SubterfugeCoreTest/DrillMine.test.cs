@@ -17,8 +17,10 @@ using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;
 
+/*
 namespace SubterfugeCoreTest
 {
+	
 	[TestClass]
 	public class DrillMineTest
 	{
@@ -183,3 +185,4 @@ namespace SubterfugeCoreTest
 		}
 	}
 }
+*/

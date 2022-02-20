@@ -12,13 +12,13 @@ namespace SubterfugeCore.Core.EventArgs
 
     public class OnEntityEnterVisionRangeEventArgs : System.EventArgs
     {
-        public Entity EntityInVision { get; set; }
+        public IEntity EntityInVision { get; set; }
         public VisionManager VisionManager { get; set; }
     }
     
     public class OnEntityLeaveVisionRangeEventArgs : System.EventArgs
     {
-        public Entity EntityLeavingVision { get; set; }
+        public IEntity EntityLeavingVision { get; set; }
         public VisionManager VisionManager { get; set; }
     }
 }

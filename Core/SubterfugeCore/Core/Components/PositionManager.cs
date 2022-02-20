@@ -8,7 +8,7 @@ namespace SubterfugeCore.Core.Components
 {
     public class PositionManager : EntityComponent
     {
-        private Entity destination;
+        private IEntity destination;
         
         // Values set on initial launch and that get updated any time the position/destination/etc. is checked.
         private RftVector initialLocation;
@@ -19,18 +19,16 @@ namespace SubterfugeCore.Core.Components
         
         // TODO: Add a non-linear position manager
         public PositionManager(
-            Entity parent,
+            IEntity parent,
             RftVector initialLocation,
-            Entity destination,
+            IEntity destination,
             GameTick startTime
         ) : base(parent) {
             this.destination = destination;
-            
             this.initialLocation = initialLocation;
-            finalLocation = GetExpectedDestination(startTime);
-            
-            this.startTime = startTime;
             speedManager = parent.GetComponent<SpeedManager>();
+            this.startTime = startTime;
+            finalLocation = GetExpectedDestination(startTime);
         }
 
         /// <summary>
@@ -199,6 +197,11 @@ namespace SubterfugeCore.Core.Components
                 int ticksToArrive = (int) Math.Floor(direction.Magnitude() / speedManager.GetSpeed());
                 return startTime.Advance(ticksToArrive);
             }
+        }
+
+        public IEntity GetDestination()
+        {
+            return destination;
         }
     }
 

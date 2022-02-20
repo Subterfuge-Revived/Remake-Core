@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SubterfugeCore.Core.Players;
 using SubterfugeRemakeService;
-
+/*
 namespace SubterfugeCoreTest
 {
     public class TestUtils
@@ -47,3 +47,4 @@ namespace SubterfugeCoreTest
         }
     }
 }
+*/

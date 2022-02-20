@@ -11,13 +11,13 @@ namespace SubterfugeCore.Core.Components
     {
         private float _visionRange;
         private PositionManager position;
-        private List<Entity> _lastCheckedEntitiesInRange = new List<Entity>();
+        private List<IEntity> _lastCheckedEntitiesInRange = new List<IEntity>();
         
         public event EventHandler<OnVisionRangeChangeEventArgs> OnVisionRangeChange;
         public event EventHandler<OnEntityEnterVisionRangeEventArgs> OnEntityEnterVisionRange;
         public event EventHandler<OnEntityLeaveVisionRangeEventArgs> OnEntityLeaveVisionRange;
         
-        public VisionManager(Entity parent, float visionRange) : base(parent)
+        public VisionManager(IEntity parent, float visionRange) : base(parent)
         {
             this._visionRange = visionRange;
             this.position = parent.GetComponent<PositionManager>();
@@ -36,12 +36,12 @@ namespace SubterfugeCore.Core.Components
         /// Sets the vision range to the specified value.
         /// </summary>
         /// <param name="newVisionRange">The new vision range.</param>
-        public void SetVisionRange(float newVisionRange, GameState state, GameTick tick)
+        public void SetVisionRange(float newVisionRange, IGameState state, GameTick tick)
         {
             var previousVisionRange = this._visionRange;
             this._visionRange = newVisionRange;
             
-            OnVisionRangeChange(this, new OnVisionRangeChangeEventArgs()
+            OnVisionRangeChange?.Invoke(this, new OnVisionRangeChangeEventArgs()
             {
                 NewVisionRange = newVisionRange,
                 PreviousVisionRange = previousVisionRange,
@@ -61,16 +61,16 @@ namespace SubterfugeCore.Core.Components
         public bool IsInVisionRange(GameTick tick, PositionManager positionManager)
         {
             var position = this.position.GetPositionAt(tick);
-            return Vector2.Distance(position.ToVector2(), positionManager.GetPositionAt(tick).ToVector2()) > this._visionRange;
+            return Vector2.Distance(position.ToVector2(), positionManager.GetPositionAt(tick).ToVector2()) < _visionRange;
         }
 
-        public List<Entity> GetEntitiesInVisionRange(GameState state, GameTick tick)
+        public List<IEntity> GetEntitiesInVisionRange(IGameState state, GameTick tick)
         {
             var currentPosition = this.position.GetPositionAt(tick);
             var currentEntitiesInRange = state.EntitesInRange(this._visionRange, currentPosition);
             
             // Check entities that have left the vision range (or that have died/etc.)
-            foreach (Entity e in _lastCheckedEntitiesInRange)
+            foreach (IEntity e in _lastCheckedEntitiesInRange)
             {
                 if (!currentEntitiesInRange.Contains(e))
                 {
@@ -83,7 +83,7 @@ namespace SubterfugeCore.Core.Components
             }
             
             // Check new entities in range
-            foreach (Entity e in currentEntitiesInRange)
+            foreach (IEntity e in currentEntitiesInRange)
             {
                 if (!_lastCheckedEntitiesInRange.Contains(e))
                 {

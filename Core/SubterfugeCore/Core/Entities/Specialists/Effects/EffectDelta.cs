@@ -24,9 +24,9 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <summary>
         /// A reference to the target to apply the effects to.
         /// </summary>
-        public Entity EffectMe { get; set; }
+        public IEntity EffectMe { get; set; }
 
-        public EffectDelta(int value, Entity effectMe, EffectModifier modifier)
+        public EffectDelta(int value, IEntity effectMe, EffectModifier modifier)
         {
             this.Value = value;
             this.Modifier = modifier;

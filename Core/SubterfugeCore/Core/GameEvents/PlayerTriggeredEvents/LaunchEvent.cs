@@ -30,6 +30,11 @@ namespace SubterfugeCore.Core.GameEvents
         {
         }
 
+        public void SetLaunchedSub(Sub sub)
+        {
+            _launchedSub = sub;
+        }
+
         /// <summary>
         /// Performs the backwards event
         /// </summary>
@@ -104,12 +109,15 @@ namespace SubterfugeCore.Core.GameEvents
             List<GameEvent> _combatEvents = new List<GameEvent>();
             
             // Create the combat event for arrival
-            CombatEvent arriveCombat = new CombatEvent(launchedSub, launchedSub.GetComponent<PositionManager>().GetExpectedDestination(), launchedSub.GetComponent<PositionManager>().GetExpectedArrival());
+            CombatEvent arriveCombat = new CombatEvent(launchedSub, state.GetEntity(GetEventData().DestinationId), launchedSub.GetComponent<PositionManager>().GetExpectedArrival(state.CurrentTick));
             _combatEvents.Add(arriveCombat);
 
             // Determine any combat events that may exist along the way.
             // First determine if any subs are on the same path.
             // Subs will only be on the same path if it is outpost to outpost
+            
+            // TODO:
+            /*
             if (launchedSub.GetComponent<PositionManager>().GetExpectedDestination() is Outpost && launchedSub.GetComponent<PositionManager>().GetSource() is Outpost)
             {
                 foreach (Sub sub in state.getSubsOnPath((Outpost)launchedSub.GetComponent<PositionManager>().GetSource(), (Outpost)launchedSub.GetComponent<PositionManager>().GetDestination()))
@@ -159,6 +167,7 @@ namespace SubterfugeCore.Core.GameEvents
                     }
                 }
             }
+            */
             return _combatEvents;
         }
     }

@@ -7,6 +7,7 @@ using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 
+/*
 namespace SubterfugeCoreTest
 {
     [TestClass]
@@ -111,3 +112,4 @@ namespace SubterfugeCoreTest
 
     }
 }
+*/

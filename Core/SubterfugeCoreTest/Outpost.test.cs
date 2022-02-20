@@ -15,7 +15,7 @@ using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;
-
+/*
 namespace SubterfugeCoreTest
 {
     [TestClass]
@@ -236,3 +236,4 @@ namespace SubterfugeCoreTest
         }
     }
 }
+*/

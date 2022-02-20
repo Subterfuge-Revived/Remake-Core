@@ -1,8 +1,4 @@
-﻿using System;
-using GameEventModels;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.EventArgs;
-using SubterfugeCore.Core.Interfaces;
+﻿using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Components
@@ -20,7 +16,7 @@ namespace SubterfugeCore.Core.Components
         /// <param name="drillerCount">The number of drillers in the carrier</param>
         /// <param name="owner">The owner of the carrier</param>
         /// <param name="parent"></param>
-        public DrillerCarrier(Entity parent, int drillerCount, Player owner) : base(parent)
+        public DrillerCarrier(IEntity parent, int drillerCount, Player owner) : base(parent)
         {
             this.drillers = drillerCount;
             this.owner = owner;

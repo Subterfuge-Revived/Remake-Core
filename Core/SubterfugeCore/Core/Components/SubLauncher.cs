@@ -20,13 +20,13 @@ namespace SubterfugeCore.Core.Components
         public event EventHandler<OnSubLaunchEventArgs> OnSubLaunch;
         public event EventHandler<OnUndoSubLaunchEventArgs> OnUndoSubLaunch;
 
-        public SubLauncher(Entity parent) : base(parent)
+        public SubLauncher(IEntity parent) : base(parent)
         {
             this._drillerCarrier = parent.GetComponent<DrillerCarrier>();
             this._specialistManager = parent.GetComponent<SpecialistManager>();
         }
 
-        public Sub LaunchSub(GameState state, LaunchEvent launchEvent)
+        public Sub LaunchSub(IGameState state, LaunchEvent launchEvent)
         {
             // Determine any specialist effects if a specialist left the sub.
             LaunchEventData launchData = launchEvent.GetEventData();
@@ -39,6 +39,7 @@ namespace SubterfugeCore.Core.Components
                 Sub launchedSub = new Sub(launchEvent.GetEventId(), source, destination, state.GetCurrentTick(), launchData.DrillerCount, this._drillerCarrier.GetOwner());
                 this._specialistManager.transferSpecialistsById(launchedSub.GetComponent<SpecialistManager>(), launchData.SpecialistIds.ToList());
                 state.AddSub(launchedSub);
+                launchEvent.SetLaunchedSub(launchedSub);
                 
                 OnSubLaunch?.Invoke(this, new OnSubLaunchEventArgs()
                 {
@@ -54,7 +55,7 @@ namespace SubterfugeCore.Core.Components
             return null;
         }
 
-        public void UndoLaunch(GameState state, LaunchEvent launchEvent)
+        public void UndoLaunch(IGameState state, LaunchEvent launchEvent)
         {
             // Determine any specialist effects if a specialist left the sub.
             LaunchEventData launchData = launchEvent.GetEventData();

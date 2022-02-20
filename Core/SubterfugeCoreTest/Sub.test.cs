@@ -10,7 +10,7 @@ using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
-
+/*
 namespace SubterfugeCoreTest
 {
     [TestClass]
@@ -77,3 +77,4 @@ namespace SubterfugeCoreTest
         }
     }
 }
+*/

@@ -40,7 +40,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <summary>
         /// Is the specialist captured by another player?
         /// </summary>
-        public bool IsCaptured { get; set; } = false;
+        private bool _isCaptured = false;
 
         /// <summary>
         /// Abstract constructor for a specialist. All inherited specialist classes require implementing this.
@@ -162,6 +162,24 @@ namespace SubterfugeCore.Core.Entities.Specialists
                     // specialistEffect.forwardEffect();
                 }
             }
+        }
+
+        /// <summary>
+        /// Captures the specialist
+        /// </summary>
+        /// <param name="isCaptured">Sets the specialist captured state</param>
+        public void SetCaptured(bool isCaptured)
+        {
+            this._isCaptured = isCaptured;
+        }
+
+        /// <summary>
+        /// Check if the specialist is captured
+        /// </summary>
+        /// <returns>If the specialist if captured</returns>
+        public bool IsCaptured()
+        {
+            return _isCaptured;
         }
     }
 }
