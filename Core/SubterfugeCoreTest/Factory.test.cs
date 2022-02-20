@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Generation;
@@ -63,17 +64,24 @@ namespace SubterfugeCoreTest
 					break;
 				}
 			}
+
+			var player = f.GetComponent<DrillerCarrier>().GetOwner();
+			var totalDrillers = game.TimeMachine.GetState().getPlayerDrillerCount(player);
+			var drillerCap = game.TimeMachine.GetState().getPlayerDrillerCapacity(player);
+			
 			Assert.IsNotNull(p);
-			tm.Advance(Factory.STANDARD_TICKS_PER_PRODUCTION);
+			Assert.IsTrue(totalDrillers < drillerCap);
+			tm.GoTo(p.GetOccursAt().Advance(10));
+			Assert.IsTrue(tm.GetCurrentTick().GetTick() > p.GetOccursAt().GetTick());
 			Assert.IsTrue(p.WasEventSuccessful());
 		}
 
 		[TestMethod]
 		public void AddDrillers()
 		{
-			int startingDrillers = f.GetDrillerCount();
+			int startingDrillers = f.GetComponent<DrillerCarrier>().GetDrillerCount();
 			tm.Advance(Factory.STANDARD_TICKS_PER_PRODUCTION);
-			int endingDrillers = f.GetDrillerCount();
+			int endingDrillers = f.GetComponent<DrillerCarrier>().GetDrillerCount();
 			Assert.AreEqual(endingDrillers - startingDrillers, Constants.BASE_FACTORY_PRODUCTION);
 		}
 
@@ -87,29 +95,29 @@ namespace SubterfugeCoreTest
 		[TestMethod]
 		public void TenDrillerProductions1()
 		{
-			int startingDrillers = f.GetDrillerCount();
+			int startingDrillers = f.GetComponent<DrillerCarrier>().GetDrillerCount();
 			for (int i = 0; i < 10; i++)
 			{
 				tm.Advance(Factory.STANDARD_TICKS_PER_PRODUCTION);
-				Assert.AreEqual(f.GetDrillerCount() - startingDrillers, Constants.BASE_FACTORY_PRODUCTION * (i + 1));
+				Assert.AreEqual(f.GetComponent<DrillerCarrier>().GetDrillerCount() - startingDrillers, Constants.BASE_FACTORY_PRODUCTION * (i + 1));
 			}
 		}
 
 		[TestMethod]
 		public void TenDrillerProductions2()
 		{
-			int startingDrillers = f.GetDrillerCount();
+			int startingDrillers = f.GetComponent<DrillerCarrier>().GetDrillerCount();
 			tm.Advance(Factory.STANDARD_TICKS_PER_PRODUCTION * 10);
-			Assert.AreEqual(f.GetDrillerCount() - startingDrillers, Constants.BASE_FACTORY_PRODUCTION * 10);
+			Assert.AreEqual(f.GetComponent<DrillerCarrier>().GetDrillerCount() - startingDrillers, Constants.BASE_FACTORY_PRODUCTION * 10);
 		}
 
 		[TestMethod]
 		public void RewindProduction()
 		{
-			int startingDrillers = f.GetDrillerCount();
+			int startingDrillers = f.GetComponent<DrillerCarrier>().GetDrillerCount();
 			tm.Advance(Factory.STANDARD_TICKS_PER_PRODUCTION);
 			tm.Rewind(Factory.STANDARD_TICKS_PER_PRODUCTION);
-			Assert.AreEqual(f.GetDrillerCount(), startingDrillers);
+			Assert.AreEqual(f.GetComponent<DrillerCarrier>().GetDrillerCount(), startingDrillers);
 		}
 
 		private bool isFactory(Outpost o)
@@ -123,5 +131,4 @@ namespace SubterfugeCoreTest
 		}
 	}
 }
-
 */

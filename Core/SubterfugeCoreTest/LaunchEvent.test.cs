@@ -8,6 +8,7 @@ using System.Numerics;
 using GameEventModels;
 using Google.Protobuf;
 using SubterfugeCore.Core;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.GameEvents;
@@ -16,6 +17,7 @@ using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;
+
 /*
 namespace SubterfugeCoreTest
 {
@@ -59,8 +61,8 @@ namespace SubterfugeCoreTest
         {
             Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
             Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
-            int outpostOneInitial = outpost1.GetDrillerCount();
-            int outpostTwoInitial = outpost2.GetDrillerCount();
+            int outpostOneInitial = outpost1.GetComponent<DrillerCarrier>().GetDrillerCount();
+            int outpostTwoInitial = outpost2.GetComponent<DrillerCarrier>().GetDrillerCount();
             
             _game.TimeMachine.GetState().GetOutposts().Add(outpost1);
             _game.TimeMachine.GetState().GetOutposts().Add(outpost2);
@@ -69,9 +71,9 @@ namespace SubterfugeCoreTest
             {
                 EventData = new LaunchEventData()
                 {
-                    DestinationId = outpost2.GetId(),
+                    DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
                     DrillerCount = 1,
-                    SourceId = outpost1.GetId(),
+                    SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
                 }.ToByteString(),
                 Id = "a",
                 EventType = EventType.LaunchEvent,
@@ -85,12 +87,12 @@ namespace SubterfugeCoreTest
         {
             Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
             Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
-            outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
-            outpost2.SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
-            outpost1.SetDrillerCount(10);
-            outpost2.SetDrillerCount(10);
-            int outpostOneInitial = outpost1.GetDrillerCount();
-            int outpostTwoInitial = outpost2.GetDrillerCount();
+            outpost1.GetComponent<DrillerCarrier>().SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
+            outpost2.GetComponent<DrillerCarrier>().SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
+            outpost1.GetComponent<DrillerCarrier>().SetDrillerCount(10);
+            outpost2.GetComponent<DrillerCarrier>().SetDrillerCount(10);
+            int outpostOneInitial = outpost1.GetComponent<DrillerCarrier>().GetDrillerCount();
+            int outpostTwoInitial = outpost2.GetComponent<DrillerCarrier>().GetDrillerCount();
             
             _game.TimeMachine.GetState().GetOutposts().Add(outpost1);
             _game.TimeMachine.GetState().GetOutposts().Add(outpost2);
@@ -99,9 +101,9 @@ namespace SubterfugeCoreTest
             {
                 EventData = new LaunchEventData()
                 {
-                    DestinationId = outpost2.GetId(),
+                    DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
                     DrillerCount = 1,
-                    SourceId = outpost1.GetId(),
+                    SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
                 }.ToByteString(),
                 Id = "a",
                 EventType = EventType.LaunchEvent,
@@ -111,7 +113,7 @@ namespace SubterfugeCoreTest
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
-            Assert.AreEqual(outpostOneInitial - 1, outpost1.GetDrillerCount());
+            Assert.AreEqual(outpostOneInitial - 1, outpost1.GetComponent<DrillerCarrier>().GetDrillerCount());
         }
         
         [TestMethod]
@@ -119,12 +121,12 @@ namespace SubterfugeCoreTest
         {
             Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
             Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
-            outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
-            outpost2.SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
-            outpost1.SetDrillerCount(10);
-            outpost2.SetDrillerCount(10);
-            int outpostOneInitial = outpost1.GetDrillerCount();
-            int outpostTwoInitial = outpost2.GetDrillerCount();
+            outpost1.GetComponent<DrillerCarrier>().SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
+            outpost2.GetComponent<DrillerCarrier>().SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
+            outpost1.GetComponent<DrillerCarrier>().SetDrillerCount(10);
+            outpost2.GetComponent<DrillerCarrier>().SetDrillerCount(10);
+            int outpostOneInitial = outpost1.GetComponent<DrillerCarrier>().GetDrillerCount();
+            int outpostTwoInitial = outpost2.GetComponent<DrillerCarrier>().GetDrillerCount();
             
             _game.TimeMachine.GetState().GetOutposts().Add(outpost1);
             _game.TimeMachine.GetState().GetOutposts().Add(outpost2);
@@ -133,9 +135,9 @@ namespace SubterfugeCoreTest
             {
                 EventData = new LaunchEventData()
                 {
-                    DestinationId = outpost2.GetId(),
+                    DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
                     DrillerCount = 1,
-                    SourceId = outpost1.GetId(),
+                    SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
                 }.ToByteString(),
                 Id = "a",
                 EventType = EventType.LaunchEvent,
@@ -145,11 +147,11 @@ namespace SubterfugeCoreTest
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
-            Assert.AreEqual(outpostOneInitial - 1, outpost1.GetDrillerCount());
+            Assert.AreEqual(outpostOneInitial - 1, outpost1.GetComponent<DrillerCarrier>().GetDrillerCount());
             
             Assert.AreEqual(true, launch.BackwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
-            Assert.AreEqual(outpostOneInitial, outpost1.GetDrillerCount());
-            Assert.AreEqual(outpostTwoInitial, outpost2.GetDrillerCount());
+            Assert.AreEqual(outpostOneInitial, outpost1.GetComponent<DrillerCarrier>().GetDrillerCount());
+            Assert.AreEqual(outpostTwoInitial, outpost2.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(0, _game.TimeMachine.GetState().GetSubList().Count);
         }
         
@@ -158,12 +160,12 @@ namespace SubterfugeCoreTest
         {
             Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
             Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
-            outpost1.SetDrillerCount(10);
-            outpost2.SetDrillerCount(10);
-            outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
-            outpost2.SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
-            int outpostOneInitial = outpost1.GetDrillerCount();
-            int outpostTwoInitial = outpost2.GetDrillerCount();
+            outpost1.GetComponent<DrillerCarrier>().SetDrillerCount(10);
+            outpost2.GetComponent<DrillerCarrier>().SetDrillerCount(10);
+            outpost1.GetComponent<DrillerCarrier>().SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
+            outpost2.GetComponent<DrillerCarrier>().SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
+            int outpostOneInitial = outpost1.GetComponent<DrillerCarrier>().GetDrillerCount();
+            int outpostTwoInitial = outpost2.GetComponent<DrillerCarrier>().GetDrillerCount();
             
             _game.TimeMachine.GetState().GetOutposts().Add(outpost1);
             _game.TimeMachine.GetState().GetOutposts().Add(outpost2);
@@ -172,9 +174,9 @@ namespace SubterfugeCoreTest
             {
                 EventData = new LaunchEventData()
                 {
-                    DestinationId = outpost2.GetId(),
+                    DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
                     DrillerCount = 1,
-                    SourceId = outpost1.GetId(),
+                    SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
                 }.ToByteString(),
                 Id = "a",
                 EventType = EventType.LaunchEvent,
@@ -184,13 +186,13 @@ namespace SubterfugeCoreTest
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
-            Assert.AreEqual(outpostOneInitial - 1, outpost1.GetDrillerCount());
+            Assert.AreEqual(outpostOneInitial - 1, outpost1.GetComponent<DrillerCarrier>().GetDrillerCount());
             
             // Ensure can get the sub.
             Assert.IsNotNull(_game.TimeMachine.GetState().GetSubList()[0]);
-            Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList()[0].GetDrillerCount());
-            Assert.AreEqual(outpost1, _game.TimeMachine.GetState().GetSubList()[0].GetSource());
-            Assert.AreEqual(outpost2, _game.TimeMachine.GetState().GetSubList()[0].GetDestination());
+            Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList()[0].GetComponent<DrillerCarrier>().GetDrillerCount());
+            // Assert.AreEqual(outpost1, _game.TimeMachine.GetState().GetSubList()[0].GetComponent<PositionManager>().GetSource());
+            Assert.AreEqual(outpost2, _game.TimeMachine.GetState().GetSubList()[0].GetComponent<PositionManager>().GetDestination());
         }
         
         [TestMethod]
@@ -198,12 +200,12 @@ namespace SubterfugeCoreTest
         {
             Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
             Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
-            outpost1.SetDrillerCount(10);
-            outpost2.SetDrillerCount(10);
-            outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
-            outpost2.SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
-            int outpostOneInitial = outpost1.GetDrillerCount();
-            int outpostTwoInitial = outpost2.GetDrillerCount();
+            outpost1.GetComponent<DrillerCarrier>().SetDrillerCount(10);
+            outpost2.GetComponent<DrillerCarrier>().SetDrillerCount(10);
+            outpost1.GetComponent<DrillerCarrier>().SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
+            outpost2.GetComponent<DrillerCarrier>().SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
+            int outpostOneInitial = outpost1.GetComponent<DrillerCarrier>().GetDrillerCount();
+            int outpostTwoInitial = outpost2.GetComponent<DrillerCarrier>().GetDrillerCount();
             
             _game.TimeMachine.GetState().GetOutposts().Add(outpost1);
             _game.TimeMachine.GetState().GetOutposts().Add(outpost2);
@@ -212,9 +214,9 @@ namespace SubterfugeCoreTest
             {
                 EventData = new LaunchEventData()
                 {
-                    DestinationId = outpost2.GetId(),
+                    DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
                     DrillerCount = 1,
-                    SourceId = outpost1.GetId(),
+                    SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
                 }.ToByteString(),
                 Id = "a",
                 EventType = EventType.LaunchEvent,
@@ -225,9 +227,9 @@ namespace SubterfugeCoreTest
             {
                 EventData = new LaunchEventData()
                 {
-                    DestinationId = outpost1.GetId(),
+                    DestinationId = outpost1.GetComponent<IdentityManager>().GetId(),
                     DrillerCount = 1,
-                    SourceId = outpost2.GetId(),
+                    SourceId = outpost2.GetComponent<IdentityManager>().GetId(),
                 }.ToByteString(),
                 Id = "a",
                 EventType = EventType.LaunchEvent,
@@ -239,8 +241,8 @@ namespace SubterfugeCoreTest
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(2, _game.TimeMachine.GetState().GetSubList().Count);
-            Assert.AreEqual(outpostOneInitial - 1, outpost1.GetDrillerCount());
-            Assert.AreEqual(outpostTwoInitial - 1, outpost2.GetDrillerCount());
+            Assert.AreEqual(outpostOneInitial - 1, outpost1.GetComponent<DrillerCarrier>().GetDrillerCount());
+            Assert.AreEqual(outpostTwoInitial - 1, outpost2.GetComponent<DrillerCarrier>().GetDrillerCount());
             
             // Ensure a combat event has been added that includes both subs.
             int subToSubBattles = 0;
@@ -272,12 +274,12 @@ namespace SubterfugeCoreTest
         {
             Outpost outpost1 = new Generator("0",new RftVector(new Rft(300, 300), 0, 0));
             Outpost outpost2 = new Generator("1",new RftVector(new Rft(300, 300), 0, 0));
-            outpost1.SetDrillerCount(10);
-            outpost2.SetDrillerCount(5);
-            outpost1.SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
-            outpost2.SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
-            int outpostOneInitial = outpost1.GetDrillerCount();
-            int outpostTwoInitial = outpost2.GetDrillerCount();
+            outpost1.GetComponent<DrillerCarrier>().SetDrillerCount(10);
+            outpost2.GetComponent<DrillerCarrier>().SetDrillerCount(5);
+            outpost1.GetComponent<DrillerCarrier>().SetOwner(_game.TimeMachine.GetState().GetPlayers()[0]);
+            outpost2.GetComponent<DrillerCarrier>().SetOwner(_game.TimeMachine.GetState().GetPlayers()[1]);
+            int outpostOneInitial = outpost1.GetComponent<DrillerCarrier>().GetDrillerCount();
+            int outpostTwoInitial = outpost2.GetComponent<DrillerCarrier>().GetDrillerCount();
             
             _game.TimeMachine.GetState().GetOutposts().Add(outpost1);
             _game.TimeMachine.GetState().GetOutposts().Add(outpost2);
@@ -286,9 +288,9 @@ namespace SubterfugeCoreTest
             {
                 EventData = new LaunchEventData()
                 {
-                    DestinationId = outpost2.GetId(),
+                    DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
                     DrillerCount = 10,
-                    SourceId = outpost1.GetId(),
+                    SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
                 }.ToByteString(),
                 Id = "a",
                 EventType = EventType.LaunchEvent,
@@ -298,7 +300,7 @@ namespace SubterfugeCoreTest
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
-            Assert.AreEqual(outpostOneInitial - 10, outpost1.GetDrillerCount());
+            Assert.AreEqual(outpostOneInitial - 10, outpost1.GetComponent<DrillerCarrier>().GetDrillerCount());
             
             // Ensure a combat event has been added.
             int combatEvents = 0;
@@ -318,10 +320,9 @@ namespace SubterfugeCoreTest
             _game.TimeMachine.Advance(1);
             
             Assert.AreEqual(true, combat.WasEventSuccessful());
-            Assert.AreEqual(outpost1.GetOwner(), outpost2.GetOwner());
-            Assert.AreEqual(Math.Abs(outpostTwoInitial - outpostOneInitial), outpost2.GetDrillerCount());
+            Assert.AreEqual(outpost1.GetComponent<DrillerCarrier>().GetOwner(), outpost2.GetComponent<DrillerCarrier>().GetOwner());
+            Assert.AreEqual(Math.Abs(outpostTwoInitial - outpostOneInitial), outpost2.GetComponent<DrillerCarrier>().GetDrillerCount());
         }
     }
 }
-
 */
