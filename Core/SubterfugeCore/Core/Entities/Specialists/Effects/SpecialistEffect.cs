@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
-using SubterfugeCore.Core.Interfaces;
-using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
@@ -17,17 +12,17 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <summary>
         /// How the effect is triggered
         /// </summary>
-        public EffectTrigger _effectTrigger { get; set; } = EffectTrigger.None;
+        public EffectTrigger EffectTrigger { get; set; } = EffectTrigger.None;
         
         /// <summary>
         /// Who the effect targets
         /// </summary>
-        public EffectTarget _effectTarget { get; set; } = EffectTarget.None;
+        public EffectTarget EffectTarget { get; set; } = EffectTarget.None;
         
         /// <summary>
         /// How large to apply the trigger effect to search for event triggers.
         /// </summary>
-        public EffectTriggerRange _effectTriggerRange { get; set; } = EffectTriggerRange.Self;
+        public EffectTriggerRange EffectTriggerRange { get; set; } = EffectTriggerRange.Self;
 
         /// <summary>
         /// The type of effect occurs.
@@ -40,7 +35,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="state">The game state to get the effects for.</param>
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
-        public abstract List<EffectDelta> GetForwardEffectDeltas(GameState state, Entity friendly, Entity enemy);
+        public abstract List<EffectDelta> GetForwardEffectDeltas(GameState.GameState state, Entity friendly, Entity enemy);
         
         /// <summary>
         /// Applies the event's backwards action
@@ -48,14 +43,14 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="state">The game state to get the effects for.</param>
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
-        public abstract List<EffectDelta> GetBackwardEffectDeltas(GameState state, Entity friendly, Entity enemy);
+        public abstract List<EffectDelta> GetBackwardEffectDeltas(GameState.GameState state, Entity friendly, Entity enemy);
 
-        public List<IEntity> getEffectTargets(GameState state, Entity friendly, Entity enemy)
+        protected List<IEntity> GetEffectTargets(GameState.GameState state, Entity friendly, Entity enemy)
         {
             List<IEntity> targets = new List<IEntity>();
             
             // Filter based on the trigger range first
-            switch (_effectTriggerRange)
+            switch (EffectTriggerRange)
             {
                 case EffectTriggerRange.Self:
                     targets.Add(friendly);
@@ -80,7 +75,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             }
             
             // Filter based on the target
-            switch (_effectTarget)
+            switch (EffectTarget)
             {
                 case EffectTarget.All:
                     break;

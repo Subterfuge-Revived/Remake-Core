@@ -37,7 +37,7 @@ namespace SubterfugeCore.Core.Players
         /// <summary>
         /// The player's currency tracker
         /// </summary>
-        public CurrencyManager currencyManager;
+        public CurrencyManager CurrencyManager;
 
         /// <summary>
         /// Constructor to create an instance of a player based off of their player Id
@@ -50,7 +50,7 @@ namespace SubterfugeCore.Core.Players
             this._numMinesBuilt = 0;
             this._neptunium = 0;
             this._isEliminated = false;
-            this.currencyManager = new CurrencyManager();
+            this.CurrencyManager = new CurrencyManager();
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace SubterfugeCore.Core.Players
             this._numMinesBuilt = 0;
             this._neptunium = 0;
             this._isEliminated = false;
-            this.currencyManager = new CurrencyManager();
+            this.CurrencyManager = new CurrencyManager();
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace SubterfugeCore.Core.Players
             this._numMinesBuilt = 0;
             this._neptunium = 0;
             this._isEliminated = false;
-            this.currencyManager = new CurrencyManager();
+            this.CurrencyManager = new CurrencyManager();
         }
 
         /// <summary>
@@ -134,13 +134,13 @@ namespace SubterfugeCore.Core.Players
         /// <returns></returns>
         public int GetRequiredDrillersToMine()
         {
-            if (GetMinesDrilled() < Constants.MINING_COST_INITIAL.Length)
+            if (GetMinesDrilled() < Constants.MiningCostInitial.Length)
             {
-                return Constants.MINING_COST_INITIAL[GetMinesDrilled()];
+                return Constants.MiningCostInitial[GetMinesDrilled()];
             }
             else
             {
-                return Constants.MINING_COST_INITIAL[Constants.MINING_COST_INITIAL.Length - 1] + (GetMinesDrilled() - Constants.MINING_COST_INITIAL.Length + 1) * Constants.MINING_COST_INCREASE;
+                return Constants.MiningCostInitial[Constants.MiningCostInitial.Length - 1] + (GetMinesDrilled() - Constants.MiningCostInitial.Length + 1) * Constants.MiningCostIncrease;
             }
         }
 
@@ -154,7 +154,7 @@ namespace SubterfugeCore.Core.Players
             return this._isEliminated;
         }
 
-        public User toUser()
+        public User ToUser()
         {
             return new User()
             {

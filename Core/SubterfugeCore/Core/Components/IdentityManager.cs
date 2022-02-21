@@ -5,34 +5,34 @@ namespace SubterfugeCore.Core.Components
 {
     public class IdentityManager : EntityComponent
     {
-        private string id;
-        private string name;
+        private readonly string _id;
+        private string _name;
         
         public IdentityManager(IEntity parent, string id, string name) : base(parent)
         {
-            this.id = id;
-            this.name = name;
+            this._id = id;
+            this._name = name;
         }
         
         public IdentityManager(IEntity parent, string name = null) : base(parent)
         {
-            this.id = Guid.NewGuid().ToString();
-            this.name = name;
+            this._id = Guid.NewGuid().ToString();
+            this._name = name;
         }
 
         public void SetName(string name)
         {
-            this.name = name;
+            this._name = name;
         }
 
         public string GetId()
         {
-            return this.id;
+            return this._id;
         }
 
         public string GetName()
         {
-            return this.name;
+            return this._name;
         }
     }
 }

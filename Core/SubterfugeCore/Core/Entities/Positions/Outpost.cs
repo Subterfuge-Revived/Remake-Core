@@ -23,15 +23,15 @@ namespace SubterfugeCore.Core.Entities.Positions
             string id,
             RftVector outpostStartPosition,
             Player outpostOwner = null,
-            float visionRadius = Constants.BASE_OUTPOST_VISION_RADIUS
+            float visionRadius = Constants.BaseOutpostVisionRadius
             )
         {
-            AddComponent(new DrillerCarrier(this, Constants.INITIAL_DRILLERS_PER_OUTPOST, outpostOwner));
+            AddComponent(new DrillerCarrier(this, Constants.InitialDrillersPerOutpost, outpostOwner));
             AddComponent(new SpeedManager(this, 0.0f));
             AddComponent(new PositionManager(this, outpostStartPosition, null, new GameTick()));
             AddComponent(new SpecialistManager(this, 100));
             AddComponent(new IdentityManager(this, id));
-            AddComponent(new ShieldManager(this, Constants.INITIAL_MAX_SHIELDS_PER_OUTPOST));
+            AddComponent(new ShieldManager(this, Constants.InitialMaxShieldsPerOutpost));
             AddComponent(new SubLauncher(this));
             AddComponent(new VisionManager(this, visionRadius));
         }

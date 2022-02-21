@@ -9,6 +9,8 @@ using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.EventArgs;
 using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
+using SubterfugeCore.Core.GameState;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;

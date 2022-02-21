@@ -25,13 +25,12 @@ namespace SubterfugeCore.Core.Timing
             return Equals((GameTick) obj);
         }
 
-        public static double MINUTES_PER_TICK = 15.0;
+        public static double MinutesPerTick = 15.0;
         private readonly int _tickNumber;
 
         /// <summary>
         /// GameTick constructor. Requires a DateTime and an integer tick number
         /// </summary>
-        /// <param name="startTime">The DateTime that the tick starts</param>
         /// <param name="tickNumber">The integer number of the tick</param>
         public GameTick(int tickNumber) {
             this._tickNumber = tickNumber;
@@ -43,7 +42,7 @@ namespace SubterfugeCore.Core.Timing
             // Get minutes elapsed
             double minutesElapsed = dateDelta.TotalMinutes;
             // Determine the number of ticks past
-            int ticksElapsed = (int)Math.Ceiling(minutesElapsed / MINUTES_PER_TICK);
+            int ticksElapsed = (int)Math.Ceiling(minutesElapsed / MinutesPerTick);
 
             // Return a new gametick relative to the start time.
             this._tickNumber = ticksElapsed;
@@ -109,7 +108,7 @@ namespace SubterfugeCore.Core.Timing
         /// <returns>the tick's start DateTime</returns>
         public DateTime GetDate(DateTime startTime)
         {
-            return startTime.AddMinutes(this._tickNumber * MINUTES_PER_TICK);
+            return startTime.AddMinutes(this._tickNumber * MinutesPerTick);
         }
 
         /// <summary>

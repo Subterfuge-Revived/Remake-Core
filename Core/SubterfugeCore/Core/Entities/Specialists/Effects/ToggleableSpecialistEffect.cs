@@ -1,6 +1,4 @@
-﻿using SubterfugeCore.Core.Interfaces;
-
-namespace SubterfugeCore.Core.Entities.Specialists.Effects
+﻿namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
     public abstract class ToggleableSpecialistEffect : SpecialistEffect
     {

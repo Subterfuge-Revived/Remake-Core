@@ -1,12 +1,11 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using SubterfugeRemakeService;
+﻿using SubterfugeRemakeService;
 using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
 
 namespace SubterfugeCore.Core.GameEvents.Base
 {
-    public class GameEventFactory
+    public static class GameEventFactory
     {
-        public static PlayerTriggeredEvent parseGameEvent(GameEventModel model)
+        public static PlayerTriggeredEvent ParseGameEvent(GameEventModel model)
         {
             switch (model.EventType)
             {

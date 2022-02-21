@@ -95,8 +95,8 @@ namespace SubterfugeCoreTest.Core.Components
             Assert.AreEqual(initialSpeed + increaseBy, _mockEntity.Object.GetComponent<SpeedManager>().GetSpeed());
             
             Assert.IsNotNull(speedChangeArgs);
-            Assert.AreEqual(initialSpeed, speedChangeArgs.previousSpeed);
-            Assert.AreEqual(initialSpeed + increaseBy, speedChangeArgs.newSpeed);
+            Assert.AreEqual(initialSpeed, speedChangeArgs.PreviousSpeed);
+            Assert.AreEqual(initialSpeed + increaseBy, speedChangeArgs.NewSpeed);
             Assert.AreEqual(_mockEntity.Object.GetComponent<SpeedManager>(), speedChangeArgs.SpeedManager);
         }
         
@@ -119,8 +119,8 @@ namespace SubterfugeCoreTest.Core.Components
             Assert.AreEqual(initialSpeed - decreaseBy, _mockEntity.Object.GetComponent<SpeedManager>().GetSpeed());
             
             Assert.IsNotNull(speedChangeArgs);
-            Assert.AreEqual(initialSpeed, speedChangeArgs.previousSpeed);
-            Assert.AreEqual(initialSpeed - decreaseBy, speedChangeArgs.newSpeed);
+            Assert.AreEqual(initialSpeed, speedChangeArgs.PreviousSpeed);
+            Assert.AreEqual(initialSpeed - decreaseBy, speedChangeArgs.NewSpeed);
             Assert.AreEqual(_mockEntity.Object.GetComponent<SpeedManager>(), speedChangeArgs.SpeedManager);
         }
         
@@ -143,8 +143,8 @@ namespace SubterfugeCoreTest.Core.Components
             Assert.AreEqual(newSpeed, _mockEntity.Object.GetComponent<SpeedManager>().GetSpeed());
             
             Assert.IsNotNull(speedChangeArgs);
-            Assert.AreEqual(initialSpeed, speedChangeArgs.previousSpeed);
-            Assert.AreEqual(newSpeed, speedChangeArgs.newSpeed);
+            Assert.AreEqual(initialSpeed, speedChangeArgs.PreviousSpeed);
+            Assert.AreEqual(newSpeed, speedChangeArgs.NewSpeed);
             Assert.AreEqual(_mockEntity.Object.GetComponent<SpeedManager>(), speedChangeArgs.SpeedManager);
         }
     }

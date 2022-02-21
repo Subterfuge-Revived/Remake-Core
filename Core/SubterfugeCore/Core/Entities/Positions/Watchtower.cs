@@ -21,7 +21,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 		/// <param name="id">THe id of the outpost</param>
 		/// <param name="outpostStartPosition">Position of outpost</param>
 		/// <param name="outpostOwner">Owner of outpost</param>
-		public Watchtower(string id, RftVector outpostStartPosition, Player outpostOwner) : base(id, outpostStartPosition, outpostOwner, Constants.BASE_WATCHTOWER_VISION_RADIUS)
+		public Watchtower(string id, RftVector outpostStartPosition, Player outpostOwner) : base(id, outpostStartPosition, outpostOwner, Constants.BaseWatchtowerVisionRadius)
 		{
 		}
 

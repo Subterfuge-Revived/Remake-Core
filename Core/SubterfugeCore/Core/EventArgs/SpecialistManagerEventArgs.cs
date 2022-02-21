@@ -1,4 +1,4 @@
-﻿using Google.Protobuf;
+﻿using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Specialists;
 
 namespace SubterfugeCore.Core.EventArgs
@@ -17,20 +17,8 @@ namespace SubterfugeCore.Core.EventArgs
     
     public class OnSpecialistCapacityChangeEventArgs
     {
-        public int previousCapacity { get; set; }
-        public int newCapacity { get; set; }
-        public SpecialistManager SpecialistManager { get; set; }
-    }
-
-    public class OnSpecialistCapturedEventArgs
-    {
-        public Specialist CapturedSpecialist { get; set; }
-        public SpecialistManager SpecialistManager { get; set; }
-    }
-
-    public class OnSpecialistUncapturedEventArgs
-    {
-        public Specialist UncapturedSpecialist { get; set; }
+        public int PreviousCapacity { get; set; }
+        public int NewCapacity { get; set; }
         public SpecialistManager SpecialistManager { get; set; }
     }
 }

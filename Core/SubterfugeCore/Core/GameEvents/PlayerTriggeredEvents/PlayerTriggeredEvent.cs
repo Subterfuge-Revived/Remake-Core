@@ -1,48 +1,47 @@
 ﻿using System;
-using GameEventModels;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 
-namespace SubterfugeCore.Core.GameEvents
+namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 {
     public abstract class PlayerTriggeredEvent : GameEvent
     {
-        protected GameEventModel model;
-        protected PlayerTriggeredEvent(GameEventModel model) : base()
+        protected readonly GameEventModel Model;
+        protected PlayerTriggeredEvent(GameEventModel model)
         {
-            this.model = model;
+            this.Model = model;
         }
 
         public Player IssuedBy()
         {
-            return new Player(model.IssuedBy);
+            return new Player(Model.IssuedBy);
         }
 
         public override GameTick GetOccursAt()
         {
-            return new GameTick(model.OccursAtTick);
+            return new GameTick(Model.OccursAtTick);
         }
 
         public EventType GetEventType()
         {
-            return model.EventType;
+            return Model.EventType;
         }
 
         public DateTime GetUnixTimeIssued()
         {
-            return new DateTime(model.UnixTimeIssued);
+            return new DateTime(Model.UnixTimeIssued);
         }
 
         public override string GetEventId()
         {
-            return model.Id;
+            return Model.Id;
         }
 
         public override Priority GetPriority()
         {
-            return Priority.PLAYER_ISSUED_COMMAND;
+            return Priority.PlayerIssuedCommand;
         }
         
         public abstract GameEventModel ToGameEventModel();

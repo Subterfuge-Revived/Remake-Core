@@ -7,7 +7,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <summary>
         /// The value to apply to the specialist effect.
         /// </summary>
-        public int Value { get; set; } = 0;
+        public int Value { get; set; }
         
         /// <summary>
         /// How the effect is triggered

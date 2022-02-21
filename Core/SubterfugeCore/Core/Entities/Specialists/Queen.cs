@@ -17,7 +17,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             // A specialist effect that will kill the player whenever this specialist loses a combat.
             this.AddSpecialistEffect(
-                new SpecialistEffectFactory().createSpecialistEffect(
+                new SpecialistEffectFactory().CreateSpecialistEffect(
                     new SpecialistEffectConfiguration
                     {
                         EffectScale = EffectScale.None,
@@ -34,7 +34,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
             
             // Adds bonus shields to an outpost when the specialist arrives at an outpost
             this.AddSpecialistEffect(
-                new SpecialistEffectFactory().createSpecialistEffect(
+                new SpecialistEffectFactory().CreateSpecialistEffect(
                     new SpecialistEffectConfiguration
                     {
                         EffectScale = EffectScale.None,
@@ -51,7 +51,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
             
             // Remove the bonus shields when the specialist leaves
             this.AddSpecialistEffect(
-                new SpecialistEffectFactory().createSpecialistEffect(
+                new SpecialistEffectFactory().CreateSpecialistEffect(
                     new SpecialistEffectConfiguration
                     {
                         EffectScale = EffectScale.None,

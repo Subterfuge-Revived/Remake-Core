@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities.Specialists.Effects;
+using SubterfugeCore.Core.Entities;
+using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.EventArgs;
-using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 
-namespace SubterfugeCore.Core.Entities.Specialists
+namespace SubterfugeCore.Core.Components
 {
     /// <summary>
     /// Specialist management class to facilitate adding and removing specialists from ISpecialistCarrier classes.
@@ -29,10 +27,11 @@ namespace SubterfugeCore.Core.Entities.Specialists
         public event EventHandler<OnAddSpecialistEventArgs> OnAddSpecialist;
         public event EventHandler<OnRemoveSpecialistEventArgs> OnRemoveSpecialist;
         public event EventHandler<OnSpecialistCapacityChangeEventArgs> OnSpecialistCapacityChange;
-        
+
         /// <summary>
         /// Constructor with a specific capacity
         /// </summary>
+        /// <param name="parent">The parent entity</param>
         /// <param name="capacity">The capacity of the manager</param>
         public SpecialistManager(IEntity parent, int capacity = 3) : base(parent)
         {
@@ -162,8 +161,8 @@ namespace SubterfugeCore.Core.Entities.Specialists
             _capacity = capacity;
             OnSpecialistCapacityChange?.Invoke(this, new OnSpecialistCapacityChangeEventArgs()
             {
-                newCapacity = capacity,
-                previousCapacity = previousCapacity,
+                NewCapacity = capacity,
+                PreviousCapacity = previousCapacity,
                 SpecialistManager = this,
             });
         }
@@ -182,7 +181,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// Transfers all of the specialists from this specialist manager to the target specialist manager.
         /// </summary>
         /// <param name="specialistManager"></param>
-        public bool transferSpecialistsTo(SpecialistManager specialistManager)
+        public bool TransferSpecialistsTo(SpecialistManager specialistManager)
         {
             if (specialistManager.CanAddSpecialists(this._specialists.Count))
             {
@@ -197,12 +196,13 @@ namespace SubterfugeCore.Core.Entities.Specialists
             }
             return false;
         }
-        
+
         /// <summary>
         /// Transfers all of the specialists from this specialist manager to the target specialist manager.
         /// </summary>
-        /// <param name="specialistManager"></param>
-        public bool transferSpecialistsById(SpecialistManager destinationSpecialistManager, List<string> specialistIds)
+        /// <param name="destinationSpecialistManager">Specialist manager to transfer subs to</param>
+        /// <param name="specialistIds">List of specialist Ids to transfer</param>
+        public bool TransferSpecialistsById(SpecialistManager destinationSpecialistManager, List<string> specialistIds)
         {
             var specialistsMatchingId = _specialists.Where(it => specialistIds.Contains(it.GetId())).ToList();
             if (destinationSpecialistManager.CanAddSpecialists(specialistsMatchingId.Count))
@@ -222,7 +222,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <summary>
         /// Sets all of the specialists within this specialist manager to be captured.
         /// </summary>
-        public void captureAll()
+        public void CaptureAll()
         {
             foreach(Specialist s in _specialists)
             {
@@ -233,7 +233,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <summary>
         /// Uncaptures all of the specialists within this specialist manager.
         /// </summary>
-        public void uncaptureAll()
+        public void UncaptureAll()
         {
             foreach(Specialist s in _specialists)
             {

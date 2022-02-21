@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+﻿using System.Collections.Generic;
 
 namespace SubterfugeCore.Core.Players.Currency
 {
@@ -9,7 +7,7 @@ namespace SubterfugeCore.Core.Players.Currency
 		/// <summary>
 		/// A table of all the player's currencies
 		/// </summary>
-		private Dictionary<CurrencyType, Currency> Currencies = new Dictionary<CurrencyType, Currency>();
+		private readonly Dictionary<CurrencyType, Currency> _currencies = new Dictionary<CurrencyType, Currency>();
 
 		/// <summary>
 		/// Creates a new currency as long as one with the same name doesn't already exist. Returns false if failed.
@@ -18,18 +16,15 @@ namespace SubterfugeCore.Core.Players.Currency
 		/// <param name="currencyValue">The inital value of the currency</param>
 		/// <param name="canBeNegative">Can the currency go into the negatives</param>
 		/// <returns>True if succeeded</returns>
-		private bool CreateCurrency(CurrencyType currencyType, int currencyValue, bool? canBeNegative)
+		private bool CreateCurrency(CurrencyType currencyType, int currencyValue, bool canBeNegative = true)
 		{
-			if (Currencies.ContainsKey(currencyType) == false)
+			if (_currencies.ContainsKey(currencyType) == false)
 			{
 				Currency newCurrency = new Currency(currencyValue, canBeNegative);
-				Currencies.Add(currencyType, newCurrency);
+				_currencies.Add(currencyType, newCurrency);
 				return true; // Return true if the value was successfully created
 			}
-			else
-			{
-				return false; // Return false if the value was not created
-			}
+			return false; // Return false if the value was not created
 		}
 
 		/// <summary>
@@ -40,35 +35,25 @@ namespace SubterfugeCore.Core.Players.Currency
 		/// <returns>True if succeeded</returns>
 		public bool AddCurrency(CurrencyType currencyType, int addition)
 		{
-			if (Currencies.ContainsKey(currencyType) == true)
+			if (_currencies.ContainsKey(currencyType))
 			{
-				bool CanGoNegative = (bool)Currencies[currencyType].canBeNegative;
-				int OldValue = (int)Currencies[currencyType].value;
-				int NewValue = OldValue + addition;
-
-				if (NewValue < 0)
+				bool canGoNegative = _currencies[currencyType].CanBeNegative;
+				int oldValue = _currencies[currencyType].Value;
+				int newValue = oldValue + addition;
+				
+				if (newValue < 0)
 				{
-					if (CanGoNegative == true)
+					if (canGoNegative)
 					{
-						Currencies[currencyType].value = NewValue;
-						return true; // Successfully set negative value
+						_currencies[currencyType].Value = newValue;
+						return true;
 					}
-					else
-					{
-						return false; // Return false if the value is negative, but needs to be positive
-					}
+					return false;
 				}
-				else
-				{
-					Currencies[currencyType].value = NewValue;
-					return true; // Successfully set negative value
-				}
+				_currencies[currencyType].Value = newValue;
+				return true;
 			}
-			else
-			{
-				bool returnedCurrency = SetCurrency(currencyType, addition);
-				return returnedCurrency;
-			}
+			return SetCurrency(currencyType, addition);
 		}
 
 		/// <summary>
@@ -78,58 +63,38 @@ namespace SubterfugeCore.Core.Players.Currency
 		/// <param name="newValue">The value of the currency</param>
 		/// <param name="canGoNegative">Used when creating a new currency, or altering the bool of another one</param>
 		/// <returns>True if succeeded</returns>
-		public bool SetCurrency(CurrencyType currencyType, int newValue, [Optional] bool? canGoNegative)
+		public bool SetCurrency(CurrencyType currencyType, int newValue, bool canGoNegative = true)
 		{
-			if (Currencies.ContainsKey(currencyType) == true)
+			if (_currencies.ContainsKey(currencyType))
 			{
-				if (canGoNegative == (bool?)Currencies[currencyType].canBeNegative) {
-					canGoNegative = (bool?)Currencies[currencyType].canBeNegative;
-                }
-
 				if (newValue < 0)
 				{
-					if (canGoNegative == true)
+					if (_currencies[currencyType].CanBeNegative)
 					{
-						Currencies[currencyType].value = newValue;
-						return true; // Successfully set negative value
+						_currencies[currencyType].Value = newValue;
+						return true;
 					}
-					else
-					{
-						return false;
-					}
+					return false;
 				}
-				else
-				{
-					Currencies[currencyType].value = newValue;
-					return true; // Successfully set negative value
-				}
+				_currencies[currencyType].Value = newValue;
+				return true; // Successfully set negative value
 			}
-			else
-			{
-				if (canGoNegative == null){
-					canGoNegative = true;
-				}
-				CreateCurrency(currencyType, newValue, canGoNegative);
-				return true;
-			}
+			CreateCurrency(currencyType, newValue, canGoNegative);
+			return true;
 		}
 
 		/// <summary>
-        /// Used to get the value of a certian currency
+        /// Used to get the value of a certain currency
         /// </summary>
         /// <param name="currencyType">The type of currency (specified in Currency.cs CurrencyType enum)</param>
         /// <returns> A number when succeeded</returns>  
 		public int? GetCurrency(CurrencyType currencyType)
         {
-			if (Currencies.ContainsKey(currencyType)==true)
+			if (_currencies.ContainsKey(currencyType))
             {
-				int Value = (int)Currencies[currencyType].value;
-				return Value; // Returns the currency value
+				return _currencies[currencyType].Value;
             }
-			else
-            {
-				return null; // Return null if no key is found
-            }
+			return 0;
         }
 	}
 }

@@ -6,6 +6,7 @@ using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.EventArgs;
+using SubterfugeCore.Core.GameState;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
 

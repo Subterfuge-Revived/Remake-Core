@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SubterfugeCore.Core.Components;
+﻿using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.GameEvents.ReversibleEvents;
+using SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat;
 using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
@@ -13,41 +10,41 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 	/// </summary>
 	public class FactoryProduction : NaturalGameEvent
 	{
-		private Factory _producingFactory;
+		private readonly Factory _producingFactory;
 		private int _productionAmount;
 		private FactoryProduction _nextProduction;
 
-		public FactoryProduction(Factory factory, GameTick occursAt) : base(occursAt, Base.Priority.NATURAL_PRIORITY_9)
+		public FactoryProduction(Factory factory, GameTick occursAt) : base(occursAt, Base.Priority.NaturalPriority9)
 		{
 			this._producingFactory = factory;
 			this._nextProduction = null;
 		}
 
-		public override bool ForwardAction(TimeMachine timemachine, GameState state)
+		public override bool ForwardAction(TimeMachine timemachine, GameState.GameState state)
 		{
-			this._productionAmount = this._producingFactory.GetDrillerProduction(state);
+			_productionAmount = this._producingFactory.GetDrillerProduction(state);
 			if (state.OutpostExists(_producingFactory) && this._productionAmount > 0 && !this._producingFactory.GetComponent<DrillerCarrier>().IsDestroyed())
 			{
-				this._producingFactory.GetComponent<DrillerCarrier>().AddDrillers(this._productionAmount);
-				base.EventSuccess = true;
-				if (this._nextProduction == null)
+				_producingFactory.GetComponent<DrillerCarrier>().AddDrillers(this._productionAmount);
+				EventSuccess = true;
+				if (_nextProduction == null)
 				{
-					this._nextProduction = new FactoryProduction(this._producingFactory, base.GetOccursAt().Advance(this._producingFactory.GetTicksPerProduction()));
+					_nextProduction = new FactoryProduction(_producingFactory, base.GetOccursAt().Advance(this._producingFactory.GetTicksPerProduction()));
 					timemachine.AddEvent(this._nextProduction);
 				}
 			}
 			else
 			{
-				base.EventSuccess = false;
+				EventSuccess = false;
 			}
-			return base.EventSuccess;
+			return EventSuccess;
 		}
 
-		public override bool BackwardAction(TimeMachine timemachine, GameState state)
+		public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
 		{
-			if (base.EventSuccess)
+			if (EventSuccess)
 			{
-				this._producingFactory.GetComponent<DrillerCarrier>().RemoveDrillers(this._productionAmount);
+				_producingFactory.GetComponent<DrillerCarrier>().RemoveDrillers(_productionAmount);
 				return true;
 			}
 			return false;
@@ -55,7 +52,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 
 		public override bool WasEventSuccessful()
 		{
-			return base.EventSuccess;
+			return EventSuccess;
 		}
 	}
 }

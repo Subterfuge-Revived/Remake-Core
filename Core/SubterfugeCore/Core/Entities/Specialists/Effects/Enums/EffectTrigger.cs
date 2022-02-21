@@ -1,4 +1,4 @@
-﻿namespace SubterfugeCore.Core.Entities.Specialists.Effects
+﻿namespace SubterfugeCore.Core.Entities.Specialists.Effects.Enums
 {
     public enum EffectTrigger
     {

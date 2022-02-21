@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Collections.Generic;
 using GameEventModels;
 using Google.Protobuf;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.Base;
-using SubterfugeCore.Core.GameEvents.ReversibleEvents;
-using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat;
 using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;
 
-namespace SubterfugeCore.Core.GameEvents
+namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 {
     /// <summary>
     /// The event to launch a new sub. Create a new instance and add it to the time machine with `Game.timeMachine.add()`
@@ -25,7 +20,7 @@ namespace SubterfugeCore.Core.GameEvents
         /// </summary>
         private Sub _launchedSub;
         
-        private List<GameEvent> combatEvents = new List<GameEvent>();
+        private readonly List<GameEvent> _combatEvents = new List<GameEvent>();
         public LaunchEvent(GameEventModel launchData) : base(launchData)
         {
         }
@@ -38,16 +33,16 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// Performs the backwards event
         /// </summary>
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
             if (this.EventSuccess)
             {
                 state.GetEntity(GetEventData().SourceId).GetComponent<SubLauncher>().UndoLaunch(state, this);
-                foreach(GameEvent e in combatEvents)
+                foreach(GameEvent e in _combatEvents)
                 {
                     timeMachine.RemoveEvent(e);
                 }
-                combatEvents.Clear();
+                _combatEvents.Clear();
             }
 
             return this.EventSuccess;
@@ -67,19 +62,19 @@ namespace SubterfugeCore.Core.GameEvents
 
         public LaunchEventData GetEventData()
         {
-            return LaunchEventData.Parser.ParseFrom(model.EventData);
+            return LaunchEventData.Parser.ParseFrom(Model.EventData);
         }
 
         /// <summary>
         /// Performs the forward event
         /// </summary>
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
             this._launchedSub = state.GetEntity(GetEventData().SourceId).GetComponent<SubLauncher>().LaunchSub(state, this);
-            if (_launchedSub != null && _launchedSub is Sub && !_launchedSub.GetComponent<DrillerCarrier>().GetOwner().IsEliminated())
+            if (_launchedSub != null && !_launchedSub.GetComponent<DrillerCarrier>().GetOwner().IsEliminated())
             {
-                combatEvents.AddRange(CreateCombatEvents(_launchedSub as Sub, state));
-                foreach(GameEvent e in combatEvents)
+                _combatEvents.AddRange(CreateCombatEvents(_launchedSub, state));
+                foreach(GameEvent e in _combatEvents)
                 {
                     timeMachine.AddEvent(e);
                 }
@@ -104,13 +99,13 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// Creates any combat events that will result in the launch.
         /// </summary>
-        private List<GameEvent> CreateCombatEvents(Sub launchedSub, GameState state)
+        private List<GameEvent> CreateCombatEvents(Sub launchedSub, GameState.GameState state)
         {
-            List<GameEvent> _combatEvents = new List<GameEvent>();
+            List<GameEvent> events = new List<GameEvent>();
             
             // Create the combat event for arrival
             CombatEvent arriveCombat = new CombatEvent(launchedSub, state.GetEntity(GetEventData().DestinationId), launchedSub.GetComponent<PositionManager>().GetExpectedArrival());
-            _combatEvents.Add(arriveCombat);
+            events.Add(arriveCombat);
 
             // Determine any combat events that may exist along the way.
             // First determine if any subs are on the same path.
@@ -168,7 +163,7 @@ namespace SubterfugeCore.Core.GameEvents
                 }
             }
             */
-            return _combatEvents;
+            return events;
         }
     }
 }

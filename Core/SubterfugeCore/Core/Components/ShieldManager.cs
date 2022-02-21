@@ -1,8 +1,8 @@
 ﻿using System;
-using SubterfugeCore.Core.Components;
+using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.EventArgs;
 
-namespace SubterfugeCore.Core.Entities
+namespace SubterfugeCore.Core.Components
 {
     public class ShieldManager : EntityComponent
     {
@@ -70,7 +70,7 @@ namespace SubterfugeCore.Core.Entities
             }
             OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
             {
-                previousValue = previousValue,
+                PreviousValue = previousValue,
                 ShieldManager = this,
             });
         }
@@ -88,7 +88,7 @@ namespace SubterfugeCore.Core.Entities
             }
             OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
             {
-                previousValue = previousValue,
+                PreviousValue = previousValue,
                 ShieldManager = this,
             });
         }
@@ -129,7 +129,7 @@ namespace SubterfugeCore.Core.Entities
             }
             OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
             {
-                previousValue = previousValue,
+                PreviousValue = previousValue,
                 ShieldManager = this,
             });
         }
@@ -150,7 +150,7 @@ namespace SubterfugeCore.Core.Entities
             
             OnShieldCapacityChange?.Invoke(this, new OnShieldCapacityChangeEventArgs()
             {
-                previousCapacity = previousCapacity,
+                PreviousCapacity = previousCapacity,
                 ShieldManager = this,
             });
         }

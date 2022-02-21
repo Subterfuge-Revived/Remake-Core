@@ -9,6 +9,8 @@ using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.GameEvents.Base;
+using SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat;
+using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;

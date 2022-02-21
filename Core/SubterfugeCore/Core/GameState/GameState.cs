@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using SubterfugeCore.Core.Components;
@@ -7,14 +6,12 @@ using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.Generation;
-using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
 using SubterfugeRemakeService;
 
-namespace SubterfugeCore.Core
+namespace SubterfugeCore.Core.GameState
 {
     public interface IGameState
     {
@@ -146,21 +143,21 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="player">The player</param>
         /// <returns>If the player is alive</returns>
-        bool isPlayerAlive(Player player);
+        bool IsPlayerAlive(Player player);
 
         /// <summary>
         /// Gets the player's driller count
         /// </summary>
         /// <param name="player">The player's driller count</param>
         /// <returns></returns>
-        int getPlayerDrillerCount(Player player);
+        int GetPlayerDrillerCount(Player player);
 
         /// <summary>
         /// Determines the player's driller capacity
         /// </summary>
         /// <param name="player">player</param>
         /// <returns>The player's driller capacity</returns>
-        int getPlayerDrillerCapacity(Player player);
+        int GetPlayerDrillerCapacity(Player player);
 
         /// <summary>
         /// Determines how many extra drillers the specified player's electrical
@@ -175,17 +172,17 @@ namespace SubterfugeCore.Core
         /// Determines whether a position on the map is visible to the
         /// specified player.
         /// </summary>
-        /// <param name="position">position</param>
+        /// <param name="positionManager">The position manager</param>
         /// <param name="player">player</param>
         /// <returns>True if the position is visible and false otherwise.</returns>
-        bool isInVisionRange(PositionManager positionManager, Player player);
+        bool IsInVisionRange(PositionManager positionManager, Player player);
 
         /// <summary>
         /// Gets a list of all ICombatable instances of a particular player.
         /// </summary>
         /// <param name="player">The player to get combatables for</param>
         /// <returns>The list of the player's property</returns>
-        List<Entity> getPlayerTargetables(Player player);
+        List<Entity> GetPlayerTargetables(Player player);
 
         /// <summary>
         /// Gets a list of all game objects
@@ -212,17 +209,17 @@ namespace SubterfugeCore.Core
         /// <summary>
         /// A list of the currently existing subs
         /// </summary>
-        private List<Sub> _activeSubs = new List<Sub>();
+        private readonly List<Sub> _activeSubs = new List<Sub>();
         
         /// <summary>
         /// A list of the current oupost states
         /// </summary>
-        private List<Outpost> _outposts = new List<Outpost>();
+        private readonly List<Outpost> _outposts = new List<Outpost>();
         
         /// <summary>
         /// A list of the players in the game
         /// </summary>
-        private List<Player> _players = new List<Player>();
+        private readonly List<Player> _players;
         
         /// <summary>
         /// The current game tick
@@ -232,7 +229,7 @@ namespace SubterfugeCore.Core
         /// <summary>
         /// The time the game started.
         /// </summary>
-        private GameTick _startTime;
+        private readonly GameTick _startTime;
         
         /// <summary>
         /// Constructs a new instance of a GameState to represent the game.
@@ -523,7 +520,7 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="player">The player</param>
         /// <returns>If the player is alive</returns>
-        public bool isPlayerAlive(Player player)
+        public bool IsPlayerAlive(Player player)
         {
             List<Specialist> specs = GetPlayerSpecialists(player);
             return specs.Find(spec => spec is Queen).IsCaptured();
@@ -534,7 +531,7 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="player">The player's driller count</param>
         /// <returns></returns>
-        public int getPlayerDrillerCount(Player player)
+        public int GetPlayerDrillerCount(Player player)
         {
             return GetPlayerOutposts(player).Sum( it => it.GetComponent<DrillerCarrier>().GetDrillerCount()) + GetPlayerSubs(player).Sum(it => it.GetComponent<DrillerCarrier>().GetDrillerCount());
         }
@@ -544,11 +541,11 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="player">player</param>
         /// <returns>The player's driller capacity</returns>
-        public int getPlayerDrillerCapacity(Player player)
+        public int GetPlayerDrillerCapacity(Player player)
         {
             return (GetPlayerOutposts(player)
                        .FindAll(outpost => outpost.GetOutpostType().Equals(OutpostType.Generator)).Count *
-                   Constants.BASE_GENERATOR_CAPACITY) + Constants.BASE_DRILLER_CAPACITY;
+                   Constants.BaseGeneratorCapacity) + Constants.BaseDrillerCapacity;
         }
 
         /// <summary>
@@ -560,17 +557,17 @@ namespace SubterfugeCore.Core
         /// If it returns 0 or less, the player is out of electricity. </returns>
         public int GetExtraDrillerCapcity(Player player)
         {
-            return getPlayerDrillerCapacity(player) - getPlayerDrillerCount(player);
+            return GetPlayerDrillerCapacity(player) - GetPlayerDrillerCount(player);
         }
 
         /// <summary>
         /// Determines whether a position on the map is visible to the
         /// specified player.
         /// </summary>
-        /// <param name="position">position</param>
+        /// <param name="positionManager">The position manager</param>
         /// <param name="player">player</param>
         /// <returns>True if the position is visible and false otherwise.</returns>
-        public bool isInVisionRange(PositionManager positionManager, Player player)
+        public bool IsInVisionRange(PositionManager positionManager, Player player)
         {
             foreach(Outpost o in GetPlayerOutposts(player))
             {
@@ -596,7 +593,7 @@ namespace SubterfugeCore.Core
         /// </summary>
         /// <param name="player">The player to get combatables for</param>
         /// <returns>The list of the player's property</returns>
-        public List<Entity> getPlayerTargetables(Player player)
+        public List<Entity> GetPlayerTargetables(Player player)
         {
             List<Entity> entites = new List<Entity>();
             entites.AddRange(GetPlayerOutposts(player));

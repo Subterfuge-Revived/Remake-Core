@@ -2,11 +2,10 @@
 using Google.Protobuf;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 
-namespace SubterfugeCore.Core.GameEvents
+namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 {
     public class ToggleShieldEvent : PlayerTriggeredEvent
     {
@@ -17,9 +16,9 @@ namespace SubterfugeCore.Core.GameEvents
 
         public ToggleShieldEventData GetEventData()
         {
-            return ToggleShieldEventData.Parser.ParseFrom(model.EventData);
+            return ToggleShieldEventData.Parser.ParseFrom(Model.EventData);
         }
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
             ShieldManager shieldManager = state.GetEntity(GetEventData().SourceId).GetComponent<ShieldManager>();
             DrillerCarrier drillerCarrier = state.GetEntity(GetEventData().SourceId).GetComponent<DrillerCarrier>();
@@ -36,7 +35,7 @@ namespace SubterfugeCore.Core.GameEvents
             return EventSuccess;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
             if (EventSuccess)
             {

@@ -1,7 +1,6 @@
-﻿using System;
-using SubterfugeCore.Core.Timing;
+﻿using SubterfugeCore.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
+namespace SubterfugeCore.Core.GameEvents.Base
 {
     /// <summary>
     /// Any reversible action
@@ -12,13 +11,13 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
         /// Applies the forward action
         /// </summary>
         /// <returns>If the action was successful</returns>
-        bool ForwardAction(TimeMachine timeMachine, GameState state);
+        bool ForwardAction(TimeMachine timeMachine, GameState.GameState state);
         
         /// <summary>
         /// Applies the backward action. Snould never be called before ForwardAction.
         /// </summary>
         /// <returns>If the backward action was successful</returns>
-        bool BackwardAction(TimeMachine timeMachine, GameState state);
+        bool BackwardAction(TimeMachine timeMachine, GameState.GameState state);
 
         /// <summary>
         /// Function to verify if the event was successful during launch.
