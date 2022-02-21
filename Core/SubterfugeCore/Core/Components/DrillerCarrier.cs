@@ -5,10 +5,10 @@ namespace SubterfugeCore.Core.Components
 {
     public class DrillerCarrier : EntityComponent
     {
-        private Player owner;
-        private int drillers = 0;
-        private bool isCaptured = false;
-        private bool isDestroyed = false;
+        private Player _owner;
+        private int _drillers;
+        private bool _isCaptured;
+        private bool _isDestroyed;
 
         /// <summary>
         /// Creates a new driller carrier
@@ -18,8 +18,8 @@ namespace SubterfugeCore.Core.Components
         /// <param name="parent"></param>
         public DrillerCarrier(IEntity parent, int drillerCount, Player owner) : base(parent)
         {
-            this.drillers = drillerCount;
-            this.owner = owner;
+            this._drillers = drillerCount;
+            this._owner = owner;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace SubterfugeCore.Core.Components
         /// <returns></returns>
         public int GetDrillerCount()
         {
-            return drillers;
+            return _drillers;
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace SubterfugeCore.Core.Components
         /// <param name="drillerCount">The number of drillers to set</param>
         public void SetDrillerCount(int drillerCount)
         {
-            this.drillers = drillerCount;
+            this._drillers = drillerCount;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace SubterfugeCore.Core.Components
         /// <param name="drillersToAdd"></param>
         public void AddDrillers(int drillersToAdd)
         {
-            this.drillers += drillersToAdd;
+            this._drillers += drillersToAdd;
         }
 
         /// <summary>
@@ -56,14 +56,14 @@ namespace SubterfugeCore.Core.Components
 
         public void RemoveDrillers(int drillersToRemove)
         {
-            if (this.drillers >= drillersToRemove)
+            if (this._drillers >= drillersToRemove)
             {
-                this.drillers -= drillersToRemove;
+                this._drillers -= drillersToRemove;
             }
             else
             {
-                this.drillers = 0;
-                this.isCaptured = true;
+                this._drillers = 0;
+                this._isCaptured = true;
             }
         }
 
@@ -74,7 +74,7 @@ namespace SubterfugeCore.Core.Components
         /// <returns>If the carrier contains the number of drillers</returns>
         public bool HasDrillers(int drillers)
         {
-            return this.drillers >= drillers;
+            return this._drillers >= drillers;
         }
 
         /// <summary>
@@ -84,19 +84,19 @@ namespace SubterfugeCore.Core.Components
         /// <param name="newDrillerCount">The new driller count of the carrier</param>
         public void SetNewOwner(Player newOwner, int newDrillerCount)
         {
-            drillers = newDrillerCount;
-            owner = newOwner;
-            isCaptured = false;
+            _drillers = newDrillerCount;
+            _owner = newOwner;
+            _isCaptured = false;
         }
 
         public Player GetOwner()
         {
-            return this.owner;
+            return this._owner;
         }
 
         public void SetOwner(Player player)
         {
-            this.owner = player;
+            this._owner = player;
         }
 
         /// <summary>
@@ -106,23 +106,23 @@ namespace SubterfugeCore.Core.Components
         /// <returns>If the carrier is alive</returns>
         public bool IsCaptured()
         {
-            return isCaptured;
+            return _isCaptured;
         }
 
         public void SetCaptured(bool isCaptured)
         {
-            this.isCaptured = isCaptured;
+            this._isCaptured = isCaptured;
         }
 
         public bool IsDestroyed()
         {
-            return this.isDestroyed;
+            return _isDestroyed;
         }
 
         public void Destroy()
         {
-            this.isDestroyed = true;
-            this.drillers = 0;
+            _isDestroyed = true;
+            _drillers = 0;
         }
         
     }

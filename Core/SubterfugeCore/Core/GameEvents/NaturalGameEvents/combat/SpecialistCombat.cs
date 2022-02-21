@@ -1,27 +1,24 @@
-﻿using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.GameEvents.Validators;
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Collections.Generic;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Interfaces;
+using SubterfugeCore.Core.Entities.Specialists;
+using SubterfugeCore.Core.GameEvents.Base;
+using SubterfugeCore.Core.GameEvents.Validators;
 using SubterfugeCore.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
+namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat
 {
     /// <summary>
     /// Performs specialist combat
     /// </summary>
     public class SpecialistCombat : IReversible
     {
-        Entity _combatant1;
-        Entity _combatant2;
-        bool _eventSuccess = false;
+        private readonly Entity _combatant1;
+        private readonly Entity _combatant2;
+        private bool _eventSuccess;
 
-        List<Specialist> _combatant1Specialists = new List<Specialist>();
-        List<Specialist> _combatant2Specialists = new List<Specialist>();
+        private List<Specialist> _combatant1Specialists = new List<Specialist>();
+        private List<Specialist> _combatant2Specialists = new List<Specialist>();
 
         /// <summary>
         /// Constructor for a specialist combat
@@ -35,7 +32,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
 
         }
 
-        public bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
             this._combatant1Specialists = _combatant1.GetComponent<SpecialistManager>().GetSpecialists();
             this._combatant2Specialists = _combatant1.GetComponent<SpecialistManager>().GetSpecialists();
@@ -52,7 +49,7 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                     // If any of the specialists are invalid, cancel the event.
                     if (!Validator.ValidateSpecialist(s))
                     {
-                        this._eventSuccess = false;
+                        _eventSuccess = false;
                         return false;
                     }
                     if (topPriority == null || s.GetPriority() < topPriority.GetPriority())
@@ -61,14 +58,14 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                     }
                 }
                 // Apply the specialist effect to the enemey.
-                Entity enemy = _combatant1.GetComponent<DrillerCarrier>().GetOwner() == topPriority.GetOwner() ? _combatant2 : _combatant1;
-                Entity friendly = _combatant1.GetComponent<DrillerCarrier>().GetOwner() == topPriority.GetOwner() ? _combatant1 : _combatant2;
-                topPriority.ApplyEffect(state, friendly, enemy);
+                Entity enemy = topPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == topPriority.GetOwner() ? _combatant2 : _combatant1;
+                Entity friendly = topPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == topPriority.GetOwner() ? _combatant1 : _combatant2;
+                if (topPriority != null) topPriority.ApplyEffect(state, friendly, enemy);
             }
             return true;
         }
 
-        public bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
             if (!_eventSuccess)
             {
@@ -90,9 +87,9 @@ namespace SubterfugeCore.Core.GameEvents.ReversibleEvents
                     }
                 }
                 // Apply the specialist effect to the enemey.
-                Entity enemy = _combatant1.GetComponent<DrillerCarrier>().GetOwner() == lowPriority.GetOwner() ? _combatant2 : _combatant1;
-                Entity friendly = _combatant1.GetComponent<DrillerCarrier>().GetOwner() == lowPriority.GetOwner() ? _combatant1 : _combatant2;
-                lowPriority.UndoEffect(state, friendly, enemy);
+                Entity enemy = lowPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == lowPriority.GetOwner() ? _combatant2 : _combatant1;
+                Entity friendly = lowPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == lowPriority.GetOwner() ? _combatant1 : _combatant2;
+                if (lowPriority != null) lowPriority.UndoEffect(state, friendly, enemy);
             }
             return true;
         }

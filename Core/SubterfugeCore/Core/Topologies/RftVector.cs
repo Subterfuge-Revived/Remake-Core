@@ -1,7 +1,5 @@
 using System;
 using System.Numerics;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SubterfugeCore.Core.Topologies
 {
@@ -61,6 +59,7 @@ namespace SubterfugeCore.Core.Topologies
 		/// <summary>
 		/// Constructs a new RftVector with coords (x, y) modulo map dimensions.
 		/// </summary>
+		/// <param name="map">The Base RFT map size</param>
 		/// <param name="x">The x position</param>
 		/// <param name="y">The y position</param>
 		public RftVector(Rft map, float x, float y)

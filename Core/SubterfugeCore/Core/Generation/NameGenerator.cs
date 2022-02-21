@@ -7,11 +7,11 @@ namespace SubterfugeCore.Core.Generation
 {
     public class NameGenerator
     {
-        private SeededRandom seeder;
+        private readonly SeededRandom _seeder;
 
         private List<string> _outpostNames;
-        private List<string> _fallbackNames = new List<string>();
-        private List<string> _selectedNames = new List<string>();
+        private readonly List<string> _fallbackNames = new List<string>();
+        private readonly List<string> _selectedNames = new List<string>();
         
         /// <summary>
         /// Creates an instance of the name generator using an already generated seeded random tool.
@@ -19,14 +19,14 @@ namespace SubterfugeCore.Core.Generation
         /// <param name="seeder">The seeder to use for random name selection</param>
         public NameGenerator(SeededRandom seeder)
         {
-            this.seeder = seeder;
-            this.populateNames();
+            this._seeder = seeder;
+            this.PopulateNames();
         }
 
         /// <summary>
         /// Sets the list of outpost names to be pulled from.
         /// </summary>
-        public void populateNames()
+        private void PopulateNames()
         {
             _outpostNames = new List<string>() {
             "Rokovo",
@@ -45,6 +45,8 @@ namespace SubterfugeCore.Core.Generation
             "Hooper",
             "Glover",
             "Mills",
+            "Pueblo", // My hometown
+            
             };
             
             // As an additional measure,
@@ -62,7 +64,7 @@ namespace SubterfugeCore.Core.Generation
             // Choose one of them.
             if (_outpostNames.Count > 0)
             {
-                int selection = seeder.NextRand(0, _outpostNames.Count - 1);
+                int selection = _seeder.NextRand(0, _outpostNames.Count - 1);
                 string name = _outpostNames[selection];
                 _outpostNames.Remove(name);
                 _selectedNames.Add(name);
@@ -72,7 +74,7 @@ namespace SubterfugeCore.Core.Generation
             // If there are some derived names to pick from, select them
             if (_fallbackNames.Count > 0)
             {
-                int selection = seeder.NextRand(0, _fallbackNames.Count - 1);
+                int selection = _seeder.NextRand(0, _fallbackNames.Count - 1);
                 string name = _fallbackNames[selection];
                 _fallbackNames.Remove(name);
                 _selectedNames.Add(name);
@@ -85,7 +87,7 @@ namespace SubterfugeCore.Core.Generation
             while (scrambleCounter < 10)
             {
                 // Pick a random name from the list of names.
-                int randomName = seeder.NextRand(0, _selectedNames.Count - 1);
+                int randomName = _seeder.NextRand(0, _selectedNames.Count - 1);
                 // Shuffle the letters in the outpost name.
                 string shuffled = this._shuffleString(_selectedNames[randomName]);
                 if (!_selectedNames.Contains(shuffled))
@@ -100,7 +102,7 @@ namespace SubterfugeCore.Core.Generation
             // As a final measure, if a string couldn't be derived, generate a random name.
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             string generated = new string(Enumerable.Repeat(chars, 8)
-                .Select(s => s[seeder.NextRand(0, s.Length)]).ToArray());
+                .Select(s => s[_seeder.NextRand(0, s.Length)]).ToArray());
             
             return this._capitolizeFirstLetter(generated);
         }
@@ -124,10 +126,10 @@ namespace SubterfugeCore.Core.Generation
             var list = new SortedList<int,char>();
             foreach (var c in str)
             {
-                int position = seeder.NextRand(0, 10000);
+                int position = _seeder.NextRand(0, 10000);
                 while (list.ContainsKey(position))
                 {
-                    position = seeder.NextRand(0, 10000);
+                    position = _seeder.NextRand(0, 10000);
                 }
                 list.Add(position, c);
             }

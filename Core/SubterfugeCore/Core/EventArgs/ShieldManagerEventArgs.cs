@@ -1,4 +1,5 @@
-﻿using SubterfugeCore.Core.Entities;
+﻿using SubterfugeCore.Core.Components;
+using SubterfugeCore.Core.Entities;
 
 namespace SubterfugeCore.Core.EventArgs
 {
@@ -14,13 +15,13 @@ namespace SubterfugeCore.Core.EventArgs
     
     public class OnShieldCapacityChangeEventArgs : System.EventArgs
     {
-        public int previousCapacity { get; set; }
+        public int PreviousCapacity { get; set; }
         public ShieldManager ShieldManager { get; set; }
     }
     
     public class OnShieldValueChangeEventArgs : System.EventArgs
     {
-        public int previousValue { get; set; }
+        public int PreviousValue { get; set; }
         public ShieldManager ShieldManager { get; set; }
     }
 }

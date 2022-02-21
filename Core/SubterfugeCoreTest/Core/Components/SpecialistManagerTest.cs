@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.EventArgs;
@@ -311,7 +312,7 @@ namespace SubterfugeCoreTest.Core.Components
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
 
             var transferResult = _mockEntity.Object.GetComponent<SpecialistManager>()
-                .transferSpecialistsTo(_mockSecondEntity.Object.GetComponent<SpecialistManager>());
+                .TransferSpecialistsTo(_mockSecondEntity.Object.GetComponent<SpecialistManager>());
             
             Assert.IsTrue(transferResult);
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
@@ -350,7 +351,7 @@ namespace SubterfugeCoreTest.Core.Components
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
 
             var transferResult = _mockEntity.Object.GetComponent<SpecialistManager>()
-                .transferSpecialistsTo(_mockSecondEntity.Object.GetComponent<SpecialistManager>());
+                .TransferSpecialistsTo(_mockSecondEntity.Object.GetComponent<SpecialistManager>());
             
             Assert.IsFalse(transferResult);
             Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
@@ -391,7 +392,7 @@ namespace SubterfugeCoreTest.Core.Components
             var listOfIds = specialists.Select(it => it.GetId()).ToList();
 
             var transferResult = _mockEntity.Object.GetComponent<SpecialistManager>()
-                .transferSpecialistsById(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), listOfIds);
+                .TransferSpecialistsById(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), listOfIds);
             
             Assert.IsTrue(transferResult);
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
@@ -432,7 +433,7 @@ namespace SubterfugeCoreTest.Core.Components
             var listOfIds = specialists.Select(it => it.GetId()).ToList();
 
             var transferResult = _mockEntity.Object.GetComponent<SpecialistManager>()
-                .transferSpecialistsById(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), listOfIds);
+                .TransferSpecialistsById(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), listOfIds);
             
             Assert.IsFalse(transferResult);
             Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
@@ -466,7 +467,7 @@ namespace SubterfugeCoreTest.Core.Components
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
             
-            _mockEntity.Object.GetComponent<SpecialistManager>().captureAll();
+            _mockEntity.Object.GetComponent<SpecialistManager>().CaptureAll();
             Assert.IsTrue(specialistOne.IsCaptured());
             Assert.IsTrue(specialistTwo.IsCaptured());
         }
@@ -610,8 +611,8 @@ namespace SubterfugeCoreTest.Core.Components
             Assert.AreEqual(newCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             
             Assert.IsNotNull(capacityChangeEvent);
-            Assert.AreEqual(initialCapacity , capacityChangeEvent.previousCapacity);
-            Assert.AreEqual(newCapacity , capacityChangeEvent.newCapacity);
+            Assert.AreEqual(initialCapacity , capacityChangeEvent.PreviousCapacity);
+            Assert.AreEqual(newCapacity , capacityChangeEvent.NewCapacity);
             Assert.AreEqual(_mockEntity.Object.GetComponent<SpecialistManager>() , capacityChangeEvent.SpecialistManager);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.EventArgs;
 
@@ -319,7 +320,7 @@ namespace SubterfugeCoreTest.Core.Components
             
             Assert.IsTrue(eventFired);
             Assert.IsNotNull(valueChangeArgs);
-            Assert.AreEqual(initialShields, valueChangeArgs.previousValue);
+            Assert.AreEqual(initialShields, valueChangeArgs.PreviousValue);
             Assert.AreEqual(_mockEntity.Object.GetComponent<ShieldManager>(), valueChangeArgs.ShieldManager);
         }
         
@@ -342,7 +343,7 @@ namespace SubterfugeCoreTest.Core.Components
             
             Assert.IsTrue(eventFired);
             Assert.IsNotNull(valueChangeArgs);
-            Assert.AreEqual(initialShields, valueChangeArgs.previousValue);
+            Assert.AreEqual(initialShields, valueChangeArgs.PreviousValue);
             Assert.AreEqual(_mockEntity.Object.GetComponent<ShieldManager>(), valueChangeArgs.ShieldManager);
         }
         
@@ -365,7 +366,7 @@ namespace SubterfugeCoreTest.Core.Components
             
             Assert.IsTrue(eventFired);
             Assert.IsNotNull(valueChangeArgs);
-            Assert.AreEqual(initialShields, valueChangeArgs.previousValue);
+            Assert.AreEqual(initialShields, valueChangeArgs.PreviousValue);
             Assert.AreEqual(_mockEntity.Object.GetComponent<ShieldManager>(), valueChangeArgs.ShieldManager);
         }
         
@@ -388,7 +389,7 @@ namespace SubterfugeCoreTest.Core.Components
             
             Assert.IsTrue(eventFired);
             Assert.IsNotNull(capacityChangeArgs);
-            Assert.AreEqual(initialShieldCapacity, capacityChangeArgs.previousCapacity);
+            Assert.AreEqual(initialShieldCapacity, capacityChangeArgs.PreviousCapacity);
             Assert.AreEqual(_mockEntity.Object.GetComponent<ShieldManager>(), capacityChangeArgs.ShieldManager);
         }
     }

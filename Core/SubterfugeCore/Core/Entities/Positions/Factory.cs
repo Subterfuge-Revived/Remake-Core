@@ -15,7 +15,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 	/// </summary>
 	public class Factory : Outpost
 	{
-		public static int STANDARD_TICKS_PER_PRODUCTION = (int)(Constants.MINUTES_PER_PRODUCTION / GameTick.MINUTES_PER_TICK);
+		public static int STANDARD_TICKS_PER_PRODUCTION = (int)(Constants.MinutesPerProduction / GameTick.MinutesPerTick);
 
 		/// <summary>
 		/// Production time in game ticks
@@ -41,7 +41,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 		{
 			this._ticksPerProduction = STANDARD_TICKS_PER_PRODUCTION;
 			this._ticksToFirstProduction = new GameTick(STANDARD_TICKS_PER_PRODUCTION); //TODO: randomize
-			this._drillersPerProduction = Constants.BASE_FACTORY_PRODUCTION;
+			this._drillersPerProduction = Constants.BaseFactoryProduction;
 		}
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 		{
 			this._ticksPerProduction = STANDARD_TICKS_PER_PRODUCTION;
 			this._ticksToFirstProduction = new GameTick(STANDARD_TICKS_PER_PRODUCTION); //TODO: randomize
-			this._drillersPerProduction = Constants.BASE_FACTORY_PRODUCTION;
+			this._drillersPerProduction = Constants.BaseFactoryProduction;
 		}
 		public override OutpostType GetOutpostType()
 		{
@@ -68,7 +68,7 @@ namespace SubterfugeCore.Core.Entities.Positions
 		/// <param name="state">The current game state</param>
 		/// <returns>Either the remaining extra driller capacity or
 		/// the driller production of the factory, whichever is lower. </returns>
-		public int GetDrillerProduction(GameState state)
+		public int GetDrillerProduction(GameState.GameState state)
 		{
 			return Math.Min(state.GetExtraDrillerCapcity(GetComponent<DrillerCarrier>().GetOwner()), this._drillersPerProduction);
 		}

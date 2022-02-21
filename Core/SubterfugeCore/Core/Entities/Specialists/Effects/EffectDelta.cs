@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using SubterfugeCore.Core.Components;
+﻿using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
-using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
@@ -14,7 +12,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <summary>
         /// The value to add to the effector.
         /// </summary>
-        public int Value { get; set; } = 0;
+        public int Value { get; set; }
 
         /// <summary>
         /// What effect is being modified.
@@ -36,7 +34,6 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <summary>
         /// Applies the effect to the effector.
         /// </summary>
-        /// <param name="effectMe">The target to effect</param>
         public void ApplyForwardEffect()
         {
             switch (Modifier)
@@ -63,7 +60,6 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <summary>
         /// Undoes the effect to the effector.
         /// </summary>
-        /// <param name="effectMe">The target to effect</param>
         public void ApplyBackwardsEffect()
         {
             switch (Modifier)

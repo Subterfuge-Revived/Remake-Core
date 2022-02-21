@@ -159,7 +159,7 @@ namespace SubterfugeCoreTest
 			_o1.GetComponent<DrillerCarrier>().AddDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(_model1);
 			_tm.AddEvent(drillMine);
-			_tm.Advance(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
+			_tm.Advance(10 + 1440 / (int)GameTick.MinutesPerTick);
 			Assert.AreEqual(12, _o1.GetComponent<DrillerCarrier>().GetOwner().GetNeptunium());
 		}
 
@@ -169,12 +169,12 @@ namespace SubterfugeCoreTest
 			_o1.GetComponent<DrillerCarrier>().AddDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(_model1);
 			_tm.AddEvent(drillMine);
-			_tm.Advance(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
-			_tm.Rewind(10 + 1440 / (int)GameTick.MINUTES_PER_TICK);
+			_tm.Advance(10 + 1440 / (int)GameTick.MinutesPerTick);
+			_tm.Rewind(10 + 1440 / (int)GameTick.MinutesPerTick);
 			Assert.IsTrue(_tm.GetState().GetOutposts().Contains(_o1));
 			Assert.AreEqual(0, _p.GetNeptunium());
 			Assert.AreEqual(0, _tm.GetCurrentTick().GetTick());
-			Assert.AreEqual(Constants.INITIAL_DRILLERS_PER_OUTPOST + 50, _o1.GetComponent<DrillerCarrier>().GetDrillerCount());
+			Assert.AreEqual(Constants.InitialDrillersPerOutpost + 50, _o1.GetComponent<DrillerCarrier>().GetDrillerCount());
 		}
 
 		private bool IsNeptuniumProductionEvent(GameEvent e)

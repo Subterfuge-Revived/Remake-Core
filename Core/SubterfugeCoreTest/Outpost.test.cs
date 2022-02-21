@@ -9,6 +9,7 @@ using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
@@ -257,7 +258,7 @@ namespace SubterfugeCoreTest
         public void CanSeeLocationInVision()
         {
             Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), new Player("1"));
-            Outpost outpost2 = new Mine("1",new RftVector(_map, Constants.BASE_OUTPOST_VISION_RADIUS - 1, 0), new Player("2"));
+            Outpost outpost2 = new Mine("1",new RftVector(_map, Constants.BaseOutpostVisionRadius - 1, 0), new Player("2"));
             Assert.IsTrue(outpost.GetComponent<VisionManager>().IsInVisionRange(new GameTick(1), outpost2.GetComponent<PositionManager>()));
         }
         
@@ -266,7 +267,7 @@ namespace SubterfugeCoreTest
         {
             
             Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), new Player("1"));
-            Outpost outpost2 = new Mine("1",new RftVector(_map, Constants.BASE_OUTPOST_VISION_RADIUS + 1, 0), new Player("2"));
+            Outpost outpost2 = new Mine("1",new RftVector(_map, Constants.BaseOutpostVisionRadius + 1, 0), new Player("2"));
             Assert.IsFalse(outpost.GetComponent<VisionManager>().IsInVisionRange(new GameTick(1), outpost2.GetComponent<PositionManager>()));
         }
     }

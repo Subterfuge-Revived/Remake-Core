@@ -8,15 +8,11 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
     public class SpecialistEffectFactory
     {
         /// <summary>
-        /// Creates a new specialist effect with the specified parameters
+        /// Creates a specialist effect
         /// </summary>
-        /// <param name="type">The effect type</param>
-        /// <param name="value">The base value of the effect</param>
-        /// <param name="target">The effect targets</param>
-        /// <param name="trigger">The effect trigger</param>
-        /// <param name="triggerRange">The detection of the effect's trigger</param>
-        /// <returns></returns>
-        public ISpecialistEffect createSpecialistEffect(SpecialistEffectConfiguration effectConfiguration)
+        /// <param name="effectConfiguration">The specialist effect configuration parameters</param>
+        /// <returns>The specialist effect</returns>
+        public ISpecialistEffect CreateSpecialistEffect(SpecialistEffectConfiguration effectConfiguration)
         {
             SpecialistEffect effect = null;
             NumericSpecialistEffect numericSpecialistEffect = new NumericSpecialistEffect();
@@ -42,7 +38,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             
             numericSpecialistEffect.Effector = effectConfiguration.EffectType;
 
-            if (effect.GetType() == typeof(NumericSpecialistEffect))
+            if (effect != null && effect.GetType() == typeof(NumericSpecialistEffect))
             {
                 this.setEffectValues(((NumericSpecialistEffect)effect), effectConfiguration.Value, effectConfiguration.EffectTarget, effectConfiguration.EffectTrigger, effectConfiguration.EffectTriggerRange, effectConfiguration.GetEffectScale());   
             }
@@ -58,13 +54,14 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="target">The effect's targets</param>
         /// <param name="trigger">The effect's trigger</param>
         /// <param name="triggerRange">The effect's trigger detection range</param>
+        /// <param name="scale">How to scale the effect</param>
         private void setEffectValues(NumericSpecialistEffect effect, int value, EffectTarget target, EffectTrigger trigger,
             EffectTriggerRange triggerRange, SpecialistEffectScale scale)
         {
-            effect._effectValue = value;
-            effect._effectTarget = target;
-            effect._effectTrigger = trigger;
-            effect._effectTriggerRange = triggerRange;
+            effect.EffectValue = value;
+            effect.EffectTarget = target;
+            effect.EffectTrigger = trigger;
+            effect.EffectTriggerRange = triggerRange;
             effect.EffectScale = new SpecialistEffectScale();
             effect.EffectScale = scale;
         }

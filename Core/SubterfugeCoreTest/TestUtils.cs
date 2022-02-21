@@ -41,7 +41,7 @@ namespace SubterfugeCoreTest
                 UnixTimeCreated = DateTime.UtcNow.Millisecond,
                 UnixTimeStarted = 0,
             };
-            config.Players.AddRange(players.Select(it => it.toUser()));
+            config.Players.AddRange(players.Select(it => it.ToUser()));
             return config;
         }
     }

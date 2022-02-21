@@ -1,5 +1,5 @@
 ﻿using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
 
 namespace SubterfugeCore.Core.EventArgs
 {

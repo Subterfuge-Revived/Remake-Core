@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GameEventModels;
+﻿using GameEventModels;
 using Google.Protobuf;
 using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
-using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
 using SubterfugeRemakeService;
 
@@ -25,10 +20,10 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 
 		public DrillMineEventData GetEventData()
 		{
-			return DrillMineEventData.Parser.ParseFrom(model.EventData);
+			return DrillMineEventData.Parser.ParseFrom(Model.EventData);
 		}
 
-		public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+		public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
 		{
 			Entity drillLocation = state.GetEntity(GetEventData().SourceId);
 			if (drillLocation != null && drillLocation is Outpost && !(drillLocation is Mine) && !((Outpost)drillLocation).GetComponent<DrillerCarrier>().IsDestroyed())
@@ -54,7 +49,7 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 			return EventSuccess;
 		}
 
-		public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+		public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
 		{
 			if (EventSuccess)
 			{

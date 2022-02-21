@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.EventArgs;
+using SubterfugeCore.Core.GameState;
 using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core.Components
@@ -36,6 +37,8 @@ namespace SubterfugeCore.Core.Components
         /// Sets the vision range to the specified value.
         /// </summary>
         /// <param name="newVisionRange">The new vision range.</param>
+        /// <param name="state">The game state</param>
+        /// <param name="tick">The current tick</param>
         public void SetVisionRange(float newVisionRange, IGameState state, GameTick tick)
         {
             var previousVisionRange = this._visionRange;
@@ -56,12 +59,13 @@ namespace SubterfugeCore.Core.Components
         /// <summary>
         /// Determines if the position is in vision of this object.
         /// </summary>
-        /// <param name="position">The position to check</param>
+        /// <param name="tick">The tick to check</param>
+        /// <param name="positionManager">The position manager</param>
         /// <returns>If the object is in the vision range.</returns>
         public bool IsInVisionRange(GameTick tick, PositionManager positionManager)
         {
-            var position = this.position.GetPositionAt(tick);
-            return Vector2.Distance(position.ToVector2(), positionManager.GetPositionAt(tick).ToVector2()) < _visionRange;
+            var pos = position.GetPositionAt(tick);
+            return Vector2.Distance(pos.ToVector2(), positionManager.GetPositionAt(tick).ToVector2()) < _visionRange;
         }
 
         public List<IEntity> GetEntitiesInVisionRange(IGameState state, GameTick tick)

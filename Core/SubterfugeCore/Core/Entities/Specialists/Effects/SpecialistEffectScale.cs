@@ -3,8 +3,6 @@ using System.Linq;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
-using SubterfugeCore.Core.Interfaces;
-using SubterfugeCore.Core.Players;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
@@ -33,7 +31,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <param name="friendly">The friendly target</param>
         /// <param name="enemy">The enemy target</param>
         /// <returns></returns>
-        public float GetEffectScalar(GameState state, Entity friendly, Entity enemy)
+        public float GetEffectScalar(GameState.GameState state, Entity friendly, Entity enemy)
         {
             // TODO: Apply specialist scaling here
             // Note: The forward effect value and backwards effect values should provide the same scaling ratio.
@@ -100,33 +98,34 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             // it should be thought of "AlterDrillers" by "1.10x". It would make sense to have the players think of
             // sentences for their effects like so: "ApplyEffectType" "Target" by "scale" on "eventRange" "event"
 
-            if (EffectScale == Enums.EffectScale.None || ScaleTarget == EffectTarget.None)
+            if (EffectScale == EffectScale.None || ScaleTarget == EffectTarget.None)
             {
                 return 1;
             }
 
-            float scalar = 1;
+            float scalar;
 
             // Variable to store potential candidates for the scaling value.
-            List<Entity> candidates = new List<Entity>();
+            var candidates = new List<Entity>();
             switch (ScaleTarget)
             {
                 case EffectTarget.Friendly:
-                    candidates.AddRange(state.getPlayerTargetables(friendly.GetComponent<DrillerCarrier>().GetOwner()));
+                    candidates.AddRange(state.GetPlayerTargetables(friendly.GetComponent<DrillerCarrier>().GetOwner()));
                     break;
                 case EffectTarget.Enemy:
-                    candidates.AddRange(state.getPlayerTargetables(enemy.GetComponent<DrillerCarrier>().GetOwner()));
+                    candidates.AddRange(state.GetPlayerTargetables(enemy.GetComponent<DrillerCarrier>().GetOwner()));
                     break;
                 case EffectTarget.Both:
-                    candidates.AddRange(state.getPlayerTargetables(enemy.GetComponent<DrillerCarrier>().GetOwner()));
-                    candidates.AddRange(state.getPlayerTargetables(friendly.GetComponent<DrillerCarrier>().GetOwner()));
+                    candidates.AddRange(state.GetPlayerTargetables(enemy.GetComponent<DrillerCarrier>().GetOwner()));
+                    candidates.AddRange(state.GetPlayerTargetables(friendly.GetComponent<DrillerCarrier>().GetOwner()));
                     break;
                 case EffectTarget.All:
-                    foreach (Player p in state.GetPlayers())
+                    foreach (var p in state.GetPlayers())
                     {
-                        candidates.AddRange(state.getPlayerTargetables(p));                        
+                        candidates.AddRange(state.GetPlayerTargetables(p));                        
                     }
                     break;
+                case EffectTarget.None:
                 default:
                     return 1;
             }

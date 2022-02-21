@@ -61,8 +61,8 @@ namespace SubterfugeCoreTest
 			}
 
 			var player = _f.GetComponent<DrillerCarrier>().GetOwner();
-			var totalDrillers = _game.TimeMachine.GetState().getPlayerDrillerCount(player);
-			var drillerCap = _game.TimeMachine.GetState().getPlayerDrillerCapacity(player);
+			var totalDrillers = _game.TimeMachine.GetState().GetPlayerDrillerCount(player);
+			var drillerCap = _game.TimeMachine.GetState().GetPlayerDrillerCapacity(player);
 			
 			Assert.IsNotNull(p);
 			Assert.IsTrue(totalDrillers < drillerCap);
@@ -77,7 +77,7 @@ namespace SubterfugeCoreTest
 			int startingDrillers = _f.GetComponent<DrillerCarrier>().GetDrillerCount();
 			_tm.Advance(Factory.STANDARD_TICKS_PER_PRODUCTION);
 			int endingDrillers = _f.GetComponent<DrillerCarrier>().GetDrillerCount();
-			Assert.AreEqual(endingDrillers - startingDrillers, Constants.BASE_FACTORY_PRODUCTION);
+			Assert.AreEqual(endingDrillers - startingDrillers, Constants.BaseFactoryProduction);
 		}
 
 		[TestMethod]
@@ -96,12 +96,12 @@ namespace SubterfugeCoreTest
 			{
 				_tm.Advance(Factory.STANDARD_TICKS_PER_PRODUCTION);
 				var player = _f.GetComponent<DrillerCarrier>().GetOwner();
-				var totalDrillers = _game.TimeMachine.GetState().getPlayerDrillerCount(player);
-				var drillerCap = _game.TimeMachine.GetState().getPlayerDrillerCapacity(player);
+				var totalDrillers = _game.TimeMachine.GetState().GetPlayerDrillerCount(player);
+				var drillerCap = _game.TimeMachine.GetState().GetPlayerDrillerCapacity(player);
 				if (totalDrillers < drillerCap)
 				{
 					lastDrillerCount = _f.GetComponent<DrillerCarrier>().GetDrillerCount() - startingDrillers;
-					Assert.AreEqual(Constants.BASE_FACTORY_PRODUCTION * (i + 1),
+					Assert.AreEqual(Constants.BaseFactoryProduction * (i + 1),
 						_f.GetComponent<DrillerCarrier>().GetDrillerCount() - startingDrillers);
 				}
 				else

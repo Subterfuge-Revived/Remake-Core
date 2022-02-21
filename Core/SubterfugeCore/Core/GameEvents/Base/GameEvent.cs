@@ -1,10 +1,5 @@
 ﻿using System;
-using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
-using SubterfugeCore.Core.GameEvents.ReversibleEvents;
-using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
-using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.GameEvents.Base
 {
@@ -18,22 +13,18 @@ namespace SubterfugeCore.Core.GameEvents.Base
         /// </summary>
         protected bool EventSuccess;
 
-        protected GameEvent()
-        {
-        }
-
         /// <summary>
         /// This function will be executed when determing the game's state for the time machine.
         /// This function will check all conditions required to perform the command as well as perform the command
         /// to show the outcome of the command.
         /// </summary>
-        public abstract bool ForwardAction(TimeMachine timeMachine, GameState state);
+        public abstract bool ForwardAction(TimeMachine timeMachine, GameState.GameState state);
 
         /// <summary>
         /// This function will be executed when going back in time in order to undo an action.
         /// For example, this will un-hire a specialist returning the hire point to the queen, or un-launch a sub returning the drillers to the owner.
         /// </summary>
-        public abstract bool BackwardAction(TimeMachine timeMachine, GameState state);
+        public abstract bool BackwardAction(TimeMachine timeMachine, GameState.GameState state);
 
         /// <summary>
         /// Get the tick the game event occurs at

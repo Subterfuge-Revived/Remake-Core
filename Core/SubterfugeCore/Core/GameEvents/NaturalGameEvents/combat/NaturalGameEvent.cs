@@ -1,19 +1,18 @@
 ﻿using System;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Timing;
-using SubterfugeRemakeService;
 
-namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
+namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat
 {
     public abstract class NaturalGameEvent : GameEvent
     {
-        private string EventId;
-        private GameTick _occursAt;
-        private Priority _priority;
+        private readonly string _eventId;
+        private readonly GameTick _occursAt;
+        private readonly Priority _priority;
         
-        protected NaturalGameEvent(GameTick occursAt, Priority priority) : base()
+        protected NaturalGameEvent(GameTick occursAt, Priority priority)
         {
-            this.EventId = Guid.NewGuid().ToString();
+            this._eventId = Guid.NewGuid().ToString();
             this._occursAt = occursAt;
             this._priority = priority;
         }
@@ -25,7 +24,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
 
         public override string GetEventId()
         {
-            return this.EventId;
+            return this._eventId;
         }
 
 		public override Priority GetPriority()

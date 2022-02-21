@@ -39,7 +39,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 MapConfiguration = request.MapConfiguration,
             };
             GameConfiguration.Players.Add(creator);
-            GameTick.MINUTES_PER_TICK = request.GameSettings.MinutesPerTick;
+            GameTick.MinutesPerTick = request.GameSettings.MinutesPerTick;
         }
 
         public async Task<ResponseStatus> JoinRoom(DbUserModel dbUserModel)

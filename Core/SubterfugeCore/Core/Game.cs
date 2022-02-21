@@ -43,7 +43,7 @@ namespace SubterfugeCore.Core
         public Game(GameConfiguration gameConfiguration)
         {
             // Creates a new game state and makes a time machine to reference the state
-            GameState state = new GameState(gameConfiguration);
+            GameState.GameState state = new GameState.GameState(gameConfiguration);
             TimeMachine = new TimeMachine(state);
 
             // Creates the map generator with a random seed
@@ -69,7 +69,7 @@ namespace SubterfugeCore.Core
         public void LoadGameEvents(List<GameEventModel> gameEvents)
         {
             gameEvents
-                .ConvertAll<GameEvent>(m => GameEventFactory.parseGameEvent(m))
+                .ConvertAll<GameEvent>(m => GameEventFactory.ParseGameEvent(m))
                 .ForEach( parsedEvent => TimeMachine.AddEvent(parsedEvent) );
         }
 
@@ -85,7 +85,7 @@ namespace SubterfugeCore.Core
                 case GameMode.Mining:
                     foreach (Player p in TimeMachine.GetState().GetPlayers())
                     {
-                        if (!p.IsEliminated() && p.GetNeptunium() >= Constants.MINING_NEPTUNIUM_TO_WIN)
+                        if (!p.IsEliminated() && p.GetNeptunium() >= Constants.MiningNeptuniumToWin)
                         {
                             return p;
                         }

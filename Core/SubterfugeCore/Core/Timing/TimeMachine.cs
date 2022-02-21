@@ -10,14 +10,14 @@ namespace SubterfugeCore.Core.Timing
         private PriorityQueue<GameEvent> _futureEventQueue = new PriorityQueue<GameEvent>();
 
         // Current representation of the game state
-        private GameState _gameState;
+        private GameState.GameState _gameState;
 
         /// <summary>
         /// Creates a new instance of the TimeMachine. You will likely never need to call this as this is created in the
         /// `Game` object when the game is created.
         /// </summary>
         /// <param name="state">The initial GameState</param>
-        public TimeMachine(GameState state)
+        public TimeMachine(GameState.GameState state)
         {
             _gameState = state;
         }
@@ -26,7 +26,7 @@ namespace SubterfugeCore.Core.Timing
         /// Get the time machine's current state
         /// </summary>
         /// <returns>The GameState at the current time of the TimeMachine</returns>
-        public GameState GetState()
+        public GameState.GameState GetState()
         {
             return this._gameState;
         }

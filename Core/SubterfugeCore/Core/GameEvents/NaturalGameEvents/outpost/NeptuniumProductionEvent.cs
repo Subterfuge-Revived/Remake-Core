@@ -1,6 +1,7 @@
 ﻿using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Entities.Positions;
+using SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat;
 using SubterfugeCore.Core.Timing;
 
 namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
@@ -17,13 +18,13 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 		/// </summary>
 		private NeptuniumProductionEvent _nextProduction;
 
-		public NeptuniumProductionEvent(Mine mine, GameTick occursAt) : base(occursAt, Priority.LOW_PRIORTY)
+		public NeptuniumProductionEvent(Mine mine, GameTick occursAt) : base(occursAt, Priority.LowPriorty)
 		{
 			this._mine = mine;
 			this._nextProduction = null;
 		}
 
-		public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+		public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
 		{
 			if (!_mine.GetComponent<DrillerCarrier>().GetOwner().IsEliminated() && state.GetOutposts().Contains(_mine) && !_mine.GetComponent<DrillerCarrier>().IsDestroyed())
 			{
@@ -39,7 +40,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 			return EventSuccess;
 		}
 
-		public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+		public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
 		{
 			if (EventSuccess)
 			{

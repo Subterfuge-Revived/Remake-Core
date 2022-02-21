@@ -3,18 +3,17 @@ using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.GameEvents.Base;
-using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
+namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat
 {
     /// <summary>
     /// Friendly sub arrival
     /// </summary>
     public class FriendlySubArrive : NaturalGameEvent
     {
-        Sub _arrivingSub;
-        Outpost _outpost;
+        private readonly Sub _arrivingSub;
+        private readonly Outpost _outpost;
 
         /// <summary>
         /// Friendly sub arrival event
@@ -22,7 +21,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// <param name="combatant1">Combatant 1</param>
         /// <param name="combatant2">Combatant 2</param>
         /// <param name="occursAt">Tick of sub arrival</param>
-        public FriendlySubArrive(Entity combatant1, Entity combatant2, GameTick occursAt) : base(occursAt, Priority.NATURAL_PRIORITY_9)
+        public FriendlySubArrive(Entity combatant1, Entity combatant2, GameTick occursAt) : base(occursAt, Priority.NaturalPriority9)
         {
             this._arrivingSub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
             this._outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);
@@ -32,40 +31,37 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// Undoes the sub's arrival
         /// </summary>
         /// <returns>If the event was undone</returns>
-        public override bool BackwardAction(TimeMachine timeMachine,  GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine,  GameState.GameState state)
         {
-            if (base.EventSuccess)
+            if (EventSuccess)
             {
-                this._outpost.GetComponent<DrillerCarrier>().RemoveDrillers(this._arrivingSub.GetComponent<DrillerCarrier>().GetDrillerCount());
-                this._outpost.GetComponent<SpecialistManager>()
-                    .RemoveSpecialists(this._arrivingSub.GetComponent<SpecialistManager>().GetSpecialists());
+                _outpost.GetComponent<DrillerCarrier>().RemoveDrillers(_arrivingSub.GetComponent<DrillerCarrier>().GetDrillerCount());
+                _outpost.GetComponent<SpecialistManager>()
+                    .RemoveSpecialists(_arrivingSub.GetComponent<SpecialistManager>().GetSpecialists());
                 state.AddSub(this._arrivingSub);
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         /// <summary>
         /// Perfoms a friendly sub arrival
         /// </summary>
         /// <returns>If the event was successful</returns>
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
-            if (state.SubExists(this._arrivingSub) && state.OutpostExists(this._outpost))
+            if (state.SubExists(_arrivingSub) && state.OutpostExists(_outpost))
             {
-                this._outpost.GetComponent<DrillerCarrier>().AddDrillers(this._arrivingSub.GetComponent<DrillerCarrier>().GetDrillerCount());
-                this._outpost.GetComponent<SpecialistManager>().AddSpecialists(this._arrivingSub.GetComponent<SpecialistManager>().GetSpecialists());
-                state.RemoveSub(this._arrivingSub);
-                base.EventSuccess = true;
+                _outpost.GetComponent<DrillerCarrier>().AddDrillers(_arrivingSub.GetComponent<DrillerCarrier>().GetDrillerCount());
+                _outpost.GetComponent<SpecialistManager>().AddSpecialists(_arrivingSub.GetComponent<SpecialistManager>().GetSpecialists());
+                state.RemoveSub(_arrivingSub);
+                EventSuccess = true;
             }
             else
             {
-                base.EventSuccess = false;
+                EventSuccess = false;
             }
-            return base.EventSuccess;
+            return EventSuccess;
         }
         
         /// <summary>
@@ -74,7 +70,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents
         /// <returns>If the event is successful</returns>
         public override bool WasEventSuccessful()
         {
-            return base.EventSuccess;
+            return EventSuccess;
         }
 	}
 }

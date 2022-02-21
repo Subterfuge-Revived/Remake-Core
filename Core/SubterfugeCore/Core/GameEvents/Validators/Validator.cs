@@ -1,11 +1,7 @@
 ﻿using SubterfugeCore.Core.Entities.Specialists;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.Interfaces;
 
 namespace SubterfugeCore.Core.GameEvents.Validators
 {
@@ -18,9 +14,10 @@ namespace SubterfugeCore.Core.GameEvents.Validators
         /// <summary>
         /// Validates an ICombatable
         /// </summary>
+        /// <param name="state">The gamestate</param>
         /// <param name="combatable">The ICombatable to validate</param>
         /// <returns></returns>
-        public static bool ValidateICombatable(GameState state, Entity combatable)
+        public static bool ValidateICombatable(GameState.GameState state, Entity combatable)
         {
             if(combatable is Outpost)
             {
@@ -31,13 +28,14 @@ namespace SubterfugeCore.Core.GameEvents.Validators
             }
             return false;
         }
-        
+
         /// <summary>
         /// Validates a sub
         /// </summary>
+        /// <param name="state">The game state</param>
         /// <param name="sub">The sub to validate</param>
         /// <returns>If the sub is valid</returns>
-        public static bool ValidateSub(GameState state, Sub sub)
+        public static bool ValidateSub(GameState.GameState state, Sub sub)
         {
             if (sub == null)
                 return false;
@@ -59,9 +57,10 @@ namespace SubterfugeCore.Core.GameEvents.Validators
         /// <summary>
         /// Validates an outpost
         /// </summary>
+        /// <param name="state">The game state</param>
         /// <param name="outpost">The outpost to validate</param>
         /// <returns>If the outpost is valid</returns>
-        public static bool ValidateOutpost(GameState state, Outpost outpost)
+        public static bool ValidateOutpost(GameState.GameState state, Outpost outpost)
         {
             if (outpost == null)
                 return false;

@@ -5,18 +5,18 @@
 	/// </summary>
     class Currency
     {
-        public int value = 0;
-        public bool? canBeNegative = true;
+        public int Value;
+        public readonly bool CanBeNegative;
 
         /// <summary>
-		/// Currency class constructor. Creates a new currency object with specified parameters.
-		/// </summary>
-		/// <param name="CValue">The inital value of the currency</param>
-		/// <param name="CcanBeNegative">The value that determines if the currency can be negative or not</param>
-        public Currency(int Cvalue, bool? CcanBeNegative)
+        /// THe currency class constructor
+        /// </summary>
+        /// <param name="value">The initial currency value</param>
+        /// <param name="canBeNegative">If the currency can be negative</param>
+        public Currency(int value = 0, bool canBeNegative = true)
         {
-            value = Cvalue;
-            canBeNegative = CcanBeNegative;
+            this.Value = value;
+            this.CanBeNegative = canBeNegative;
         }
     }
     

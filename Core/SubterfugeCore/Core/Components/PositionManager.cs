@@ -8,10 +8,10 @@ namespace SubterfugeCore.Core.Components
 {
     public class PositionManager : EntityComponent
     {
-        private IEntity destination;
-        private RftVector initialLocation;
-        private GameTick startTime;
-        private SpeedManager speedManager;
+        private readonly IEntity _destination;
+        private readonly RftVector _initialLocation;
+        private readonly GameTick _startTime;
+        private readonly SpeedManager _speedManager;
         
         public PositionManager(
             IEntity parent,
@@ -19,10 +19,10 @@ namespace SubterfugeCore.Core.Components
             IEntity destination,
             GameTick startTime
         ) : base(parent) {
-            this.destination = destination;
-            this.initialLocation = initialLocation;
-            speedManager = parent.GetComponent<SpeedManager>();
-            this.startTime = startTime;
+            this._destination = destination;
+            this._initialLocation = initialLocation;
+            _speedManager = parent.GetComponent<SpeedManager>();
+            this._startTime = startTime;
         }
 
         /// <summary>
@@ -37,36 +37,36 @@ namespace SubterfugeCore.Core.Components
 
         public GameTick GetSpawnTick()
         {
-            return startTime;
+            return _startTime;
         }
 
         public RftVector GetExpectedDestination()
         {
             // If there is no destination, return the current position.
-            if (destination == null)
+            if (_destination == null)
             {
-                return initialLocation;
+                return _initialLocation;
             }
             
             // If the target is not moving, interpolate the current position from the destination.
             // Linear interpolation
-            if (Math.Abs(destination.GetComponent<SpeedManager>().GetSpeed()) < 0.001)
+            if (Math.Abs(_destination.GetComponent<SpeedManager>().GetSpeed()) < 0.001)
             {
                 // If the target is not moving, interpolate the current position from the destination.
                 // Linear interpolation
-                return destination.GetComponent<PositionManager>().GetPositionAt(startTime);
+                return _destination.GetComponent<PositionManager>().GetPositionAt(_startTime);
             }
             else
             {
                 // If this is not moving, but the target is, show no destination...
-                if (Math.Abs(speedManager.GetSpeed()) < 0.001)
+                if (Math.Abs(_speedManager.GetSpeed()) < 0.001)
                 {
                     return null;
                 }
                 // If the target is moving....
                 // Get the target's interception point using the initial position & the speed.
-                var interceptionPoint = destination.GetComponent<PositionManager>()
-                    .GetInterceptionPosition(initialLocation, speedManager.GetSpeed());
+                var interceptionPoint = _destination.GetComponent<PositionManager>()
+                    .GetInterceptionPosition(_initialLocation, _speedManager.GetSpeed());
                 return interceptionPoint;
             }
         }
@@ -74,12 +74,12 @@ namespace SubterfugeCore.Core.Components
         public RftVector GetPositionAt(GameTick currentTick)
         {
             // If this is not moving, or there is no destination, return the current position.
-            if (Math.Abs(speedManager.GetSpeed()) < 0.001 | destination == null)
+            if (Math.Abs(_speedManager.GetSpeed()) < 0.001 | _destination == null)
             {
-                return initialLocation;
+                return _initialLocation;
             }
             
-            if (destination.GetComponent<SpeedManager>().GetSpeed() < 0.001)
+            if (_destination.GetComponent<SpeedManager>().GetSpeed() < 0.001)
             {
                 // If the target is not moving, interpolate the current position from the destination.
                 // Linear interpolation
@@ -89,7 +89,7 @@ namespace SubterfugeCore.Core.Components
             {
                 // If the target is moving....
                 // Get the target's interception point using the initial position & the speed.
-                var interceptionPoint = destination.GetComponent<PositionManager>().GetInterceptionPosition(initialLocation, speedManager.GetSpeed());
+                var interceptionPoint = _destination.GetComponent<PositionManager>().GetInterceptionPosition(_initialLocation, _speedManager.GetSpeed());
                 return interceptionPoint;
             }
         }
@@ -104,11 +104,11 @@ namespace SubterfugeCore.Core.Components
         {
             // https://stackoverflow.com/questions/37250215/intersection-of-two-moving-objects-with-latitude-longitude-coordinates
             
-            var distanceBetweenTargets = (initialLocation - targetFrom).Magnitude();
-            var directionBetweenTargets = Math.Atan2(initialLocation.Y - targetFrom.Y, initialLocation.X - targetFrom.X);
+            var distanceBetweenTargets = (_initialLocation - targetFrom).Magnitude();
+            var directionBetweenTargets = Math.Atan2(_initialLocation.Y - targetFrom.Y, _initialLocation.X - targetFrom.X);
             var alpha = Math.PI + directionBetweenTargets - Math.Atan2(GetDirection().Y, GetDirection().X);
 
-            if (Math.Abs(chaserSpeed - speedManager.GetSpeed()) < 0.001)
+            if (Math.Abs(chaserSpeed - _speedManager.GetSpeed()) < 0.001)
             {
                 if (Math.Cos(alpha) < 0)
                 {
@@ -120,14 +120,14 @@ namespace SubterfugeCore.Core.Components
                 // With isosceles triangle, determine the other two angles:
                 var otherAngles = ((Math.PI * 2) - radians) / 2.0;
                 var distanceToTravelBeforeInterception = (float)(Math.Abs(Math.Cos(otherAngles) * distanceBetweenTargets));
-                var timeToReach = distanceToTravelBeforeInterception / speedManager.GetSpeed();
+                var timeToReach = distanceToTravelBeforeInterception / _speedManager.GetSpeed();
                 var dir = GetDirection().Normalize();
-                return new RftVector(initialLocation.X + (dir.X * timeToReach), initialLocation.Y + (dir.Y * timeToReach));
+                return new RftVector(_initialLocation.X + (dir.X * timeToReach), _initialLocation.Y + (dir.Y * timeToReach));
             }
 
             // Solve with quadratic formula
-            var a = Math.Pow(chaserSpeed, 2) - Math.Pow(this.speedManager.GetSpeed(), 2);
-            var b = 2 * distanceBetweenTargets * this.speedManager.GetSpeed() * Math.Cos(alpha);
+            var a = Math.Pow(chaserSpeed, 2) - Math.Pow(this._speedManager.GetSpeed(), 2);
+            var b = 2 * distanceBetweenTargets * this._speedManager.GetSpeed() * Math.Cos(alpha);
             var c = -Math.Pow(distanceBetweenTargets, 2);
 
             var discriminant = Math.Pow(b, 2) - (4 * a * c);
@@ -135,10 +135,10 @@ namespace SubterfugeCore.Core.Components
                 return null;
 
             var time = (Math.Sqrt(discriminant) - b) / (2 * a);
-            var x = initialLocation.X +
-                    (this.speedManager.GetSpeed() * time) * Math.Cos(Math.Atan2(GetDirection().Y, GetDirection().X));
-            var y = initialLocation.Y +
-                    (this.speedManager.GetSpeed() * time) * Math.Sin(Math.Atan2(GetDirection().Y, GetDirection().X));
+            var x = _initialLocation.X +
+                    (this._speedManager.GetSpeed() * time) * Math.Cos(Math.Atan2(GetDirection().Y, GetDirection().X));
+            var y = _initialLocation.Y +
+                    (this._speedManager.GetSpeed() * time) * Math.Sin(Math.Atan2(GetDirection().Y, GetDirection().X));
             
             return new RftVector((float)x, (float)y);
         }
@@ -146,50 +146,42 @@ namespace SubterfugeCore.Core.Components
         private RftVector InterpolateCurrentPosition(GameTick currentTick)
         {
             // Determine number of ticks after launch:
-            int elapsedTicks = currentTick - startTime;
+            int elapsedTicks = currentTick - _startTime;
 
             // Determine direction vector
-            Vector2 direction = (GetExpectedDestination() - initialLocation).Normalize();
+            Vector2 direction = (GetExpectedDestination() - _initialLocation).Normalize();
 
             if(elapsedTicks > 0)
             {
-                return initialLocation + new RftVector(RftVector.Map, (direction * (elapsedTicks * speedManager.GetSpeed())));
+                return _initialLocation + new RftVector(RftVector.Map, (direction * (elapsedTicks * _speedManager.GetSpeed())));
             }
-            return initialLocation;
+            return _initialLocation;
         }
 
         public RftVector GetDirection()
         {
-            if (destination == null)
+            if (_destination == null)
             {
                 return new RftVector(0, 0);
             }
 
-            return (GetExpectedDestination() - initialLocation);
+            return (GetExpectedDestination() - _initialLocation);
         }
 
         public GameTick GetExpectedArrival()
         {
-            if (destination == null || speedManager.GetSpeed() < 0.001)
+            if (_destination == null || _speedManager.GetSpeed() < 0.001)
             {
                 return null;
             }
             RftVector direction = GetDirection();
-            int ticksToArrive = (int) Math.Floor(direction.Magnitude() / speedManager.GetSpeed());
-            return startTime.Advance(ticksToArrive);
+            int ticksToArrive = (int) Math.Floor(direction.Magnitude() / _speedManager.GetSpeed());
+            return _startTime.Advance(ticksToArrive);
         }
 
         public IEntity GetDestination()
         {
-            return destination;
-        }
-    }
-
-    class MovingObjectException : Exception
-    {
-        public MovingObjectException(string message) : base(message)
-        {
-            
+            return _destination;
         }
     }
 }

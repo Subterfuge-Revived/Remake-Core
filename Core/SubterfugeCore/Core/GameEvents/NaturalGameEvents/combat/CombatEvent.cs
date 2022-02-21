@@ -1,18 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Numerics;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.Base;
-using SubterfugeCore.Core.GameEvents.NaturalGameEvents;
-using SubterfugeCore.Core.GameEvents.ReversibleEvents;
 using SubterfugeCore.Core.GameEvents.Validators;
-using SubterfugeCore.Core.Interfaces;
 using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Core.Topologies;
-using SubterfugeRemakeService;
 
-namespace SubterfugeCore.Core.GameEvents
+namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat
 {
     /// <summary>
     /// CombatEvent. It is considered a 'combat' if you arrive at any outpost, even your own.
@@ -23,17 +16,17 @@ namespace SubterfugeCore.Core.GameEvents
         /// <summary>
         /// One of the two combat participants
         /// </summary>
-        private Entity _combatant1;
+        private readonly Entity _combatant1;
         
         /// <summary>
         /// One of the two combat participants
         /// </summary>
-        private Entity _combatant2;
+        private readonly Entity _combatant2;
         
         /// <summary>
         /// A list of combat actions that will occur when the event is triggered.
         /// </summary>
-        private List<IReversible> _actions = new List<IReversible>();
+        private readonly List<IReversible> _actions = new List<IReversible>();
 
         /// <summary>
         /// Constructor for the combat event
@@ -41,14 +34,13 @@ namespace SubterfugeCore.Core.GameEvents
         /// <param name="combatant1">The first combatant</param>
         /// <param name="combatant2">The second combatant</param>
         /// <param name="tick">The tick the combat occurs</param>
-        /// <param name="combatLocation">The location of the combat</param>
-        public CombatEvent(Entity combatant1, Entity combatant2, GameTick tick) : base(tick, Priority.NATURAL_PRIORITY_9)
+        public CombatEvent(Entity combatant1, Entity combatant2, GameTick tick) : base(tick, Priority.NaturalPriority9)
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
             if (!Validator.ValidateICombatable(state, _combatant1) || !Validator.ValidateICombatable(state, _combatant2))
             {
@@ -75,7 +67,7 @@ namespace SubterfugeCore.Core.GameEvents
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
             if (EventSuccess)
             {
@@ -91,7 +83,7 @@ namespace SubterfugeCore.Core.GameEvents
 
         public override Priority GetPriority()
         {
-            return Priority.NATURAL_PRIORITY_9;
+            return Priority.NaturalPriority9;
         }
 
         public override bool WasEventSuccessful()
@@ -105,9 +97,11 @@ namespace SubterfugeCore.Core.GameEvents
         /// <returns>A list of the combatants</returns>
         public List<Entity> GetCombatants()
         {
-            List<Entity> combatants = new List<Entity>();
-            combatants.Add(_combatant1);
-            combatants.Add(_combatant2);
+            List<Entity> combatants = new List<Entity>
+            {
+                _combatant1,
+                _combatant2
+            };
             return combatants;
         }
     }

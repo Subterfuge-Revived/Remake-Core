@@ -26,8 +26,8 @@ namespace SubterfugeCore.Core.Components
             _speed += increaseBy;
             OnSpeedChanged?.Invoke(this, new OnSpeedChangedEventArgs()
             {
-                previousSpeed = previousSpeed,
-                newSpeed = _speed,
+                PreviousSpeed = previousSpeed,
+                NewSpeed = _speed,
                 SpeedManager = this,
             });
         }
@@ -38,8 +38,8 @@ namespace SubterfugeCore.Core.Components
             _speed -= decreaseBy;
             OnSpeedChanged?.Invoke(this, new OnSpeedChangedEventArgs()
             {
-                previousSpeed = previousSpeed,
-                newSpeed = _speed,
+                PreviousSpeed = previousSpeed,
+                NewSpeed = _speed,
                 SpeedManager = this,
             });
         }
@@ -50,8 +50,8 @@ namespace SubterfugeCore.Core.Components
             _speed = newSpeed;
             OnSpeedChanged?.Invoke(this, new OnSpeedChangedEventArgs()
             {
-                previousSpeed = previousSpeed,
-                newSpeed = newSpeed,
+                PreviousSpeed = previousSpeed,
+                NewSpeed = newSpeed,
                 SpeedManager = this,
             });
         }

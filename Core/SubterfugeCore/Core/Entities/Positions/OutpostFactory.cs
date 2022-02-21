@@ -12,7 +12,7 @@ namespace SubterfugeCore.Core.Entities.Positions
             OutpostType outpostType,
             Player owner,
             RftVector outpostLocation,
-            int initialDrillers = Constants.INITIAL_DRILLERS_PER_OUTPOST
+            int initialDrillers = Constants.InitialDrillersPerOutpost
         )
         {
             Outpost outpost = null;
@@ -42,7 +42,7 @@ namespace SubterfugeCore.Core.Entities.Positions
             OutpostType outpostType,
             Player owner,
             RftVector outpostLocation,
-            int initialDrillers = Constants.INITIAL_DRILLERS_PER_OUTPOST
+            int initialDrillers = Constants.InitialDrillersPerOutpost
         )
         {
             Outpost outpost = null;

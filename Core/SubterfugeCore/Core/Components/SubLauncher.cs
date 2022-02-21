@@ -4,7 +4,8 @@ using GameEventModels;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.EventArgs;
-using SubterfugeCore.Core.GameEvents;
+using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
+using SubterfugeCore.Core.GameState;
 
 namespace SubterfugeCore.Core.Components
 {
@@ -14,16 +15,16 @@ namespace SubterfugeCore.Core.Components
         /// <summary>
         /// The number of drillers at the outpost
         /// </summary>
-        private DrillerCarrier _drillerCarrier;
-        private SpecialistManager _specialistManager;
+        private readonly DrillerCarrier _drillerCarrier;
+        private readonly SpecialistManager _specialistManager;
         
         public event EventHandler<OnSubLaunchEventArgs> OnSubLaunch;
         public event EventHandler<OnUndoSubLaunchEventArgs> OnUndoSubLaunch;
 
         public SubLauncher(IEntity parent) : base(parent)
         {
-            this._drillerCarrier = parent.GetComponent<DrillerCarrier>();
-            this._specialistManager = parent.GetComponent<SpecialistManager>();
+            _drillerCarrier = parent.GetComponent<DrillerCarrier>();
+            _specialistManager = parent.GetComponent<SpecialistManager>();
         }
 
         public Sub LaunchSub(IGameState state, LaunchEvent launchEvent)
@@ -37,7 +38,7 @@ namespace SubterfugeCore.Core.Components
             {
                 _drillerCarrier.RemoveDrillers(launchData.DrillerCount);
                 Sub launchedSub = new Sub(launchEvent.GetEventId(), source, destination, state.GetCurrentTick(), launchData.DrillerCount, this._drillerCarrier.GetOwner());
-                this._specialistManager.transferSpecialistsById(launchedSub.GetComponent<SpecialistManager>(), launchData.SpecialistIds.ToList());
+                this._specialistManager.TransferSpecialistsById(launchedSub.GetComponent<SpecialistManager>(), launchData.SpecialistIds.ToList());
                 state.AddSub(launchedSub);
                 launchEvent.SetLaunchedSub(launchedSub);
                 
@@ -60,11 +61,11 @@ namespace SubterfugeCore.Core.Components
             // Determine any specialist effects if a specialist left the sub.
             LaunchEventData launchData = launchEvent.GetEventData();
 
-            if (launchEvent.GetActiveSub() != null && launchEvent.GetActiveSub() is Sub)
+            if (launchEvent.GetActiveSub() != null)
             {
                 Sub launchedSub = launchEvent.GetActiveSub();
                 _drillerCarrier.AddDrillers(launchData.DrillerCount);
-                launchedSub.GetComponent<SpecialistManager>().transferSpecialistsTo(_specialistManager);
+                launchedSub.GetComponent<SpecialistManager>().TransferSpecialistsTo(_specialistManager);
                 state.RemoveSub(launchEvent.GetActiveSub());
                 
                 OnUndoSubLaunch?.Invoke(this, new OnUndoSubLaunchEventArgs()
