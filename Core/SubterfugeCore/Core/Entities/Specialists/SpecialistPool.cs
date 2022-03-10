@@ -65,16 +65,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
             if (_specialistPool.ContainsKey(specialistName))
             {                
                 SpecialistConfiguration configuration = _specialistPool[specialistName];
-                Specialist spawnedSpecialist = new Specialist(specialistName, (int)configuration.Priority, player);
-                
-                // Create the specialist effects.
-                SpecialistEffectFactory effectFactory = new SpecialistEffectFactory();
-                foreach (var effectConfiguration in configuration.SpecialistEffects.ToList())
-                {
-                    ISpecialistEffect effect = effectFactory.CreateSpecialistEffect(effectConfiguration);
-                    spawnedSpecialist.AddSpecialistEffect(effect);
-                }
-
+                Specialist spawnedSpecialist = new Specialist(player, configuration);
                 return spawnedSpecialist;
             }
             return null;

@@ -7,11 +7,13 @@ namespace SubterfugeServerConsole.Connections
     public class SpecialistConfigurationMapper : ProtoClassMapper<SpecialistConfiguration>
     {
         public string Id;
-        public long Priority;
+        public int Priority;
         public string SpecialistName;
         public User Creator;
         public List<SpecialistEffectConfiguration> SpecialistEffects;
         public string PromotesFrom;
+        public List<SpecialistClass> SpecialistClasses;
+        private bool onlyActiveIfCaptured;
 
         public SpecialistConfigurationMapper(SpecialistConfiguration configuration)
         {
@@ -21,6 +23,8 @@ namespace SubterfugeServerConsole.Connections
             Creator = configuration.Creator;
             SpecialistEffects = configuration.SpecialistEffects.ToList();
             PromotesFrom = configuration.PromotesFrom;
+            SpecialistClasses = configuration.SpecialistClasses.ToList();
+            onlyActiveIfCaptured = configuration.OnlyActiveIfCaptured;
         }
         
         public override SpecialistConfiguration ToProto()
@@ -32,7 +36,9 @@ namespace SubterfugeServerConsole.Connections
                 SpecialistName = SpecialistName,
                 Creator = Creator,
                 SpecialistEffects = { SpecialistEffects },
-                PromotesFrom = PromotesFrom
+                PromotesFrom = PromotesFrom,
+                SpecialistClasses = { SpecialistClasses },
+                OnlyActiveIfCaptured = onlyActiveIfCaptured,
             };
         }
     }

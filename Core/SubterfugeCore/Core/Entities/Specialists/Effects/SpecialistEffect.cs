@@ -32,45 +32,21 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             List<IEntity> targets = new List<IEntity>();
             
             // Filter based on the trigger range first
-            switch (configuration.EffectTriggerRange)
-            {
-                case EffectTriggerRange.Self:
-                    targets.Add(friendly);
-                    targets.Add(enemy);
-                    break;
-                case EffectTriggerRange.Local:
-                    targets.Add(friendly);
-                    targets.Add(enemy);
-                    break;
-                case EffectTriggerRange.ConstantRange:
-                    // TODO: get all ICombatable within range of friendly.
-                    break;
-                case EffectTriggerRange.Global:
-                    targets.AddRange(state.GetAllGameObjects());
-                    break;
-                case EffectTriggerRange.LocationVisionRange:
-                    // TODO: Get all ICombatable within outpost's vision.
-                    break;
-                case EffectTriggerRange.PlayerVisionRange:
-                    // TODO: Get all ICombatable within player's vision
-                    break;
-            }
-            
-            // Filter based on the target
             switch (configuration.EffectTarget)
             {
-                case EffectTarget.All:
-                    break;
-                case EffectTarget.BothCombatParticipants:
+                case EffectTarget.Friendly:
+                    targets.Add(friendly);
                     break;
                 case EffectTarget.Enemy:
-                    targets = targets.FindAll(x => x.GetComponent<DrillerCarrier>().GetOwner() != friendly.GetComponent<DrillerCarrier>().GetOwner());
+                    targets.Add(enemy);
                     break;
-                case EffectTarget.Friendly:
-                    targets = targets.FindAll(x => x.GetComponent<DrillerCarrier>().GetOwner() == friendly.GetComponent<DrillerCarrier>().GetOwner());
+                case EffectTarget.All:
+                    // Check if the effect is an Aoe Effect. If it is, we need to get all friendly/enemy subs in the AoE
+                    targets.Add(friendly);
+                    targets.Add(enemy);
+                    // TODO: get all ICombatable within range of friendly.
                     break;
                 case EffectTarget.NoTarget:
-                    targets.RemoveAll(x => true);
                     break;
             }
 

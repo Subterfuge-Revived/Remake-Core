@@ -45,7 +45,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                     int capacity = EffectMe.GetComponent<SpecialistManager>().GetCapacity();
                     EffectMe.GetComponent<SpecialistManager>().SetCapacity(capacity + Value);
                     break;
-                case EffectModifier.Vision:
+                case EffectModifier.VisionRange:
                 case EffectModifier.ShieldValue:
                 case EffectModifier.ShieldRegeneration:
                 case EffectModifier.ShieldMaxValue:
@@ -71,7 +71,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                     int capacity = EffectMe.GetComponent<SpecialistManager>().GetCapacity();
                     EffectMe.GetComponent<SpecialistManager>().SetCapacity(capacity - Value);
                     break;
-                case EffectModifier.Vision:
+                case EffectModifier.VisionRange:
                 case EffectModifier.ShieldValue:
                 case EffectModifier.ShieldRegeneration:
                 case EffectModifier.ShieldMaxValue:

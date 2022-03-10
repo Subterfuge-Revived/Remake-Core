@@ -522,83 +522,115 @@ enum EventType {
 
 enum EffectTrigger {
     NoTrigger = 0;
-    Hire = 1;
-    Promote = 2;
-    SubLaunch = 3;
-    SubArrive = 4;
-    OutpostCombat = 5;
-    SubCombat = 6;
-    CombatLoss = 7;
-    CombatVictory = 8;
-    FactoryProduce = 9;
-    MineProduce = 10;
-    SubEnter = 11;
+    HireSelf = 1;
+    HireOther = 2;
+    PromoteSelf = 3;
+    PromoteOther = 4;
+    LeaveOutpost = 5;
+    ArriveOutpost = 6;
+    PreCombat = 7;    // Before combat occurs
+    CombatLoss = 8;   // Doubles for if this specialist gets captured.
+    CombatVictory = 9;
+    FactoryProduce = 10;
+    MineProduce = 11;
+    SubEntersVisionRange = 12;
+    LocalTick = 13;  // 'Tick' event is triggered every game tick. To use this, generally an 'interval' should be set.
+                     // For example, every 10 ticks.
+                     // Only valid if an interval is set.
+    Explosion = 14;     // Gets triggered if your sub/outpost is caught in an explosion
+    ManualTrigger = 15; // Manually triggered effect.
+                        // Using this event requires setting an interval. 
+                        // The interval in this case, is the cooldown of the effect.
+    CurrencyGain = 16; // Triggers when the player gains currency
+    AoeTick = 17;  // Triggers on an interval for subs within the AoeRange.
+    SpendCurrency = 18; // Triggers when the player spends any amount of currency
+    TargetSub = 19; // If you have left a driller carrier targeting a sub
+    PostCombat = 20; // After all combat events have been resolved
+    CombatAvoided = 21; // Triggered if a combat is avoided (by invisibility or other)
 }
 
 enum EffectTarget {
     NoTarget = 0;
     Friendly = 1;
     Enemy = 2;
-    BothCombatParticipants = 3;
-    All = 4;
-}
-
-enum EffectTriggerRange {
-    Self = 0;
-    Local = 1;
-    ConstantRange = 2;
-    LocationVisionRange = 3;
-    PlayerVisionRange = 4;
-    Global = 5;
+    All = 3;
 }
 
 enum EffectModifier {
-    Driller = 0;
-    SpecialistCapacity = 1;
-    ShieldValue = 2;
-    ShieldRegeneration = 3;
-    ShieldMaxValue = 4;
-    Vision = 5;
-    Speed = 6;
-    KillPlayer = 7;
-    VictoryPlayer = 8;
-    KillSpecialist = 9;
-    NoEffect = 10;
-}
-
-enum EffectScale {
-    NoScale = 0;
-    ConstantValue = 1;
-    PlayerOutpostCount = 2;
-    PlayerMineCount = 3;
-    PlayerFactoryCount = 4;
-    PlayerDrillerCount = 5;
-    PlayerSpecialistCount = 6;
+    NoEffect = 0;
+    Driller = 1;
+    SpecialistCapacity = 2;
+    ShieldValue = 3;
+    ShieldRegeneration = 4;
+    ShieldMaxValue = 5;
+    VisionRange = 6;
+    Speed = 7;
+    KillPlayer = 8;        // Also a stupid modifier... Can be an unavoidable killing machine...
+    VictoryPlayer = 9;     // Make player win the game... Kinda a stupid modifier to allow.... Might remove.
+    KillSpecialists = 10;
+    StealDrillers = 12;
+    ReturnToDestination = 13;
+    DemoteSpecialists = 14;
+    UncaptureSpecialists = 15;
+    CaptureSpecialists = 16;
+    PromoteSpecialists = 17;
+    RedirectEnemiesToSpecialistLocation = 18;
+    CannotBeReleased = 19; // On capture, can set this to prevent enemies releasing the specialist.
+    CannotBeMoved = 20;    // Prevents the specialist from moving.
+    BecomeSpecialistsOwner = 21; // Gain control of specialists 
+    TemporarilyBecomeSpecialistOwner = 22; // Only become specialist owner for the event.
+    ConvertSpecialistOwners = 23; // Any specialists swap ownership
+    AllowMovingCapturedSpecialists = 24;  // Allows captured specialists to be moved with the specialist.
+    PreventSpecialistEffects = 26;    // Prevent other specialist effects from applying
+    DuplicatePersonalSpecialistEffects = 27;  // Doubles friendly specialist effects
+    CanLaunchSubs = 28;
+    CanTargetFriendlySubs = 29;
+    CanTargetEnemySubs = 30;
+    KillThisSpecialist = 31;
+    IgnoreDrillerCapacity = 32;
+    Invisibility = 33;
+    OfferedSpecialists = 34;
+    CurrencyValue = 35;
 }
 
 message SpecialistConfiguration {
     string Id = 1;
-    int64 Priority = 2;
+    int32 Priority = 2;
     string SpecialistName = 3;
     User Creator = 4;
     repeated SpecialistEffectConfiguration specialistEffects = 5;
     string PromotesFrom = 6;
     repeated SpecialistClass specialistClasses = 7;
+    bool onlyActiveIfCaptured = 8; // Makes it so that the specialist's effects only apply once the specialist is captured.
+    int32 numberOnHire = 9;
+}
+
+enum AoeTarget {
+    NoAoeTargets = 0;
+    MostDrillers = 1;
+    Closest = 2;
+    Fastest = 3;
+    AllTargets = 4;
 }
 
 message SpecialistEffectConfiguration {
-    int64 Value = 1;
+    EffectValue Value = 1;
     EffectTrigger EffectTrigger = 2;
     EffectTarget EffectTarget = 3;
-    EffectTriggerRange EffectTriggerRange = 4;
-    EffectModifier EffectModifier = 5;
-    SpecialistEffectScale EffectScale = 6;
+    EffectModifier EffectModifier = 4;
+    int64 cooldownTicks = 5;  // Cooldown between when events can occur for the specialist.
+    AoeTarget target = 6;     // If an Aoe event is defined, this value sets who it effects.
 }
 
-message SpecialistEffectScale {
-    EffectScale EffectScale = 6;
-    EffectTarget EffectScaleTarget = 7;
-    EffectTriggerRange ScaleTriggerRange = 8;
+message EffectValue {
+    float Value = 1;
+    ValueType valueType = 2;
+}
+
+enum ValueType {
+    NoValue = 0;
+    Numeric = 1;
+    Percentage = 2;
 }
 
 message SpecialistPackage {

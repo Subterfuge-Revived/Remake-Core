@@ -8,7 +8,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
     public static class SpecialistExtensions
     {
-        public static float GetEffectScalar(this SpecialistEffectScale effectScale, GameState.GameState state, Entity friendly, Entity enemy)
+        public static float GetEffectScalar(this EffectValue effectValue, GameState.GameState state, Entity friendly, Entity enemy)
         {
             // TODO: Apply specialist scaling here
             // Note: The forward effect value and backwards effect values should provide the same scaling ratio.
@@ -75,80 +75,17 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             // it should be thought of "AlterDrillers" by "1.10x". It would make sense to have the players think of
             // sentences for their effects like so: "ApplyEffectType" "Target" by "scale" on "eventRange" "event"
 
-            if (effectScale.EffectScale == EffectScale.NoScale || effectScale.EffectScaleTarget == EffectTarget.NoTarget)
+            if (effectValue.ValueType == ValueType.Numeric)
             {
-                return 1;
+                return effectValue.Value;
             }
-
-            float scalar;
-
-            // Variable to store potential candidates for the scaling value.
-            var candidates = new List<Entity>();
-            switch (effectScale.EffectScaleTarget)
+            else
             {
-                case EffectTarget.Friendly:
-                    candidates.AddRange(state.GetPlayerTargetables(friendly.GetComponent<DrillerCarrier>().GetOwner()));
-                    break;
-                case EffectTarget.Enemy:
-                    candidates.AddRange(state.GetPlayerTargetables(enemy.GetComponent<DrillerCarrier>().GetOwner()));
-                    break;
-                case EffectTarget.BothCombatParticipants:
-                    candidates.AddRange(state.GetPlayerTargetables(enemy.GetComponent<DrillerCarrier>().GetOwner()));
-                    candidates.AddRange(state.GetPlayerTargetables(friendly.GetComponent<DrillerCarrier>().GetOwner()));
-                    break;
-                case EffectTarget.All:
-                    foreach (var p in state.GetPlayers())
-                    {
-                        candidates.AddRange(state.GetPlayerTargetables(p));
-                    }
-
-                    break;
-                case EffectTarget.NoTarget:
-                default:
-                    return 1;
+                // value is a percentage of the value that is being modified.
+                // Determine the current value and scale based off of the current value.
+                // TODO
+                return effectValue.Value;
             }
-            
-            // Filter out candidates based on the scale range.
-            switch (effectScale.ScaleTriggerRange)
-            {
-                case EffectTriggerRange.Local:
-                    candidates = candidates.FindAll(x => x.GetComponent<PositionManager>().GetPositionAt(state.CurrentTick) == friendly.GetComponent<PositionManager>().GetPositionAt(state.CurrentTick));
-                    break;
-                case EffectTriggerRange.Self:
-                    candidates = candidates.FindAll(x => x == friendly);
-                    break;
-                case EffectTriggerRange.ConstantRange:
-                case EffectTriggerRange.LocationVisionRange:
-                case EffectTriggerRange.PlayerVisionRange:
-                case EffectTriggerRange.Global:
-                    // TODO: Add sonar range filters
-                    break;
-                default:
-                    return 1;
-            }
-            
-            // Determine the count.
-            switch (effectScale.EffectScale)
-            {
-                case EffectScale.PlayerDrillerCount:
-                    scalar = candidates.Sum(x => x.GetComponent<DrillerCarrier>().GetDrillerCount());
-                    break;
-                case EffectScale.PlayerFactoryCount:
-                    scalar = candidates.Select(c =>
-                        c.GetType() == typeof(Outpost) && ((Outpost) c).GetOutpostType() == OutpostType.Factory).Count();
-                    break;
-                case EffectScale.PlayerMineCount:
-                    scalar = candidates.Select(c =>
-                        c.GetType() == typeof(Outpost) && ((Outpost) c).GetOutpostType() == OutpostType.Mine).Count();
-                    break;
-                case EffectScale.PlayerOutpostCount:
-                    scalar = candidates.Select(c => c.GetType() == typeof(Outpost)).Count();
-                    break;
-                default:
-                    return 1;
-            }
-            
-            return scalar;
         }
     }
 }

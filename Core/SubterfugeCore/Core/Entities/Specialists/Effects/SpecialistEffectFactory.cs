@@ -21,14 +21,14 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             {
                 case EffectModifier.Driller:
                 case EffectModifier.Speed:
-                case EffectModifier.Vision:
+                case EffectModifier.VisionRange:
                 case EffectModifier.ShieldRegeneration:
                 case EffectModifier.ShieldValue:
                 case EffectModifier.ShieldMaxValue:
                     effect = new NumericSpecialistEffect();
                     break;
                 case EffectModifier.KillPlayer:
-                case EffectModifier.KillSpecialist:
+                case EffectModifier.KillSpecialists:
                 case EffectModifier.VictoryPlayer:
                     // TODO
                     // effect = new ToggleableSpecialistEffect();

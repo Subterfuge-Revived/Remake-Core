@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SubterfugeCore.Core.Entities.Specialists.Effects;
 using SubterfugeCore.Core.Players;
 using SubterfugeRemakeService;
@@ -11,35 +12,8 @@ namespace SubterfugeCore.Core.Entities.Specialists
     /// </summary>
     public class Specialist
     {
-        /// <summary>
-        /// The specialist priority
-        /// </summary>
-        private readonly int _priority;
-        
-        /// <summary>
-        /// The name of the specialist
-        /// </summary>
-        private string _specialistName;
-        
-        /// <summary>
-        /// The name of the specialist
-        /// </summary>
-        /// TODO: Generate the id from a known seed.
-        private readonly string _specialistId = Guid.NewGuid().ToString();
-        
-        /// <summary>
-        /// The player who owns the specialist
-        /// </summary>
-        Player _owner;
-        
-        /// <summary>
-        /// A list of specialist effects that the specialist can apply
-        /// </summary>
-        private readonly List<ISpecialistEffect> _specialistEffects = new List<ISpecialistEffect>();
-
-        /// <summary>
-        /// Is the specialist captured by another player?
-        /// </summary>
+        private SpecialistConfiguration _specialistConfiguration;
+        private Player _owner;
         private bool _isCaptured;
 
         /// <summary>
@@ -48,10 +22,9 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="name">The name of the specialist</param>
         /// <param name="priority">The specialist priority</param>
         /// <param name="owner">The player that owns the specialist</param>
-        public Specialist(string name, int priority, Player owner)
+        public Specialist(Player owner, SpecialistConfiguration configuration)
         {
-            _specialistName = name;
-            _priority = priority;
+            _specialistConfiguration = configuration;
             _owner = owner;
         }
         
@@ -61,28 +34,9 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <returns>A list of specialist effects that the specialist can apply</returns>
         public List<ISpecialistEffect> GetSpecialistEffects()
         {
-            return this._specialistEffects;
-        }
-
-        /// <summary>
-        /// Removes a specialist effect from the specailist
-        /// </summary>
-        /// <param name="effect">The specialist effect to remove.</param>
-        public void RemoveSpecialistEffect(ISpecialistEffect effect)
-        {
-            if(_specialistEffects.Contains(effect))
-            {
-                _specialistEffects.Remove(effect);
-            }
-        }
-
-        /// <summary>
-        /// Adds a specialist effect to the specialist
-        /// </summary>
-        /// <param name="effect">The effect to add.</param>
-        public void AddSpecialistEffect(ISpecialistEffect effect)
-        {
-            _specialistEffects.Add(effect);
+            return _specialistConfiguration.SpecialistEffects
+                .Select(effect => new SpecialistEffectFactory().CreateSpecialistEffect(effect))
+                .ToList();
         }
 
         /// <summary>
@@ -93,7 +47,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="enemy">The enemy combatable to effect</param>
         public void ApplyEffect(GameState.GameState state, Entity friendly, Entity enemy)
         {
-            foreach(var specialistEffect in _specialistEffects)
+            foreach(var specialistEffect in GetSpecialistEffects())
             {
                 var effect = (SpecialistEffect)specialistEffect;
                 effect.GetForwardEffectDeltas(state, friendly, enemy);
@@ -108,7 +62,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <param name="enemy">The enemy combatable to reverse effects to</param>
         public void UndoEffect(GameState.GameState state, Entity friendly, Entity enemy)
         {
-            foreach (var specialistEffect in this._specialistEffects)
+            foreach (var specialistEffect in GetSpecialistEffects())
             {
                 var effect = (SpecialistEffect)specialistEffect;
                 effect.GetBackwardEffectDeltas(state, friendly, enemy);
@@ -121,7 +75,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <returns>The combat priority of the specialist</returns>
         public int GetPriority()
         {
-            return this._priority;
+            return _specialistConfiguration.Priority;
         }
 
         /// <summary>
@@ -130,7 +84,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         /// <returns>The specialist's id</returns>
         public string GetId()
         {
-            return _specialistId;
+            return _specialistConfiguration.Id;
         }
 
         /// <summary>
@@ -159,7 +113,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
         {
             // Loop through specialist effects.
             // Determine if the effect should be triggered.
-            foreach (var specialistEffect1 in _specialistEffects)
+            foreach (var specialistEffect1 in GetSpecialistEffects())
             {
                 var specialistEffect = (SpecialistEffect)specialistEffect1;
                 if (specialistEffect.configuration.EffectTrigger == trigger)

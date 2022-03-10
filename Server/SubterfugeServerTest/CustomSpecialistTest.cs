@@ -4,6 +4,7 @@ using NUnit.Framework;
 using SubterfugeRemakeService;
 using SubterfugeServerConsole.Connections;
 using Tests.AuthTestingHelper;
+using ValueType = SubterfugeRemakeService.ValueType;
 
 namespace Tests
 {
@@ -270,16 +271,13 @@ namespace Tests
                         new SpecialistEffectConfiguration()
                         {
                             EffectModifier = EffectModifier.Driller,
-                            EffectScale = new SpecialistEffectScale()
-                            {
-                                EffectScale = EffectScale.ConstantValue,
-                                EffectScaleTarget = EffectTarget.NoTarget,
-                                ScaleTriggerRange = EffectTriggerRange.Self
-                            },
                             EffectTarget = EffectTarget.Friendly,
-                            EffectTrigger = EffectTrigger.SubCombat,
-                            EffectTriggerRange = EffectTriggerRange.Self,
-                            Value = 15,
+                            EffectTrigger = EffectTrigger.PreCombat,
+                            Value = new EffectValue()
+                            {
+                                Value = 15,
+                                ValueType = ValueType.Numeric,
+                            },
                         }
                     },
                     PromotesFrom = "",

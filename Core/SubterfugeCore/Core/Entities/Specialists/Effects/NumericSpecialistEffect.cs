@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SubterfugeCore.Core.Components;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
@@ -18,12 +19,12 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <returns></returns>
         private float GetForwardEffectDelta(GameState.GameState state, int startValue, Entity friendly, Entity enemy)
         {
-            if (configuration.EffectScale == null)
+            if (configuration.Value.ValueType == ValueType.Numeric || configuration.Value.ValueType == ValueType.NoValue)
             {
-                return configuration.Value;
+                return configuration.Value.Value;
             }
             // difference between result & start value if scaling.
-            return startValue - (configuration.Value * configuration.EffectScale.GetEffectScalar(state, friendly, enemy));
+            return startValue - (configuration.Value.Value * configuration.Value.GetEffectScalar(state, friendly, enemy));
         }
 
         /// <summary>
@@ -38,12 +39,12 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <returns></returns>
         public float GetBackwardsEffectDelta(GameState.GameState state, int endValue, Entity friendly, Entity enemy)
         {
-            if (configuration.EffectScale == null)
+            if (configuration.Value.ValueType == ValueType.Numeric || configuration.Value.ValueType == ValueType.NoValue)
             {
-                return -1 * configuration.Value;
+                return -1 * configuration.Value.Value;
             }
             // Difference between end value and the result.
-            return endValue - (configuration.EffectScale.GetEffectScalar(state, friendly, enemy) / configuration.Value);
+            return endValue - (configuration.Value.GetEffectScalar(state, friendly, enemy) / configuration.Value.Value);
         }
         
         /// <summary>

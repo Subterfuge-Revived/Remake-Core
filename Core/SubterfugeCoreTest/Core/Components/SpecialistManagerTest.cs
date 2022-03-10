@@ -40,7 +40,7 @@ namespace SubterfugeCoreTest.Core.Components
             Player owner
             )
         {
-            return new Specialist(name, priority, owner);
+            return new Specialist(owner, null);
         }
         
         [TestMethod]
