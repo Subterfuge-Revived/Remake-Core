@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
 using SubterfugeCore.Core.Entities.Positions;
@@ -33,7 +34,16 @@ namespace SubterfugeCore.Core
         /// </summary>
         public SpecialistPool SpecialistPool;
 
+        /// <summary>
+        /// The game mode selected for the game
+        /// </summary>
         public GameMode GameMode { get; set; } = GameMode.Mining;
+
+        /// <summary>
+        /// The random number generated used for all randomly selected events within the game.
+        /// This includes things like outpost generation and specialist pool randomization.
+        /// </summary>
+        public SeededRandom SeededRandom;
 
         /// <summary>
         /// Creates a new game using the provided GameConfiguration. Calling this constructor will trigger
@@ -42,6 +52,8 @@ namespace SubterfugeCore.Core
         /// <param name="gameConfiguration">Settings that determine how the game should be configured during generation.</param>
         public Game(GameConfiguration gameConfiguration)
         {
+            SeededRandom = new SeededRandom(gameConfiguration.MapConfiguration.Seed);
+            
             // Creates a new game state and makes a time machine to reference the state
             GameState.GameState state = new GameState.GameState(gameConfiguration);
             TimeMachine = new TimeMachine(state);
@@ -54,6 +66,9 @@ namespace SubterfugeCore.Core
 
             // Add the outposts to the map
             state.GetOutposts().AddRange(generatedOutposts);
+            
+            // Populate the specialist pool
+            SpecialistPool = new SpecialistPool(SeededRandom, gameConfiguration.GameSettings.AllowedSpecialists.ToList());
 
             // All owned factories should start producing drillers
             foreach (Outpost o in generatedOutposts)

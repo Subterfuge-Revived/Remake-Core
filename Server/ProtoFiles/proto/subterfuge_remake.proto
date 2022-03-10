@@ -537,7 +537,7 @@ enum EffectTrigger {
 
 enum EffectTarget {
     NoTarget = 0;
-    Firendly = 1;
+    Friendly = 1;
     Enemy = 2;
     BothCombatParticipants = 3;
     All = 4;
@@ -583,6 +583,7 @@ message SpecialistConfiguration {
     User Creator = 4;
     repeated SpecialistEffectConfiguration specialistEffects = 5;
     string PromotesFrom = 6;
+    repeated SpecialistClass specialistClasses = 7;
 }
 
 message SpecialistEffectConfiguration {
@@ -610,4 +611,19 @@ message SpecialistPackage {
 
 message SpecialistPackageConfiguration {
     repeated SpecialistConfiguration SpecialistConfigurations = 2;
+}
+
+enum SpecialistClass {
+    Unknown = 0;    // Unknown.
+    Warrior = 1;    // Dealing additional damage
+    Protector = 2;  // Add shields
+    Thief = 3;      // Steal Percentage
+    Zoner = 4;      // Increase AoE radius
+    Investor = 5;   // Income rate increase
+    Controller = 6; // Increase No. of hired units for minion hires
+    Producer = 7;   // Factory / Mine production rate
+    Influencer = 8; // Increase specialist capacity
+    Leecher = 9;    // Decrease Enemy Production Rate
+    Zoomer = 10;    // Increase speed
+    Piercer = 11;   // Destroy shield
 }

@@ -2,36 +2,13 @@
 using System.Linq;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
-    public class SpecialistEffectScale
-    {   
-        /// <summary>
-        /// The Type of scaling that should be applied to the event.
-        /// This applies a multiplication on the event's base value to determine the total effect.
-        /// </summary>
-        public EffectScale EffectScale { get; set; } = EffectScale.None;
-
-        /// <summary>
-        /// The target when considering how much to scale the effect by.
-        /// </summary>
-        public EffectTarget ScaleTarget { get; set; } = EffectTarget.None;
-
-        /// <summary>
-        /// The range to apply when considering how much to scale the effect by.
-        /// </summary>
-        public EffectTriggerRange ScaleRange { get; set; } = EffectTriggerRange.Self;
-
-        /// <summary>
-        /// Gets the scalar to apply when determining a scaled effect.
-        /// </summary>
-        /// <param name="state">The game state</param>
-        /// <param name="friendly">The friendly target</param>
-        /// <param name="enemy">The enemy target</param>
-        /// <returns></returns>
-        public float GetEffectScalar(GameState.GameState state, Entity friendly, Entity enemy)
+    public static class SpecialistExtensions
+    {
+        public static float GetEffectScalar(this SpecialistEffectScale effectScale, GameState.GameState state, Entity friendly, Entity enemy)
         {
             // TODO: Apply specialist scaling here
             // Note: The forward effect value and backwards effect values should provide the same scaling ratio.
@@ -98,7 +75,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             // it should be thought of "AlterDrillers" by "1.10x". It would make sense to have the players think of
             // sentences for their effects like so: "ApplyEffectType" "Target" by "scale" on "eventRange" "event"
 
-            if (EffectScale == EffectScale.None || ScaleTarget == EffectTarget.None)
+            if (effectScale.EffectScale == EffectScale.NoScale || effectScale.EffectScaleTarget == EffectTarget.NoTarget)
             {
                 return 1;
             }
@@ -107,7 +84,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
 
             // Variable to store potential candidates for the scaling value.
             var candidates = new List<Entity>();
-            switch (ScaleTarget)
+            switch (effectScale.EffectScaleTarget)
             {
                 case EffectTarget.Friendly:
                     candidates.AddRange(state.GetPlayerTargetables(friendly.GetComponent<DrillerCarrier>().GetOwner()));
@@ -115,23 +92,24 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                 case EffectTarget.Enemy:
                     candidates.AddRange(state.GetPlayerTargetables(enemy.GetComponent<DrillerCarrier>().GetOwner()));
                     break;
-                case EffectTarget.Both:
+                case EffectTarget.BothCombatParticipants:
                     candidates.AddRange(state.GetPlayerTargetables(enemy.GetComponent<DrillerCarrier>().GetOwner()));
                     candidates.AddRange(state.GetPlayerTargetables(friendly.GetComponent<DrillerCarrier>().GetOwner()));
                     break;
                 case EffectTarget.All:
                     foreach (var p in state.GetPlayers())
                     {
-                        candidates.AddRange(state.GetPlayerTargetables(p));                        
+                        candidates.AddRange(state.GetPlayerTargetables(p));
                     }
+
                     break;
-                case EffectTarget.None:
+                case EffectTarget.NoTarget:
                 default:
                     return 1;
             }
-
+            
             // Filter out candidates based on the scale range.
-            switch (ScaleRange)
+            switch (effectScale.ScaleTriggerRange)
             {
                 case EffectTriggerRange.Local:
                     candidates = candidates.FindAll(x => x.GetComponent<PositionManager>().GetPositionAt(state.CurrentTick) == friendly.GetComponent<PositionManager>().GetPositionAt(state.CurrentTick));
@@ -150,7 +128,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             }
             
             // Determine the count.
-            switch (EffectScale)
+            switch (effectScale.EffectScale)
             {
                 case EffectScale.PlayerDrillerCount:
                     scalar = candidates.Sum(x => x.GetComponent<DrillerCarrier>().GetDrillerCount());

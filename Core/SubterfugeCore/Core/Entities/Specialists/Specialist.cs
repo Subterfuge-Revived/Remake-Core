@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using SubterfugeCore.Core.Entities.Specialists.Effects;
-using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
 using SubterfugeCore.Core.Players;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.Entities.Specialists
 {
@@ -162,7 +162,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
             foreach (var specialistEffect1 in _specialistEffects)
             {
                 var specialistEffect = (SpecialistEffect)specialistEffect1;
-                if (specialistEffect.EffectTrigger == trigger)
+                if (specialistEffect.configuration.EffectTrigger == trigger)
                 {
                     // specialistEffect.forwardEffect();
                 }

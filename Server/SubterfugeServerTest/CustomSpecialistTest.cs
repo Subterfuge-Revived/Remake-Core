@@ -276,7 +276,7 @@ namespace Tests
                                 EffectScaleTarget = EffectTarget.NoTarget,
                                 ScaleTriggerRange = EffectTriggerRange.Self
                             },
-                            EffectTarget = EffectTarget.Firendly,
+                            EffectTarget = EffectTarget.Friendly,
                             EffectTrigger = EffectTrigger.SubCombat,
                             EffectTriggerRange = EffectTriggerRange.Self,
                             Value = 15,

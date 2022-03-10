@@ -1,25 +1,10 @@
 ﻿using System.Collections.Generic;
 using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
     public class NumericSpecialistEffect : SpecialistEffect
     {
-        /// <summary>
-        /// The base value of the effect. If the effect value is scaled, this value will be multiplied by the scale.
-        /// </summary>
-        public float EffectValue { private get; set; }
-
-        /// <summary>
-        /// What should be effected by the change.
-        /// </summary>
-        public EffectModifier Effector { get; set; } = EffectModifier.None;
-
-        /// <summary>
-        /// If scaling should be applied, this object determines how the scaling is to be calculated. 
-        /// </summary>
-        public SpecialistEffectScale EffectScale { get; set; }
 
         /// <summary>
         /// Determine the value of the forward effect to apply. If the effect is a scaling effect, the effect should
@@ -33,12 +18,12 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <returns></returns>
         private float GetForwardEffectDelta(GameState.GameState state, int startValue, Entity friendly, Entity enemy)
         {
-            if (EffectScale == null)
+            if (configuration.EffectScale == null)
             {
-                return EffectValue;
+                return configuration.Value;
             }
             // difference between result & start value if scaling.
-            return startValue - (EffectValue * EffectScale.GetEffectScalar(state, friendly, enemy));
+            return startValue - (configuration.Value * configuration.EffectScale.GetEffectScalar(state, friendly, enemy));
         }
 
         /// <summary>
@@ -53,12 +38,12 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
         /// <returns></returns>
         public float GetBackwardsEffectDelta(GameState.GameState state, int endValue, Entity friendly, Entity enemy)
         {
-            if (EffectScale == null)
+            if (configuration.EffectScale == null)
             {
-                return -1 * EffectValue;
+                return -1 * configuration.Value;
             }
             // Difference between end value and the result.
-            return endValue - (EffectScale.GetEffectScalar(state, friendly, enemy) / EffectValue);
+            return endValue - (configuration.EffectScale.GetEffectScalar(state, friendly, enemy) / configuration.Value);
         }
         
         /// <summary>
@@ -80,11 +65,11 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
 
                 if (target.GetComponent<DrillerCarrier>().GetOwner() == friendly.GetComponent<DrillerCarrier>().GetOwner())
                 {
-                    deltas.Add(new EffectDelta(friendlyDelta, target, Effector));
+                    deltas.Add(new EffectDelta(friendlyDelta, target, configuration.EffectModifier));
                 }
                 else
                 {
-                    deltas.Add(new EffectDelta(enemyDelta, target, Effector));
+                    deltas.Add(new EffectDelta(enemyDelta, target, configuration.EffectModifier));
                 }
                 
             }
@@ -111,11 +96,11 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
 
                 if (target.GetComponent<DrillerCarrier>().GetOwner() == friendly.GetComponent<DrillerCarrier>().GetOwner())
                 {
-                    deltas.Add(new EffectDelta(friendlyDelta, target, Effector));
+                    deltas.Add(new EffectDelta(friendlyDelta, target, configuration.EffectModifier));
                 }
                 else
                 {
-                    deltas.Add(new EffectDelta(enemyDelta, target, Effector));
+                    deltas.Add(new EffectDelta(enemyDelta, target, configuration.EffectModifier));
                 }
             }
 
