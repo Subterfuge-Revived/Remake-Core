@@ -1,5 +1,5 @@
 ﻿using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {

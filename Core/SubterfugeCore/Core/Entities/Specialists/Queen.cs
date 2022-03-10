@@ -1,6 +1,6 @@
 ﻿using SubterfugeCore.Core.Entities.Specialists.Effects;
-using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
 using SubterfugeCore.Core.Players;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.Entities.Specialists
 {
@@ -20,13 +20,16 @@ namespace SubterfugeCore.Core.Entities.Specialists
                 new SpecialistEffectFactory().CreateSpecialistEffect(
                     new SpecialistEffectConfiguration
                     {
-                        EffectScale = EffectScale.None,
+                        EffectScale = new SpecialistEffectScale()
+                        {
+                            EffectScale = EffectScale.NoScale,
+                            EffectScaleTarget = EffectTarget.Friendly,
+                            ScaleTriggerRange = EffectTriggerRange.Self
+                        },
                         EffectTarget = EffectTarget.Friendly,
                         EffectTrigger = EffectTrigger.CombatLoss,
                         EffectTriggerRange = EffectTriggerRange.Self,
-                        EffectType = EffectModifier.KillPlayer,
-                        ScaleRange = EffectTriggerRange.Self,
-                        ScaleTarget = EffectTarget.Friendly,
+                        EffectModifier = EffectModifier.KillPlayer,
                         Value = 1
                     }
                 )
@@ -37,13 +40,16 @@ namespace SubterfugeCore.Core.Entities.Specialists
                 new SpecialistEffectFactory().CreateSpecialistEffect(
                     new SpecialistEffectConfiguration
                     {
-                        EffectScale = EffectScale.None,
+                        EffectScale = new SpecialistEffectScale()
+                        {
+                            EffectScale = EffectScale.NoScale,
+                            EffectScaleTarget = EffectTarget.Friendly,
+                            ScaleTriggerRange = EffectTriggerRange.Self
+                        },
                         EffectTarget = EffectTarget.Friendly,
                         EffectTrigger = EffectTrigger.SubArrive,
                         EffectTriggerRange = EffectTriggerRange.Self,
-                        EffectType = EffectModifier.ShieldMaxValue,
-                        ScaleRange = EffectTriggerRange.Self,
-                        ScaleTarget = EffectTarget.Friendly,
+                        EffectModifier = EffectModifier.ShieldMaxValue,
                         Value = 20
                     }
                 )
@@ -54,13 +60,16 @@ namespace SubterfugeCore.Core.Entities.Specialists
                 new SpecialistEffectFactory().CreateSpecialistEffect(
                     new SpecialistEffectConfiguration
                     {
-                        EffectScale = EffectScale.None,
+                        EffectScale = new SpecialistEffectScale()
+                        {
+                            EffectScale = EffectScale.NoScale,
+                            EffectScaleTarget = EffectTarget.Friendly,
+                            ScaleTriggerRange = EffectTriggerRange.Self
+                        },
                         EffectTarget = EffectTarget.Friendly,
                         EffectTrigger = EffectTrigger.SubLaunch,
                         EffectTriggerRange = EffectTriggerRange.Self,
-                        EffectType = EffectModifier.ShieldMaxValue,
-                        ScaleRange = EffectTriggerRange.Self,
-                        ScaleTarget = EffectTarget.Friendly,
+                        EffectModifier = EffectModifier.ShieldMaxValue,
                         Value = -20
                     }
                 )

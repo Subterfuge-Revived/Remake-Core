@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities.Specialists.Effects.Enums;
+using SubterfugeRemakeService;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
@@ -9,25 +9,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
     /// </summary>
     public abstract class SpecialistEffect : ISpecialistEffect
     {
-        /// <summary>
-        /// How the effect is triggered
-        /// </summary>
-        public EffectTrigger EffectTrigger { get; set; } = EffectTrigger.None;
-        
-        /// <summary>
-        /// Who the effect targets
-        /// </summary>
-        public EffectTarget EffectTarget { get; set; } = EffectTarget.None;
-        
-        /// <summary>
-        /// How large to apply the trigger effect to search for event triggers.
-        /// </summary>
-        public EffectTriggerRange EffectTriggerRange { get; set; } = EffectTriggerRange.Self;
-
-        /// <summary>
-        /// The type of effect occurs.
-        /// </summary>
-        public EffectModifier EffectType { get; set; } = EffectModifier.None;
+        public SpecialistEffectConfiguration configuration;
 
         /// <summary>
         /// Applies the event's forward action
@@ -50,7 +32,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             List<IEntity> targets = new List<IEntity>();
             
             // Filter based on the trigger range first
-            switch (EffectTriggerRange)
+            switch (configuration.EffectTriggerRange)
             {
                 case EffectTriggerRange.Self:
                     targets.Add(friendly);
@@ -75,11 +57,11 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             }
             
             // Filter based on the target
-            switch (EffectTarget)
+            switch (configuration.EffectTarget)
             {
                 case EffectTarget.All:
                     break;
-                case EffectTarget.Both:
+                case EffectTarget.BothCombatParticipants:
                     break;
                 case EffectTarget.Enemy:
                     targets = targets.FindAll(x => x.GetComponent<DrillerCarrier>().GetOwner() != friendly.GetComponent<DrillerCarrier>().GetOwner());
@@ -87,7 +69,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                 case EffectTarget.Friendly:
                     targets = targets.FindAll(x => x.GetComponent<DrillerCarrier>().GetOwner() == friendly.GetComponent<DrillerCarrier>().GetOwner());
                     break;
-                case EffectTarget.None:
+                case EffectTarget.NoTarget:
                     targets.RemoveAll(x => true);
                     break;
             }
