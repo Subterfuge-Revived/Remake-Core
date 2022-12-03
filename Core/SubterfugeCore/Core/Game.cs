@@ -9,7 +9,7 @@ using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core
 {
@@ -81,7 +81,7 @@ namespace SubterfugeCore.Core
             }
         }
 
-        public void LoadGameEvents(List<GameEventModel> gameEvents)
+        public void LoadGameEvents(List<GameEventData> gameEvents)
         {
             gameEvents
                 .ConvertAll<GameEvent>(m => GameEventFactory.ParseGameEvent(m))

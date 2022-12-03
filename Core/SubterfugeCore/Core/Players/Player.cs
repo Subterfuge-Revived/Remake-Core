@@ -1,6 +1,6 @@
 ﻿using SubterfugeCore.Core.Config;
-using SubterfugeRemakeService;
 using SubterfugeCore.Core.Players.Currency;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.Players
 {

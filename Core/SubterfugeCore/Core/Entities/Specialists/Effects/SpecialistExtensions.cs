@@ -2,7 +2,7 @@
 using System.Linq;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
@@ -92,11 +92,11 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                 case EffectTarget.Enemy:
                     candidates.AddRange(state.GetPlayerTargetables(enemy.GetComponent<DrillerCarrier>().GetOwner()));
                     break;
-                case EffectTarget.BothCombatParticipants:
+                case EffectTarget.OnlyCombatParticipants:
                     candidates.AddRange(state.GetPlayerTargetables(enemy.GetComponent<DrillerCarrier>().GetOwner()));
                     candidates.AddRange(state.GetPlayerTargetables(friendly.GetComponent<DrillerCarrier>().GetOwner()));
                     break;
-                case EffectTarget.All:
+                case EffectTarget.Any:
                     foreach (var p in state.GetPlayers())
                     {
                         candidates.AddRange(state.GetPlayerTargetables(p));
@@ -109,7 +109,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             }
             
             // Filter out candidates based on the scale range.
-            switch (effectScale.ScaleTriggerRange)
+            switch (effectScale.EffectTriggerRange)
             {
                 case EffectTriggerRange.Local:
                     candidates = candidates.FindAll(x => x.GetComponent<PositionManager>().GetPositionAt(state.CurrentTick) == friendly.GetComponent<PositionManager>().GetPositionAt(state.CurrentTick));
@@ -128,6 +128,7 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             }
             
             // Determine the count.
+            /*
             switch (effectScale.EffectScale)
             {
                 case EffectScale.PlayerDrillerCount:
@@ -147,8 +148,9 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                 default:
                     return 1;
             }
+            */
             
-            return scalar;
+            return candidates.Select(c => c.GetType() == typeof(Outpost)).Count();;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using SubterfugeCore.Core.Entities.Specialists.Effects;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.Entities.Specialists
 {

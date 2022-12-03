@@ -9,7 +9,7 @@ using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.GameState
 {
@@ -244,7 +244,7 @@ namespace SubterfugeCore.Core.GameState
             this.CurrentTick = this._startTime;
             
             // Set the players.
-            this._players = configuration.Players.Select(it => new Player(it)).ToList();
+            this._players = configuration.PlayersInLobby.Select(it => new Player(it)).ToList();
         }
 
         /// <summary>

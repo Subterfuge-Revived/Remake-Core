@@ -2,14 +2,14 @@
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 {
     public abstract class PlayerTriggeredEvent : GameEvent
     {
-        protected readonly GameEventModel Model;
-        protected PlayerTriggeredEvent(GameEventModel model)
+        protected readonly GameEventData Model;
+        protected PlayerTriggeredEvent(GameEventData model)
         {
             this.Model = model;
         }
@@ -22,11 +22,6 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
         public override GameTick GetOccursAt()
         {
             return new GameTick(Model.OccursAtTick);
-        }
-
-        public EventType GetEventType()
-        {
-            return Model.EventType;
         }
 
         public DateTime GetUnixTimeIssued()
@@ -43,16 +38,13 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
         {
             return Priority.PlayerIssuedCommand;
         }
-        
-        public abstract GameEventModel ToGameEventModel();
 
-        protected GameEventModel GetBaseGameEventModel()
+        protected GameEventData GetBaseGameEventModel()
         {
-            return new GameEventModel()
+            return new GameEventData()
             {
                 Id = GetEventId(),
-                EventType = GetEventType(),
-                IssuedBy = IssuedBy().GetId(),
+                IssuedBy = IssuedBy().ToUser(),
                 OccursAtTick = GetOccursAt().GetTick(),
                 UnixTimeIssued = GetUnixTimeIssued().ToFileTimeUtc(),
             };
