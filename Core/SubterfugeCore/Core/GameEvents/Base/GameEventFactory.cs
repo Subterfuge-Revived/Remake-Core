@@ -1,25 +1,26 @@
-﻿using SubterfugeRemakeService;
-using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
+﻿using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.GameEvents.Base
 {
     public static class GameEventFactory
     {
-        public static PlayerTriggeredEvent ParseGameEvent(GameEventModel model)
+        public static PlayerTriggeredEvent ParseGameEvent(GameEventData model)
         {
-            switch (model.EventType)
+            if (model.EventData is LaunchEventData)
             {
-                case EventType.LaunchEvent:
-                    return new LaunchEvent(model);
-                case EventType.ToggleShieldEvent:
-                    return new ToggleShieldEvent(model);
-                case EventType.DrillMineEvent:
-                    return new DrillMineEvent(model);
-                case EventType.UnknownEvent:
-                    return null;
-                default:
-                    return null;
+                return new LaunchEvent(model);
             }
+            if (model.EventData is ToggleShieldEventData)
+            {
+                return new ToggleShieldEvent(model);
+            }
+            if (model.EventData is DrillMineEventData)
+            {
+                return new DrillMineEvent(model);
+            }
+
+            return null;
         }
     }
 }

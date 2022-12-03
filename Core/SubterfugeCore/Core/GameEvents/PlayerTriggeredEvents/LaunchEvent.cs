@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using GameEventModels;
-using Google.Protobuf;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.GameEvents.Base;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat;
 using SubterfugeCore.Core.Timing;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 {
@@ -21,7 +19,7 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
         private Sub _launchedSub;
         
         private readonly List<GameEvent> _combatEvents = new List<GameEvent>();
-        public LaunchEvent(GameEventModel launchData) : base(launchData)
+        public LaunchEvent(GameEventData launchData) : base(launchData)
         {
         }
 
@@ -53,16 +51,9 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
             return this.EventSuccess;
         }
 
-        public override GameEventModel ToGameEventModel()
-        {
-            GameEventModel baseModel = GetBaseGameEventModel();
-            baseModel.EventData = GetEventData().ToByteString();
-            return baseModel;
-        }
-
         public LaunchEventData GetEventData()
         {
-            return LaunchEventData.Parser.ParseFrom(Model.EventData);
+            return Model.EventData as LaunchEventData;
         }
 
         /// <summary>

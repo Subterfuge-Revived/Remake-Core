@@ -1,4 +1,4 @@
-﻿using SubterfugeRemakeService;
+﻿using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
@@ -21,8 +21,8 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             {
                 case EffectModifier.Driller:
                 case EffectModifier.Speed:
-                case EffectModifier.Vision:
-                case EffectModifier.ShieldRegeneration:
+                case EffectModifier.VisionRange:
+                case EffectModifier.ShieldRegenerationRate:
                 case EffectModifier.ShieldValue:
                 case EffectModifier.ShieldMaxValue:
                     effect = new NumericSpecialistEffect();

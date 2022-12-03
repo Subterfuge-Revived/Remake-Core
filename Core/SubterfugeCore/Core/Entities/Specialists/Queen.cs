@@ -1,6 +1,6 @@
 ﻿using SubterfugeCore.Core.Entities.Specialists.Effects;
 using SubterfugeCore.Core.Players;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.Entities.Specialists
 {
@@ -24,7 +24,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
                         {
                             EffectScale = EffectScale.NoScale,
                             EffectScaleTarget = EffectTarget.Friendly,
-                            ScaleTriggerRange = EffectTriggerRange.Self
+                            EffectTriggerRange = EffectTriggerRange.Self
                         },
                         EffectTarget = EffectTarget.Friendly,
                         EffectTrigger = EffectTrigger.CombatLoss,
@@ -44,7 +44,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
                         {
                             EffectScale = EffectScale.NoScale,
                             EffectScaleTarget = EffectTarget.Friendly,
-                            ScaleTriggerRange = EffectTriggerRange.Self
+                            EffectTriggerRange = EffectTriggerRange.Self
                         },
                         EffectTarget = EffectTarget.Friendly,
                         EffectTrigger = EffectTrigger.SubArrive,
@@ -64,7 +64,7 @@ namespace SubterfugeCore.Core.Entities.Specialists
                         {
                             EffectScale = EffectScale.NoScale,
                             EffectScaleTarget = EffectTarget.Friendly,
-                            ScaleTriggerRange = EffectTriggerRange.Self
+                            EffectTriggerRange = EffectTriggerRange.Self
                         },
                         EffectTarget = EffectTarget.Friendly,
                         EffectTrigger = EffectTrigger.SubLaunch,

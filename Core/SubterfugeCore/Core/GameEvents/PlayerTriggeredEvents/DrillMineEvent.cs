@@ -1,11 +1,9 @@
-﻿using GameEventModels;
-using Google.Protobuf;
-using SubterfugeCore.Core.Components;
+﻿using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
 using SubterfugeCore.Core.Timing;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 {
@@ -14,13 +12,13 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 		private Outpost _original;
 		private Mine _drilledMine;
 
-		public DrillMineEvent(GameEventModel miningData) : base(miningData)
+		public DrillMineEvent(GameEventData miningData) : base(miningData)
 		{
 		}
 
 		public DrillMineEventData GetEventData()
 		{
-			return DrillMineEventData.Parser.ParseFrom(Model.EventData);
+			return Model.EventData as DrillMineEventData;
 		}
 
 		public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
@@ -59,13 +57,6 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 				drillerCarrier.AddDrillers(drillerCarrier.GetOwner().GetRequiredDrillersToMine());
 			}
 			return EventSuccess;
-		}
-
-		public override GameEventModel ToGameEventModel()
-		{
-			GameEventModel baseModel = GetBaseGameEventModel();
-			baseModel.EventData = GetEventData().ToByteString();
-			return baseModel;
 		}
 
 		public override bool WasEventSuccessful()

@@ -1,5 +1,5 @@
 ﻿using SubterfugeCore.Core.Components;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
@@ -45,9 +45,9 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                     int capacity = EffectMe.GetComponent<SpecialistManager>().GetCapacity();
                     EffectMe.GetComponent<SpecialistManager>().SetCapacity(capacity + Value);
                     break;
-                case EffectModifier.Vision:
+                case EffectModifier.VisionRange:
                 case EffectModifier.ShieldValue:
-                case EffectModifier.ShieldRegeneration:
+                case EffectModifier.ShieldRegenerationRate:
                 case EffectModifier.ShieldMaxValue:
                     // TODO apply effect deltas here.
                     break;
@@ -71,9 +71,9 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
                     int capacity = EffectMe.GetComponent<SpecialistManager>().GetCapacity();
                     EffectMe.GetComponent<SpecialistManager>().SetCapacity(capacity - Value);
                     break;
-                case EffectModifier.Vision:
+                case EffectModifier.VisionRange:
                 case EffectModifier.ShieldValue:
-                case EffectModifier.ShieldRegeneration:
+                case EffectModifier.ShieldRegenerationRate:
                 case EffectModifier.ShieldMaxValue:
                     // TODO: apply effect deltas here.
                     break;

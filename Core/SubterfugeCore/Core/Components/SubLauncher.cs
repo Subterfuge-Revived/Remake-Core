@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using GameEventModels;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.EventArgs;
 using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
 using SubterfugeCore.Core.GameState;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.Components
 {

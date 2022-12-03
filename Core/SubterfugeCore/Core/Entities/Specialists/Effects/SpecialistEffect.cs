@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using SubterfugeCore.Core.Components;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.Entities.Specialists.Effects
 {
@@ -59,9 +59,9 @@ namespace SubterfugeCore.Core.Entities.Specialists.Effects
             // Filter based on the target
             switch (configuration.EffectTarget)
             {
-                case EffectTarget.All:
+                case EffectTarget.Any:
                     break;
-                case EffectTarget.BothCombatParticipants:
+                case EffectTarget.OnlyCombatParticipants:
                     break;
                 case EffectTarget.Enemy:
                     targets = targets.FindAll(x => x.GetComponent<DrillerCarrier>().GetOwner() != friendly.GetComponent<DrillerCarrier>().GetOwner());

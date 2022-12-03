@@ -1,22 +1,20 @@
-﻿using GameEventModels;
-using Google.Protobuf;
-using SubterfugeCore.Core.Components;
+﻿using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Timing;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 {
     public class ToggleShieldEvent : PlayerTriggeredEvent
     {
-        public ToggleShieldEvent(GameEventModel model) : base(model)
+        public ToggleShieldEvent(GameEventData model) : base(model)
         {
             
         }
 
         public ToggleShieldEventData GetEventData()
         {
-            return ToggleShieldEventData.Parser.ParseFrom(Model.EventData);
+            return Model.EventData as ToggleShieldEventData;
         }
         public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
@@ -48,13 +46,6 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
         public override bool WasEventSuccessful()
         {
             return EventSuccess;
-        }
-
-        public override GameEventModel ToGameEventModel()
-        {
-            GameEventModel baseModel = GetBaseGameEventModel();
-            baseModel.EventData = GetEventData().ToByteString();
-            return baseModel;
         }
     }
 }

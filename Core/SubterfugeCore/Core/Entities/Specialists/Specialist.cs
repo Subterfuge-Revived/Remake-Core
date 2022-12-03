@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SubterfugeCore.Core.Entities.Specialists.Effects;
 using SubterfugeCore.Core.Players;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.Entities.Specialists
 {
