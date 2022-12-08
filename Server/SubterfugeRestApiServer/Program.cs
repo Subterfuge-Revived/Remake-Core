@@ -1,11 +1,10 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
-using SubterfugeRestApiServer;
 using SubterfugeRestApiServer.Authentication;
+using SubterfugeRestApiServer.Middleware;
 using SubterfugeServerConsole.Connections;
 
-System.Diagnostics.Debug.WriteLine("Uhh what?");
 var builder = WebApplication.CreateBuilder(args);
 
 var config = new ConfigurationBuilder()
@@ -53,9 +52,15 @@ builder.Services.AddSwaggerGen(genOptions =>
     }
 );
 
+// Configure Logging
+builder.Services.AddLogging(logging => logging.AddSimpleConsole(loggerOptions =>
+{
+    loggerOptions.SingleLine = true;
+    loggerOptions.IncludeScopes = false;
+}));
+
 // Enable JWT Authentication.
 new JwtAuthenticationScheme(config).ConfigureAuthentication(builder.Services);
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -64,13 +69,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseDeveloperExceptionPage();
-    app.UseHttpLogging();
 }
-
 app.UseHttpsRedirection();
+
+// ORDER MATTERS HERE
 app.UseAuthorization();
 
+app.UseMiddleware<JwtMiddleware>();
+
 app.MapControllers();
+
+app.UseMiddleware<LoggingMiddleware>();
 
 /**
  * For Docker:
@@ -81,8 +90,6 @@ app.MapControllers();
  * Host: "localhost"
  * Port: 27017
  */
-System.Diagnostics.Debug.WriteLine("Linking Mongo...");
-MongoConnector mongo = new MongoConnector(config["MongoDb:Host"], Convert.ToInt32(config["MongoDb:Port"]), true);
+MongoConnector mongo = new MongoConnector(config["MongoDb:Host"], Convert.ToInt32(config["MongoDb:Port"]), false, app.Logger);
 
-System.Diagnostics.Debug.WriteLine("Starting App...");
 app.Run();

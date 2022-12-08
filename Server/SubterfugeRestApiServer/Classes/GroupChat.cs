@@ -69,7 +69,7 @@ namespace SubterfugeServerConsole.Connections.Models
             };
             
             // Convert UserIds to Users.
-            foreach(string memberId in MessageGroup.MemberIds)
+            foreach(string? memberId in MessageGroup.MemberIds)
             {
                 model.GroupMembers.Add((await DbUserModel.GetUserFromGuid(memberId)).AsUser());
             }
