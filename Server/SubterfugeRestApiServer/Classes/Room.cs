@@ -34,7 +34,7 @@ namespace SubterfugeServerConsole.Connections.Models
             GameTick.MinutesPerTick = request.GameSettings.MinutesPerTick;
         }
 
-        public async Task<ResponseStatus> JoinRoom(DbUserModel dbUserModel)
+        public async Task<ResponseStatus> JoinRoom(DbUserModel? dbUserModel)
         {
             if (IsRoomFull())
                 return ResponseFactory.createResponse(ResponseType.ROOM_IS_FULL);
@@ -70,7 +70,7 @@ namespace SubterfugeServerConsole.Connections.Models
             return GameConfiguration.PlayersInLobby.Count >= GameConfiguration.GameSettings.MaxPlayers;
         }
         
-        public Boolean IsPlayerInRoom(DbUserModel player)
+        public Boolean IsPlayerInRoom(DbUserModel? player)
         {
             return GameConfiguration.PlayersInLobby.Contains(player.AsUser());
         }

@@ -29,7 +29,6 @@ namespace SubterfugeCore.Models.GameEvents
     
     public class GetGameRoomEventsRequest
     {
-        public string RoomId { get; set; }
         public long AfterTick { get; set; }
     }
 
@@ -40,7 +39,6 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class SubmitGameEventRequest
     {
-        public string RoomId { get; set; }
         public GameEventRequest GameEventRequest { get; set; }
     }
     
@@ -59,7 +57,6 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class DeleteGameEventRequest
     {
-        public string RoomId { get; set; }
         public string EventId { get; set; }
     }
 

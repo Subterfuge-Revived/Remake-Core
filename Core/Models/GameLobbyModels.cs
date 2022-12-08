@@ -100,21 +100,12 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class JoinRoomResponse : NetworkResponse { }
 
-    public class JoinRoomRequest
-    {
-        public string RoomId { get; set; }
-    }
+    public class JoinRoomRequest { }
 
-    public class LeaveRoomRequest
-    {
-        public string RoomId { get; set; }
-    }
+    public class LeaveRoomRequest { }
 
     public class LeaveRoomResponse : NetworkResponse { }
     
-    public class StartGameEarlyRequest
-    {
-        public string RoomId { get; set; }
-    }
+    public class StartGameEarlyRequest { }
     public class StartGameEarlyResponse : NetworkResponse { }
 }
