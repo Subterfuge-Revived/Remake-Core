@@ -265,7 +265,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 .FirstOrDefault();
         }
 
-        public async Task<CreateMessageGroupResponse> CreateMessageGroup(List<String> groupMembers)
+        public async Task<CreateMessageGroupResponse> CreateMessageGroup(List<string?> groupMembers)
         {
             // Ensure all members are in the room.
             if (groupMembers.Except(GameConfiguration.PlayersInLobby.Select(it => it.Id)).Any())
@@ -304,7 +304,7 @@ namespace SubterfugeServerConsole.Connections.Models
             MessageGroup newGroup = new MessageGroup();
             newGroup.Id = Guid.NewGuid().ToString();
             newGroup.RoomId = GameConfiguration.Id;
-            foreach (string s in groupMembers)
+            foreach (string? s in groupMembers)
             {
                 DbUserModel? model = await DbUserModel.GetUserFromGuid(s);
                 if (model != null)

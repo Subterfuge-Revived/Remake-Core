@@ -224,7 +224,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 .ToList();
         }
 
-        public static async Task<DbUserModel?> GetUserFromGuid(string guid)
+        public static async Task<DbUserModel?> GetUserFromGuid(string? guid)
         {
             UserModel user = (await MongoConnector.GetUserCollection()
                 .FindAsync(it => it.Id == guid))

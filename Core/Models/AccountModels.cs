@@ -18,11 +18,6 @@ namespace SubterfugeCore.Models.GameEvents
         public string Password { get; set; }
     }
 
-    public class AuthorizedTokenRequest
-    {
-        public string Token { get; set; }
-    }
-
     public class AuthorizationResponse : NetworkResponse
     {
         public User User { get; set; }
