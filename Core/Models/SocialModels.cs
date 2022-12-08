@@ -18,7 +18,7 @@ namespace SubterfugeCore.Models.GameEvents
     
     public class BlockPlayerRequest
     {
-        public string userIdToBlock { get; set; }
+        public string UserIdToBlock { get; set; }
     }
 
     public class BlockPlayerResponse : NetworkResponse { }

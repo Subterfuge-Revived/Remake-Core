@@ -28,7 +28,7 @@ public class AccountController : ControllerBase
     private readonly ILogger _logger;
     
     [AllowAnonymous]
-    [HttpPost(Name = "Login")]
+    [HttpPost(Name = "login")]
     public async Task<ActionResult<AuthorizationResponse>> Login(AuthorizationRequest request)
     {
         var user = await AuthenticateUserByPassword(request);
@@ -91,7 +91,7 @@ public class AccountController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost(Name = "RegisterAccount")]
+    [HttpPost(Name = "register")]
     public async Task<ActionResult<AccountRegistrationResponse>> RegisterAccount(AccountRegistrationRequest registrationRequeset)
     {
         DbUserModel dbUserModel = await DbUserModel.GetUserFromUsername(registrationRequeset.Username);
@@ -114,7 +114,7 @@ public class AccountController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost(Name = "GetRoles")]
+    [HttpPost(Name = "roles")]
     public async Task<ActionResult<GetRolesResponse>> GetRoles(GetRolesRequest roleRequest)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;

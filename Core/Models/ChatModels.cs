@@ -52,7 +52,6 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class CreateMessageGroupRequest
     {
-        public string RoomId { get; set; }
         public List<string> UserIdsInGroup { get; set; }
     }
     
@@ -63,8 +62,6 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class SendMessageRequest
     {
-        public string RoomId { get; set; }
-        public string GroupId { get; set; }
         public string Message { get; set; }
     }
     
@@ -72,19 +69,16 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class GetMessageGroupsRequest
     {
-        public string RoomId { get; set; }
     }
 
     public class GetMessageGroupsResponse : NetworkResponse
     {
-        private List<MessageGroup> MessageGroups { get; set; }
+        public List<MessageGroup> MessageGroups { get; set; }
     }
 
     public class GetGroupMessagesRequest
     {
-        public string RoomId { get; set; }
-        public string GroupId { get; set; }
-        public long Pagination { get; set; }
+        public int Pagination { get; set; }
     }
 
     public class GetGroupMessagesResponse : NetworkResponse
