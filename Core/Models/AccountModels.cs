@@ -1,16 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace SubterfugeCore.Models.GameEvents
 {
-    public interface INetworkAccountManager
-    {
-        AuthorizationResponse Login(AuthorizationRequest request);
-        AuthorizationResponse LoginWithToken(AuthorizedTokenRequest tokenRequest);
-        AuthorizationResponse RegisterAccount(AccountRegistrationRequest registrationRequeset);
-        GetRolesResponse GetRoles(GetRolesRequest roleRequest);
-    }
-    
+
     public class User
     {
         public string Id { get; set; }
@@ -53,7 +48,7 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class GetRolesResponse : NetworkResponse
     {
-        public List<UserClaim> Claims { get; set; }
+        public UserClaim[] Claims { get; set; }
     }
 
     public enum UserClaim

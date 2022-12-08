@@ -33,7 +33,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 Email = registration.Email,
                 EmailVerified = false,
                 PasswordHash = JwtManager.HashPassword(registration.Password),
-                Claims = { UserClaim.User },
+                Claims = new[] { UserClaim.User },
                 DeviceIdentifier = deviceIdentifier
             };
         }
@@ -287,7 +287,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 Email = "SuperUser",
                 EmailVerified = true,
                 PasswordHash = JwtManager.HashPassword(password),
-                Claims = { UserClaim.User, UserClaim.Administrator, UserClaim.Moderator, UserClaim.EmailVerified }
+                Claims = new[] { UserClaim.User, UserClaim.Administrator, UserClaim.Moderator, UserClaim.EmailVerified }
             });
             await dbUserModel.SaveToDatabase();
             return new SuperUser(dbUserModel, password);

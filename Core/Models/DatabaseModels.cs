@@ -12,9 +12,13 @@ namespace SubterfugeCore.Models.GameEvents
         public string DeviceIdentifier { get; set; }
         public string PhoneNumber { get; set; }
         public Boolean EmailVerified { get; set; }
-        public List<UserClaim> Claims { get; set; }
+        public UserClaim[] Claims { get; set; }
         public string PushNotificationIdentifier { get; set; }
         public string DeviceType { get; set; }
+        
+        // Administrative
+        public DateTime DateCreated { get; set; }
+        public DateTime DateBanned { get; set; }
 
         public User ToUser()
         {
