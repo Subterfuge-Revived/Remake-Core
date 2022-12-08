@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +14,13 @@ namespace SubterfugeClient
 {
     public class SubterfugeClient : subterfugeService.subterfugeServiceClient
     {
+        public static async Task Main(String[] args)
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync("http://localhost:44397/RegisterAccount");
+            Debug.Print(response.ToString());
+        }
+        
         public SubterfugeClient(string host, string port) : base(new Channel($"{host}:{port}", ChannelCredentials.Insecure).Intercept(new LoggerInterceptor()).Intercept((new JwtClientInterceptor())))
         {
             Auth auth = new Auth();
