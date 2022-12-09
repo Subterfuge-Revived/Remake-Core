@@ -4,11 +4,16 @@ using Microsoft.OpenApi.Models;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeRestApiServer.Middleware;
 using SubterfugeServerConsole.Connections;
+using HostingEnvironmentExtensions = Microsoft.AspNetCore.Hosting.HostingEnvironmentExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
 var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables()
     .Build();
 
 // Add services to the container.
@@ -61,37 +66,26 @@ builder.Services.AddLogging(logging => logging.AddSimpleConsole(loggerOptions =>
 
 // Enable JWT Authentication.
 new JwtAuthenticationScheme(config).ConfigureAuthentication(builder.Services);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
     app.UseDeveloperExceptionPage();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 // ORDER MATTERS HERE
 app.UseAuthorization();
-
 app.UseMiddleware<JwtMiddleware>();
-
 app.MapControllers();
-
 app.UseMiddleware<LoggingMiddleware>();
 
-/**
- * For Docker:
- * Host: "db"
- * Port: 27017
- *
- * For local:
- * Host: "localhost"
- * Port: 27017
- */
-
-MongoConfiguration mongoConfig = new MongoConfiguration(config.GetSection("MongoDb"));
+MongoConfiguration mongoConfig = new MongoConfiguration(app.Configuration.GetSection("MongoDb"));
 MongoConnector mongo = new MongoConnector(mongoConfig, app.Logger);
 
 app.Run();
