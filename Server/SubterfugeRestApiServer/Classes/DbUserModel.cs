@@ -240,7 +240,11 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<bool> SaveToDatabase()
         {
             // Save to user collection
-            await MongoConnector.GetUserCollection().InsertOneAsync(UserModel);
+            await MongoConnector.GetUserCollection().ReplaceOneAsync(
+                it => it.Id == UserModel.Id,
+                UserModel,
+                new UpdateOptions { IsUpsert = true }
+                );
             return true;
         }
 

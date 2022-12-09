@@ -8,10 +8,10 @@ namespace SubterfugeRestApiServer;
 
 [ApiController]
 [Authorize]
-[Route("api/{roomId}/[controller]/[action]")]
+[Route("api/room/{roomId}/group/[action]")]
 public class MessageGroupController : ControllerBase
 {
-    public MessageGroupController(IConfiguration configuration, ILogger<AccountController> logger, string roomId)
+    public MessageGroupController(IConfiguration configuration, ILogger<UserController> logger, string roomId)
     {
         _config = configuration;
         _logger = logger;

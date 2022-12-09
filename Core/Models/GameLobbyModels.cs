@@ -20,6 +20,8 @@ namespace SubterfugeCore.Models.GameEvents
         Ongoing,
         Closed,
         Private,
+        Completed,
+        Expired,
     }
     
     public class GameConfiguration {
@@ -29,8 +31,10 @@ namespace SubterfugeCore.Models.GameEvents
         public GameSettings GameSettings { get; set; }
         public MapConfiguration MapConfiguration { get; set; }
         public string RoomName { get; set; }
+        public string GameVersion { get; set; }
         public long UnixTimeCreated { get; set; }
         public long UnixTimeStarted { get; set; }
+        public long UnixTimeExpiresAt { get; set; }
         public List<User> PlayersInLobby { get; set; }
     }
 
@@ -108,4 +112,22 @@ namespace SubterfugeCore.Models.GameEvents
     
     public class StartGameEarlyRequest { }
     public class StartGameEarlyResponse : NetworkResponse { }
+
+    public class GetLobbyRequest
+    {
+        public string IdFilter { get; set; }
+        public RoomStatus RoomStatusFilter { get; set; }
+        public string CreatorIdFilter { get; set; }
+        // Game Config Filters
+        public string[] SpecialistIsAllowed { get; set; }
+        public Goal GoalFilter { get; set; }
+        public string RoomNameFilter { get; set; }
+        public string GameVersionFilter { get; set; }
+        public string[] PlayersIdIsInLobby { get; set; }
+    }
+
+    public class GetLobbyResponse
+    {
+        public List<GameConfiguration> Lobbies { get; set; }
+    }
 }

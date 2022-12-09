@@ -90,6 +90,8 @@ app.UseMiddleware<LoggingMiddleware>();
  * Host: "localhost"
  * Port: 27017
  */
-MongoConnector mongo = new MongoConnector(config["MongoDb:Host"], Convert.ToInt32(config["MongoDb:Port"]), false, app.Logger);
+
+MongoConfiguration mongoConfig = new MongoConfiguration(config.GetSection("MongoDb"));
+MongoConnector mongo = new MongoConnector(mongoConfig, app.Logger);
 
 app.Run();

@@ -8,10 +8,10 @@ namespace SubterfugeRestApiServer;
 
 [ApiController]
 [Authorize]
-[Route("api/{roomId}/{groupId}/[controller]/[action]")]
+[Route("api/room/{roomId}/group/{groupId}/[action]")]
 public class GroupMessageController : ControllerBase
 {
-    public GroupMessageController(IConfiguration configuration, ILogger<AccountController> logger, string roomId, string groupId)
+    public GroupMessageController(IConfiguration configuration, ILogger<UserController> logger, string roomId, string groupId)
     {
         _config = configuration;
         _logger = logger;
@@ -24,7 +24,7 @@ public class GroupMessageController : ControllerBase
     private readonly string _roomGuid;
     private readonly string _groupId;
     
-    [HttpPost(Name="send")]
+    [HttpPost]
     public async Task<SendMessageResponse> SendMessage(SendMessageRequest request, string groupId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
@@ -61,7 +61,7 @@ public class GroupMessageController : ControllerBase
     }
     
     [HttpGet]
-    async Task<GetGroupMessagesResponse> GetGroupMessages(GetGroupMessagesRequest request)
+    public async Task<GetGroupMessagesResponse> Messages(GetGroupMessagesRequest request)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)

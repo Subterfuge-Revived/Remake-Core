@@ -10,26 +10,11 @@ namespace SubterfugeRestApiServer;
 
 [ApiController]
 [Authorize]
-[Route("api/{roomId}/[controller]/[action]")]
 public class GameEventController : ControllerBase
 {
-    public GameEventController(
-        IConfiguration configuration,
-        ILogger<AccountController> logger,
-        string roomId
-    )
-    {
-        _config = configuration;
-        _logger = logger;
-        roomGuid = roomId;
-    }
-
-    private string roomGuid;
-    private readonly IConfiguration _config;
-    private readonly ILogger _logger;
-    
     [HttpGet]
-    public async Task<GetGameRoomEventsResponse> GetGameRoomEvents(GetGameRoomEventsRequest request)
+    [Route("api/{roomId}/events")]
+    public async Task<GetGameRoomEventsResponse> GetGameRoomEvents(GetGameRoomEventsRequest request, string roomId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
@@ -38,7 +23,7 @@ public class GameEventController : ControllerBase
                 Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
             };
             
-        Room room = await Room.GetRoomFromGuid(roomGuid);
+        Room room = await Room.GetRoomFromGuid(roomId);
         if(room == null)
             return new GetGameRoomEventsResponse()
             {
@@ -69,8 +54,9 @@ public class GameEventController : ControllerBase
         return response;
     }
     
-    [HttpPost(Name="submit")]
-    public async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request)
+    [HttpPost]
+    [Route("api/{roomId}/events")]
+    public async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
@@ -79,7 +65,7 @@ public class GameEventController : ControllerBase
                 Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
             };
 
-        Room room = await Room.GetRoomFromGuid(roomGuid);
+        Room room = await Room.GetRoomFromGuid(roomId);
         if(room == null)
             return new SubmitGameEventResponse()
             {
@@ -96,8 +82,8 @@ public class GameEventController : ControllerBase
     }
     
     [HttpPut]
-    [Route("{eventGuid}")]
-    public async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, string eventGuid)
+    [Route("api/{roomId}/events/{eventGuid}")]
+    public async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
@@ -106,7 +92,7 @@ public class GameEventController : ControllerBase
                 Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
             };
 
-        Room room = await Room.GetRoomFromGuid(roomGuid);
+        Room room = await Room.GetRoomFromGuid(roomId);
         if(room == null)
             return new SubmitGameEventResponse()
             {
@@ -118,8 +104,8 @@ public class GameEventController : ControllerBase
     }
     
     [HttpDelete]
-    [Route("{eventGuid}")]
-    public async Task<DeleteGameEventResponse> Delete(DeleteGameEventRequest request, string eventGuid)
+    [Route("api/{roomId}/events/{eventGuid}")]
+    public async Task<DeleteGameEventResponse> Delete(DeleteGameEventRequest request, string roomId, string eventGuid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
@@ -128,7 +114,7 @@ public class GameEventController : ControllerBase
                 Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
             };
 
-        Room room = await Room.GetRoomFromGuid(roomGuid);
+        Room room = await Room.GetRoomFromGuid(roomId);
         if(room == null)
             return new DeleteGameEventResponse()
             {

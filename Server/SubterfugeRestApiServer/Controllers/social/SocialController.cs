@@ -8,25 +8,11 @@ namespace SubterfugeRestApiServer;
 
 [ApiController]
 [Authorize]
-[Route("api/User/[controller]/[action]")]
-public class BlockUserController : ControllerBase
+public class SocialController : ControllerBase
 {
-    
-    public BlockUserController(
-        IConfiguration configuration,
-        ILogger<AccountController> logger
-    )
-    {
-        _config = configuration;
-        _logger = logger;
-    }
-    
-    
-    private readonly IConfiguration _config;
-    private readonly ILogger _logger;
-    
-    [HttpPost(Name="block")]
-    public async Task<BlockPlayerResponse> BlockPlayer(BlockPlayerRequest request)
+    [HttpPost]
+    [Route("api/user/{userId}/block")]
+    public async Task<BlockPlayerResponse> BlockPlayer(BlockPlayerRequest request, string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
@@ -35,7 +21,7 @@ public class BlockUserController : ControllerBase
                 Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
             };
 
-        DbUserModel friend = await DbUserModel.GetUserFromGuid(request.UserIdToBlock);
+        DbUserModel friend = await DbUserModel.GetUserFromGuid(userId);
         if (friend == null) 
             return new BlockPlayerResponse()
             {
@@ -55,8 +41,9 @@ public class BlockUserController : ControllerBase
         };
     }
     
-    [HttpPost(Name="unblock")]
-    public async Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request)
+    [HttpPost]
+    [Route("api/user/{userId}/unblock")]
+    public async Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request, string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
@@ -66,7 +53,7 @@ public class BlockUserController : ControllerBase
             };
             
         // Check if player is valid.
-        DbUserModel friend = await DbUserModel.GetUserFromGuid(request.UserIdToUnblock);
+        DbUserModel friend = await DbUserModel.GetUserFromGuid(userId);
         if (friend == null) 
             return new UnblockPlayerResponse()
             {
@@ -85,6 +72,30 @@ public class BlockUserController : ControllerBase
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
         };
+    }
+
+    [HttpPost]
+    [Route("api/user/{userId}/addFriend")]
+    public async Task<ActionResult<SendFriendRequestResponse>> AddAcceptFriend(string userId)
+    {
+        // Send a friend request OR accept an existing friend request.
+        throw new NotImplementedException();
+    }
+    
+    [HttpPost]
+    [Route("api/user/{userId}/removeFriend")]
+    public async Task<ActionResult<SendFriendRequestResponse>> RemoveRejectFriend(string userId)
+    {
+        // Remove an existing friend or remove a friend request
+        throw new NotImplementedException();
+    }
+    
+    [HttpGet]
+    [Route("api/user/{userId}/friends")]
+    public async Task<ActionResult<SendFriendRequestResponse>> GetFriendList(string userId)
+    {
+        // Get a player's friend list
+        throw new NotImplementedException();
     }
     
 }
