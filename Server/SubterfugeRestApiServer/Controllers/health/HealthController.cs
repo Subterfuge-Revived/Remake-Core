@@ -9,18 +9,6 @@ namespace SubterfugeRestApiServer.health;
 [Route("api/[controller]/[action]")]
 public class HealthController : ControllerBase
 {
-    public HealthController(
-        IConfiguration configuration,
-        ILogger<AccountController> logger
-    )
-    {
-        _config = configuration;
-        _logger = logger;
-    }
-
-    private readonly IConfiguration _config;
-    private readonly ILogger _logger;
-    
     [HttpGet]
     [AllowAnonymous]
     public ActionResult<PingResponse> Ping()

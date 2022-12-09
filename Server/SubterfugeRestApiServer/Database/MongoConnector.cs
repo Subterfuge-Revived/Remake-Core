@@ -1,5 +1,7 @@
 ﻿using MongoDB.Driver;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeRestApiServer.Authentication;
+using SubterfugeServerConsole.Connections.Models;
 
 namespace SubterfugeServerConsole.Connections
 {
@@ -7,10 +9,12 @@ namespace SubterfugeServerConsole.Connections
     {
         private static IMongoDatabase _database;
         private ILogger _logger;
+        private MongoConfiguration _config;
         
-        public MongoConnector(string hostname, int port, bool flushDatabase, ILogger logger)
+        public MongoConnector(MongoConfiguration config, ILogger logger)
         {
             _logger = logger;
+            _config = config;
             
             _logger.LogInformation("Configuring MongoDB...");
             
@@ -25,7 +29,7 @@ namespace SubterfugeServerConsole.Connections
                     internalIdentity, passwordEvidence);
 
             MongoClientSettings settings = new MongoClientSettings();
-            settings.Server = new MongoServerAddress(hostname, port);
+            settings.Server = new MongoServerAddress(config.Host, config.Port);
             settings.Credential = mongoCredential;
             settings.ApplicationName = "SubterfugeGrpcServer";
             
@@ -34,9 +38,14 @@ namespace SubterfugeServerConsole.Connections
             logger.LogInformation("Connected to database. Creating indexes...");
             CreateIndexes();
             // Flush database is running in admin mode
-            if (flushDatabase)
+            if (config.FlushDatabase)
             {
                 FlushCollections();
+            }
+
+            if (config.CreateSuperUser)
+            {
+                CreateSuperUser();
             }
         }
 
@@ -48,6 +57,11 @@ namespace SubterfugeServerConsole.Connections
             await GetUserCollection().Indexes.CreateOneAsync(new CreateIndexModel<UserModel>(Builders<UserModel>.IndexKeys.Ascending(user => user.DeviceIdentifier)));
             await GetUserCollection().Indexes.CreateOneAsync(new CreateIndexModel<UserModel>(Builders<UserModel>.IndexKeys.Ascending(user => user.Username)));
             await GetUserCollection().Indexes.CreateOneAsync(new CreateIndexModel<UserModel>(Builders<UserModel>.IndexKeys.Ascending(user => user.Email)));
+            
+            // Index User IP Address Link
+            _logger.LogInformation("Indexing User-Ip Links");
+            await GetUserIpCollection().Indexes.CreateOneAsync(new CreateIndexModel<UserIpAddressLink>(Builders<UserIpAddressLink>.IndexKeys.Ascending(user => user.UserId)));
+            await GetUserIpCollection().Indexes.CreateOneAsync(new CreateIndexModel<UserIpAddressLink>(Builders<UserIpAddressLink>.IndexKeys.Ascending(user => user.IpAddress)));
 
             // Index Game Rooms
             _logger.LogInformation("Indexing Game Rooms");
@@ -97,6 +111,11 @@ namespace SubterfugeServerConsole.Connections
             _logger.LogInformation("Indexes created.");
         }
 
+        public static IMongoCollection<UserIpAddressLink> GetUserIpCollection()
+        {
+            return _database.GetCollection<UserIpAddressLink>("UserIpAddressLink");
+        }
+
         public static IMongoCollection<UserModel> GetUserCollection()
         {
             return _database.GetCollection<UserModel>("Users");
@@ -141,6 +160,7 @@ namespace SubterfugeServerConsole.Connections
         {
             _logger.LogInformation("Flushing database!");
             GetUserCollection().DeleteMany(FilterDefinition<UserModel>.Empty);
+            GetUserIpCollection().DeleteMany(FilterDefinition<UserIpAddressLink>.Empty);
             GetGameRoomCollection().DeleteMany(FilterDefinition<GameConfiguration>.Empty);
             GetFriendCollection().DeleteMany(FilterDefinition<Friend>.Empty);
             GetGameEventCollection().DeleteMany(FilterDefinition<GameEventData>.Empty);
@@ -148,6 +168,31 @@ namespace SubterfugeServerConsole.Connections
             GetMessageGroupCollection().DeleteMany(FilterDefinition<MessageGroupDatabaseModel>.Empty);
             GetSpecialistCollection().DeleteMany(FilterDefinition<SpecialistConfiguration>.Empty);
             GetSpecialistPackageCollection().DeleteMany(FilterDefinition<SpecialistPackage>.Empty);
+        }
+
+        public async void CreateSuperUser()
+        {
+            DbUserModel dbUserModel = new DbUserModel(new UserModel()
+            {
+                Id = "1",
+                Username = _config.SuperUserUsername,
+                Email = _config.SuperUserUsername,
+                EmailVerified = true,
+                PasswordHash = JwtManager.HashPassword(_config.SuperUserPassword),
+                Claims = new [] { UserClaim.User, UserClaim.Administrator, UserClaim.EmailVerified }
+            });
+            try
+            {
+                await dbUserModel.SaveToDatabase();
+                _logger.LogInformation("SuperUser Username: {username}", _config.SuperUserUsername);
+                _logger.LogInformation("SuperUser Password: {password}", _config.SuperUserPassword);
+            }
+            catch (MongoWriteException writeException)
+            {
+                _logger.LogWarning("Admin user already exists. Did not re-create. The configured credentials may be incorrect");
+                _logger.LogInformation("SuperUser Username: {username}", _config.SuperUserUsername);
+                _logger.LogInformation("SuperUser Password: {password}", _config.SuperUserPassword);
+            }
         }
         
     }

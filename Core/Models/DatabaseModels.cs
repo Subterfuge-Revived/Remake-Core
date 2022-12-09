@@ -18,7 +18,23 @@ namespace SubterfugeCore.Models.GameEvents
         
         // Administrative
         public DateTime DateCreated { get; set; }
-        public DateTime DateBanned { get; set; }
+        public DateTime BannedUntil { get; set; }
+
+        // Strips administrative information out.
+        // Always call this before returning from the API.
+        public UserModel Obfuscate()
+        {
+            return new UserModel()
+            {
+                Id = this.Id,
+                Username = this.Username,
+                Email = this.Email,
+                EmailVerified = this.EmailVerified,
+                Claims = this.Claims,
+                DateCreated = this.DateCreated,
+                BannedUntil = this.BannedUntil,
+            };
+        }
 
         public User ToUser()
         {
@@ -28,6 +44,13 @@ namespace SubterfugeCore.Models.GameEvents
                 Username = Username
             };
         }
+    }
+
+    public class UserIpAddressLink
+    {
+        public string UserId { get; set; }    
+        public string IpAddress { get; set; }
+        public int TimesAccessed { get; set; }
     }
 
     public enum DeviceType

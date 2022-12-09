@@ -46,6 +46,27 @@ namespace SubterfugeCore.Models.GameEvents
         public UserClaim[] Claims { get; set; }
     }
 
+    public class UpdateRolesRequest
+    {
+        public UserClaim[] Claims { get; set; }
+    }
+
+    public class GetUserRequest
+    {
+        public string UsernameSearch { get; set; }
+        public string EmailSearch { get; set; }
+        public string DeviceIdentifierSearch { get; set; }
+        public string UserIdSearch { get; set; }
+        public UserClaim[] RequireUserClaims { get; set; }
+        public Boolean isBanned { get; set; }
+        public int pagination { get; set; }
+    }
+
+    public class GetUserResponse
+    {
+        public UserModel[] Users { get; set; }
+    }
+
     public enum UserClaim
     {
         Unknown,

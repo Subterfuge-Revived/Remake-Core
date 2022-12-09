@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
 using SubterfugeServerConsole.Responses;
 
@@ -8,23 +10,11 @@ namespace SubterfugeRestApiServer.specialists;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]/[action]")]
 public class SpecialistPackageController : ControllerBase
 {
-    public SpecialistPackageController(
-        IConfiguration configuration,
-        ILogger<AccountController> logger
-    )
-    {
-        _config = configuration;
-        _logger = logger;
-    }
-    
-    
-    private readonly IConfiguration _config;
-    private readonly ILogger _logger;
     
     [HttpPost]
+    [Route("api/specialist/package/create")]
     public async Task<CreateSpecialistPackageResponse> CreateSpecialistPackage(CreateSpecialistPackageRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
@@ -49,8 +39,9 @@ public class SpecialistPackageController : ControllerBase
         };
     }
     
-    [HttpGet]
-    async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(GetSpecialistPackagesRequest request)
+    [HttpPost]
+    [Route("api/specialist/packages")]
+    public async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(GetSpecialistPackagesRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
         if(user == null)
@@ -74,6 +65,29 @@ public class SpecialistPackageController : ControllerBase
         }
 
         return response;
+    }
+    
+    [HttpGet]
+    [Route("api/specialist/package/{packageId}")]
+    public async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(string packageId)
+    {
+        DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
+        if(user == null)
+            return new GetSpecialistPackagesResponse()
+            {
+                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
+            };
+            
+        // Search through all specialists for the search term.
+        // TODO: Apply filters here
+        List<SpecialistPackage> results = (await MongoConnector.GetSpecialistPackageCollection()
+            .FindAsync(it => it.Id == packageId)).ToList();
+
+        return new GetSpecialistPackagesResponse()
+        {
+            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            SpecialistPackages = results
+        };
     }
 
 }

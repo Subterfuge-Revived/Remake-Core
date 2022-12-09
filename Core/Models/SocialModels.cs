@@ -16,17 +16,11 @@ namespace SubterfugeCore.Models.GameEvents
         ViewFriendsResponse ViewFriends(ViewFriendsRequest viewFriendsRequest);
     }
     
-    public class BlockPlayerRequest
-    {
-        public string UserIdToBlock { get; set; }
-    }
+    public class BlockPlayerRequest { }
 
     public class BlockPlayerResponse : NetworkResponse { }
 
-    public class UnblockPlayerRequest
-    {
-        public string UserIdToUnblock { get; set; }
-    }
+    public class UnblockPlayerRequest { }
     
     public class UnblockPlayerResponse : NetworkResponse { }
 

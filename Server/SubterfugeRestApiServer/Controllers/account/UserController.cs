@@ -6,9 +6,12 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeRestApiServer.Authentication;
+using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
 using SubterfugeServerConsole.Responses;
 
@@ -16,19 +19,17 @@ namespace SubterfugeRestApiServer;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
-public class AccountController : ControllerBase
+public class UserController : ControllerBase
 {
-    public AccountController(IConfiguration configuration, ILogger<AccountController> logger)
+    public UserController(IConfiguration configuration)
     {
         _config = configuration;
-        _logger = logger;
     }
 
     private readonly IConfiguration _config;
-    private readonly ILogger _logger;
     
     [AllowAnonymous]
-    [HttpPost(Name = "login")]
+    [HttpPost]
     public async Task<ActionResult<AuthorizationResponse>> Login(AuthorizationRequest request)
     {
         var user = await AuthenticateUserByPassword(request);
@@ -91,7 +92,7 @@ public class AccountController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost(Name = "register")]
+    [HttpPost]
     public async Task<ActionResult<AccountRegistrationResponse>> RegisterAccount(AccountRegistrationRequest registrationRequeset)
     {
         DbUserModel dbUserModel = await DbUserModel.GetUserFromUsername(registrationRequeset.Username);
@@ -113,21 +114,50 @@ public class AccountController : ControllerBase
         });
     }
 
-    [Authorize]
-    [HttpPost(Name = "roles")]
-    public async Task<ActionResult<GetRolesResponse>> GetRoles(GetRolesRequest roleRequest)
+    [Authorize(Roles = "Administrator")]
+    [HttpPost]
+    public async Task<ActionResult<GetUserResponse>> GetUsers(GetUserRequest getUserRequest)
     {
-        DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return Unauthorized(new GetRolesResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            });
-            
-        var response = new GetRolesResponse() {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-            Claims = dbUserModel.UserModel.Claims
-        };
-        return Ok(response);
+        var filterBuilder = Builders<UserModel>.Filter;
+        var filter = filterBuilder.Empty;
+        
+        if (!getUserRequest.EmailSearch.IsNullOrEmpty())
+        {
+            filter &= filterBuilder.Regex(model => model.Email, $".*{getUserRequest.EmailSearch}.*");
+        }
+
+        if (!getUserRequest.UsernameSearch.IsNullOrEmpty())
+        {
+            filter &= filterBuilder.Regex(model => model.Username, $".*{getUserRequest.UsernameSearch}.*");
+        }
+        
+        if (!getUserRequest.DeviceIdentifierSearch.IsNullOrEmpty())
+        {
+            filter &= filterBuilder.Regex(model => model.DeviceIdentifier, $".*{getUserRequest.DeviceIdentifierSearch}.*");
+        }
+
+        if (!getUserRequest.RequireUserClaims.IsNullOrEmpty())
+        {
+            filter &= filterBuilder.All(model => model.Claims, getUserRequest.RequireUserClaims);
+        }
+
+        if (getUserRequest.isBanned)
+        {
+            filter &= filterBuilder.Gt(model => model.BannedUntil, DateTime.Now);
+        }
+        else
+        {
+            filter &= filterBuilder.Lte(model => model.BannedUntil, DateTime.Now);
+        }
+
+        var matchingUsers = (await MongoConnector.GetUserCollection().FindAsync(filter))
+            .ToList()
+            .Select(it => it.Obfuscate())
+            .ToArray();
+
+        return Ok(new GetUserResponse()
+        {
+            Users = matchingUsers
+        });
     }
 }

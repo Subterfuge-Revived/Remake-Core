@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
 using SubterfugeServerConsole.Responses;
 
@@ -8,23 +10,11 @@ namespace SubterfugeRestApiServer.specialists;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]/[action]")]
 public class SpecialistConfigurationController: ControllerBase
 {
-    public SpecialistConfigurationController(
-        IConfiguration configuration,
-        ILogger<AccountController> logger
-    )
-    {
-        _config = configuration;
-        _logger = logger;
-    }
-    
-    
-    private readonly IConfiguration _config;
-    private readonly ILogger _logger;
-    
+
     [HttpPost]
+    [Route("api/specialist/create")]
     public async Task<SubmitCustomSpecialistResponse> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
@@ -49,7 +39,8 @@ public class SpecialistConfigurationController: ControllerBase
         };
     }
     
-    [HttpGet]
+    [HttpPost]
+    [Route("api/specialists")]
     public async Task<GetCustomSpecialistsResponse> GetCustomSpecialists(GetCustomSpecialistsRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
@@ -74,6 +65,28 @@ public class SpecialistConfigurationController: ControllerBase
         }
 
         return response;
+    }
+    
+    [HttpGet]
+    [Route("api/specialist/{specialistId}")]
+    public async Task<GetCustomSpecialistsResponse> GetCustomSpecialists(string specialistId)
+    {
+        DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
+        if(user == null)
+            return new GetCustomSpecialistsResponse()
+            {
+                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
+            };
+            
+        // Search through all specialists for the search term.
+        // TODO: Add filters to this endpoint.
+        List<SpecialistConfiguration> results = (await MongoConnector.GetSpecialistCollection().FindAsync(it => it.Id == specialistId)).ToList();
+
+        return new GetCustomSpecialistsResponse()
+        {
+            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            CustomSpecialists = results
+        };
     }
     
 }

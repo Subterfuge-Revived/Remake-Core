@@ -9,19 +9,17 @@ namespace SubterfugeRestApiServer;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]/[action]")]
 public class LobbyController : ControllerBase
 {
-    public LobbyController(IConfiguration configuration, ILogger<AccountController> logger)
+    [HttpPost]
+    [Route("api/lobby")]
+    public async Task<GetLobbyResponse> GetLobbies(GetLobbyRequest request)
     {
-        _config = configuration;
-        _logger = logger;
+        throw new NotImplementedException();
     }
 
-    private readonly IConfiguration _config;
-    private readonly ILogger _logger;
-
     [HttpPost]
+    [Route("api/lobby/create")]
     public async Task<CreateRoomResponse> CreateNewRoom(CreateRoomRequest request)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
@@ -51,7 +49,7 @@ public class LobbyController : ControllerBase
     }
 
     [HttpPost]
-    [Route("api/[controller]/{guid}/join")]
+    [Route("api/lobby/{guid}/join")]
     public async Task<JoinRoomResponse> JoinRoom(JoinRoomRequest request, string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
@@ -75,7 +73,7 @@ public class LobbyController : ControllerBase
     }
     
     [HttpPost]
-    [Route("api/[controller]/{guid}/leave")]
+    [Route("api/lobby/{guid}/leave")]
     public async Task<LeaveRoomResponse> LeaveRoom(LeaveRoomRequest request, string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
@@ -99,7 +97,7 @@ public class LobbyController : ControllerBase
     }
     
     [HttpPost]
-    [Route("api/[controller]/{guid}/start")]
+    [Route("api/lobby/{guid}/start")]
     public async Task<StartGameEarlyResponse> StartGameEarly(StartGameEarlyRequest request, string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
