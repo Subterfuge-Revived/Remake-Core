@@ -79,7 +79,7 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class OpenLobbiesResponse : NetworkResponse
     {
-        private List<GameConfiguration> Rooms { get; set; }
+        public List<GameConfiguration> Rooms { get; set; }
     }
     
     public class PlayerCurrentGamesRequest {}
@@ -106,11 +106,8 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class JoinRoomRequest { }
 
-    public class LeaveRoomRequest { }
-
     public class LeaveRoomResponse : NetworkResponse { }
     
-    public class StartGameEarlyRequest { }
     public class StartGameEarlyResponse : NetworkResponse { }
 
     public class GetLobbyRequest

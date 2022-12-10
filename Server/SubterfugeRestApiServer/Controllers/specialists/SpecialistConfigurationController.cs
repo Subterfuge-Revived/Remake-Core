@@ -15,14 +15,11 @@ public class SpecialistConfigurationController: ControllerBase
 
     [HttpPost]
     [Route("api/specialist/create")]
-    public async Task<SubmitCustomSpecialistResponse> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request)
+    public async Task<ActionResult<SubmitCustomSpecialistResponse>> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
-        if(user == null)
-            return new SubmitCustomSpecialistResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (user == null)
+            return Unauthorized();
 
         // Set author
         request.SpecialistConfiguration.Creator = user.AsUser();
@@ -32,23 +29,20 @@ public class SpecialistConfigurationController: ControllerBase
         // Get the generated specialist ID
         string specialistId = configModel.SpecialistConfig.Id;
 
-        return new SubmitCustomSpecialistResponse()
+        return Ok(new SubmitCustomSpecialistResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             SpecialistConfigurationId = specialistId,
-        };
+        });
     }
     
     [HttpPost]
     [Route("api/specialists")]
-    public async Task<GetCustomSpecialistsResponse> GetCustomSpecialists(GetCustomSpecialistsRequest request)
+    public async Task<ActionResult<GetCustomSpecialistsResponse>> GetCustomSpecialists(GetCustomSpecialistsRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
-        if(user == null)
-            return new GetCustomSpecialistsResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (user == null)
+            return Unauthorized();
             
         // Search through all specialists for the search term.
         // TODO: Add filters to this endpoint.
@@ -64,29 +58,26 @@ public class SpecialistConfigurationController: ControllerBase
             response.CustomSpecialists.Add(model.SpecialistConfig);   
         }
 
-        return response;
+        return Ok(response);
     }
     
     [HttpGet]
     [Route("api/specialist/{specialistId}")]
-    public async Task<GetCustomSpecialistsResponse> GetCustomSpecialists(string specialistId)
+    public async Task<ActionResult<GetCustomSpecialistsResponse>> GetCustomSpecialists(string specialistId)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
-        if(user == null)
-            return new GetCustomSpecialistsResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (user == null)
+            return Unauthorized();
             
         // Search through all specialists for the search term.
         // TODO: Add filters to this endpoint.
         List<SpecialistConfiguration> results = (await MongoConnector.GetSpecialistCollection().FindAsync(it => it.Id == specialistId)).ToList();
 
-        return new GetCustomSpecialistsResponse()
+        return Ok(new GetCustomSpecialistsResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             CustomSpecialists = results
-        };
+        });
     }
     
 }

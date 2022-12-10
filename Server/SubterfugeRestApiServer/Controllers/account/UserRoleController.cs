@@ -23,10 +23,7 @@ public class UserRoleController : ControllerBase
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
-            return Unauthorized(new GetRolesResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            });
+            return Unauthorized();
 
         if (dbUserModel.HasClaim(UserClaim.Administrator))
         {
@@ -45,7 +42,8 @@ public class UserRoleController : ControllerBase
                 Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
             });
         }
-        else if (dbUserModel.UserModel.Id == userId)
+        
+        if (dbUserModel.UserModel.Id == userId)
         {
             var response = new GetRolesResponse()
             {
@@ -54,13 +52,8 @@ public class UserRoleController : ControllerBase
             };
             return Ok(response);
         }
-        else
-        {
-            return Unauthorized(new GetRolesResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            });
-        }
+        
+        return Forbid();
     }
     
     [Authorize(Roles = "Administrator")]
@@ -69,24 +62,18 @@ public class UserRoleController : ControllerBase
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
-            return Unauthorized(new GetRolesResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            });
+            return Unauthorized();
 
-        DbUserModel targetUser = await DbUserModel.GetUserFromGuid(userId);
+        DbUserModel? targetUser = await DbUserModel.GetUserFromGuid(userId);
         if (targetUser == null)
-        {
-            return Conflict(new GetRolesResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
-            });
-        }
+            return Conflict();
+
+        if (!dbUserModel.HasClaim(UserClaim.Administrator))
+            return Unauthorized();
 
         targetUser.UserModel.Claims = updateRoleRequest.Claims;
         await targetUser.SaveToDatabase();
-        
-            
+
         var response = new GetRolesResponse() {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             Claims = targetUser.UserModel.Claims

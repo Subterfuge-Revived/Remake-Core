@@ -15,14 +15,11 @@ public class SpecialistPackageController : ControllerBase
     
     [HttpPost]
     [Route("api/specialist/package/create")]
-    public async Task<CreateSpecialistPackageResponse> CreateSpecialistPackage(CreateSpecialistPackageRequest request)
+    public async Task<ActionResult<CreateSpecialistPackageResponse>> CreateSpecialistPackage(CreateSpecialistPackageRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
-        if(user == null)
-            return new CreateSpecialistPackageResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (user == null)
+            return Unauthorized();
 
         // Set author
         request.SpecialistPackage.Creator = user.AsUser();
@@ -32,23 +29,20 @@ public class SpecialistPackageController : ControllerBase
         // Get the generated specialist ID
         string packageId = packageModel.SpecialistPackage.Id;
 
-        return new CreateSpecialistPackageResponse()
+        return Ok(new CreateSpecialistPackageResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             SpecialistPackageId = packageId,
-        };
+        });
     }
     
     [HttpPost]
     [Route("api/specialist/packages")]
-    public async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(GetSpecialistPackagesRequest request)
+    public async Task<ActionResult<GetSpecialistPackagesResponse>> GetSpecialistPackages(GetSpecialistPackagesRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
-        if(user == null)
-            return new GetSpecialistPackagesResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (user == null)
+            return Unauthorized();
             
         // Search through all specialists for the search term.
         // TODO: Apply filters here
@@ -64,30 +58,27 @@ public class SpecialistPackageController : ControllerBase
             response.SpecialistPackages.Add(model.SpecialistPackage);   
         }
 
-        return response;
+        return Ok(response);
     }
     
     [HttpGet]
     [Route("api/specialist/package/{packageId}")]
-    public async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(string packageId)
+    public async Task<ActionResult<GetSpecialistPackagesResponse>> GetSpecialistPackages(string packageId)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
-        if(user == null)
-            return new GetSpecialistPackagesResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (user == null)
+            return Unauthorized();
             
         // Search through all specialists for the search term.
         // TODO: Apply filters here
         List<SpecialistPackage> results = (await MongoConnector.GetSpecialistPackageCollection()
             .FindAsync(it => it.Id == packageId)).ToList();
 
-        return new GetSpecialistPackagesResponse()
+        return Ok(new GetSpecialistPackagesResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             SpecialistPackages = results
-        };
+        });
     }
 
 }

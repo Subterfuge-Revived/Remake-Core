@@ -26,11 +26,6 @@ namespace SubterfugeCore.Models.GameEvents
         public int OccursAtTick { get; set; }
         public NetworkGameEventData EventData { get; set; }
     }
-    
-    public class GetGameRoomEventsRequest
-    {
-        public long AfterTick { get; set; }
-    }
 
     public class GetGameRoomEventsResponse : NetworkResponse
     {
@@ -50,8 +45,6 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class UpdateGameEventRequest
     {
-        public string RoomId { get; set; }
-        public string EventId { get; set; }
         public GameEventRequest GameEventRequest { get; set; }
     }
 

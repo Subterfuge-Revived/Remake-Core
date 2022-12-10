@@ -96,13 +96,17 @@ namespace SubterfugeServerConsole.Connections.Models
             return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
         
-        public async Task<bool> IsBlocked(DbUserModel otherDbUserModel)
+        /**
+         * Checks if either player have one of the others on their block list
+         * You do not need to check both relationships (ex 1 blocks 2 or 2 blocks 1).
+         */
+        public async Task<bool> IsRelationshipBlocked(DbUserModel otherDbUserModel)
         {
             var blockedPlayer = (await MongoConnector.GetFriendCollection()
                 .FindAsync(it =>
                     it.RelationshipStatus == RelationshipStatus.Blocked && 
-                        (it.PlayerId == UserModel.Id && it.FriendId == otherDbUserModel.UserModel.Id ||
-                        it.FriendId == UserModel.Id && it.PlayerId == otherDbUserModel.UserModel.Id)
+                        ((it.PlayerId == UserModel.Id && it.FriendId == otherDbUserModel.UserModel.Id) ||
+                        (it.FriendId == UserModel.Id && it.PlayerId == otherDbUserModel.UserModel.Id))
                 ))
                 .FirstOrDefault();
             
@@ -112,19 +116,24 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<List<Friend>> GetFriendRequests()
         {
             List<Friend> friendRequests = (await MongoConnector.GetFriendCollection()
-                .FindAsync(it => it.PlayerId == UserModel.Id && it.RelationshipStatus == RelationshipStatus.Pending))
+                .FindAsync(it => (it.PlayerId == UserModel.Id || it.FriendId == UserModel.Id) && it.RelationshipStatus == RelationshipStatus.Pending))
                 .ToList();
             
             return friendRequests;
         }
 
-        public async Task<bool> HasFriendRequestFrom(DbUserModel friend)
+        /**
+         * This method checks to see if a friend request exists between two players.
+         * You do not need to check this twice. (ex. 1 to 2 and 2 to 1)
+         */
+        public async Task<bool> HasFriendRequestBetween(DbUserModel friend)
         {
             Friend friendRequest = (await MongoConnector.GetFriendCollection()
                 .FindAsync(it => 
                     it.RelationshipStatus == RelationshipStatus.Pending &&
-                    (it.PlayerId == UserModel.Id && it.FriendId == friend.UserModel.Id)))
-                .ToList()
+                    ((it.PlayerId == UserModel.Id && it.FriendId == friend.UserModel.Id) ||
+                     (it.FriendId == UserModel.Id && it.PlayerId == friend.UserModel.Id))
+                )).ToList()
                 .FirstOrDefault();
             
             if (friendRequest == null)
@@ -176,9 +185,13 @@ namespace SubterfugeServerConsole.Connections.Models
             return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
         
+        /**
+         * This function checks if the relationship between the players is "Friends".
+         * You do not need to check both directions (ex 1 to 2 and 2 to 1)
+         */
         public async Task<bool> IsFriend(DbUserModel friend)
         {
-            Friend friendModel = (await MongoConnector.GetFriendCollection()
+            Friend? friendModel = (await MongoConnector.GetFriendCollection()
                 .FindAsync(it =>
                     it.RelationshipStatus == RelationshipStatus.Friends && (
                         (it.PlayerId == this.UserModel.Id && it.FriendId == friend.UserModel.Id) ||
@@ -196,7 +209,7 @@ namespace SubterfugeServerConsole.Connections.Models
             return true;
         }
 
-        public static async Task<DbUserModel> GetUserFromUsername(string username)
+        public static async Task<DbUserModel?> GetUserFromUsername(string username)
         {
             var user = (await MongoConnector.GetUserCollection()
                 .FindAsync(it => it.Username == username))
