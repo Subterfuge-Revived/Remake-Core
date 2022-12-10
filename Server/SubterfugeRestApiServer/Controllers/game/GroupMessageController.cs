@@ -25,70 +25,46 @@ public class GroupMessageController : ControllerBase
     private readonly string _groupId;
     
     [HttpPost]
-    public async Task<SendMessageResponse> SendMessage(SendMessageRequest request, string groupId)
+    public async Task<ActionResult<SendMessageResponse>> SendMessage(SendMessageRequest request, string groupId)
     {
-        DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new SendMessageResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        DbUserModel? currentUser = HttpContext.Items["User"] as DbUserModel;
+        if (currentUser == null)
+            return Unauthorized();
 
-        Room room = await Room.GetRoomFromGuid(_roomGuid);
-        if(room == null)
-            return new SendMessageResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
-            };
+        Room? room = await Room.GetRoomFromGuid(_roomGuid);
+        if (room == null)
+            return NotFound("Room not found");
 
-        GroupChat groupChat = await room.GetGroupChatById(groupId);
-        if(groupChat == null)
-            return new SendMessageResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.CHAT_GROUP_DOES_NOT_EXIST)
-            };
-            
-        if(!groupChat.IsPlayerInGroup(dbUserModel))
-            return new SendMessageResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
-            };
+        GroupChat? groupChat = await room.GetGroupChatById(groupId);
+        if (groupChat == null)
+            return NotFound("Group not found");
 
-        return new SendMessageResponse()
+        if (!groupChat.IsPlayerInGroup(currentUser) || !currentUser.HasClaim(UserClaim.Administrator))
+            return Forbid();
+
+        return Ok(new SendMessageResponse()
         {
-            Status = await groupChat.SendChatMessage(dbUserModel, request.Message)
-        };
+            Status = await groupChat.SendChatMessage(currentUser, request.Message)
+        });
     }
     
     [HttpGet]
-    public async Task<GetGroupMessagesResponse> Messages(GetGroupMessagesRequest request)
+    public async Task<ActionResult<GetGroupMessagesResponse>> Messages(GetGroupMessagesRequest request)
     {
-        DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new GetGroupMessagesResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        DbUserModel? currentUser = HttpContext.Items["User"] as DbUserModel;
+        if (currentUser == null)
+            return Unauthorized();
             
         Room room = await Room.GetRoomFromGuid(_roomGuid);
-        if(room == null)
-            return new GetGroupMessagesResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
-            };
+        if (room == null)
+            return NotFound("Room not found");
             
         GroupChat groupChat = await room.GetGroupChatById(_groupId);
-        if(groupChat == null)
-            return new GetGroupMessagesResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.CHAT_GROUP_DOES_NOT_EXIST)
-            };
-            
-        if(!groupChat.IsPlayerInGroup(dbUserModel))
-            return new GetGroupMessagesResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
-            };
+        if (groupChat == null)
+            return NotFound("Group not found");
+
+        if (!groupChat.IsPlayerInGroup(currentUser) || !currentUser.HasClaim(UserClaim.Administrator))
+            return Forbid();
 
         return new GetGroupMessagesResponse()
         {

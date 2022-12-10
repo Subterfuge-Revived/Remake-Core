@@ -11,119 +11,136 @@ namespace SubterfugeRestApiServer;
 [Authorize]
 public class LobbyController : ControllerBase
 {
-    [HttpPost]
+    [HttpGet]
     [Route("api/lobby")]
-    public async Task<GetLobbyResponse> GetLobbies(GetLobbyRequest request)
+    public async Task<ActionResult<GetLobbyResponse>> GetLobbies()
     {
-        throw new NotImplementedException();
+        DbUserModel dbUserModel = HttpContext.Items["User"] as DbUserModel;
+        if (dbUserModel == null)
+            return Unauthorized();
+            
+        OpenLobbiesResponse roomResponse = new OpenLobbiesResponse();
+        List<GameConfiguration> rooms = (await Room.GetOpenLobbies()).Select(it => it.GameConfiguration).ToList();
+        roomResponse.Rooms.AddRange(rooms);
+        roomResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
+            
+        return Ok(roomResponse);
+    }
+
+    [HttpGet]
+    [Route("api/{userId}/lobbies")]
+    public async Task<ActionResult<PlayerCurrentGamesResponse>> GetPlayerCurrentGames(string userId)
+    {
+        DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
+        if (currentUser == null)
+            return Unauthorized();
+
+        if (currentUser.UserModel.Id == userId)
+        {
+            PlayerCurrentGamesResponse currentGameResponse = new PlayerCurrentGamesResponse();
+            List<GameConfiguration> rooms = (await currentUser.GetActiveRooms()).Select(it => it.GameConfiguration)
+                .ToList();
+            currentGameResponse.Games.AddRange(rooms);
+            currentGameResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
+            return Ok(currentGameResponse);
+        }
+
+        if (currentUser.HasClaim(UserClaim.Administrator))
+        {
+            DbUserModel? targetPlayer = await DbUserModel.GetUserFromGuid(userId);
+            if (targetPlayer == null)
+                return NotFound();
+            
+            PlayerCurrentGamesResponse currentGameResponse = new PlayerCurrentGamesResponse();
+            List<GameConfiguration> rooms = (await targetPlayer.GetActiveRooms()).Select(it => it.GameConfiguration)
+                .ToList();
+            currentGameResponse.Games.AddRange(rooms);
+            currentGameResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
+            return Ok(currentGameResponse);
+        }
+
+        // Non-Admin is trying to find the games that someone else is in.
+        return Unauthorized();
     }
 
     [HttpPost]
     [Route("api/lobby/create")]
-    public async Task<CreateRoomResponse> CreateNewRoom(CreateRoomRequest request)
+    public async Task<ActionResult<CreateRoomResponse>> CreateNewRoom(CreateRoomRequest request)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new CreateRoomResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (dbUserModel == null)
+            return Unauthorized();
             
         // Ensure max players is over 1
-        if(request.GameSettings.MaxPlayers < 2)
-            return new CreateRoomResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST)
-            };
+        if (request.GameSettings.MaxPlayers < 2)
+            return BadRequest("A lobby requires at least 2 players");
                 
             
         Room room = new Room(request, dbUserModel.AsUser());
         await room.CreateInDatabase();
                 
                
-        return new CreateRoomResponse()
+        return Ok(new CreateRoomResponse()
         {
             GameConfiguration = room.GameConfiguration,
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-        };
+        });
     }
 
     [HttpPost]
     [Route("api/lobby/{guid}/join")]
-    public async Task<JoinRoomResponse> JoinRoom(JoinRoomRequest request, string guid)
+    public async Task<ActionResult<JoinRoomResponse>> JoinRoom(JoinRoomRequest request, string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new JoinRoomResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (dbUserModel == null)
+            return Unauthorized();
             
         Room room = await Room.GetRoomFromGuid(guid);
-        if(room == null)
-            return new JoinRoomResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
-            };
+        if (room == null)
+            return NotFound("Room not found");
 
-        return new JoinRoomResponse()
+        return Ok(new JoinRoomResponse()
         {
             Status = await room.JoinRoom(dbUserModel)
-        };
+        });
     }
     
-    [HttpPost]
+    [HttpGet]
     [Route("api/lobby/{guid}/leave")]
-    public async Task<LeaveRoomResponse> LeaveRoom(LeaveRoomRequest request, string guid)
+    public async Task<ActionResult<LeaveRoomResponse>> LeaveRoom(string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new LeaveRoomResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (dbUserModel == null)
+            return Unauthorized();
             
-        Room room = await Room.GetRoomFromGuid(guid);
-        if(room == null)
-            return new LeaveRoomResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
-            };
+        Room? room = await Room.GetRoomFromGuid(guid);
+        if (room == null)
+            return NotFound("Room not found");
             
-        return new LeaveRoomResponse()
+        return Ok(new LeaveRoomResponse()
         {
             Status = await room.LeaveRoom(dbUserModel)
-        };
+        });
     }
     
-    [HttpPost]
+    [HttpGet]
     [Route("api/lobby/{guid}/start")]
-    public async Task<StartGameEarlyResponse> StartGameEarly(StartGameEarlyRequest request, string guid)
+    public async Task<ActionResult<StartGameEarlyResponse>> StartGameEarly(string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new StartGameEarlyResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (dbUserModel == null)
+            return Unauthorized();
             
         Room room = await Room.GetRoomFromGuid(guid);
-        if(room == null)
-            return new StartGameEarlyResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
-            };
+        if (room == null)
+            return NotFound("Room not found");
 
-        if (room.GameConfiguration.Creator.Id == dbUserModel.UserModel.Id)
+        if (room.GameConfiguration.Creator.Id != dbUserModel.UserModel.Id || !dbUserModel.HasClaim(UserClaim.Administrator))
+            return Forbid();
+        
+        return Ok(new StartGameEarlyResponse()
         {
-            return new StartGameEarlyResponse()
-            {
-                Status = await room.StartGame(),
-            };
-        }
-        return new StartGameEarlyResponse()
-        {
-            Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED),
-        };
+            Status = await room.StartGame(),
+        });
     }
 }

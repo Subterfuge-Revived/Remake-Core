@@ -36,14 +36,7 @@ namespace SubterfugeCore.Models.GameEvents
         public string FriendId { get; set; }
     }
 
-    public class SendFriendRequestResponse : NetworkResponse { }
-
-    public class AcceptFriendRequestRequest
-    {
-        public string FriendId { get; set; }
-    }
-
-    public class AcceptFriendRequestResponse : NetworkResponse { }
+    public class AddAcceptFriendResponse : NetworkResponse { }
 
     public class DenyFriendRequestRequest
     {
@@ -56,7 +49,7 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class ViewFriendRequestsResponse : NetworkResponse
     {
-        public List<User> IncomingFriendRequests { get; set; }
+        public List<User> FriendRequests { get; set; }
     }
 
     public class RemoveFriendRequest

@@ -33,23 +33,18 @@ public class UserController : ControllerBase
     public async Task<ActionResult<AuthorizationResponse>> Login(AuthorizationRequest request)
     {
         var user = await AuthenticateUserByPassword(request);
+        if (user == null)
+            return Unauthorized();
 
-        if (user != null)
-        {
-            var tokenString = GenerateJsonWebToken(user);
-            return Ok(
-                new AuthorizationResponse()
-                {
-                    Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-                    Token = tokenString
-                }
-            );
-        }
-
-        return Unauthorized(new AuthorizationResponse()
-        {
-            Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED),
-        });
+        
+        var tokenString = GenerateJsonWebToken(user);
+        return Ok(
+            new AuthorizationResponse()
+            {
+                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+                Token = tokenString
+            }
+        );
     }
 
     private string GenerateJsonWebToken(DbUserModel dbUserModel)
@@ -83,7 +78,7 @@ public class UserController : ControllerBase
     private async Task<DbUserModel?> AuthenticateUserByPassword(AuthorizationRequest request)
     {
         // Try to get a user
-        DbUserModel dbUserModel = await DbUserModel.GetUserFromUsername(request.Username);
+        DbUserModel? dbUserModel = await DbUserModel.GetUserFromUsername(request.Username);
 
         if (dbUserModel == null || !JwtManager.VerifyPasswordHash(request.Password, dbUserModel.UserModel.PasswordHash))
             return null;
@@ -95,12 +90,9 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<AccountRegistrationResponse>> RegisterAccount(AccountRegistrationRequest registrationRequeset)
     {
-        DbUserModel dbUserModel = await DbUserModel.GetUserFromUsername(registrationRequeset.Username);
+        DbUserModel? dbUserModel = await DbUserModel.GetUserFromUsername(registrationRequeset.Username);
         if(dbUserModel != null)
-            return Conflict(new AccountRegistrationResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.DUPLICATE)
-            });
+            return Conflict("Username already exists");
             
         // Create a new user model
         DbUserModel model = new DbUserModel(registrationRequeset);

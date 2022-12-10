@@ -14,27 +14,18 @@ public class GameEventController : ControllerBase
 {
     [HttpGet]
     [Route("api/{roomId}/events")]
-    public async Task<GetGameRoomEventsResponse> GetGameRoomEvents(GetGameRoomEventsRequest request, string roomId)
+    public async Task<ActionResult<GetGameRoomEventsResponse>> GetGameRoomEvents(string roomId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new GetGameRoomEventsResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (dbUserModel == null)
+            return Unauthorized();
             
         Room room = await Room.GetRoomFromGuid(roomId);
-        if(room == null)
-            return new GetGameRoomEventsResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
-            };
-            
+        if (room == null)
+            return NotFound();
+
         if (room.GameConfiguration.PlayersInLobby.All(it => it.Id != dbUserModel.UserModel.Id) && !dbUserModel.HasClaim(UserClaim.Administrator))
-            return new GetGameRoomEventsResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
-            };
+            return Forbid();
             
         List<GameEventData> events = await room.GetAllGameEvents();
         // Filter out only the player's events and events that have occurred in the past.
@@ -51,76 +42,55 @@ public class GameEventController : ControllerBase
         GetGameRoomEventsResponse response = new GetGameRoomEventsResponse();
         response.GameEvents.AddRange(events);
         response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
-        return response;
+        return Ok(response);
     }
     
     [HttpPost]
     [Route("api/{roomId}/events")]
-    public async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
+    public async Task<ActionResult<SubmitGameEventResponse>> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new SubmitGameEventResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (dbUserModel == null)
+            return Unauthorized();
 
-        Room room = await Room.GetRoomFromGuid(roomId);
-        if(room == null)
-            return new SubmitGameEventResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
-            };
-            
-        if(!room.IsPlayerInRoom(dbUserModel))
-            return new SubmitGameEventResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
-            };
+        Room? room = await Room.GetRoomFromGuid(roomId);
+        if (room == null)
+            return NotFound();
 
-        return await room.AddPlayerGameEvent(dbUserModel, request.GameEventRequest);
+        if (!room.IsPlayerInRoom(dbUserModel))
+            return Forbid();
+
+        return Ok(await room.AddPlayerGameEvent(dbUserModel, request.GameEventRequest));
     }
     
     [HttpPut]
     [Route("api/{roomId}/events/{eventGuid}")]
-    public async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
+    public async Task<ActionResult<SubmitGameEventResponse>> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new SubmitGameEventResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (dbUserModel == null)
+            return Unauthorized();
 
-        Room room = await Room.GetRoomFromGuid(roomId);
-        if(room == null)
-            return new SubmitGameEventResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
-            };
+        Room? room = await Room.GetRoomFromGuid(roomId);
+        if (room == null)
+            return NotFound();
             
         // GameEventToUpdate.
-        return await room.UpdateGameEvent(dbUserModel, request);
+        return Ok(await room.UpdateGameEvent(dbUserModel, request));
     }
     
     [HttpDelete]
     [Route("api/{roomId}/events/{eventGuid}")]
-    public async Task<DeleteGameEventResponse> Delete(DeleteGameEventRequest request, string roomId, string eventGuid)
+    public async Task<ActionResult<DeleteGameEventResponse>> Delete(DeleteGameEventRequest request, string roomId, string eventGuid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new DeleteGameEventResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (dbUserModel == null)
+            return Unauthorized();
 
         Room room = await Room.GetRoomFromGuid(roomId);
-        if(room == null)
-            return new DeleteGameEventResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
-            };
+        if (room == null)
+            return NotFound();
 
-        return await room.RemovePlayerGameEvent(dbUserModel, request.EventId);
+        return Ok(await room.RemovePlayerGameEvent(dbUserModel, request.EventId));
     }
 }

@@ -23,55 +23,39 @@ public class MessageGroupController : ControllerBase
     private readonly string _roomGuid;
     
     [HttpPost]
-    public async Task<CreateMessageGroupResponse> CreateMessageGroup(CreateMessageGroupRequest request)
+    public async Task<ActionResult<CreateMessageGroupResponse>> CreateMessageGroup(CreateMessageGroupRequest request)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new CreateMessageGroupResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        if (dbUserModel == null)
+            return Unauthorized();
             
         Room room = await Room.GetRoomFromGuid(_roomGuid);
-        if(room == null)
-            return new CreateMessageGroupResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
-            };
-            
-        if(room.GameConfiguration.RoomStatus != RoomStatus.Ongoing)
-            return new CreateMessageGroupResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED),
-            };
-            
-        if(!request.UserIdsInGroup.Contains(dbUserModel.UserModel.Id))
-            return new CreateMessageGroupResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST)
-            };
+        if (room == null)
+            return NotFound();
 
-        return await room.CreateMessageGroup(request.UserIdsInGroup.ToList());
+        if (room.GameConfiguration.RoomStatus != RoomStatus.Ongoing)
+            return Forbid();
+
+        if (!request.UserIdsInGroup.Contains(dbUserModel.UserModel.Id))
+            return BadRequest("Cannot create a message group without yourself in it");
+
+        return Ok(await room.CreateMessageGroup(request.UserIdsInGroup.ToList()));
     }
 
     [HttpGet]
-    public async Task<GetMessageGroupsResponse> GetMessageGroups()
+    public async Task<ActionResult<GetMessageGroupsResponse>> GetMessageGroups()
     {
-        DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
-        if(dbUserModel == null)
-            return new GetMessageGroupsResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
-            };
+        DbUserModel? currentUser = HttpContext.Items["User"] as DbUserModel;
+        if (currentUser == null)
+            return Unauthorized();
             
         Room room = await Room.GetRoomFromGuid(_roomGuid);
-        if(room == null)
-            return new GetMessageGroupsResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST)
-            };
+        if (room == null)
+            return NotFound();
+        
+        // TODO: Add administrator ability here.
 
-        List<GroupChat> groupChats = await room.GetPlayerGroupChats(dbUserModel);
+        List<GroupChat> groupChats = await room.GetPlayerGroupChats(currentUser);
         GetMessageGroupsResponse response = new GetMessageGroupsResponse();
         foreach (var groupModel in groupChats)
         {
@@ -79,6 +63,6 @@ public class MessageGroupController : ControllerBase
         }
 
         response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
-        return response;
+        return Ok(response);
     }
 }

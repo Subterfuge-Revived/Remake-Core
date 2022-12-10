@@ -255,7 +255,7 @@ namespace SubterfugeServerConsole.Connections.Models
             return groupChatList;
         }
 
-        public async Task<GroupChat> GetGroupChatById(string groupChatId)
+        public async Task<GroupChat?> GetGroupChatById(string groupChatId)
         {
             // Get all group chats the player is in
             return (await MongoConnector.GetMessageGroupCollection()
@@ -376,7 +376,7 @@ namespace SubterfugeServerConsole.Connections.Models
         }
         
 
-        public static async Task<Room> GetRoomFromGuid(string roomGuid)
+        public static async Task<Room?> GetRoomFromGuid(string roomGuid)
         {
             var room = (await MongoConnector.GetGameRoomCollection()
                 .FindAsync(it => it.Id == roomGuid))
