@@ -10,7 +10,7 @@ public class AccountUtils
     {
         var accountRegistrationResponse = await TestUtils.GetClient().UserApi.RegisterAccount(new AccountRegistrationRequest()
         {
-            DeviceIdentifier = "MyDevice",
+            DeviceIdentifier = Guid.NewGuid().ToString(),
             Email = "someEmail@email.com",
             Password = username,
             PhoneNumber = "1231231231",
@@ -29,8 +29,8 @@ public class AccountUtils
     {
         var loginResponse = await TestUtils.GetClient().UserApi.Login(new AuthorizationRequest()
         {
-            Password = "OtherUsername",
-            Username = "OtherUsername"
+            Password = username,
+            Username = username
         });
         Assert.True(loginResponse.Status.IsSuccess);
         Assert.IsNotNull(loginResponse.Token);

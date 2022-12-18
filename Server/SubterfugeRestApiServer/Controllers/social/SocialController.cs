@@ -46,7 +46,7 @@ public class SocialController : ControllerBase
             DbUserModel? playerToQuery = await DbUserModel.GetUserFromGuid(userId);
 
             if (playerToQuery == null)
-                return NotFound();
+                return NotFound(ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST, "The specified player does not exist."));
 
             var blockedUsers = await Task.WhenAll(
                 (await playerToQuery.GetBlockedUsers())
@@ -97,7 +97,7 @@ public class SocialController : ControllerBase
             DbUserModel? playerToQuery = await DbUserModel.GetUserFromGuid(userId);
 
             if (playerToQuery == null)
-                return NotFound();
+                return NotFound(ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST, "The specified player does not exist."));
 
             ViewFriendRequestsResponse response = new ViewFriendRequestsResponse();
             var friendRequests = await Task.WhenAll(
@@ -191,7 +191,7 @@ public class SocialController : ControllerBase
 
         DbUserModel friend = await DbUserModel.GetUserFromGuid(userId);
         if (friend == null)
-            return NotFound();
+            return NotFound(ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST, "The specified player does not exist."));
 
         if (await friend.IsRelationshipBlocked(currentUser))
             return Forbid();
@@ -222,7 +222,7 @@ public class SocialController : ControllerBase
 
         DbUserModel friend = await DbUserModel.GetUserFromGuid(userId);
         if (friend == null)
-            return NotFound();
+            return NotFound(ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST, "The specified player does not exist."));
         
         // Don't care if the players are blocked here. You should always be able to remove a friend.
 

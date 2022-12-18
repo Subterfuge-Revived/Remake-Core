@@ -30,7 +30,7 @@ public class MessageGroupController : ControllerBase
             
         Room room = await Room.GetRoomFromGuid(roomId);
         if (room == null)
-            return NotFound();
+            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "The specified room does not exist."));
 
         if (room.GameConfiguration.RoomStatus != RoomStatus.Ongoing)
             return Forbid();
@@ -51,7 +51,7 @@ public class MessageGroupController : ControllerBase
             
         Room room = await Room.GetRoomFromGuid(roomId);
         if (room == null)
-            return NotFound();
+            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "The specified room does not exist."));
         
         // TODO: Add administrator ability here.
 
@@ -76,11 +76,11 @@ public class MessageGroupController : ControllerBase
 
         Room? room = await Room.GetRoomFromGuid(roomId);
         if (room == null)
-            return NotFound("Room not found");
+            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "The specified room does not exist."));
 
         GroupChat? groupChat = await room.GetGroupChatById(groupId);
         if (groupChat == null)
-            return NotFound("Group not found");
+            return NotFound(ResponseFactory.createResponse(ResponseType.CHAT_GROUP_DOES_NOT_EXIST, "The specified group does not exist."));
 
         if (!groupChat.IsPlayerInGroup(currentUser) || !currentUser.HasClaim(UserClaim.Administrator))
             return Forbid();
@@ -101,11 +101,11 @@ public class MessageGroupController : ControllerBase
             
         Room room = await Room.GetRoomFromGuid(roomId);
         if (room == null)
-            return NotFound("Room not found");
+            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "The specified room does not exist."));
             
         GroupChat groupChat = await room.GetGroupChatById(groupId);
         if (groupChat == null)
-            return NotFound("Group not found");
+            return NotFound(ResponseFactory.createResponse(ResponseType.CHAT_GROUP_DOES_NOT_EXIST, "The specified group does not exist."));
 
         if (!groupChat.IsPlayerInGroup(currentUser) || !currentUser.HasClaim(UserClaim.Administrator))
             return Forbid();

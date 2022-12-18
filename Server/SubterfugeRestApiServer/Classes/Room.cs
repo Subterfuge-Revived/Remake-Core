@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeServerConsole.Responses;
@@ -30,21 +31,12 @@ namespace SubterfugeServerConsole.Connections.Models
                 GameSettings = request.GameSettings,
                 MapConfiguration = request.MapConfiguration,
             };
-            GameConfiguration.PlayersInLobby.Add(creator);
+            GameConfiguration.PlayersInLobby = new List<User> { creator };
             GameTick.MinutesPerTick = request.GameSettings.MinutesPerTick;
         }
 
         public async Task<ResponseStatus> JoinRoom(DbUserModel? dbUserModel)
         {
-            if (IsRoomFull())
-                return ResponseFactory.createResponse(ResponseType.ROOM_IS_FULL, "This room has too many players.");
-            
-            if(IsPlayerInRoom(dbUserModel))
-                return ResponseFactory.createResponse(ResponseType.DUPLICATE, "Memory loss? You are already a member of this room.");
-            
-            if(GameConfiguration.RoomStatus != RoomStatus.Open)
-                return ResponseFactory.createResponse(ResponseType.GAME_ALREADY_STARTED, "You're too late! Your friends decided to play out without you.");
-            
             List<DbUserModel?> playersInRoom = new List<DbUserModel?>();
             foreach (User user in GameConfiguration.PlayersInLobby)
             {
@@ -71,9 +63,9 @@ namespace SubterfugeServerConsole.Connections.Models
             return GameConfiguration.PlayersInLobby.Count >= GameConfiguration.GameSettings.MaxPlayers;
         }
         
-        public Boolean IsPlayerInRoom(DbUserModel? player)
+        public Boolean IsPlayerInRoom(DbUserModel player)
         {
-            return GameConfiguration.PlayersInLobby.Contains(player.AsUser());
+            return GameConfiguration.PlayersInLobby.Any(it => it.Id == player.UserModel.Id);
         }
 
         public async Task<ResponseStatus> LeaveRoom(DbUserModel dbUserModel)
@@ -89,7 +81,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 }
 
                 // Otherwise, just remove the player from the player list.
-                GameConfiguration.PlayersInLobby.Remove(dbUserModel.AsUser());
+                GameConfiguration.PlayersInLobby = GameConfiguration.PlayersInLobby.Where(it => it.Id != dbUserModel.UserModel.Id).ToList();
                 await MongoConnector.GetGameRoomCollection().ReplaceOneAsync((it => it.Id == GameConfiguration.Id), GameConfiguration);
                 return ResponseFactory.createResponse(ResponseType.SUCCESS);
             }

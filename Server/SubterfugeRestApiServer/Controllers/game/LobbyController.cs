@@ -19,9 +19,9 @@ public class LobbyController : ControllerBase
         if (dbUserModel == null)
             return Unauthorized();
             
-        OpenLobbiesResponse roomResponse = new OpenLobbiesResponse();
-        List<GameConfiguration> rooms = (await Room.GetOpenLobbies()).Select(it => it.GameConfiguration).ToList();
-        roomResponse.Rooms.AddRange(rooms);
+        GetLobbyResponse roomResponse = new GetLobbyResponse();
+        List<GameConfiguration> lobbies = (await Room.GetOpenLobbies()).Select(it => it.GameConfiguration).ToList();
+        roomResponse.Lobbies = lobbies.ToArray();
         roomResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             
         return Ok(roomResponse);
@@ -41,7 +41,7 @@ public class LobbyController : ControllerBase
             GetLobbyResponse currentGameResponse = new GetLobbyResponse();
             List<GameConfiguration> rooms = (await currentUser.GetActiveRooms()).Select(it => it.GameConfiguration)
                 .ToList();
-            currentGameResponse.Lobbies.AddRange(rooms);
+            currentGameResponse.Lobbies = rooms.ToArray();
             currentGameResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return Ok(currentGameResponse);
         }
@@ -50,12 +50,12 @@ public class LobbyController : ControllerBase
         {
             DbUserModel? targetPlayer = await DbUserModel.GetUserFromGuid(userId);
             if (targetPlayer == null)
-                return NotFound();
+                return NotFound(ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST, "The specified player does not exist."));
             
             GetLobbyResponse currentGameResponse = new GetLobbyResponse();
             List<GameConfiguration> rooms = (await targetPlayer.GetActiveRooms()).Select(it => it.GameConfiguration)
                 .ToList();
-            currentGameResponse.Lobbies.AddRange(rooms);
+            currentGameResponse.Lobbies = rooms.ToArray();
             currentGameResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return Ok(currentGameResponse);
         }
@@ -98,7 +98,16 @@ public class LobbyController : ControllerBase
             
         Room room = await Room.GetRoomFromGuid(guid);
         if (room == null)
-            return NotFound("Room not found");
+            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "Cannot find the room you wish to enter."));
+        
+        if (room.IsRoomFull())
+            return  UnprocessableEntity(ResponseFactory.createResponse(ResponseType.ROOM_IS_FULL, "This room has too many players."));
+            
+        if(room.IsPlayerInRoom(dbUserModel))
+            return Conflict(ResponseFactory.createResponse(ResponseType.DUPLICATE, "Memory loss? You are already a member of this room."));
+            
+        if(room.GameConfiguration.RoomStatus != RoomStatus.Open)
+            return UnprocessableEntity(ResponseFactory.createResponse(ResponseType.GAME_ALREADY_STARTED, "You're too late! Your friends decided to play out without you."));
 
         return Ok(new JoinRoomResponse()
         {
@@ -116,7 +125,7 @@ public class LobbyController : ControllerBase
             
         Room? room = await Room.GetRoomFromGuid(guid);
         if (room == null)
-            return NotFound("Room not found");
+            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "Cannot leave a room that does not exist"));
             
         return Ok(new LeaveRoomResponse()
         {
@@ -134,7 +143,7 @@ public class LobbyController : ControllerBase
             
         Room room = await Room.GetRoomFromGuid(guid);
         if (room == null)
-            return NotFound("Room not found");
+            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "The specified room does not exist."));
 
         if (room.GameConfiguration.Creator.Id != dbUserModel.UserModel.Id || !dbUserModel.HasClaim(UserClaim.Administrator))
             return Forbid();
