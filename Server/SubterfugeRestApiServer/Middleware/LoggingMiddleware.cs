@@ -21,6 +21,7 @@ public class LoggingMiddleware
         }
         finally
         {
+            // TODO: Also log this to the database just to get a history of everything
             _logger.LogInformation(
                 "{user}(uuid={userId}, ip={ip}) {method} {url} => {statusCode}",
                 (context.Items["User"] as DbUserModel)?.UserModel?.Username,

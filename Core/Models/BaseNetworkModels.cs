@@ -35,6 +35,7 @@ namespace SubterfugeCore.Models.GameEvents
         CHAT_GROUP_DOES_NOT_EXIST,    
         GAME_EVENT_DOES_NOT_EXIST,    
         FRIEND_REQUEST_DOES_NOT_EXIST,
+        PLAYER_ALREADY_IN_LOBBY,
         PLAYER_IS_BLOCKED,            // Used if you try to perform an action on someone who is blocked.
         DUPLICATE,                    // Used if something already exists.
         INVALID_REQUEST,              // Used if a request argument is not valid or doesn't meet requirements

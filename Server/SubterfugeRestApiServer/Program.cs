@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeRestApiServer.Middleware;
@@ -66,6 +67,11 @@ builder.Services.AddLogging(logging => logging.AddSimpleConsole(loggerOptions =>
     loggerOptions.SingleLine = true;
     loggerOptions.IncludeScopes = false;
 }));
+
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.AllowSynchronousIO = true;
+});
 
 // Enable JWT Authentication.
 new JwtAuthenticationScheme(config).ConfigureAuthentication(builder.Services);

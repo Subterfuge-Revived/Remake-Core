@@ -22,7 +22,7 @@ public class GameEventController : ControllerBase
             
         Room room = await Room.GetRoomFromGuid(roomId);
         if (room == null)
-            return NotFound();
+            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "Cannot find the room you wish to join."));
 
         if (room.GameConfiguration.PlayersInLobby.All(it => it.Id != dbUserModel.UserModel.Id) && !dbUserModel.HasClaim(UserClaim.Administrator))
             return Forbid();
@@ -55,7 +55,7 @@ public class GameEventController : ControllerBase
 
         Room? room = await Room.GetRoomFromGuid(roomId);
         if (room == null)
-            return NotFound();
+            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "Cannot find the room you wish to join."));
 
         if (!room.IsPlayerInRoom(dbUserModel))
             return Forbid();
@@ -73,7 +73,7 @@ public class GameEventController : ControllerBase
 
         Room? room = await Room.GetRoomFromGuid(roomId);
         if (room == null)
-            return NotFound();
+            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "Cannot find the room you wish to join."));
             
         // GameEventToUpdate.
         return Ok(await room.UpdateGameEvent(dbUserModel, eventGuid, request));
@@ -89,7 +89,7 @@ public class GameEventController : ControllerBase
 
         Room room = await Room.GetRoomFromGuid(roomId);
         if (room == null)
-            return NotFound();
+            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "Cannot find the room you wish to delete."));
 
         return Ok(await room.RemovePlayerGameEvent(dbUserModel, request.EventId));
     }
