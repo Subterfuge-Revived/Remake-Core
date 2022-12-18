@@ -10,11 +10,12 @@ namespace SubterfugeRestApiServer.specialists;
 
 [ApiController]
 [Authorize]
+[Route("api/specialist/")]
 public class SpecialistConfigurationController: ControllerBase
 {
 
     [HttpPost]
-    [Route("api/specialist/create")]
+    [Route("create")]
     public async Task<ActionResult<SubmitCustomSpecialistResponse>> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
@@ -36,8 +37,8 @@ public class SpecialistConfigurationController: ControllerBase
         });
     }
     
+    // TODO: Change this to a GET with URL params
     [HttpPost]
-    [Route("api/specialists")]
     public async Task<ActionResult<GetCustomSpecialistsResponse>> GetCustomSpecialists(GetCustomSpecialistsRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
@@ -62,7 +63,7 @@ public class SpecialistConfigurationController: ControllerBase
     }
     
     [HttpGet]
-    [Route("api/specialist/{specialistId}")]
+    [Route("{specialistId}")]
     public async Task<ActionResult<GetCustomSpecialistsResponse>> GetCustomSpecialists(string specialistId)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;

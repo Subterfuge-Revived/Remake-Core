@@ -8,8 +8,7 @@ namespace SubterfugeCore.Models.GameEvents
         BlockPlayerResponse BlockPlayer(BlockPlayerRequest blockPlayerRequest);
         UnblockPlayerResponse UnblockPlayer(UnblockPlayerRequest unblockPlayerRequest);
         ViewBlockedPlayersResponse ViewBlockedPlayers(ViewBlockedPlayersRequest viewBlockedPlayersRequest);
-        SendFriendRequestResponse SendFriendRequest(SendFriendRequestRequest sendFriendRequestRequest);
-        AcceptFriendRequestResponse AcceptFriendRequest(AcceptFriendRequestRequest acceptFriendRequestRequest);
+        AddAcceptFriendResponse AddAcceptFriendRequest(SendFriendRequestRequest sendFriendRequestRequest);
         DenyFriendRequestResponse DenyFriendRequest(DenyFriendRequestRequest denyFriendRequestRequest);
         ViewFriendRequestsResponse ViewFriendRequests(ViewFriendRequestsRequest viewFriendRequestsRequest);
         RemoveFriendResponse RemoveFriend(RemoveFriendRequest removeFriendRequest);

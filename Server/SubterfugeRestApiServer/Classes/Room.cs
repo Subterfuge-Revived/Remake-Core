@@ -37,13 +37,13 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<ResponseStatus> JoinRoom(DbUserModel? dbUserModel)
         {
             if (IsRoomFull())
-                return ResponseFactory.createResponse(ResponseType.ROOM_IS_FULL);
+                return ResponseFactory.createResponse(ResponseType.ROOM_IS_FULL, "This room has too many players.");
             
             if(IsPlayerInRoom(dbUserModel))
-                return ResponseFactory.createResponse(ResponseType.DUPLICATE);
+                return ResponseFactory.createResponse(ResponseType.DUPLICATE, "Memory loss? You are already a member of this room.");
             
             if(GameConfiguration.RoomStatus != RoomStatus.Open)
-                return ResponseFactory.createResponse(ResponseType.GAME_ALREADY_STARTED);
+                return ResponseFactory.createResponse(ResponseType.GAME_ALREADY_STARTED, "You're too late! Your friends decided to play out without you.");
             
             List<DbUserModel?> playersInRoom = new List<DbUserModel?>();
             foreach (User user in GameConfiguration.PlayersInLobby)
@@ -53,7 +53,8 @@ namespace SubterfugeServerConsole.Connections.Models
             
             // Check if any players in the room have the same device identifier
             if(playersInRoom.Any(it => it.UserModel.DeviceIdentifier == dbUserModel.UserModel.DeviceIdentifier))
-                return ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED);
+                // TODO: Flag the account as suspicious and potentially a multi-boxer.
+                return ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED, "Caught red-handed! You know what you did... You know exactly what you did. You cannot join this room. Your account has been flagged.");
 
             GameConfiguration.PlayersInLobby.Add(dbUserModel.AsUser());
             MongoConnector.GetGameRoomCollection().ReplaceOne((it => it.Id == GameConfiguration.Id), GameConfiguration);
@@ -62,7 +63,7 @@ namespace SubterfugeServerConsole.Connections.Models
             if (GameConfiguration.PlayersInLobby.Count == GameConfiguration.GameSettings.MaxPlayers)
                 return await StartGame();
             
-            return ResponseFactory.createResponse(ResponseType.SUCCESS);;
+            return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
 
         public Boolean IsRoomFull()
@@ -95,7 +96,7 @@ namespace SubterfugeServerConsole.Connections.Models
             // TODO: Player left the game while ongoing.
             // Create a player leave game event and push to event list
 
-            return ResponseFactory.createResponse(ResponseType.INVALID_REQUEST);
+            return ResponseFactory.createResponse(ResponseType.INVALID_REQUEST, "My bad... This should be allowed but currently isn't because I'm too lazy to get around to this...");
         }
 
         public async Task<List<GameEventData>> GetPlayerGameEvents(DbUserModel player)
@@ -108,14 +109,14 @@ namespace SubterfugeServerConsole.Connections.Models
             return events;
         }
 
-        public async Task<SubmitGameEventResponse> UpdateGameEvent(DbUserModel player, UpdateGameEventRequest request)
+        public async Task<SubmitGameEventResponse> UpdateGameEvent(DbUserModel player, string eventId, UpdateGameEventRequest request)
         {
-            GameEventData? gameEvent = await GetGameEventFromGuid(request.EventId);
+            GameEventData? gameEvent = await GetGameEventFromGuid(eventId);
             if (gameEvent == null)
             {
                 return new SubmitGameEventResponse()
                 {
-                    Status = ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST)
+                    Status = ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST, "Whoops! Attempting to update a game event that does not exist.")
                 };
             }
             
@@ -123,7 +124,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new SubmitGameEventResponse()
                 {
-                    Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
+                    Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED, "Mind your own business! Cannot modify a game event that you did not submit.")
                 };
             }
 
@@ -133,7 +134,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new SubmitGameEventResponse()
                 {
-                    Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST)
+                    Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST, "Great Scott! Are you a time traveller? No butterfly effects here!")
                 };
             }
             
@@ -161,7 +162,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new SubmitGameEventResponse()
                 {
-                    Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST),
+                    Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST, "Great Scott! Are you a time traveller? No butterfly effects here!"),
                 };;
             }
             
@@ -185,7 +186,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new DeleteGameEventResponse()
                 {
-                    Status = ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST)
+                    Status = ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST, "Invalid game event id.")
                 };
             }
 
@@ -199,7 +200,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new DeleteGameEventResponse()
                 {
-                    Status = ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST)
+                    Status = ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST, "Cannot delete something that does not exist.")
                 };;
             }
             
@@ -210,7 +211,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new DeleteGameEventResponse()
                 {
-                    Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST)
+                    Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST, "Great Scott! Are you a time traveller? No butterfly effects here!")
                 };
             }
 
@@ -218,7 +219,7 @@ namespace SubterfugeServerConsole.Connections.Models
             {
                 return new DeleteGameEventResponse()
                 {
-                    Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED)
+                    Status = ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED, "Mind your own business! Cannot modify a game event that you did not submit.")
                 };
             }
 
@@ -273,7 +274,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 // A player in the group is not in the game.
                 return new CreateMessageGroupResponse()
                 {
-                    Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST),
+                    Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST, "I ain't afraid of no ghost! One of the players you want in the group is not in your lobby! Spooky!"),
                 };;
             }
 
@@ -294,7 +295,7 @@ namespace SubterfugeServerConsole.Connections.Models
                     {
                         return new CreateMessageGroupResponse()
                         {
-                            Status = ResponseFactory.createResponse(ResponseType.DUPLICATE),
+                            Status = ResponseFactory.createResponse(ResponseType.DUPLICATE, "By our calculations, this group already exists!"),
                         };
                     }
                 }
@@ -356,7 +357,7 @@ namespace SubterfugeServerConsole.Connections.Models
         {
             // Check that there is enough players to start early.
             if (GameConfiguration.PlayersInLobby.Count < 2)
-                return ResponseFactory.createResponse(ResponseType.INVALID_REQUEST);
+                return ResponseFactory.createResponse(ResponseType.INVALID_REQUEST, "Find some friends...");
 
             var update = Builders<GameConfiguration>.Update
                 .Set(it => it.RoomStatus, RoomStatus.Ongoing)

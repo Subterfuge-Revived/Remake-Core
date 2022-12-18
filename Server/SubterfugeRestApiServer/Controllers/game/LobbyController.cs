@@ -9,10 +9,10 @@ namespace SubterfugeRestApiServer;
 
 [ApiController]
 [Authorize]
+[Route("api/lobby/")]
 public class LobbyController : ControllerBase
 {
     [HttpGet]
-    [Route("api/lobby")]
     public async Task<ActionResult<GetLobbyResponse>> GetLobbies()
     {
         DbUserModel dbUserModel = HttpContext.Items["User"] as DbUserModel;
@@ -27,9 +27,10 @@ public class LobbyController : ControllerBase
         return Ok(roomResponse);
     }
 
+    // TODO: This should just be a nullable GET parameter to the method above.
     [HttpGet]
-    [Route("api/{userId}/lobbies")]
-    public async Task<ActionResult<PlayerCurrentGamesResponse>> GetPlayerCurrentGames(string userId)
+    [Route("{userId}/lobbies")]
+    public async Task<ActionResult<GetLobbyResponse>> GetPlayerCurrentGames(string userId)
     {
         DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
@@ -37,10 +38,10 @@ public class LobbyController : ControllerBase
 
         if (currentUser.UserModel.Id == userId)
         {
-            PlayerCurrentGamesResponse currentGameResponse = new PlayerCurrentGamesResponse();
+            GetLobbyResponse currentGameResponse = new GetLobbyResponse();
             List<GameConfiguration> rooms = (await currentUser.GetActiveRooms()).Select(it => it.GameConfiguration)
                 .ToList();
-            currentGameResponse.Games.AddRange(rooms);
+            currentGameResponse.Lobbies.AddRange(rooms);
             currentGameResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return Ok(currentGameResponse);
         }
@@ -51,10 +52,10 @@ public class LobbyController : ControllerBase
             if (targetPlayer == null)
                 return NotFound();
             
-            PlayerCurrentGamesResponse currentGameResponse = new PlayerCurrentGamesResponse();
+            GetLobbyResponse currentGameResponse = new GetLobbyResponse();
             List<GameConfiguration> rooms = (await targetPlayer.GetActiveRooms()).Select(it => it.GameConfiguration)
                 .ToList();
-            currentGameResponse.Games.AddRange(rooms);
+            currentGameResponse.Lobbies.AddRange(rooms);
             currentGameResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             return Ok(currentGameResponse);
         }
@@ -64,7 +65,7 @@ public class LobbyController : ControllerBase
     }
 
     [HttpPost]
-    [Route("api/lobby/create")]
+    [Route("create")]
     public async Task<ActionResult<CreateRoomResponse>> CreateNewRoom(CreateRoomRequest request)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
@@ -88,7 +89,7 @@ public class LobbyController : ControllerBase
     }
 
     [HttpPost]
-    [Route("api/lobby/{guid}/join")]
+    [Route("{guid}/join")]
     public async Task<ActionResult<JoinRoomResponse>> JoinRoom(JoinRoomRequest request, string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
@@ -106,7 +107,7 @@ public class LobbyController : ControllerBase
     }
     
     [HttpGet]
-    [Route("api/lobby/{guid}/leave")]
+    [Route("{guid}/leave")]
     public async Task<ActionResult<LeaveRoomResponse>> LeaveRoom(string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
@@ -124,7 +125,7 @@ public class LobbyController : ControllerBase
     }
     
     [HttpGet]
-    [Route("api/lobby/{guid}/start")]
+    [Route("{guid}/start")]
     public async Task<ActionResult<StartGameEarlyResponse>> StartGameEarly(string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;

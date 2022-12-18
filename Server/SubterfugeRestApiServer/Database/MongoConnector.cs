@@ -31,7 +31,7 @@ namespace SubterfugeServerConsole.Connections
             MongoClientSettings settings = new MongoClientSettings();
             settings.Server = new MongoServerAddress(config.Host, config.Port);
             settings.Credential = mongoCredential;
-            settings.ApplicationName = "SubterfugeGrpcServer";
+            settings.ApplicationName = "SubterfugeServer";
             
             var client = new MongoClient(settings);
             _database = client.GetDatabase("subterfugeDb");

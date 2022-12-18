@@ -1,14 +1,10 @@
-﻿using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeServerConsole.Connections;
@@ -42,7 +38,8 @@ public class UserController : ControllerBase
             new AuthorizationResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-                Token = tokenString
+                Token = tokenString,
+                User = user.UserModel.ToUser(),
             }
         );
     }
@@ -92,7 +89,7 @@ public class UserController : ControllerBase
     {
         DbUserModel? dbUserModel = await DbUserModel.GetUserFromUsername(registrationRequeset.Username);
         if(dbUserModel != null)
-            return Conflict("Username already exists");
+            return Conflict(ResponseFactory.createResponse(ResponseType.DUPLICATE, "A very popular choice! Unfortunately, that username is taken..."));
             
         // Create a new user model
         DbUserModel model = new DbUserModel(registrationRequeset);

@@ -18,7 +18,12 @@ var config = new ConfigurationBuilder()
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+// Add Exception Handling Filter
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ExceptionResponseMiddleware>();
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -28,8 +33,6 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddSwaggerGen(genOptions =>
     {
         genOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "Subterfuge Community Edition API", Version = "v1" });
-
-        // genOptions.SchemaFilter<EnumSchemaFilter>();
 
         // Include 'SecurityScheme' to use JWT Authentication
         var jwtSecurityScheme = new OpenApiSecurityScheme

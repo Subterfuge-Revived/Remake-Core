@@ -38,8 +38,6 @@ namespace SubterfugeCore.Models.GameEvents
         public User User { get; set; }
         public string Token { get; set; }
     }
-    
-    public class GetRolesRequest {}
 
     public class GetRolesResponse : NetworkResponse
     {

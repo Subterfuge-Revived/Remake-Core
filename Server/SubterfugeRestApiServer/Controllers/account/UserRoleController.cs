@@ -8,18 +8,13 @@ namespace SubterfugeRestApiServer;
 
 [ApiController]
 [Authorize]
-[Route("api/user/{userid}/[action]")]
+[Route("api/user/{userId}/[action]")]
 public class UserRoleController : ControllerBase
 {
-    public UserRoleController(string userId)
-    {
-        this.userId = userId;
-    }
-    private readonly string userId;
 
     [Authorize]
     [HttpGet]
-    public async Task<ActionResult<GetRolesResponse>> GetRoles(GetRolesRequest roleRequest)
+    public async Task<ActionResult<GetRolesResponse>> GetRoles(string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
@@ -39,7 +34,7 @@ public class UserRoleController : ControllerBase
             }
             return NotFound(new GetRolesResponse()
             {
-                Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
+                Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST, "Off the grid? We have no record of this user.")
             });
         }
         
@@ -58,7 +53,7 @@ public class UserRoleController : ControllerBase
     
     [Authorize(Roles = "Administrator")]
     [HttpPost]
-    public async Task<ActionResult<GetRolesResponse>> SetRoles(UpdateRolesRequest updateRoleRequest)
+    public async Task<ActionResult<GetRolesResponse>> SetRoles(string userId, UpdateRolesRequest updateRoleRequest)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)

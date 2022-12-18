@@ -13,7 +13,7 @@ namespace SubterfugeRestApiServer;
 public class GameEventController : ControllerBase
 {
     [HttpGet]
-    [Route("api/{roomId}/events")]
+    [Route("api/room/{roomId}/events")]
     public async Task<ActionResult<GetGameRoomEventsResponse>> GetGameRoomEvents(string roomId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
@@ -46,7 +46,7 @@ public class GameEventController : ControllerBase
     }
     
     [HttpPost]
-    [Route("api/{roomId}/events")]
+    [Route("api/room/{roomId}/events")]
     public async Task<ActionResult<SubmitGameEventResponse>> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
@@ -64,7 +64,7 @@ public class GameEventController : ControllerBase
     }
     
     [HttpPut]
-    [Route("api/{roomId}/events/{eventGuid}")]
+    [Route("api/room/{roomId}/events/{eventGuid}")]
     public async Task<ActionResult<SubmitGameEventResponse>> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
@@ -76,11 +76,11 @@ public class GameEventController : ControllerBase
             return NotFound();
             
         // GameEventToUpdate.
-        return Ok(await room.UpdateGameEvent(dbUserModel, request));
+        return Ok(await room.UpdateGameEvent(dbUserModel, eventGuid, request));
     }
     
     [HttpDelete]
-    [Route("api/{roomId}/events/{eventGuid}")]
+    [Route("api/room/{roomId}/events/{eventGuid}")]
     public async Task<ActionResult<DeleteGameEventResponse>> Delete(DeleteGameEventRequest request, string roomId, string eventGuid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;

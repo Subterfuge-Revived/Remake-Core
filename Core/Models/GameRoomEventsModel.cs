@@ -5,7 +5,7 @@ namespace SubterfugeCore.Models.GameEvents
 
     public interface INetworkGameEventController
     {
-        GetGameRoomEventsResponse GetGameRoomEvents(GetGameRoomEventsRequest gameRoomEventsRequest);
+        GetGameRoomEventsResponse GetGameRoomEvents();
         SubmitGameEventResponse SubmitGameEvent(SubmitGameEventRequest submitGameEventRequest);
         SubmitGameEventResponse UpdateGameEvent(UpdateGameEventRequest updateGameEventRequest);
         DeleteGameEventResponse DeleteGameEvent(DeleteGameEventRequest deleteGameEventRequest);
