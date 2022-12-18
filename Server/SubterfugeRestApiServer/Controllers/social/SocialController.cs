@@ -9,10 +9,11 @@ namespace SubterfugeRestApiServer;
 
 [ApiController]
 [Authorize]
+[Route("api/user/{userId}")]
 public class SocialController : ControllerBase
 {
     [HttpGet]
-    [Route("api/user/{userId}/blocks")]
+    [Route("blocks")]
     public async Task<ActionResult<BlockPlayerResponse>> ViewBlockedPlayers(string userId)
     {
         DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
@@ -67,7 +68,7 @@ public class SocialController : ControllerBase
     }
     
     [HttpGet]
-    [Route("api/user/{userId}/friendRequests")]
+    [Route("friendRequests")]
     public async Task<ActionResult<ViewFriendRequestsResponse>> ViewFriendRequests(string userId)
     {
         DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
@@ -117,27 +118,27 @@ public class SocialController : ControllerBase
     }
     
     [HttpPost]
-    [Route("api/user/{userId}/block")]
+    [Route("block")]
     public async Task<BlockPlayerResponse> BlockPlayer(BlockPlayerRequest request, string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
             return new BlockPlayerResponse()
             {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
+                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED, "I don't know how you got this message but you did. You need to be logged in to get here so... how?")
             };
 
         DbUserModel friend = await DbUserModel.GetUserFromGuid(userId);
         if (friend == null) 
             return new BlockPlayerResponse()
             {
-                Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
+                Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST, "Wow, you really hate that guy. Too bad they doesn't exist.")
             };
             
         if(await dbUserModel.IsRelationshipBlocked(friend))
             return new BlockPlayerResponse()
             {
-                Status = ResponseFactory.createResponse(ResponseType.DUPLICATE)
+                Status = ResponseFactory.createResponse(ResponseType.DUPLICATE, "We understand. You really don't like this person. But you already blocked them.")
             };
 
         await dbUserModel.BlockUser(friend);
@@ -148,14 +149,14 @@ public class SocialController : ControllerBase
     }
     
     [HttpPost]
-    [Route("api/user/{userId}/unblock")]
+    [Route("unblock")]
     public async Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request, string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
             return new UnblockPlayerResponse()
             {
-                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED)
+                Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED, "Please login.")
             };
             
         // Check if player is valid.
@@ -163,14 +164,14 @@ public class SocialController : ControllerBase
         if (friend == null) 
             return new UnblockPlayerResponse()
             {
-                Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST)
+                Status = ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST, "You are attempting to talk to a ghost. Are you a medium?")
             };
             
         // Check if player is blocked.
         if(!await dbUserModel.IsRelationshipBlocked(friend))
             return new UnblockPlayerResponse()
             {
-                Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST)
+                Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST, "You do not have this player blocked.")
             };
 
         await dbUserModel.UnblockUser(friend);
@@ -180,8 +181,8 @@ public class SocialController : ControllerBase
         };
     }
 
-    [HttpPost]
-    [Route("api/user/{userId}/addFriend")]
+    [HttpGet]
+    [Route("addFriend")]
     public async Task<ActionResult<AddAcceptFriendResponse>> AddAcceptFriend(string userId)
     {
         DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
@@ -211,15 +212,15 @@ public class SocialController : ControllerBase
         });
     }
     
-    [HttpPost]
-    [Route("api/user/{friendId}/removeFriend")]
-    public async Task<ActionResult<DenyFriendRequestResponse>> RemoveRejectFriend(string friendId)
+    [HttpGet]
+    [Route("removeFriend")]
+    public async Task<ActionResult<DenyFriendRequestResponse>> RemoveRejectFriend(string userId)
     {
         DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
             return Unauthorized();
 
-        DbUserModel friend = await DbUserModel.GetUserFromGuid(friendId);
+        DbUserModel friend = await DbUserModel.GetUserFromGuid(userId);
         if (friend == null)
             return NotFound();
         
@@ -246,7 +247,7 @@ public class SocialController : ControllerBase
     }
     
     [HttpGet]
-    [Route("api/user/{userId}/friends")]
+    [Route("friends")]
     public async Task<ActionResult<ViewFriendsResponse>> GetFriendList(string userId)
     {
         // Get a player's friend list

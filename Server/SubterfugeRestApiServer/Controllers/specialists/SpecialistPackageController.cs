@@ -10,11 +10,12 @@ namespace SubterfugeRestApiServer.specialists;
 
 [ApiController]
 [Authorize]
+[Route("api/specialist/package/")]
 public class SpecialistPackageController : ControllerBase
 {
     
     [HttpPost]
-    [Route("api/specialist/package/create")]
+    [Route("create")]
     public async Task<ActionResult<CreateSpecialistPackageResponse>> CreateSpecialistPackage(CreateSpecialistPackageRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
@@ -36,8 +37,8 @@ public class SpecialistPackageController : ControllerBase
         });
     }
     
+    // TODO: turn this into a GET with URL params
     [HttpPost]
-    [Route("api/specialist/packages")]
     public async Task<ActionResult<GetSpecialistPackagesResponse>> GetSpecialistPackages(GetSpecialistPackagesRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
@@ -62,7 +63,7 @@ public class SpecialistPackageController : ControllerBase
     }
     
     [HttpGet]
-    [Route("api/specialist/package/{packageId}")]
+    [Route("{packageId}")]
     public async Task<ActionResult<GetSpecialistPackagesResponse>> GetSpecialistPackages(string packageId)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;

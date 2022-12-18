@@ -8,28 +8,27 @@ namespace SubterfugeRestApiServer;
 
 [ApiController]
 [Authorize]
-[Route("api/room/{roomId}/group/[action]")]
+[Route("api/room/{roomId}/")]
 public class MessageGroupController : ControllerBase
 {
-    public MessageGroupController(IConfiguration configuration, ILogger<UserController> logger, string roomId)
+    public MessageGroupController(IConfiguration configuration, ILogger<UserController> logger)
     {
         _config = configuration;
         _logger = logger;
-        _roomGuid = roomId;
     }
 
     private readonly IConfiguration _config;
     private readonly ILogger _logger;
-    private readonly string _roomGuid;
     
     [HttpPost]
-    public async Task<ActionResult<CreateMessageGroupResponse>> CreateMessageGroup(CreateMessageGroupRequest request)
+    [Route("group/create")]
+    public async Task<ActionResult<CreateMessageGroupResponse>> CreateMessageGroup(string roomId, CreateMessageGroupRequest request)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
             return Unauthorized();
             
-        Room room = await Room.GetRoomFromGuid(_roomGuid);
+        Room room = await Room.GetRoomFromGuid(roomId);
         if (room == null)
             return NotFound();
 
@@ -43,13 +42,14 @@ public class MessageGroupController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<GetMessageGroupsResponse>> GetMessageGroups()
+    [Route("groups")]
+    public async Task<ActionResult<GetMessageGroupsResponse>> GetMessageGroups(string roomId)
     {
         DbUserModel? currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
             return Unauthorized();
             
-        Room room = await Room.GetRoomFromGuid(_roomGuid);
+        Room room = await Room.GetRoomFromGuid(roomId);
         if (room == null)
             return NotFound();
         
@@ -64,5 +64,56 @@ public class MessageGroupController : ControllerBase
 
         response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
         return Ok(response);
+    }
+    
+    [HttpPost]
+    [Route("group/{groupId}/send")]
+    public async Task<ActionResult<SendMessageResponse>> SendMessage(SendMessageRequest request, string roomId, string groupId)
+    {
+        DbUserModel? currentUser = HttpContext.Items["User"] as DbUserModel;
+        if (currentUser == null)
+            return Unauthorized();
+
+        Room? room = await Room.GetRoomFromGuid(roomId);
+        if (room == null)
+            return NotFound("Room not found");
+
+        GroupChat? groupChat = await room.GetGroupChatById(groupId);
+        if (groupChat == null)
+            return NotFound("Group not found");
+
+        if (!groupChat.IsPlayerInGroup(currentUser) || !currentUser.HasClaim(UserClaim.Administrator))
+            return Forbid();
+
+        return Ok(new SendMessageResponse()
+        {
+            Status = await groupChat.SendChatMessage(currentUser, request.Message)
+        });
+    }
+    
+    [HttpGet]
+    [Route("group/{groupId}/messages")]
+    public async Task<ActionResult<GetGroupMessagesResponse>> Messages(string roomId, string groupId, GetGroupMessagesRequest request)
+    {
+        DbUserModel? currentUser = HttpContext.Items["User"] as DbUserModel;
+        if (currentUser == null)
+            return Unauthorized();
+            
+        Room room = await Room.GetRoomFromGuid(roomId);
+        if (room == null)
+            return NotFound("Room not found");
+            
+        GroupChat groupChat = await room.GetGroupChatById(groupId);
+        if (groupChat == null)
+            return NotFound("Group not found");
+
+        if (!groupChat.IsPlayerInGroup(currentUser) || !currentUser.HasClaim(UserClaim.Administrator))
+            return Forbid();
+
+        return new GetGroupMessagesResponse()
+        {
+            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            Group = await groupChat.asMessageGroup(request.Pagination)
+        };
     }
 }

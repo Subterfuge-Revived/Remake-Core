@@ -7,11 +7,11 @@ namespace SubterfugeCore.Models.GameEvents
     public interface INetworkLobbyController
     {
         OpenLobbiesResponse GetOpenLobbies(OpenLobbiesRequest lobbyRequest);
-        PlayerCurrentGamesResponse GetPlayerCurrentGames(PlayerCurrentGamesRequest currentGamesRequest);
+        GetLobbyResponse GetPlayerCurrentGames(PlayerCurrentGamesRequest currentGamesRequest);
         CreateRoomResponse CreateNewRoom(CreateRoomRequest createRoomRequest);
         JoinRoomResponse JoinRoom(JoinRoomRequest joinRoomRequest);
-        LeaveRoomResponse LeaveRoom(LeaveRoomRequest leaveRoomRequest);
-        StartGameEarlyResponse StartGameEarly(StartGameEarlyRequest startGameEarlyRequest);
+        LeaveRoomResponse LeaveRoom();
+        StartGameEarlyResponse StartGameEarly();
     }
 
     public enum RoomStatus
@@ -84,11 +84,6 @@ namespace SubterfugeCore.Models.GameEvents
     
     public class PlayerCurrentGamesRequest {}
 
-    public class PlayerCurrentGamesResponse : NetworkResponse
-    {
-        public List<GameConfiguration> Games { get; set; }
-    }
-
     public class CreateRoomRequest
     {
         public GameSettings GameSettings { get; set; }
@@ -123,7 +118,7 @@ namespace SubterfugeCore.Models.GameEvents
         public string[] PlayersIdIsInLobby { get; set; }
     }
 
-    public class GetLobbyResponse
+    public class GetLobbyResponse : NetworkResponse
     {
         public List<GameConfiguration> Lobbies { get; set; }
     }
