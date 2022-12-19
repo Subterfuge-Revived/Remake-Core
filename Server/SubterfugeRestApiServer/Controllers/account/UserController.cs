@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeServerConsole.Connections;
@@ -124,60 +124,42 @@ public class UserController : ControllerBase
         string? phone = null,
         Boolean isBanned = false
     ) {
-        var filterBuilder = Builders<UserModel>.Filter;
-        var filter = filterBuilder.Empty;
+        IMongoQueryable<UserModel> query = MongoConnector.UserCollection.Query();
         
         if (!email.IsNullOrEmpty())
-        {
-            filter &= filterBuilder.Regex(model => model.Email, $".*{email}.*");
-        }
+            query = query.Where(it => it.Email.Contains(email));
 
         if (!username.IsNullOrEmpty())
-        {
-            filter &= filterBuilder.Regex(model => model.Username, $".*{username}.*");
-        }
+            query = query.Where(it => it.Username.Contains(username));
         
         if (!deviceIdentifier.IsNullOrEmpty())
-        {
-            filter &= filterBuilder.Eq(model => model.DeviceIdentifier, deviceIdentifier);
-        }
+            query = query.Where(it => it.DeviceIdentifier == deviceIdentifier);
         
         if (!userId.IsNullOrEmpty())
-        {
-            filter &= filterBuilder.Eq(model => model.Id, userId);
-        }
+            query = query.Where(it => it.Id == userId);
         
         if (!phone.IsNullOrEmpty())
-        {
-            filter &= filterBuilder.Eq(model => model.PhoneNumber, phone);
-        }
+            query = query.Where(it => it.PhoneNumber == phone);
 
         if (claim != null)
-        {
-            // Create a filter that requires all `claims` values to exist in the model's claim list.
-            filter &= filterBuilder.All(model => model.Claims, new UserClaim[]{ claim.GetValueOrDefault() });
-        }
+            // Create a filter that require the claim to exist in the user claims
+            query = query.Where(it => it.Claims.Any(it => it == claim.GetValueOrDefault()));
 
         if (isBanned)
         {
             // Create a filter that only gets models with a 'BannedUntil' date after today.
-            filter &= filterBuilder.Gt(model => model.BannedUntil, DateTime.Now);
+            query = query.Where(it => it.BannedUntil > DateTime.Now);
         }
         else
         {
             // Create a filter that only gets models with a 'BannedUntil' date before today.
-            filter &= filterBuilder.Lte(model => model.BannedUntil, DateTime.Now);
+            query = query.Where(it => it.BannedUntil <= DateTime.Now);
         }
 
-        var matchingUsers = (await MongoConnector.GetCollection<UserModel>().FindAsync(
-                filter,
-                new FindOptions<UserModel>() 
-                {
-                    Sort = Builders<UserModel>.Sort.Descending(it => it.DateCreated),
-                    Limit = 50,
-                    Skip = 50 * (pagination - 1),
-                }
-            ))
+        var matchingUsers = query
+            .OrderBy(it => it.DateCreated)
+            .Skip(50 * (pagination - 1))
+            .Take(50)
             .ToList()
             .Select(it => it.Obfuscate())
             .ToArray();

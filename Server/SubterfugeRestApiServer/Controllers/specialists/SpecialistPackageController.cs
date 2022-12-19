@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
@@ -72,8 +73,7 @@ public class SpecialistPackageController : ControllerBase
             
         // Search through all specialists for the search term.
         // TODO: Apply filters here
-        List<SpecialistPackage> results = (await MongoConnector.GetCollection<SpecialistPackage>()
-            .FindAsync(it => it.Id == packageId)).ToList();
+        List<SpecialistPackage> results = await MongoConnector.SpecialistPackageCollection.Query().Where(it => it.Id == packageId).ToListAsync();
 
         return Ok(new GetSpecialistPackagesResponse()
         {

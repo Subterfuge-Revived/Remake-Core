@@ -54,11 +54,7 @@ public class LoggingMiddleware
                 StatusCode = statusCode,
             };
             
-            await MongoConnector.GetCollection<ServerActionLog>().ReplaceOneAsync(
-                it => it.Id == serverAction.Id,
-                serverAction,
-                new UpdateOptions { IsUpsert = true }
-            );
+            await MongoConnector.ServerActionLogCollection.Upsert(serverAction);
         }
     }
 }
