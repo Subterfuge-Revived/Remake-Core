@@ -52,155 +52,101 @@ namespace SubterfugeServerConsole.Connections
 
         private async void CreateIndexes()
         {
-            // Index Users
-            _logger.LogInformation("Indexing Users");
-            await GetUserCollection().Indexes.CreateOneAsync(new CreateIndexModel<UserModel>(Builders<UserModel>.IndexKeys.Ascending(user => user.Id)));
-            await GetUserCollection().Indexes.CreateOneAsync(new CreateIndexModel<UserModel>(Builders<UserModel>.IndexKeys.Ascending(user => user.DeviceIdentifier)));
-            await GetUserCollection().Indexes.CreateOneAsync(new CreateIndexModel<UserModel>(Builders<UserModel>.IndexKeys.Ascending(user => user.Username)));
-            await GetUserCollection().Indexes.CreateOneAsync(new CreateIndexModel<UserModel>(Builders<UserModel>.IndexKeys.Ascending(user => user.Email)));
+            var indexTasks = new List<Task>()
+            {
+                // Index Users
+                GetCollection<UserModel>().Indexes.CreateOneAsync(new CreateIndexModel<UserModel>(Builders<UserModel>.IndexKeys.Ascending(user => user.Id))),
+                GetCollection<UserModel>().Indexes.CreateOneAsync(new CreateIndexModel<UserModel>(Builders<UserModel>.IndexKeys.Ascending(user => user.DeviceIdentifier))),
+                GetCollection<UserModel>().Indexes.CreateOneAsync(new CreateIndexModel<UserModel>(Builders<UserModel>.IndexKeys.Ascending(user => user.Username))),
+                GetCollection<UserModel>().Indexes.CreateOneAsync(new CreateIndexModel<UserModel>(Builders<UserModel>.IndexKeys.Ascending(user => user.Email))),
+                
+                // Index User IP Address Link
+                GetCollection<UserIpAddressLink>().Indexes.CreateOneAsync(new CreateIndexModel<UserIpAddressLink>(Builders<UserIpAddressLink>.IndexKeys.Ascending(user => user.UserId))),
+                GetCollection<UserIpAddressLink>().Indexes.CreateOneAsync(new CreateIndexModel<UserIpAddressLink>(Builders<UserIpAddressLink>.IndexKeys.Ascending(user => user.IpAddress))),
+                
+                
+                // Index Game Rooms
+                GetCollection<GameConfiguration>().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.Id))),
+                GetCollection<GameConfiguration>().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.RoomName))),
+                GetCollection<GameConfiguration>().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.UnixTimeCreated))),
+                GetCollection<GameConfiguration>().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.Creator.Id))),
+                GetCollection<GameConfiguration>().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.Creator.Username))),
+                GetCollection<GameConfiguration>().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.GameVersion))),
+                GetCollection<GameConfiguration>().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.RoomStatus))),
+                
+                // Index Friend relations
+                GetCollection<Friend>().Indexes.CreateOneAsync(new CreateIndexModel<Friend>(Builders<Friend>.IndexKeys.Ascending(relation => relation.PlayerId))),
+                GetCollection<Friend>().Indexes.CreateOneAsync(new CreateIndexModel<Friend>(Builders<Friend>.IndexKeys.Ascending(relation => relation.FriendId))),
+                GetCollection<Friend>().Indexes.CreateOneAsync(new CreateIndexModel<Friend>(Builders<Friend>.IndexKeys.Ascending(relation => relation.RelationshipStatus))),
+
+                // Index Game Events
+                GetCollection<GameEventData>().Indexes.CreateOneAsync(new CreateIndexModel<GameEventData>(Builders<GameEventData>.IndexKeys.Ascending(gameEvent => gameEvent.Id))),
+                GetCollection<GameEventData>().Indexes.CreateOneAsync(new CreateIndexModel<GameEventData>(Builders<GameEventData>.IndexKeys.Ascending(gameEvent => gameEvent.IssuedBy))),
+                GetCollection<GameEventData>().Indexes.CreateOneAsync(new CreateIndexModel<GameEventData>(Builders<GameEventData>.IndexKeys.Ascending(gameEvent => gameEvent.UnixTimeIssued))),
+                GetCollection<GameEventData>().Indexes.CreateOneAsync(new CreateIndexModel<GameEventData>(Builders<GameEventData>.IndexKeys.Ascending(gameEvent => gameEvent.OccursAtTick))),
+
+                // Index group chats.
+                GetCollection<ChatMessage>().Indexes.CreateOneAsync(new CreateIndexModel<ChatMessage>(Builders<ChatMessage>.IndexKeys.Ascending(message => message.RoomId))),
+                GetCollection<ChatMessage>().Indexes.CreateOneAsync(new CreateIndexModel<ChatMessage>(Builders<ChatMessage>.IndexKeys.Ascending(message => message.GroupId))),
+                GetCollection<ChatMessage>().Indexes.CreateOneAsync(new CreateIndexModel<ChatMessage>(Builders<ChatMessage>.IndexKeys.Ascending(message => message.SentBy))),
+                GetCollection<ChatMessage>().Indexes.CreateOneAsync(new CreateIndexModel<ChatMessage>(Builders<ChatMessage>.IndexKeys.Ascending(message => message.UnixTimeCreatedAt))),
+                GetCollection<ChatMessage>().Indexes.CreateOneAsync(new CreateIndexModel<ChatMessage>(Builders<ChatMessage>.IndexKeys.Text(message => message.Message))),
+                
+                // Index message groups
+                GetCollection<MessageGroupDatabaseModel>().Indexes.CreateOneAsync(new CreateIndexModel<MessageGroupDatabaseModel>(Builders<MessageGroupDatabaseModel>.IndexKeys.Ascending(group => group.Id))),
+                GetCollection<MessageGroupDatabaseModel>().Indexes.CreateOneAsync(new CreateIndexModel<MessageGroupDatabaseModel>(Builders<MessageGroupDatabaseModel>.IndexKeys.Ascending(group => group.RoomId))),
+                
+                // Index Specialist Configurations
+                GetCollection<SpecialistConfiguration>().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfiguration>(Builders<SpecialistConfiguration>.IndexKeys.Ascending(spec => spec.Id))),
+                GetCollection<SpecialistConfiguration>().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfiguration>(Builders<SpecialistConfiguration>.IndexKeys.Ascending(spec => spec.Creator.Id))),
+                GetCollection<SpecialistConfiguration>().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfiguration>(Builders<SpecialistConfiguration>.IndexKeys.Ascending(spec => spec.PromotesFromSpecialistId))),
+                GetCollection<SpecialistConfiguration>().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfiguration>(Builders<SpecialistConfiguration>.IndexKeys.Text(spec => spec.SpecialistName))),
+                
+                // Index Specialist Configurations
+                GetCollection<SpecialistPackage>().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackage>(Builders<SpecialistPackage>.IndexKeys.Ascending(package => package.Id))),
+                GetCollection<SpecialistPackage>().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackage>(Builders<SpecialistPackage>.IndexKeys.Ascending(package => package.Creator.Id))),
+                GetCollection<SpecialistPackage>().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackage>(Builders<SpecialistPackage>.IndexKeys.Text(package => package.PackageName))),
+                
+                // Index Specialist Configurations
+                GetCollection<ServerActionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.Id))),
+                GetCollection<ServerActionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.Username))),
+                GetCollection<ServerActionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.UserId))),
+                GetCollection<ServerActionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.RequestUrl))),
+                GetCollection<ServerActionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.StatusCode))),
+                GetCollection<ServerActionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.UnixTimeProcessed))),
+                
+                // Index Specialist Configurations
+                GetCollection<ServerExceptionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.Id))),
+                GetCollection<ServerExceptionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.Username))),
+                GetCollection<ServerExceptionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.UserId))),
+                GetCollection<ServerExceptionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.RequestUri))),
+                GetCollection<ServerExceptionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.RemoteIpAddress))),
+                GetCollection<ServerExceptionLog>().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.UnixTimeProcessed))),
+            };
+
             
-            // Index User IP Address Link
-            _logger.LogInformation("Indexing User-Ip Links");
-            await GetUserIpCollection().Indexes.CreateOneAsync(new CreateIndexModel<UserIpAddressLink>(Builders<UserIpAddressLink>.IndexKeys.Ascending(user => user.UserId)));
-            await GetUserIpCollection().Indexes.CreateOneAsync(new CreateIndexModel<UserIpAddressLink>(Builders<UserIpAddressLink>.IndexKeys.Ascending(user => user.IpAddress)));
-
-            // Index Game Rooms
-            _logger.LogInformation("Indexing Game Rooms");
-            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.Id)));
-            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.RoomName)));
-            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.UnixTimeCreated)));
-            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.Creator.Id)));
-            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.Creator.Username)));
-            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.GameVersion)));
-            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.RoomStatus)));
-            
-            // Index Friend relations
-            _logger.LogInformation("Indexing User Relations");
-            await GetFriendCollection().Indexes.CreateOneAsync(new CreateIndexModel<Friend>(Builders<Friend>.IndexKeys.Ascending(relation => relation.PlayerId)));
-            await GetFriendCollection().Indexes.CreateOneAsync(new CreateIndexModel<Friend>(Builders<Friend>.IndexKeys.Ascending(relation => relation.FriendId)));
-            await GetFriendCollection().Indexes.CreateOneAsync(new CreateIndexModel<Friend>(Builders<Friend>.IndexKeys.Ascending(relation => relation.RelationshipStatus)));
-
-            // Index Game Events
-            _logger.LogInformation("Indexing Game Events");
-            await GetGameEventCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameEventData>(Builders<GameEventData>.IndexKeys.Ascending(gameEvent => gameEvent.Id)));
-            await GetGameEventCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameEventData>(Builders<GameEventData>.IndexKeys.Ascending(gameEvent => gameEvent.IssuedBy)));
-            await GetGameEventCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameEventData>(Builders<GameEventData>.IndexKeys.Ascending(gameEvent => gameEvent.UnixTimeIssued)));
-            await GetGameEventCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameEventData>(Builders<GameEventData>.IndexKeys.Ascending(gameEvent => gameEvent.OccursAtTick)));
-
-            // Index group chats.
-            _logger.LogInformation("Indexing Group chats");
-            await GetMessagesCollection().Indexes.CreateOneAsync(new CreateIndexModel<ChatMessage>(Builders<ChatMessage>.IndexKeys.Ascending(message => message.RoomId)));
-            await GetMessagesCollection().Indexes.CreateOneAsync(new CreateIndexModel<ChatMessage>(Builders<ChatMessage>.IndexKeys.Ascending(message => message.GroupId)));
-            await GetMessagesCollection().Indexes.CreateOneAsync(new CreateIndexModel<ChatMessage>(Builders<ChatMessage>.IndexKeys.Ascending(message => message.SentBy)));
-            await GetMessagesCollection().Indexes.CreateOneAsync(new CreateIndexModel<ChatMessage>(Builders<ChatMessage>.IndexKeys.Ascending(message => message.UnixTimeCreatedAt)));
-            await GetMessagesCollection().Indexes.CreateOneAsync(new CreateIndexModel<ChatMessage>(Builders<ChatMessage>.IndexKeys.Text(message => message.Message)));
-            
-            // Index message groups
-            _logger.LogInformation("Indexing Messages");
-            await GetMessageGroupCollection().Indexes.CreateOneAsync(new CreateIndexModel<MessageGroupDatabaseModel>(Builders<MessageGroupDatabaseModel>.IndexKeys.Ascending(group => group.Id)));
-            await GetMessageGroupCollection().Indexes.CreateOneAsync(new CreateIndexModel<MessageGroupDatabaseModel>(Builders<MessageGroupDatabaseModel>.IndexKeys.Ascending(group => group.RoomId)));
-            
-            // Index Specialist Configurations
-            _logger.LogInformation("Indexing Specialist Configurations");
-            await GetSpecialistCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfiguration>(Builders<SpecialistConfiguration>.IndexKeys.Ascending(spec => spec.Id)));
-            await GetSpecialistCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfiguration>(Builders<SpecialistConfiguration>.IndexKeys.Ascending(spec => spec.Creator.Id)));
-            await GetSpecialistCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfiguration>(Builders<SpecialistConfiguration>.IndexKeys.Ascending(spec => spec.PromotesFromSpecialistId)));
-            await GetSpecialistCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistConfiguration>(Builders<SpecialistConfiguration>.IndexKeys.Text(spec => spec.SpecialistName)));
-            
-            // Index Specialist Configurations
-            _logger.LogInformation("Indexing Specialist Packages");
-            await GetSpecialistPackageCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackage>(Builders<SpecialistPackage>.IndexKeys.Ascending(package => package.Id)));
-            await GetSpecialistPackageCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackage>(Builders<SpecialistPackage>.IndexKeys.Ascending(package => package.Creator.Id)));
-            await GetSpecialistPackageCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackage>(Builders<SpecialistPackage>.IndexKeys.Text(package => package.PackageName)));
-            
-            // Index Specialist Configurations
-            _logger.LogInformation("Indexing Server Action Log");
-            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.Id)));
-            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.Username)));
-            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.UserId)));
-            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.RequestUrl)));
-            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.StatusCode)));
-            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.UnixTimeProcessed)));
-            
-            // Index Specialist Configurations
-            _logger.LogInformation("Indexing Server Exception Log");
-            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.Id)));
-            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.Username)));
-            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.UserId)));
-            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.RequestUri)));
-            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.RemoteIpAddress)));
-            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.UnixTimeProcessed)));
-
-            _logger.LogInformation("Indexes created.");
+            _logger.LogInformation("Creating database indexes");
+            await Task.WhenAll(indexTasks);
+            _logger.LogInformation("Database created.");
         }
 
-        public static IMongoCollection<UserIpAddressLink> GetUserIpCollection()
+        public static IMongoCollection<T> GetCollection<T>()
         {
-            return _database.GetCollection<UserIpAddressLink>("UserIpAddressLink");
-        }
-
-        public static IMongoCollection<UserModel> GetUserCollection()
-        {
-            return _database.GetCollection<UserModel>("Users");
-        }
-        
-        public static IMongoCollection<GameConfiguration> GetGameRoomCollection()
-        {
-            return _database.GetCollection<GameConfiguration>("GameRooms");
-        }
-        
-        public static IMongoCollection<Friend> GetFriendCollection()
-        {
-            return _database.GetCollection<Friend>("Friends");
-        }
-
-        public static IMongoCollection<GameEventData> GetGameEventCollection()
-        {
-            return _database.GetCollection<GameEventData>("GameEvents");
-        }
-
-        public static IMongoCollection<ChatMessage> GetMessagesCollection()
-        {
-            return _database.GetCollection<ChatMessage>("Messages");
-        }
-        
-        public static IMongoCollection<MessageGroupDatabaseModel> GetMessageGroupCollection()
-        {
-            return _database.GetCollection<MessageGroupDatabaseModel>("MessageGroups");
-        }
-        
-        public static IMongoCollection<SpecialistConfiguration> GetSpecialistCollection()
-        {
-            return _database.GetCollection<SpecialistConfiguration>("Specialists");
-        }
-
-        public static IMongoCollection<SpecialistPackage> GetSpecialistPackageCollection()
-        {
-            return _database.GetCollection<SpecialistPackage>("SpecialistPackages");
-        }
-
-        public static IMongoCollection<ServerActionLog> GetServerActionLog()
-        {
-            return _database.GetCollection<ServerActionLog>("ServerActionLog");
-        }
-        
-        public static IMongoCollection<ServerExceptionLog> GetServerExceptionLog()
-        {
-            return _database.GetCollection<ServerExceptionLog>("ServerExceptionLog");
+            return _database.GetCollection<T>(typeof(T).ToString());
         }
 
         public void FlushCollections()
         {
             _logger.LogInformation("Flushing database!");
-            GetUserCollection().DeleteMany(FilterDefinition<UserModel>.Empty);
-            GetUserIpCollection().DeleteMany(FilterDefinition<UserIpAddressLink>.Empty);
-            GetGameRoomCollection().DeleteMany(FilterDefinition<GameConfiguration>.Empty);
-            GetFriendCollection().DeleteMany(FilterDefinition<Friend>.Empty);
-            GetGameEventCollection().DeleteMany(FilterDefinition<GameEventData>.Empty);
-            GetMessagesCollection().DeleteMany(FilterDefinition<ChatMessage>.Empty);
-            GetMessageGroupCollection().DeleteMany(FilterDefinition<MessageGroupDatabaseModel>.Empty);
-            GetSpecialistCollection().DeleteMany(FilterDefinition<SpecialistConfiguration>.Empty);
-            GetSpecialistPackageCollection().DeleteMany(FilterDefinition<SpecialistPackage>.Empty);
+            GetCollection<UserModel>().DeleteMany(FilterDefinition<UserModel>.Empty);
+            GetCollection<UserIpAddressLink>().DeleteMany(FilterDefinition<UserIpAddressLink>.Empty);
+            GetCollection<GameConfiguration>().DeleteMany(FilterDefinition<GameConfiguration>.Empty);
+            GetCollection<Friend>().DeleteMany(FilterDefinition<Friend>.Empty);
+            GetCollection<GameEventData>().DeleteMany(FilterDefinition<GameEventData>.Empty);
+            GetCollection<ChatMessage>().DeleteMany(FilterDefinition<ChatMessage>.Empty);
+            GetCollection<MessageGroupDatabaseModel>().DeleteMany(FilterDefinition<MessageGroupDatabaseModel>.Empty);
+            GetCollection<SpecialistConfiguration>().DeleteMany(FilterDefinition<SpecialistConfiguration>.Empty);
+            GetCollection<SpecialistPackage>().DeleteMany(FilterDefinition<SpecialistPackage>.Empty);
         }
 
         public async void CreateSuperUser()

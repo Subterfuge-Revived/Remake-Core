@@ -72,7 +72,7 @@ public class SpecialistPackageController : ControllerBase
             
         // Search through all specialists for the search term.
         // TODO: Apply filters here
-        List<SpecialistPackage> results = (await MongoConnector.GetSpecialistPackageCollection()
+        List<SpecialistPackage> results = (await MongoConnector.GetCollection<SpecialistPackage>()
             .FindAsync(it => it.Id == packageId)).ToList();
 
         return Ok(new GetSpecialistPackagesResponse()

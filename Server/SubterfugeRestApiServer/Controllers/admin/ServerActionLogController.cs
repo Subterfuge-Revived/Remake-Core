@@ -44,7 +44,7 @@ public class ServerActionLogController : ControllerBase
             filter &= filterBuilder.Eq(model => model.RequestUrl, requestUrl);
         }
 
-        var matchingServerActions = (await MongoConnector.GetServerActionLog().FindAsync(
+        var matchingServerActions = (await MongoConnector.GetCollection<ServerActionLog>().FindAsync(
                 filter,
                 new FindOptions<ServerActionLog>()
                 {

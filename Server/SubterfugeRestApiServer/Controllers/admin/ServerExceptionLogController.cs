@@ -57,7 +57,7 @@ public class ServerExceptionLogController : ControllerBase
             filter &= filterBuilder.Eq(model => model.RemoteIpAddress, remoteIpAddress);
         }
 
-        var matchingServerActions = (await MongoConnector.GetServerExceptionLog().FindAsync(
+        var matchingServerActions = (await MongoConnector.GetCollection<ServerExceptionLog>().FindAsync(
                 filter,
                 new FindOptions<ServerExceptionLog>()
                 {

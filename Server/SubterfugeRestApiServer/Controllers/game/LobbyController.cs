@@ -91,7 +91,7 @@ public class LobbyController : ControllerBase
         }
         
         
-        var matchingRooms = (await MongoConnector.GetGameRoomCollection().FindAsync(
+        var matchingRooms = (await MongoConnector.GetCollection<GameConfiguration>().FindAsync(
                 filter,
                 new FindOptions<GameConfiguration>() 
                 {

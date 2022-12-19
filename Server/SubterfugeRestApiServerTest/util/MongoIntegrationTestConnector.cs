@@ -39,73 +39,22 @@ namespace SubterfugeServerConsole.Connections
             _database = client.GetDatabase("subterfugeDb");
         }
 
-        public static IMongoCollection<UserIpAddressLink> GetUserIpCollection()
+        public static IMongoCollection<T> GetCollection<T>()
         {
-            return _database.GetCollection<UserIpAddressLink>("UserIpAddressLink");
-        }
-
-        public static IMongoCollection<UserModel> GetUserCollection()
-        {
-            return _database.GetCollection<UserModel>("Users");
-        }
-        
-        public static IMongoCollection<GameConfiguration> GetGameRoomCollection()
-        {
-            return _database.GetCollection<GameConfiguration>("GameRooms");
-        }
-        
-        public static IMongoCollection<Friend> GetFriendCollection()
-        {
-            return _database.GetCollection<Friend>("Friends");
-        }
-
-        public static IMongoCollection<GameEventData> GetGameEventCollection()
-        {
-            return _database.GetCollection<GameEventData>("GameEvents");
-        }
-
-        public static IMongoCollection<ChatMessage> GetMessagesCollection()
-        {
-            return _database.GetCollection<ChatMessage>("Messages");
-        }
-        
-        public static IMongoCollection<MessageGroupDatabaseModel> GetMessageGroupCollection()
-        {
-            return _database.GetCollection<MessageGroupDatabaseModel>("MessageGroups");
-        }
-        
-        public static IMongoCollection<SpecialistConfiguration> GetSpecialistCollection()
-        {
-            return _database.GetCollection<SpecialistConfiguration>("Specialists");
-        }
-
-        public static IMongoCollection<SpecialistPackage> GetSpecialistPackageCollection()
-        {
-            return _database.GetCollection<SpecialistPackage>("SpecialistPackages");
-        }
-        
-        public static IMongoCollection<ServerExceptionLog> GetServerExceptionLogCollection()
-        {
-            return _database.GetCollection<ServerExceptionLog>("ServerExceptionLog");
-        }
-        
-        public static IMongoCollection<ServerActionLog> GetServerActionLogCollection()
-        {
-            return _database.GetCollection<ServerActionLog>("ServerActionLog");
+            return _database.GetCollection<T>(typeof(T).ToString());
         }
 
         public void FlushCollections()
         {
-            GetUserCollection().DeleteMany(FilterDefinition<UserModel>.Empty);
-            GetUserIpCollection().DeleteMany(FilterDefinition<UserIpAddressLink>.Empty);
-            GetGameRoomCollection().DeleteMany(FilterDefinition<GameConfiguration>.Empty);
-            GetFriendCollection().DeleteMany(FilterDefinition<Friend>.Empty);
-            GetGameEventCollection().DeleteMany(FilterDefinition<GameEventData>.Empty);
-            GetMessagesCollection().DeleteMany(FilterDefinition<ChatMessage>.Empty);
-            GetMessageGroupCollection().DeleteMany(FilterDefinition<MessageGroupDatabaseModel>.Empty);
-            GetSpecialistCollection().DeleteMany(FilterDefinition<SpecialistConfiguration>.Empty);
-            GetSpecialistPackageCollection().DeleteMany(FilterDefinition<SpecialistPackage>.Empty);
-            
+            GetCollection<UserModel>().DeleteMany(FilterDefinition<UserModel>.Empty);
+            GetCollection<UserIpAddressLink>().DeleteMany(FilterDefinition<UserIpAddressLink>.Empty);
+            GetCollection<GameConfiguration>().DeleteMany(FilterDefinition<GameConfiguration>.Empty);
+            GetCollection<Friend>().DeleteMany(FilterDefinition<Friend>.Empty);
+            GetCollection<GameEventData>().DeleteMany(FilterDefinition<GameEventData>.Empty);
+            GetCollection<ChatMessage>().DeleteMany(FilterDefinition<ChatMessage>.Empty);
+            GetCollection<MessageGroupDatabaseModel>().DeleteMany(FilterDefinition<MessageGroupDatabaseModel>.Empty);
+            GetCollection<SpecialistConfiguration>().DeleteMany(FilterDefinition<SpecialistConfiguration>.Empty);
+            GetCollection<SpecialistPackage>().DeleteMany(FilterDefinition<SpecialistPackage>.Empty);
             // Don't clear these collections.
             // They are very helpful for debugging and tracking server activity.
             
@@ -125,7 +74,7 @@ namespace SubterfugeServerConsole.Connections
                 Claims = new[] { UserClaim.User, UserClaim.Administrator, UserClaim.EmailVerified }
             };
             
-            await GetUserCollection().InsertOneAsync(userModel);
+            await GetCollection<UserModel>().InsertOneAsync(userModel);
             return userModel;
         }
         
@@ -147,6 +96,5 @@ namespace SubterfugeServerConsole.Connections
             // Return value
             return Convert.ToBase64String(hashBytes);
         }
-        
     }
 }
