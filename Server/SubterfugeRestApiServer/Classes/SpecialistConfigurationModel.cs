@@ -19,13 +19,13 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public async Task<bool> Save()
         {
-            await MongoConnector.GetSpecialistCollection().InsertOneAsync(SpecialistConfig);
+            await MongoConnector.GetCollection<SpecialistConfiguration>().InsertOneAsync(SpecialistConfig);
             return true;
         }
 
         public static async Task<SpecialistConfigurationModel> fromId(string specialistId)
         {
-            SpecialistConfiguration config = (await MongoConnector.GetSpecialistCollection()
+            SpecialistConfiguration config = (await MongoConnector.GetCollection<SpecialistConfiguration>()
                 .FindAsync(it => it.Id == specialistId))
                 .ToList()
                 .FirstOrDefault();
@@ -40,7 +40,7 @@ namespace SubterfugeServerConsole.Connections.Models
         
         public static async Task<List<SpecialistConfigurationModel>> Search(string searchTerm)
         {
-            return (await MongoConnector.GetSpecialistCollection()
+            return (await MongoConnector.GetCollection<SpecialistConfiguration>()
                 .FindAsync(it => it.Creator.Username.Contains(searchTerm) || it.SpecialistName.Contains(searchTerm)))
                 .ToList()
                 .Select(it => new SpecialistConfigurationModel(it))

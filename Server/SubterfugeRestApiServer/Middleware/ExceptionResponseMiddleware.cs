@@ -61,7 +61,7 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
             StackTrace = context.Exception?.StackTrace,
         };
         
-        await MongoConnector.GetServerExceptionLog().ReplaceOneAsync(
+        await MongoConnector.GetCollection<ServerExceptionLog>().ReplaceOneAsync(
             it => it.Id == serverException.Id,
             serverException,
             new UpdateOptions { IsUpsert = true }

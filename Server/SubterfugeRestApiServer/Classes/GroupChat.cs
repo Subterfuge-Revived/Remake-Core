@@ -28,7 +28,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 UnixTimeCreatedAt = DateTime.UtcNow.ToFileTimeUtc(),
             };
             
-            await MongoConnector.GetMessagesCollection().InsertOneAsync(model);
+            await MongoConnector.GetCollection<ChatMessage>().InsertOneAsync(model);
             
             return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
@@ -38,7 +38,7 @@ namespace SubterfugeServerConsole.Connections.Models
             // pagination fetches the last 50 messages in the chat.
             var start =  pagination <= 1 ? -1 : -50 * (pagination - 1);
             var end = -50 * pagination;
-            List<ChatMessage> parsedMessages = (await MongoConnector.GetMessagesCollection()
+            List<ChatMessage> parsedMessages = (await MongoConnector.GetCollection<ChatMessage>()
                 .FindAsync(
                     message => message.GroupId == MessageGroup.Id && message.RoomId == Room.GameConfiguration.Id, 
                     new FindOptions<ChatMessage>() 

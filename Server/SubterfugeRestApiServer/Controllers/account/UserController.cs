@@ -169,7 +169,7 @@ public class UserController : ControllerBase
             filter &= filterBuilder.Lte(model => model.BannedUntil, DateTime.Now);
         }
 
-        var matchingUsers = (await MongoConnector.GetUserCollection().FindAsync(
+        var matchingUsers = (await MongoConnector.GetCollection<UserModel>().FindAsync(
                 filter,
                 new FindOptions<UserModel>() 
                 {

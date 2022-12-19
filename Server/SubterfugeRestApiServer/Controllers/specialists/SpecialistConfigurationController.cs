@@ -72,7 +72,7 @@ public class SpecialistConfigurationController: ControllerBase
             
         // Search through all specialists for the search term.
         // TODO: Add filters to this endpoint.
-        List<SpecialistConfiguration> results = (await MongoConnector.GetSpecialistCollection().FindAsync(it => it.Id == specialistId)).ToList();
+        List<SpecialistConfiguration> results = (await MongoConnector.GetCollection<SpecialistConfiguration>().FindAsync(it => it.Id == specialistId)).ToList();
 
         return Ok(new GetCustomSpecialistsResponse()
         {

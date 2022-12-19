@@ -49,7 +49,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 return ResponseFactory.createResponse(ResponseType.PERMISSION_DENIED, "Caught red-handed! You know what you did... You know exactly what you did. You cannot join this room. Your account has been flagged.");
 
             GameConfiguration.PlayersInLobby.Add(dbUserModel.AsUser());
-            MongoConnector.GetGameRoomCollection().ReplaceOne((it => it.Id == GameConfiguration.Id), GameConfiguration);
+            MongoConnector.GetCollection<GameConfiguration>().ReplaceOne((it => it.Id == GameConfiguration.Id), GameConfiguration);
             
             // Check if the player joining the game is the last player.
             if (GameConfiguration.PlayersInLobby.Count == GameConfiguration.GameSettings.MaxPlayers)
@@ -76,13 +76,13 @@ namespace SubterfugeServerConsole.Connections.Models
                 if (GameConfiguration.Creator.Id == dbUserModel.UserModel.Id)
                 {
                     // Delete the game
-                    await MongoConnector.GetGameRoomCollection().DeleteOneAsync(it => it.Id == GameConfiguration.Id);
+                    await MongoConnector.GetCollection<GameConfiguration>().DeleteOneAsync(it => it.Id == GameConfiguration.Id);
                     return ResponseFactory.createResponse(ResponseType.SUCCESS);
                 }
 
                 // Otherwise, just remove the player from the player list.
                 GameConfiguration.PlayersInLobby = GameConfiguration.PlayersInLobby.Where(it => it.Id != dbUserModel.UserModel.Id).ToList();
-                await MongoConnector.GetGameRoomCollection().ReplaceOneAsync((it => it.Id == GameConfiguration.Id), GameConfiguration);
+                await MongoConnector.GetCollection<GameConfiguration>().ReplaceOneAsync((it => it.Id == GameConfiguration.Id), GameConfiguration);
                 return ResponseFactory.createResponse(ResponseType.SUCCESS);
             }
             // TODO: Player left the game while ongoing.
@@ -93,7 +93,7 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public async Task<List<GameEventData>> GetPlayerGameEvents(DbUserModel player)
         {
-            List<GameEventData> events = (await MongoConnector.GetGameEventCollection()
+            List<GameEventData> events = (await MongoConnector.GetCollection<GameEventData>()
                 .FindAsync(it => it.IssuedBy.Id == player.UserModel.Id))
                 .ToList();
             
@@ -136,7 +136,7 @@ namespace SubterfugeServerConsole.Connections.Models
             gameEvent.EventData = request.GameEventRequest.EventData;
             gameEvent.OccursAtTick = request.GameEventRequest.OccursAtTick;
             
-            MongoConnector.GetGameEventCollection().ReplaceOne((it => it.RoomId == GameConfiguration.Id), gameEvent);
+            MongoConnector.GetCollection<GameEventData>().ReplaceOne((it => it.RoomId == GameConfiguration.Id), gameEvent);
             return new SubmitGameEventResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
@@ -160,7 +160,7 @@ namespace SubterfugeServerConsole.Connections.Models
             
             // TODO: validate event.
             
-            await MongoConnector.GetGameEventCollection().InsertOneAsync(new GameEventData());
+            await MongoConnector.GetCollection<GameEventData>().InsertOneAsync(new GameEventData());
             return new SubmitGameEventResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
@@ -183,7 +183,7 @@ namespace SubterfugeServerConsole.Connections.Models
             }
 
             // Get the event to check some things...
-            GameEventData gameEvent = (await MongoConnector.GetGameEventCollection()
+            GameEventData gameEvent = (await MongoConnector.GetCollection<GameEventData>()
                 .FindAsync(it => it.Id == eventId))
                 .ToList()
                 .FirstOrDefault();
@@ -216,7 +216,7 @@ namespace SubterfugeServerConsole.Connections.Models
             }
 
             // Remove game Event
-            MongoConnector.GetGameEventCollection().DeleteOne(it => it.Id == eventId);
+            MongoConnector.GetCollection<GameEventData>().DeleteOne(it => it.Id == eventId);
             return new DeleteGameEventResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
@@ -226,7 +226,7 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<List<GroupChat>> GetAllGroupChats()
         {
             // Get all group chats
-            List<GroupChat> groupChatList = (await MongoConnector.GetMessageGroupCollection()
+            List<GroupChat> groupChatList = (await MongoConnector.GetCollection<MessageGroupDatabaseModel>()
                 .FindAsync(group => group.RoomId == GameConfiguration.Id))
                 .ToList()
                 .Select(group => new GroupChat(this, group))
@@ -237,7 +237,7 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<List<GroupChat>> GetPlayerGroupChats(DbUserModel dbUserModel)
         {
             // Get all group chats the player is in
-            List<GroupChat> groupChatList = (await MongoConnector.GetMessageGroupCollection()
+            List<GroupChat> groupChatList = (await MongoConnector.GetCollection<MessageGroupDatabaseModel>()
                 .FindAsync(group => 
                     group.RoomId == GameConfiguration.Id &&
                     group.MemberIds.Contains(dbUserModel.UserModel.Id)))
@@ -251,7 +251,7 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<GroupChat?> GetGroupChatById(string groupChatId)
         {
             // Get all group chats the player is in
-            return (await MongoConnector.GetMessageGroupCollection()
+            return (await MongoConnector.GetCollection<MessageGroupDatabaseModel>()
                 .FindAsync(group => group.Id == groupChatId))
                 .ToList()
                 .Select(group => new GroupChat(this, group))
@@ -271,7 +271,7 @@ namespace SubterfugeServerConsole.Connections.Models
             }
 
             // Get all group chats for the room
-            List<GroupChat> roomGroupChats = (await MongoConnector.GetMessageGroupCollection()
+            List<GroupChat> roomGroupChats = (await MongoConnector.GetCollection<MessageGroupDatabaseModel>()
                 .FindAsync(group => group.RoomId == GameConfiguration.Id))
                 .ToList()
                 .Select(group => new GroupChat(this, group))
@@ -306,7 +306,7 @@ namespace SubterfugeServerConsole.Connections.Models
                 }
             }
             
-            await MongoConnector.GetMessageGroupCollection().InsertOneAsync(newGroup.ToDatabaseModel());
+            await MongoConnector.GetCollection<MessageGroupDatabaseModel>().InsertOneAsync(newGroup.ToDatabaseModel());
             
             return new CreateMessageGroupResponse()
             {
@@ -317,7 +317,7 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public async Task<GameEventData?> GetGameEventFromGuid(string eventId)
         {
-            var mapper = (await MongoConnector.GetGameEventCollection()
+            var mapper = (await MongoConnector.GetCollection<GameEventData>()
                 .FindAsync(it => it.Id == eventId))
                 .ToList()
                 .FirstOrDefault();
@@ -327,7 +327,7 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public async Task<List<GameEventData>> GetAllGameEvents()
         {
-            return (await MongoConnector.GetGameEventCollection()
+            return (await MongoConnector.GetCollection<GameEventData>()
                 .FindAsync(it => it.RoomId == GameConfiguration.Id))
                 .ToList();
         }
@@ -335,7 +335,7 @@ namespace SubterfugeServerConsole.Connections.Models
         public async Task<List<GameEventData>> GetAllPastGameEvents()
         {
 
-            var events = (await MongoConnector.GetGameEventCollection()
+            var events = (await MongoConnector.GetCollection<GameEventData>()
                 .FindAsync(it => it.RoomId == GameConfiguration.Id))
                 .ToList();
             
@@ -355,13 +355,13 @@ namespace SubterfugeServerConsole.Connections.Models
                 .Set(it => it.RoomStatus, RoomStatus.Ongoing)
                 .Set(it => it.UnixTimeStarted, DateTime.UtcNow.ToFileTimeUtc())
                 .Set(it => it.GameSettings.MaxPlayers, GameConfiguration.PlayersInLobby.Count);
-            await MongoConnector.GetGameRoomCollection().UpdateOneAsync((it => it.Id == GameConfiguration.Id), update);
+            await MongoConnector.GetCollection<GameConfiguration>().UpdateOneAsync((it => it.Id == GameConfiguration.Id), update);
             return ResponseFactory.createResponse(ResponseType.SUCCESS);
         }
 
         public static async Task<List<Room>> GetOpenLobbies()
         {
-            return (await MongoConnector.GetGameRoomCollection()
+            return (await MongoConnector.GetCollection<GameConfiguration>()
                 .FindAsync(it => it.RoomStatus == RoomStatus.Open))
                 .ToList()
                 .Select(it => new Room(it))
@@ -371,7 +371,7 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public static async Task<Room?> GetRoomFromGuid(string roomGuid)
         {
-            var room = (await MongoConnector.GetGameRoomCollection()
+            var room = (await MongoConnector.GetCollection<GameConfiguration>()
                 .FindAsync(it => it.Id == roomGuid))
                 .FirstOrDefault();
             return room != null ? new Room(room) : null;
@@ -379,7 +379,7 @@ namespace SubterfugeServerConsole.Connections.Models
 
         public async Task<Boolean> CreateInDatabase()
         {
-            await MongoConnector.GetGameRoomCollection().InsertOneAsync(GameConfiguration);
+            await MongoConnector.GetCollection<GameConfiguration>().InsertOneAsync(GameConfiguration);
             return true;
         }
         
