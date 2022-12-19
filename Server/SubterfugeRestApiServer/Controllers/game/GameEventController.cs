@@ -33,6 +33,7 @@ public class GameEventController : ControllerBase
         GameTick currentTick = new GameTick(DateTime.FromFileTimeUtc(room.GameConfiguration.UnixTimeStarted), DateTime.UtcNow);
             
         // Admins see all events :)
+        // TODO: Allow admins to play games. Admins should not be able to see all events if they are a player in the game. Alternatively prevent admins from joining a game.
         if (!dbUserModel.HasClaim(UserClaim.Administrator))
         {
             events = events.FindAll(it =>

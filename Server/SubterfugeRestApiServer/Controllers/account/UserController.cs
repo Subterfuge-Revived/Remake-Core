@@ -28,6 +28,15 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<AuthorizationResponse>> Login(AuthorizationRequest request)
     {
+        DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
+        if (dbUserModel != null)
+        {
+            // TODO: This indicates that a user has two accounts!
+            // They logged in to another account while holding a token for a different account.
+            // Flag this in the database
+            var t = "";
+        }
+
         var user = await AuthenticateUserByPassword(request);
         if (user == null)
             return Unauthorized();
@@ -104,42 +113,71 @@ public class UserController : ControllerBase
     }
 
     [Authorize(Roles = "Administrator")]
-    [HttpPost]
-    public async Task<ActionResult<GetUserResponse>> GetUsers(GetUserRequest getUserRequest)
-    {
+    [HttpGet]
+    public async Task<ActionResult<GetUserResponse>> GetUsers(
+        int pagination = 1,
+        string? username = null,
+        string? email = null,
+        string? deviceIdentifier = null,
+        string? userId = null,
+        UserClaim? claim = null,
+        string? phone = null,
+        Boolean isBanned = false
+    ) {
         var filterBuilder = Builders<UserModel>.Filter;
         var filter = filterBuilder.Empty;
         
-        if (!getUserRequest.EmailSearch.IsNullOrEmpty())
+        if (!email.IsNullOrEmpty())
         {
-            filter &= filterBuilder.Regex(model => model.Email, $".*{getUserRequest.EmailSearch}.*");
+            filter &= filterBuilder.Regex(model => model.Email, $".*{email}.*");
         }
 
-        if (!getUserRequest.UsernameSearch.IsNullOrEmpty())
+        if (!username.IsNullOrEmpty())
         {
-            filter &= filterBuilder.Regex(model => model.Username, $".*{getUserRequest.UsernameSearch}.*");
+            filter &= filterBuilder.Regex(model => model.Username, $".*{username}.*");
         }
         
-        if (!getUserRequest.DeviceIdentifierSearch.IsNullOrEmpty())
+        if (!deviceIdentifier.IsNullOrEmpty())
         {
-            filter &= filterBuilder.Regex(model => model.DeviceIdentifier, $".*{getUserRequest.DeviceIdentifierSearch}.*");
+            filter &= filterBuilder.Eq(model => model.DeviceIdentifier, deviceIdentifier);
+        }
+        
+        if (!userId.IsNullOrEmpty())
+        {
+            filter &= filterBuilder.Eq(model => model.Id, userId);
+        }
+        
+        if (!phone.IsNullOrEmpty())
+        {
+            filter &= filterBuilder.Eq(model => model.PhoneNumber, phone);
         }
 
-        if (!getUserRequest.RequireUserClaims.IsNullOrEmpty())
+        if (claim != null)
         {
-            filter &= filterBuilder.All(model => model.Claims, getUserRequest.RequireUserClaims);
+            // Create a filter that requires all `claims` values to exist in the model's claim list.
+            filter &= filterBuilder.All(model => model.Claims, new UserClaim[]{ claim.GetValueOrDefault() });
         }
 
-        if (getUserRequest.isBanned)
+        if (isBanned)
         {
+            // Create a filter that only gets models with a 'BannedUntil' date after today.
             filter &= filterBuilder.Gt(model => model.BannedUntil, DateTime.Now);
         }
         else
         {
+            // Create a filter that only gets models with a 'BannedUntil' date before today.
             filter &= filterBuilder.Lte(model => model.BannedUntil, DateTime.Now);
         }
 
-        var matchingUsers = (await MongoConnector.GetUserCollection().FindAsync(filter))
+        var matchingUsers = (await MongoConnector.GetUserCollection().FindAsync(
+                filter,
+                new FindOptions<UserModel>() 
+                {
+                    Sort = Builders<UserModel>.Sort.Descending(it => it.DateCreated),
+                    Limit = 50,
+                    Skip = 50 * (pagination - 1),
+                }
+            ))
             .ToList()
             .Select(it => it.Obfuscate())
             .ToArray();

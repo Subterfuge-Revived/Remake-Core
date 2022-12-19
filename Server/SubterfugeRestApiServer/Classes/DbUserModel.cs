@@ -34,7 +34,8 @@ namespace SubterfugeServerConsole.Connections.Models
                 EmailVerified = false,
                 PasswordHash = JwtManager.HashPassword(registration.Password),
                 Claims = new[] { UserClaim.User },
-                DeviceIdentifier = deviceIdentifier
+                DeviceIdentifier = deviceIdentifier,
+                PhoneNumber = registration.PhoneNumber,
             };
         }
 

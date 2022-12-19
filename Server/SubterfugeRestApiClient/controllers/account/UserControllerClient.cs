@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿#nullable enable
+using System.Net.Http.Headers;
+using System.Web;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeRestApiClient.controllers.exception;
 
@@ -51,9 +53,29 @@ public class UserControllerClient
         return parsedResponse;
     }
     
-    public async Task<GetUserResponse> GetUsers(GetUserRequest request)
-    {
-        HttpResponseMessage response = await client.PostAsJsonAsync("api/User/GetUsers", request);
+    public async Task<GetUserResponse> GetUsers(
+        int pagination = 1,
+        string? username = null,
+        string? email = null,
+        string? deviceIdentifier = null,
+        string? userId = null,
+        UserClaim? claim = null,
+        string? phone = null,
+        Boolean isBanned = false
+    ) {
+        
+        var query = HttpUtility.ParseQueryString(string.Empty);
+        query["pagination"] = pagination.ToString();
+        query["username"] = username;
+        query["email"] = email;
+        query["deviceIdentifier"] = deviceIdentifier;
+        query["userId"] = userId;
+        query["claims"] = claim.ToString();
+        query["isBanned"] = isBanned.ToString();
+        query["phone"] = phone;
+        string queryString = query.ToString();
+        
+        HttpResponseMessage response = await client.GetAsync($"api/User/GetUsers?{queryString}");
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);

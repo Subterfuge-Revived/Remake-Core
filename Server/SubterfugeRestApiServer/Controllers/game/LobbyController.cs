@@ -1,7 +1,10 @@
 ﻿using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
 using SubterfugeServerConsole.Responses;
 
@@ -13,55 +16,98 @@ namespace SubterfugeRestApiServer;
 public class LobbyController : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<GetLobbyResponse>> GetLobbies()
-    {
+    public async Task<ActionResult<GetLobbyResponse>> GetLobbies(
+        int pagination = 1,
+        RoomStatus roomStatus = RoomStatus.Open,
+        string? createdByUserId = null,
+        string? userIdInRoom = null,
+        string? roomId = null,
+        Goal? goal = null,
+        int? minPlayers = 0,
+        int? maxPlayers = 999,
+        bool? isAnonymous = null,
+        bool? isRanked = null
+    ) {
         DbUserModel dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
             return Unauthorized();
+
+        var isAdmin = dbUserModel.HasClaim(UserClaim.Administrator);
+        
+        // If the player is not an admin; Ensure they only see their own lobbies (other than public ones)
+        if (!isAdmin)
+        {
+            if (userIdInRoom.IsNullOrEmpty())
+            {
+                if (roomStatus != RoomStatus.Open)
+                {
+                    // Only show closed/ongoing/private games created by the user.
+                    // Cannot see games that you are not in unless you are an admin.
+                    userIdInRoom = dbUserModel.UserModel.Id;
+                }
+            }
+            else
+            {
+                if (userIdInRoom != dbUserModel.UserModel.Id)
+                    return Forbid();
+            }
+        }
+
+        var filterBuilder = Builders<GameConfiguration>.Filter;
+        var filter = filterBuilder.Empty;
+
+        if (!createdByUserId.IsNullOrEmpty())
+        {
+            filter &= filterBuilder.Eq(room => room.Creator.Id, createdByUserId);
+        }
+
+        if (roomStatus != null)
+        {
+            filter &= filterBuilder.Eq(room => room.RoomStatus, roomStatus);
+        }
+
+        if (!roomId.IsNullOrEmpty())
+        {
+            filter &= filterBuilder.Eq(room => room.Id, roomId);
+        }
+        
+        filter &= filterBuilder.Gt(room => room.GameSettings.MaxPlayers, minPlayers ?? 0);
+        filter &= filterBuilder.Lt(room => room.GameSettings.MaxPlayers, maxPlayers ?? 999);
+        
+        if(isAnonymous != null) 
+            filter &= filterBuilder.Eq(room => room.GameSettings.IsAnonymous, isAnonymous);
+        
+        if(isRanked != null)
+            filter &= filterBuilder.Eq(room => room.GameSettings.IsRanked, isRanked);
+
+        if (goal != null)
+        {
+            filter &= filterBuilder.Eq(room => room.GameSettings.Goal, goal);
+        }
+
+        if (!userIdInRoom.IsNullOrEmpty())
+        {
+            filter &= filterBuilder.ElemMatch(room => room.PlayersInLobby, player => player.Id == userIdInRoom);
+        }
+        
+        
+        var matchingRooms = (await MongoConnector.GetGameRoomCollection().FindAsync(
+                filter,
+                new FindOptions<GameConfiguration>() 
+                {
+                    Sort = Builders<GameConfiguration>.Sort.Descending(it => it.UnixTimeCreated),
+                    Limit = 50,
+                    Skip = 50 * (pagination - 1),
+                }
+            ))
+            .ToList()
+            .ToArray();
             
         GetLobbyResponse roomResponse = new GetLobbyResponse();
-        List<GameConfiguration> lobbies = (await Room.GetOpenLobbies()).Select(it => it.GameConfiguration).ToList();
-        roomResponse.Lobbies = lobbies.ToArray();
+        roomResponse.Lobbies = matchingRooms;
         roomResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             
         return Ok(roomResponse);
-    }
-
-    // TODO: This should just be a nullable GET parameter to the method above.
-    [HttpGet]
-    [Route("{userId}/lobbies")]
-    public async Task<ActionResult<GetLobbyResponse>> GetPlayerCurrentGames(string userId)
-    {
-        DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
-        if (currentUser == null)
-            return Unauthorized();
-
-        if (currentUser.UserModel.Id == userId)
-        {
-            GetLobbyResponse currentGameResponse = new GetLobbyResponse();
-            List<GameConfiguration> rooms = (await currentUser.GetActiveRooms()).Select(it => it.GameConfiguration)
-                .ToList();
-            currentGameResponse.Lobbies = rooms.ToArray();
-            currentGameResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
-            return Ok(currentGameResponse);
-        }
-
-        if (currentUser.HasClaim(UserClaim.Administrator))
-        {
-            DbUserModel? targetPlayer = await DbUserModel.GetUserFromGuid(userId);
-            if (targetPlayer == null)
-                return NotFound(ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST, "The specified player does not exist."));
-            
-            GetLobbyResponse currentGameResponse = new GetLobbyResponse();
-            List<GameConfiguration> rooms = (await targetPlayer.GetActiveRooms()).Select(it => it.GameConfiguration)
-                .ToList();
-            currentGameResponse.Lobbies = rooms.ToArray();
-            currentGameResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
-            return Ok(currentGameResponse);
-        }
-
-        // Non-Admin is trying to find the games that someone else is in.
-        return Unauthorized();
     }
 
     [HttpPost]
@@ -104,7 +150,7 @@ public class LobbyController : ControllerBase
             return  UnprocessableEntity(ResponseFactory.createResponse(ResponseType.ROOM_IS_FULL, "This room has too many players."));
             
         if(room.IsPlayerInRoom(dbUserModel))
-            return Conflict(ResponseFactory.createResponse(ResponseType.DUPLICATE, "Memory loss? You are already a member of this room."));
+            return Conflict(ResponseFactory.createResponse(ResponseType.PLAYER_ALREADY_IN_LOBBY, "Memory loss? You are already a member of this room."));
             
         if(room.GameConfiguration.RoomStatus != RoomStatus.Open)
             return UnprocessableEntity(ResponseFactory.createResponse(ResponseType.GAME_ALREADY_STARTED, "You're too late! Your friends decided to play out without you."));

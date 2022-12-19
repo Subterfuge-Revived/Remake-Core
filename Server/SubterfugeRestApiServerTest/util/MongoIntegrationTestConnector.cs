@@ -83,6 +83,16 @@ namespace SubterfugeServerConsole.Connections
         {
             return _database.GetCollection<SpecialistPackage>("SpecialistPackages");
         }
+        
+        public static IMongoCollection<ServerExceptionLog> GetServerExceptionLogCollection()
+        {
+            return _database.GetCollection<ServerExceptionLog>("ServerExceptionLog");
+        }
+        
+        public static IMongoCollection<ServerActionLog> GetServerActionLogCollection()
+        {
+            return _database.GetCollection<ServerActionLog>("ServerActionLog");
+        }
 
         public void FlushCollections()
         {
@@ -95,6 +105,12 @@ namespace SubterfugeServerConsole.Connections
             GetMessageGroupCollection().DeleteMany(FilterDefinition<MessageGroupDatabaseModel>.Empty);
             GetSpecialistCollection().DeleteMany(FilterDefinition<SpecialistConfiguration>.Empty);
             GetSpecialistPackageCollection().DeleteMany(FilterDefinition<SpecialistPackage>.Empty);
+            
+            // Don't clear these collections.
+            // They are very helpful for debugging and tracking server activity.
+            
+            // GetServerActionLogCollection().DeleteMany(FilterDefinition<ServerActionLog>.Empty);
+            // GetServerExceptionLogCollection().DeleteMany(FilterDefinition<ServerExceptionLog>.Empty);
         }
         
         public async Task<UserModel> CreateTestingSuperUser()
