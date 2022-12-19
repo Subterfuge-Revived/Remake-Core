@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Models;
@@ -72,7 +73,7 @@ public class SpecialistConfigurationController: ControllerBase
             
         // Search through all specialists for the search term.
         // TODO: Add filters to this endpoint.
-        List<SpecialistConfiguration> results = (await MongoConnector.GetCollection<SpecialistConfiguration>().FindAsync(it => it.Id == specialistId)).ToList();
+        List<SpecialistConfiguration> results = await MongoConnector.SpecialistCollection.Query().Where(it => it.Id == specialistId).ToListAsync();
 
         return Ok(new GetCustomSpecialistsResponse()
         {

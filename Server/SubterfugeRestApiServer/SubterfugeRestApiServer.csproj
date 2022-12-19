@@ -19,8 +19,4 @@
       <ProjectReference Include="..\..\Core\SubterfugeCore\SubterfugeCore.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Database\Models" />
-    </ItemGroup>
-
 </Project>

@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeRestApiServer.Middleware;
 using SubterfugeServerConsole.Connections;

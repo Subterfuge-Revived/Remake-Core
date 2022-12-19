@@ -60,11 +60,7 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
             ExceptionSource = context.Exception?.Source,
             StackTrace = context.Exception?.StackTrace,
         };
-        
-        await MongoConnector.GetCollection<ServerExceptionLog>().ReplaceOneAsync(
-            it => it.Id == serverException.Id,
-            serverException,
-            new UpdateOptions { IsUpsert = true }
-        );
+
+        await MongoConnector.ServerExceptionLogCollection.Upsert(serverException);
     }
 }
