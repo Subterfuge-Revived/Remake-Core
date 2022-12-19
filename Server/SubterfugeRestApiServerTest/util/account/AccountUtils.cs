@@ -6,14 +6,18 @@ namespace SubterfugeRestApiServerTest;
 
 public class AccountUtils
 {
-    public static async Task<AccountRegistrationResponse> AssertRegisterAccountAndAuthorized(string username)
-    {
+    public static async Task<AccountRegistrationResponse> AssertRegisterAccountAndAuthorized(
+        string username,
+        string email = "someEmail@email.com",
+        string deviceId = null,
+        string phone = "1231231231"
+    ) {
         var accountRegistrationResponse = await TestUtils.GetClient().UserApi.RegisterAccount(new AccountRegistrationRequest()
         {
-            DeviceIdentifier = Guid.NewGuid().ToString(),
-            Email = "someEmail@email.com",
+            DeviceIdentifier = deviceId ?? Guid.NewGuid().ToString(),
+            Email = email,
             Password = username,
-            PhoneNumber = "1231231231",
+            PhoneNumber = phone,
             Username = username
         });
         Assert.True(accountRegistrationResponse.Status.IsSuccess);

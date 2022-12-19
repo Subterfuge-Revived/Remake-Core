@@ -18,70 +18,84 @@ public class GameEventControllerTest
     [Test]
     public void PlayerInAGameCanSubmitAnEvent()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayerCannotSubmitEventsToAGameThatDoesNotExist()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayerCannotSubmitEventsToAGameTheyAreNotIn()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayerCannotSubmitAnEventThatOccursInThePast()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayerCanDeleteAnEventThatTheySubmitted()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayerCannotDeleteAnotherPlayersEvent()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayerCannotDeleteEventsThatHaveAlreadyHappened()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayerCanUpdateAGameEvent()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayerCannotUpdateAGameEventWithInvalidEventId()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayerCannotUpdateAGameEventThatHasAlreadyOccurred()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayerCannotUpdateAnotherPlayersEvent()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayersCanViewAnyEventThatHasAlreadyOccurred()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void PlayerCanViewTheirOwnEventsThatOccurInTheFutureButOthersCannot()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void AdminsCanSeeAllGameEvents()
     {
+        throw new NotImplementedException();
     }
 }

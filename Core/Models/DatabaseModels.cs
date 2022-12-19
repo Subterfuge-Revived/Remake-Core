@@ -33,6 +33,8 @@ namespace SubterfugeCore.Models.GameEvents
                 Claims = this.Claims,
                 DateCreated = this.DateCreated,
                 BannedUntil = this.BannedUntil,
+                DeviceIdentifier = this.DeviceIdentifier,
+                PhoneNumber = this.PhoneNumber,
             };
         }
 

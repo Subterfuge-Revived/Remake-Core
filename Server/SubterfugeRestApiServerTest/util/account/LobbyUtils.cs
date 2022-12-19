@@ -6,9 +6,13 @@ namespace SubterfugeRestApiServerTest;
 
 public class LobbyUtils
 {
-    public static async Task<CreateRoomResponse> CreateLobby(string roomName = "My room!", int maxPlayers = 5)
-    {
-            CreateRoomResponse roomResponse = await TestUtils.GetClient().LobbyClient.CreateNewRoom(CreateRoomRequest(roomName, maxPlayers: maxPlayers));
+    public static async Task<CreateRoomResponse> CreateLobby(
+        string roomName = "My room!",
+        int maxPlayers = 5,
+        bool isRanked = false,
+        Goal goal = Goal.Domination
+    ) {
+            CreateRoomResponse roomResponse = await TestUtils.GetClient().LobbyClient.CreateNewRoom(CreateRoomRequest(roomName, maxPlayers: maxPlayers, isRanked: isRanked, goal: goal));
             Assert.AreEqual(roomResponse.Status.IsSuccess, true);
             Assert.IsTrue(roomResponse.GameConfiguration.Id != null);
             return roomResponse;

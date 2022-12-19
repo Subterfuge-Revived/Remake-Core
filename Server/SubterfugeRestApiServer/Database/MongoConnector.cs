@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using SubterfugeCore.Models;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeServerConsole.Connections.Models;
@@ -68,6 +69,10 @@ namespace SubterfugeServerConsole.Connections
             await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.Id)));
             await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.RoomName)));
             await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.UnixTimeCreated)));
+            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.Creator.Id)));
+            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.Creator.Username)));
+            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.GameVersion)));
+            await GetGameRoomCollection().Indexes.CreateOneAsync(new CreateIndexModel<GameConfiguration>(Builders<GameConfiguration>.IndexKeys.Ascending(room => room.RoomStatus)));
             
             // Index Friend relations
             _logger.LogInformation("Indexing User Relations");
@@ -107,6 +112,24 @@ namespace SubterfugeServerConsole.Connections
             await GetSpecialistPackageCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackage>(Builders<SpecialistPackage>.IndexKeys.Ascending(package => package.Id)));
             await GetSpecialistPackageCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackage>(Builders<SpecialistPackage>.IndexKeys.Ascending(package => package.Creator.Id)));
             await GetSpecialistPackageCollection().Indexes.CreateOneAsync(new CreateIndexModel<SpecialistPackage>(Builders<SpecialistPackage>.IndexKeys.Text(package => package.PackageName)));
+            
+            // Index Specialist Configurations
+            _logger.LogInformation("Indexing Server Action Log");
+            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.Id)));
+            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.Username)));
+            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.UserId)));
+            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.RequestUrl)));
+            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.StatusCode)));
+            await GetServerActionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerActionLog>(Builders<ServerActionLog>.IndexKeys.Ascending(action => action.UnixTimeProcessed)));
+            
+            // Index Specialist Configurations
+            _logger.LogInformation("Indexing Server Exception Log");
+            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.Id)));
+            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.Username)));
+            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.UserId)));
+            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.RequestUri)));
+            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.RemoteIpAddress)));
+            await GetServerExceptionLog().Indexes.CreateOneAsync(new CreateIndexModel<ServerExceptionLog>(Builders<ServerExceptionLog>.IndexKeys.Ascending(action => action.UnixTimeProcessed)));
 
             _logger.LogInformation("Indexes created.");
         }
@@ -154,6 +177,16 @@ namespace SubterfugeServerConsole.Connections
         public static IMongoCollection<SpecialistPackage> GetSpecialistPackageCollection()
         {
             return _database.GetCollection<SpecialistPackage>("SpecialistPackages");
+        }
+
+        public static IMongoCollection<ServerActionLog> GetServerActionLog()
+        {
+            return _database.GetCollection<ServerActionLog>("ServerActionLog");
+        }
+        
+        public static IMongoCollection<ServerExceptionLog> GetServerExceptionLog()
+        {
+            return _database.GetCollection<ServerExceptionLog>("ServerExceptionLog");
         }
 
         public void FlushCollections()

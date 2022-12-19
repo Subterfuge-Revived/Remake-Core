@@ -1,4 +1,8 @@
-﻿using SubterfugeServerConsole.Connections.Models;
+﻿using MongoDB.Driver;
+using SubterfugeCore.Models;
+using SubterfugeCore.Models.GameEvents;
+using SubterfugeServerConsole.Connections;
+using SubterfugeServerConsole.Connections.Models;
 
 namespace SubterfugeRestApiServer.Middleware;
 
@@ -21,15 +25,40 @@ public class LoggingMiddleware
         }
         finally
         {
-            // TODO: Also log this to the database just to get a history of everything
+            var username = (context.Items["User"] as DbUserModel)?.UserModel?.Username;
+            var userId = (context.Items["User"] as DbUserModel)?.UserModel?.Id;
+            var remoteIpAddress = context.Connection.RemoteIpAddress;
+            var httpMethod = context.Request?.Method;
+            var requestUrl = context.Request?.Path.Value;
+            var queryString = context.Request?.QueryString;
+            var statusCode = context.Response?.StatusCode;
+            
             _logger.LogInformation(
-                "{user}(uuid={userId}, ip={ip}) {method} {url} => {statusCode}",
-                (context.Items["User"] as DbUserModel)?.UserModel?.Username,
-                (context.Items["User"] as DbUserModel)?.UserModel?.Id,
-                context.Connection.RemoteIpAddress,
-                context.Request?.Method,
-                context.Request?.Path.Value,
-                context.Response?.StatusCode);
+                "{user}(uuid={userId}, ip={ip}) {method} {url}{queryString} => {statusCode}",
+                username,
+                userId,
+                remoteIpAddress,
+                httpMethod,
+                requestUrl,
+                queryString,
+                statusCode
+            );
+
+            var serverAction = new ServerActionLog()
+            {
+                Username = username,
+                UserId = userId,
+                RemoteIpAddress = remoteIpAddress.ToString(),
+                HttpMethod = httpMethod,
+                RequestUrl = requestUrl,
+                StatusCode = statusCode,
+            };
+            
+            await MongoConnector.GetServerActionLog().ReplaceOneAsync(
+                it => it.Id == serverAction.Id,
+                serverAction,
+                new UpdateOptions { IsUpsert = true }
+            );
         }
     }
 }

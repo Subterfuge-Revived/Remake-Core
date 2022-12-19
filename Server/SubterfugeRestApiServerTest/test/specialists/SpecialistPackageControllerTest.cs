@@ -18,26 +18,31 @@ public class SpecialistPackageControllerTest
     [Test]
     public void CanCreateASpecialistPackage()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void CanViewAPlayersSpecialistPackages()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void CanAddMultipleSpecialistsToAPackage()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void CanAddASpecialistPackageToAPackage()
     {
+        throw new NotImplementedException();
     }
 
     [Test]
     public void CanViewOtherPlayersPackages()
     {
+        throw new NotImplementedException();
     }
 
 }
