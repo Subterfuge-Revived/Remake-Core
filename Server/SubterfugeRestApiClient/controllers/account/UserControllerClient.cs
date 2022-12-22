@@ -2,11 +2,12 @@
 using System.Net.Http.Headers;
 using System.Web;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeRestApiClient.controllers.exception;
 
 namespace SubterfugeRestApiClient.controllers.account;
 
-public class UserControllerClient
+public class UserControllerClient : ISubterfugeAccountApi
 {
     private HttpClient client;
 
@@ -17,7 +18,7 @@ public class UserControllerClient
     
     public async Task<AuthorizationResponse> Login(AuthorizationRequest request)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync("api/User/Login", request);
+        HttpResponseMessage response = await client.PostAsJsonAsync("api/user/login", request);
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
@@ -34,14 +35,14 @@ public class UserControllerClient
         client.DefaultRequestHeaders.Authorization = null;
     }
     
-    public void LoginWithToken(string token)
+    public void SetToken(string token)
     {
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
     
     public async Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest request)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync("api/User/RegisterAccount", request);
+        HttpResponseMessage response = await client.PostAsJsonAsync("api/user/register", request);
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
@@ -52,30 +53,20 @@ public class UserControllerClient
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", parsedResponse.Token);
         return parsedResponse;
     }
-    
-    public async Task<GetUserResponse> GetUsers(
-        int pagination = 1,
-        string? username = null,
-        string? email = null,
-        string? deviceIdentifier = null,
-        string? userId = null,
-        UserClaim? claim = null,
-        string? phone = null,
-        Boolean isBanned = false
-    ) {
-        
+
+    public async Task<GetUserResponse> GetUsers(GetUserRequest request)
+    {
         var query = HttpUtility.ParseQueryString(string.Empty);
-        query["pagination"] = pagination.ToString();
-        query["username"] = username;
-        query["email"] = email;
-        query["deviceIdentifier"] = deviceIdentifier;
-        query["userId"] = userId;
-        query["claims"] = claim.ToString();
-        query["isBanned"] = isBanned.ToString();
-        query["phone"] = phone;
+        query["pagination"] = request.pagination.ToString();
+        query["UsernameSearch"] = request.UsernameSearch;
+        query["EmailSearch"] = request.EmailSearch;
+        query["DeviceIdentifierSearch"] = request.DeviceIdentifierSearch;
+        query["UserIdSearch"] = request.UserIdSearch;
+        query["RequireUserClaims"] = request.RequireUserClaim.ToString();
+        query["isBanned"] = request.isBanned.ToString();
         string queryString = query.ToString();
         
-        HttpResponseMessage response = await client.GetAsync($"api/User/GetUsers?{queryString}");
+        HttpResponseMessage response = await client.GetAsync($"api/user/query?{queryString}");
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
@@ -84,6 +75,6 @@ public class UserControllerClient
         // return URI of the created resource.
         return await response.Content.ReadAsAsync<GetUserResponse>();
     }
-    
-    
+
+
 }

@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeDatabaseProvider.Models;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeServerConsole.Connections;
@@ -15,8 +16,8 @@ using SubterfugeServerConsole.Responses;
 namespace SubterfugeRestApiServer;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
-public class UserController : ControllerBase
+[Route("api/user/")]
+public class UserController : ControllerBase, ISubterfugeAccountApi
 {
     
     private IDatabaseCollection<DbUserModel> _dbUsers;
@@ -28,16 +29,17 @@ public class UserController : ControllerBase
     }
 
     private readonly IConfiguration _config;
-    
+
     [AllowAnonymous]
     [HttpPost]
-    public async Task<ActionResult<AuthorizationResponse>> Login(AuthorizationRequest request)
+    [Route("login")]
+    public async Task<AuthorizationResponse> Login(AuthorizationRequest request)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         
         var user = await AuthenticateUserByPassword(request);
         if (user == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
         
         if (dbUserModel != null && dbUserModel.Username != request.Username)
         {
@@ -62,14 +64,113 @@ public class UserController : ControllerBase
 
         
         var tokenString = GenerateJsonWebToken(user);
-        return Ok(
-            new AuthorizationResponse()
+        return new AuthorizationResponse()
+        {
+            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            Token = tokenString,
+            User = user.ToUser(),
+        };
+    }
+
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("register")]
+    public async Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest registrationRequeset)
+    {
+        List<DbUserModel> usersMatchingUsernameOrPhone = await _dbUsers.Query()
+            .Where(it => it.Username == registrationRequeset.Username)
+            .Where(it => it.PhoneNumber == registrationRequeset.PhoneNumber)
+            .ToListAsync();
+
+        DbUserModel? matchingUsername = usersMatchingUsernameOrPhone.FirstOrDefault(it => it.Username == registrationRequeset.Username);
+        if (matchingUsername != null)
+            throw new ConflictException("A very popular choice! Unfortunately, that username is taken...");
+
+        // Create the new user account
+        DbUserModel model = DbUserModel.FromRegistrationRequest(registrationRequeset);
+        
+        var matchingPhone = usersMatchingUsernameOrPhone.Where(it => it.PhoneNumber == registrationRequeset.PhoneNumber).ToList();
+        if (!matchingPhone.IsNullOrEmpty())
+        {
+            // Flag all accounts matching the phone number as a possible multibox.
+            foreach(DbUserModel user in matchingPhone)
             {
-                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-                Token = tokenString,
-                User = user.ToUser(),
+                model.MultiboxAccounts.Add(new MultiboxAccount()
+                {
+                    MultiboxReason = MultiBoxReason.DUPLICATE_PHONE_NUMBER,
+                    TimeOccured = DateTime.UtcNow,
+                    User = user.ToUser()
+                });
+                await _dbUsers.Upsert(model);
+            
+                user.MultiboxAccounts.Add(new MultiboxAccount()
+                {
+                    MultiboxReason = MultiBoxReason.DUPLICATE_PHONE_NUMBER,
+                    TimeOccured = DateTime.UtcNow,
+                    User = model.ToUser()
+                });
+                await _dbUsers.Upsert(user);
             }
-        );
+        }
+            
+        // Create a new user model
+        await _dbUsers.Upsert(model);
+        
+        string token = GenerateJsonWebToken(model);
+        return new AccountRegistrationResponse
+        {
+            Token = token,
+            User = model.ToUser(),
+            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+        };
+    }
+
+    [Authorize(Roles = "Administrator")]
+    [HttpGet]
+    [Route("query")]
+    public async Task<GetUserResponse> GetUsers([FromQuery] GetUserRequest request)
+    {
+        IMongoQueryable<DbUserModel> query = _dbUsers.Query();
+        
+        if (!request.EmailSearch.IsNullOrEmpty())
+            query = query.Where(it => it.Email.Contains(request.EmailSearch));
+
+        if (!request.UsernameSearch.IsNullOrEmpty())
+            query = query.Where(it => it.Username.Contains(request.UsernameSearch));
+        
+        if (!request.DeviceIdentifierSearch.IsNullOrEmpty())
+            query = query.Where(it => it.DeviceIdentifier == request.DeviceIdentifierSearch);
+        
+        if (!request.UserIdSearch.IsNullOrEmpty())
+            query = query.Where(it => it.Id == request.UserIdSearch);
+
+        if (request.RequireUserClaim != null)
+            // Create a filter that require the claim to exist in the user claims
+            query = query.Where(it => it.Claims.Any(it => it == request.RequireUserClaim));
+
+        if (request.isBanned)
+        {
+            // Create a filter that only gets models with a 'BannedUntil' date after today.
+            query = query.Where(it => it.BannedUntil > DateTime.UtcNow);
+        }
+        else
+        {
+            // Create a filter that only gets models with a 'BannedUntil' date before today.
+            query = query.Where(it => it.BannedUntil <= DateTime.UtcNow);
+        }
+
+        var matchingUsers = (await query
+                .OrderByDescending(it => it.DateCreated)
+                .Skip(50 * (request.pagination - 1))
+                .Take(50)
+                .ToListAsync())
+            .Select(it => it.ToUser())
+            .ToList();
+
+        return new GetUserResponse()
+        {
+            Users = matchingUsers
+        };
     }
 
     private string GenerateJsonWebToken(DbUserModel user)
@@ -103,121 +204,11 @@ public class UserController : ControllerBase
     private async Task<DbUserModel?> AuthenticateUserByPassword(AuthorizationRequest request)
     {
         // Try to get a user
-        DbUserModel? dbUserModel = await _dbUsers.Query().FirstAsync(it => it.Username == request.Username);
+        DbUserModel? dbUserModel = await _dbUsers.Query().FirstOrDefaultAsync(it => it.Username == request.Username);
 
         if (dbUserModel == null || !JwtManager.VerifyHashedStringMatches(request.Password, dbUserModel.PasswordHash))
             return null;
 
         return dbUserModel;
-    }
-
-    [AllowAnonymous]
-    [HttpPost]
-    public async Task<ActionResult<AccountRegistrationResponse>> RegisterAccount(AccountRegistrationRequest registrationRequeset)
-    {
-        List<DbUserModel> usersMatchingUsernameOrPhone = await _dbUsers.Query()
-            .Where(it => it.Username == registrationRequeset.Username)
-            .Where(it => it.PhoneNumber == registrationRequeset.PhoneNumber)
-            .ToListAsync();
-
-        DbUserModel? matchingUsername = usersMatchingUsernameOrPhone.FirstOrDefault(it => it.Username == registrationRequeset.Username);
-        if(matchingUsername != null)
-            return Conflict(ResponseFactory.createResponse(ResponseType.DUPLICATE, "A very popular choice! Unfortunately, that username is taken..."));
-
-        // Create the new user account
-        DbUserModel model = DbUserModel.FromRegistrationRequest(registrationRequeset);
-        
-        var matchingPhone = usersMatchingUsernameOrPhone.Where(it => it.PhoneNumber == registrationRequeset.PhoneNumber).ToList();
-        if (!matchingPhone.IsNullOrEmpty())
-        {
-            // Flag all accounts matching the phone number as a possible multibox.
-            foreach(DbUserModel user in matchingPhone)
-            {
-                model.MultiboxAccounts.Add(new MultiboxAccount()
-                {
-                    MultiboxReason = MultiBoxReason.DUPLICATE_PHONE_NUMBER,
-                    TimeOccured = DateTime.UtcNow,
-                    User = user.ToUser()
-                });
-                await _dbUsers.Upsert(model);
-            
-                user.MultiboxAccounts.Add(new MultiboxAccount()
-                {
-                    MultiboxReason = MultiBoxReason.DUPLICATE_PHONE_NUMBER,
-                    TimeOccured = DateTime.UtcNow,
-                    User = model.ToUser()
-                });
-                await _dbUsers.Upsert(user);
-            }
-        }
-            
-        // Create a new user model
-        await _dbUsers.Upsert(model);
-        
-        string token = GenerateJsonWebToken(model);
-        return Ok(new AccountRegistrationResponse
-        {
-            Token = token,
-            User = model.ToUser(),
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-        });
-    }
-
-    [Authorize(Roles = "Administrator")]
-    [HttpGet]
-    public async Task<ActionResult<GetUserResponse>> GetUsers(
-        int pagination = 1,
-        string? username = null,
-        string? email = null,
-        string? deviceIdentifier = null,
-        string? userId = null,
-        UserClaim? claim = null,
-        string? phone = null,
-        Boolean isBanned = false
-    ) {
-        IMongoQueryable<DbUserModel> query = _dbUsers.Query();
-        
-        if (!email.IsNullOrEmpty())
-            query = query.Where(it => it.Email.Contains(email));
-
-        if (!username.IsNullOrEmpty())
-            query = query.Where(it => it.Username.Contains(username));
-        
-        if (!deviceIdentifier.IsNullOrEmpty())
-            query = query.Where(it => it.DeviceIdentifier == deviceIdentifier);
-        
-        if (!userId.IsNullOrEmpty())
-            query = query.Where(it => it.Id == userId);
-        
-        if (!phone.IsNullOrEmpty())
-            query = query.Where(it => it.PhoneNumber == phone);
-
-        if (claim != null)
-            // Create a filter that require the claim to exist in the user claims
-            query = query.Where(it => it.Claims.Any(it => it == claim.GetValueOrDefault()));
-
-        if (isBanned)
-        {
-            // Create a filter that only gets models with a 'BannedUntil' date after today.
-            query = query.Where(it => it.BannedUntil > DateTime.UtcNow);
-        }
-        else
-        {
-            // Create a filter that only gets models with a 'BannedUntil' date before today.
-            query = query.Where(it => it.BannedUntil <= DateTime.UtcNow);
-        }
-
-        var matchingUsers = (await query
-            .OrderByDescending(it => it.DateCreated)
-            .Skip(50 * (pagination - 1))
-            .Take(50)
-            .ToListAsync())
-            .Select(it => it.ToUser())
-            .ToList();
-
-        return Ok(new GetUserResponse()
-        {
-            Users = matchingUsers
-        });
     }
 }

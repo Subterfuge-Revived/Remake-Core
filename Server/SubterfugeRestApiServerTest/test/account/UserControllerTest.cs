@@ -68,7 +68,7 @@ public class UserControllerTest
         var exception = Assert.ThrowsAsync<SubterfugeClientException>( async () => {
             await AccountUtils.AssertRegisterAccountAndAuthorized(username);
         });
-        Assert.AreEqual(exception.response.ResponseType, ResponseType.DUPLICATE);
+        Assert.AreEqual(ResponseType.DUPLICATE, exception.response.ResponseType);
     }
 
     [Test]
@@ -101,7 +101,7 @@ public class UserControllerTest
         await AccountUtils.AssertRegisterAccountAndAuthorized("UserTwo");
         
         var loginResponse = await TestUtils.CreateSuperUserAndLogin();
-        var response = await TestUtils.GetClient().UserApi.GetUsers();
+        var response = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest());
         Assert.AreEqual(3, response.Users.Count);
     }
     
@@ -115,7 +115,7 @@ public class UserControllerTest
 
         var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
         {
-            await TestUtils.GetClient().UserApi.GetUsers();
+            await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest());
         });
         Assert.AreEqual(HttpStatusCode.Forbidden, exception.rawResponse.StatusCode);
     }
@@ -151,7 +151,7 @@ public class UserControllerTest
         await TestUtils.CreateSuperUserAndLogin();
         
         // Can search by username
-        var usernameResponse = await TestUtils.GetClient().UserApi.GetUsers(username: "UserOne");
+        var usernameResponse = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest() {UsernameSearch = "UserOne"});
         Assert.AreEqual(1, usernameResponse.Users.Count);
         Assert.IsTrue(usernameResponse.Users.All(user => user.Username.Contains("UserOne")));
         

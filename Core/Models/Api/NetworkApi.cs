@@ -1,66 +1,84 @@
-﻿using System.Threading.Tasks;
+﻿#nullable enable
+using System.Threading.Tasks;
 
 namespace SubterfugeCore.Models.GameEvents.Api
 {
-    public interface IAccountApi
+    public interface ISubterfugeAccountApi
     {
         Task<AuthorizationResponse> Login(AuthorizationRequest request);
+        Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest registrationRequeset);
+        Task<GetUserResponse> GetUsers(GetUserRequest request);
     }
-    
-    public interface IGameLobbyApi
+
+    public interface ISubterfugeUserRoleApi
     {
-        OpenLobbiesResponse GetOpenLobbies(OpenLobbiesRequest lobbyRequest);
-        GetLobbyResponse GetPlayerCurrentGames(PlayerCurrentGamesRequest currentGamesRequest);
-        CreateRoomResponse CreateNewRoom(CreateRoomRequest createRoomRequest);
-        JoinRoomResponse JoinRoom(JoinRoomRequest joinRoomRequest);
-        LeaveRoomResponse LeaveRoom();
-        StartGameEarlyResponse StartGameEarly();
+        Task<GetRolesResponse> GetRoles(string userId);
+        Task<GetRolesResponse> SetRoles(string userId, UpdateRolesRequest request);
     }
-    
-    public interface IGameEventApi
+
+    public interface ISubterfugeAdminApi
     {
-        GetGameRoomEventsResponse GetGameRoomEvents();
-        SubmitGameEventResponse SubmitGameEvent(SubmitGameEventRequest submitGameEventRequest);
-        SubmitGameEventResponse UpdateGameEvent(UpdateGameEventRequest updateGameEventRequest);
-        DeleteGameEventResponse DeleteGameEvent(DeleteGameEventRequest deleteGameEventRequest);
+        Task<ServerActionLogResponse> GetActionLog(ServerActionLogRequeset request);
+        Task<ServerExceptionLogResponse> GetServerExceptions(ServerExceptionLogRequest request);
     }
     
-    public interface INetworkHealthApi
+    public interface ISubterfugeGameLobbyApi
     {
-        PingResponse Ping(PingRequest pingRequest);
-        PingResponse AuthorizedHealthCheck(AuthorizedPingRequest authorizedPingRequest);
+        Task<GetLobbyResponse> GetLobbies(GetLobbyRequest lobbyRequest);
+        Task<CreateRoomResponse> CreateNewRoom(CreateRoomRequest createRoomRequest);
+        Task<JoinRoomResponse> JoinRoom(JoinRoomRequest request, string guid);
+        Task<LeaveRoomResponse> LeaveRoom(string guid);
+        Task<StartGameEarlyResponse> StartGameEarly(string guid);
     }
     
-    public interface IGroupChatApi
+    public interface ISubterfugeGameEventApi
     {
-        CreateMessageGroupResponse CreateMessageGroup(CreateMessageGroupRequest createMessageGroupRequest);
-        SendMessageResponse SendMessage(SendMessageRequest sendMessageRequest);
-        GetMessageGroupsResponse GetMessageGroups(GetMessageGroupsRequest getMessageGroupsRequest);
-        GetGroupMessagesResponse GetGroupMessages(GetGroupMessagesRequest getGroupMessagesRequest);
+        Task<GetGameRoomEventsResponse> GetGameRoomEvents(string roomId);
+        Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId);
+        Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid);
+        Task<DeleteGameEventResponse> DeleteGameEvent(DeleteGameEventRequest request, string roomId, string eventGuid);
     }
     
-    public interface ISocialApi
+    public interface ISubterfugeHealthApi
     {
-        BlockPlayerResponse BlockPlayer(BlockPlayerRequest blockPlayerRequest);
-        UnblockPlayerResponse UnblockPlayer(UnblockPlayerRequest unblockPlayerRequest);
-        ViewBlockedPlayersResponse ViewBlockedPlayers(ViewBlockedPlayersRequest viewBlockedPlayersRequest);
-        AddAcceptFriendResponse AddAcceptFriendRequest(SendFriendRequestRequest sendFriendRequestRequest);
-        DenyFriendRequestResponse DenyFriendRequest(DenyFriendRequestRequest denyFriendRequestRequest);
-        ViewFriendRequestsResponse ViewFriendRequests(ViewFriendRequestsRequest viewFriendRequestsRequest);
-        RemoveFriendResponse RemoveFriend(RemoveFriendRequest removeFriendRequest);
-        ViewFriendsResponse ViewFriends(ViewFriendsRequest viewFriendsRequest);
+        Task<PingResponse> Ping();
+        Task<PingResponse> AuthorizedPing();
     }
     
-    public interface ICustomSpecialistApi
+    public interface ISubterfugeGroupChatApi
+    {
+        Task<CreateMessageGroupResponse> CreateMessageGroup(CreateMessageGroupRequest request, string roomId);
+        Task<SendMessageResponse> SendMessage(SendMessageRequest request, string roomId, string groupId);
+        Task<GetMessageGroupsResponse> GetMessageGroups(string roomId);
+        Task<GetGroupMessagesResponse> GetMessages(
+            GetGroupMessagesRequest request,
+            string roomId,
+            string groupId);
+    }
+    
+    public interface ISubterfugeSocialApi
+    {
+        Task<BlockPlayerResponse> BlockPlayer(BlockPlayerRequest request, string userId);
+        Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request, string userId);
+        Task<ViewBlockedPlayersResponse> ViewBlockedPlayers(string userId);
+        Task<AddAcceptFriendResponse> AddAcceptFriendRequest(string userId);
+        Task<DenyFriendRequestResponse> RemoveRejectFriend(string userId);
+        Task<ViewFriendRequestsResponse> ViewFriendRequests(string userId);
+        Task<ViewFriendsResponse> GetFriendList(string userId);
+    }
+    
+    public interface ISubterfugeCustomSpecialistApi
     {
 
-        SubmitCustomSpecialistResponse SubmitCustomSpecialist(
-            SubmitCustomSpecialistRequest submitCustomSpecialistRequest);
+        Task<SubmitCustomSpecialistResponse> SubmitCustomSpecialist(SubmitCustomSpecialistRequest submitCustomSpecialistRequest);
+        Task<GetCustomSpecialistsResponse> GetCustomSpecialists(GetCustomSpecialistsRequest getCustomSpecialistsRequest);
+        Task<GetCustomSpecialistsResponse> GetCustomSpecialist(string specialistId);
+    }
 
-        GetCustomSpecialistsResponse GetCustomSpecialists(GetCustomSpecialistsRequest getCustomSpecialistsRequest);
-
-        CreateSpecialistPackageResponse CreateSpecialistPackage(CreateSpecialistPackageRequest createSpecialistPackageRequest);
-
-        GetSpecialistPackagesResponse GetSpecialistPackages(GetSpecialistPackagesRequest getSpecialistPackagesRequest);
+    public interface ISubterfugeSpecialistPackageApi
+    {
+        Task<CreateSpecialistPackageResponse> CreateSpecialistPackage(CreateSpecialistPackageRequest createSpecialistPackageRequest);
+        Task<GetSpecialistPackagesResponse> GetSpecialistPackages(GetSpecialistPackagesRequest getSpecialistPackagesRequest);
+        Task<GetSpecialistPackagesResponse> GetSpecialistPackages(string packageId);
     }
 }

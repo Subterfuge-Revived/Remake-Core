@@ -1,11 +1,12 @@
 ﻿#nullable enable
 using System.Web;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeRestApiClient.controllers.exception;
 
 namespace SubterfugeRestApiClient.controllers.game;
 
-public class LobbyClient
+public class LobbyClient : ISubterfugeGameLobbyApi
 {
     private HttpClient client;
 
@@ -14,30 +15,19 @@ public class LobbyClient
         this.client = client;
     }
 
-    public async Task<GetLobbyResponse> GetLobbies(
-        int pagination = 1,
-        RoomStatus roomStatus = RoomStatus.Open,
-        string? createdByUserId = null,
-        string? userIdInRoom = null,
-        string? roomId = null,
-        Goal? goal = null,
-        int? minPlayers = 0,
-        int? maxPlayers = 999,
-        bool? isAnonymous = null,
-        bool? isRanked = null
-    ) {
-        
+    public async Task<GetLobbyResponse> GetLobbies(GetLobbyRequest lobbyRequest)
+    {
         var query = HttpUtility.ParseQueryString(string.Empty);
-        query["pagination"] = pagination.ToString();
-        query["createdByUserId"] = createdByUserId;
-        query["roomStatus"] = roomStatus.ToString();
-        query["userIdInRoom"] = userIdInRoom;
-        query["roomId"] = roomId;
-        query["goal"] = goal.ToString();
-        query["minPlayers"] = minPlayers.ToString();
-        query["maxPlayers"] = maxPlayers.ToString();
-        query["isAnonymous"] = isAnonymous.ToString();
-        query["isRanked"] = isRanked.ToString();
+        query["Pagination"] = lobbyRequest.Pagination.ToString();
+        query["CreatedByUserId"] = lobbyRequest.CreatedByUserId;
+        query["RoomStatus"] = lobbyRequest.RoomStatus.ToString();
+        query["UserIdInRoom"] = lobbyRequest.UserIdInRoom;
+        query["RoomId"] = lobbyRequest.RoomId;
+        query["Goal"] = lobbyRequest.Goal.ToString();
+        query["MinPlayers"] = lobbyRequest.MinPlayers.ToString();
+        query["MaxPlayers"] = lobbyRequest.MaxPlayers.ToString();
+        query["IsAnonymous"] = lobbyRequest.IsAnonymous.ToString();
+        query["IsRanked"] = lobbyRequest.IsRanked.ToString();
         string queryString = query.ToString();
         
         HttpResponseMessage response = await client.GetAsync($"api/lobby?{queryString}");
