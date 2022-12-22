@@ -1,21 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SubterfugeCore.Models.GameEvents
 {
-
-    public interface INetworkGameEventController
-    {
-        GetGameRoomEventsResponse GetGameRoomEvents();
-        SubmitGameEventResponse SubmitGameEvent(SubmitGameEventRequest submitGameEventRequest);
-        SubmitGameEventResponse UpdateGameEvent(UpdateGameEventRequest updateGameEventRequest);
-        DeleteGameEventResponse DeleteGameEvent(DeleteGameEventRequest deleteGameEventRequest);
-    }
-
     public class GameEventData
     {
         public string Id { get; set; }
         public string RoomId { get; set; }
-        public long UnixTimeIssued { get; set; }
+        public DateTime TimeIssued { get; set; }
         public int OccursAtTick { get; set; }
         public User IssuedBy { get; set; }
         public NetworkGameEventData EventData { get; set; }

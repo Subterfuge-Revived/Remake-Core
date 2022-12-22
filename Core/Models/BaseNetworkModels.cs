@@ -2,12 +2,6 @@
 
 namespace SubterfugeCore.Models.GameEvents
 {
-    public interface INetworkHealthInterface
-    {
-        PingResponse Ping(PingRequest pingRequest);
-        PingResponse AuthorizedHealthCheck(AuthorizedPingRequest authorizedPingRequest);
-    }
-    
     public class NetworkResponse
     {
         public ResponseStatus Status { get; set; }

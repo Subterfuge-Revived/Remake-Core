@@ -21,7 +21,7 @@ namespace SubterfugeCoreTest
         [TestInitialize]
         public void Setup()
         {
-            _time = DateTime.Now;
+            _time = DateTime.UtcNow;
             _tickNumber = 0;
             _tick = new GameTick(_tickNumber);
             GameConfiguration config = testUtils.GetDefaultGameConfiguration(new List<Player>{ new Player("1") });

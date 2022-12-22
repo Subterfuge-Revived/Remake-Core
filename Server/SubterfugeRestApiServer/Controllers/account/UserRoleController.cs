@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
-using SubterfugeServerConsole.Connections.Models;
+using SubterfugeDatabaseProvider.Models;
+using SubterfugeServerConsole.Connections;
+using SubterfugeServerConsole.Connections.Collections;
 using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeRestApiServer;
@@ -11,6 +15,12 @@ namespace SubterfugeRestApiServer;
 [Route("api/user/{userId}/[action]")]
 public class UserRoleController : ControllerBase
 {
+    private IDatabaseCollection<DbUserModel> _dbUsers;
+
+    public UserRoleController(IDatabaseCollectionProvider mongo)
+    {
+        _dbUsers = mongo.GetCollection<DbUserModel>();
+    }
 
     [Authorize]
     [HttpGet]
@@ -22,13 +32,13 @@ public class UserRoleController : ControllerBase
 
         if (dbUserModel.HasClaim(UserClaim.Administrator))
         {
-            DbUserModel targetUser = await DbUserModel.GetUserFromGuid(userId);
+            DbUserModel? targetUser = await _dbUsers.Query().FirstAsync(it => it.Id == userId);
             if (targetUser != null)
             {
                 var response = new GetRolesResponse()
                 {
                     Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-                    Claims = targetUser.UserModel.Claims
+                    Claims = targetUser.Claims
                 };
                 return Ok(response);
             }
@@ -38,12 +48,12 @@ public class UserRoleController : ControllerBase
             });
         }
         
-        if (dbUserModel.UserModel.Id == userId)
+        if (dbUserModel.Id == userId)
         {
             var response = new GetRolesResponse()
             {
                 Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-                Claims = dbUserModel.UserModel.Claims
+                Claims = dbUserModel.Claims
             };
             return Ok(response);
         }
@@ -58,20 +68,20 @@ public class UserRoleController : ControllerBase
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if(dbUserModel == null)
             return Unauthorized();
-
-        DbUserModel? targetUser = await DbUserModel.GetUserFromGuid(userId);
-        if (targetUser == null)
-            return Conflict();
-
+        
         if (!dbUserModel.HasClaim(UserClaim.Administrator))
-            return Unauthorized();
+            return Forbid();
+        
+        DbUserModel? targetUser = await _dbUsers.Query().FirstAsync(it => it.Id == userId);
+        if (targetUser == null)
+            return NotFound();
 
-        targetUser.UserModel.Claims = updateRoleRequest.Claims;
-        await targetUser.SaveToDatabase();
+        targetUser.Claims = updateRoleRequest.Claims;
+        await _dbUsers.Upsert(targetUser);
 
         var response = new GetRolesResponse() {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-            Claims = targetUser.UserModel.Claims
+            Claims = targetUser.Claims
         };
         return Ok(response);
     }

@@ -2,19 +2,6 @@
 
 namespace SubterfugeCore.Models.GameEvents
 {
-
-    public interface INetworkSocialController
-    {
-        BlockPlayerResponse BlockPlayer(BlockPlayerRequest blockPlayerRequest);
-        UnblockPlayerResponse UnblockPlayer(UnblockPlayerRequest unblockPlayerRequest);
-        ViewBlockedPlayersResponse ViewBlockedPlayers(ViewBlockedPlayersRequest viewBlockedPlayersRequest);
-        AddAcceptFriendResponse AddAcceptFriendRequest(SendFriendRequestRequest sendFriendRequestRequest);
-        DenyFriendRequestResponse DenyFriendRequest(DenyFriendRequestRequest denyFriendRequestRequest);
-        ViewFriendRequestsResponse ViewFriendRequests(ViewFriendRequestsRequest viewFriendRequestsRequest);
-        RemoveFriendResponse RemoveFriend(RemoveFriendRequest removeFriendRequest);
-        ViewFriendsResponse ViewFriends(ViewFriendsRequest viewFriendsRequest);
-    }
-    
     public class BlockPlayerRequest { }
 
     public class BlockPlayerResponse : NetworkResponse { }

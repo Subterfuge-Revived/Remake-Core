@@ -26,7 +26,7 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 
         public DateTime GetUnixTimeIssued()
         {
-            return new DateTime(Model.UnixTimeIssued);
+            return Model.TimeIssued;
         }
 
         public override string GetEventId()
@@ -46,7 +46,7 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
                 Id = GetEventId(),
                 IssuedBy = IssuedBy().ToUser(),
                 OccursAtTick = GetOccursAt().GetTick(),
-                UnixTimeIssued = GetUnixTimeIssued().ToFileTimeUtc(),
+                TimeIssued = Model.TimeIssued,
             };
         }
     }

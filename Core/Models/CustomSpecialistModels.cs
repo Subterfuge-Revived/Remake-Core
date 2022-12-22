@@ -1,20 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SubterfugeCore.Models.GameEvents
 {
-    public interface INetworkCustomSpeicliastManager
-    {
-
-        SubmitCustomSpecialistResponse SubmitCustomSpecialist(
-            SubmitCustomSpecialistRequest submitCustomSpecialistRequest);
-
-        GetCustomSpecialistsResponse GetCustomSpecialists(GetCustomSpecialistsRequest getCustomSpecialistsRequest);
-
-        CreateSpecialistPackageResponse CreateSpecialistPackage(CreateSpecialistPackageRequest createSpecialistPackageRequest);
-
-        GetSpecialistPackagesResponse GetSpecialistPackages(GetSpecialistPackagesRequest getSpecialistPackagesRequest);
-    }
-
     public class SpecialistConfiguration
     {
         public string Id { get; set; }
@@ -23,7 +11,6 @@ namespace SubterfugeCore.Models.GameEvents
         public User Creator { get; set; }
         public List<SpecialistEffectConfiguration> SpecialistEffects { get; set; }
         public string PromotesFromSpecialistId { get; set; }
-        public List<SpecialistClass> SpecialistClasses { get; set; }
     }
 
     public class SpecialistEffectConfiguration
@@ -40,22 +27,6 @@ namespace SubterfugeCore.Models.GameEvents
         public EffectScale EffectScale { get; set; }
         public EffectTarget EffectScaleTarget { get; set; }
         public EffectTriggerRange EffectTriggerRange { get; set; }
-    }
-
-    public enum SpecialistClass
-    {
-        Unknown,
-        Warrier,
-        Protector,
-        Theif,
-        Zoner,
-        Investor,
-        Controller,
-        Producer,
-        Influencer,
-        Leecher,
-        Zoomer,
-        Piercer,
     }
 
     public enum EffectTrigger
@@ -118,16 +89,21 @@ namespace SubterfugeCore.Models.GameEvents
     }
     
     public class SpecialistPackage {
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public User Creator { get; set; }
         public string PackageName { get; set; }
         public List<string> SpecialistIds { get; set; }
+        public List<string> PackageIds { get; set; }
         public long TimesUsedInGame { get; set; }
+        public double AverageRating { get; set; }
     }
 
     public class SubmitCustomSpecialistRequest
     {
-        public SpecialistConfiguration SpecialistConfiguration { get; set; }
+        public long Priority { get; set; }
+        public string SpecialistName { get; set; }
+        public List<SpecialistEffectConfiguration> SpecialistEffects { get; set; }
+        public string PromotesFromSpecialistId { get; set; }
     }
 
     public class SubmitCustomSpecialistResponse : NetworkResponse
@@ -150,7 +126,9 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class CreateSpecialistPackageRequest
     {
-        public SpecialistPackage SpecialistPackage { get; set; }
+        public string PackageName { get; set; }
+        public List<string> SpecialistIds { get; set; }
+        public List<string> PackageIds { get; set; }
     }
 
     public class CreateSpecialistPackageResponse : NetworkResponse

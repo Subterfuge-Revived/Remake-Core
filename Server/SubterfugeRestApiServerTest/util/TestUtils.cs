@@ -5,8 +5,7 @@ namespace SubterfugeServerConsole.Connections;
 
 public class TestUtils
 {
-
-    public static MongoIntegrationTestConnector Mongo = new MongoIntegrationTestConnector();
+    public static MongoConnector Mongo = new MongoIntegrationTestConnector().Mongo;
     private static SubterfugeClient _client = null;
     public static SubterfugeClient GetClient()
     {
@@ -30,7 +29,7 @@ public class TestUtils
 
     public static async Task<AuthorizationResponse> CreateSuperUserAndLogin()
     {
-        var account = await TestUtils.Mongo.CreateTestingSuperUser();
+        var account = await Mongo.CreateSuperUser();
         return await TestUtils.GetClient().UserApi.Login(new AuthorizationRequest() { Username = "admin", Password = "admin" });
     }
 }

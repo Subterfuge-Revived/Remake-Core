@@ -3,56 +3,39 @@ using System.Collections.Generic;
 
 namespace SubterfugeCore.Models.GameEvents
 {
-    public class UserModel
+    // This data structure is ONLY for administrators.
+    // Players will NOT get this information.
+    public class DetailedUser
     {
         public string Id { get; set; }
         public string Username { get; set; }
-        public string PasswordHash { get; set; }
         public string Email { get; set; }
+        public bool EmailVerified { get; set; }
         public string DeviceIdentifier { get; set; }
-        public string PhoneNumber { get; set; }
-        public Boolean EmailVerified { get; set; }
+        public string PhoneNumberHash { get; set; }
+        public bool PhoneVerified { get; set; } = false;
+        public string DiscordUsername { get; set; }
+        public bool DiscordVerified { get; set; } = false;
         public UserClaim[] Claims { get; set; }
+        public List<MultiboxAccount> MultiboxAccounts { get; set; }
         public string PushNotificationIdentifier { get; set; }
         public string DeviceType { get; set; }
         
         // Administrative
         public DateTime DateCreated { get; set; }
         public DateTime BannedUntil { get; set; }
-
-        // Strips administrative information out.
-        // Always call this before returning from the API.
-        public UserModel Obfuscate()
-        {
-            return new UserModel()
-            {
-                Id = this.Id,
-                Username = this.Username,
-                Email = this.Email,
-                EmailVerified = this.EmailVerified,
-                Claims = this.Claims,
-                DateCreated = this.DateCreated,
-                BannedUntil = this.BannedUntil,
-                DeviceIdentifier = this.DeviceIdentifier,
-                PhoneNumber = this.PhoneNumber,
-            };
-        }
-
-        public User ToUser()
-        {
-            return new User()
-            {
-                Id = Id,
-                Username = Username
-            };
-        }
     }
-
-    public class UserIpAddressLink
+    public class User
     {
-        public string UserId { get; set; }    
-        public string IpAddress { get; set; }
-        public int TimesAccessed { get; set; }
+        public string Id { get; set; }
+        public string Username { get; set; }
+        public UserClaim[] Claims { get; set; }
+        // A list of other accounts that this user has associated as.
+        public List<User> Pseudonyms { get; set; } = new List<User>() { };
+        
+        // Administrative
+        public DateTime DateCreated { get; set; }
+        public DateTime BannedUntil { get; set; }
     }
 
     public enum DeviceType
@@ -61,5 +44,21 @@ namespace SubterfugeCore.Models.GameEvents
         iOS,
         Android,
         Windows,
+    }
+    
+    public class MultiboxAccount
+    {
+        public User User { get; set; }
+        public MultiBoxReason MultiboxReason { get; set; }
+        public DateTime TimeOccured { get; set; } = DateTime.UtcNow;
+    }
+
+    public enum MultiBoxReason
+    {
+        NONE,
+        LOGIN_WITH_CREDENTIALS_FOR_ANOTHER_ACCOUNT,
+        DUPLICATE_PHONE_NUMBER,
+        DUPLICATE_DISCORD_USERNAME,
+        DUPLICATE_EMAIL,
     }
 }

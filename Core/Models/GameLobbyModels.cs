@@ -3,23 +3,11 @@ using System.Collections.Generic;
 
 namespace SubterfugeCore.Models.GameEvents
 {
-
-    public interface INetworkLobbyController
-    {
-        OpenLobbiesResponse GetOpenLobbies(OpenLobbiesRequest lobbyRequest);
-        GetLobbyResponse GetPlayerCurrentGames(PlayerCurrentGamesRequest currentGamesRequest);
-        CreateRoomResponse CreateNewRoom(CreateRoomRequest createRoomRequest);
-        JoinRoomResponse JoinRoom(JoinRoomRequest joinRoomRequest);
-        LeaveRoomResponse LeaveRoom();
-        StartGameEarlyResponse StartGameEarly();
-    }
-
     public enum RoomStatus
     {
         Open,
         Ongoing,
         Closed,
-        Private,
         Completed,
         Expired,
     }
@@ -32,9 +20,9 @@ namespace SubterfugeCore.Models.GameEvents
         public MapConfiguration MapConfiguration { get; set; }
         public string RoomName { get; set; }
         public string GameVersion { get; set; }
-        public long UnixTimeCreated { get; set; }
-        public long UnixTimeStarted { get; set; }
-        public long UnixTimeExpiresAt { get; set; }
+        public DateTime TimeCreated { get; set; }
+        public DateTime TimeStarted { get; set; }
+        public DateTime ExpiresAt { get; set; }
         public List<User> PlayersInLobby { get; set; }
     }
 
@@ -45,6 +33,7 @@ namespace SubterfugeCore.Models.GameEvents
         public Goal Goal { get; set; }
         public Boolean IsRanked { get; set; }
         public Boolean IsAnonymous { get; set; }
+        public Boolean IsPrivate { get; set; }
         public int MaxPlayers { get; set; }
     }
 

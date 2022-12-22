@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace SubterfugeCore.Models.GameEvents
 {
 
-    public class User
-    {
-        public string Id { get; set; }
-        public string Username { get; set; }
-    }
-    
     public class AuthorizationRequest
     {
         public string Username { get; set; }
@@ -62,7 +54,7 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class GetUserResponse
     {
-        public UserModel[] Users { get; set; }
+        public List<User> Users { get; set; }
     }
 
     public enum UserClaim

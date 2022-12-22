@@ -1,8 +1,5 @@
-﻿using MongoDB.Driver;
-using SubterfugeCore.Models;
-using SubterfugeCore.Models.GameEvents;
+﻿using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Connections.Models;
 
 namespace SubterfugeRestApiServer.Middleware;
 
@@ -10,9 +7,15 @@ public class LoggingMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger _logger;
+    private IDatabaseCollectionProvider _db;
     
-    public LoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
+    public LoggingMiddleware(
+        RequestDelegate next,
+        ILoggerFactory loggerFactory,
+        IDatabaseCollectionProvider mongo
+    )
     {
+        _db = mongo;
         _next = next;
         _logger = loggerFactory.CreateLogger<LoggingMiddleware>();
     }
@@ -25,8 +28,8 @@ public class LoggingMiddleware
         }
         finally
         {
-            var username = (context.Items["User"] as DbUserModel)?.UserModel?.Username;
-            var userId = (context.Items["User"] as DbUserModel)?.UserModel?.Id;
+            var username = (context.Items["User"] as DbUserModel)?.Username;
+            var userId = (context.Items["User"] as DbUserModel)?.Id;
             var remoteIpAddress = context.Connection.RemoteIpAddress;
             var httpMethod = context.Request?.Method;
             var requestUrl = context.Request?.Path.Value;
@@ -44,17 +47,18 @@ public class LoggingMiddleware
                 statusCode
             );
 
-            var serverAction = new ServerActionLog()
+            var serverAction = new DbServerAction()
             {
                 Username = username,
                 UserId = userId,
-                RemoteIpAddress = remoteIpAddress.ToString(),
+                RemoteIpAddress = remoteIpAddress?.ToString(),
                 HttpMethod = httpMethod,
                 RequestUrl = requestUrl,
                 StatusCode = statusCode,
+                UserAgent = context.Request?.Headers["User-Agent"]
             };
             
-            await MongoConnector.ServerActionLogCollection.Upsert(serverAction);
+            await _db.GetCollection<DbServerAction>().Upsert(serverAction);
         }
     }
 }

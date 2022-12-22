@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Connections.Models;
 using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeRestApiServer.specialists;
@@ -14,6 +14,12 @@ namespace SubterfugeRestApiServer.specialists;
 [Route("api/specialist/package/")]
 public class SpecialistPackageController : ControllerBase
 {
+    private IDatabaseCollection<DbSpecialistPackage> _dbSpecialistPackages;
+
+    public SpecialistPackageController(IDatabaseCollectionProvider mongo)
+    {
+        this._dbSpecialistPackages = mongo.GetCollection<DbSpecialistPackage>();
+    }
     
     [HttpPost]
     [Route("create")]
@@ -23,18 +29,13 @@ public class SpecialistPackageController : ControllerBase
         if (user == null)
             return Unauthorized();
 
-        // Set author
-        request.SpecialistPackage.Creator = user.AsUser();
-        SpecialistPackageModel packageModel = new SpecialistPackageModel(request.SpecialistPackage);
-        await packageModel.SaveToDatabase();
-
-        // Get the generated specialist ID
-        string packageId = packageModel.SpecialistPackage.Id;
+        DbSpecialistPackage package = DbSpecialistPackage.FromRequest(request, user.ToUser());
+        await _dbSpecialistPackages.Upsert(package);
 
         return Ok(new CreateSpecialistPackageResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-            SpecialistPackageId = packageId,
+            SpecialistPackageId = package.Id,
         });
     }
     
@@ -47,18 +48,23 @@ public class SpecialistPackageController : ControllerBase
             return Unauthorized();
             
         // Search through all specialists for the search term.
-        // TODO: Apply filters here
-        List<SpecialistPackageModel> results = (await SpecialistPackageModel.Search(request.SearchTerm)).Skip((int)request.PageNumber * 50).Take(50).ToList();
+        // TODO: Cleanup this where clause to that it only applies if they are not null
+        // TODO: Change this into a GET with query params.
+        List<SpecialistPackage> results = (await _dbSpecialistPackages.Query()
+            .Where(it => it.PackageName.Contains(request.SearchTerm))
+            .Where(it => it.SpecialistIds.Contains(request.PackageContainsSpecialistId))
+            .Where(it => it.Creator.Id == request.IsPackageCreatedById)
+            .Skip((int)request.PageNumber - 1 * 50)
+            .Take(50)
+            .ToListAsync())
+            .Select(it => it.ToSpecialistPackage())
+            .ToList();
 
         GetSpecialistPackagesResponse response = new GetSpecialistPackagesResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            SpecialistPackages = results
         };
-            
-        foreach (SpecialistPackageModel model in results)
-        {
-            response.SpecialistPackages.Add(model.SpecialistPackage);   
-        }
 
         return Ok(response);
     }
@@ -73,7 +79,11 @@ public class SpecialistPackageController : ControllerBase
             
         // Search through all specialists for the search term.
         // TODO: Apply filters here
-        List<SpecialistPackage> results = await MongoConnector.SpecialistPackageCollection.Query().Where(it => it.Id == packageId).ToListAsync();
+        List<SpecialistPackage> results = (await _dbSpecialistPackages.Query()
+            .Where(specialistPackage => specialistPackage.Id == packageId)
+            .ToListAsync())
+            .Select(it => it.ToSpecialistPackage())
+            .ToList();
 
         return Ok(new GetSpecialistPackagesResponse()
         {

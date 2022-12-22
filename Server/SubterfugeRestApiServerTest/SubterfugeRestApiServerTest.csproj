@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp5.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -10,12 +10,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\SubterfugeDatabaseProvider\SubterfugeDatabaseProvider.csproj" />
       <ProjectReference Include="..\SubterfugeRestApiClient\SubterfugeRestApiClient.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
-      <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
       <PackageReference Include="NUnit" Version="3.13.3" />
       <PackageReference Include="NUnit3TestAdapter" Version="4.3.1" />
     </ItemGroup>
