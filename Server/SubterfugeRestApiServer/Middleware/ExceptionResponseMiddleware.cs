@@ -4,6 +4,7 @@ using SubterfugeCore.Models.GameEvents;
 using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Collections;
+using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeRestApiServer.Middleware;
 
@@ -31,6 +32,13 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
 
     private async Task HandleException(ExceptionContext context)
     {
+        // If the result was a specific exception, we can instead cast it to the expected result.
+        if (context.Exception is ActionResultException exception)
+        {
+            context.Result = exception.ToActionResult();
+            context.ExceptionHandled = true;
+            return;
+        }
         
         var response = new ObjectResult(
             new ResponseStatus()
@@ -38,7 +46,6 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
                 IsSuccess = false,
                 ResponseType = ResponseType.INTERNAL_SERVER_ERROR,
                 Detail = context.Exception?.Message + " " + context.Exception?.StackTrace,
-                Uri = context.HttpContext.Request.Path
             }) {
             StatusCode = StatusCodes.Status500InternalServerError,
         };

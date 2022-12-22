@@ -1,9 +1,10 @@
 ﻿using SubterfugeCore.Models.GameEvents;
+using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeRestApiClient.controllers.exception;
 
 namespace SubterfugeRestApiClient.controllers.health;
 
-public class HealthClient
+public class HealthClient : ISubterfugeHealthApi
 {
     private HttpClient client;
 

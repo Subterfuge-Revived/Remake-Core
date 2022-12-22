@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 
 namespace SubterfugeCore.Models.GameEvents
@@ -12,6 +13,15 @@ namespace SubterfugeCore.Models.GameEvents
         public string RequestUrl { get; set; }
         public int? StatusCode { get; set; }
         public DateTime TimeProcessed { get; set; } = DateTime.UtcNow;
+    }
+
+    public class ServerActionLogRequeset
+    {
+        public int Pagination { get; set; } = 1;
+        public string? Username { get; set; } = null;
+        public string? UserId { get; set; } = null;
+        public string? HttpMethod { get; set; } = null;
+        public string? RequestUrl { get; set; } = null;
     }
     
     public class ServerActionLogResponse
@@ -33,6 +43,17 @@ namespace SubterfugeCore.Models.GameEvents
         public string ExceptionSource { get; set; }
         public string StackTrace { get; set; }
         public DateTime UnixTimeProcessed { get; set; } = DateTime.UtcNow;
+    }
+
+    public class ServerExceptionLogRequest
+    {
+        public int Pagination { get; set; } = 1;
+        public string? Username { get; set; } = null;
+        public string? UserId { get; set; } = null;
+        public string? HttpMethod { get; set; } = null;
+        public string? RequestUrl { get; set; } = null;
+        public string? ExceptionSource { get; set; } = null;
+        public string? RemoteIpAddress { get; set; } = null;
     }
     
     public class ServerExceptionLogResponse

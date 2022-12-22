@@ -1,9 +1,10 @@
 ﻿using SubterfugeCore.Models.GameEvents;
+using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeRestApiClient.controllers.exception;
 
 namespace SubterfugeRestApiClient.controllers.game;
 
-public class GameEventClient
+public class GameEventClient : ISubterfugeGameEventApi
 {
     private HttpClient client;
 
@@ -21,8 +22,8 @@ public class GameEventClient
         }
         return await response.Content.ReadAsAsync<GetGameRoomEventsResponse>();
     }
-    
-    public async Task<SubmitGameEventResponse> SubmitGameEvent(string roomId, SubmitGameEventRequest request)
+
+    public async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
     {
         HttpResponseMessage response = await client.PostAsJsonAsync($"api/room/{roomId}/events", request);
         if (!response.IsSuccessStatusCode)
@@ -31,8 +32,8 @@ public class GameEventClient
         }
         return await response.Content.ReadAsAsync<SubmitGameEventResponse>();
     }
-    
-    public async Task<SubmitGameEventResponse> UpdateGameEvent(string roomId, string eventGuid, UpdateGameEventRequest request)
+
+    public async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
     {
         HttpResponseMessage response = await client.PutAsJsonAsync($"api/room/{roomId}/events/{eventGuid}", request);
         if (!response.IsSuccessStatusCode)
@@ -41,8 +42,8 @@ public class GameEventClient
         }
         return await response.Content.ReadAsAsync<SubmitGameEventResponse>();
     }
-    
-    public async Task<DeleteGameEventResponse> DeleteGameEvent(string roomId, string eventGuid)
+
+    public async Task<DeleteGameEventResponse> DeleteGameEvent(DeleteGameEventRequest request, string roomId, string eventGuid)
     {
         HttpResponseMessage response = await client.DeleteAsync($"api/room/{roomId}/events/{eventGuid}");
         if (!response.IsSuccessStatusCode)

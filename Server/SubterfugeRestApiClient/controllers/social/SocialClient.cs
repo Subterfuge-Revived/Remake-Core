@@ -1,9 +1,10 @@
 ﻿using SubterfugeCore.Models.GameEvents;
+using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeRestApiClient.controllers.exception;
 
 namespace SubterfugeRestApiClient.controllers.social;
 
-public class SocialClient
+public class SocialClient : ISubterfugeSocialApi
 {
     private HttpClient client;
 
@@ -11,17 +12,37 @@ public class SocialClient
     {
         this.client = client;
     }
-    
-    public async Task<BlockPlayerResponse> ViewBlockedPlayers(string userId)
+
+    public async Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request, string userId)
+    {
+        HttpResponseMessage response = await client.PostAsJsonAsync($"api/user/{userId}/unblock", request);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw await SubterfugeClientException.CreateFromResponseMessage(response);
+        }
+        return await response.Content.ReadAsAsync<UnblockPlayerResponse>();
+    }
+
+    public async Task<ViewBlockedPlayersResponse> ViewBlockedPlayers(string userId)
     {
         HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/blocks");
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
         }
-        return await response.Content.ReadAsAsync<BlockPlayerResponse>();
+        return await response.Content.ReadAsAsync<ViewBlockedPlayersResponse>();
     }
-    
+
+    public async Task<AddAcceptFriendResponse> AddAcceptFriendRequest(string userId)
+    {
+        HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/addFriend");
+        if (!response.IsSuccessStatusCode)
+        {
+            throw await SubterfugeClientException.CreateFromResponseMessage(response);
+        }
+        return await response.Content.ReadAsAsync<AddAcceptFriendResponse>();
+    }
+
     public async Task<ViewFriendRequestsResponse> ViewFriendRequests(string userId)
     {
         HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/friendRequests");
@@ -40,26 +61,6 @@ public class SocialClient
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
         }
         return await response.Content.ReadAsAsync<BlockPlayerResponse>();
-    }
-    
-    public async Task<UnblockPlayerResponse> UnblockPlayer(BlockPlayerRequest request, string userId)
-    {
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/user/{userId}/unblock", request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<UnblockPlayerResponse>();
-    }
-    
-    public async Task<AddAcceptFriendResponse> AddAcceptFriend(string userId)
-    {
-        HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/addFriend");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<AddAcceptFriendResponse>();
     }
     
     public async Task<DenyFriendRequestResponse> RemoveRejectFriend(string userId)

@@ -60,10 +60,18 @@ namespace SubterfugeCore.Models.GameEvents
         Domination
     }
 
-    public class OpenLobbiesRequest
+    public class GetLobbyRequest
     {
-        public RoomStatus RoomStatus { get; set; }
-        public Boolean joinedLobbies { get; set; }
+        public int Pagination { get; set; } = 1;
+        public RoomStatus RoomStatus { get; set; } = RoomStatus.Open;
+        public string? CreatedByUserId { get; set; } = null;
+        public string? UserIdInRoom { get; set; } = null;
+        public string? RoomId { get; set; } = null;
+        public Goal? Goal { get; set; } = null;
+        public int MinPlayers { get; set; } = 0;
+        public int MaxPlayers { get; set; } = 999;
+        public bool? IsAnonymous { get; set; } = null;
+        public bool? IsRanked { get; set; } = null;
     }
 
     public class OpenLobbiesResponse : NetworkResponse
@@ -93,19 +101,6 @@ namespace SubterfugeCore.Models.GameEvents
     public class LeaveRoomResponse : NetworkResponse { }
     
     public class StartGameEarlyResponse : NetworkResponse { }
-
-    public class GetLobbyRequest
-    {
-        public string IdFilter { get; set; }
-        public RoomStatus RoomStatusFilter { get; set; }
-        public string CreatorIdFilter { get; set; }
-        // Game Config Filters
-        public string[] SpecialistIsAllowed { get; set; }
-        public Goal GoalFilter { get; set; }
-        public string RoomNameFilter { get; set; }
-        public string GameVersionFilter { get; set; }
-        public string[] PlayersIdIsInLobby { get; set; }
-    }
 
     public class GetLobbyResponse : NetworkResponse
     {

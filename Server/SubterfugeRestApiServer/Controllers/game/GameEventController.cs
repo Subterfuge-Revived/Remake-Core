@@ -4,22 +4,22 @@ using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Connections.Collections;
 using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeRestApiServer;
 
 [ApiController]
 [Authorize]
-public class GameEventController : ControllerBase
+public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEventApi
 {
 
     private IDatabaseCollection<DbGameEvent> _dbGameEvents;
     private IDatabaseCollection<DbGameLobbyConfiguration> _dbGameLobbies;
 
-    public GameEventController(IDatabaseCollectionProvider mongo)
+    public SubterfugeGameEventController(IDatabaseCollectionProvider mongo)
     {
         this._dbGameEvents = mongo.GetCollection<DbGameEvent>();
         this._dbGameLobbies = mongo.GetCollection<DbGameLobbyConfiguration>();
@@ -27,18 +27,18 @@ public class GameEventController : ControllerBase
     
     [HttpGet]
     [Route("api/room/{roomId}/events")]
-    public async Task<ActionResult<GetGameRoomEventsResponse>> GetGameRoomEvents(string roomId)
+    public async Task<GetGameRoomEventsResponse> GetGameRoomEvents(string roomId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
 
-        var lobby = await _dbGameLobbies.Query().FirstAsync(it => it.Id == roomId);
+        var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "Cannot find the room you wish to join."));
+            throw new NotFoundException("Cannot find the room you wish to join.");
 
         if (lobby.PlayersInLobby.All(it => it.Id != dbUserModel.Id) && !dbUserModel.HasClaim(UserClaim.Administrator))
-            return Forbid();
+            throw new ForbidException();
         
         List<DbGameEvent> events = await _dbGameEvents.Query()
             .Where(it => it.RoomId == roomId)
@@ -61,104 +61,102 @@ public class GameEventController : ControllerBase
         GetGameRoomEventsResponse response = new GetGameRoomEventsResponse();
         response.GameEvents = events.Select(it => it.ToGameEventData()).ToList();
         response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
-        return Ok(response);
+        return response;
     }
     
     [HttpPost]
     [Route("api/room/{roomId}/events")]
-    public async Task<ActionResult<SubmitGameEventResponse>> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
+    public async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
 
-        var lobby = await _dbGameLobbies.Query().FirstAsync(it => it.Id == roomId);
+        var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "Cannot find the room you wish to join."));
+            throw new NotFoundException("Cannot find the room you wish to submit this event to.");
 
         if (lobby.PlayersInLobby.All(it => it.Id != dbUserModel.Id))
-            return Forbid();
+            throw new ForbidException();
 
         var gameEvent = DbGameEvent.FromGameEventRequest(request, dbUserModel.ToUser(), roomId);
         await _dbGameEvents.Upsert(gameEvent);
 
-        return Ok(new SubmitGameEventResponse()
+        return new SubmitGameEventResponse()
         {
             EventId = gameEvent.Id,
             GameEventData = gameEvent.ToGameEventData(),
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        });
+        };
     }
-    
+
     [HttpPut]
     [Route("api/room/{roomId}/events/{eventGuid}")]
-    public async Task<ActionResult<SubmitGameEventResponse>> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
+    public async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
 
-        var lobby = await _dbGameLobbies.Query().FirstAsync(it => it.Id == roomId);
+        var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "Cannot find the room you wish to join."));
+            throw new NotFoundException("Cannot find the room you wish to update.");
 
-        var gameEvent = await _dbGameEvents.Query().FirstAsync(it => it.Id == eventGuid && it.RoomId == roomId);
+        var gameEvent = await _dbGameEvents.Query().FirstOrDefaultAsync(it => it.Id == eventGuid && it.RoomId == roomId);
         if (gameEvent == null)
-            return NotFound(ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST, "This game event does not exist in the specified room."));
+            throw new NotFoundException("Cannot find the game event you wish to update in the specified room.");
 
         if (gameEvent.IssuedBy.Id != dbUserModel.Id)
-            return Forbid();
+            throw new ForbidException();
         
         // Determine if the event has already passed.
         GameTick currentTick = new GameTick(lobby.TimeStarted, DateTime.UtcNow);
 
         if (gameEvent.OccursAtTick <= currentTick.GetTick())
-            return BadRequest(ResponseFactory.createResponse(ResponseType.INVALID_REQUEST,
-                "Cannot delete an event that has already happened"));
+            throw new BadRequestException("Cannot delete an event that has already happened");
         
         gameEvent.EventData = request.GameEventRequest.EventData;
         gameEvent.OccursAtTick = request.GameEventRequest.OccursAtTick;
         await _dbGameEvents.Upsert(gameEvent);
         
-        return Ok(new SubmitGameEventResponse()
+        return new SubmitGameEventResponse()
         {
             EventId = gameEvent.Id,
             GameEventData = gameEvent.ToGameEventData(),
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        });
+        };
     }
-    
+
     [HttpDelete]
     [Route("api/room/{roomId}/events/{eventGuid}")]
-    public async Task<ActionResult<DeleteGameEventResponse>> Delete(DeleteGameEventRequest request, string roomId, string eventGuid)
+    public async Task<DeleteGameEventResponse> DeleteGameEvent(DeleteGameEventRequest request, string roomId, string eventGuid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
 
-        var lobby = await _dbGameLobbies.Query().FirstAsync(it => it.Id == roomId);
+        var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            return NotFound(ResponseFactory.createResponse(ResponseType.ROOM_DOES_NOT_EXIST, "Cannot find the room you wish to delete."));
+            throw new NotFoundException("Cannot find the room you wish to delete.");
         
-        var gameEvent = await _dbGameEvents.Query().FirstAsync(it => it.Id == eventGuid && it.RoomId == roomId);
+        var gameEvent = await _dbGameEvents.Query().FirstOrDefaultAsync(it => it.Id == eventGuid && it.RoomId == roomId);
         if (gameEvent == null)
-            return NotFound(ResponseFactory.createResponse(ResponseType.GAME_EVENT_DOES_NOT_EXIST, "This game event does not exist in the specified room."));
+            throw new NotFoundException("Cannot find the game event you wish to delete.");
         
         // Determine if the event has already passed.
         GameTick currentTick = new GameTick(lobby.TimeStarted, DateTime.UtcNow);
 
         if (gameEvent.OccursAtTick <= currentTick.GetTick())
-            return BadRequest(ResponseFactory.createResponse(ResponseType.INVALID_REQUEST,
-                "Cannot delete an event that has already happened"));
+            throw new BadRequestException("Cannot delete an event that has already happened");
 
         if (gameEvent.IssuedBy.Id != dbUserModel.Id)
-            return Forbid();
+            throw new ForbidException();
 
         await _dbGameEvents.Delete(gameEvent);
 
-        return Ok(new DeleteGameEventResponse()
+        return new DeleteGameEventResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-        });
+        };
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 
 namespace SubterfugeCore.Models.GameEvents
@@ -43,13 +44,13 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class GetUserRequest
     {
-        public string UsernameSearch { get; set; }
-        public string EmailSearch { get; set; }
-        public string DeviceIdentifierSearch { get; set; }
-        public string UserIdSearch { get; set; }
-        public UserClaim[] RequireUserClaims { get; set; }
-        public Boolean isBanned { get; set; }
-        public int pagination { get; set; }
+        public string? UsernameSearch { get; set; }
+        public string? EmailSearch { get; set; }
+        public string? DeviceIdentifierSearch { get; set; }
+        public string? UserIdSearch { get; set; }
+        public UserClaim? RequireUserClaim { get; set; } = null;
+        public bool isBanned { get; set; } = false;
+        public int pagination { get; set; } = 1;
     }
 
     public class GetUserResponse

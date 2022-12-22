@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeRestApiServer.health;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
-public class HealthController : ControllerBase
+public class HealthController : ControllerBase, ISubterfugeHealthApi
 {
     [HttpGet]
     [AllowAnonymous]
-    public ActionResult<PingResponse> Ping()
+    public async Task<PingResponse> Ping()
     {
-        return Ok(new PingResponse()
+        return await Task.FromResult(new PingResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
         });
@@ -21,9 +22,9 @@ public class HealthController : ControllerBase
     
     [HttpGet]
     [Authorize]
-    public ActionResult<PingResponse> AuthorizedPing()
+    public async Task<PingResponse> AuthorizedPing()
     {
-        return Ok(new PingResponse()
+        return await Task.FromResult(new PingResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
         });

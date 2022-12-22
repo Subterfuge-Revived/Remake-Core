@@ -25,7 +25,7 @@ public class JwtMiddleware
             userId = context.User?.Claims?.First(it => it.Type == "uuid")?.Value;
             if (userId != null)
             {
-                DbUserModel? user = await _db.GetCollection<DbUserModel>().Query().FirstAsync(it => it.Id == userId);
+                DbUserModel? user = await _db.GetCollection<DbUserModel>().Query().FirstOrDefaultAsync(it => it.Id == userId);
                 if (user != null)
                 {
                     context.Items["User"] = user;

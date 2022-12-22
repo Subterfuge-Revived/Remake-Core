@@ -20,7 +20,7 @@ public class LobbyUtils
 
     public static async Task<GetLobbyResponse> AssertPlayerInLobby(string playerId, bool isInLobby = true)
     {
-        GetLobbyResponse lobbyResponse = await TestUtils.GetClient().LobbyClient.GetLobbies();
+        GetLobbyResponse lobbyResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest());
         Assert.AreEqual(lobbyResponse.Status.IsSuccess, true);
         Assert.AreEqual(isInLobby, lobbyResponse.Lobbies[0].PlayersInLobby.Any(it => it.Id == playerId));
         return lobbyResponse;

@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Connections.Collections;
 using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeRestApiServer.specialists;
@@ -13,7 +13,7 @@ namespace SubterfugeRestApiServer.specialists;
 [ApiController]
 [Authorize]
 [Route("api/specialist/")]
-public class SpecialistConfigurationController: ControllerBase
+public class SpecialistConfigurationController: ControllerBase, ISubterfugeCustomSpecialistApi
 {
     
     private IDatabaseCollection<DbSpecialistConfiguration> _dbSpecialists;
@@ -25,11 +25,11 @@ public class SpecialistConfigurationController: ControllerBase
 
     [HttpPost]
     [Route("create")]
-    public async Task<ActionResult<SubmitCustomSpecialistResponse>> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request)
+    public async Task<SubmitCustomSpecialistResponse> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
         if (user == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
 
         var dbItem = DbSpecialistConfiguration.FromRequest(request, user.ToUser());
         await _dbSpecialists.Upsert(dbItem);
@@ -37,32 +37,32 @@ public class SpecialistConfigurationController: ControllerBase
         // Get the generated specialist ID
         string specialistId = dbItem.Id;
 
-        return Ok(new SubmitCustomSpecialistResponse()
+        return new SubmitCustomSpecialistResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             SpecialistConfigurationId = specialistId,
-        });
+        };
     }
     
     // TODO: Change this to a GET with URL params
     [HttpPost]
-    public async Task<ActionResult<GetCustomSpecialistsResponse>> GetCustomSpecialists(GetCustomSpecialistsRequest request)
+    public async Task<GetCustomSpecialistsResponse> GetCustomSpecialists(GetCustomSpecialistsRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
         if (user == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
             
         // Search through all specialists for the search term.
         // TODO: Cleanup this where clause to that it only applies if they are not null
         // TODO: Change this into a GET with query params.
         var results = (await _dbSpecialists.Query()
-            .Where(it => it.SpecialistName.Contains(request.SearchTerm))
-            .Where(it => it.PromotesFromSpecialistId.Contains(request.PromotesFromSpecialistId))
-            .Where(it => it.Creator.Id == request.CreatedByPlayerId)
-            .OrderByDescending(specialist => specialist.Ratings.AverageRating())
-            .Skip(((int)request.PageNumber - 1) * 50)
-            .Take(50)
-            .ToListAsync())
+                .Where(it => it.SpecialistName.Contains(request.SearchTerm))
+                .Where(it => it.PromotesFromSpecialistId.Contains(request.PromotesFromSpecialistId))
+                .Where(it => it.Creator.Id == request.CreatedByPlayerId)
+                .OrderByDescending(specialist => specialist.Ratings.AverageRating())
+                .Skip(((int)request.PageNumber - 1) * 50)
+                .Take(50)
+                .ToListAsync())
             .Select(package => package.ToSpecialistConfiguration())
             .ToList();
 
@@ -72,30 +72,29 @@ public class SpecialistConfigurationController: ControllerBase
             CustomSpecialists = results
         };
 
-        return Ok(response);
+        return response;
     }
-    
+
     [HttpGet]
     [Route("{specialistId}")]
-    public async Task<ActionResult<GetCustomSpecialistsResponse>> GetCustomSpecialists(string specialistId)
+    public async Task<GetCustomSpecialistsResponse> GetCustomSpecialist(string specialistId)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
         if (user == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
             
         // Search through all specialists for the search term.
         // TODO: Add filters to this endpoint.
         var results = (await _dbSpecialists.Query()
-            .Where(it => it.Id == specialistId)
-            .ToListAsync())
+                .Where(it => it.Id == specialistId)
+                .ToListAsync())
             .Select(package => package.ToSpecialistConfiguration())
             .ToList();
 
-        return Ok(new GetCustomSpecialistsResponse()
+        return new GetCustomSpecialistsResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             CustomSpecialists = results
-        });
+        };
     }
-    
 }

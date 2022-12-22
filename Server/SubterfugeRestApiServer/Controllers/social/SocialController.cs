@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Connections.Collections;
@@ -13,7 +14,7 @@ namespace SubterfugeRestApiServer;
 [ApiController]
 [Authorize]
 [Route("api/user/{userId}")]
-public class SocialController : ControllerBase
+public class SocialController : ControllerBase, ISubterfugeSocialApi
 {
 
     private IDatabaseCollection<DbPlayerRelationship> _dbRelations;
@@ -28,68 +29,80 @@ public class SocialController : ControllerBase
     
     [HttpGet]
     [Route("blocks")]
-    public async Task<ActionResult<ViewBlockedPlayersResponse>> ViewBlockedPlayers(string userId)
+    public async Task<ViewBlockedPlayersResponse> ViewBlockedPlayers(string userId)
     {
         DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
-            return Unauthorized();
-        
+            throw new UnauthorizedException();
+
         if (userId != currentUser.Id && !currentUser.HasClaim(UserClaim.Administrator))
-            return Forbid();
+            throw new ForbidException();
+        
+        DbUserModel targetUser = await _dbUserCollection.Query()
+            .FirstOrDefaultAsync(it => it.Id == userId);
+        
+        if (targetUser == null)
+            throw new NotFoundException("The target player was not found");
         
         var blockedUser = (await _dbRelations.Query()
-            .Where(it => it.RelationshipStatus == RelationshipStatus.Blocked)
-            .Where(it => it.Player.Id == userId)
-            .ToListAsync())
+                .Where(it => it.RelationshipStatus == RelationshipStatus.Blocked)
+                .Where(it => it.Player.Id == userId)
+                .ToListAsync())
             .Select(it => it.GetOtherUser(userId))
             .ToList();
 
-        return Ok(new ViewBlockedPlayersResponse()
+        return new ViewBlockedPlayersResponse()
         {
             BlockedUsers = blockedUser,
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        });
+        };
     }
     
     [HttpGet]
     [Route("friendRequests")]
-    public async Task<ActionResult<ViewFriendRequestsResponse>> ViewFriendRequests(string userId)
+    public async Task<ViewFriendRequestsResponse> ViewFriendRequests(string userId)
     {
         DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
-            return Unauthorized();
-        
+            throw new UnauthorizedException();
+
         if (userId != currentUser.Id && !currentUser.HasClaim(UserClaim.Administrator))
-            return Forbid();
+            throw new ForbidException();
+        
+        DbUserModel targetUser = await _dbUserCollection.Query()
+            .FirstOrDefaultAsync(it => it.Id == userId);
+        
+        if (targetUser == null)
+            throw new NotFoundException("The target player was not found");
         
         var requests = (await _dbRelations.Query()
-            .Where(relation => relation.Player.Id == userId || relation.Friend.Id == userId)
-            .Where(relation => relation.RelationshipStatus == RelationshipStatus.Pending)
-            .ToListAsync())
+                .Where(relation => relation.Player.Id == userId || relation.Friend.Id == userId)
+                .Where(relation => relation.RelationshipStatus == RelationshipStatus.Pending)
+                .ToListAsync())
             .Select(it => it.GetOtherUser(userId))
             .ToList();
         
-        return Ok(new ViewFriendRequestsResponse()
+        return new ViewFriendRequestsResponse()
         {
             FriendRequests = requests,
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        });
+        };
     }
     
     [HttpPost]
     [Route("block")]
-    public async Task<ActionResult<BlockPlayerResponse>> BlockPlayer(BlockPlayerRequest request, string userId)
+    public async Task<BlockPlayerResponse> BlockPlayer(BlockPlayerRequest request, string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
 
-        var playerToBlock = await _dbUserCollection.Query().FirstAsync(it => it.Id == userId);
+        var playerToBlock = await _dbUserCollection.Query().FirstOrDefaultAsync(it => it.Id == userId);
         if (playerToBlock == null)
-            return NotFound(ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST));
+            throw new NotFoundException("The specified player does not exist.");
         
         var existingRelationship = await _dbRelations.Query()
-            .FirstAsync(relation => 
+            .FirstOrDefaultAsync(relation => 
                 (relation.Player.Id == dbUserModel.Id && relation.Friend.Id == userId) || 
                 (relation.Player.Id == userId && relation.Friend.Id == dbUserModel.Id));
 
@@ -118,18 +131,18 @@ public class SocialController : ControllerBase
     
     [HttpPost]
     [Route("unblock")]
-    public async Task<ActionResult<UnblockPlayerResponse>> UnblockPlayer(UnblockPlayerRequest request, string userId)
+    public async Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request, string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
 
-        var playerToUnblock = await _dbUserCollection.Query().FirstAsync(it => it.Id == userId);
+        var playerToUnblock = await _dbUserCollection.Query().FirstOrDefaultAsync(it => it.Id == userId);
         if (playerToUnblock == null)
-            return NotFound(ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST));
+            throw new NotFoundException("The specified player does not exist.");
         
         var existingRelationship = await _dbRelations.Query()
-            .FirstAsync(relation => 
+            .FirstOrDefaultAsync(relation => 
                 (relation.Player.Id == dbUserModel.Id && relation.Friend.Id == userId) || 
                 (relation.Player.Id == userId && relation.Friend.Id == dbUserModel.Id));
         
@@ -146,11 +159,11 @@ public class SocialController : ControllerBase
         else
         {
             if (existingRelationship.RelationshipStatus != RelationshipStatus.Blocked)
-                return Forbid();
+                throw new ForbidException();
             
             // Cannot unblock someone if you were not the one to block them.
             if (existingRelationship.Player.Id != dbUserModel.Id)
-                return Forbid();
+                throw new ForbidException();
             
             existingRelationship.RelationshipStatus = RelationshipStatus.NoRelation;
             await _dbRelations.Upsert(existingRelationship);
@@ -164,18 +177,18 @@ public class SocialController : ControllerBase
 
     [HttpGet]
     [Route("addFriend")]
-    public async Task<ActionResult<AddAcceptFriendResponse>> AddAcceptFriend(string userId)
+    public async Task<AddAcceptFriendResponse> AddAcceptFriendRequest(string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
 
-        var playerToBefriend = await _dbUserCollection.Query().FirstAsync(it => it.Id == userId);
+        var playerToBefriend = await _dbUserCollection.Query().FirstOrDefaultAsync(it => it.Id == userId);
         if (playerToBefriend == null)
-            return NotFound(ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST));
+            throw new NotFoundException("The specified player does not exist.");
         
         var existingRelationship = await _dbRelations.Query()
-            .FirstAsync(relation => 
+            .FirstOrDefaultAsync(relation => 
                 (relation.Player.Id == dbUserModel.Id && relation.Friend.Id == userId) || 
                 (relation.Player.Id == userId && relation.Friend.Id == dbUserModel.Id));
         
@@ -197,9 +210,9 @@ public class SocialController : ControllerBase
         switch (existingRelationship.RelationshipStatus)
         {
             case RelationshipStatus.Blocked:
-                return Forbid();
+                throw new ForbidException();
             case RelationshipStatus.Friends:
-                return Conflict(ResponseFactory.createResponse(ResponseType.DUPLICATE));
+                throw new ConflictException("You are already friends with this player.");
             case RelationshipStatus.Pending:
                 // If you did not create the request, set the relationship to be friends
                 if (existingRelationship.Player.Id != dbUserModel.Id)
@@ -211,8 +224,9 @@ public class SocialController : ControllerBase
                         Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
                     };
                 }
-
-                return Forbid();
+                
+                // Cannot accept your own request
+                throw new ForbidException();
             case RelationshipStatus.NoRelation:
                 existingRelationship.RelationshipStatus = RelationshipStatus.Friends;
                 // Swap the 'primary' friend to indicate who sent the request.
@@ -226,33 +240,32 @@ public class SocialController : ControllerBase
             
             // Should never happen.
             default:
-                return Forbid();
+                throw new ForbidException();
         }
     }
     
     [HttpGet]
     [Route("removeFriend")]
-    public async Task<ActionResult<DenyFriendRequestResponse>> RemoveRejectFriend(string userId)
+    public async Task<DenyFriendRequestResponse> RemoveRejectFriend(string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            return Unauthorized();
+            throw new UnauthorizedException();
 
-        var playerToReject = await _dbUserCollection.Query().FirstAsync(it => it.Id == userId);
+        var playerToReject = await _dbUserCollection.Query().FirstOrDefaultAsync(it => it.Id == userId);
         if (playerToReject == null)
-            return NotFound(ResponseFactory.createResponse(ResponseType.PLAYER_DOES_NOT_EXIST));
+            throw new NotFoundException("The specified player does not exist");
         
         var existingRelationship = await _dbRelations.Query()
-            .FirstAsync(relation => 
+            .FirstOrDefaultAsync(relation => 
                 (relation.Player.Id == dbUserModel.Id && relation.Friend.Id == userId) || 
                 (relation.Player.Id == userId && relation.Friend.Id == dbUserModel.Id));
 
         if (existingRelationship == null)
-            return NotFound(ResponseFactory.createResponse(ResponseType.FRIEND_REQUEST_DOES_NOT_EXIST,
-                "Cannot remove a friend request that does not exist."));
+            throw new NotFoundException("A friend request from that player does not exist");
 
         if (existingRelationship.RelationshipStatus is not (RelationshipStatus.Pending or RelationshipStatus.Friends))
-            return Forbid();
+            throw new ForbidException();
 
         existingRelationship.RelationshipStatus = RelationshipStatus.NoRelation;
         await _dbRelations.Upsert(existingRelationship);
@@ -265,27 +278,32 @@ public class SocialController : ControllerBase
     
     [HttpGet]
     [Route("friends")]
-    public async Task<ActionResult<ViewFriendsResponse>> GetFriendList(string userId)
+    public async Task<ViewFriendsResponse> GetFriendList(string userId)
     {
         DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
-            return Unauthorized();
-        
+            throw new UnauthorizedException();
+
         if (userId != currentUser.Id && !currentUser.HasClaim(UserClaim.Administrator))
-            return Forbid();
+            throw new ForbidException();
         
-        var requests = (await _dbRelations.Query()
-            .Where(relation => relation.Player.Id == userId || relation.Friend.Id == userId)
-            .Where(relation => relation.RelationshipStatus == RelationshipStatus.Friends)
-            .ToListAsync())
+        DbUserModel targetUser = await _dbUserCollection.Query()
+            .FirstOrDefaultAsync(it => it.Id == userId);
+        
+        if (targetUser == null)
+            throw new NotFoundException("The target player was not found");
+        
+        var friends = (await _dbRelations.Query()
+                .Where(relation => relation.Player.Id == userId || relation.Friend.Id == userId)
+                .Where(relation => relation.RelationshipStatus == RelationshipStatus.Friends)
+                .ToListAsync())
             .Select(it => it.GetOtherUser(userId))
             .ToList();
         
-        return Ok(new ViewFriendRequestsResponse()
+        return new ViewFriendsResponse()
         {
-            FriendRequests = requests,
+            Friends = friends,
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        });
+        };
     }
-    
 }

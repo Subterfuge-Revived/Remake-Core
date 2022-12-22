@@ -1,9 +1,10 @@
 ﻿using SubterfugeCore.Models.GameEvents;
+using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeRestApiClient.controllers.exception;
 
 namespace SubterfugeRestApiClient.controllers.account;
 
-public class UserRoleClient
+public class UserRoleClient : ISubterfugeUserRoleApi
 {
     private HttpClient client;
 
@@ -14,7 +15,7 @@ public class UserRoleClient
 
     public async Task<GetRolesResponse> GetRoles(string userId)
     {
-        HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/GetRoles");
+        HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/roles");
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
@@ -24,7 +25,7 @@ public class UserRoleClient
     
     public async Task<GetRolesResponse> SetRoles(string userId, UpdateRolesRequest request)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/user/{userId}/SetRoles", request);
+        HttpResponseMessage response = await client.PostAsJsonAsync($"api/user/{userId}/roles", request);
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
