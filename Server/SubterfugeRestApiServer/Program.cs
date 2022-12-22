@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using SubterfugeRestApiServer.Authentication;
+using SubterfugeRestApiServer.Database;
 using SubterfugeRestApiServer.Middleware;
 using SubterfugeServerConsole.Connections;
 using HostingEnvironmentExtensions = Microsoft.AspNetCore.Hosting.HostingEnvironmentExtensions;
@@ -77,6 +78,13 @@ builder.Services.Configure<KestrelServerOptions>(options =>
 // Enable JWT Authentication.
 new JwtAuthenticationScheme(config).ConfigureAuthentication(builder.Services);
 
+// Add Database as a singleton to Dependency Inject.
+// MongoConfiguration mongoConfig = new MongoConfiguration(app.Configuration.GetSection("MongoDb"));
+// MongoConnector mongo = new MongoConnector(mongoConfig, builder.Logging.);
+
+builder.Services.AddSingleton<IMongoConfigurationProvider, MongoConfigProvider>();
+builder.Services.AddSingleton<IDatabaseCollectionProvider, MongoConnector>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -94,8 +102,5 @@ app.UseAuthorization();
 app.UseMiddleware<JwtMiddleware>();
 app.MapControllers();
 app.UseMiddleware<LoggingMiddleware>();
-
-MongoConfiguration mongoConfig = new MongoConfiguration(app.Configuration.GetSection("MongoDb"));
-MongoConnector mongo = new MongoConnector(mongoConfig, app.Logger);
 
 app.Run();

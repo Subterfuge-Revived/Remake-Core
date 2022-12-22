@@ -1,70 +1,32 @@
 ﻿using System.Security.Cryptography;
-using MongoDB.Driver;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeDatabaseProvider.Models;
 
 namespace SubterfugeServerConsole.Connections
 {
     public class MongoIntegrationTestConnector
     {
-        private static IMongoDatabase _database;
+        public MongoConnector Mongo;
         
         public MongoIntegrationTestConnector()
         {
-            string hostname = "localhost";
-            int port = 27017;
-            
-            // Get environment
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            if (environment == "Docker")
+            var mongoConfig = new MongoConfiguration()
             {
-                hostname = "db";
-            }
+                CreateSuperUser = false,
+                FlushDatabase = true,
+                Host = environment == "Docker" ? "db" : "localhost",
+                Port = 27017,
+                SuperUserUsername = "admin",
+                SuperUserPassword = "admin",
+            };
 
-            string username = "user";
-            string password = "password";
-            string mongoDbAuthMechanism = "SCRAM-SHA-1";
-            MongoInternalIdentity internalIdentity = 
-                new MongoInternalIdentity("admin", username);
-            PasswordEvidence passwordEvidence = new PasswordEvidence(password);
-            MongoCredential mongoCredential = 
-                new MongoCredential(mongoDbAuthMechanism, 
-                    internalIdentity, passwordEvidence);
-
-            MongoClientSettings settings = new MongoClientSettings();
-            settings.Server = new MongoServerAddress(hostname, port);
-            settings.Credential = mongoCredential;
-            settings.ApplicationName = "SubterfugeServer";
-            
-            var client = new MongoClient(settings);
-            _database = client.GetDatabase("subterfugeDb");
+            Mongo = new MongoConnector(new DefaultMongoConfigurationProviderImpl() { Config = mongoConfig}, null);
         }
 
-        public static IMongoCollection<T> GetCollection<T>()
+        public async Task<DbUserModel> CreateTestingSuperUser()
         {
-            return _database.GetCollection<T>(typeof(T).ToString());
-        }
-
-        public void FlushCollections()
-        {
-            GetCollection<UserModel>().DeleteMany(FilterDefinition<UserModel>.Empty);
-            GetCollection<UserIpAddressLink>().DeleteMany(FilterDefinition<UserIpAddressLink>.Empty);
-            GetCollection<GameConfiguration>().DeleteMany(FilterDefinition<GameConfiguration>.Empty);
-            GetCollection<Friend>().DeleteMany(FilterDefinition<Friend>.Empty);
-            GetCollection<GameEventData>().DeleteMany(FilterDefinition<GameEventData>.Empty);
-            GetCollection<ChatMessage>().DeleteMany(FilterDefinition<ChatMessage>.Empty);
-            GetCollection<MessageGroupDatabaseModel>().DeleteMany(FilterDefinition<MessageGroupDatabaseModel>.Empty);
-            GetCollection<SpecialistConfiguration>().DeleteMany(FilterDefinition<SpecialistConfiguration>.Empty);
-            GetCollection<SpecialistPackage>().DeleteMany(FilterDefinition<SpecialistPackage>.Empty);
-            // Don't clear these collections.
-            // They are very helpful for debugging and tracking server activity.
-            
-            // GetServerActionLogCollection().DeleteMany(FilterDefinition<ServerActionLog>.Empty);
-            // GetServerExceptionLogCollection().DeleteMany(FilterDefinition<ServerExceptionLog>.Empty);
-        }
-        
-        public async Task<UserModel> CreateTestingSuperUser()
-        {
-            var userModel = new UserModel()
+            var userModel = new DbUserModel()
             {
                 Id = "1",
                 Username = "admin",
@@ -74,7 +36,7 @@ namespace SubterfugeServerConsole.Connections
                 Claims = new[] { UserClaim.User, UserClaim.Administrator, UserClaim.EmailVerified }
             };
             
-            await GetCollection<UserModel>().InsertOneAsync(userModel);
+            await Mongo.GetCollection<DbUserModel>().Upsert(userModel);
             return userModel;
         }
         

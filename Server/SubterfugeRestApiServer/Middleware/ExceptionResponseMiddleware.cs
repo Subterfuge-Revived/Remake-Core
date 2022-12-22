@@ -1,15 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using MongoDB.Driver;
-using SubterfugeCore.Models;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Connections.Models;
+using SubterfugeServerConsole.Connections.Collections;
 
 namespace SubterfugeRestApiServer.Middleware;
 
 public class ExceptionResponseMiddleware : ExceptionFilterAttribute
 {
+
+    private IDatabaseCollectionProvider _db;
+
+    public ExceptionResponseMiddleware(IDatabaseCollectionProvider mongo)
+    {
+        this._db = mongo;
+    }
 
     public async override Task OnExceptionAsync(ExceptionContext context)
     {
@@ -44,10 +50,10 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
         var RequestBody = reader.ReadToEnd();
 
         var user = context.HttpContext.Items["User"] as DbUserModel;
-        var Username = user?.UserModel?.Username;
-        var UserId = user?.UserModel?.Id;
+        var Username = user?.Username;
+        var UserId = user?.Id;
 
-        var serverException = new ServerExceptionLog()
+        var serverException = new DbServerException()
         {
             Username = Username,
             UserId = UserId,
@@ -59,8 +65,9 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
             ExceptionMessage = context.Exception?.Message,
             ExceptionSource = context.Exception?.Source,
             StackTrace = context.Exception?.StackTrace,
+            UserAgent = context.HttpContext.Request.Headers["User-Agent"]
         };
 
-        await MongoConnector.ServerExceptionLogCollection.Upsert(serverException);
+        await _db.GetCollection<DbServerException>().Upsert(serverException);
     }
 }

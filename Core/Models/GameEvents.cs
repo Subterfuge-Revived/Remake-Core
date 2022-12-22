@@ -23,4 +23,9 @@ namespace SubterfugeCore.Models.GameEvents
     {
         public String SourceId { get; set; }
     }
+
+    public class PlayerLeaveGameEventData : NetworkGameEventData
+    {
+        public User player { get; set; }
+    }
 }

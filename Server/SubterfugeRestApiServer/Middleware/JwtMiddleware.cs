@@ -1,4 +1,7 @@
-﻿using SubterfugeServerConsole.Connections.Models;
+﻿using MongoDB.Driver.Linq;
+using SubterfugeDatabaseProvider.Models;
+using SubterfugeServerConsole.Connections;
+using SubterfugeServerConsole.Connections.Collections;
 
 namespace SubterfugeRestApiServer.Middleware;
 
@@ -6,10 +9,12 @@ namespace SubterfugeRestApiServer.Middleware;
 public class JwtMiddleware
 {
     private readonly RequestDelegate _next;
+    private IDatabaseCollectionProvider _db;
 
-    public JwtMiddleware(RequestDelegate next)
+    public JwtMiddleware(RequestDelegate next, IDatabaseCollectionProvider mongo)
     {
         _next = next;
+        _db = mongo;
     }
 
     public async Task Invoke(HttpContext context)
@@ -20,10 +25,10 @@ public class JwtMiddleware
             userId = context.User?.Claims?.First(it => it.Type == "uuid")?.Value;
             if (userId != null)
             {
-                DbUserModel? dbUserModel = await DbUserModel.GetUserFromGuid(userId);
-                if (dbUserModel != null)
+                DbUserModel? user = await _db.GetCollection<DbUserModel>().Query().FirstAsync(it => it.Id == userId);
+                if (user != null)
                 {
-                    context.Items["User"] = dbUserModel;
+                    context.Items["User"] = user;
                 }
             }
         }

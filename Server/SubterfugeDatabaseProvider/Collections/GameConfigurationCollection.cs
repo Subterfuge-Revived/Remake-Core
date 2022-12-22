@@ -1,0 +1,58 @@
+﻿using MongoDB.Driver;
+using MongoDB.Driver.Linq;
+using SubterfugeDatabaseProvider.Models;
+
+namespace SubterfugeServerConsole.Connections.Collections;
+
+public class GameConfigurationCollection : IDatabaseCollection<DbGameLobbyConfiguration>
+{
+    private IMongoCollection<DbGameLobbyConfiguration> _collection;
+
+    public GameConfigurationCollection(IMongoCollection<DbGameLobbyConfiguration> collection)
+    {
+        this._collection = collection;
+    }
+
+    public async Task Upsert(DbGameLobbyConfiguration item)
+    {
+        await _collection.ReplaceOneAsync(
+            it => it.Id == item.Id,
+            item,
+            new UpdateOptions { IsUpsert = true }
+        );
+    }
+
+    public async Task Delete(DbGameLobbyConfiguration item)
+    {
+        await _collection.DeleteOneAsync(it => it.Id == item.Id);
+    }
+
+    public IMongoQueryable<DbGameLobbyConfiguration> Query()
+    {
+        return _collection.AsQueryable();
+    }
+
+    public async Task CreateIndexes()
+    {
+        await _collection.Indexes.CreateManyAsync( new List<CreateIndexModel<DbGameLobbyConfiguration>>()
+        {
+            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.Id)),
+            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.RoomName)),
+            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.TimeCreated)),
+            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.Creator.Id)),
+            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.Creator.Username)),
+            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.GameVersion)),
+            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.RoomStatus)),
+            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.ExpiresAt), options: new CreateIndexOptions()
+            {
+                ExpireAfter = TimeSpan.FromSeconds(0),
+                Name = "ExpireAtIndex"
+            }),
+        });
+    }
+
+    public void Flush()
+    {
+        _collection.DeleteMany(FilterDefinition<DbGameLobbyConfiguration>.Empty);
+    }
+}

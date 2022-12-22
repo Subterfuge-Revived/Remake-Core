@@ -1,51 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SubterfugeCore.Models.GameEvents
 {
 
-    public interface INetworkChatManager
-    {
-        CreateMessageGroupResponse CreateMessageGroup(CreateMessageGroupRequest createMessageGroupRequest);
-
-        SendMessageResponse SendMessage(SendMessageRequest sendMessageRequest);
-
-        GetMessageGroupsResponse GetMessageGroups(GetMessageGroupsRequest getMessageGroupsRequest);
-
-        GetGroupMessagesResponse GetGroupMessages(GetGroupMessagesRequest getGroupMessagesRequest);
-    }
-
-    public class MessageGroupDatabaseModel
-    {
-        public string Id { get; set; }
-        public string RoomId { get; set; }
-        public List<string> MemberIds { get; set; }
-    }
-    
     public class MessageGroup
     {
         public string Id { get; set; }
         public string RoomId { get; set; }
         public List<User> GroupMembers { get; set; }
-        public List<ChatMessage> Messages { get; set; }
-
-        public MessageGroupDatabaseModel ToDatabaseModel()
-        {
-            return new MessageGroupDatabaseModel()
-            {
-                Id = Id,
-                RoomId = RoomId,
-                MemberIds = GroupMembers.Select(it => it.Id).ToList()
-            };
-        }
     }
 
     public class ChatMessage
     {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public long UnixTimeCreatedAt { get; set; } = DateTime.UtcNow.ToFileTimeUtc();
         public string RoomId { get; set; }
         public string GroupId { get; set; }
-        public string Id { get; set; }
-        public long UnixTimeCreatedAt { get; set; }
         public User SentBy { get; set; }
         public string Message { get; set; }
     }
@@ -83,6 +55,6 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class GetGroupMessagesResponse : NetworkResponse
     {
-        public MessageGroup Group { get; set; }
+        public List<ChatMessage> Messages { get; set; }
     }
 }

@@ -3,24 +3,23 @@ using System.Collections.Generic;
 
 namespace SubterfugeCore.Models.GameEvents
 {
-    public class ServerActionLog
+    public class ServerAction
     {
-        public string Id { get; set;  } = Guid.NewGuid().ToString();
         public string Username { get; set; }
         public string UserId { get; set; }
         public string RemoteIpAddress { get; set; }
         public string HttpMethod { get; set; }
         public string RequestUrl { get; set; }
         public int? StatusCode { get; set; }
-        public long UnixTimeProcessed { get; set; } = DateTime.UtcNow.ToFileTimeUtc();
+        public DateTime TimeProcessed { get; set; } = DateTime.UtcNow;
     }
     
     public class ServerActionLogResponse
     {
-        public List<ServerActionLog> Actions { get; set; }
+        public List<ServerAction> Actions { get; set; }
     }
     
-    public class ServerExceptionLog
+    public class ServerException
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Username { get; set; }
@@ -33,11 +32,11 @@ namespace SubterfugeCore.Models.GameEvents
         public string ExceptionMessage { get; set; }
         public string ExceptionSource { get; set; }
         public string StackTrace { get; set; }
-        public long UnixTimeProcessed { get; set; } = DateTime.UtcNow.ToFileTimeUtc();
+        public DateTime UnixTimeProcessed { get; set; } = DateTime.UtcNow;
     }
     
     public class ServerExceptionLogResponse
     {
-        public List<ServerExceptionLog> Exceptions { get; set; }
+        public List<ServerException> Exceptions { get; set; }
     }
 }

@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Connections.Models;
+using SubterfugeServerConsole.Connections.Collections;
 using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeRestApiServer.specialists;
@@ -14,6 +15,13 @@ namespace SubterfugeRestApiServer.specialists;
 [Route("api/specialist/")]
 public class SpecialistConfigurationController: ControllerBase
 {
+    
+    private IDatabaseCollection<DbSpecialistConfiguration> _dbSpecialists;
+
+    public SpecialistConfigurationController(IDatabaseCollectionProvider mongo)
+    {
+        this._dbSpecialists = mongo.GetCollection<DbSpecialistConfiguration>();
+    }
 
     [HttpPost]
     [Route("create")]
@@ -23,13 +31,11 @@ public class SpecialistConfigurationController: ControllerBase
         if (user == null)
             return Unauthorized();
 
-        // Set author
-        request.SpecialistConfiguration.Creator = user.AsUser();
-        SpecialistConfigurationModel configModel = new SpecialistConfigurationModel(request.SpecialistConfiguration);
-        await configModel.Save();
+        var dbItem = DbSpecialistConfiguration.FromRequest(request, user.ToUser());
+        await _dbSpecialists.Upsert(dbItem);
 
         // Get the generated specialist ID
-        string specialistId = configModel.SpecialistConfig.Id;
+        string specialistId = dbItem.Id;
 
         return Ok(new SubmitCustomSpecialistResponse()
         {
@@ -47,18 +53,24 @@ public class SpecialistConfigurationController: ControllerBase
             return Unauthorized();
             
         // Search through all specialists for the search term.
-        // TODO: Add filters to this endpoint.
-        List<SpecialistConfigurationModel> results = (await SpecialistConfigurationModel.Search(request.SearchTerm)).Skip((int)request.PageNumber * 50).Take(50).ToList();
+        // TODO: Cleanup this where clause to that it only applies if they are not null
+        // TODO: Change this into a GET with query params.
+        var results = (await _dbSpecialists.Query()
+            .Where(it => it.SpecialistName.Contains(request.SearchTerm))
+            .Where(it => it.PromotesFromSpecialistId.Contains(request.PromotesFromSpecialistId))
+            .Where(it => it.Creator.Id == request.CreatedByPlayerId)
+            .OrderByDescending(specialist => specialist.Ratings.AverageRating())
+            .Skip(((int)request.PageNumber - 1) * 50)
+            .Take(50)
+            .ToListAsync())
+            .Select(package => package.ToSpecialistConfiguration())
+            .ToList();
 
         GetCustomSpecialistsResponse response = new GetCustomSpecialistsResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            CustomSpecialists = results
         };
-            
-        foreach (SpecialistConfigurationModel model in results)
-        {
-            response.CustomSpecialists.Add(model.SpecialistConfig);   
-        }
 
         return Ok(response);
     }
@@ -73,7 +85,11 @@ public class SpecialistConfigurationController: ControllerBase
             
         // Search through all specialists for the search term.
         // TODO: Add filters to this endpoint.
-        List<SpecialistConfiguration> results = await MongoConnector.SpecialistCollection.Query().Where(it => it.Id == specialistId).ToListAsync();
+        var results = (await _dbSpecialists.Query()
+            .Where(it => it.Id == specialistId)
+            .ToListAsync())
+            .Select(package => package.ToSpecialistConfiguration())
+            .ToList();
 
         return Ok(new GetCustomSpecialistsResponse()
         {

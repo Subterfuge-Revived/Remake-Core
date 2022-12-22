@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using SubterfugeCore.Models;
+using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Connections.Models;
+using SubterfugeServerConsole.Connections.Collections;
 
 namespace SubterfugeRestApiServer.Controllers.admin;
 
@@ -14,6 +14,13 @@ namespace SubterfugeRestApiServer.Controllers.admin;
 [Route("api/admin/exceptions")]
 public class ServerExceptionLogController : ControllerBase
 {
+    private IDatabaseCollection<DbServerException> _dbExceptionLog;
+
+    public ServerExceptionLogController(IDatabaseCollectionProvider mongo)
+    {
+        this._dbExceptionLog = mongo.GetCollection<DbServerException>();
+    }
+    
     [HttpGet]
     public async Task<ActionResult<ServerExceptionLogResponse>> GetServerExceptions(
         int pagination = 1,
@@ -23,49 +30,46 @@ public class ServerExceptionLogController : ControllerBase
         string? requestUrl = null,
         string? exceptionSource = null,
         string? remoteIpAddress = null
-    ) {
-        var filterBuilder = Builders<ServerExceptionLog>.Filter;
-        var filter = filterBuilder.Empty;
+    )
+    {
+        var query = _dbExceptionLog.Query();
     
         if (username != null)
         {
-            filter &= filterBuilder.Regex(model => model.Username, $".*{username}.*");
+            query = query.Where(it => it.Username.Contains(username));
         }
 
         if (userId != null)
         {
-            filter &= filterBuilder.Eq(model => model.UserId, userId);
+            query = query.Where(it => it.UserId == userId);
         }
     
         if (httpMethod != null)
         {
-            filter &= filterBuilder.Eq(model => model.HttpMethod, httpMethod);
+            query = query.Where(it => it.HttpMethod == httpMethod);
         }
     
         if (requestUrl != null)
         {
-            filter &= filterBuilder.Eq(model => model.RequestUri, requestUrl);
+            query = query.Where(it => it.RequestUri == requestUrl);
         }
 
         if (exceptionSource != null)
         {
-            filter &= filterBuilder.Eq(model => model.ExceptionSource, exceptionSource);
+            query = query.Where(it => it.ExceptionSource == exceptionSource);
         }
 
         if (remoteIpAddress != null)
         {
-            filter &= filterBuilder.Eq(model => model.RemoteIpAddress, remoteIpAddress);
+            query = query.Where(it => it.RemoteIpAddress == remoteIpAddress);
         }
 
-        var matchingServerActions = (await MongoConnector.GetCollection<ServerExceptionLog>().FindAsync(
-                filter,
-                new FindOptions<ServerExceptionLog>()
-                {
-                    Sort = Builders<ServerExceptionLog>.Sort.Descending(it => it.UnixTimeProcessed),
-                    Limit = 50,
-                    Skip = 50 * (pagination - 1),
-                }
-            ))
+        var matchingServerActions = (await query
+            .OrderByDescending(it => it.UnixTimeProcessed)
+            .Skip(50 * (pagination - 1))
+            .Take(50)
+            .ToListAsync())
+            .Select(it => it.ToServerException())
             .ToList();
 
         return Ok(new ServerExceptionLogResponse()

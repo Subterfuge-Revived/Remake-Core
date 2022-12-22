@@ -30,7 +30,7 @@ namespace SubterfugeCoreTest
 
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
-            Random rand = new Random(DateTime.Now.Millisecond);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
             config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 3;
             config.MapConfiguration.MaximumOutpostDistance = 100;
@@ -54,7 +54,7 @@ namespace SubterfugeCoreTest
 
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
-            Random rand = new Random(DateTime.Now.Millisecond);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
             config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 3;
             config.MapConfiguration.MaximumOutpostDistance = 100;
@@ -79,7 +79,7 @@ namespace SubterfugeCoreTest
 
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
-            Random rand = new Random(DateTime.Now.Millisecond);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
             config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 0;
             config.MapConfiguration.MaximumOutpostDistance = 100;
@@ -113,7 +113,7 @@ namespace SubterfugeCoreTest
 
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
-            Random rand = new Random(DateTime.Now.Millisecond);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
             config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 3;
             config.MapConfiguration.MaximumOutpostDistance = 100;
@@ -156,7 +156,7 @@ namespace SubterfugeCoreTest
 
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
-            Random rand = new Random(DateTime.Now.Millisecond);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
             config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 3;
             config.MapConfiguration.MaximumOutpostDistance = 100;
@@ -193,7 +193,7 @@ namespace SubterfugeCoreTest
 
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
-            Random rand = new Random(DateTime.Now.Millisecond);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
             config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 0;
             config.MapConfiguration.MaximumOutpostDistance = 0;
@@ -219,7 +219,7 @@ namespace SubterfugeCoreTest
 
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
-            Random rand = new Random(DateTime.Now.Millisecond);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
             config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 0;
             config.MapConfiguration.MaximumOutpostDistance = 0;
@@ -262,7 +262,7 @@ namespace SubterfugeCoreTest
 
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
-            Random rand = new Random(DateTime.Now.Millisecond);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
             config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 7;
             config.MapConfiguration.MaximumOutpostDistance = 0;
@@ -292,7 +292,7 @@ namespace SubterfugeCoreTest
 
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
-            Random rand = new Random(DateTime.Now.Millisecond);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
             config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 0;
             config.MapConfiguration.MaximumOutpostDistance = 2;
@@ -324,7 +324,7 @@ namespace SubterfugeCoreTest
 
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
-            Random rand = new Random(DateTime.Now.Millisecond);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
             config.MapConfiguration.Seed = rand.Next();
             config.MapConfiguration.DormantsPerPlayer = 3;
             config.MapConfiguration.MaximumOutpostDistance = 200;

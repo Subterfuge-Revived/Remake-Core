@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using SubterfugeCore.Models;
+using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
+using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Connections.Models;
+using SubterfugeServerConsole.Connections.Collections;
 
 namespace SubterfugeRestApiServer.Controllers.admin;
 
@@ -13,6 +14,14 @@ namespace SubterfugeRestApiServer.Controllers.admin;
 [Route("api/admin/serverLog")]
 public class ServerActionLogController : ControllerBase
 {
+    
+    private IDatabaseCollection<DbServerAction> _dbServerLog;
+
+    public ServerActionLogController(IDatabaseCollectionProvider mongo)
+    {
+        this._dbServerLog = mongo.GetCollection<DbServerAction>();
+    }
+    
     [HttpGet]
     public async Task<ActionResult<ServerActionLogResponse>> GetActionLog(
         int pagination = 1,
@@ -21,38 +30,34 @@ public class ServerActionLogController : ControllerBase
         string? httpMethod = null,
         string? requestUrl = null
     ) {
-        var filterBuilder = Builders<ServerActionLog>.Filter;
-        var filter = filterBuilder.Empty;
+        var query = _dbServerLog.Query();
         
         if (username != null)
         {
-            filter &= filterBuilder.Regex(model => model.Username, $".*{username}.*");
+            query = query.Where(it => it.Username.Contains(username));
         }
 
         if (userId != null)
         {
-            filter &= filterBuilder.Eq(model => model.UserId, userId);
+            query = query.Where(it => it.UserId == userId);
         }
         
         if (httpMethod != null)
         {
-            filter &= filterBuilder.Eq(model => model.HttpMethod, httpMethod);
+            query = query.Where(it => it.HttpMethod == httpMethod);
         }
         
         if (requestUrl != null)
         {
-            filter &= filterBuilder.Eq(model => model.RequestUrl, requestUrl);
+            query = query.Where(it => it.RequestUrl == requestUrl);
         }
 
-        var matchingServerActions = (await MongoConnector.GetCollection<ServerActionLog>().FindAsync(
-                filter,
-                new FindOptions<ServerActionLog>()
-                {
-                    Sort = Builders<ServerActionLog>.Sort.Descending(it => it.UnixTimeProcessed),
-                    Limit = 50,
-                    Skip = 50 * (pagination - 1),
-                }
-            ))
+        var matchingServerActions = (await query
+            .OrderByDescending(it => it.TimesAccessed)
+            .Skip(50 * (pagination - 1))
+            .Take(50)
+            .ToListAsync())
+            .Select(it => it.ToServerAction())
             .ToList();
 
         return Ok(new ServerActionLogResponse()

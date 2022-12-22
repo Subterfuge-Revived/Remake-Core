@@ -18,7 +18,7 @@ public class LobbyControllerTest
     [SetUp]
     public async Task Setup()
     {
-        TestUtils.Mongo.FlushCollections();
+        TestUtils.Mongo.FlushAll();
         TestUtils.GetClient().UserApi.Logout();
         userThree = await AccountUtils.AssertRegisterAccountAndAuthorized("UserThree");
         userTwo = await AccountUtils.AssertRegisterAccountAndAuthorized("UserTwo");

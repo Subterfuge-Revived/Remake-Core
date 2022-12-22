@@ -9,7 +9,6 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
-        <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
     </ItemGroup>
@@ -17,6 +16,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Core\Models\Models.csproj" />
       <ProjectReference Include="..\..\Core\SubterfugeCore\SubterfugeCore.csproj" />
+      <ProjectReference Include="..\SubterfugeDatabaseProvider\SubterfugeDatabaseProvider.csproj" />
     </ItemGroup>
 
 </Project>

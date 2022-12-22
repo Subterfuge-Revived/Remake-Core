@@ -11,7 +11,7 @@ public class UserRoleControllerTest
     [SetUp]
     public void Setup()
     {
-        TestUtils.Mongo.FlushCollections();
+        TestUtils.Mongo.FlushAll();
         TestUtils.GetClient().UserApi.Logout();
     }
 
