@@ -19,6 +19,7 @@ namespace SubterfugeRestApiServer;
 public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
 {
     
+    private IDatabaseCollection<DbUserModel> _dbUserCollection;
     private IDatabaseCollection<DbGameLobbyConfiguration> _dbLobbies;
     private IDatabaseCollection<DbGameEvent> _dbGameEvents;
 
@@ -26,6 +27,7 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
     {
         this._dbLobbies = mongo.GetCollection<DbGameLobbyConfiguration>();
         this._dbGameEvents = mongo.GetCollection<DbGameEvent>();
+        this._dbUserCollection = mongo.GetCollection<DbUserModel>();
     }
     
     [HttpGet]
@@ -78,7 +80,7 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
             query = query.Where(it => it.GameSettings.Goal == request.Goal);
 
         if (!request.UserIdInRoom.IsNullOrEmpty())
-            query = query.Where(it => it.PlayersInLobby.Any(player => player.Id == request.UserIdInRoom));
+            query = query.Where(it => it.PlayerIdsInLobby.Contains(request.UserIdInRoom));
         
         
         var matchingRooms = (await query
@@ -86,11 +88,11 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
             .Skip(50 * (request.Pagination - 1))
             .Take(50)
             .ToListAsync())
-            .Select(it => it.ToGameConfiguration())
+            .Select(async it => await it.ToGameConfiguration(_dbUserCollection))
             .ToArray();
             
         GetLobbyResponse roomResponse = new GetLobbyResponse();
-        roomResponse.Lobbies = matchingRooms;
+        roomResponse.Lobbies = await Task.WhenAll(matchingRooms);
         roomResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             
         return roomResponse;
@@ -113,7 +115,7 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
                
         return new CreateRoomResponse()
         {
-            GameConfiguration = room.ToGameConfiguration(),
+            GameConfiguration = await room.ToGameConfiguration(_dbUserCollection),
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
         };
     }
@@ -130,30 +132,30 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
         if (room == null)
             throw new NotFoundException("Cannot find the room you wish to enter.");
 
-        if (room.GameSettings.MaxPlayers <= room.PlayersInLobby.Count)
+        if (room.GameSettings.MaxPlayers <= room.PlayerIdsInLobby.Count)
             throw new BadRequestException("This room has too many players.");
 
-        if (room.PlayersInLobby.Any(it => it.Id == dbUserModel.Id))
+        if (room.PlayerIdsInLobby.Contains(dbUserModel.Id))
             throw new ConflictException("Memory loss? You are already a member of this room.");
 
         if (room.RoomStatus != RoomStatus.Open)
             throw new BadRequestException("You're too late! Your friends decided to play without you.");
         
-        if(room.PlayersInLobby.Count >= room.GameSettings.MaxPlayers)
+        if(room.PlayerIdsInLobby.Count >= room.GameSettings.MaxPlayers)
             throw new BadRequestException("The room is already full. Please try another lobby.");
         
         // Check if any players in the room are "pseudonyms" / multiboxing
-        if(room.PlayersInLobby.Any(roomMember => roomMember.Pseudonyms.Any(pseudoUser => pseudoUser.Id == dbUserModel.Id)))
+        if((await room.GetPlayersInLobby(_dbUserCollection)).Any(roomMember => roomMember.Pseudonyms.Any(pseudoUser => pseudoUser.Id == dbUserModel.Id)))
             throw new ForbidException();
         
         // Check if this is the last player to join
-        if (room.PlayersInLobby.Count == room.GameSettings.MaxPlayers - 1)
+        if (room.PlayerIdsInLobby.Count == room.GameSettings.MaxPlayers - 1)
         {
             room.RoomStatus = RoomStatus.Ongoing;
             room.TimeStarted = DateTime.UtcNow;
         }
         
-        room.PlayersInLobby.Add(dbUserModel.ToUser());
+        room.PlayerIdsInLobby.Add(dbUserModel.Id);
         await _dbLobbies.Upsert(room);
 
         return new JoinRoomResponse()
@@ -174,7 +176,7 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
         if (room == null)
             throw new NotFoundException("Cannot leave a room that does not exist");
 
-        if (room.PlayersInLobby.All(it => it.Id != dbUserModel.Id))
+        if (!room.PlayerIdsInLobby.Contains(dbUserModel.Id))
             throw new NotFoundException("You are not a member of this lobby.");
 
         if (room.RoomStatus == RoomStatus.Open)
@@ -190,7 +192,7 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
             }
         
             // Update the player list to remove the current player.
-            room.PlayersInLobby = room.PlayersInLobby.Where(it => it.Id != dbUserModel.Id).ToList();
+            room.PlayerIdsInLobby = room.PlayerIdsInLobby.Where(it => it != dbUserModel.Id).ToList();
             await _dbLobbies.Upsert(room);
 
             return new LeaveRoomResponse()
@@ -238,15 +240,15 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
         if (room == null)
             throw new NotFoundException("The specified room does not exist.");
 
-        if (room.Creator.Id != dbUserModel.Id || !dbUserModel.HasClaim(UserClaim.Administrator))
+        if (room.Creator.Id != dbUserModel.Id && !dbUserModel.HasClaim(UserClaim.Administrator))
             throw new ForbidException();
 
-        if (room.PlayersInLobby.Count < 2)
+        if (room.PlayerIdsInLobby.Count < 2)
             throw new BadRequestException("Playing with yourself might be fun, but consider finding some friends first.");
 
         room.RoomStatus = RoomStatus.Ongoing;
         room.TimeStarted = DateTime.UtcNow;
-        room.GameSettings.MaxPlayers = room.PlayersInLobby.Count;
+        room.GameSettings.MaxPlayers = room.PlayerIdsInLobby.Count;
         await _dbLobbies.Upsert(room);
         
         return new StartGameEarlyResponse()

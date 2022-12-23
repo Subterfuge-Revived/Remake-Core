@@ -43,23 +43,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         
         if (dbUserModel != null && dbUserModel.Username != request.Username)
         {
-            // This indicates that a user has two accounts!
-            // They logged in to another account while holding a token for a different account on the same device/API.
-            dbUserModel.MultiboxAccounts.Add(new MultiboxAccount()
-            {
-                MultiboxReason = MultiBoxReason.LOGIN_WITH_CREDENTIALS_FOR_ANOTHER_ACCOUNT,
-                TimeOccured = DateTime.UtcNow,
-                User = user.ToUser()
-            });
-            await _dbUsers.Upsert(dbUserModel);
-            
-            user.MultiboxAccounts.Add(new MultiboxAccount()
-            {
-                MultiboxReason = MultiBoxReason.LOGIN_WITH_CREDENTIALS_FOR_ANOTHER_ACCOUNT,
-                TimeOccured = DateTime.UtcNow,
-                User = dbUserModel.ToUser()
-            });
-            await _dbUsers.Upsert(user);
+            await FlagAccountDuplicate(user, dbUserModel, MultiBoxReason.LOGIN_WITH_CREDENTIALS_FOR_ANOTHER_ACCOUNT);
         }
 
         
@@ -77,40 +61,29 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
     [Route("register")]
     public async Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest registrationRequeset)
     {
-        List<DbUserModel> usersMatchingUsernameOrPhone = await _dbUsers.Query()
-            .Where(it => it.Username == registrationRequeset.Username)
-            .Where(it => it.PhoneNumber == registrationRequeset.PhoneNumber)
+        List<DbUserModel> usersMatchingUsernamePhoneOrDeviceId = await _dbUsers.Query()
+            .Where(it => it.Username == registrationRequeset.Username || it.PhoneNumber == registrationRequeset.PhoneNumber || it.DeviceIdentifier == registrationRequeset.DeviceIdentifier)
             .ToListAsync();
 
-        DbUserModel? matchingUsername = usersMatchingUsernameOrPhone.FirstOrDefault(it => it.Username == registrationRequeset.Username);
+        DbUserModel? matchingUsername = usersMatchingUsernamePhoneOrDeviceId.FirstOrDefault(it => it.Username == registrationRequeset.Username);
         if (matchingUsername != null)
             throw new ConflictException("A very popular choice! Unfortunately, that username is taken...");
 
         // Create the new user account
         DbUserModel model = DbUserModel.FromRegistrationRequest(registrationRequeset);
         
-        var matchingPhone = usersMatchingUsernameOrPhone.Where(it => it.PhoneNumber == registrationRequeset.PhoneNumber).ToList();
-        if (!matchingPhone.IsNullOrEmpty())
+        var matchingPhone = usersMatchingUsernamePhoneOrDeviceId.Where(it => it.PhoneNumber == registrationRequeset.PhoneNumber).ToList();
+        // Flag all accounts matching the phone number as a possible multibox.
+        foreach(DbUserModel user in matchingPhone)
         {
-            // Flag all accounts matching the phone number as a possible multibox.
-            foreach(DbUserModel user in matchingPhone)
-            {
-                model.MultiboxAccounts.Add(new MultiboxAccount()
-                {
-                    MultiboxReason = MultiBoxReason.DUPLICATE_PHONE_NUMBER,
-                    TimeOccured = DateTime.UtcNow,
-                    User = user.ToUser()
-                });
-                await _dbUsers.Upsert(model);
-            
-                user.MultiboxAccounts.Add(new MultiboxAccount()
-                {
-                    MultiboxReason = MultiBoxReason.DUPLICATE_PHONE_NUMBER,
-                    TimeOccured = DateTime.UtcNow,
-                    User = model.ToUser()
-                });
-                await _dbUsers.Upsert(user);
-            }
+            await FlagAccountDuplicate(user, model, MultiBoxReason.DUPLICATE_PHONE_NUMBER);
+        }
+        
+        var matchingDeviceId = usersMatchingUsernamePhoneOrDeviceId.Where(it => it.DeviceIdentifier == registrationRequeset.DeviceIdentifier).ToList();
+        // Flag all accounts matching the device Id number as a possible multibox.
+        foreach(DbUserModel user in matchingDeviceId)
+        {
+            await FlagAccountDuplicate(user, model, MultiBoxReason.DUPLICATE_DEVICE_ID);
         }
             
         // Create a new user model
@@ -123,6 +96,29 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
             User = model.ToUser(),
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
         };
+    }
+
+    private async Task FlagAccountDuplicate(DbUserModel accountOne, DbUserModel accountTwo, MultiBoxReason reason)
+    {
+        // Don't flag admin accounts.
+        if (accountOne.HasClaim(UserClaim.Administrator) || accountTwo.HasClaim(UserClaim.Administrator))
+            return;
+        
+        accountOne.MultiboxAccounts.Add(new MultiboxAccount()
+        {
+            MultiboxReason = reason,
+            TimeOccured = DateTime.UtcNow,
+            User = accountTwo.ToUser()
+        });
+        await _dbUsers.Upsert(accountOne);
+            
+        accountTwo.MultiboxAccounts.Add(new MultiboxAccount()
+        {
+            MultiboxReason = reason,
+            TimeOccured = DateTime.UtcNow,
+            User = accountOne.ToUser()
+        });
+        await _dbUsers.Upsert(accountTwo);
     }
 
     [Authorize(Roles = "Administrator")]

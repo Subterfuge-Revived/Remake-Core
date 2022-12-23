@@ -10,14 +10,14 @@ public class AccountUtils
         string username,
         string email = "someEmail@email.com",
         string deviceId = null,
-        string phone = "1231231231"
+        string phone = null
     ) {
         var accountRegistrationResponse = await TestUtils.GetClient().UserApi.RegisterAccount(new AccountRegistrationRequest()
         {
             DeviceIdentifier = deviceId ?? Guid.NewGuid().ToString(),
             Email = email,
             Password = username,
-            PhoneNumber = phone,
+            PhoneNumber = phone ?? Guid.NewGuid().ToString(),
             Username = username
         });
         Assert.True(accountRegistrationResponse.Status.IsSuccess);
