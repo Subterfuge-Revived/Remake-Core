@@ -37,8 +37,8 @@ public class RelationshipCollection : IDatabaseCollection<DbPlayerRelationship>
     {
         await _collection.Indexes.CreateManyAsync( new List<CreateIndexModel<DbPlayerRelationship>>()
         {
-            new CreateIndexModel<DbPlayerRelationship>(Builders<DbPlayerRelationship>.IndexKeys.Ascending(relation => relation.Player)),
-            new CreateIndexModel<DbPlayerRelationship>(Builders<DbPlayerRelationship>.IndexKeys.Ascending(relation => relation.Friend)),
+            new CreateIndexModel<DbPlayerRelationship>(Builders<DbPlayerRelationship>.IndexKeys.Hashed(relation => relation.Player.Id)),
+            new CreateIndexModel<DbPlayerRelationship>(Builders<DbPlayerRelationship>.IndexKeys.Hashed(relation => relation.Friend.Id)),
             new CreateIndexModel<DbPlayerRelationship>(Builders<DbPlayerRelationship>.IndexKeys.Ascending(relation => relation.RelationshipStatus)),
         });
     }

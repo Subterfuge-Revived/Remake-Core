@@ -1,4 +1,5 @@
-﻿using SubterfugeCore.Models.GameEvents;
+﻿using System.Web;
+using SubterfugeCore.Models.GameEvents;
 using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeRestApiClient.controllers.exception;
 
@@ -25,7 +26,15 @@ public class SpecialistClient : ISubterfugeCustomSpecialistApi, ISubterfugeSpeci
     
     public async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(GetSpecialistPackagesRequest request)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/specialist/packages", request);
+        var query = HttpUtility.ParseQueryString(string.Empty);
+        query["PageNumber"] = request.Pagination.ToString();
+        query["SearchTerm"] = request.SearchTerm;
+        query["CreatedByUserId"] = request.CreatedByUserId;
+        query["ContainsSpecialistId"] = request.ContainsSpecialistId;
+        query["ContainsPackageId"] = request.ContainsPackageId;
+        string queryString = query.ToString();
+        
+        HttpResponseMessage response = await client.GetAsync($"api/specialist/package?{queryString}");
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
@@ -55,7 +64,14 @@ public class SpecialistClient : ISubterfugeCustomSpecialistApi, ISubterfugeSpeci
 
     public async Task<GetCustomSpecialistsResponse> GetCustomSpecialists(GetCustomSpecialistsRequest request)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/specialists", request);
+        var query = HttpUtility.ParseQueryString(string.Empty);
+        query["PageNumber"] = request.Pagination.ToString();
+        query["SearchTerm"] = request.SearchTerm;
+        query["CreatedByPlayerId"] = request.CreatedByPlayerId;
+        query["PromotesFromSpecialistId"] = request.PromotesFromSpecialistId;
+        string queryString = query.ToString();
+        
+        HttpResponseMessage response = await client.GetAsync($"api/specialist?{queryString}");
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);

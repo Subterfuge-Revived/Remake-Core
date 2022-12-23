@@ -1,7 +1,10 @@
-﻿using MongoDB.Driver;
+﻿using DnsClient.Internal;
+using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections.Collections;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace SubterfugeServerConsole.Connections;
 
@@ -36,7 +39,7 @@ public abstract class IDatabaseCollectionProvider {
         return null;
     }
 
-    protected async Task CreateAllIndexes()
+    protected async Task CreateAllIndexes(ILogger logger)
     {
         var tasks = new List<Task>();
         foreach (var collection in _componentMap.Values)
@@ -44,7 +47,20 @@ public abstract class IDatabaseCollectionProvider {
             tasks.Add(collection.CreateIndexes());
         }
 
-        await Task.WhenAll(tasks);
+        var task = Task.WhenAll(tasks);
+        
+        try
+        {
+            await task;
+        }
+        catch (Exception)
+        {
+            if (task.Exception != null)
+            {
+                logger.LogError($"Failed to create index. {task.Exception.Message} {task.Exception.StackTrace}");
+                throw task.Exception;
+            }
+        }
     }
 
     public void FlushAll()

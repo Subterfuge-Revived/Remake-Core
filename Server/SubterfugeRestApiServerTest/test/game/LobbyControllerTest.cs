@@ -66,7 +66,7 @@ public class LobbyControllerTest
         {
             await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), lobbyResponse.GameConfiguration.Id);
         });
-        Assert.AreEqual(ResponseType.PLAYER_ALREADY_IN_LOBBY, exception.response.ResponseType);
+        Assert.AreEqual(ResponseType.PLAYER_ALREADY_IN_LOBBY, exception.response.Status.ResponseType);
     }
 
     [Test]
@@ -82,7 +82,7 @@ public class LobbyControllerTest
         {
             await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), lobbyResponse.GameConfiguration.Id);
         });
-        Assert.AreEqual(ResponseType.ROOM_IS_FULL, exception.response.ResponseType);
+        Assert.AreEqual(ResponseType.ROOM_IS_FULL, exception.response.Status.ResponseType);
     }
 
     [Test]

@@ -47,7 +47,7 @@ public class UserRoleControllerTest
         {
             await TestUtils.GetClient().UserRoles.GetRoles(userOne.User.Id);
         });
-        Assert.AreEqual(HttpStatusCode.Forbidden, response.rawResponse.StatusCode);
+        Assert.AreEqual(ResponseType.INVALID_REQUEST, response.response.Status.ResponseType);
     }
     
     [Test]

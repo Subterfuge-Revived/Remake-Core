@@ -36,16 +36,12 @@ public class ServerExceptionLogCollection: IDatabaseCollection<DbServerException
     {
         await _collection.Indexes.CreateManyAsync( new List<CreateIndexModel<DbServerException>>()
         {
-                new CreateIndexModel<DbServerException>(Builders<DbServerException>.IndexKeys.Ascending(action => action.Id)),
-                new CreateIndexModel<DbServerException>(Builders<DbServerException>.IndexKeys.Ascending(action => action.Username)),
-                new CreateIndexModel<DbServerException>(Builders<DbServerException>.IndexKeys.Ascending(action => action.UserId)),
+                new CreateIndexModel<DbServerException>(Builders<DbServerException>.IndexKeys.Hashed(action => action.UserId)),
                 new CreateIndexModel<DbServerException>(Builders<DbServerException>.IndexKeys.Ascending(action => action.RequestUri)),
-                new CreateIndexModel<DbServerException>(Builders<DbServerException>.IndexKeys.Ascending(action => action.RemoteIpAddress)),
-                new CreateIndexModel<DbServerException>(Builders<DbServerException>.IndexKeys.Ascending(action => action.ExceptionSource)),
+                new CreateIndexModel<DbServerException>(Builders<DbServerException>.IndexKeys.Text(action => action.RemoteIpAddress)),
                 new CreateIndexModel<DbServerException>(keys: Builders<DbServerException>.IndexKeys.Ascending(room => room.ExpireAt), options: new CreateIndexOptions()
                 {
                     ExpireAfter = TimeSpan.FromSeconds(0),
-                    Name = "ExpireAtIndex"
                 }),
         });
     }

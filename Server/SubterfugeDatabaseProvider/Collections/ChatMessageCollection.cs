@@ -36,15 +36,14 @@ public class ChatMessageCollection : IDatabaseCollection<DbChatMessage>
     {
         await _collection.Indexes.CreateManyAsync(new List<CreateIndexModel<DbChatMessage>>()
         {
-            new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Ascending(message => message.RoomId)),
-            new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Ascending(message => message.GroupId)),
-            new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Ascending(message => message.SentBy)),
+            new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Hashed(message => message.RoomId)),
+            new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Hashed(message => message.GroupId)),
+            new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Hashed(message => message.SentBy.Id)),
             new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Ascending(message => message.CreatedAt)),
             new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Text(message => message.Message)),
-            new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Text(message => message.ExpiresAt), new CreateIndexOptions()
+            new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Ascending(message => message.ExpiresAt), new CreateIndexOptions()
             {
                 ExpireAfter = TimeSpan.FromSeconds(0),
-                Name = "ExpireAtIndex"
             }),
         });
     }

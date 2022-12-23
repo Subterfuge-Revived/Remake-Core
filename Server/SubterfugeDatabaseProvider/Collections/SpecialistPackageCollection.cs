@@ -37,8 +37,7 @@ public class SpecialistPackageCollection : IDatabaseCollection<DbSpecialistPacka
     {
         await _collection.Indexes.CreateManyAsync( new List<CreateIndexModel<DbSpecialistPackage>>()
         {
-            new CreateIndexModel<DbSpecialistPackage>(Builders<DbSpecialistPackage>.IndexKeys.Ascending(package => package.Id)),
-            new CreateIndexModel<DbSpecialistPackage>(Builders<DbSpecialistPackage>.IndexKeys.Ascending(package => package.Creator.Id)),
+            new CreateIndexModel<DbSpecialistPackage>(Builders<DbSpecialistPackage>.IndexKeys.Hashed(package => package.Creator.Id)),
             new CreateIndexModel<DbSpecialistPackage>(Builders<DbSpecialistPackage>.IndexKeys.Text(package => package.PackageName)),
         });
     }

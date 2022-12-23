@@ -12,10 +12,12 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
 {
 
     private IDatabaseCollectionProvider _db;
+    private ILogger _logger;
 
-    public ExceptionResponseMiddleware(IDatabaseCollectionProvider mongo)
+    public ExceptionResponseMiddleware(IDatabaseCollectionProvider mongo, ILogger<ExceptionResponseMiddleware> logger)
     {
         this._db = mongo;
+        _logger = logger;
     }
 
     public async override Task OnExceptionAsync(ExceptionContext context)
@@ -38,6 +40,12 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
             context.Result = exception.ToActionResult();
             context.ExceptionHandled = true;
             return;
+        }
+        
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+        {
+            _logger.LogError(context.Exception.Message);
+            _logger.LogError(context.Exception.StackTrace);
         }
         
         var response = new ObjectResult(

@@ -36,12 +36,10 @@ public class GroupCollection : IDatabaseCollection<DbMessageGroup>
     {
         await _collection.Indexes.CreateManyAsync( new List<CreateIndexModel<DbMessageGroup>>()
         {
-            new CreateIndexModel<DbMessageGroup>(Builders<DbMessageGroup>.IndexKeys.Ascending(group => group.Id)),
-            new CreateIndexModel<DbMessageGroup>(Builders<DbMessageGroup>.IndexKeys.Ascending(group => group.RoomId)),
+            new CreateIndexModel<DbMessageGroup>(Builders<DbMessageGroup>.IndexKeys.Hashed(group => group.RoomId)),
             new CreateIndexModel<DbMessageGroup>(keys: Builders<DbMessageGroup>.IndexKeys.Ascending(room => room.ExpiresAt), options: new CreateIndexOptions()
             {
                 ExpireAfter = TimeSpan.FromSeconds(0),
-                Name = "ExpireAtIndex"
             }),
         });
     }

@@ -46,7 +46,6 @@ public class ServerActionLogCollection : IDatabaseCollection<DbServerAction>
             new CreateIndexModel<DbServerAction>(keys: Builders<DbServerAction>.IndexKeys.Ascending(room => room.ExpiresAt), options: new CreateIndexOptions()
             {
                 ExpireAfter = TimeSpan.FromSeconds(0),
-                Name = "ExpireAtIndex"
             }),
         });
     }

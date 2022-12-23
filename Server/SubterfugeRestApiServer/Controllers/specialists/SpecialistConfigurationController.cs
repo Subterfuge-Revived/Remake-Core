@@ -44,23 +44,27 @@ public class SpecialistConfigurationController: ControllerBase, ISubterfugeCusto
         };
     }
     
-    // TODO: Change this to a GET with URL params
-    [HttpPost]
-    public async Task<GetCustomSpecialistsResponse> GetCustomSpecialists(GetCustomSpecialistsRequest request)
+    [HttpGet]
+    public async Task<GetCustomSpecialistsResponse> GetCustomSpecialists([FromQuery] GetCustomSpecialistsRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
         if (user == null)
             throw new UnauthorizedException();
-            
-        // Search through all specialists for the search term.
-        // TODO: Cleanup this where clause to that it only applies if they are not null
-        // TODO: Change this into a GET with query params.
-        var results = (await _dbSpecialists.Query()
-                .Where(it => it.SpecialistName.Contains(request.SearchTerm))
-                .Where(it => it.PromotesFromSpecialistId.Contains(request.PromotesFromSpecialistId))
-                .Where(it => it.Creator.Id == request.CreatedByPlayerId)
-                .OrderByDescending(specialist => specialist.Ratings.AverageRating())
-                .Skip(((int)request.PageNumber - 1) * 50)
+        
+        IMongoQueryable<DbSpecialistConfiguration> query = _dbSpecialists.Query();
+        
+        if (request.SearchTerm != null)
+            query = query.Where(it => it.SpecialistName.Contains(request.SearchTerm));
+        
+        if(request.CreatedByPlayerId != null)
+            query = query.Where(it => it.Creator.Id == request.CreatedByPlayerId);
+        
+        if(request.PromotesFromSpecialistId != null)
+            query = query.Where(it => it.PromotesFromSpecialistId == request.PromotesFromSpecialistId);
+        
+        var results = (await query
+                .OrderByDescending(specialist => specialist.CreatedAt)
+                .Skip(((int)request.Pagination - 1) * 50)
                 .Take(50)
                 .ToListAsync())
             .Select(package => package.ToSpecialistConfiguration())

@@ -68,7 +68,7 @@ public class UserControllerTest
         var exception = Assert.ThrowsAsync<SubterfugeClientException>( async () => {
             await AccountUtils.AssertRegisterAccountAndAuthorized(username);
         });
-        Assert.AreEqual(ResponseType.DUPLICATE, exception.response.ResponseType);
+        Assert.AreEqual(ResponseType.DUPLICATE, exception.response.Status.ResponseType);
     }
 
     [Test]

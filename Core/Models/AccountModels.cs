@@ -66,5 +66,6 @@ namespace SubterfugeCore.Models.GameEvents
         Administrator,
         EmailVerified,
         Banned,
+        Muted,
     }
 }

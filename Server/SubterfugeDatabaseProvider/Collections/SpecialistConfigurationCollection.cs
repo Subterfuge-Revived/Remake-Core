@@ -37,9 +37,8 @@ public class SpecialistConfigurationCollection : IDatabaseCollection<DbSpecialis
     {
         await _collection.Indexes.CreateManyAsync( new List<CreateIndexModel<DbSpecialistConfiguration>>()
         {
-            new CreateIndexModel<DbSpecialistConfiguration>(Builders<DbSpecialistConfiguration>.IndexKeys.Ascending(spec => spec.Id)),
-            new CreateIndexModel<DbSpecialistConfiguration>(Builders<DbSpecialistConfiguration>.IndexKeys.Ascending(spec => spec.Creator.Id)),
-            new CreateIndexModel<DbSpecialistConfiguration>(Builders<DbSpecialistConfiguration>.IndexKeys.Ascending(spec => spec.PromotesFromSpecialistId)),
+            new CreateIndexModel<DbSpecialistConfiguration>(Builders<DbSpecialistConfiguration>.IndexKeys.Hashed(spec => spec.Creator.Id)),
+            new CreateIndexModel<DbSpecialistConfiguration>(Builders<DbSpecialistConfiguration>.IndexKeys.Hashed(spec => spec.PromotesFromSpecialistId)),
             new CreateIndexModel<DbSpecialistConfiguration>(Builders<DbSpecialistConfiguration>.IndexKeys.Text(spec => spec.SpecialistName)),
         });
     }

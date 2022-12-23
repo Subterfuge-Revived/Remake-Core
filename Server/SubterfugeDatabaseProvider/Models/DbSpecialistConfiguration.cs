@@ -51,6 +51,8 @@ public class Ratings
 
     public double AverageRating()
     {
+        if (TotalRatings() == 0)
+            return 0.0;
         return ((fiveStar * 5.0) +
                 (fourStar * 4) +
                 (threeStar * 3) +
