@@ -36,14 +36,12 @@ public class GameEventCollection : IDatabaseCollection<DbGameEvent>
     {
         await _collection.Indexes.CreateManyAsync( new List<CreateIndexModel<DbGameEvent>>()
         {
-            new CreateIndexModel<DbGameEvent>(Builders<DbGameEvent>.IndexKeys.Ascending(gameEvent => gameEvent.Id)),
-            new CreateIndexModel<DbGameEvent>(Builders<DbGameEvent>.IndexKeys.Ascending(gameEvent => gameEvent.IssuedBy)),
+            new CreateIndexModel<DbGameEvent>(Builders<DbGameEvent>.IndexKeys.Hashed(gameEvent => gameEvent.IssuedBy.Id)),
             new CreateIndexModel<DbGameEvent>(Builders<DbGameEvent>.IndexKeys.Ascending(gameEvent => gameEvent.TimeIssued)),
             new CreateIndexModel<DbGameEvent>(Builders<DbGameEvent>.IndexKeys.Ascending(gameEvent => gameEvent.OccursAtTick)),
             new CreateIndexModel<DbGameEvent>(keys: Builders<DbGameEvent>.IndexKeys.Ascending(room => room.ExpiresAt), options: new CreateIndexOptions()
             {
                 ExpireAfter = TimeSpan.FromSeconds(0),
-                Name = "ExpireAtIndex"
             }),
         });
     }

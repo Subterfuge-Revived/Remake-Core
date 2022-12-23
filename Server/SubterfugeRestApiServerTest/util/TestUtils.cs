@@ -6,7 +6,7 @@ namespace SubterfugeServerConsole.Connections;
 public class TestUtils
 {
     public static MongoConnector Mongo = new MongoIntegrationTestConnector().Mongo;
-    private static SubterfugeClient _client = null;
+    private static SubterfugeClient? _client = null;
     public static SubterfugeClient GetClient()
     {
         if (_client == null)

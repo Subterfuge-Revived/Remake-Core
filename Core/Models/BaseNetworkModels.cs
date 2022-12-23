@@ -39,5 +39,6 @@ namespace SubterfugeCore.Models.GameEvents
         GAME_ALREADY_STARTED,         // Used if a game has already begun
         INTERNAL_SERVER_ERROR,        // Used if an unknown exception is thrown. This probably indicates that the code is doing something wrong...
         NOT_FOUND,
+        BANNED,
     }
 }

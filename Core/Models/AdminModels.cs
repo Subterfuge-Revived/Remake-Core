@@ -60,4 +60,22 @@ namespace SubterfugeCore.Models.GameEvents
     {
         public List<ServerException> Exceptions { get; set; }
     }
+
+    public class GetIpBansResponse
+    {
+        public List<IpBans> BannedIps { get; set; }
+    }
+
+    public class IpBans
+    {
+        public string IpOrRegex { get; set; }
+        public DateTime DateApplied { get; set; }
+        public DateTime BannedUntil { get; set; }
+        public string AdminNotes { get; set; }
+    }
+
+    public class GetBannedPlayerResponse
+    {
+        public List<DetailedUser> BannedUsers { get; set; }
+    }
 }

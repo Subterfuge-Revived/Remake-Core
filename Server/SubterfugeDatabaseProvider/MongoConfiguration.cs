@@ -4,10 +4,10 @@ public class MongoConfiguration
 {
     public string Host { get; set; }
     public int Port { get; set; }
-    public Boolean CreateSuperUser { get; set; }
+    public bool CreateSuperUser { get; set; }
     public string SuperUserUsername { get; set; }
     public string SuperUserPassword { get; set; }
-    public Boolean FlushDatabase { get; set; }
+    public bool FlushDatabase { get; set; }
 }
 
 public interface IMongoConfigurationProvider

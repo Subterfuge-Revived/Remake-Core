@@ -12,6 +12,9 @@ namespace SubterfugeServerConsole.Connections
         private static IMongoDatabase _database;
         private ILogger? _logger;
         private MongoConfiguration _config;
+        private MongoClient client;
+        
+        private static string DATABASE_NAME = "subterfugeDb";
 
         public MongoConnector(IMongoConfigurationProvider config, ILogger<MongoConnector>? logger)
         {
@@ -31,16 +34,39 @@ namespace SubterfugeServerConsole.Connections
             AddComponent(new SpecialistPackageCollection(GetDbCollection<DbSpecialistPackage>()));
             AddComponent(new ServerActionLogCollection(GetDbCollection<DbServerAction>()));
             AddComponent(new ServerExceptionLogCollection(GetDbCollection<DbServerException>()));
+            AddComponent(new IpBanCollection(GetDbCollection<DbIpBan>()));
 
-            logger?.LogInformation("Connected to database. Creating indexes...");
-            
-            CreateAllIndexes();
-            
+            _logger?.LogInformation("Connected to database.");
+            try
+            {
+                SetupDatabase();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error initializing database connection. {e.Message}: {e.StackTrace}");
+                throw;
+            }
+        }
+
+        public async Task SetupDatabase()
+        {
             if (_config.FlushDatabase)
+            {
+                _logger?.LogInformation("Flushing database");
+                await client.DropDatabaseAsync(DATABASE_NAME);
                 FlushAll();
+            }
+            
+            _logger?.LogInformation("Creating indexes");
+            await CreateAllIndexes(_logger);
 
             if (_config.CreateSuperUser)
-                CreateSuperUser();
+            {
+                _logger?.LogInformation("Creating Super user");
+                await CreateSuperUser();
+            }
+            
+            _logger?.LogInformation("Database configuration complete");
         }
 
         private IMongoDatabase ConnectToMongo()
@@ -60,8 +86,8 @@ namespace SubterfugeServerConsole.Connections
             settings.Credential = mongoCredential;
             settings.ApplicationName = "SubterfugeServer";
             
-            var client = new MongoClient(settings);
-            return client.GetDatabase("subterfugeDb");
+            client = new MongoClient(settings);
+            return client.GetDatabase(DATABASE_NAME);
         }
 
         private IMongoCollection<T> GetDbCollection<T>()

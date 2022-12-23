@@ -38,11 +38,10 @@ public class UserModelCollection : IDatabaseCollection<DbUserModel>
     {
         await _collection.Indexes.CreateManyAsync( new List<CreateIndexModel<DbUserModel>>()
         {
-            new (Builders<DbUserModel>.IndexKeys.Ascending(user => user.Id)),
-            new (Builders<DbUserModel>.IndexKeys.Ascending(user => user.DeviceIdentifier)),
+            new (Builders<DbUserModel>.IndexKeys.Hashed(user => user.DeviceIdentifier)),
             new (Builders<DbUserModel>.IndexKeys.Ascending(user => user.Username)),
             new (Builders<DbUserModel>.IndexKeys.Ascending(user => user.Email)),
-            new (Builders<DbUserModel>.IndexKeys.Ascending(user => user.PhoneNumber)),
+            new (Builders<DbUserModel>.IndexKeys.Hashed(user => user.PhoneNumber)),
         });
     }
 

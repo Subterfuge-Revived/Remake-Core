@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 
 namespace SubterfugeCore.Models.GameEvents
@@ -113,10 +114,10 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class GetCustomSpecialistsRequest
     {
-        public long PageNumber { get; set; }
-        public string SearchTerm { get; set; }
-        public string PromotesFromSpecialistId { get; set; }
-        public string CreatedByPlayerId { get; set; }
+        public long Pagination { get; set; } = 1;
+        public string? SearchTerm { get; set; }
+        public string? PromotesFromSpecialistId { get; set; }
+        public string? CreatedByPlayerId { get; set; }
     }
 
     public class GetCustomSpecialistsResponse : NetworkResponse
@@ -138,10 +139,11 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class GetSpecialistPackagesRequest
     {
-        public long PageNumber { get; set; }
-        public string SearchTerm { get; set; }
-        public string IsPackageCreatedById { get; set; }
-        public string PackageContainsSpecialistId { get; set; }
+        public long Pagination { get; set; } = 1;
+        public string? SearchTerm { get; set; }
+        public string? CreatedByUserId { get; set; }
+        public string? ContainsSpecialistId { get; set; }
+        public string? ContainsPackageId { get; set; }
     }
 
     public class GetSpecialistPackagesResponse : NetworkResponse

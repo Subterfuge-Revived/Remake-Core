@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using System.Net;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SubterfugeCore.Models.GameEvents;
 
@@ -64,10 +65,10 @@ public class ForbidException : ActionResultException
 {
     public ForbidException()
     {
-        response.Status = ResponseFactory.createResponse(ResponseType.UNAUTHORIZED, "You don't have the correct permissions to do that.");
+        response.Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST, "You don't have the correct permissions to do that.");
     }
     public override ActionResult ToActionResult()
     {
-        return new UnauthorizedObjectResult(response);
+        return new ObjectResult(response) { StatusCode = (int)HttpStatusCode.Forbidden };
     }
 } 

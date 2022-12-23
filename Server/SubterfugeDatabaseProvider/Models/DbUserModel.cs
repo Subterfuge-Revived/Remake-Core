@@ -27,6 +27,8 @@ public class DbUserModel
     public string DeviceType { get; set; }
     // A list of other accounts that this user has associated as.
     public List<MultiboxAccount> MultiboxAccounts { get; set; } = new List<MultiboxAccount>() { };
+    
+    public List<AccountBan> BanHistory { get; set; } = new List<AccountBan>();
 
     public User ToUser()
     {
@@ -82,4 +84,12 @@ public class DbUserModel
     {
         return Claims.Contains(claim);
     }
+}
+
+public class AccountBan
+{
+    public string Reason { get; set; }
+    public string AdministratorNotes { get; set; }
+    public DateTime DateExpires { get; set; }
+    public DateTime DateApplied { get; set; } = DateTime.UtcNow;
 }

@@ -68,6 +68,7 @@ builder.Services.AddLogging(logging => logging.AddSimpleConsole(loggerOptions =>
 {
     loggerOptions.SingleLine = true;
     loggerOptions.IncludeScopes = false;
+    loggerOptions.TimestampFormat = "[yyyy-MM-dd HH:mm:ss]";
 }));
 
 builder.Services.Configure<KestrelServerOptions>(options =>
@@ -100,6 +101,7 @@ app.UseHttpsRedirection();
 // ORDER MATTERS HERE
 app.UseAuthorization();
 app.UseMiddleware<JwtMiddleware>();
+app.UseMiddleware<BanMiddleware>();
 app.MapControllers();
 app.UseMiddleware<LoggingMiddleware>();
 

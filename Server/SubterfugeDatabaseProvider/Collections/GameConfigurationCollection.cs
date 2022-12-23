@@ -36,17 +36,14 @@ public class GameConfigurationCollection : IDatabaseCollection<DbGameLobbyConfig
     {
         await _collection.Indexes.CreateManyAsync( new List<CreateIndexModel<DbGameLobbyConfiguration>>()
         {
-            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.Id)),
-            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.RoomName)),
+            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Text(room => room.RoomName)),
             new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.TimeCreated)),
-            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.Creator.Id)),
-            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.Creator.Username)),
+            new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Hashed(room => room.Creator.Id)),
             new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.GameVersion)),
             new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.RoomStatus)),
             new CreateIndexModel<DbGameLobbyConfiguration>(Builders<DbGameLobbyConfiguration>.IndexKeys.Ascending(room => room.ExpiresAt), options: new CreateIndexOptions()
             {
                 ExpireAfter = TimeSpan.FromSeconds(0),
-                Name = "ExpireAtIndex"
             }),
         });
     }

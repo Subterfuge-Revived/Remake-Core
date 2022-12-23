@@ -15,10 +15,12 @@ namespace SubterfugeRestApiServer;
 public class SubterfugeUserRoleController : ControllerBase, ISubterfugeUserRoleApi
 {
     private IDatabaseCollection<DbUserModel> _dbUsers;
+    private IDatabaseCollection<DbIpBan> _dbIpBans;
 
     public SubterfugeUserRoleController(IDatabaseCollectionProvider mongo)
     {
         _dbUsers = mongo.GetCollection<DbUserModel>();
+        _dbIpBans = mongo.GetCollection<DbIpBan>();
     }
 
     [Authorize]

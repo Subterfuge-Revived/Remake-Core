@@ -24,6 +24,8 @@ namespace SubterfugeCore.Models.GameEvents
         // Administrative
         public DateTime DateCreated { get; set; }
         public DateTime BannedUntil { get; set; }
+        
+        public List<BanHistory> BanHistory { get; set; }
     }
     public class User
     {
@@ -60,5 +62,13 @@ namespace SubterfugeCore.Models.GameEvents
         DUPLICATE_PHONE_NUMBER,
         DUPLICATE_DISCORD_USERNAME,
         DUPLICATE_EMAIL,
+    }
+
+    public class BanHistory
+    {
+        public string Reason { get; set; }
+        public string AdministratorNotes { get; set; }
+        public DateTime DateExpires { get; set; }
+        public DateTime DateApplied { get; set; } = DateTime.UtcNow;
     }
 }

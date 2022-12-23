@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Threading.Tasks;
 
 namespace SubterfugeCore.Models.GameEvents.Api
@@ -20,6 +21,10 @@ namespace SubterfugeCore.Models.GameEvents.Api
     {
         Task<ServerActionLogResponse> GetActionLog(ServerActionLogRequeset request);
         Task<ServerExceptionLogResponse> GetServerExceptions(ServerExceptionLogRequest request);
+        Task<NetworkResponse> BanPlayer(string userId, DateTime until, string reason, string adminNotes);
+        Task<NetworkResponse> BanIp(string directIpOrRegex, DateTime until, string adminNotes);
+        Task<GetIpBansResponse> GetIpBans(int pagination);
+        Task<GetBannedPlayerResponse> GetBannedPlayers(int pagination);
     }
     
     public interface ISubterfugeGameLobbyApi
