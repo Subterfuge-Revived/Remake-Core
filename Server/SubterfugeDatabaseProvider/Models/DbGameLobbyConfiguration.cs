@@ -1,4 +1,7 @@
-﻿using SubterfugeCore.Models.GameEvents;
+﻿using MongoDB.Driver;
+using MongoDB.Driver.Linq;
+using SubterfugeCore.Models.GameEvents;
+using SubterfugeServerConsole.Connections;
 
 namespace SubterfugeDatabaseProvider.Models;
 
@@ -15,7 +18,7 @@ public class DbGameLobbyConfiguration
     public MapConfiguration MapConfiguration { get; set; }
     public string RoomName { get; set; }
     public string GameVersion { get; set; } = "0.0.1";
-    public List<User> PlayersInLobby { get; set; }
+    public List<string> PlayerIdsInLobby { get; set; }
 
     public static DbGameLobbyConfiguration FromRequest(CreateRoomRequest request, User creator)
     {
@@ -25,12 +28,23 @@ public class DbGameLobbyConfiguration
             GameSettings = request.GameSettings,
             MapConfiguration = request.MapConfiguration,
             RoomName = request.RoomName,
-            PlayersInLobby = new List<User>() { creator }
+            PlayerIdsInLobby = new List<string>() { creator.Id }
         };
     }
 
-    public GameConfiguration ToGameConfiguration()
+    public async Task<List<User>> GetPlayersInLobby(IDatabaseCollection<DbUserModel> _dbUserCollection)
     {
+        return (await _dbUserCollection.Query()
+                .Where(user => PlayerIdsInLobby.Contains(user.Id))
+                .ToListAsync())
+            .Select(it => it.ToUser())
+            .ToList();
+    }
+
+    public async Task<GameConfiguration> ToGameConfiguration(IDatabaseCollection<DbUserModel> _dbUserCollection)
+    {
+        var usersInGame = (await GetPlayersInLobby(_dbUserCollection));
+            
         return new GameConfiguration()
         {
             Id = Id,
@@ -39,7 +53,7 @@ public class DbGameLobbyConfiguration
             Creator = Creator,
             GameSettings = GameSettings,
             GameVersion = GameVersion,
-            PlayersInLobby = PlayersInLobby,
+            PlayersInLobby = usersInGame,
             TimeCreated = TimeCreated,
             TimeStarted = TimeStarted,
             ExpiresAt = ExpiresAt,

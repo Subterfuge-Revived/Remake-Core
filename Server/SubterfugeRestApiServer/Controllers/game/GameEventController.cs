@@ -37,7 +37,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         if (lobby == null)
             throw new NotFoundException("Cannot find the room you wish to join.");
 
-        if (lobby.PlayersInLobby.All(it => it.Id != dbUserModel.Id) && !dbUserModel.HasClaim(UserClaim.Administrator))
+        if (lobby.PlayerIdsInLobby.All(id => id != dbUserModel.Id) && !dbUserModel.HasClaim(UserClaim.Administrator))
             throw new ForbidException();
         
         List<DbGameEvent> events = await _dbGameEvents.Query()
@@ -76,7 +76,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         if (lobby == null)
             throw new NotFoundException("Cannot find the room you wish to submit this event to.");
 
-        if (lobby.PlayersInLobby.All(it => it.Id != dbUserModel.Id))
+        if (!lobby.PlayerIdsInLobby.Contains(dbUserModel.Id))
             throw new ForbidException();
 
         var gameEvent = DbGameEvent.FromGameEventRequest(request, dbUserModel.ToUser(), roomId);

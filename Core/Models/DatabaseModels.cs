@@ -60,6 +60,7 @@ namespace SubterfugeCore.Models.GameEvents
         NONE,
         LOGIN_WITH_CREDENTIALS_FOR_ANOTHER_ACCOUNT,
         DUPLICATE_PHONE_NUMBER,
+        DUPLICATE_DEVICE_ID,
         DUPLICATE_DISCORD_USERNAME,
         DUPLICATE_EMAIL,
     }

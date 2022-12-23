@@ -47,7 +47,7 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
             throw new BadRequestException("Cannot create a group without yourself in it");
         
         // If, for any player in the group request, they are not a player in the lobby, the request is invalid.
-        if (request.UserIdsInGroup.Any(userId => lobby.PlayersInLobby.All(user => user.Id != userId)))
+        if (request.UserIdsInGroup.Any(userId => lobby.PlayerIdsInLobby.All(ids => ids != userId)))
             throw new BadRequestException("Cannot create a group with a player that is not in the game");
         
         // Check if there are existing groups that contain the same users.
