@@ -12,6 +12,6 @@ public class DbPlayerRelationship
 
     public User GetOtherUser(string userId)
     {
-        return Player.Id == userId ? Player : Friend;
+        return Player.Id == userId ? Friend : Player;
     }
 }
