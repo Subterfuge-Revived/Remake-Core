@@ -211,7 +211,7 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
             {
                 EventData = new PlayerLeaveGameEventData()
                 {
-                    player = dbUserModel.ToUser()
+                    Player = dbUserModel.ToUser()
                 },
                 IssuedBy = dbUserModel.ToUser(),
                 OccursAtTick = now.GetTick(),

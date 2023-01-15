@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using SubterfugeCore.Models.GameEvents;
 using SubterfugeRestApiClient;
 using SubterfugeServerConsole.Connections;
 
@@ -6,13 +7,17 @@ namespace SubterfugeRestApiServerTest.test.game;
 
 public class GroupControllerTest
 {
-    private SubterfugeClient client = TestUtils.GetClient();
+    private AccountRegistrationResponse userOne;
+    private AccountRegistrationResponse userTwo;
 
     [SetUp]
-    public void Setup()
+    public async Task Setup()
     {
         TestUtils.Mongo.FlushAll();
         TestUtils.GetClient().UserApi.Logout();
+        
+        userTwo = await AccountUtils.AssertRegisterAccountAndAuthorized("UserTwo");
+        userOne = await AccountUtils.AssertRegisterAccountAndAuthorized("UserOne");
     }
 
     [Test]

@@ -100,6 +100,9 @@ public class SocialController : ControllerBase, ISubterfugeSocialApi
         var playerToBlock = await _dbUserCollection.Query().FirstOrDefaultAsync(it => it.Id == userId);
         if (playerToBlock == null)
             throw new NotFoundException("The specified player does not exist.");
+
+        if (playerToBlock.HasClaim(UserClaim.Administrator))
+            throw new ForbidException();
         
         var existingRelationship = await _dbRelations.Query()
             .FirstOrDefaultAsync(relation => 
@@ -226,7 +229,7 @@ public class SocialController : ControllerBase, ISubterfugeSocialApi
                 }
                 
                 // Cannot accept your own request
-                throw new ForbidException();
+                throw new ConflictException("You already have a pending friend request to this player.");
             case RelationshipStatus.NoRelation:
                 existingRelationship.RelationshipStatus = RelationshipStatus.Friends;
                 // Swap the 'primary' friend to indicate who sent the request.

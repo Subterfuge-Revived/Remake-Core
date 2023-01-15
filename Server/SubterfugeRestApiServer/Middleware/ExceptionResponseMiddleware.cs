@@ -35,17 +35,47 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
     private async Task HandleException(ExceptionContext context)
     {
         // If the result was a specific exception, we can instead cast it to the expected result.
-        if (context.Exception is ActionResultException exception)
+        if (context.Exception is ActionResultException actionResultException)
         {
-            context.Result = exception.ToActionResult();
+            var handledResponse = actionResultException.ToActionResult();
+            
+            var username = (context.HttpContext.Items["User"] as DbUserModel)?.Username;
+            var userId = (context.HttpContext.Items["User"] as DbUserModel)?.Id;
+            var remoteIpAddress = context.HttpContext.Connection.RemoteIpAddress;
+            var httpMethod = context.HttpContext.Request?.Method;
+            var requestUrl = context.HttpContext.Request?.Path.Value;
+            var queryString = context.HttpContext.Request?.QueryString;
+            var statusCode = 500;
+            
+            _logger.LogInformation(
+                "{user}(uuid={userId}, ip={ip}) {method} {url}{queryString} => {statusCode} : {actionResultException}",
+                username,
+                userId,
+                remoteIpAddress,
+                httpMethod,
+                requestUrl,
+                queryString,
+                statusCode,
+                actionResultException.GetType().ToString()
+            );
+
+            var serverAction = new DbServerAction()
+            {
+                Username = username,
+                UserId = userId,
+                RemoteIpAddress = remoteIpAddress?.ToString(),
+                HttpMethod = httpMethod,
+                RequestUrl = requestUrl,
+                StatusCode = 500,
+                UserAgent = context.HttpContext.Request?.Headers["User-Agent"]
+            };
+            
+            await _db.GetCollection<DbServerAction>().Upsert(serverAction);
+            
+            context.Result = handledResponse;
             context.ExceptionHandled = true;
+            
             return;
-        }
-        
-        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
-        {
-            _logger.LogError(context.Exception.Message);
-            _logger.LogError(context.Exception.StackTrace);
         }
         
         var response = new ObjectResult(
