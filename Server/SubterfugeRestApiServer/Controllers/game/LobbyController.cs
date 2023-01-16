@@ -128,7 +128,7 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
         if (dbUserModel == null)
             throw new UnauthorizedException();
             
-        var room = await _dbLobbies.Query().FirstOrDefaultAsync(it => it.Id == guid);
+        var room = await _dbLobbies.Query().Where(it => it.Id == guid).FirstOrDefaultAsync();
         if (room == null)
             throw new NotFoundException("Cannot find the room you wish to enter.");
 

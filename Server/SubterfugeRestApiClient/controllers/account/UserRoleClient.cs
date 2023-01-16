@@ -15,6 +15,7 @@ public class UserRoleClient : ISubterfugeUserRoleApi
 
     public async Task<GetRolesResponse> GetRoles(string userId)
     {
+        Console.WriteLine("GetRoles");
         HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/roles");
         if (!response.IsSuccessStatusCode)
         {
@@ -25,6 +26,7 @@ public class UserRoleClient : ISubterfugeUserRoleApi
     
     public async Task<GetRolesResponse> SetRoles(string userId, UpdateRolesRequest request)
     {
+        Console.WriteLine("SetRoles");
         HttpResponseMessage response = await client.PostAsJsonAsync($"api/user/{userId}/roles", request);
         if (!response.IsSuccessStatusCode)
         {

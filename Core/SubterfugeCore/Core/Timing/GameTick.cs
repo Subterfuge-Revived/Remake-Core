@@ -1,4 +1,5 @@
 ﻿using System;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCore.Core.Timing
 {
@@ -25,7 +26,7 @@ namespace SubterfugeCore.Core.Timing
             return Equals((GameTick) obj);
         }
 
-        public static double MinutesPerTick = 15.0;
+        public static double MinutesPerTick { get; set; }= 15.0;
         private readonly int _tickNumber;
 
         /// <summary>
@@ -54,6 +55,12 @@ namespace SubterfugeCore.Core.Timing
         public GameTick()
         {
             this._tickNumber = 0;
+        }
+
+        public static GameTick fromGameConfiguration(GameConfiguration config)
+        {
+            GameTick.MinutesPerTick = config.GameSettings.MinutesPerTick;
+            return new GameTick(config.TimeStarted, DateTime.UtcNow);
         }
 
         /// <summary>

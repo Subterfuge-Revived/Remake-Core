@@ -41,7 +41,7 @@ namespace SubterfugeCore.Models.GameEvents.Api
         Task<GetGameRoomEventsResponse> GetGameRoomEvents(string roomId);
         Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId);
         Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid);
-        Task<DeleteGameEventResponse> DeleteGameEvent(DeleteGameEventRequest request, string roomId, string eventGuid);
+        Task<DeleteGameEventResponse> DeleteGameEvent(string roomId, string eventGuid);
     }
     
     public interface ISubterfugeHealthApi

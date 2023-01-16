@@ -18,7 +18,7 @@ public class ServerExceptionLogCollection: IDatabaseCollection<DbServerException
         await _collection.ReplaceOneAsync(
             it => it.Id == item.Id,
             item,
-            new UpdateOptions { IsUpsert = true }
+            new ReplaceOptions() { IsUpsert = true}
         );
     }
 
