@@ -1,19 +1,15 @@
-﻿using GameEventModels;
-using Google.Protobuf;
+﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SubterfugeCore.Core;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.EventArgs;
-using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
 using SubterfugeCore.Core.GameState;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Topologies;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCoreTest.Core.Components
 {
@@ -58,15 +54,14 @@ namespace SubterfugeCoreTest.Core.Components
                 DrillerCount = 5,
                 SourceId = "2"
             };
-            var launchEvent = new LaunchEvent(new GameEventModel()
+            var launchEvent = new LaunchEvent(new GameEventData()
             {
-                EventData = launchEventData.ToByteString(),
-                EventType = EventType.LaunchEvent,
+                EventData = launchEventData,
                 Id = "asdf",
-                IssuedBy = initialOwner.GetId(),
+                IssuedBy = initialOwner.ToUser(),
                 OccursAtTick = 1,
                 RoomId = "1",
-                UnixTimeIssued = 1234123412341234,
+                TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
             });
 
             RftVector.Map = new Rft(100, 100);
@@ -108,15 +103,14 @@ namespace SubterfugeCoreTest.Core.Components
                 DrillerCount = 5,
                 SourceId = "2"
             };
-            var launchEvent = new LaunchEvent(new GameEventModel()
+            var launchEvent = new LaunchEvent(new GameEventData()
             {
-                EventData = launchEventData.ToByteString(),
-                EventType = EventType.LaunchEvent,
+                EventData = launchEventData,
                 Id = "asdf",
-                IssuedBy = initialOwner.GetId(),
+                IssuedBy = initialOwner.ToUser(),
                 OccursAtTick = 1,
                 RoomId = "1",
-                UnixTimeIssued = 1234123412341234,
+                TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
             });
 
             RftVector.Map = new Rft(100, 100);
@@ -166,15 +160,14 @@ namespace SubterfugeCoreTest.Core.Components
                 DrillerCount = 5,
                 SourceId = "2"
             };
-            var launchEvent = new LaunchEvent(new GameEventModel()
+            var launchEvent = new LaunchEvent(new GameEventData()
             {
-                EventData = launchEventData.ToByteString(),
-                EventType = EventType.LaunchEvent,
+                EventData = launchEventData,
                 Id = "asdf",
-                IssuedBy = initialOwner.GetId(),
+                IssuedBy = initialOwner.ToUser(),
                 OccursAtTick = 1,
                 RoomId = "1",
-                UnixTimeIssued = 1234123412341234,
+                TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
             });
 
             RftVector.Map = new Rft(100, 100);
@@ -232,15 +225,14 @@ namespace SubterfugeCoreTest.Core.Components
                 DrillerCount = 5,
                 SourceId = "2"
             };
-            var launchEvent = new LaunchEvent(new GameEventModel()
+            var launchEvent = new LaunchEvent(new GameEventData()
             {
-                EventData = launchEventData.ToByteString(),
-                EventType = EventType.LaunchEvent,
+                EventData = launchEventData,
                 Id = "asdf",
-                IssuedBy = initialOwner.GetId(),
+                IssuedBy = initialOwner.ToUser(),
                 OccursAtTick = 1,
                 RoomId = "1",
-                UnixTimeIssued = 1234123412341234,
+                TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
             });
 
             RftVector.Map = new Rft(100, 100);

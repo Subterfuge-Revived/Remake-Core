@@ -4,11 +4,10 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCoreTest
 {
@@ -63,7 +62,7 @@ namespace SubterfugeCoreTest
             
             MapGenerator generator = new MapGenerator(config.MapConfiguration, players);
             List<Outpost> generatedOutposts = generator.GenerateMap();
-            Assert.AreEqual(config.Players.Count * (config.MapConfiguration.OutpostsPerPlayer + config.MapConfiguration.DormantsPerPlayer), generatedOutposts.Count);
+            Assert.AreEqual(config.PlayersInLobby.Count * (config.MapConfiguration.OutpostsPerPlayer + config.MapConfiguration.DormantsPerPlayer), generatedOutposts.Count);
         }
         
         [TestMethod]
@@ -96,8 +95,8 @@ namespace SubterfugeCoreTest
                     playersGenerated.Add(outpost.GetComponent<DrillerCarrier>().GetOwner());
             }
             
-            Assert.AreEqual(config.Players.Count, playersGenerated.Count);
-            Assert.AreEqual(config.Players.Count * config.MapConfiguration.OutpostsPerPlayer, generatedOutposts.Count);
+            Assert.AreEqual(config.PlayersInLobby.Count, playersGenerated.Count);
+            Assert.AreEqual(config.PlayersInLobby.Count * config.MapConfiguration.OutpostsPerPlayer, generatedOutposts.Count);
         }
         
         [TestMethod]

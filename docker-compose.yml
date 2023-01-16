@@ -9,8 +9,11 @@ services:
     volumes:
       - ".:/var/www"
     ports:
-      - 5000:5000
-  
+      - 8080:8080
+    environment:
+      - ASPNETCORE_URLS=http://*:8080
+      - DOTNET_ENVIRONMENT=Docker
+      - ASPNETCORE_ENVIRONMENT=Docker
   db:
     image: "mongo:5.0-rc"
     command: --auth
@@ -22,7 +25,6 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=user
       - MONGO_INITDB_ROOT_PASSWORD=password
       - MONGO_INITDB_DATABASE=subterfugeDb
-      
   server_test:
     build:
       context: .
@@ -30,6 +32,8 @@ services:
     depends_on:
       - db
       - server
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
 
 volumes:
   db: {  }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SubterfugeCore.Core;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 
 namespace SubterfugeCoreTest

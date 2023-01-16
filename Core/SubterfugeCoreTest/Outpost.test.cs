@@ -1,19 +1,14 @@
 ﻿using System.Collections.Generic;
-using GameEventModels;
-using Google.Protobuf;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
-using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.GameEvents;
 using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Core.Topologies;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCoreTest
 {
@@ -142,18 +137,18 @@ namespace SubterfugeCoreTest
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 
             int initialDrillers = _outpost.GetComponent<DrillerCarrier>().GetDrillerCount();
-            _outpost.GetComponent<SubLauncher>().LaunchSub(game.TimeMachine.GetState(), new LaunchEvent(new GameEventModel()
-            {
-                EventData = new LaunchEventData()
+            _outpost.GetComponent<SubLauncher>().LaunchSub(game.TimeMachine.GetState(), new LaunchEvent(new GameEventData()
                 {
-                    DestinationId = _outpost.GetComponent<IdentityManager>().GetId(),
-                    DrillerCount = 10,
-                    SourceId = _outpost2.GetComponent<IdentityManager>().GetId(),
-                }.ToByteString(),
-                Id = "123",
-                EventType = EventType.LaunchEvent,
-                OccursAtTick = 10,
-            }));
+                    EventData = new LaunchEventData()
+                    {
+                        DestinationId = _outpost.GetComponent<IdentityManager>().GetId(),
+                        DrillerCount = 10,
+                        SourceId = _outpost2.GetComponent<IdentityManager>().GetId(),
+                    },
+                    Id = "123",
+                    RoomId = "",
+                    OccursAtTick = 10,
+                }));
 
             Assert.AreEqual(initialDrillers - 10, _outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(1, game.TimeMachine.GetState().GetSubList().Count);
@@ -170,16 +165,15 @@ namespace SubterfugeCoreTest
             game.TimeMachine.GetState().GetOutposts().Add(_outpost);
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 
-            var launchEvent = new LaunchEvent(new GameEventModel()
+            var launchEvent = new LaunchEvent(new GameEventData()
             {
                 EventData = new LaunchEventData()
                 {
                     DestinationId = _outpost2.GetComponent<IdentityManager>().GetId(),
                     DrillerCount = 10,
                     SourceId = _outpost.GetComponent<IdentityManager>().GetId(),
-                }.ToByteString(),
+                },
                 Id = "123",
-                EventType = EventType.LaunchEvent,
                 OccursAtTick = 10,
             });
             
