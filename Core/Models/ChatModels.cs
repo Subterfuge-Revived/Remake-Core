@@ -50,7 +50,7 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class GetGroupMessagesRequest
     {
-        public int Pagination { get; set; }
+        public int Pagination { get; set; } = 1;
     }
 
     public class GetGroupMessagesResponse : NetworkResponse

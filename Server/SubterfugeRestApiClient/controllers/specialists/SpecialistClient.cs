@@ -16,6 +16,7 @@ public class SpecialistClient : ISubterfugeCustomSpecialistApi, ISubterfugeSpeci
 
     public async Task<CreateSpecialistPackageResponse> CreateSpecialistPackage(CreateSpecialistPackageRequest request)
     {
+        Console.WriteLine("CreateSpecialistPackage");
         HttpResponseMessage response = await client.PostAsJsonAsync($"api/specialist/package/create", request);
         if (!response.IsSuccessStatusCode)
         {
@@ -26,6 +27,7 @@ public class SpecialistClient : ISubterfugeCustomSpecialistApi, ISubterfugeSpeci
     
     public async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(GetSpecialistPackagesRequest request)
     {
+        Console.WriteLine("GetSpecialistPackages");
         var query = HttpUtility.ParseQueryString(string.Empty);
         query["PageNumber"] = request.Pagination.ToString();
         query["SearchTerm"] = request.SearchTerm;
@@ -44,6 +46,7 @@ public class SpecialistClient : ISubterfugeCustomSpecialistApi, ISubterfugeSpeci
     
     public async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(string packageId)
     {
+        Console.WriteLine("GetSpecialistPackages");
         HttpResponseMessage response = await client.GetAsync($"api/specialist/package/{packageId}");
         if (!response.IsSuccessStatusCode)
         {
@@ -54,6 +57,7 @@ public class SpecialistClient : ISubterfugeCustomSpecialistApi, ISubterfugeSpeci
 
     public async Task<SubmitCustomSpecialistResponse> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request)
     {
+        Console.WriteLine("SubmitCustomSpecialist");
         HttpResponseMessage response = await client.PostAsJsonAsync($"api/specialist/create", request);
         if (!response.IsSuccessStatusCode)
         {
@@ -64,6 +68,7 @@ public class SpecialistClient : ISubterfugeCustomSpecialistApi, ISubterfugeSpeci
 
     public async Task<GetCustomSpecialistsResponse> GetCustomSpecialists(GetCustomSpecialistsRequest request)
     {
+        Console.WriteLine("GetCustomSpecialists");
         var query = HttpUtility.ParseQueryString(string.Empty);
         query["PageNumber"] = request.Pagination.ToString();
         query["SearchTerm"] = request.SearchTerm;
@@ -81,6 +86,7 @@ public class SpecialistClient : ISubterfugeCustomSpecialistApi, ISubterfugeSpeci
 
     public async Task<GetCustomSpecialistsResponse> GetCustomSpecialist(string specialistId)
     {
+        Console.WriteLine("GetCustomSpecialist");
         HttpResponseMessage response = await client.GetAsync($"api/specialist/{specialistId}");
         if (!response.IsSuccessStatusCode)
         {

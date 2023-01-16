@@ -18,7 +18,7 @@ public class GameConfigurationCollection : IDatabaseCollection<DbGameLobbyConfig
         await _collection.ReplaceOneAsync(
             it => it.Id == item.Id,
             item,
-            new UpdateOptions { IsUpsert = true }
+            new ReplaceOptions() { IsUpsert = true}
         );
     }
 

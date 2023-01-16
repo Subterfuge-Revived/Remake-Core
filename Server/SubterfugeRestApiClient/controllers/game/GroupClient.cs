@@ -15,7 +15,8 @@ public class GroupClient : ISubterfugeGroupChatApi
 
     public async Task<CreateMessageGroupResponse> CreateMessageGroup(CreateMessageGroupRequest request, string roomId)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/room/{roomId}/CreateMessageGroup", request);
+        Console.WriteLine("CreateMessageGroup");
+        HttpResponseMessage response = await client.PostAsJsonAsync($"api/room/{roomId}/group/create", request);
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
@@ -25,6 +26,7 @@ public class GroupClient : ISubterfugeGroupChatApi
 
     public async Task<SendMessageResponse> SendMessage(SendMessageRequest request, string roomId, string groupId)
     {
+        Console.WriteLine("SendMessage");
         HttpResponseMessage response = await client.PostAsJsonAsync($"api/room/{roomId}/group/{groupId}/send", request);
         if (!response.IsSuccessStatusCode)
         {
@@ -35,7 +37,8 @@ public class GroupClient : ISubterfugeGroupChatApi
 
     public async Task<GetMessageGroupsResponse> GetMessageGroups(string roomId)
     {
-        HttpResponseMessage response = await client.GetAsync($"api/room/{roomId}/GetMessageGroups");
+        Console.WriteLine("GetMessageGroups");
+        HttpResponseMessage response = await client.GetAsync($"api/room/{roomId}/groups");
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
@@ -45,6 +48,7 @@ public class GroupClient : ISubterfugeGroupChatApi
 
     public async Task<GetGroupMessagesResponse> GetMessages(GetGroupMessagesRequest request, string roomId, string groupId)
     {
+        Console.WriteLine("GetMessages");
         HttpResponseMessage response = await client.GetAsync($"api/room/{roomId}/group/{groupId}/messages");
         if (!response.IsSuccessStatusCode)
         {

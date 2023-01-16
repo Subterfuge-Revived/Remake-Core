@@ -15,6 +15,7 @@ public class GameEventClient : ISubterfugeGameEventApi
     
     public async Task<GetGameRoomEventsResponse> GetGameRoomEvents(string roomId)
     {
+        Console.WriteLine("GetGameRoomEvents");
         HttpResponseMessage response = await client.GetAsync($"api/room/{roomId}/events");
         if (!response.IsSuccessStatusCode)
         {
@@ -25,6 +26,7 @@ public class GameEventClient : ISubterfugeGameEventApi
 
     public async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
     {
+        Console.WriteLine("SubmitGameEvent");
         HttpResponseMessage response = await client.PostAsJsonAsync($"api/room/{roomId}/events", request);
         if (!response.IsSuccessStatusCode)
         {
@@ -35,6 +37,7 @@ public class GameEventClient : ISubterfugeGameEventApi
 
     public async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
     {
+        Console.WriteLine("UpdateGameEvent");
         HttpResponseMessage response = await client.PutAsJsonAsync($"api/room/{roomId}/events/{eventGuid}", request);
         if (!response.IsSuccessStatusCode)
         {
@@ -43,8 +46,9 @@ public class GameEventClient : ISubterfugeGameEventApi
         return await response.Content.ReadAsAsync<SubmitGameEventResponse>();
     }
 
-    public async Task<DeleteGameEventResponse> DeleteGameEvent(DeleteGameEventRequest request, string roomId, string eventGuid)
+    public async Task<DeleteGameEventResponse> DeleteGameEvent(string roomId, string eventGuid)
     {
+        Console.WriteLine("DeleteGameEvent");
         HttpResponseMessage response = await client.DeleteAsync($"api/room/{roomId}/events/{eventGuid}");
         if (!response.IsSuccessStatusCode)
         {

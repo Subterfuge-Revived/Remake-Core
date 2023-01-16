@@ -15,6 +15,7 @@ public class SocialClient : ISubterfugeSocialApi
 
     public async Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request, string userId)
     {
+        Console.WriteLine("UnblockPlayer");
         HttpResponseMessage response = await client.PostAsJsonAsync($"api/user/{userId}/unblock", request);
         if (!response.IsSuccessStatusCode)
         {
@@ -25,6 +26,7 @@ public class SocialClient : ISubterfugeSocialApi
 
     public async Task<ViewBlockedPlayersResponse> ViewBlockedPlayers(string userId)
     {
+        Console.WriteLine("ViewBlockedPlayers");
         HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/blocks");
         if (!response.IsSuccessStatusCode)
         {
@@ -35,6 +37,7 @@ public class SocialClient : ISubterfugeSocialApi
 
     public async Task<AddAcceptFriendResponse> AddAcceptFriendRequest(string userId)
     {
+        Console.WriteLine("AddAcceptFriendRequest");
         HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/addFriend");
         if (!response.IsSuccessStatusCode)
         {
@@ -45,6 +48,7 @@ public class SocialClient : ISubterfugeSocialApi
 
     public async Task<ViewFriendRequestsResponse> ViewFriendRequests(string userId)
     {
+        Console.WriteLine("ViewFriendRequests");
         HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/friendRequests");
         if (!response.IsSuccessStatusCode)
         {
@@ -55,6 +59,7 @@ public class SocialClient : ISubterfugeSocialApi
     
     public async Task<BlockPlayerResponse> BlockPlayer(BlockPlayerRequest request, string userId)
     {
+        Console.WriteLine("BlockPlayer");
         HttpResponseMessage response = await client.PostAsJsonAsync($"api/user/{userId}/block", request);
         if (!response.IsSuccessStatusCode)
         {
@@ -65,6 +70,7 @@ public class SocialClient : ISubterfugeSocialApi
     
     public async Task<DenyFriendRequestResponse> RemoveRejectFriend(string userId)
     {
+        Console.WriteLine("RemoveRejectFriend");
         HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/removeFriend");
         if (!response.IsSuccessStatusCode)
         {
@@ -75,6 +81,7 @@ public class SocialClient : ISubterfugeSocialApi
     
     public async Task<ViewFriendsResponse> GetFriendList(string userId)
     {
+        Console.WriteLine("GetFriendList");
         HttpResponseMessage response = await client.GetAsync($"api/user/{userId}/friends");
         if (!response.IsSuccessStatusCode)
         {

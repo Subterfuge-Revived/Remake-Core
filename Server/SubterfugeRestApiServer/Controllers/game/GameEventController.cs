@@ -18,11 +18,13 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
 
     private IDatabaseCollection<DbGameEvent> _dbGameEvents;
     private IDatabaseCollection<DbGameLobbyConfiguration> _dbGameLobbies;
+    private IDatabaseCollection<DbUserModel> _dbUserCollection;
 
     public SubterfugeGameEventController(IDatabaseCollectionProvider mongo)
     {
         this._dbGameEvents = mongo.GetCollection<DbGameEvent>();
         this._dbGameLobbies = mongo.GetCollection<DbGameLobbyConfiguration>();
+        this._dbUserCollection = mongo.GetCollection<DbUserModel>();
     }
     
     [HttpGet]
@@ -35,7 +37,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
 
         var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            throw new NotFoundException("Cannot find the room you wish to join.");
+            throw new NotFoundException("Cannot find the room you wish to get events from.");
 
         if (lobby.PlayerIdsInLobby.All(id => id != dbUserModel.Id) && !dbUserModel.HasClaim(UserClaim.Administrator))
             throw new ForbidException();
@@ -47,7 +49,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
             
         // Filter out only the player's events and events that have occurred in the past.
         // Get current tick to determine events in the past.
-        GameTick currentTick = new GameTick(lobby.TimeStarted, DateTime.UtcNow);
+        GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
             
         // Admins see all events :)
         // TODO: Allow admins to play games. Admins should not be able to see all events if they are a player in the game. Alternatively prevent admins from joining a game.
@@ -78,6 +80,11 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
 
         if (!lobby.PlayerIdsInLobby.Contains(dbUserModel.Id))
             throw new ForbidException();
+        
+        // Determine what tick the game is currently at.
+        GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
+        if(request.GameEventRequest.OccursAtTick <= currentTick.GetTick())
+            throw new BadRequestException("Cannot delete an event that has already happened");
 
         var gameEvent = DbGameEvent.FromGameEventRequest(request, dbUserModel.ToUser(), roomId);
         await _dbGameEvents.Upsert(gameEvent);
@@ -110,7 +117,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
             throw new ForbidException();
         
         // Determine if the event has already passed.
-        GameTick currentTick = new GameTick(lobby.TimeStarted, DateTime.UtcNow);
+        GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
 
         if (gameEvent.OccursAtTick <= currentTick.GetTick())
             throw new BadRequestException("Cannot delete an event that has already happened");
@@ -129,7 +136,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
 
     [HttpDelete]
     [Route("api/room/{roomId}/events/{eventGuid}")]
-    public async Task<DeleteGameEventResponse> DeleteGameEvent(DeleteGameEventRequest request, string roomId, string eventGuid)
+    public async Task<DeleteGameEventResponse> DeleteGameEvent(string roomId, string eventGuid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
@@ -144,7 +151,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
             throw new NotFoundException("Cannot find the game event you wish to delete.");
         
         // Determine if the event has already passed.
-        GameTick currentTick = new GameTick(lobby.TimeStarted, DateTime.UtcNow);
+        GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
 
         if (gameEvent.OccursAtTick <= currentTick.GetTick())
             throw new BadRequestException("Cannot delete an event that has already happened");

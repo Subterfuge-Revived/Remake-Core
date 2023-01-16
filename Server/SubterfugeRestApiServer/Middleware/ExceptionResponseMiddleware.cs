@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Connections.Collections;
 using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeRestApiServer.Middleware;
@@ -77,20 +76,29 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
             
             return;
         }
-        
+
         var response = new ObjectResult(
-            new ResponseStatus()
+            new NetworkResponse()
             {
-                IsSuccess = false,
-                ResponseType = ResponseType.INTERNAL_SERVER_ERROR,
-                Detail = context.Exception?.Message + " " + context.Exception?.StackTrace,
-            }) {
-            StatusCode = StatusCodes.Status500InternalServerError,
+                Status = new ResponseStatus()
+                {
+                    IsSuccess = false,
+                    ResponseType = ResponseType.INTERNAL_SERVER_ERROR,
+                    Detail = context.Exception?.Message + " " + context.Exception?.StackTrace,
+                },
+            })
+        {
+            StatusCode = StatusCodes.Status500InternalServerError
         };
         
         context.Result = response;
         context.ExceptionHandled = true;
-        
+
+        await TryLogDatabase(context);
+    }
+
+    private async Task TryLogDatabase(ExceptionContext context)
+    {
         StreamReader reader = new StreamReader(context.HttpContext.Request.Body);
         var RequestBody = reader.ReadToEnd();
 

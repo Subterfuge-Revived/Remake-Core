@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using SubterfugeCore.Models.GameEvents;
@@ -54,7 +55,9 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
         var existingGroups = await _dbMessageGroups.Query()
             .Where(it => it.RoomId == roomId)
             .Where(it => it.MembersInGroup.Count == request.UserIdsInGroup.Count)
-            .Where(it => it.MembersInGroup.All(userId => request.UserIdsInGroup.Contains(userId.Id)))
+            
+            
+            .Where(it => it.MembersInGroup.Any(it => it.Id == dbUserModel.Id))
             .ToListAsync();
         
         if(existingGroups.Count > 0)
@@ -95,7 +98,7 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
         if (groupChat == null)
             throw new NotFoundException("The specified group does not exist.");
 
-        if (groupChat.MembersInGroup.All(member => member.Id != currentUser.Id) || !currentUser.HasClaim(UserClaim.Administrator))
+        if (groupChat.MembersInGroup.All(member => member.Id != currentUser.Id) && !currentUser.HasClaim(UserClaim.Administrator))
             throw new ForbidException();
 
         await _dbChatMessages.Upsert(new DbChatMessage()
@@ -162,14 +165,14 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
         if (groupChat == null)
             throw new NotFoundException("The specified group does not exist within this room.");
 
-        if (groupChat.MembersInGroup.All(member => member.Id != currentUser.Id) || !currentUser.HasClaim(UserClaim.Administrator))
+        if (groupChat.MembersInGroup.All(member => member.Id != currentUser.Id) && !currentUser.HasClaim(UserClaim.Administrator))
             throw new ForbidException();
 
         var messages = (await _dbChatMessages.Query()
                 .Where(message => message.RoomId == roomId)
                 .Where(message => message.GroupId == groupId)
                 .OrderByDescending(message => message.CreatedAt)
-                .Skip((request.Pagination) - 1 * 50)
+                .Skip((request.Pagination - 1) * 50)
                 .Take(50)
                 .ToListAsync())
             .Select(it => it.ToChatMessage())

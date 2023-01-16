@@ -17,6 +17,7 @@ public class LobbyClient : ISubterfugeGameLobbyApi
 
     public async Task<GetLobbyResponse> GetLobbies(GetLobbyRequest lobbyRequest)
     {
+        Console.WriteLine("GetLobbies");
         var query = HttpUtility.ParseQueryString(string.Empty);
         query["Pagination"] = lobbyRequest.Pagination.ToString();
         query["CreatedByUserId"] = lobbyRequest.CreatedByUserId;
@@ -40,6 +41,7 @@ public class LobbyClient : ISubterfugeGameLobbyApi
 
     public async Task<CreateRoomResponse> CreateNewRoom(CreateRoomRequest request)
     {
+        Console.WriteLine("CreateNewRoom");
         HttpResponseMessage response = await client.PostAsJsonAsync($"api/lobby/create", request);
         if (!response.IsSuccessStatusCode)
         {
@@ -50,6 +52,7 @@ public class LobbyClient : ISubterfugeGameLobbyApi
     
     public async Task<JoinRoomResponse> JoinRoom(JoinRoomRequest request, string guid)
     {
+        Console.WriteLine("JoinRoom");
         HttpResponseMessage response = await client.PostAsJsonAsync($"api/lobby/{guid}/join", request);
         if (!response.IsSuccessStatusCode)
         {
@@ -60,6 +63,7 @@ public class LobbyClient : ISubterfugeGameLobbyApi
     
     public async Task<LeaveRoomResponse> LeaveRoom(string guid)
     {
+        Console.WriteLine("LeaveRoom");
         HttpResponseMessage response = await client.GetAsync($"api/lobby/{guid}/leave");
         if (!response.IsSuccessStatusCode)
         {
@@ -70,6 +74,7 @@ public class LobbyClient : ISubterfugeGameLobbyApi
     
     public async Task<StartGameEarlyResponse> StartGameEarly(string guid)
     {
+        Console.WriteLine("StartGameEarly");
         HttpResponseMessage response = await client.GetAsync($"api/lobby/{guid}/start");
         if (!response.IsSuccessStatusCode)
         {

@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeRestApiClient;
+using SubterfugeRestApiClient.controllers.exception;
 using SubterfugeServerConsole.Connections;
 
 namespace SubterfugeRestApiServerTest.test.game;
@@ -112,81 +113,431 @@ public class GameEventControllerTest
     }
 
     [Test]
-    public void PlayerCannotSubmitEventsToAGameThatDoesNotExist()
+    public async Task PlayerCannotSubmitEventsToAGameThatDoesNotExist()
     {
-        throw new NotImplementedException();
+        var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
+        {
+            await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+            {
+                GameEventRequest = new GameEventRequest()
+                {
+                    EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                    OccursAtTick = 42,
+                },
+            }, "InvalidGameRoomId");
+        });
+        Assert.IsFalse(exception.response.Status.IsSuccess);
+        Assert.AreEqual(ResponseType.NOT_FOUND, exception.response.Status.ResponseType);
     }
 
     [Test]
-    public void PlayerCannotSubmitEventsToAGameTheyAreNotIn()
+    public async Task PlayerCannotSubmitEventsToAGameTheyAreNotIn()
     {
-        throw new NotImplementedException();
+        TestUtils.GetClient().UserApi.SetToken(playerNotInGame.Token);
+        
+        var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
+        {
+            await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+            {
+                GameEventRequest = new GameEventRequest()
+                {
+                    EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                    OccursAtTick = 42,
+                },
+            }, gameRoom.GameConfiguration.Id);
+        });
+        Assert.IsFalse(exception.response.Status.IsSuccess);
+        Assert.AreEqual(ResponseType.INVALID_REQUEST, exception.response.Status.ResponseType);
     }
 
     [Test]
-    public void PlayerCannotSubmitAnEventThatOccursInThePast()
+    public async Task PlayerCannotSubmitAnEventThatOccursInThePast()
     {
-        throw new NotImplementedException();
+        var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
+        {
+            await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+            {
+                GameEventRequest = new GameEventRequest()
+                {
+                    EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                    OccursAtTick = -20,
+                },
+            }, gameRoom.GameConfiguration.Id);
+        });
+        Assert.IsFalse(exception.response.Status.IsSuccess);
+        Assert.AreEqual(ResponseType.INVALID_REQUEST, exception.response.Status.ResponseType);
     }
 
     [Test]
-    public void PlayerCanDeleteAnEventThatTheySubmitted()
+    public async Task PlayerCanDeleteAnEventThatTheySubmitted()
     {
-        throw new NotImplementedException();
+        SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                OccursAtTick = 42,
+            },
+        }, gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, eventResponse.Status.IsSuccess);
+        Assert.IsTrue(eventResponse.EventId != null);
+            
+        // Submitting player can see their own events
+        var gameEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, gameEvents.Status.IsSuccess);
+        Assert.AreEqual(1, gameEvents.GameEvents.Count);
+        Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
+
+        var deleteResponse = await TestUtils.GetClient().GameEventClient.DeleteGameEvent(gameRoom.GameConfiguration.Id, eventResponse.EventId);
+        Assert.AreEqual(true, deleteResponse.Status.IsSuccess);
+        
+        var gameEventsAfterDelete = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, gameEventsAfterDelete.Status.IsSuccess);
+        Assert.AreEqual(0, gameEventsAfterDelete.GameEvents.Count);
     }
 
     [Test]
-    public void PlayerCannotDeleteAnotherPlayersEvent()
+    public async Task PlayerCannotDeleteAnotherPlayersEvent()
     {
-        throw new NotImplementedException();
+        SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                OccursAtTick = 42,
+            },
+        }, gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, eventResponse.Status.IsSuccess);
+        Assert.IsTrue(eventResponse.EventId != null);
+            
+        // Submitting player can see their own events
+        var gameEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, gameEvents.Status.IsSuccess);
+        Assert.AreEqual(1, gameEvents.GameEvents.Count);
+        Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
+        
+        TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
+
+        var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
+        {
+            await TestUtils.GetClient().GameEventClient.DeleteGameEvent(
+                gameRoom.GameConfiguration.Id,
+                eventResponse.EventId);
+        });
+        Assert.IsFalse(exception.response.Status.IsSuccess);
+        Assert.AreEqual(ResponseType.INVALID_REQUEST, exception.response.Status.ResponseType);
     }
 
     [Test]
-    public void PlayerCannotDeleteEventsThatHaveAlreadyHappened()
+    public async Task PlayerCannotDeleteEventsThatHaveAlreadyHappened()
     {
-        throw new NotImplementedException();
+        // The game is configured at 1 tick per second.
+        // Event at tick two is two seconds into the game, and we can sleep for 2+ seconds then try to delete.
+        SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                OccursAtTick = 2,
+            },
+        }, gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, eventResponse.Status.IsSuccess);
+        Assert.IsTrue(eventResponse.EventId != null);
+            
+        // Submitting player can see their own events
+        var gameEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, gameEvents.Status.IsSuccess);
+        Assert.AreEqual(1, gameEvents.GameEvents.Count);
+        Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
+        
+        // Sleep and wait until the event has passed.
+        Thread.Sleep(4000);
+
+        var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
+        {
+            await TestUtils.GetClient().GameEventClient
+                .DeleteGameEvent(gameRoom.GameConfiguration.Id, eventResponse.EventId);
+        });
+        Assert.IsFalse(exception.response.Status.IsSuccess);
+        Assert.AreEqual(ResponseType.INVALID_REQUEST, exception.response.Status.ResponseType);
     }
 
     [Test]
-    public void PlayerCanUpdateAGameEvent()
+    public async Task PlayerCanUpdateAGameEvent()
     {
-        throw new NotImplementedException();
+        SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                OccursAtTick = 42,
+            },
+        }, gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, eventResponse.Status.IsSuccess);
+        Assert.IsTrue(eventResponse.EventId != null);
+            
+        // Submitting player can see their own events
+        var gameEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, gameEvents.Status.IsSuccess);
+        Assert.AreEqual(1, gameEvents.GameEvents.Count);
+        Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
+
+        var update = await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                OccursAtTick = 42,
+            }
+        }, gameRoom.GameConfiguration.Id, eventResponse.EventId);
+        Assert.AreEqual(true, update.Status.IsSuccess);
+        Assert.IsTrue(update.EventId != null);
     }
 
     [Test]
-    public void PlayerCannotUpdateAGameEventWithInvalidEventId()
+    public async Task PlayerCannotUpdateAGameEventWithInvalidEventId()
     {
-        throw new NotImplementedException();
+        SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                OccursAtTick = 42,
+            },
+        }, gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, eventResponse.Status.IsSuccess);
+        Assert.IsTrue(eventResponse.EventId != null);
+            
+        // Submitting player can see their own events
+        var gameEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, gameEvents.Status.IsSuccess);
+        Assert.AreEqual(1, gameEvents.GameEvents.Count);
+        Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
+
+        var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
+        {
+            await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
+            {
+                GameEventRequest = new GameEventRequest()
+                {
+                    EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                    OccursAtTick = 42,
+                }
+            }, gameRoom.GameConfiguration.Id, "InvalidEventId");
+        });
+        Assert.IsFalse(exception.response.Status.IsSuccess);
+        Assert.AreEqual(ResponseType.NOT_FOUND, exception.response.Status.ResponseType);
+    }
+    
+    [Test]
+    public async Task PlayerCannotUpdateAGameEventWithInvalidRoomId()
+    {
+        SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                OccursAtTick = 42,
+            },
+        }, gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, eventResponse.Status.IsSuccess);
+        Assert.IsTrue(eventResponse.EventId != null);
+            
+        // Submitting player can see their own events
+        var gameEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, gameEvents.Status.IsSuccess);
+        Assert.AreEqual(1, gameEvents.GameEvents.Count);
+        Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
+
+        var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
+        {
+            await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
+            {
+                GameEventRequest = new GameEventRequest()
+                {
+                    EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                    OccursAtTick = 42,
+                }
+            }, "InvalidRoomId", eventResponse.EventId);
+        });
+        Assert.IsFalse(exception.response.Status.IsSuccess);
+        Assert.AreEqual(ResponseType.NOT_FOUND, exception.response.Status.ResponseType);
     }
 
     [Test]
-    public void PlayerCannotUpdateAGameEventThatHasAlreadyOccurred()
+    public async Task PlayerCannotUpdateAGameEventThatHasAlreadyOccurred()
     {
-        throw new NotImplementedException();
+        SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                OccursAtTick = 2,
+            },
+        }, gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, eventResponse.Status.IsSuccess);
+        Assert.IsTrue(eventResponse.EventId != null);
+            
+        // Submitting player can see their own events
+        var gameEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, gameEvents.Status.IsSuccess);
+        Assert.AreEqual(1, gameEvents.GameEvents.Count);
+        Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
+        
+        Thread.Sleep(3000);
+
+        var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
+        {
+            await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
+            {
+                GameEventRequest = new GameEventRequest()
+                {
+                    EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                    OccursAtTick = 2,
+                }
+            }, gameRoom.GameConfiguration.Id, eventResponse.EventId);
+        });
+        Assert.IsFalse(exception.response.Status.IsSuccess);
+        Assert.AreEqual(ResponseType.INVALID_REQUEST, exception.response.Status.ResponseType);
+    }
+    
+    [Test]
+    public async Task PlayerCannotUpdateAGameToOccurInThePast()
+    {
+        SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                OccursAtTick = 42,
+            },
+        }, gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, eventResponse.Status.IsSuccess);
+        Assert.IsTrue(eventResponse.EventId != null);
+            
+        // Submitting player can see their own events
+        var gameEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, gameEvents.Status.IsSuccess);
+        Assert.AreEqual(1, gameEvents.GameEvents.Count);
+        Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
+        
+        Thread.Sleep(3000);
+
+        var update = await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                OccursAtTick = 2,
+            }
+        }, gameRoom.GameConfiguration.Id, eventResponse.EventId);
+        Assert.AreEqual(true, update.Status.IsSuccess);
+        Assert.IsTrue(update.EventId != null);
     }
 
     [Test]
-    public void PlayerCannotUpdateAnotherPlayersEvent()
+    public async Task PlayerCannotUpdateAnotherPlayersEvent()
     {
-        throw new NotImplementedException();
+        SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                OccursAtTick = 42,
+            },
+        }, gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, eventResponse.Status.IsSuccess);
+        Assert.IsTrue(eventResponse.EventId != null);
+            
+        // Submitting player can see their own events
+        var gameEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, gameEvents.Status.IsSuccess);
+        Assert.AreEqual(1, gameEvents.GameEvents.Count);
+        Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
+        
+        TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
+
+        var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
+        {
+            await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
+            {
+                GameEventRequest = new GameEventRequest()
+                {
+                    EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                    OccursAtTick = 2,
+                }
+            }, gameRoom.GameConfiguration.Id, eventResponse.EventId);
+        });
+        Assert.IsFalse(exception.response.Status.IsSuccess);
+        Assert.AreEqual(ResponseType.INVALID_REQUEST, exception.response.Status.ResponseType);
     }
 
     [Test]
-    public void PlayersCanViewAnyEventThatHasAlreadyOccurred()
+    public async Task PlayersCanViewPastEventsButOnlyTheirOwnFutureEvents()
     {
-        throw new NotImplementedException();
+        var request = new SubmitGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                OccursAtTick = 3,
+            },
+        };
+        await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
+        await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
+        await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
+
+        request.GameEventRequest.OccursAtTick = 1323;
+        
+        await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
+        await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
+        
+            
+        // Submitting player can see their own events in the future
+        var gameEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, gameEvents.Status.IsSuccess);
+        Assert.AreEqual(5, gameEvents.GameEvents.Count);
+        
+        TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
+        
+        Thread.Sleep(5000);
+        
+        // Other user can see the ones in the past
+        var playerTwoEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, playerTwoEvents.Status.IsSuccess);
+        Assert.AreEqual(3, playerTwoEvents.GameEvents.Count);
     }
 
     [Test]
-    public void PlayerCanViewTheirOwnEventsThatOccurInTheFutureButOthersCannot()
+    public async Task AdminsCanSeeAllGameEvents()
     {
-        throw new NotImplementedException();
-    }
+        var request = new SubmitGameEventRequest()
+        {
+            GameEventRequest = new GameEventRequest()
+            {
+                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                OccursAtTick = 3,
+            },
+        };
+        await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
+        await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
+        await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
 
-    [Test]
-    public void AdminsCanSeeAllGameEvents()
-    {
-        throw new NotImplementedException();
+        request.GameEventRequest.OccursAtTick = 1323;
+        
+        await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
+        await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
+        
+        var roomResponse = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.IsTrue(roomResponse.Status.IsSuccess);
+        Assert.AreEqual(5, roomResponse.GameEvents.Count);
+        
+        Thread.Sleep(5000);
+
+        await TestUtils.CreateSuperUserAndLogin();
+        var adminRoomResponse = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
+        Assert.IsTrue(adminRoomResponse.Status.IsSuccess);
+        Assert.AreEqual(5, adminRoomResponse.GameEvents.Count);
     }
 
     private CreateRoomRequest getCreateRoomRequest()

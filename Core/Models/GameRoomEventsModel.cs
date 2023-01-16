@@ -40,11 +40,6 @@ namespace SubterfugeCore.Models.GameEvents
         public GameEventRequest GameEventRequest { get; set; }
     }
 
-    public class DeleteGameEventRequest
-    {
-        public string EventId { get; set; }
-    }
-
     public class DeleteGameEventResponse : NetworkResponse { }
 
 }

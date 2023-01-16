@@ -18,6 +18,7 @@ public class UserControllerClient : ISubterfugeAccountApi
     
     public async Task<AuthorizationResponse> Login(AuthorizationRequest request)
     {
+        Console.WriteLine("Login");
         HttpResponseMessage response = await client.PostAsJsonAsync("api/user/login", request);
         if (!response.IsSuccessStatusCode)
         {
@@ -42,6 +43,7 @@ public class UserControllerClient : ISubterfugeAccountApi
     
     public async Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest request)
     {
+        Console.WriteLine("RegisterAccount");
         HttpResponseMessage response = await client.PostAsJsonAsync("api/user/register", request);
         if (!response.IsSuccessStatusCode)
         {
@@ -56,6 +58,7 @@ public class UserControllerClient : ISubterfugeAccountApi
 
     public async Task<GetUserResponse> GetUsers(GetUserRequest request)
     {
+        Console.WriteLine("GetUsers");
         var query = HttpUtility.ParseQueryString(string.Empty);
         query["pagination"] = request.pagination.ToString();
         query["UsernameSearch"] = request.UsernameSearch;

@@ -1,9 +1,5 @@
-﻿using DnsClient.Internal;
-using Microsoft.Extensions.Logging;
-using MongoDB.Driver;
+﻿using Microsoft.Extensions.Logging;
 using MongoDB.Driver.Linq;
-using SubterfugeDatabaseProvider.Models;
-using SubterfugeServerConsole.Connections.Collections;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace SubterfugeServerConsole.Connections;
@@ -67,6 +63,8 @@ public abstract class IDatabaseCollectionProvider {
     {
         foreach (var collection in _componentMap.Values)
         {
+            Console.WriteLine("Flushing collection " + collection.GetType());
+            // _logger.LogInformation("Flushing collection {collection}", collection.GetType().ToString());
             collection.Flush();
         }
     }

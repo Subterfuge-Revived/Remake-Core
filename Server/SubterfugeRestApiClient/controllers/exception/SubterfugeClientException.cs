@@ -23,13 +23,13 @@ public class SubterfugeClientException : HttpRequestException
         if (responseStatus != null)
         {
             var exceptionString =
-                $"The Subterfuge Server responded with an error. {statusCode} {responseStatus?.Status.ResponseType}: {responseStatus?.Status.Detail}";
+                $"The Subterfuge Server responded with an error. {statusCode} {responseStatus?.Status?.ResponseType}: {responseStatus?.Status?.Detail}";
             return new SubterfugeClientException(exceptionString, responseStatus, message);
         }
         else
         {
             var exceptionString =
-                $"The Subterfuge Server responded with an error. {statusCode}";
+                $"The Subterfuge Server responded with an error. {statusCode} : {message}";
             return new SubterfugeClientException(exceptionString, responseStatus, message);
         }
     }

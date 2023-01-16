@@ -15,6 +15,7 @@ public class HealthClient : ISubterfugeHealthApi
     
     public async Task<PingResponse> Ping()
     {
+        Console.WriteLine("Ping");
         HttpResponseMessage response = await client.GetAsync($"api/Health/Ping");
         if (!response.IsSuccessStatusCode)
         {
@@ -25,6 +26,7 @@ public class HealthClient : ISubterfugeHealthApi
     
     public async Task<PingResponse> AuthorizedPing()
     {
+        Console.WriteLine("AuthorizedPing");
         HttpResponseMessage response = await client.GetAsync($"api/Health/AuthorizedPing");
         if (!response.IsSuccessStatusCode)
         {
