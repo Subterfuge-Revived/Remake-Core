@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SubterfugeCore.Core.Players;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCoreTest
 {
@@ -17,7 +17,7 @@ namespace SubterfugeCoreTest
                 Creator = new User() { Id = "1", Username = "1"},
                 GameSettings = new GameSettings()
                 {
-                    Anonymous = false,
+                    IsAnonymous = false,
                     Goal = Goal.Domination,
                     MinutesPerTick = 15,
                     IsRanked = false,
@@ -30,7 +30,7 @@ namespace SubterfugeCoreTest
                     MaximumOutpostDistance = 180,
                     MinimumOutpostDistance = 30,
                     OutpostsPerPlayer = 3,
-                    OutpostDistribution = new OutpostWeighting()
+                    OutpostDistribution = new OutpostDistribution()
                     {
                         FactoryWeight = 0.33f, 
                         GeneratorWeight = 0.33f,
@@ -38,10 +38,10 @@ namespace SubterfugeCoreTest
                     }
                 },
                 RoomName = "Room",
-                UnixTimeCreated = DateTime.UtcNow.Millisecond,
-                UnixTimeStarted = 0,
+                TimeCreated = DateTime.UtcNow,
+                TimeStarted = DateTime.MinValue,
+                PlayersInLobby = players.Select(it => it.ToUser()).ToList(),
             };
-            config.Players.AddRange(players.Select(it => it.ToUser()));
             return config;
         }
     }

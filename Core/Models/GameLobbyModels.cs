@@ -28,7 +28,7 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class GameSettings
     {
-        public List<SpecialistConfiguration> AllowedSpecialists { get; set; }
+        public List<SpecialistConfiguration> AllowedSpecialists { get; set; } = new List<SpecialistConfiguration>();
         public double MinutesPerTick { get; set; }
         public Goal Goal { get; set; }
         public Boolean IsRanked { get; set; }

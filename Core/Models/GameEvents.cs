@@ -26,7 +26,7 @@ namespace SubterfugeCore.Models.GameEvents
         public String SourceId { get; set; }
         public String DestinationId { get; set; }
         public int DrillerCount { get; set; }
-        public List<String> SpecialistIds { get; set; }
+        public List<String> SpecialistIds { get; set; } = new List<string>();
     }
 
     public class ToggleShieldEventData : NetworkGameEventData

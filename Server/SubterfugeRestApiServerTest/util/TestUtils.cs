@@ -19,6 +19,7 @@ public class TestUtils
             if (environment == "Docker")
             {
                 hostname = "server";
+                port = 8080;
             }
             _client = new SubterfugeClient($"http://{hostname}:{port}");
             return _client;

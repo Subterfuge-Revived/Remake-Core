@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameEventModels;
-using Google.Protobuf;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SubterfugeCore.Core;
 using SubterfugeCore.Core.Components;
@@ -13,7 +11,7 @@ using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
-using SubterfugeRemakeService;
+using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeCoreTest
 {
@@ -25,7 +23,7 @@ namespace SubterfugeCoreTest
 		TimeMachine _tm;
 		Player _p;
 		Outpost _o1, _o2;
-		GameEventModel _model1, _model2;
+		GameEventData _model1, _model2;
 		TestUtils testUtils = new TestUtils();
 
 		[TestInitialize]
@@ -40,24 +38,22 @@ namespace SubterfugeCoreTest
 			_tm = _game.TimeMachine;
 			_o1 = _tm.GetState().GetPlayerOutposts(_p)[0];
 			_o2 = _tm.GetState().GetPlayerOutposts(_p)[1];
-			_model1 = new GameEventModel()
+			_model1 = new GameEventData()
 			{
 				EventData = new DrillMineEventData()
 				{
 					SourceId = _o1.GetComponent<IdentityManager>().GetId()
-				}.ToByteString(),
+				},
 				Id = Guid.NewGuid().ToString(),
-				EventType = EventType.DrillMineEvent,
 				OccursAtTick = 10
 			};
-			_model2 = new GameEventModel()
+			_model2 = new GameEventData()
 			{
 				EventData = new DrillMineEventData()
 				{
 					SourceId = _o2.GetComponent<IdentityManager>().GetId()
-				}.ToByteString(),
+				},
 				Id = Guid.NewGuid().ToString(),
-				EventType = EventType.DrillMineEvent,
 				OccursAtTick = 20
 			};
 		}
@@ -103,14 +99,13 @@ namespace SubterfugeCoreTest
 		{
 			DrillMineEvent drillMine = new DrillMineEvent(_model1);
 			DrillMineEvent drillSecondMine = new DrillMineEvent(_model2);
-			DrillMineEvent drillMineAgain = new DrillMineEvent(new GameEventModel()
+			DrillMineEvent drillMineAgain = new DrillMineEvent(new GameEventData()
 			{
 				EventData = new DrillMineEventData()
 				{
 					SourceId = _o1.GetComponent<IdentityManager>().GetId()
-				}.ToByteString(),
+				},
 				Id = Guid.NewGuid().ToString(),
-				EventType = EventType.DrillMineEvent,
 				OccursAtTick = 25
 			});
 			_o1.GetComponent<DrillerCarrier>().AddDrillers(150);
