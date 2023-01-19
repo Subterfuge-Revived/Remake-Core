@@ -57,4 +57,9 @@ namespace SubterfugeCore.Models.GameEvents
     {
         public List<ChatMessage> Messages { get; set; }
     }
+
+    public class GetPlayerChatMessagesResponse : NetworkResponse
+    {
+        public List<ChatMessage> Messages { get; set; }
+    }
 }

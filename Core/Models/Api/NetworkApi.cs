@@ -8,7 +8,9 @@ namespace SubterfugeCore.Models.GameEvents.Api
     {
         Task<AuthorizationResponse> Login(AuthorizationRequest request);
         Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest registrationRequeset);
-        Task<GetUserResponse> GetUsers(GetUserRequest request);
+        Task<GetUserResponse> GetUser(string userId);
+        Task<GetDetailedUsersResponse> GetUsers(GetUserRequest request);
+        Task<GetPlayerChatMessagesResponse> GetPlayerChatMessages(string playerId, int pagination = 1);
     }
 
     public interface ISubterfugeUserRoleApi
