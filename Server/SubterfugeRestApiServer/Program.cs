@@ -83,6 +83,16 @@ new JwtAuthenticationScheme(config).ConfigureAuthentication(builder.Services);
 // MongoConfiguration mongoConfig = new MongoConfiguration(app.Configuration.GetSection("MongoDb"));
 // MongoConnector mongo = new MongoConnector(mongoConfig, builder.Logging.);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("SubterfugePolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddSingleton<IMongoConfigurationProvider, MongoConfigProvider>();
 builder.Services.AddSingleton<IDatabaseCollectionProvider, MongoConnector>();
 
@@ -93,6 +103,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+
+app.UseCors("SubterfugePolicy");
 
 app.UseSwagger();
 app.UseSwaggerUI();

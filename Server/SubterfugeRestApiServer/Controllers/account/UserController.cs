@@ -21,6 +21,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
 {
     
     private IDatabaseCollection<DbUserModel> _dbUsers;
+    private IDatabaseCollection<DbChatMessage> _dbChatMessages;
 
     public UserController(IConfiguration configuration, IDatabaseCollectionProvider mongo)
     {
@@ -124,7 +125,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
     [Authorize(Roles = "Administrator")]
     [HttpGet]
     [Route("query")]
-    public async Task<GetUserResponse> GetUsers([FromQuery] GetUserRequest request)
+    public async Task<GetDetailedUsersResponse> GetUsers([FromQuery] GetUserRequest request)
     {
         IMongoQueryable<DbUserModel> query = _dbUsers.Query();
         
@@ -160,12 +161,57 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
                 .Skip(50 * (request.pagination - 1))
                 .Take(50)
                 .ToListAsync())
-            .Select(it => it.ToUser())
+            .Select(it => it.ToDetailedUser())
             .ToList();
+
+        return new GetDetailedUsersResponse()
+        {
+            users = matchingUsers
+        };
+    }
+    
+    [HttpGet]
+    public async Task<GetUserResponse> GetUser(string userId)
+    {
+        IMongoQueryable<DbUserModel> query = _dbUsers.Query();
+        query = query.Where(it => it.Id == userId);
+
+        var matchingUsers = (await query
+            .OrderByDescending(it => it.DateCreated)
+            .FirstOrDefaultAsync());
+
+        if (matchingUsers == null)
+            throw new NotFoundException("The requested player was not found");
 
         return new GetUserResponse()
         {
-            Users = matchingUsers
+            User = matchingUsers.ToUser()
+        };
+    }
+
+    [Authorize(Roles = "Administrator")]
+    [HttpGet]
+    [Route("messages")]
+    public async Task<GetPlayerChatMessagesResponse> GetPlayerChatMessages(string playerId, int pagination = 1)
+    {
+
+        var user = await _dbUsers.Query()
+            .Where(it => it.Id == playerId)
+            .FirstOrDefaultAsync();
+
+        if (user == null)
+            throw new NotFoundException("Player not found");
+
+        var chatMessages = await _dbChatMessages.Query()
+            .Where(it => it.SentBy.Id == playerId)
+            .OrderByDescending(it => it.CreatedAt)
+            .Skip((pagination - 1) * 50)
+            .Take(50)
+            .ToListAsync();
+
+        return new GetPlayerChatMessagesResponse()
+        {
+            Messages = chatMessages.Select(it => it.ToChatMessage()).ToList()
         };
     }
 

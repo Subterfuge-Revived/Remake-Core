@@ -56,7 +56,24 @@ public class UserControllerClient : ISubterfugeAccountApi
         return parsedResponse;
     }
 
-    public async Task<GetUserResponse> GetUsers(GetUserRequest request)
+    public async Task<GetUserResponse> GetUser(string userId)
+    {
+        Console.WriteLine("GetUsers");
+        var query = HttpUtility.ParseQueryString(string.Empty);
+        query["userId"] = userId;
+        string queryString = query.ToString();
+        
+        HttpResponseMessage response = await client.GetAsync($"api/user/query?{queryString}");
+        if (!response.IsSuccessStatusCode)
+        {
+            throw await SubterfugeClientException.CreateFromResponseMessage(response);
+        }
+
+        // return URI of the created resource.
+        return await response.Content.ReadAsAsync<GetUserResponse>();
+    }
+
+    public async Task<GetDetailedUsersResponse> GetUsers(GetUserRequest request)
     {
         Console.WriteLine("GetUsers");
         var query = HttpUtility.ParseQueryString(string.Empty);
@@ -76,8 +93,24 @@ public class UserControllerClient : ISubterfugeAccountApi
         }
 
         // return URI of the created resource.
-        return await response.Content.ReadAsAsync<GetUserResponse>();
+        return await response.Content.ReadAsAsync<GetDetailedUsersResponse>();
     }
 
+    public async Task<GetPlayerChatMessagesResponse> GetPlayerChatMessages(string playerId, int pagination = 1)
+    {
+        Console.WriteLine("GetUsers");
+        var query = HttpUtility.ParseQueryString(string.Empty);
+        query["playerId"] = playerId;
+        query["pagination"] = pagination.ToString();
+        string queryString = query.ToString();
+        
+        HttpResponseMessage response = await client.GetAsync($"api/user/messages?{queryString}");
+        if (!response.IsSuccessStatusCode)
+        {
+            throw await SubterfugeClientException.CreateFromResponseMessage(response);
+        }
 
+        // return URI of the created resource.
+        return await response.Content.ReadAsAsync<GetPlayerChatMessagesResponse>();
+    }
 }

@@ -102,7 +102,7 @@ public class UserControllerTest
         
         var loginResponse = await TestUtils.CreateSuperUserAndLogin();
         var response = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest());
-        Assert.AreEqual(3, response.Users.Count);
+        Assert.AreEqual(3, response.users.Count);
     }
     
     [Test]
@@ -152,8 +152,8 @@ public class UserControllerTest
         
         // Can search by username
         var usernameResponse = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest() {UsernameSearch = "UserOne"});
-        Assert.AreEqual(1, usernameResponse.Users.Count);
-        Assert.IsTrue(usernameResponse.Users.All(user => user.Username.Contains("UserOne")));
+        Assert.AreEqual(1, usernameResponse.users.Count);
+        Assert.IsTrue(usernameResponse.users.All(user => user.Username.Contains("UserOne")));
         
         // Can search by email
         /*

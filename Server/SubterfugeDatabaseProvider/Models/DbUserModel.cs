@@ -8,23 +8,24 @@ public class DbUserModel
     public string Id { get; set; } = Guid.NewGuid().ToString();
     // Administrative
     public DateTime DateCreated { get; set; } = DateTime.UtcNow;
-    public DateTime BannedUntil { get; set; }
-    
-    public string Username { get; set; }
-    public string PasswordHash { get; set; }
-    public string Email { get; set; }
-    public string EmailVerificationCode { get; set; }
+    public DateTime BannedUntil { get; set; } = DateTime.MinValue;
+
+    public string Username { get; set; } = "";
+    public string PasswordHash { get; set; } = "";
+    public string Email { get; set; } = "";
+    public string EmailVerificationCode { get; set; } = "";
     public bool EmailVerified { get; set; } = false;
-    public string DeviceIdentifier { get; set; }
-    public string PhoneNumber { get; set; }
-    public string PhoneVerificationCode { get; set; }
+    public string DeviceIdentifier { get; set; } = "";
+    public string PhoneNumber { get; set; } = "";
+    public string PhoneVerificationCode { get; set; } = "";
     public bool PhoneVerified { get; set; } = false;
-    public string DiscordUsername { get; set; }
-    public string DiscordVerificationCode { get; set; }
+    public string DiscordUsername { get; set; } = "";
+    public string DiscordVerificationCode { get; set; } = "";
     public bool DiscordVerified { get; set; } = false;
     public UserClaim[] Claims { get; set; } = new[] { UserClaim.User };
-    public string PushNotificationIdentifier { get; set; }
-    public string DeviceType { get; set; }
+    public string PushNotificationIdentifier { get; set; } = "";
+
+    public string DeviceType { get; set; } = "";
     // A list of other accounts that this user has associated as.
     public List<MultiboxAccount> MultiboxAccounts { get; set; } = new List<MultiboxAccount>() { };
     
@@ -57,7 +58,7 @@ public class DbUserModel
             BannedUntil = BannedUntil,
             Email = Email,
             EmailVerified = EmailVerified,
-            DeviceIdentifier = DeviceIdentifier,
+            DeviceIdentifier = JwtManager.HashString(DeviceIdentifier),
             PhoneNumberHash = JwtManager.HashString(PhoneNumber),
             PhoneVerified = PhoneVerified,
             DiscordUsername = DiscordUsername,
