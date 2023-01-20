@@ -5,7 +5,7 @@ namespace SubterfugeDatabaseProvider.Models;
 public class DbChatMessage
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime SentAt { get; set; } = DateTime.UtcNow;
     public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
     public string RoomId { get; set; }
     public string GroupId { get; set; }
@@ -17,7 +17,7 @@ public class DbChatMessage
         return new ChatMessage()
         {
             Id = Id,
-            UnixTimeCreatedAt = CreatedAt.ToFileTimeUtc(),
+            SentAt = SentAt,
             RoomId = RoomId,
             GroupId = GroupId,
             SentBy = SentBy,
