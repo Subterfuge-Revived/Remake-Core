@@ -15,7 +15,7 @@ namespace SubterfugeCore.Models.GameEvents
     public class ChatMessage
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public long UnixTimeCreatedAt { get; set; } = DateTime.UtcNow.ToFileTimeUtc();
+        public DateTime SentAt { get; set; } = DateTime.UtcNow;
         public string RoomId { get; set; }
         public string GroupId { get; set; }
         public User SentBy { get; set; }
