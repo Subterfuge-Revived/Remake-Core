@@ -22,7 +22,7 @@ namespace SubterfugeCore.Models.GameEvents
         public string GameVersion { get; set; }
         public DateTime TimeCreated { get; set; }
         public DateTime TimeStarted { get; set; }
-        public DateTime ExpiresAt { get; set; }
+        public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
         public List<User> PlayersInLobby { get; set; }
     }
 
@@ -63,7 +63,7 @@ namespace SubterfugeCore.Models.GameEvents
     public class GetLobbyRequest
     {
         public int Pagination { get; set; } = 1;
-        public RoomStatus RoomStatus { get; set; } = RoomStatus.Open;
+        public RoomStatus? RoomStatus { get; set; } = null;
         public string? CreatedByUserId { get; set; } = null;
         public string? UserIdInRoom { get; set; } = null;
         public string? RoomId { get; set; } = null;

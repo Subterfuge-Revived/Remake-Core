@@ -6,7 +6,7 @@ public class DbGameEvent
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public DateTime TimeIssued { get; set; } = DateTime.UtcNow;
-    public DateTime ExpiresAt { get; set; }
+    public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
     public string RoomId { get; set; }
     public int OccursAtTick { get; set; }
     public User IssuedBy { get; set; }
