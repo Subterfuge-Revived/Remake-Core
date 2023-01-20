@@ -61,7 +61,8 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
         if (!request.CreatedByUserId.IsNullOrEmpty())
             query = query.Where(it => it.Creator.Id == request.CreatedByUserId);
 
-        query = query.Where(it => it.RoomStatus == request.RoomStatus);
+        if(request.RoomStatus != null)
+            query = query.Where(it => it.RoomStatus == request.RoomStatus);
         
         if (!request.RoomId.IsNullOrEmpty())
             query = query.Where(it => it.Id == request.RoomId);

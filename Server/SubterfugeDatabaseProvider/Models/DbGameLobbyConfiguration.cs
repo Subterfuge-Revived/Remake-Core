@@ -11,7 +11,7 @@ public class DbGameLobbyConfiguration
     public DateTime TimeCreated { get; set; } = DateTime.UtcNow;
     public DateTime TimeStarted { get; set; }
     public DateTime TimeEnded { get; set; }
-    public DateTime ExpiresAt { get; set; }
+    public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
     public RoomStatus RoomStatus { get; set; } = RoomStatus.Open;
     public User Creator { get; set; }
     public GameSettings GameSettings { get; set; }

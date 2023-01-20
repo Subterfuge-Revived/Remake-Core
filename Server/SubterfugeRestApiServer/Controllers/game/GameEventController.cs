@@ -85,6 +85,20 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
         if(request.GameEventRequest.OccursAtTick <= currentTick.GetTick())
             throw new BadRequestException("Cannot delete an event that has already happened");
+        
+        // Determine if the user is trying to submit an admin-only game event:
+        var eventType = request.GameEventRequest.EventData.EventDataType;
+        var realEventType = request.GameEventRequest.EventData.GetType();
+        
+        // TODO: Verify the eventType and realEventType are the same.
+        if (eventType == EventDataType.PauseGameEventData ||
+            eventType == EventDataType.UnpauseGameEventData ||
+            eventType == EventDataType.GameEndEventData)
+        {
+            // Only admins can create these type of events.
+            if (!dbUserModel.HasClaim(UserClaim.Administrator))
+                throw new ForbidException();
+        }
 
         var gameEvent = DbGameEvent.FromGameEventRequest(request, dbUserModel.ToUser(), roomId);
         await _dbGameEvents.Upsert(gameEvent);

@@ -6,7 +6,7 @@ public class DbChatMessage
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime ExpiresAt { get; set; }
+    public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
     public string RoomId { get; set; }
     public string GroupId { get; set; }
     public User SentBy { get; set; }
