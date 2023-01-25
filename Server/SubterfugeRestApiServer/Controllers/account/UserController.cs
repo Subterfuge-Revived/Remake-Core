@@ -109,7 +109,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         {
             MultiboxReason = reason,
             TimeOccured = DateTime.UtcNow,
-            User = accountTwo.ToUser()
+            User = accountTwo.ToSimpleUser()
         });
         await _dbUsers.Upsert(accountOne);
             
@@ -117,7 +117,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         {
             MultiboxReason = reason,
             TimeOccured = DateTime.UtcNow,
-            User = accountOne.ToUser()
+            User = accountOne.ToSimpleUser()
         });
         await _dbUsers.Upsert(accountTwo);
     }
@@ -204,7 +204,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
 
         var chatMessages = await _dbChatMessages.Query()
             .Where(it => it.SentBy.Id == playerId)
-            .OrderByDescending(it => it.CreatedAt)
+            .OrderByDescending(it => it.SentAt)
             .Skip((pagination - 1) * 50)
             .Take(50)
             .ToListAsync();

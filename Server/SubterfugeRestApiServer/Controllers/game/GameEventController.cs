@@ -84,7 +84,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         // Determine what tick the game is currently at.
         GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
         if(request.GameEventRequest.OccursAtTick <= currentTick.GetTick())
-            throw new BadRequestException("Cannot delete an event that has already happened");
+            throw new BadRequestException("Cannot delete an event that has already happened. Current Tick:" + currentTick.GetTick());
         
         // Determine if the user is trying to submit an admin-only game event:
         var eventType = request.GameEventRequest.EventData.EventDataType;

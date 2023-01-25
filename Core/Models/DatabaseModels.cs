@@ -13,9 +13,7 @@ namespace SubterfugeCore.Models.GameEvents
         public bool EmailVerified { get; set; }
         public string DeviceIdentifier { get; set; }
         public string PhoneNumberHash { get; set; }
-        public bool PhoneVerified { get; set; } = false;
         public string DiscordUsername { get; set; }
-        public bool DiscordVerified { get; set; } = false;
         public UserClaim[] Claims { get; set; }
         public List<MultiboxAccount> MultiboxAccounts { get; set; }
         public string PushNotificationIdentifier { get; set; }
@@ -27,13 +25,20 @@ namespace SubterfugeCore.Models.GameEvents
         
         public List<BanHistory> BanHistory { get; set; }
     }
+
+    public class SimpleUser
+    {
+        public string Id { get; set; }
+        public string Username { get; set; }
+    }
+    
     public class User
     {
         public string Id { get; set; }
         public string Username { get; set; }
         public UserClaim[] Claims { get; set; }
         // A list of other accounts that this user has associated as.
-        public List<User> Pseudonyms { get; set; } = new List<User>() { };
+        public List<SimpleUser> Pseudonyms { get; set; } = new List<SimpleUser>() { };
         
         // Administrative
         public DateTime DateCreated { get; set; }
@@ -50,7 +55,7 @@ namespace SubterfugeCore.Models.GameEvents
     
     public class MultiboxAccount
     {
-        public User User { get; set; }
+        public SimpleUser User { get; set; }
         public MultiBoxReason MultiboxReason { get; set; }
         public DateTime TimeOccured { get; set; } = DateTime.UtcNow;
     }

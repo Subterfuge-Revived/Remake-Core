@@ -32,7 +32,7 @@ public class SpecialistPackageController : ControllerBase, ISubterfugeSpecialist
         if (user == null)
             throw new UnauthorizedException();
 
-        DbSpecialistPackage package = DbSpecialistPackage.FromRequest(request, user.ToUser());
+        DbSpecialistPackage package = DbSpecialistPackage.FromRequest(request, user.ToSimpleUser());
         
         // Ensure that any referenced specialists and packages exist!
         var existingSpecialists = await _dbSpecialistCollection.Query()

@@ -31,7 +31,7 @@ public class SpecialistConfigurationController: ControllerBase, ISubterfugeCusto
         if (user == null)
             throw new UnauthorizedException();
 
-        var dbItem = DbSpecialistConfiguration.FromRequest(request, user.ToUser());
+        var dbItem = DbSpecialistConfiguration.FromRequest(request, user.ToSimpleUser());
         await _dbSpecialists.Upsert(dbItem);
 
         // Get the generated specialist ID

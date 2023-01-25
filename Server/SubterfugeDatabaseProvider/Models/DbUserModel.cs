@@ -35,12 +35,22 @@ public class DbUserModel
     {
         return new User()
         {
+            
             Id = Id,
             Username = Username,
             Claims = Claims,
             DateCreated = DateCreated,
             BannedUntil = BannedUntil,
             Pseudonyms = MultiboxAccounts.Select(it => it.User).ToList(),
+        };
+    }
+
+    public SimpleUser ToSimpleUser()
+    {
+        return new SimpleUser()
+        {
+            Id = Id,
+            Username = Username,
         };
     }
 
@@ -60,9 +70,7 @@ public class DbUserModel
             EmailVerified = EmailVerified,
             DeviceIdentifier = JwtManager.HashString(DeviceIdentifier),
             PhoneNumberHash = JwtManager.HashString(PhoneNumber),
-            PhoneVerified = PhoneVerified,
             DiscordUsername = DiscordUsername,
-            DiscordVerified = DiscordVerified,
             PushNotificationIdentifier = PushNotificationIdentifier,
             DeviceType = DeviceType,
             MultiboxAccounts = MultiboxAccounts,

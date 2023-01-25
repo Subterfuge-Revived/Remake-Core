@@ -171,7 +171,7 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
         var messages = (await _dbChatMessages.Query()
                 .Where(message => message.RoomId == roomId)
                 .Where(message => message.GroupId == groupId)
-                .OrderByDescending(message => message.CreatedAt)
+                .OrderByDescending(message => message.SentAt)
                 .Skip((request.Pagination - 1) * 50)
                 .Take(50)
                 .ToListAsync())

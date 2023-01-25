@@ -9,7 +9,7 @@ public class DbSpecialistConfiguration
     public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
     public long Priority { get; set; }
     public string SpecialistName { get; set; }
-    public User Creator { get; set; }
+    public SimpleUser Creator { get; set; }
     public List<SpecialistEffectConfiguration> SpecialistEffects { get; set; }
     public string? PromotesFromSpecialistId { get; set; }
     public uint TimesUsedInGame { get; set; } = 0;
@@ -28,7 +28,7 @@ public class DbSpecialistConfiguration
         };
     }
 
-    public static DbSpecialistConfiguration FromRequest(SubmitCustomSpecialistRequest request, User creator)
+    public static DbSpecialistConfiguration FromRequest(SubmitCustomSpecialistRequest request, SimpleUser creator)
     {
         return new DbSpecialistConfiguration()
         {
