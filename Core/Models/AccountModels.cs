@@ -70,6 +70,8 @@ namespace SubterfugeCore.Models.GameEvents
         Moderator,
         Administrator,
         EmailVerified,
+        PhoneVerified,
+        DiscordVerified,
         Banned,
         Muted,
     }

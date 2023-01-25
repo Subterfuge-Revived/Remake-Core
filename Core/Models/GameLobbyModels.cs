@@ -76,7 +76,7 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class OpenLobbiesResponse : NetworkResponse
     {
-        public GameConfiguration[] Rooms { get; set; }
+        public GameConfiguration[] Rooms { get; set; } = new GameConfiguration[] { };
     }
     
     public class PlayerCurrentGamesRequest {}

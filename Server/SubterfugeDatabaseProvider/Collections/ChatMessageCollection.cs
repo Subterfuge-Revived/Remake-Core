@@ -39,7 +39,7 @@ public class ChatMessageCollection : IDatabaseCollection<DbChatMessage>
             new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Hashed(message => message.RoomId)),
             new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Hashed(message => message.GroupId)),
             new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Hashed(message => message.SentBy.Id)),
-            new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Ascending(message => message.CreatedAt)),
+            new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Ascending(message => message.SentAt)),
             new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Text(message => message.Message)),
             new CreateIndexModel<DbChatMessage>(Builders<DbChatMessage>.IndexKeys.Ascending(message => message.ExpiresAt), new CreateIndexOptions()
             {

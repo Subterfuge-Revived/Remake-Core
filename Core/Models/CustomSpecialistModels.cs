@@ -9,7 +9,7 @@ namespace SubterfugeCore.Models.GameEvents
         public string Id { get; set; }
         public long Priority { get; set; }
         public string SpecialistName { get; set; }
-        public User Creator { get; set; }
+        public SimpleUser Creator { get; set; }
         public List<SpecialistEffectConfiguration> SpecialistEffects { get; set; }
         public string PromotesFromSpecialistId { get; set; }
     }
@@ -91,7 +91,7 @@ namespace SubterfugeCore.Models.GameEvents
     
     public class SpecialistPackage {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public User Creator { get; set; }
+        public SimpleUser Creator { get; set; }
         public string PackageName { get; set; }
         public List<string> SpecialistIds { get; set; }
         public List<string> PackageIds { get; set; }

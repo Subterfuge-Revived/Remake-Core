@@ -29,16 +29,16 @@ namespace SubterfugeCore.Models.GameEvents
     public class LaunchEventData : NetworkGameEventData
     {
         public override EventDataType EventDataType { get; } = EventDataType.LaunchEventData;
-        public String SourceId { get; set; }
-        public String DestinationId { get; set; }
+        public string SourceId { get; set; }
+        public string DestinationId { get; set; }
         public int DrillerCount { get; set; }
-        public List<String> SpecialistIds { get; set; } = new List<string>();
+        public List<string> SpecialistIds { get; set; } = new List<string>();
     }
 
     public class ToggleShieldEventData : NetworkGameEventData
     {
         public override EventDataType EventDataType { get; } = EventDataType.ToggleShieldEventData;
-        public String SourceId { get; set; }
+        public string SourceId { get; set; }
     }
     
     public class DrillMineEventData : NetworkGameEventData
@@ -50,22 +50,27 @@ namespace SubterfugeCore.Models.GameEvents
     public class PlayerLeaveGameEventData : NetworkGameEventData
     {
         public override EventDataType EventDataType { get; } = EventDataType.PlayerLeaveGameEventData;
-        public User Player { get; set; }
+        public SimpleUser Player { get; set; }
     }
 
     // Empty event. Will prevent the game from moving/ticking forwards until a following "Unpause game event data" is present in the 
     public class PauseGameEventData : NetworkGameEventData
     {
         public override EventDataType EventDataType { get; } = EventDataType.PauseGameEventData;
+        public DateTime TimePaused { get; set; } = DateTime.Now;
     }
 
     public class UnpauseGameEventData : NetworkGameEventData
     {
         public override EventDataType EventDataType { get; } = EventDataType.UnpauseGameEventData;
+        public DateTime TimeUnpaused { get; set; } = DateTime.Now;
     }
 
     public class GameEndEventData : NetworkGameEventData
     {
         public override EventDataType EventDataType { get; } = EventDataType.GameEndEventData;
+        public DateTime GameEndAt { get; set; } = DateTime.Now;
+        public bool ClosedByAdmin { get; set; } = false; 
+        public SimpleUser? WinningPlayer { get; set; }
     }
 }
