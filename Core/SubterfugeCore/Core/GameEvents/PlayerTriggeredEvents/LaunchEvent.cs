@@ -19,7 +19,7 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
         private Sub _launchedSub;
         
         private readonly List<GameEvent> _combatEvents = new List<GameEvent>();
-        public LaunchEvent(GameEventData launchData) : base(launchData)
+        public LaunchEvent(GameRoomEvent launch) : base(launch)
         {
         }
 
@@ -53,7 +53,7 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 
         public LaunchEventData GetEventData()
         {
-            return Model.EventData as LaunchEventData;
+            return Model.GameEventData.EventData as LaunchEventData;
         }
 
         /// <summary>

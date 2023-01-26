@@ -12,13 +12,13 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 		private Outpost _original;
 		private Mine _drilledMine;
 
-		public DrillMineEvent(GameEventData miningData) : base(miningData)
+		public DrillMineEvent(GameRoomEvent mining) : base(mining)
 		{
 		}
 
 		public DrillMineEventData GetEventData()
 		{
-			return Model.EventData as DrillMineEventData;
+			return Model.GameEventData.EventData as DrillMineEventData;
 		}
 
 		public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)

@@ -22,7 +22,18 @@ public class LobbyUtils
     {
         GetLobbyResponse lobbyResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest());
         Assert.AreEqual(lobbyResponse.Status.IsSuccess, true);
-        Assert.AreEqual(isInLobby, lobbyResponse.Lobbies[0].PlayersInLobby.Any(it => it.Id == playerId));
+        if (isInLobby)
+        {
+            Assert.AreEqual(isInLobby, lobbyResponse.Lobbies[0].PlayersInLobby.Any(it => it.Id == playerId));
+        }
+        else
+        {
+            if (lobbyResponse.Lobbies.Length > 0)
+            {
+                Assert.IsFalse(lobbyResponse.Lobbies[0].PlayersInLobby.Any(it => it.Id == playerId));
+            }
+        }
+
         return lobbyResponse;
     }
 

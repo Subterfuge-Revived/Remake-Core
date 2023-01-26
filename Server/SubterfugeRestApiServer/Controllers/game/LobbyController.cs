@@ -210,12 +210,15 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
             
             var leaveEvent = new DbGameEvent()
             {
-                EventData = new PlayerLeaveGameEventData()
+                EventData = new GameEventData()
                 {
-                    Player = dbUserModel.ToSimpleUser()
-                },
+                    EventData = new PlayerLeaveGameEventData()
+                    {
+                        Player = dbUserModel.ToSimpleUser()
+                    },
+                    OccursAtTick = now.GetTick(),
+                } ,
                 IssuedBy = dbUserModel.ToUser(),
-                OccursAtTick = now.GetTick(),
                 RoomId = room.Id,
             };
             await _dbGameEvents.Upsert(leaveEvent);

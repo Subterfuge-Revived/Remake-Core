@@ -81,7 +81,7 @@ namespace SubterfugeCore.Core
             }
         }
 
-        public void LoadGameEvents(List<GameEventData> gameEvents)
+        public void LoadGameEvents(List<GameRoomEvent> gameEvents)
         {
             gameEvents
                 .ConvertAll<GameEvent>(m => GameEventFactory.ParseGameEvent(m))

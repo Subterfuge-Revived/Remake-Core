@@ -7,14 +7,14 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 {
     public class ToggleShieldEvent : PlayerTriggeredEvent
     {
-        public ToggleShieldEvent(GameEventData model) : base(model)
+        public ToggleShieldEvent(GameRoomEvent model) : base(model)
         {
             
         }
 
         public ToggleShieldEventData GetEventData()
         {
-            return Model.EventData as ToggleShieldEventData;
+            return Model.GameEventData.EventData as ToggleShieldEventData;
         }
         public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
         {

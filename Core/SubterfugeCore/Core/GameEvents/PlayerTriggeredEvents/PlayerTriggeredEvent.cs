@@ -8,8 +8,8 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 {
     public abstract class PlayerTriggeredEvent : GameEvent
     {
-        protected readonly GameEventData Model;
-        protected PlayerTriggeredEvent(GameEventData model)
+        protected readonly GameRoomEvent Model;
+        protected PlayerTriggeredEvent(GameRoomEvent model)
         {
             this.Model = model;
         }
@@ -21,7 +21,7 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 
         public override GameTick GetOccursAt()
         {
-            return new GameTick(Model.OccursAtTick);
+            return new GameTick(Model.GameEventData.OccursAtTick);
         }
 
         public DateTime GetUnixTimeIssued()
@@ -39,14 +39,14 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
             return Priority.PlayerIssuedCommand;
         }
 
-        protected GameEventData GetBaseGameEventModel()
+        protected GameRoomEvent GetBaseGameEventModel()
         {
-            return new GameEventData()
+            return new GameRoomEvent()
             {
                 Id = GetEventId(),
                 IssuedBy = IssuedBy().ToUser(),
-                OccursAtTick = GetOccursAt().GetTick(),
                 TimeIssued = Model.TimeIssued,
+                GameEventData = Model.GameEventData
             };
         }
     }

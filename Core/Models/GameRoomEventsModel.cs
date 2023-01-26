@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace SubterfugeCore.Models.GameEvents
 {
-    public class GameEventData
+    public class GameRoomEvent
     {
         public string Id { get; set; }
         public string RoomId { get; set; }
         public DateTime TimeIssued { get; set; }
-        public int OccursAtTick { get; set; }
         public User IssuedBy { get; set; }
-        public NetworkGameEventData EventData { get; set; }
+        
+        public GameEventData GameEventData { get; set; }
     }
 
-    public class GameEventRequest
+    public class GameEventData
     {
         public int OccursAtTick { get; set; }
         public NetworkGameEventData EventData { get; set; }
@@ -21,23 +21,23 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class GetGameRoomEventsResponse : NetworkResponse
     {
-        public List<GameEventData> GameEvents { get; set; }
+        public List<GameRoomEvent> GameEvents { get; set; }
     }
 
     public class SubmitGameEventRequest
     {
-        public GameEventRequest GameEventRequest { get; set; }
+        public GameEventData GameEventData { get; set; }
     }
     
     public class SubmitGameEventResponse : NetworkResponse
     {
         public string EventId { get; set; }
-        public GameEventData GameEventData { get; set; }
+        public GameRoomEvent GameRoomEvent { get; set; }
     }
 
     public class UpdateGameEventRequest
     {
-        public GameEventRequest GameEventRequest { get; set; }
+        public GameEventData GameEventData { get; set; }
     }
 
     public class DeleteGameEventResponse : NetworkResponse { }

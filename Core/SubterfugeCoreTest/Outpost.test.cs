@@ -137,17 +137,20 @@ namespace SubterfugeCoreTest
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 
             int initialDrillers = _outpost.GetComponent<DrillerCarrier>().GetDrillerCount();
-            _outpost.GetComponent<SubLauncher>().LaunchSub(game.TimeMachine.GetState(), new LaunchEvent(new GameEventData()
+            _outpost.GetComponent<SubLauncher>().LaunchSub(game.TimeMachine.GetState(), new LaunchEvent(new GameRoomEvent()
                 {
-                    EventData = new LaunchEventData()
+                    GameEventData = new GameEventData()
                     {
-                        DestinationId = _outpost.GetComponent<IdentityManager>().GetId(),
-                        DrillerCount = 10,
-                        SourceId = _outpost2.GetComponent<IdentityManager>().GetId(),
+                        OccursAtTick = 10,
+                        EventData = new LaunchEventData()
+                        {
+                            DestinationId = _outpost.GetComponent<IdentityManager>().GetId(),
+                            DrillerCount = 10,
+                            SourceId = _outpost2.GetComponent<IdentityManager>().GetId(),
+                        },
                     },
                     Id = "123",
                     RoomId = "",
-                    OccursAtTick = 10,
                 }));
 
             Assert.AreEqual(initialDrillers - 10, _outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
@@ -165,16 +168,19 @@ namespace SubterfugeCoreTest
             game.TimeMachine.GetState().GetOutposts().Add(_outpost);
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 
-            var launchEvent = new LaunchEvent(new GameEventData()
+            var launchEvent = new LaunchEvent(new GameRoomEvent()
             {
-                EventData = new LaunchEventData()
+                GameEventData = new GameEventData()
                 {
-                    DestinationId = _outpost2.GetComponent<IdentityManager>().GetId(),
-                    DrillerCount = 10,
-                    SourceId = _outpost.GetComponent<IdentityManager>().GetId(),
+                    OccursAtTick = 10,
+                    EventData = new LaunchEventData()
+                    {
+                        DestinationId = _outpost2.GetComponent<IdentityManager>().GetId(),
+                        DrillerCount = 10,
+                        SourceId = _outpost.GetComponent<IdentityManager>().GetId(),
+                    },
                 },
                 Id = "123",
-                OccursAtTick = 10,
             });
             
             int initialDrillers = _outpost.GetComponent<DrillerCarrier>().GetDrillerCount();

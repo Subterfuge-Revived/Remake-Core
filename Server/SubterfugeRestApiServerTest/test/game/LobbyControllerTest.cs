@@ -143,9 +143,8 @@ public class LobbyControllerTest
         Assert.AreEqual(openLobbiesResponse.Status.IsSuccess, true);
         Assert.AreEqual(4,openLobbiesResponse.Lobbies.Length);
     }
-    
-    [Test]
-    public async Task PlayerCanQueryTheLobbyListUsingVariousParameters()
+
+    private async Task<CreateRoomResponse[]> InitLobbiesForQueryParams()
     {
         var roomOne = await LobbyUtils.CreateLobby(
             "Room 1",
@@ -153,6 +152,10 @@ public class LobbyControllerTest
             isRanked: false,
             goal: Goal.Domination
         );
+        
+        // Login to a different account to test searching for players in a room.
+        TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
+        
         var roomTwo = await LobbyUtils.CreateLobby(
             "Room 2",
             maxPlayers: 5,
@@ -165,56 +168,108 @@ public class LobbyControllerTest
             isRanked: false,
             goal: Goal.Mining
         );
-        
-        // Login to a different account to test searching for players in a room.
-        TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        
         var roomFour = await LobbyUtils.CreateLobby(
             "Room 4",
             maxPlayers: 10,
             isRanked: true,
             goal: Goal.Mining
         );
+
+        return new CreateRoomResponse[] { roomOne, roomTwo, roomThree, roomFour };
+    }
+
+    [Test]
+    public async Task PlayerCanQueryLobbiesByRoomStatus()
+    {
+        await InitLobbiesForQueryParams();
         
         // All rooms are listed in the default lobby view.
-        GetLobbyResponse allOpenLobbyResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest());
+        GetLobbyResponse allOpenLobbyResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ RoomStatus = RoomStatus.Open});
         Assert.AreEqual(allOpenLobbyResponse.Status.IsSuccess, true);
         Assert.AreEqual(4,allOpenLobbyResponse.Lobbies.Length);
+    }
+    
+    [Test]
+    public async Task PlayerCanQueryLobbiesByCreatorId()
+    {
+        await InitLobbiesForQueryParams();
         
         // Check filter by creator
         GetLobbyResponse createdByResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ CreatedByUserId = userOne.User.Id});
-        Assert.AreEqual(3,createdByResponse.Lobbies.Length);
+        Assert.AreEqual(1,createdByResponse.Lobbies.Length);
         Assert.IsTrue(createdByResponse.Lobbies.All(lobby => lobby.Creator.Id == userOne.User.Id));
+    }
+    
+    [Test]
+    public async Task PlayerCanQueryLobbiesByRoomId()
+    {
+        var rooms = await InitLobbiesForQueryParams();
         
         // Check filter by roomId
-        GetLobbyResponse roomIdResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ RoomId = roomOne.GameConfiguration.Id});
+        GetLobbyResponse roomIdResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ RoomId = rooms[1].GameConfiguration.Id});
         Assert.AreEqual(1,roomIdResponse.Lobbies.Length);
-        Assert.IsTrue(roomIdResponse.Lobbies.All(lobby => lobby.Id == roomOne.GameConfiguration.Id));
+        Assert.IsTrue(roomIdResponse.Lobbies.All(lobby => lobby.Id == rooms[1].GameConfiguration.Id));
+    }
+    
+    [Test]
+    public async Task PlayerCanQueryLobbiesByGameMode()
+    {
+        var rooms = await InitLobbiesForQueryParams();
         
         // Check filter by game mode
         GetLobbyResponse goalFilterResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ Goal = Goal.Mining});
         Assert.AreEqual(2,goalFilterResponse.Lobbies.Length);
         Assert.IsTrue(goalFilterResponse.Lobbies.All(lobby => lobby.GameSettings.Goal == Goal.Mining));
+    }
+    
+    [Test]
+    public async Task PlayerCanQueryLobbiesByRankedStatus()
+    {
+        var rooms = await InitLobbiesForQueryParams();
         
         // Check filter by ranked
-        GetLobbyResponse rankedResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ IsRanked = true});
+        GetLobbyResponse rankedResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ IsRanked = false});
         Assert.AreEqual(2,rankedResponse.Lobbies.Length);
-        Assert.IsTrue(rankedResponse.Lobbies.All(lobby => lobby.GameSettings.IsRanked));
+        Assert.IsTrue(rankedResponse.Lobbies.All(lobby => lobby.GameSettings.IsRanked == false));
+    }
+    
+    [Test]
+    public async Task PlayerCanQueryLobbiesByWithMultipleFilters()
+    {
+        var rooms = await InitLobbiesForQueryParams();
         
         // Check filter by ranked and Game Mode
-        GetLobbyResponse rankedGameModeResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ IsRanked = true, Goal = Goal.Domination});
+        GetLobbyResponse rankedGameModeResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ IsRanked = true, Goal = Goal.Mining});
         Assert.AreEqual(1,rankedGameModeResponse.Lobbies.Length);
-        Assert.IsTrue(rankedGameModeResponse.Lobbies.All(lobby => lobby.GameSettings.IsRanked && lobby.GameSettings.Goal == Goal.Domination));
+        Assert.IsTrue(rankedGameModeResponse.Lobbies.All(lobby => lobby.GameSettings.IsRanked && lobby.GameSettings.Goal == Goal.Mining));
+    }
+    
+    [Test]
+    public async Task PlayerCanQueryLobbiesByMinPlayers()
+    {
+        var rooms = await InitLobbiesForQueryParams();
         
         // Check filter by minPlayers
         GetLobbyResponse minPlayersResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ MinPlayers = 9});
         Assert.AreEqual(2,minPlayersResponse.Lobbies.Length);
         Assert.IsTrue(minPlayersResponse.Lobbies.All(lobby => lobby.GameSettings.MaxPlayers > 9));
+    }
+    
+    [Test]
+    public async Task PlayerCanQueryLobbiesByMaxPlayers()
+    {
+        var rooms = await InitLobbiesForQueryParams();
         
         // Check filter by maxPlayers
         GetLobbyResponse maxPlayersResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ MaxPlayers = 9});
         Assert.AreEqual(2,maxPlayersResponse.Lobbies.Length);
         Assert.IsTrue(maxPlayersResponse.Lobbies.All(lobby => lobby.GameSettings.MaxPlayers < 9));
+    }
+    
+    [Test]
+    public async Task PlayerCannotQueryLobbiesThatAnotherPlayerIsIn()
+    {
+        var rooms = await InitLobbiesForQueryParams();
         
         // Ensure normal user cannot search for lobbies another player is in.
         var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
@@ -222,22 +277,41 @@ public class LobbyControllerTest
             await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ UserIdInRoom = userOne.User.Id});
         });
         Assert.AreEqual(HttpStatusCode.Forbidden, exception.rawResponse.StatusCode);
+    }
+    
+    [Test]
+    public async Task PlayerCanQueryLobbiesTheyHaveJoined()
+    {
+        var rooms = await InitLobbiesForQueryParams();
         
         // Normal user can search for lobbies they have already joined.
         GetLobbyResponse lobbyUserIsIn = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ UserIdInRoom = userTwo.User.Id});
-        Assert.AreEqual(1,lobbyUserIsIn.Lobbies.Length);
+        Assert.AreEqual(3,lobbyUserIsIn.Lobbies.Length);
         Assert.IsTrue(lobbyUserIsIn.Lobbies.All(lobby => lobby.PlayersInLobby.Any(it => it.Id == userTwo.User.Id)));
-
+    }
+    
+    [Test]
+    public async Task AdminCanViewAllLobbies()
+    {
+        var rooms = await InitLobbiesForQueryParams();
+        
         await TestUtils.CreateSuperUserAndLogin();
         // Ensure admin can view all lobbies.
         GetLobbyResponse adminAllOpenLobbyResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest());
         Assert.AreEqual(4,adminAllOpenLobbyResponse.Lobbies.Length);
         Assert.IsTrue(adminAllOpenLobbyResponse.Lobbies.All(lobby => lobby.RoomStatus == RoomStatus.Open));
+    }
+    
+    [Test]
+    public async Task AdminCanSearchLobbiesOtherPlayersAreIn()
+    {
+        var rooms = await InitLobbiesForQueryParams();
         
+        await TestUtils.CreateSuperUserAndLogin();
         // Ensure admin can view all lobbies for other players.
-        GetLobbyResponse adminPlayerLobbyResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ UserIdInRoom = userOne.User.Id});
+        GetLobbyResponse adminPlayerLobbyResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ UserIdInRoom = userTwo.User.Id});
         Assert.AreEqual(3,adminPlayerLobbyResponse.Lobbies.Length);
-        Assert.IsTrue(adminPlayerLobbyResponse.Lobbies.All(lobby => lobby.PlayersInLobby.Any(player => player.Id == userOne.User.Id)));
+        Assert.IsTrue(adminPlayerLobbyResponse.Lobbies.All(lobby => lobby.PlayersInLobby.Any(player => player.Id == userTwo.User.Id)));
     }
 
     [Test]
@@ -328,7 +402,7 @@ public class LobbyControllerTest
         await TestUtils.GetClient().LobbyClient.StartGameEarly(response.GameConfiguration.Id);
         
         // View open rooms should not show any lobbies.
-        GetLobbyResponse openLobbies = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest());
+        GetLobbyResponse openLobbies = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ RoomStatus = RoomStatus.Open});
         Assert.AreEqual(openLobbies.Status.IsSuccess, true);
         Assert.AreEqual(0,openLobbies.Lobbies.Length);
         
@@ -355,7 +429,7 @@ public class LobbyControllerTest
         await TestUtils.GetClient().LobbyClient.StartGameEarly(response.GameConfiguration.Id);
         
         // View open rooms should not show any lobbies.
-        GetLobbyResponse openLobbies = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest());
+        GetLobbyResponse openLobbies = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ RoomStatus = RoomStatus.Open});
         Assert.AreEqual(openLobbies.Status.IsSuccess, true);
         Assert.AreEqual(0,openLobbies.Lobbies.Length);
         
@@ -448,7 +522,7 @@ public class LobbyControllerTest
         await TestUtils.GetClient().LobbyClient.StartGameEarly(response.GameConfiguration.Id);
         
         // View open rooms should not show any lobbies.
-        GetLobbyResponse openLobbies = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest());
+        GetLobbyResponse openLobbies = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ RoomStatus = RoomStatus.Open});
         Assert.AreEqual(openLobbies.Status.IsSuccess, true);
         Assert.AreEqual(0,openLobbies.Lobbies.Length);
         
