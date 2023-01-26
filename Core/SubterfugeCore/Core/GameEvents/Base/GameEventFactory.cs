@@ -5,17 +5,17 @@ namespace SubterfugeCore.Core.GameEvents.Base
 {
     public static class GameEventFactory
     {
-        public static PlayerTriggeredEvent ParseGameEvent(GameEventData model)
+        public static PlayerTriggeredEvent ParseGameEvent(GameRoomEvent model)
         {
-            if (model.EventData is LaunchEventData)
+            if (model.GameEventData.EventData is LaunchEventData)
             {
                 return new LaunchEvent(model);
             }
-            if (model.EventData is ToggleShieldEventData)
+            if (model.GameEventData.EventData is ToggleShieldEventData)
             {
                 return new ToggleShieldEvent(model);
             }
-            if (model.EventData is DrillMineEventData)
+            if (model.GameEventData.EventData is DrillMineEventData)
             {
                 return new DrillMineEvent(model);
             }

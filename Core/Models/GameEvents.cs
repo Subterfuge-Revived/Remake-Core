@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using JsonSubTypes;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace SubterfugeCore.Models.GameEvents
 {
     [JsonConverter(typeof(JsonSubtypes), "EventDataType")]
-    public class NetworkGameEventData
+    public interface NetworkGameEventData
     {
-        // Used to determine which event to serialize / deserialize as a REST request will not know the class type
-        public virtual EventDataType EventDataType { get; }
+        // This MUST be a string type, otherwise it does not work with JsonConverter to properly parse the data
+        string EventDataType { get; }
     }
 
     public enum EventDataType
     {
+        Unknown,
         LaunchEventData,
         ToggleShieldEventData,
         DrillMineEventData,
@@ -28,7 +31,7 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class LaunchEventData : NetworkGameEventData
     {
-        public override EventDataType EventDataType { get; } = EventDataType.LaunchEventData;
+        public string EventDataType { get; } = GameEvents.EventDataType.LaunchEventData.ToString();
         public string SourceId { get; set; }
         public string DestinationId { get; set; }
         public int DrillerCount { get; set; }
@@ -37,38 +40,38 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class ToggleShieldEventData : NetworkGameEventData
     {
-        public override EventDataType EventDataType { get; } = EventDataType.ToggleShieldEventData;
+        public string EventDataType { get; } = GameEvents.EventDataType.ToggleShieldEventData.ToString();
         public string SourceId { get; set; }
     }
     
     public class DrillMineEventData : NetworkGameEventData
     {
-        public override EventDataType EventDataType { get; } = EventDataType.DrillMineEventData;
+        public string EventDataType { get; } = GameEvents.EventDataType.DrillMineEventData.ToString();
         public String SourceId { get; set; }
     }
 
     public class PlayerLeaveGameEventData : NetworkGameEventData
     {
-        public override EventDataType EventDataType { get; } = EventDataType.PlayerLeaveGameEventData;
+        public string EventDataType { get; } = GameEvents.EventDataType.PlayerLeaveGameEventData.ToString();
         public SimpleUser Player { get; set; }
     }
 
     // Empty event. Will prevent the game from moving/ticking forwards until a following "Unpause game event data" is present in the 
     public class PauseGameEventData : NetworkGameEventData
     {
-        public override EventDataType EventDataType { get; } = EventDataType.PauseGameEventData;
+        public string EventDataType { get; } = GameEvents.EventDataType.PauseGameEventData.ToString();
         public DateTime TimePaused { get; set; } = DateTime.Now;
     }
 
     public class UnpauseGameEventData : NetworkGameEventData
     {
-        public override EventDataType EventDataType { get; } = EventDataType.UnpauseGameEventData;
+        public string EventDataType { get; } = GameEvents.EventDataType.UnpauseGameEventData.ToString();
         public DateTime TimeUnpaused { get; set; } = DateTime.Now;
     }
 
     public class GameEndEventData : NetworkGameEventData
     {
-        public override EventDataType EventDataType { get; } = EventDataType.GameEndEventData;
+        public string EventDataType { get; } = GameEvents.EventDataType.GameEndEventData.ToString();
         public DateTime GameEndAt { get; set; } = DateTime.Now;
         public bool ClosedByAdmin { get; set; } = false; 
         public SimpleUser? WinningPlayer { get; set; }

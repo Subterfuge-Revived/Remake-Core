@@ -8,20 +8,18 @@ public class DbGameEvent
     public DateTime TimeIssued { get; set; } = DateTime.UtcNow;
     public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
     public string RoomId { get; set; }
-    public int OccursAtTick { get; set; }
     public User IssuedBy { get; set; }
-    public NetworkGameEventData EventData { get; set; }
+    public GameEventData EventData { get; set; }
 
-    public GameEventData ToGameEventData()
+    public GameRoomEvent ToGameEventData()
     {
-        return new GameEventData()
+        return new GameRoomEvent()
         {
             Id = Id,
             RoomId = RoomId,
             TimeIssued = TimeIssued,
-            OccursAtTick = OccursAtTick,
             IssuedBy = IssuedBy,
-            EventData = EventData
+            GameEventData = EventData,
         };
     }
 
@@ -30,9 +28,8 @@ public class DbGameEvent
         return new DbGameEvent()
         {
             RoomId = roomId,
-            OccursAtTick = request.GameEventRequest.OccursAtTick,
             IssuedBy = issuer,
-            EventData = request.GameEventRequest.EventData
+            EventData = request.GameEventData
         };
     }
 }

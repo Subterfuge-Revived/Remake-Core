@@ -36,16 +36,19 @@ namespace SubterfugeCoreTest
         [TestMethod]
         public void Constructor()
         {
-            Assert.IsNotNull(new LaunchEvent(new GameEventData()
+            Assert.IsNotNull(new LaunchEvent(new GameRoomEvent()
             {
-                EventData = new LaunchEventData()
+                GameEventData = new GameEventData()
                 {
-                    DestinationId = "0",
-                    DrillerCount = 10,
-                    SourceId = "0",
+                    OccursAtTick = 10,
+                    EventData = new LaunchEventData()
+                    {
+                        DestinationId = "0",
+                        DrillerCount = 10,
+                        SourceId = "0",
+                    },
                 },
                 Id = "123",
-                OccursAtTick = 10,
             }));
         }
         
@@ -63,16 +66,19 @@ namespace SubterfugeCoreTest
             _game.TimeMachine.GetState().GetOutposts().Add(outpost1);
             _game.TimeMachine.GetState().GetOutposts().Add(outpost2);
             
-            LaunchEvent launch = new LaunchEvent(new GameEventData()
+            LaunchEvent launch = new LaunchEvent(new GameRoomEvent()
             {
-                EventData = new LaunchEventData()
+                GameEventData = new GameEventData()
                 {
-                    DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
-                    DrillerCount = 1,
-                    SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
+                    OccursAtTick = 1,
+                    EventData = new LaunchEventData()
+                    {
+                        DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
+                        DrillerCount = 1,
+                        SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
+                    },
                 },
                 Id = "a",
-                OccursAtTick = 1,
             });
             Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
             
@@ -96,16 +102,19 @@ namespace SubterfugeCoreTest
             _game.TimeMachine.GetState().GetOutposts().Add(outpost1);
             _game.TimeMachine.GetState().GetOutposts().Add(outpost2);
             
-            LaunchEvent launch = new LaunchEvent(new GameEventData()
+            LaunchEvent launch = new LaunchEvent(new GameRoomEvent()
             {
-                EventData = new LaunchEventData()
+                GameEventData = new GameEventData()
                 {
-                    DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
-                    DrillerCount = 1,
-                    SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
+                    OccursAtTick = 1,
+                    EventData = new LaunchEventData()
+                    {
+                        DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
+                        DrillerCount = 1,
+                        SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
+                    },
                 },
                 Id = "a",
-                OccursAtTick = 1,
             });
             Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
             
@@ -133,16 +142,19 @@ namespace SubterfugeCoreTest
             _game.TimeMachine.GetState().GetOutposts().Add(outpost1);
             _game.TimeMachine.GetState().GetOutposts().Add(outpost2);
             
-            LaunchEvent launch = new LaunchEvent(new GameEventData()
+            LaunchEvent launch = new LaunchEvent(new GameRoomEvent()
             {
-                EventData = new LaunchEventData()
+                GameEventData = new GameEventData()
                 {
-                    DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
-                    DrillerCount = 1,
-                    SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
+                    OccursAtTick = 1,
+                    EventData = new LaunchEventData()
+                    {
+                        DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
+                        DrillerCount = 1,
+                        SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
+                    },
                 },
                 Id = "a",
-                OccursAtTick = 1,
             });
             Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
             
@@ -172,28 +184,34 @@ namespace SubterfugeCoreTest
             _game.TimeMachine.GetState().GetOutposts().Add(outpost1);
             _game.TimeMachine.GetState().GetOutposts().Add(outpost2);
             
-            LaunchEvent launch1 = new LaunchEvent(new GameEventData()
+            LaunchEvent launch1 = new LaunchEvent(new GameRoomEvent()
             {
-                EventData = new LaunchEventData()
+                GameEventData = new GameEventData()
                 {
-                    DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
-                    DrillerCount = 1,
-                    SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
+                    OccursAtTick = 1,
+                    EventData = new LaunchEventData()
+                    {
+                        DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
+                        DrillerCount = 1,
+                        SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
+                    },
                 },
                 Id = "a",
-                OccursAtTick = 1,
             });
             
-            LaunchEvent launch2 = new LaunchEvent(new GameEventData()
+            LaunchEvent launch2 = new LaunchEvent(new GameRoomEvent()
             {
-                EventData = new LaunchEventData()
+                GameEventData = new GameEventData()
                 {
-                    DestinationId = outpost1.GetComponent<IdentityManager>().GetId(),
-                    DrillerCount = 1,
-                    SourceId = outpost2.GetComponent<IdentityManager>().GetId(),
+                    OccursAtTick = 1,
+                    EventData = new LaunchEventData()
+                    {
+                        DestinationId = outpost1.GetComponent<IdentityManager>().GetId(),
+                        DrillerCount = 1,
+                        SourceId = outpost2.GetComponent<IdentityManager>().GetId(),
+                    },
                 },
                 Id = "a",
-                OccursAtTick = 1,
             });
             
             Assert.AreEqual(true, launch1.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
@@ -242,16 +260,19 @@ namespace SubterfugeCoreTest
             _game.TimeMachine.GetState().GetOutposts().Add(outpost1);
             _game.TimeMachine.GetState().GetOutposts().Add(outpost2);
             
-            LaunchEvent launch1 = new LaunchEvent(new GameEventData()
+            LaunchEvent launch1 = new LaunchEvent(new GameRoomEvent()
             {
-                EventData = new LaunchEventData()
+                GameEventData = new GameEventData()
                 {
-                    DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
-                    DrillerCount = 10,
-                    SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
+                    OccursAtTick = 1,
+                    EventData = new LaunchEventData()
+                    {
+                        DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
+                        DrillerCount = 10,
+                        SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
+                    },
                 },
                 Id = "a",
-                OccursAtTick = 1,
             });
             Assert.AreEqual(true, launch1.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
             

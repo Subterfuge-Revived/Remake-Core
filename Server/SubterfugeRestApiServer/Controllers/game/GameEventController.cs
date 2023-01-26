@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using Newtonsoft.Json;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeCore.Models.GameEvents.Api;
@@ -56,7 +58,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         if (!dbUserModel.HasClaim(UserClaim.Administrator))
         {
             events = events
-                .Where(it => it.OccursAtTick <= currentTick.GetTick() || it.IssuedBy.Id == dbUserModel.Id)
+                .Where(it => it.EventData.OccursAtTick <= currentTick.GetTick() || it.IssuedBy.Id == dbUserModel.Id)
                 .ToList();
         }
 
@@ -65,11 +67,29 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
         return response;
     }
-    
+
+    [HttpGet]
+    [Route("afagagsadf")]
+    public Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
+    {
+        throw new NotImplementedException();
+    }
+
     [HttpPost]
     [Route("api/room/{roomId}/events")]
-    public async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
+    public async Task<SubmitGameEventResponse> SubmitGameEvent(string roomId)
     {
+        using var reader = new StreamReader(HttpContext.Request.Body);
+
+        // You shouldn't need this line anymore.
+        // reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+        // You now have the body string raw
+        var body = await reader.ReadToEndAsync();
+
+        // As well as a bound model
+        var request = JsonConvert.DeserializeObject<SubmitGameEventRequest>(body);
+        
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
             throw new UnauthorizedException();
@@ -83,14 +103,13 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         
         // Determine what tick the game is currently at.
         GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
-        if(request.GameEventRequest.OccursAtTick <= currentTick.GetTick())
+        if(request.GameEventData.OccursAtTick <= currentTick.GetTick())
             throw new BadRequestException("Cannot delete an event that has already happened. Current Tick:" + currentTick.GetTick());
-        
+
         // Determine if the user is trying to submit an admin-only game event:
-        var eventType = request.GameEventRequest.EventData.EventDataType;
-        var realEventType = request.GameEventRequest.EventData.GetType();
+        EventDataType eventType = EventDataType.Unknown;
+        EventDataType.TryParse(request.GameEventData.EventData.EventDataType, true, out eventType);
         
-        // TODO: Verify the eventType and realEventType are the same.
         if (eventType == EventDataType.PauseGameEventData ||
             eventType == EventDataType.UnpauseGameEventData ||
             eventType == EventDataType.GameEndEventData)
@@ -99,6 +118,36 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
             if (!dbUserModel.HasClaim(UserClaim.Administrator))
                 throw new ForbidException();
         }
+        
+        // Attempt to parse the event data into the actual event class
+        NetworkGameEventData? castEvent = null;
+        switch (eventType)
+        {
+            case EventDataType.LaunchEventData:
+                castEvent = (request.GameEventData.EventData as LaunchEventData);
+                break;
+            case EventDataType.DrillMineEventData:
+                castEvent = (request.GameEventData.EventData as DrillMineEventData);
+                break;
+            case EventDataType.GameEndEventData:
+                castEvent = (request.GameEventData.EventData as GameEndEventData);
+                break;
+            case EventDataType.PauseGameEventData:
+                castEvent = (request.GameEventData.EventData as PauseGameEventData);
+                break;
+            case EventDataType.ToggleShieldEventData:
+                castEvent = (request.GameEventData.EventData as ToggleShieldEventData);
+                break;
+            case EventDataType.UnpauseGameEventData:
+                castEvent = (request.GameEventData.EventData as UnpauseGameEventData);
+                break;
+            case EventDataType.PlayerLeaveGameEventData:
+                castEvent = (request.GameEventData.EventData as PlayerLeaveGameEventData);
+                break;
+        }
+        
+        if (castEvent == null)
+            throw new BadRequestException($"Event type is {eventType} but the server could not parse the event as such.");
 
         var gameEvent = DbGameEvent.FromGameEventRequest(request, dbUserModel.ToUser(), roomId);
         await _dbGameEvents.Upsert(gameEvent);
@@ -106,7 +155,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         return new SubmitGameEventResponse()
         {
             EventId = gameEvent.Id,
-            GameEventData = gameEvent.ToGameEventData(),
+            GameRoomEvent = gameEvent.ToGameEventData(),
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
         };
     }
@@ -133,17 +182,16 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         // Determine if the event has already passed.
         GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
 
-        if (gameEvent.OccursAtTick <= currentTick.GetTick())
+        if (gameEvent.EventData.OccursAtTick <= currentTick.GetTick())
             throw new BadRequestException("Cannot delete an event that has already happened");
         
-        gameEvent.EventData = request.GameEventRequest.EventData;
-        gameEvent.OccursAtTick = request.GameEventRequest.OccursAtTick;
+        gameEvent.EventData = request.GameEventData;
         await _dbGameEvents.Upsert(gameEvent);
         
         return new SubmitGameEventResponse()
         {
             EventId = gameEvent.Id,
-            GameEventData = gameEvent.ToGameEventData(),
+            GameRoomEvent = gameEvent.ToGameEventData(),
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
         };
     }
@@ -167,7 +215,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         // Determine if the event has already passed.
         GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
 
-        if (gameEvent.OccursAtTick <= currentTick.GetTick())
+        if (gameEvent.EventData.OccursAtTick <= currentTick.GetTick())
             throw new BadRequestException("Cannot delete an event that has already happened");
 
         if (gameEvent.IssuedBy.Id != dbUserModel.Id)

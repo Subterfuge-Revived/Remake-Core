@@ -37,7 +37,7 @@ public class GameEventControllerTest
     {
         SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 42,
@@ -54,44 +54,47 @@ public class GameEventControllerTest
     }
     
     [Test]
-    public async Task CanSubmitEachTypeOfGameEvent()
+    public async Task CanSubmitEachTypeOfGameEventAndGetItBack()
     {
         SubmitGameEventResponse toggleSheildResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
         Assert.AreEqual(true, toggleSheildResponse.Status.IsSuccess);
+        Assert.AreEqual(EventDataType.ToggleShieldEventData.ToString(), toggleSheildResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
         Assert.IsTrue(toggleSheildResponse.EventId != null);
         
         SubmitGameEventResponse playerLeaveResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new PlayerLeaveGameEventData() { Player = null },
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
         Assert.AreEqual(true, playerLeaveResponse.Status.IsSuccess);
+        Assert.AreEqual(EventDataType.PlayerLeaveGameEventData.ToString(), playerLeaveResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
         Assert.IsTrue(playerLeaveResponse.EventId != null);
         
         SubmitGameEventResponse drillMineResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new DrillMineEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
         Assert.AreEqual(true, drillMineResponse.Status.IsSuccess);
+        Assert.AreEqual(EventDataType.DrillMineEventData.ToString(), drillMineResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
         Assert.IsTrue(drillMineResponse.EventId != null);
         
         SubmitGameEventResponse launchEventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new LaunchEventData()
                 {
@@ -104,6 +107,7 @@ public class GameEventControllerTest
             },
         }, gameRoom.GameConfiguration.Id);
         Assert.AreEqual(true, launchEventResponse.Status.IsSuccess);
+        Assert.AreEqual(EventDataType.LaunchEventData.ToString(), launchEventResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
         Assert.IsTrue(launchEventResponse.EventId != null);
         
         // Submitting player can see their own events
@@ -119,7 +123,7 @@ public class GameEventControllerTest
         {
             await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                GameEventRequest = new GameEventRequest()
+                GameEventData = new GameEventData()
                 {
                     EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                     OccursAtTick = 42,
@@ -139,7 +143,7 @@ public class GameEventControllerTest
         {
             await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                GameEventRequest = new GameEventRequest()
+                GameEventData = new GameEventData()
                 {
                     EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                     OccursAtTick = 42,
@@ -157,7 +161,7 @@ public class GameEventControllerTest
         {
             await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
             {
-                GameEventRequest = new GameEventRequest()
+                GameEventData = new GameEventData()
                 {
                     EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                     OccursAtTick = -20,
@@ -173,7 +177,7 @@ public class GameEventControllerTest
     {
         SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 42,
@@ -201,7 +205,7 @@ public class GameEventControllerTest
     {
         SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 42,
@@ -235,7 +239,7 @@ public class GameEventControllerTest
         // Event at tick two is two seconds into the game, and we can sleep for 2+ seconds then try to delete.
         SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 2,
@@ -267,7 +271,7 @@ public class GameEventControllerTest
     {
         SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 42,
@@ -284,7 +288,7 @@ public class GameEventControllerTest
 
         var update = await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
                 OccursAtTick = 42,
@@ -299,7 +303,7 @@ public class GameEventControllerTest
     {
         SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 42,
@@ -318,7 +322,7 @@ public class GameEventControllerTest
         {
             await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
             {
-                GameEventRequest = new GameEventRequest()
+                GameEventData = new GameEventData()
                 {
                     EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
                     OccursAtTick = 42,
@@ -334,7 +338,7 @@ public class GameEventControllerTest
     {
         SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 42,
@@ -353,7 +357,7 @@ public class GameEventControllerTest
         {
             await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
             {
-                GameEventRequest = new GameEventRequest()
+                GameEventData = new GameEventData()
                 {
                     EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
                     OccursAtTick = 42,
@@ -369,7 +373,7 @@ public class GameEventControllerTest
     {
         SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 2,
@@ -390,7 +394,7 @@ public class GameEventControllerTest
         {
             await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
             {
-                GameEventRequest = new GameEventRequest()
+                GameEventData = new GameEventData()
                 {
                     EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
                     OccursAtTick = 2,
@@ -406,7 +410,7 @@ public class GameEventControllerTest
     {
         SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 42,
@@ -425,7 +429,7 @@ public class GameEventControllerTest
 
         var update = await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
                 OccursAtTick = 2,
@@ -440,7 +444,7 @@ public class GameEventControllerTest
     {
         SubmitGameEventResponse eventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 42,
@@ -461,7 +465,7 @@ public class GameEventControllerTest
         {
             await TestUtils.GetClient().GameEventClient.UpdateGameEvent(new UpdateGameEventRequest()
             {
-                GameEventRequest = new GameEventRequest()
+                GameEventData = new GameEventData()
                 {
                     EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
                     OccursAtTick = 2,
@@ -477,7 +481,7 @@ public class GameEventControllerTest
     {
         var request = new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 3,
@@ -487,7 +491,7 @@ public class GameEventControllerTest
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
 
-        request.GameEventRequest.OccursAtTick = 1323;
+        request.GameEventData.OccursAtTick = 1323;
         
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
@@ -513,7 +517,7 @@ public class GameEventControllerTest
     {
         var request = new SubmitGameEventRequest()
         {
-            GameEventRequest = new GameEventRequest()
+            GameEventData = new GameEventData()
             {
                 EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
                 OccursAtTick = 3,
@@ -523,7 +527,7 @@ public class GameEventControllerTest
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
 
-        request.GameEventRequest.OccursAtTick = 1323;
+        request.GameEventData.OccursAtTick = 1323;
         
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);

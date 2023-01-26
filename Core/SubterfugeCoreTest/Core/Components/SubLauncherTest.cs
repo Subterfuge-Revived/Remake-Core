@@ -54,12 +54,15 @@ namespace SubterfugeCoreTest.Core.Components
                 DrillerCount = 5,
                 SourceId = "2"
             };
-            var launchEvent = new LaunchEvent(new GameEventData()
+            var launchEvent = new LaunchEvent(new GameRoomEvent()
             {
-                EventData = launchEventData,
+                GameEventData = new GameEventData()
+                {
+                    OccursAtTick = 1,
+                    EventData = launchEventData,
+                },
                 Id = "asdf",
                 IssuedBy = initialOwner.ToUser(),
-                OccursAtTick = 1,
                 RoomId = "1",
                 TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
             });
@@ -103,12 +106,15 @@ namespace SubterfugeCoreTest.Core.Components
                 DrillerCount = 5,
                 SourceId = "2"
             };
-            var launchEvent = new LaunchEvent(new GameEventData()
+            var launchEvent = new LaunchEvent(new GameRoomEvent()
             {
-                EventData = launchEventData,
+                GameEventData = new GameEventData()
+                {
+                    OccursAtTick = 1,
+                    EventData = launchEventData,
+                },
                 Id = "asdf",
                 IssuedBy = initialOwner.ToUser(),
-                OccursAtTick = 1,
                 RoomId = "1",
                 TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
             });
@@ -160,12 +166,15 @@ namespace SubterfugeCoreTest.Core.Components
                 DrillerCount = 5,
                 SourceId = "2"
             };
-            var launchEvent = new LaunchEvent(new GameEventData()
+            var launchEvent = new LaunchEvent(new GameRoomEvent()
             {
-                EventData = launchEventData,
+                GameEventData = new GameEventData()
+                {
+                    OccursAtTick = 1,
+                    EventData = launchEventData,
+                },
                 Id = "asdf",
                 IssuedBy = initialOwner.ToUser(),
-                OccursAtTick = 1,
                 RoomId = "1",
                 TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
             });
@@ -225,12 +234,15 @@ namespace SubterfugeCoreTest.Core.Components
                 DrillerCount = 5,
                 SourceId = "2"
             };
-            var launchEvent = new LaunchEvent(new GameEventData()
+            var launchEvent = new LaunchEvent(new GameRoomEvent()
             {
-                EventData = launchEventData,
+                GameEventData = new GameEventData()
+                {
+                    OccursAtTick = 1,
+                    EventData = launchEventData,
+                },
                 Id = "asdf",
                 IssuedBy = initialOwner.ToUser(),
-                OccursAtTick = 1,
                 RoomId = "1",
                 TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
             });

@@ -23,7 +23,7 @@ namespace SubterfugeCoreTest
 		TimeMachine _tm;
 		Player _p;
 		Outpost _o1, _o2;
-		GameEventData _model1, _model2;
+		GameRoomEvent _model1, _model2;
 		TestUtils testUtils = new TestUtils();
 
 		[TestInitialize]
@@ -38,23 +38,29 @@ namespace SubterfugeCoreTest
 			_tm = _game.TimeMachine;
 			_o1 = _tm.GetState().GetPlayerOutposts(_p)[0];
 			_o2 = _tm.GetState().GetPlayerOutposts(_p)[1];
-			_model1 = new GameEventData()
+			_model1 = new GameRoomEvent()
 			{
-				EventData = new DrillMineEventData()
+				GameEventData = new GameEventData()
 				{
-					SourceId = _o1.GetComponent<IdentityManager>().GetId()
+					OccursAtTick = 10,
+					EventData = new DrillMineEventData()
+					{
+						SourceId = _o1.GetComponent<IdentityManager>().GetId()
+					},
 				},
 				Id = Guid.NewGuid().ToString(),
-				OccursAtTick = 10
 			};
-			_model2 = new GameEventData()
+			_model2 = new GameRoomEvent()
 			{
-				EventData = new DrillMineEventData()
+				GameEventData = new GameEventData()
 				{
-					SourceId = _o2.GetComponent<IdentityManager>().GetId()
+					OccursAtTick = 20,
+					EventData = new DrillMineEventData()
+					{
+						SourceId = _o2.GetComponent<IdentityManager>().GetId()
+					},
 				},
 				Id = Guid.NewGuid().ToString(),
-				OccursAtTick = 20
 			};
 		}
 
@@ -99,14 +105,17 @@ namespace SubterfugeCoreTest
 		{
 			DrillMineEvent drillMine = new DrillMineEvent(_model1);
 			DrillMineEvent drillSecondMine = new DrillMineEvent(_model2);
-			DrillMineEvent drillMineAgain = new DrillMineEvent(new GameEventData()
+			DrillMineEvent drillMineAgain = new DrillMineEvent(new GameRoomEvent()
 			{
-				EventData = new DrillMineEventData()
+				GameEventData = new GameEventData()
 				{
-					SourceId = _o1.GetComponent<IdentityManager>().GetId()
+					OccursAtTick = 25,
+					EventData = new DrillMineEventData()
+					{
+						SourceId = _o1.GetComponent<IdentityManager>().GetId()
+					},
 				},
 				Id = Guid.NewGuid().ToString(),
-				OccursAtTick = 25
 			});
 			_o1.GetComponent<DrillerCarrier>().AddDrillers(150);
 			_o2.GetComponent<DrillerCarrier>().AddDrillers(300);
