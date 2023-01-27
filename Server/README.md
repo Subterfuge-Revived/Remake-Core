@@ -14,78 +14,48 @@ to take place between the players and the server. Within this project you will f
 
 ## Setup
 
-1. Install a C# IDE. We prefer [Jetbrains Rider](https://www.jetbrains.com/rider/) but you could try [Visual Studios Community 2019](https://visualstudio.microsoft.com/) as well.
+See the [main repository readme](https://github.com/Subterfuge-Revived/Remake-Core) to setup your IDE.
 
-2. Once you have installed an IDE, ensure that you have the [.NET standard 2.0 framework](https://dotnet.microsoft.com/download/dotnet-core/2.0).
+## Local Server Deployment & Testing
 
-3. I'm sure if you're here this step is done but, you need to [download Git](https://git-scm.com/downloads) to gain access to the code
+#### Testing a Unity Client
 
-4. Fork this repository and `git clone` your fork.
+To test a Unity client, you will need a running instance of the Subterfuge Server as well as the database.
 
-Note: After cloning the repository you will have the `master` branch checked out. This is likely not the most recent version of the code. You will want to checkout a branch. Ask in our discord what branch is the most up to date.
+To deploy the server and database, ensure you are in the root directory (One directory up from the file you are looking at right now):
 
-5. Using your IDE, open the project's `.sln` file. This will open the project within your IDE. Once open in the IDE, you are ready to go.
+Then, deploy the server and database with the following command:
 
+```
+docker-compose up -d
+```
 
-## Server Deployment
+This command will start the subterfuge server, server tests, and the MongoDB database as docker containers.
+This will allow you to start up a local development server with everything needed to test a Unity client against.
 
-To deploy the server ensure you are in the `/Server` directory (This file is in the server directory):
+However, this will NOT let you run the debugger (which is usually extremely useful if you are trying to do server development or figure out why something in the server is not working properly.
+Which leads us to:
 
-`cd Server`
+#### Debugging the Server
 
-Deploy the server with:
+If you need to run the debugger on server to figure out why things aren't working, this can easily be done through the IDE.
 
-`docker-compose up -d`
+Note: If you have any docker containers running at this point, take them down with `docker-compose down` to get a fresh docker state.
 
-The above command, however, won't let you run the debugger. If you need to run the debugger on your project to test things, you should
-start the database alone with:
+The server requires the database to be running, and we can start just the database with the following command:
 
-`docker-compose up db -d`
+```
+docker-compose up db -d
+```
 
-Once started, you can then start your server locally (with debugging) if needed. First, modify `SubterfugeServer/Program.cs` line 16 and 12 to reference `localhost` instead of pointing to the docker container names.
-You can then run the `SubterfugeClient` repository to send sample requests to the server for debugging, or run the `SubterfugeServerTest` repository to run the entire test suite against the server.
+Once started, you can then start your server locally (with debugging) if needed.
+Right click on the `SubterfugeRestApiServer` project in your IDE and click:
 
-# Repositories
+- "Run SubterfugeRestApiServer" to just run the server locally or,
+- "Debug SubterfugeRestApiServer" to run the server in debug mode and allow you to set breakpoints in the server.
 
-#### ProtoFiles
-
-The profofiles project is a project that should ONLY include `.proto` files. [Protobuf]() is a message format that auto-generates server and client code so that native objects
-within the respective language can be used instead of relying on JSON and web API documentation. This makes it easy for developers to jump in and understand the networking code.
-In order to update the network interface, take a look at the [Protobuf language guide](https://developers.google.com/protocol-buffers/docs/proto3) which explains how to create messages,
-services, service endpoints, and more.
-
-<b>When you modify a `.proto` file, ensure that you `Build` this project! </b> When this project is built, it will create auto-generated files within the `ProtoGenerated` project.
-
-#### ProtoGenerated
-
-This project SHOULD NEVER BE MODIFIED. This project contains the generated `.cs` files that get created from the `.proto` files in the `ProtoFiles` project. This is a seperate repository
-because this repository doesn't include some of the Protobuf development libraries that are used to generate this code, thus making this project smaller. Additionally, the `ProtoFiles` project
-does not compile the generated `.cs` files. By putting the generated `.cs` fils in this project, the project will then compile the files and allow them to be used any dependent projects.
-
-This allows us to use the messages and C# objects defined in the network interface both in the gRPC server, as well as in the Client. This project does not need to be built or modified.
-
-#### SubterfugeClient
-
-This is currently a testing repository to send gRPC requests as a client to the server. This project will eventually evolve to be a standalone class library which contains a client interface to send
-network requests. This client should be included in the unity project to allow users of the app to send requests to the server.
-
-To send example requests to the server, modify `SubterfugeClient.cs` to use the gRPC endpoints of your choice and run the project.
-
-#### SubterfugeServer
-
-This project is the glue of the project. This project integrates the database and storage mechanism with the incoming client requests to facilitate multiplayer play. This project uses Redis,
-a key value store database as well as makes use of the gRPC service interface to handle incoming requests to the server.
-
-Learn the basics of [Redis here](https://docs.redislabs.com/latest/rs/references/client_references/client_csharp/) and [advanced set/get operations](https://redis.io/commands) here. Specifically [HSET and HGET](https://redis.io/commands/hset).
-
-Note: The database format is `key:value` ONLY and can only contain lists or dictionaries. However, it cannot contain complex types like a list of lists, or dictionary of dictionaries.
-Because of this, it is ideal to setup lookup tables if you are going to need to query on a specific field. For example,
-For a user, you will likely want to just obtain `user:19` to get data about user 19. However, when a user logs in they login with their username... Because of this, we need a lookup table for username to user id.
-This will be the case for many other tables and the right design will need to be thought about.
-
-To start a local server with debugging, modify `SubterfugeServer/Program.cs` line 16 and 12 to reference `localhost` instead of pointing to the docker container names. This will allow
-you to debug the server locally. You can then run the `SubterfugeClient` repository to send sample requests to the server for debugging.
+You can then run the Unity client and make requests to the server to debug, or run the integration tests, web server, discord bot, etc. to send requests to the local server for debugging.
 
 # MongoDB Table Design
 
-View the database models [here](https://github.com/Subterfuge-Revived/Remake-Core/tree/master/Server/SubterfugeServer/Database/Models)
+View the database models [here](https://github.com/Subterfuge-Revived/Remake-Core/tree/master/Server/SubterfugeDatabaseProvider/Models)
