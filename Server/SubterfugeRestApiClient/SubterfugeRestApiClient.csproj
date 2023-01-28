@@ -2,9 +2,9 @@
 
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
         <LangVersion>10</LangVersion>
-        <TargetFrameworks>net7.0;netstandard2.0</TargetFrameworks>
+        <TargetFramework>net7.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
