@@ -43,6 +43,7 @@
       "launchBrowser": false,
       "applicationUrl": "http://*:5295",
       "environmentVariables": {
+        "ENABLE_CORS": "true",
         "ASPNETCORE_ENVIRONMENT": "Docker"
       }
     }

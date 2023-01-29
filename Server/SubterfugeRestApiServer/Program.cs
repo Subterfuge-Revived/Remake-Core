@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeRestApiServer.Database;
 using SubterfugeRestApiServer.Middleware;
@@ -33,16 +34,10 @@ builder.Services.PostConfigure<ApiBehaviorOptions>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddControllers().AddNewtonsoftJson();
-
-/*
-builder.Services.AddControllers().AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-    }
-);
-*/
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+});
 
 builder.Services.AddSwaggerGen(genOptions =>
     {
