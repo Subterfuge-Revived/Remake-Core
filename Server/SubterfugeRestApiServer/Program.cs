@@ -1,8 +1,11 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using SubterfugeCore.Models.GameEvents;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeRestApiServer.Database;
 using SubterfugeRestApiServer.Middleware;
@@ -21,10 +24,9 @@ var config = new ConfigurationBuilder()
 
 // Add services to the container.
 
-// Add Exception Handling Filter
-builder.Services.AddControllers(options =>
+builder.Services.PostConfigure<ApiBehaviorOptions>(options =>
 {
-    options.Filters.Add<ExceptionResponseMiddleware>();
+    options.InvalidModelStateResponseFactory = ModelValidationActionFilter.InvalidModelStateResponseFactory();
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

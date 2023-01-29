@@ -52,9 +52,9 @@ public class GameEventControllerTest
         Assert.AreEqual(1, gameEvents.GameEvents.Count);
         Assert.IsTrue(gameEvents.GameEvents.Any(it => it.Id == eventResponse.EventId));
     }
-    
+
     [Test]
-    public async Task CanSubmitEachTypeOfGameEventAndGetItBack()
+    public async Task CanSubmitToggleShieldEvent()
     {
         SubmitGameEventResponse toggleSheildResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
@@ -67,7 +67,11 @@ public class GameEventControllerTest
         Assert.AreEqual(true, toggleSheildResponse.Status.IsSuccess);
         Assert.AreEqual(EventDataType.ToggleShieldEventData.ToString(), toggleSheildResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
         Assert.IsTrue(toggleSheildResponse.EventId != null);
-        
+    }
+
+    [Test]
+    public async Task CanSubmitPlayerLeaveGameEvent()
+    {
         SubmitGameEventResponse playerLeaveResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
             GameEventData = new GameEventData()
@@ -79,7 +83,11 @@ public class GameEventControllerTest
         Assert.AreEqual(true, playerLeaveResponse.Status.IsSuccess);
         Assert.AreEqual(EventDataType.PlayerLeaveGameEventData.ToString(), playerLeaveResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
         Assert.IsTrue(playerLeaveResponse.EventId != null);
-        
+    }
+
+    [Test]
+    public async Task CanSubmitDrillMineEvent()
+    {
         SubmitGameEventResponse drillMineResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
             GameEventData = new GameEventData()
@@ -91,7 +99,33 @@ public class GameEventControllerTest
         Assert.AreEqual(true, drillMineResponse.Status.IsSuccess);
         Assert.AreEqual(EventDataType.DrillMineEventData.ToString(), drillMineResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
         Assert.IsTrue(drillMineResponse.EventId != null);
-        
+    }
+
+    [Test]
+    public async Task CanSubmitLaunchEvent()
+    {
+        SubmitGameEventResponse launchEventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
+        {
+            GameEventData = new GameEventData()
+            {
+                EventData = new LaunchEventData()
+                {
+                    SourceId = "someOutpostId",
+                    DestinationId = "SomeDestination",
+                    DrillerCount = 10,
+                    SpecialistIds = new List<string>(),
+                },
+                OccursAtTick = 42,
+            },
+        }, gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(true, launchEventResponse.Status.IsSuccess);
+        Assert.AreEqual(EventDataType.LaunchEventData.ToString(), launchEventResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
+        Assert.IsTrue(launchEventResponse.EventId != null);
+    }
+    
+    [Test]
+    public async Task PlayerCanViewTheirOwnFutureEvents()
+    {
         SubmitGameEventResponse launchEventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
             GameEventData = new GameEventData()
@@ -113,7 +147,7 @@ public class GameEventControllerTest
         // Submitting player can see their own events
         var gameEvents = await TestUtils.GetClient().GameEventClient.GetGameRoomEvents(gameRoom.GameConfiguration.Id);
         Assert.AreEqual(true, gameEvents.Status.IsSuccess);
-        Assert.AreEqual(4, gameEvents.GameEvents.Count);
+        Assert.AreEqual(1, gameEvents.GameEvents.Count);
     }
 
     [Test]
