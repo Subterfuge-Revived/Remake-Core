@@ -68,28 +68,10 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         return response;
     }
 
-    [HttpGet]
-    [Route("afagagsadf")]
-    public Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
-    {
-        throw new NotImplementedException();
-    }
-
     [HttpPost]
     [Route("api/room/{roomId}/events")]
-    public async Task<SubmitGameEventResponse> SubmitGameEvent(string roomId)
+    public async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
     {
-        using var reader = new StreamReader(HttpContext.Request.Body);
-
-        // You shouldn't need this line anymore.
-        // reader.BaseStream.Seek(0, SeekOrigin.Begin);
-
-        // You now have the body string raw
-        var body = await reader.ReadToEndAsync();
-
-        // As well as a bound model
-        var request = JsonConvert.DeserializeObject<SubmitGameEventRequest>(body);
-        
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
             throw new UnauthorizedException();
