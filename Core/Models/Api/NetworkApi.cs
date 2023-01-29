@@ -127,6 +127,8 @@ namespace SubterfugeCore.Models.GameEvents.Api
         /// <param name="pagination">Page Number</param>
         /// <returns>A list of the currently banned players</returns>
         Task<GetBannedPlayerResponse> GetBannedPlayers(int pagination);
+
+        Task<Echo> EchoRequest(Echo request);
     }
     
     public interface ISubterfugeGameLobbyApi

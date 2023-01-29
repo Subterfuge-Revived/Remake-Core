@@ -78,4 +78,9 @@ namespace SubterfugeCore.Models.GameEvents
     {
         public List<DetailedUser> BannedUsers { get; set; }
     }
+
+    public class Echo
+    {
+        public string EchoContent { get; set; }
+    }
 }
