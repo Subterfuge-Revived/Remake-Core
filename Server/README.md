@@ -68,7 +68,7 @@ docker-compose --profile production up -d
 ```
 
 Once this command is executed, you will have a running database and server.
-Access the server at: `http://localhost:8080`, or view the swagger UI at `http://localhost:8080/swagger/index.html`
+Access the server at: `http://localhost:5295`, or view the swagger UI at `http://localhost:5295/swagger/index.html`
 
 #### `test` Deployment
 
