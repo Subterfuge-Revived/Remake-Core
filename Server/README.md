@@ -18,43 +18,76 @@ See the [main repository readme](https://github.com/Subterfuge-Revived/Remake-Co
 
 ## Local Server Deployment & Testing
 
-#### Testing a Unity Client
+#### Running the Server
 
-To test a Unity client, you will need a running instance of the Subterfuge Server as well as the database.
+To run the server, there are a few different options depending on the type of setup you would like to run.
+However, no matter the setup, we will be using docker compose.
 
-To deploy the server and database, ensure you are in the root directory (One directory up from the file you are looking at right now):
+All deployments will require a running instances of the database to connect to in order to ensure that data can be saved to the database.
 
-Then, deploy the server and database with the following command:
+There are currently 3 different deployment modes: `default`, `production`, `test`:
+
+- `default` - Only deploys the database. This is useful if you are working on changes to the server
+- `production` - Deploys the database and server. This is useful if you are working on a client (website, unity, discord bot, etc.) and don't want to change the server.
+- `test` - Only really useful for CI/CD pipelines. This deployment will deploy the server, database, and will start up an extra container that runs the integration tests against the server. Not advised for local development because the integration tests will flush(delete) the entire database for testing.
+
+#### `default` Deployment
+
+The default deployment will only deploy the database. This is useful if you are trying to debug the server, or plan on running the server locally for development purposes.
+This mode allows you to quickly stop the server to make quick modifications to debug or implement server functionality.
+
+To deploy in the default mode (only the database), ensure you are in the root directory (One directory up from the file you are looking at right now):
+
+Then, deploy the database with the following command:
 
 ```
 docker-compose up -d
 ```
 
-This command will start the subterfuge server, server tests, and the MongoDB database as docker containers.
-This will allow you to start up a local development server with everything needed to test a Unity client against.
-
-However, this will NOT let you run the debugger (which is usually extremely useful if you are trying to do server development or figure out why something in the server is not working properly.
-Which leads us to:
-
 #### Debugging the Server
 
-If you need to run the debugger on server to figure out why things aren't working, this can easily be done through the IDE.
-
-Note: If you have any docker containers running at this point, take them down with `docker-compose down` to get a fresh docker state.
-
-The server requires the database to be running, and we can start just the database with the following command:
-
-```
-docker-compose up db -d
-```
-
-Once started, you can then start your server locally (with debugging) if needed.
-Right click on the `SubterfugeRestApiServer` project in your IDE and click:
+Now that we have started the database, it is likely we will want to run or debug the server locally.
+You can then start your server locally (with debugging) if needed directly from the IDE.
+Right click on the `SubterfugeRestApiServer` project in your IDE and click one of the two options:
 
 - "Run SubterfugeRestApiServer" to just run the server locally or,
-- "Debug SubterfugeRestApiServer" to run the server in debug mode and allow you to set breakpoints in the server.
+- "Debug SubterfugeRestApiServer" to run the server in debug mode. This will allow you to set breakpoints in the server for debugging potential bugs.
 
-You can then run the Unity client and make requests to the server to debug, or run the integration tests, web server, discord bot, etc. to send requests to the local server for debugging.
+Once the server is running you can then run the Unity client, frontend web server, run integration tests, discord bot, etc. to send requests to the local server for debugging.
+
+#### `production` Deployment
+
+The production deployment will deploy the mongo database as well as a running instance of the server.
+This is most useful if you are not planning to change the server and just want to develop a client, for example, the unity client, discord bot, website, etc.
+
+To deploy in production mode, ensure that you are in the root directory (One directory up from the file you are looking at right now).
+Then, deploy with the following command:
+
+```
+docker-compose --profile production up -d
+```
+
+Once this command is executed, you will have a running database and server.
+Access the server at: `http://localhost:8080`, or view the swagger UI at `http://localhost:8080/swagger/index.html`
+
+#### `test` Deployment
+
+The `test` deployment is not advised to be used locally.
+This deployment is mainly for testing the server builds within a CI/CD pipeline.
+This deployment starts up the database, server, and a container that executes integration tests.
+
+The integration tests will flush the mongodb database when they start up so it is not advised to start this mode locally unless you are okay with deleting your entire database.
+
+To deploy in production mode, ensure that you are in the root directory (One directory up from the file you are looking at right now).
+Then, deploy with the following command:
+
+```
+docker-compose --profile test up -d
+```
+
+Once this command is executed, you will have a running database and server as well as a container executing integration tests against them.
+The CI/CD pipeline uses the following extra flags: `--abort-on-container-exit --exit-code-from server_test`.
+These flags will get the exit code from the integration test container and return them to the CI/CD pipeline. If the tests pass, the CI/CD pipeline passes, otherwise the pipeline fails.
 
 # MongoDB Table Design
 

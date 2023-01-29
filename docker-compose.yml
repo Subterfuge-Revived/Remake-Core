@@ -2,6 +2,7 @@
 
 services:
   server:
+    profiles: ["test", "production"]
     build: .
     image: subterfuge_server
     depends_on:
@@ -26,6 +27,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=password
       - MONGO_INITDB_DATABASE=subterfugeDb
   server_test:
+    profiles: ["test"]
     build:
       context: .
       target: test
