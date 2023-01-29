@@ -240,4 +240,11 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
             BannedUsers = bannedPlayers
         };
     }
+
+    [HttpPost]
+    [Route("echo")]
+    public async Task<Echo> EchoRequest(Echo request)
+    {
+        return request;
+    }
 }

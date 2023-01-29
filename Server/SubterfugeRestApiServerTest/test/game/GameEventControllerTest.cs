@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json;
+using NUnit.Framework;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeRestApiClient;
 using SubterfugeRestApiClient.controllers.exception;
@@ -557,6 +558,8 @@ public class GameEventControllerTest
                 OccursAtTick = 3,
             },
         };
+
+
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(request, gameRoom.GameConfiguration.Id);

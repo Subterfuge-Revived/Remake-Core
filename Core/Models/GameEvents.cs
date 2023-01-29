@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using JsonSubTypes;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace SubterfugeCore.Models.GameEvents
 {

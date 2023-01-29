@@ -1,16 +1,14 @@
-using System.Text.Json;
 using System.Text.Json.Serialization;
+using JsonSubTypes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
-using MongoDB.Driver;
-using SubterfugeCore.Models.GameEvents;
+using Newtonsoft.Json;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeRestApiServer.Database;
 using SubterfugeRestApiServer.Middleware;
 using SubterfugeServerConsole.Connections;
-using HostingEnvironmentExtensions = Microsoft.AspNetCore.Hosting.HostingEnvironmentExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,21 +20,29 @@ var config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-// Add services to the container.
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ExceptionResponseMiddleware>();
+});
 
 builder.Services.PostConfigure<ApiBehaviorOptions>(options =>
 {
-    options.InvalidModelStateResponseFactory = ModelValidationActionFilter.InvalidModelStateResponseFactory();
+    options.InvalidModelStateResponseFactory = ErrorResponseMapper.ValidationErrorFactory();
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddControllers().AddNewtonsoftJson();
+
+/*
 builder.Services.AddControllers().AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     }
 );
+*/
 
 builder.Services.AddSwaggerGen(genOptions =>
     {

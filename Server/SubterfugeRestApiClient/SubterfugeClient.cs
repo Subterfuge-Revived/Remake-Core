@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using SubterfugeRestApiClient.controllers.account;
+using SubterfugeRestApiClient.controllers.admin;
 using SubterfugeRestApiClient.controllers.game;
 using SubterfugeRestApiClient.controllers.health;
 using SubterfugeRestApiClient.controllers.social;
@@ -20,6 +21,7 @@ namespace SubterfugeRestApiClient
         public HealthClient HealthClient;
         public SocialClient SocialClient;
         public SpecialistClient SpecialistClient;
+        public AdminClient AdminClient;
         
         /// <summary>
         /// The client constructor.
@@ -68,6 +70,7 @@ namespace SubterfugeRestApiClient
             HealthClient = new HealthClient(Client);
             SocialClient = new SocialClient(Client);
             SpecialistClient = new SpecialistClient(Client);
+            AdminClient = new AdminClient(Client);
         }
     }    
 }
