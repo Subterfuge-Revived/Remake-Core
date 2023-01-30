@@ -41,6 +41,17 @@ public class SocialControllerFriendTest
         Assert.AreEqual(1, friendRequests.FriendRequests.Count);
         Assert.IsTrue(friendRequests.FriendRequests.Any(request => request.Id == userOne.User.Id));
     }
+    
+    [Test]
+    public async Task AfterSendingAFriendRequestTheRequestDoesNotAppearInTheOriginatingPlayersFriendRequestList()
+    {
+        var response = await TestUtils.GetClient().SocialClient.AddAcceptFriendRequest(userTwo.User.Id);
+        Assert.IsTrue(response.Status.IsSuccess);
+
+        var friendRequests = await TestUtils.GetClient().SocialClient.ViewFriendRequests(userOne.User.Id);
+        Assert.IsTrue(friendRequests.Status.IsSuccess);
+        Assert.AreEqual(0, friendRequests.FriendRequests.Count);
+    }
 
     [Test]
     public async Task PlayerCannotSendMultipleFriendRequests()

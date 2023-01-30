@@ -75,8 +75,9 @@ public class SocialController : ControllerBase, ISubterfugeSocialApi
         if (targetUser == null)
             throw new NotFoundException("The target player was not found");
         
+        // For friend requests, if you didn't start the relation, you will be the friend ID
         var requests = (await _dbRelations.Query()
-                .Where(relation => relation.Player.Id == userId || relation.Friend.Id == userId)
+                .Where(relation => relation.Friend.Id == userId)
                 .Where(relation => relation.RelationshipStatus == RelationshipStatus.Pending)
                 .ToListAsync())
             .Select(it => it.GetOtherUser(userId))

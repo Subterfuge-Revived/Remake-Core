@@ -6,7 +6,7 @@ public class DbServerAction
 {
     public string Id { get; set;  } = Guid.NewGuid().ToString();
     public DateTime TimesAccessed { get; set; } = DateTime.UtcNow;
-    public DateTime ExpiresAt { get; set; } = DateTime.UtcNow.AddMonths(6);
+    public DateTime ExpiresAt { get; set; } = DateTime.UtcNow.AddMonths(2);
     public string? Username { get; set; }
     public string? UserId { get; set; }
     public string? RemoteIpAddress { get; set; }

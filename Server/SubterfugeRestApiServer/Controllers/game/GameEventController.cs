@@ -80,27 +80,50 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         if (lobby == null)
             throw new NotFoundException("Cannot find the room you wish to submit this event to.");
 
-        if (!lobby.PlayerIdsInLobby.Contains(dbUserModel.Id))
-            throw new ForbidException();
+        var adminEventTypes = new[]
+        {
+            EventDataType.PauseGameEventData,
+            EventDataType.GameEndEventData,
+            EventDataType.UnpauseGameEventData,
+            EventDataType.PlayerLeaveGameEventData, // Admins can kick a player from a game.
+        };
+        
+        // Determine if the user is trying to submit an admin-only game event:
+        EventDataType eventType = EventDataType.Unknown;
+        EventDataType.TryParse(request.GameEventData.EventData.EventDataType, true, out eventType);
+
+        if (!dbUserModel.HasClaim(UserClaim.Administrator))
+        {
+            // They must be in the lobby
+            if (!lobby.PlayerIdsInLobby.Contains(dbUserModel.Id))
+                throw new ForbidException();
+            
+            // If they are in the lobby, ensure their event is not an admin event.
+            if(adminEventTypes.Contains(eventType))
+                throw new ForbidException();
+
+        }
+        else
+        {
+            // If admin, ensure that if they are not a player in the game they cannot send real game events.
+            // They must be in the lobby
+            if (!lobby.PlayerIdsInLobby.Contains(dbUserModel.Id))
+            {
+                if (!adminEventTypes.Contains(eventType))
+                    throw new ForbidException();
+            }
+        }
         
         // Determine what tick the game is currently at.
         GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
         if(request.GameEventData.OccursAtTick <= currentTick.GetTick())
-            throw new BadRequestException("Cannot delete an event that has already happened. Current Tick:" + currentTick.GetTick());
+            throw new BadRequestException("Cannot submit an event that has already happened. Current Tick:" + currentTick.GetTick());
+        
+        // TODO: Determine if any players have left the game or lost the game.
+        // Prevent players who have left or lost from submitting events (Or we just let them but prevent it in the core side.
+        // Might be easier. Then we just check if the game is over and throw out the game events that are not valid.
+        // Either we stop the events here, or stop them on the client.
 
-        // Determine if the user is trying to submit an admin-only game event:
-        EventDataType eventType = EventDataType.Unknown;
-        EventDataType.TryParse(request.GameEventData.EventData.EventDataType, true, out eventType);
-        
-        if (eventType == EventDataType.PauseGameEventData ||
-            eventType == EventDataType.UnpauseGameEventData ||
-            eventType == EventDataType.GameEndEventData)
-        {
-            // Only admins can create these type of events.
-            if (!dbUserModel.HasClaim(UserClaim.Administrator))
-                throw new ForbidException();
-        }
-        
         // Attempt to parse the event data into the actual event class
         NetworkGameEventData? castEvent = null;
         switch (eventType)
@@ -133,6 +156,30 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
 
         var gameEvent = DbGameEvent.FromGameEventRequest(request, dbUserModel.ToUser(), roomId);
         await _dbGameEvents.Upsert(gameEvent);
+        
+        // If the game event was an end game event, we should also update the lobby to be marked as closed and the game over.
+        // TODO: Give out player exp here, count Np, save player stats, etc. Make a method somewhere for handling game end operations.
+        if (eventType == EventDataType.GameEndEventData)
+        {
+            var expiration = DateTime.Now.AddMonths(2);
+            
+            lobby.RoomStatus = RoomStatus.Closed;
+            lobby.TimeEnded = DateTime.Now;
+            
+            // Mark all game events to expire in 2 months.
+            var lobbyGameEvents = (await _dbGameEvents.Query()
+                .Where(it => it.RoomId == lobby.Id)
+                .ToListAsync());
+            
+            // TODO: Make a bulk update method for this... This is expensive AF.
+            foreach(var lobbyGameEvent in lobbyGameEvents)
+            {
+                lobbyGameEvent.ExpiresAt = expiration;
+                await _dbGameEvents.Upsert(lobbyGameEvent);
+            }
+
+            await _dbGameLobbies.Upsert(lobby);
+        }
 
         return new SubmitGameEventResponse()
         {
