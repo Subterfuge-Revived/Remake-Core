@@ -99,7 +99,7 @@ namespace SubterfugeCore.Models.GameEvents.Api
         /// <param name="reason">The reason for the ban</param>
         /// <param name="adminNotes">Extra admin-only notes</param>
         /// <returns>If the ban was successful or not</returns>
-        Task<NetworkResponse> BanPlayer(string userId, DateTime until, string reason, string adminNotes);
+        Task<NetworkResponse> BanPlayer(BanPlayerRequest banRequest);
         
         /// <summary>
         /// Bans an IP or range of IP addresses
@@ -110,7 +110,7 @@ namespace SubterfugeCore.Models.GameEvents.Api
         /// <param name="until">The date to ban the IPs until.</param>
         /// <param name="adminNotes">Extra admin-only notes</param>
         /// <returns>If the ban was successful or not</returns>
-        Task<NetworkResponse> BanIp(string directIpOrRegex, DateTime until, string adminNotes);
+        Task<NetworkResponse> BanIp(BanIpRequest banIpRequest);
         
         /// <summary>
         /// Get a list of current IP bans

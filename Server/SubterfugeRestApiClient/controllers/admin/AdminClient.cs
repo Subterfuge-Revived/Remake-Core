@@ -34,14 +34,9 @@ public class AdminClient : ISubterfugeAdminApi
         return await response.Content.ReadAsAsync<ServerExceptionLogResponse>();
     }
 
-    public async Task<NetworkResponse> BanPlayer(string userId, DateTime until, string reason, string adminNotes)
+    public async Task<NetworkResponse> BanPlayer(BanPlayerRequest banPlayerRequest)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/admin/banPlayer", new 
-        {
-            userId,
-            until,
-            adminNotes
-        });
+        HttpResponseMessage response = await client.PostAsJsonAsync($"api/admin/banPlayer", banPlayerRequest);
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
@@ -49,14 +44,9 @@ public class AdminClient : ISubterfugeAdminApi
         return await response.Content.ReadAsAsync<NetworkResponse>();
     }
 
-    public async Task<NetworkResponse> BanIp(string directIpOrRegex, DateTime until, string adminNotes)
+    public async Task<NetworkResponse> BanIp(BanIpRequest banIpRequest)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/admin/banIp", new 
-        {
-            directIpOrRegex,
-            until,
-            adminNotes
-        });
+        HttpResponseMessage response = await client.PostAsJsonAsync($"api/admin/banIp", banIpRequest);
         if (!response.IsSuccessStatusCode)
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);

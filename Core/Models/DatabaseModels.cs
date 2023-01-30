@@ -10,7 +10,6 @@ namespace SubterfugeCore.Models.GameEvents
         public string Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
-        public bool EmailVerified { get; set; }
         public string DeviceIdentifier { get; set; }
         public string PhoneNumberHash { get; set; }
         public string DiscordUsername { get; set; }

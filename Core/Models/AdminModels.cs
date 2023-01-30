@@ -74,6 +74,21 @@ namespace SubterfugeCore.Models.GameEvents
         public string AdminNotes { get; set; }
     }
 
+    public class BanPlayerRequest
+    {
+        public string UserId { get; set; }
+        public DateTime Until { get; set; } = DateTime.Now.AddDays(1);
+        public string Reason { get; set; }
+        public string AdminNotes { get; set; } = "";
+    }
+
+    public class BanIpRequest
+    {
+        public string DirectIpOrRegex { get; set; }
+        public DateTime Until { get; set; } = DateTime.Now.AddDays(1);
+        public string AdminNotes { get; set; } = "";
+    }
+
     public class GetBannedPlayerResponse
     {
         public List<DetailedUser> BannedUsers { get; set; }

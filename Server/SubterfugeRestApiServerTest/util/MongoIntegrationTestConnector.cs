@@ -31,7 +31,6 @@ namespace SubterfugeServerConsole.Connections
                 Id = "1",
                 Username = "admin",
                 Email = "admin@admin.com",
-                EmailVerified = true,
                 PasswordHash = HashPassword("admin"),
                 Claims = new[] { UserClaim.User, UserClaim.Administrator, UserClaim.EmailVerified }
             };

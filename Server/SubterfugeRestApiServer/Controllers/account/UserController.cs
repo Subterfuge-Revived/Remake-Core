@@ -20,13 +20,14 @@ namespace SubterfugeRestApiServer;
 public class UserController : ControllerBase, ISubterfugeAccountApi
 {
     
-    private IDatabaseCollection<DbUserModel> _dbUsers;
-    private IDatabaseCollection<DbChatMessage> _dbChatMessages;
+    private readonly IDatabaseCollection<DbUserModel> _dbUsers;
+    private readonly IDatabaseCollection<DbChatMessage> _dbChatMessages;
 
     public UserController(IConfiguration configuration, IDatabaseCollectionProvider mongo)
     {
         _config = configuration;
         _dbUsers = mongo.GetCollection<DbUserModel>();
+        _dbChatMessages = mongo.GetCollection<DbChatMessage>();
     }
 
     private readonly IConfiguration _config;

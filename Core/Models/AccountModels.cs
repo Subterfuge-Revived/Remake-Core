@@ -72,7 +72,5 @@ namespace SubterfugeCore.Models.GameEvents
         EmailVerified,
         PhoneVerified,
         DiscordVerified,
-        Banned,
-        Muted,
     }
 }

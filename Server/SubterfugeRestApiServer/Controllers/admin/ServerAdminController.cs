@@ -122,7 +122,7 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
 
     [HttpPost]
     [Route("banPlayer")]
-    public async Task<NetworkResponse> BanPlayer(string userId, DateTime until, string reason, string adminNotes)
+    public async Task<NetworkResponse> BanPlayer(BanPlayerRequest banPlayerRequest)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
@@ -131,19 +131,19 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
         if (!dbUserModel.HasClaim(UserClaim.Administrator))
             throw new ForbidException();
         
-        DbUserModel? targetUser = await _dbUsers.Query().FirstOrDefaultAsync(it => it.Id == userId);
+        DbUserModel? targetUser = await _dbUsers.Query().FirstOrDefaultAsync(it => it.Id == banPlayerRequest.UserId);
         if (targetUser == null)
             throw new NotFoundException("User not found.");
 
         targetUser.BanHistory.Add(new AccountBan()
         {
-            AdministratorNotes = adminNotes,
-            DateExpires = until,
-            Reason = reason
+            AdministratorNotes = banPlayerRequest.AdminNotes,
+            DateExpires = banPlayerRequest.Until,
+            Reason = banPlayerRequest.Reason
         });
 
-        if (targetUser.BannedUntil <= until)
-            targetUser.BannedUntil = until;
+        if (targetUser.BannedUntil <= banPlayerRequest.Until)
+            targetUser.BannedUntil = banPlayerRequest.Until;
         
         await _dbUsers.Upsert(targetUser);
         
@@ -151,7 +151,7 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
         {
             Status = new ResponseStatus()
             {
-                Detail = $"Successfully banned {userId} until {until}",
+                Detail = $"Successfully banned {banPlayerRequest.UserId} until {banPlayerRequest.Until}",
                 IsSuccess = true,
                 ResponseType = ResponseType.SUCCESS
             }
@@ -161,7 +161,7 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
     [Authorize(Roles = "Administrator")]
     [HttpPost]
     [Route("banIp")]
-    public async Task<NetworkResponse> BanIp(string directIpOrRegex, DateTime until, string adminNotes)
+    public async Task<NetworkResponse> BanIp(BanIpRequest banIpRequest)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
@@ -172,9 +172,9 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
 
         var newBan = new DbIpBan()
         {
-            BannedUntil = until,
-            IpAddressOrRegex = directIpOrRegex,
-            AdminNotes = adminNotes,
+            BannedUntil = banIpRequest.Until,
+            IpAddressOrRegex = banIpRequest.DirectIpOrRegex,
+            AdminNotes = banIpRequest.AdminNotes,
         };
         
         await _dbIpBans.Upsert(newBan);
@@ -183,7 +183,7 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
         {
             Status = new ResponseStatus()
             {
-                Detail = $"Successfully banned {directIpOrRegex} until {until}",
+                Detail = $"Successfully banned {banIpRequest.DirectIpOrRegex} until {banIpRequest.Until}",
                 IsSuccess = true,
                 ResponseType = ResponseType.SUCCESS
             }

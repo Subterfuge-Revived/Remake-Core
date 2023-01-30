@@ -102,7 +102,6 @@ namespace SubterfugeServerConsole.Connections
                 Id = "1",
                 Username = _config.SuperUserUsername,
                 Email = _config.SuperUserUsername,
-                EmailVerified = true,
                 PasswordHash = JwtManager.HashString(_config.SuperUserPassword),
                 Claims = new [] { UserClaim.User, UserClaim.Administrator, UserClaim.EmailVerified }
             };
