@@ -85,7 +85,6 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
             EventDataType.PauseGameEventData,
             EventDataType.GameEndEventData,
             EventDataType.UnpauseGameEventData,
-            EventDataType.PlayerLeaveGameEventData, // Admins can kick a player from a game.
         };
         
         // Determine if the user is trying to submit an admin-only game event:
@@ -101,7 +100,6 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
             // If they are in the lobby, ensure their event is not an admin event.
             if(adminEventTypes.Contains(eventType))
                 throw new ForbidException();
-
         }
         else
         {
@@ -148,6 +146,16 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
                 break;
             case EventDataType.PlayerLeaveGameEventData:
                 castEvent = (request.GameEventData.EventData as PlayerLeaveGameEventData);
+                if (!dbUserModel.HasClaim(UserClaim.Administrator))
+                {
+                    // Ensure the player in the leave event is the player making the request.
+                    // If a player is trying to force someone else to leave, punish them and make them leave instead...
+                    (request.GameEventData.EventData as PlayerLeaveGameEventData).Player = new SimpleUser()
+                    {
+                        Id = dbUserModel.Id,
+                        Username = dbUserModel.Username
+                    };
+                }
                 break;
         }
         

@@ -184,7 +184,7 @@ public class LobbyControllerTest
         await InitLobbiesForQueryParams();
         
         // All rooms are listed in the default lobby view.
-        GetLobbyResponse allOpenLobbyResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ RoomStatus = RoomStatus.Open});
+        GetLobbyResponse allOpenLobbyResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ RoomStatus = RoomStatus.Open });
         Assert.AreEqual(allOpenLobbyResponse.Status.IsSuccess, true);
         Assert.AreEqual(4,allOpenLobbyResponse.Lobbies.Length);
     }
@@ -195,7 +195,7 @@ public class LobbyControllerTest
         await InitLobbiesForQueryParams();
         
         // Check filter by creator
-        GetLobbyResponse createdByResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ CreatedByUserId = userOne.User.Id});
+        GetLobbyResponse createdByResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ CreatedByUserId = userOne.User.Id, RoomStatus = RoomStatus.Open });
         Assert.AreEqual(1,createdByResponse.Lobbies.Length);
         Assert.IsTrue(createdByResponse.Lobbies.All(lobby => lobby.Creator.Id == userOne.User.Id));
     }
@@ -228,7 +228,7 @@ public class LobbyControllerTest
         var rooms = await InitLobbiesForQueryParams();
         
         // Check filter by ranked
-        GetLobbyResponse rankedResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ IsRanked = false});
+        GetLobbyResponse rankedResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ IsRanked = false, RoomStatus = RoomStatus.Open});
         Assert.AreEqual(2,rankedResponse.Lobbies.Length);
         Assert.IsTrue(rankedResponse.Lobbies.All(lobby => lobby.GameSettings.IsRanked == false));
     }
@@ -261,7 +261,7 @@ public class LobbyControllerTest
         var rooms = await InitLobbiesForQueryParams();
         
         // Check filter by maxPlayers
-        GetLobbyResponse maxPlayersResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ MaxPlayers = 9});
+        GetLobbyResponse maxPlayersResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest(){ MaxPlayers = 9, RoomStatus = RoomStatus.Open });
         Assert.AreEqual(2,maxPlayersResponse.Lobbies.Length);
         Assert.IsTrue(maxPlayersResponse.Lobbies.All(lobby => lobby.GameSettings.MaxPlayers < 9));
     }
