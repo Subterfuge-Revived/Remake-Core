@@ -68,6 +68,7 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class IpBans
     {
+        public string Reason { get; set; }
         public string IpOrRegex { get; set; }
         public DateTime DateApplied { get; set; }
         public DateTime BannedUntil { get; set; }
@@ -85,6 +86,8 @@ namespace SubterfugeCore.Models.GameEvents
     public class BanIpRequest
     {
         public string DirectIpOrRegex { get; set; }
+        
+        public string Reason { get; set; }
         public DateTime Until { get; set; } = DateTime.Now.AddDays(1);
         public string AdminNotes { get; set; } = "";
     }

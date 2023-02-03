@@ -146,15 +146,18 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
             // Create a filter that require the claim to exist in the user claims
             query = query.Where(it => it.Claims.Any(it => it == request.RequireUserClaim));
 
-        if (request.isBanned)
+        if (request.isBanned != null)
         {
-            // Create a filter that only gets models with a 'BannedUntil' date after today.
-            query = query.Where(it => it.BannedUntil > DateTime.UtcNow);
-        }
-        else
-        {
-            // Create a filter that only gets models with a 'BannedUntil' date before today.
-            query = query.Where(it => it.BannedUntil <= DateTime.UtcNow);
+            if ((bool)request.isBanned)
+            {
+                // Create a filter that only gets models with a 'BannedUntil' date after today.
+                query = query.Where(it => it.BannedUntil > DateTime.UtcNow);
+            }
+            else
+            {
+                // Create a filter that only gets models with a 'BannedUntil' date before today.
+                query = query.Where(it => it.BannedUntil <= DateTime.UtcNow);
+            }
         }
 
         var matchingUsers = (await query

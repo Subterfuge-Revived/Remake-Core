@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using System;
 using System.Collections.Generic;
 
 namespace SubterfugeCore.Models.GameEvents
@@ -49,7 +48,7 @@ namespace SubterfugeCore.Models.GameEvents
         public string? DeviceIdentifierSearch { get; set; } = "";
         public string? UserIdSearch { get; set; } = "";
         public UserClaim? RequireUserClaim { get; set; } = null;
-        public bool isBanned { get; set; } = false;
+        public bool? isBanned { get; set; } = null;
         public int pagination { get; set; } = 1;
     }
 

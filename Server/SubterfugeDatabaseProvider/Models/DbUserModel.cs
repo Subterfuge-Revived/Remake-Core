@@ -70,6 +70,7 @@ public class DbUserModel
             PushNotificationIdentifier = PushNotificationIdentifier,
             DeviceType = DeviceType,
             MultiboxAccounts = MultiboxAccounts,
+            BanHistory = BanHistory,
         };
     }
 
@@ -89,12 +90,4 @@ public class DbUserModel
     {
         return Claims.Contains(claim);
     }
-}
-
-public class AccountBan
-{
-    public string Reason { get; set; }
-    public string AdministratorNotes { get; set; }
-    public DateTime DateExpires { get; set; }
-    public DateTime DateApplied { get; set; } = DateTime.UtcNow;
 }
