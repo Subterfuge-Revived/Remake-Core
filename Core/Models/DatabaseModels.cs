@@ -21,8 +21,8 @@ namespace SubterfugeCore.Models.GameEvents
         // Administrative
         public DateTime DateCreated { get; set; }
         public DateTime BannedUntil { get; set; }
-        
-        public List<BanHistory> BanHistory { get; set; }
+
+        public List<AccountBan> BanHistory { get; set; } = new List<AccountBan>();
     }
 
     public class SimpleUser
@@ -69,7 +69,7 @@ namespace SubterfugeCore.Models.GameEvents
         DUPLICATE_EMAIL,
     }
 
-    public class BanHistory
+    public class AccountBan
     {
         public string Reason { get; set; }
         public string AdministratorNotes { get; set; }

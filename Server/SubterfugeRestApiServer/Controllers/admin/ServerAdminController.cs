@@ -122,7 +122,7 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
 
     [HttpPost]
     [Route("banPlayer")]
-    public async Task<NetworkResponse> BanPlayer(BanPlayerRequest banPlayerRequest)
+    public async Task<NetworkResponse> BanPlayer([FromBody] BanPlayerRequest banPlayerRequest)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
@@ -161,7 +161,7 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
     [Authorize(Roles = "Administrator")]
     [HttpPost]
     [Route("banIp")]
-    public async Task<NetworkResponse> BanIp(BanIpRequest banIpRequest)
+    public async Task<NetworkResponse> BanIp([FromBody] BanIpRequest banIpRequest)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
@@ -172,6 +172,7 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
 
         var newBan = new DbIpBan()
         {
+            Reason = banIpRequest.Reason,
             BannedUntil = banIpRequest.Until,
             IpAddressOrRegex = banIpRequest.DirectIpOrRegex,
             AdminNotes = banIpRequest.AdminNotes,
