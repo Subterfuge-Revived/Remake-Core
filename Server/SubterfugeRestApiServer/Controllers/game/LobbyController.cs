@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using Newtonsoft.Json;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeCore.Models.GameEvents.Api;
@@ -207,17 +208,21 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
             // Create player leave event.
             // Get current tick
             GameTick now = new GameTick(room.TimeStarted, DateTime.UtcNow);
+
+            var eventData = new GameEventData()
+            {
+                EventData = new PlayerLeaveGameEventData()
+                {
+                    Player = dbUserModel.ToSimpleUser()
+                },
+                OccursAtTick = now.GetTick(),
+            };
             
             var leaveEvent = new DbGameEvent()
             {
-                EventData = new GameEventData()
-                {
-                    EventData = new PlayerLeaveGameEventData()
-                    {
-                        Player = dbUserModel.ToSimpleUser()
-                    },
-                    OccursAtTick = now.GetTick(),
-                } ,
+                OccursAtTick = now.GetTick(),
+                GameEventType = eventData.EventData.EventDataType,
+                SerializedEventData = JsonConvert.SerializeObject(eventData),
                 IssuedBy = dbUserModel.ToUser(),
                 RoomId = room.Id,
             };

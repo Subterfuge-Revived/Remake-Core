@@ -58,7 +58,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         if (!dbUserModel.HasClaim(UserClaim.Administrator))
         {
             events = events
-                .Where(it => it.EventData.OccursAtTick <= currentTick.GetTick() || it.IssuedBy.Id == dbUserModel.Id)
+                .Where(it => it.OccursAtTick <= currentTick.GetTick() || it.IssuedBy.Id == dbUserModel.Id)
                 .ToList();
         }
 
@@ -219,10 +219,12 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         // Determine if the event has already passed.
         GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
 
-        if (gameEvent.EventData.OccursAtTick <= currentTick.GetTick())
+        if (gameEvent.OccursAtTick <= currentTick.GetTick())
             throw new BadRequestException("Cannot delete an event that has already happened");
         
-        gameEvent.EventData = request.GameEventData;
+        gameEvent.OccursAtTick = request.GameEventData.OccursAtTick;
+        gameEvent.GameEventType = request.GameEventData.EventData.EventDataType;
+        gameEvent.SerializedEventData = JsonConvert.SerializeObject(request.GameEventData.EventData);
         await _dbGameEvents.Upsert(gameEvent);
         
         return new SubmitGameEventResponse()
@@ -252,7 +254,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         // Determine if the event has already passed.
         GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
 
-        if (gameEvent.EventData.OccursAtTick <= currentTick.GetTick())
+        if (gameEvent.OccursAtTick <= currentTick.GetTick())
             throw new BadRequestException("Cannot delete an event that has already happened");
 
         if (gameEvent.IssuedBy.Id != dbUserModel.Id)

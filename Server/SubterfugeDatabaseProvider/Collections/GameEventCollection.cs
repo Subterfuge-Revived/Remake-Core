@@ -38,7 +38,7 @@ public class GameEventCollection : IDatabaseCollection<DbGameEvent>
         {
             new CreateIndexModel<DbGameEvent>(Builders<DbGameEvent>.IndexKeys.Hashed(gameEvent => gameEvent.IssuedBy.Id)),
             new CreateIndexModel<DbGameEvent>(Builders<DbGameEvent>.IndexKeys.Ascending(gameEvent => gameEvent.TimeIssued)),
-            new CreateIndexModel<DbGameEvent>(Builders<DbGameEvent>.IndexKeys.Ascending(gameEvent => gameEvent.EventData.OccursAtTick)),
+            new CreateIndexModel<DbGameEvent>(Builders<DbGameEvent>.IndexKeys.Ascending(gameEvent => gameEvent.OccursAtTick)),
             new CreateIndexModel<DbGameEvent>(keys: Builders<DbGameEvent>.IndexKeys.Ascending(room => room.ExpiresAt), options: new CreateIndexOptions()
             {
                 ExpireAfter = TimeSpan.FromSeconds(0),
