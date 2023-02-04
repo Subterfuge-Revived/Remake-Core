@@ -3,6 +3,13 @@ using SubterfugeCore.Models.GameEvents;
 
 namespace SubterfugeDatabaseProvider.Models;
 
+public class UncaughtEventTypeException : Exception
+{
+    public UncaughtEventTypeException() : base("Server could not deserialize the event based on the provided Event type.")
+    {
+    }
+}
+
 public class DbGameEvent
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -53,7 +60,9 @@ public class DbGameEvent
                 break;
             case EventDataType.Unknown:
             default:
-                break;
+                // This is required.
+                // Assuming unit tests are being made, this will ensure any new event types are caught and get added here.
+                throw new UncaughtEventTypeException();
                 
         }
         
