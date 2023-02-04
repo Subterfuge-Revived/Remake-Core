@@ -12,6 +12,7 @@ namespace SubterfugeCore.Models.GameEvents
         public virtual string EventDataType { get; }
     }
 
+    // IMPORTANT! If new event types are added, ensure that DbGameEvent implements a serializer for the event data when it reads stores to the DB
     public enum EventDataType
     {
         Unknown,
