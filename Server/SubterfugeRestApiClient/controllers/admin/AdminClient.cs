@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Nodes;
-using SubterfugeCore.Models.GameEvents;
+﻿using SubterfugeCore.Models.GameEvents;
 using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeRestApiClient.controllers.exception;
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeCore.Models.GameEvents.Api;
+using SubterfugeDatabaseProvider.Models;
 using SubterfugeServerConsole.Responses;
 
 namespace SubterfugeRestApiServer.health;
@@ -22,11 +23,16 @@ public class HealthController : ControllerBase, ISubterfugeHealthApi
     
     [HttpGet]
     [Authorize]
-    public async Task<PingResponse> AuthorizedPing()
+    public async Task<AuthorizedPingResponse> AuthorizedPing()
     {
-        return await Task.FromResult(new PingResponse()
+        DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
+        if (dbUserModel == null)
+            throw new UnauthorizedException();
+        
+        return await Task.FromResult(new AuthorizedPingResponse()
         {
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            LoggedInUser = dbUserModel.ToUser()
         });
     }
 }

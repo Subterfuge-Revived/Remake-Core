@@ -17,6 +17,11 @@ namespace SubterfugeCore.Models.GameEvents
     public class PingRequest { }
 
     public class PingResponse : NetworkResponse { }
+
+    public class AuthorizedPingResponse : NetworkResponse
+    {
+        public User LoggedInUser { get; set; }
+    }
     
     public class AuthorizedPingRequest { }
     

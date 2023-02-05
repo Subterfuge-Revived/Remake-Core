@@ -136,12 +136,12 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
         }
 
         var groupChats = (await query.ToListAsync())
-            .Select(it => it.ToMessageGroup())
-            .ToList();
+            .Select(async group => await group.ToMessageGroup(_dbChatMessages))
+            .ToArray();
 
         return new GetMessageGroupsResponse()
         {
-            MessageGroups = groupChats,
+            MessageGroups = Task.WhenAll(groupChats).Result.ToList(),
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
         };
     }

@@ -38,8 +38,17 @@ public class HealthControllerTest
     public async Task AuthorizedUserCanUseAuthorziedPing()
     {
         var user = await AccountUtils.AssertRegisterAccountAndAuthorized("NewUser");
-        var response = await client.HealthClient.Ping();
+        var response = await client.HealthClient.AuthorizedPing();
         Assert.IsTrue(response.Status.IsSuccess);
+    }
+    
+    [Test]
+    public async Task AuthorizedPingReturnsTheLoggedInUserInfo()
+    {
+        var user = await AccountUtils.AssertRegisterAccountAndAuthorized("NewUser");
+        var response = await client.HealthClient.AuthorizedPing();
+        Assert.IsTrue(response.Status.IsSuccess);
+        Assert.AreEqual(response.LoggedInUser.Id, user.User.Id);
     }
 
 }

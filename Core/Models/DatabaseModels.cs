@@ -42,6 +42,15 @@ namespace SubterfugeCore.Models.GameEvents
         // Administrative
         public DateTime DateCreated { get; set; }
         public DateTime BannedUntil { get; set; }
+
+        public SimpleUser ToSimpleUser()
+        {
+            return new SimpleUser()
+            {
+                Id = Id,
+                Username = Username
+            };
+        }
     }
 
     public enum DeviceType

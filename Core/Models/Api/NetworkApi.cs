@@ -223,7 +223,7 @@ namespace SubterfugeCore.Models.GameEvents.Api
         /// A server health check that requires the user to be logged in to access
         /// </summary>
         /// <returns>A server response</returns>
-        Task<PingResponse> AuthorizedPing();
+        Task<AuthorizedPingResponse> AuthorizedPing();
     }
     
     public interface ISubterfugeGroupChatApi

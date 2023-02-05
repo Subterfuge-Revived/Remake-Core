@@ -24,7 +24,7 @@ public class HealthClient : ISubterfugeHealthApi
         return await response.Content.ReadAsAsync<PingResponse>();
     }
     
-    public async Task<PingResponse> AuthorizedPing()
+    public async Task<AuthorizedPingResponse> AuthorizedPing()
     {
         Console.WriteLine("AuthorizedPing");
         HttpResponseMessage response = await client.GetAsync($"api/Health/AuthorizedPing");
@@ -32,6 +32,6 @@ public class HealthClient : ISubterfugeHealthApi
         {
             throw await SubterfugeClientException.CreateFromResponseMessage(response);
         }
-        return await response.Content.ReadAsAsync<PingResponse>();
+        return await response.Content.ReadAsAsync<AuthorizedPingResponse>();
     }
 }
