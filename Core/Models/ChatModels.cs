@@ -10,6 +10,7 @@ namespace SubterfugeCore.Models.GameEvents
         public string Id { get; set; }
         public string RoomId { get; set; }
         public List<User> GroupMembers { get; set; }
+        public List<ChatMessage> Messages { get; set; } = new List<ChatMessage>();
     }
 
     public class ChatMessage
@@ -18,7 +19,7 @@ namespace SubterfugeCore.Models.GameEvents
         public DateTime SentAt { get; set; } = DateTime.UtcNow;
         public string RoomId { get; set; }
         public string GroupId { get; set; }
-        public User SentBy { get; set; }
+        public SimpleUser SentBy { get; set; }
         public string Message { get; set; }
     }
 

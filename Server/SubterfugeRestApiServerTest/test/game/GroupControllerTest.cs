@@ -144,6 +144,32 @@ public class GroupControllerTest
         Assert.IsTrue(messagesInGroup.Status.IsSuccess);
         Assert.AreEqual(1, messagesInGroup.Messages.Count);
     }
+    
+    [Test]
+    public async Task GettingGroupDataReturnsTheLatestMessagesInTheGroupByDefault()
+    {
+        var request = new CreateMessageGroupRequest()
+        {
+            UserIdsInGroup = new List<string>() { userOne.User.Id, userTwo.User.Id }
+        };
+
+        var response = await TestUtils.GetClient().GroupClient
+            .CreateMessageGroup(request, gameRoom.GameConfiguration.Id);
+        Assert.AreEqual(response.Status.IsSuccess, true);
+        Assert.IsTrue(response.GroupId != null);
+
+        var message = "Hello World!";
+        var sendResponse = await TestUtils.GetClient().GroupClient.SendMessage(
+            new SendMessageRequest() { Message = message },
+            gameRoom.GameConfiguration.Id, response.GroupId);
+        Assert.IsTrue(sendResponse.Status.IsSuccess);
+
+        var messageGroups = await TestUtils.GetClient().GroupClient.GetMessageGroups(gameRoom.GameConfiguration.Id);
+        Assert.IsTrue(messageGroups.Status.IsSuccess);
+        Assert.AreEqual(1, messageGroups.MessageGroups.Count);
+        Assert.AreEqual(1, messageGroups.MessageGroups[0].Messages.Count);
+        Assert.IsTrue(messageGroups.MessageGroups[0].Messages.Any(groupMessage => groupMessage.Message == message));
+    }
 
     [Test]
     public async Task PlayerCanViewAnotherUsersMessageInAChat()

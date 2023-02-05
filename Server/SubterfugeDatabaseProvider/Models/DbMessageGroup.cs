@@ -1,4 +1,7 @@
-﻿using SubterfugeCore.Models.GameEvents;
+﻿using MongoDB.Driver;
+using MongoDB.Driver.Linq;
+using SubterfugeCore.Models.GameEvents;
+using SubterfugeServerConsole.Connections;
 
 namespace SubterfugeDatabaseProvider.Models;
 
@@ -19,13 +22,21 @@ public class DbMessageGroup
         };
     }
 
-    public MessageGroup ToMessageGroup()
+    public async Task<MessageGroup> ToMessageGroup(IDatabaseCollection<DbChatMessage> _dbChatMessages)
     {
         return new MessageGroup()
         {
             Id = Id,
             RoomId = RoomId,
             GroupMembers = MembersInGroup,
+            Messages = (await _dbChatMessages.Query()
+                .Where(message => message.GroupId == Id)
+                .Where(message => message.RoomId == RoomId)
+                .OrderByDescending(message => message.SentAt)
+                .Take(50)
+                .ToListAsync())
+                .Select(it => it.ToChatMessage())
+                .ToList()
         };
     }
 }

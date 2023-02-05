@@ -20,7 +20,7 @@ public class DbChatMessage
             SentAt = SentAt,
             RoomId = RoomId,
             GroupId = GroupId,
-            SentBy = SentBy,
+            SentBy = SentBy.ToSimpleUser(),
             Message = Message,
         };
     }
