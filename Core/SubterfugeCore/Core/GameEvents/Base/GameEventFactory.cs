@@ -7,20 +7,17 @@ namespace SubterfugeCore.Core.GameEvents.Base
     {
         public static PlayerTriggeredEvent ParseGameEvent(GameRoomEvent model)
         {
-            if (model.GameEventData.EventData is LaunchEventData)
+            switch (model.GameEventData.EventDataType)
             {
-                return new LaunchEvent(model);
+                case EventDataType.LaunchEventData:
+                    return new LaunchEvent(model);
+                case EventDataType.DrillMineEventData:
+                    return new DrillMineEvent(model);
+                case EventDataType.ToggleShieldEventData:
+                    return new ToggleShieldEvent(model);
+                default:
+                    return null;
             }
-            if (model.GameEventData.EventData is ToggleShieldEventData)
-            {
-                return new ToggleShieldEvent(model);
-            }
-            if (model.GameEventData.EventData is DrillMineEventData)
-            {
-                return new DrillMineEvent(model);
-            }
-
-            return null;
         }
     }
 }

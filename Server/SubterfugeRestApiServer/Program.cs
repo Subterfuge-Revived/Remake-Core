@@ -1,10 +1,7 @@
-using System.Text.Json.Serialization;
-using JsonSubTypes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeRestApiServer.Database;

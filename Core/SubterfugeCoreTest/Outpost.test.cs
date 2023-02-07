@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using SubterfugeCore.Core;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
@@ -142,12 +143,13 @@ namespace SubterfugeCoreTest
                     GameEventData = new GameEventData()
                     {
                         OccursAtTick = 10,
-                        EventData = new LaunchEventData()
+                        EventDataType = EventDataType.LaunchEventData,
+                        SerializedEventData = JsonConvert.SerializeObject(new LaunchEventData()
                         {
                             DestinationId = _outpost.GetComponent<IdentityManager>().GetId(),
                             DrillerCount = 10,
                             SourceId = _outpost2.GetComponent<IdentityManager>().GetId(),
-                        },
+                        }),
                     },
                     Id = "123",
                     RoomId = "",
@@ -173,12 +175,13 @@ namespace SubterfugeCoreTest
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 10,
-                    EventData = new LaunchEventData()
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new LaunchEventData()
                     {
                         DestinationId = _outpost2.GetComponent<IdentityManager>().GetId(),
                         DrillerCount = 10,
                         SourceId = _outpost.GetComponent<IdentityManager>().GetId(),
-                    },
+                    }),
                 },
                 Id = "123",
             });

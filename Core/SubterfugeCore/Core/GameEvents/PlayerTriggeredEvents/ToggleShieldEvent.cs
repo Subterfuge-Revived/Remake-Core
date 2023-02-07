@@ -1,4 +1,5 @@
-﻿using SubterfugeCore.Core.Components;
+﻿using Newtonsoft.Json;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Timing;
 using SubterfugeCore.Models.GameEvents;
@@ -14,7 +15,7 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 
         public ToggleShieldEventData GetEventData()
         {
-            return Model.GameEventData.EventData as ToggleShieldEventData;
+            return JsonConvert.DeserializeObject<ToggleShieldEventData>(Model.GameEventData.SerializedEventData);
         }
         public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
         {

@@ -88,8 +88,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         };
         
         // Determine if the user is trying to submit an admin-only game event:
-        EventDataType eventType = EventDataType.Unknown;
-        EventDataType.TryParse(request.GameEventData.EventData.EventDataType, true, out eventType);
+        EventDataType eventType = request.GameEventData.EventDataType;
 
         if (!dbUserModel.HasClaim(UserClaim.Administrator))
         {
@@ -123,44 +122,48 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         // Either we stop the events here, or stop them on the client.
 
         // Attempt to parse the event data into the actual event class
-        NetworkGameEventData? castEvent = null;
-        switch (eventType)
+        try
         {
-            case EventDataType.LaunchEventData:
-                castEvent = (request.GameEventData.EventData as LaunchEventData);
-                break;
-            case EventDataType.DrillMineEventData:
-                castEvent = (request.GameEventData.EventData as DrillMineEventData);
-                break;
-            case EventDataType.GameEndEventData:
-                castEvent = (request.GameEventData.EventData as GameEndEventData);
-                break;
-            case EventDataType.PauseGameEventData:
-                castEvent = (request.GameEventData.EventData as PauseGameEventData);
-                break;
-            case EventDataType.ToggleShieldEventData:
-                castEvent = (request.GameEventData.EventData as ToggleShieldEventData);
-                break;
-            case EventDataType.UnpauseGameEventData:
-                castEvent = (request.GameEventData.EventData as UnpauseGameEventData);
-                break;
-            case EventDataType.PlayerLeaveGameEventData:
-                castEvent = (request.GameEventData.EventData as PlayerLeaveGameEventData);
-                if (!dbUserModel.HasClaim(UserClaim.Administrator))
-                {
-                    // Ensure the player in the leave event is the player making the request.
-                    // If a player is trying to force someone else to leave, punish them and make them leave instead...
-                    (request.GameEventData.EventData as PlayerLeaveGameEventData).Player = new SimpleUser()
+            switch (eventType)
+            {
+                case EventDataType.LaunchEventData:
+                    JsonConvert.DeserializeObject<LaunchEventData>(request.GameEventData.SerializedEventData);
+                    break;
+                case EventDataType.DrillMineEventData:
+                    JsonConvert.DeserializeObject<DrillMineEventData>(request.GameEventData.SerializedEventData);
+                    break;
+                case EventDataType.GameEndEventData:
+                    JsonConvert.DeserializeObject<GameEndEventData>(request.GameEventData.SerializedEventData);
+                    break;
+                case EventDataType.PauseGameEventData:
+                    JsonConvert.DeserializeObject<PauseGameEventData>(request.GameEventData.SerializedEventData);
+                    break;
+                case EventDataType.ToggleShieldEventData:
+                    JsonConvert.DeserializeObject<ToggleShieldEventData>(request.GameEventData.SerializedEventData);
+                    break;
+                case EventDataType.UnpauseGameEventData:
+                    JsonConvert.DeserializeObject<UnpauseGameEventData>(request.GameEventData.SerializedEventData);
+                    break;
+                case EventDataType.PlayerLeaveGameEventData:
+                    var playerLeaveEvent = JsonConvert.DeserializeObject<PlayerLeaveGameEventData>(request.GameEventData.SerializedEventData);
+                    if (!dbUserModel.HasClaim(UserClaim.Administrator) && playerLeaveEvent != null)
                     {
-                        Id = dbUserModel.Id,
-                        Username = dbUserModel.Username
-                    };
-                }
-                break;
+                        // Ensure the player in the leave event is the player making the request.
+                        // If a player is trying to force someone else to leave, punish them and make them leave instead...
+                        playerLeaveEvent.Player = new SimpleUser()
+                        {
+                            Id = dbUserModel.Id,
+                            Username = dbUserModel.Username
+                        };
+                    }
+
+                    break;
+            }
         }
-        
-        if (castEvent == null)
+        catch (JsonSerializationException serializationException)
+        {
             throw new BadRequestException($"Event type is {eventType} but the server could not parse the event as such.");
+        }
 
         var gameEvent = DbGameEvent.FromGameEventRequest(request, dbUserModel.ToUser(), roomId);
         await _dbGameEvents.Upsert(gameEvent);
@@ -223,8 +226,8 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
             throw new BadRequestException("Cannot delete an event that has already happened");
         
         gameEvent.OccursAtTick = request.GameEventData.OccursAtTick;
-        gameEvent.GameEventType = request.GameEventData.EventData.EventDataType;
-        gameEvent.SerializedEventData = JsonConvert.SerializeObject(request.GameEventData.EventData);
+        gameEvent.GameEventType = request.GameEventData.EventDataType;
+        gameEvent.SerializedEventData = request.GameEventData.SerializedEventData;
         await _dbGameEvents.Upsert(gameEvent);
         
         return new SubmitGameEventResponse()

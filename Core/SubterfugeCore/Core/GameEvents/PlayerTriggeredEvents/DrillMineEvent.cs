@@ -1,4 +1,5 @@
-﻿using SubterfugeCore.Core.Components;
+﻿using Newtonsoft.Json;
+using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
@@ -18,7 +19,7 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 
 		public DrillMineEventData GetEventData()
 		{
-			return Model.GameEventData.EventData as DrillMineEventData;
+			return JsonConvert.DeserializeObject<DrillMineEventData>(Model.GameEventData.SerializedEventData);
 		}
 
 		public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)

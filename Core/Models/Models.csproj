@@ -2,12 +2,12 @@
 
     <PropertyGroup>
         <TargetFrameworks>net7.0;netstandard2.0</TargetFrameworks>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <LangVersion>8</LangVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="JsonSubTypes" Version="2.0.1" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     </ItemGroup>
 

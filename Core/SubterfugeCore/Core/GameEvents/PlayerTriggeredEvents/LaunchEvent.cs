@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.GameEvents.Base;
@@ -53,7 +54,7 @@ namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
 
         public LaunchEventData GetEventData()
         {
-            return Model.GameEventData.EventData as LaunchEventData;
+            return JsonConvert.DeserializeObject<LaunchEventData>(Model.GameEventData.SerializedEventData);
         }
 
         /// <summary>

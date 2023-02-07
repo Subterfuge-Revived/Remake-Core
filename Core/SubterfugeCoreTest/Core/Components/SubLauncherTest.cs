@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
 using SubterfugeCore.Core.Entities.Positions;
@@ -59,7 +60,8 @@ namespace SubterfugeCoreTest.Core.Components
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 1,
-                    EventData = launchEventData,
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(launchEventData),
                 },
                 Id = "asdf",
                 IssuedBy = initialOwner.ToUser(),
@@ -111,7 +113,8 @@ namespace SubterfugeCoreTest.Core.Components
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 1,
-                    EventData = launchEventData,
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(launchEventData),
                 },
                 Id = "asdf",
                 IssuedBy = initialOwner.ToUser(),
@@ -171,7 +174,8 @@ namespace SubterfugeCoreTest.Core.Components
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 1,
-                    EventData = launchEventData,
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(launchEventData),
                 },
                 Id = "asdf",
                 IssuedBy = initialOwner.ToUser(),
@@ -239,7 +243,8 @@ namespace SubterfugeCoreTest.Core.Components
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 1,
-                    EventData = launchEventData,
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(launchEventData),
                 },
                 Id = "asdf",
                 IssuedBy = initialOwner.ToUser(),

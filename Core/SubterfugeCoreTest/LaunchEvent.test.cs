@@ -2,6 +2,7 @@
 using SubterfugeCore.Core.Entities.Positions;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using SubterfugeCore.Core;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Entities;
@@ -41,12 +42,13 @@ namespace SubterfugeCoreTest
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 10,
-                    EventData = new LaunchEventData()
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new LaunchEventData()
                     {
                         DestinationId = "0",
                         DrillerCount = 10,
                         SourceId = "0",
-                    },
+                    }),
                 },
                 Id = "123",
             }));
@@ -71,12 +73,13 @@ namespace SubterfugeCoreTest
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 1,
-                    EventData = new LaunchEventData()
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new LaunchEventData()
                     {
                         DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
                         DrillerCount = 1,
                         SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
-                    },
+                    }),
                 },
                 Id = "a",
             });
@@ -107,12 +110,13 @@ namespace SubterfugeCoreTest
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 1,
-                    EventData = new LaunchEventData()
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new LaunchEventData()
                     {
                         DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
                         DrillerCount = 1,
                         SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
-                    },
+                    }),
                 },
                 Id = "a",
             });
@@ -147,12 +151,13 @@ namespace SubterfugeCoreTest
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 1,
-                    EventData = new LaunchEventData()
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new LaunchEventData()
                     {
                         DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
                         DrillerCount = 1,
                         SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
-                    },
+                    }),
                 },
                 Id = "a",
             });
@@ -189,12 +194,13 @@ namespace SubterfugeCoreTest
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 1,
-                    EventData = new LaunchEventData()
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new LaunchEventData()
                     {
                         DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
                         DrillerCount = 1,
                         SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
-                    },
+                    }),
                 },
                 Id = "a",
             });
@@ -204,12 +210,13 @@ namespace SubterfugeCoreTest
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 1,
-                    EventData = new LaunchEventData()
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new LaunchEventData()
                     {
                         DestinationId = outpost1.GetComponent<IdentityManager>().GetId(),
                         DrillerCount = 1,
                         SourceId = outpost2.GetComponent<IdentityManager>().GetId(),
-                    },
+                    }),
                 },
                 Id = "a",
             });
@@ -265,12 +272,13 @@ namespace SubterfugeCoreTest
                 GameEventData = new GameEventData()
                 {
                     OccursAtTick = 1,
-                    EventData = new LaunchEventData()
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new LaunchEventData()
                     {
                         DestinationId = outpost2.GetComponent<IdentityManager>().GetId(),
                         DrillerCount = 10,
                         SourceId = outpost1.GetComponent<IdentityManager>().GetId(),
-                    },
+                    }),
                 },
                 Id = "a",
             });
