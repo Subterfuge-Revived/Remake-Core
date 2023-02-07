@@ -16,7 +16,8 @@ namespace SubterfugeCore.Models.GameEvents
     public class GameEventData
     {
         public int OccursAtTick { get; set; }
-        public NetworkGameEventData EventData { get; set; }
+        public EventDataType EventDataType { get; set; }
+        public String SerializedEventData { get; set; }
     }
 
     public class GetGameRoomEventsResponse : NetworkResponse

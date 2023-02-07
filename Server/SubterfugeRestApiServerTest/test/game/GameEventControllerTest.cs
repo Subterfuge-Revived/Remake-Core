@@ -40,7 +40,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
@@ -57,92 +58,112 @@ public class GameEventControllerTest
     [Test]
     public async Task CanSubmitToggleShieldEvent()
     {
+        var serializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" });
+        
         SubmitGameEventResponse toggleSheildResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = serializedEventData,
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
         Assert.AreEqual(true, toggleSheildResponse.Status.IsSuccess);
-        Assert.AreEqual(EventDataType.ToggleShieldEventData.ToString(), toggleSheildResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
+        Assert.AreEqual(EventDataType.ToggleShieldEventData, toggleSheildResponse.GameRoomEvent.GameEventData.EventDataType);
+        Assert.AreEqual(serializedEventData, toggleSheildResponse.GameRoomEvent.GameEventData.SerializedEventData);
         Assert.IsTrue(toggleSheildResponse.EventId != null);
     }
 
     [Test]
     public async Task CanSubmitPlayerLeaveGameEvent()
     {
+        var serializedEventData = JsonConvert.SerializeObject(new PlayerLeaveGameEventData() { Player = null });
+        
         SubmitGameEventResponse playerLeaveResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
             GameEventData = new GameEventData()
             {
-                EventData = new PlayerLeaveGameEventData() { Player = null },
+                EventDataType = EventDataType.PlayerLeaveGameEventData,
+                SerializedEventData = serializedEventData,
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
         Assert.AreEqual(true, playerLeaveResponse.Status.IsSuccess);
-        Assert.AreEqual(EventDataType.PlayerLeaveGameEventData.ToString(), playerLeaveResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
+        Assert.AreEqual(EventDataType.PlayerLeaveGameEventData, playerLeaveResponse.GameRoomEvent.GameEventData.EventDataType);
+        Assert.AreEqual(serializedEventData, playerLeaveResponse.GameRoomEvent.GameEventData.SerializedEventData);
         Assert.IsTrue(playerLeaveResponse.EventId != null);
     }
 
     [Test]
     public async Task CanSubmitDrillMineEvent()
     {
+        var serializedEventData = JsonConvert.SerializeObject(new DrillMineEventData() { SourceId = "someOutpostId" });
+        
         SubmitGameEventResponse drillMineResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
             GameEventData = new GameEventData()
             {
-                EventData = new DrillMineEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.DrillMineEventData,
+                SerializedEventData = serializedEventData,
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
         Assert.AreEqual(true, drillMineResponse.Status.IsSuccess);
-        Assert.AreEqual(EventDataType.DrillMineEventData.ToString(), drillMineResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
+        Assert.AreEqual(EventDataType.DrillMineEventData, drillMineResponse.GameRoomEvent.GameEventData.EventDataType);
+        Assert.AreEqual(serializedEventData, drillMineResponse.GameRoomEvent.GameEventData.SerializedEventData);
         Assert.IsTrue(drillMineResponse.EventId != null);
     }
 
     [Test]
     public async Task CanSubmitLaunchEvent()
     {
+        var serializedEventData = JsonConvert.SerializeObject(new LaunchEventData()
+        {
+            SourceId = "someOutpostId",
+            DestinationId = "SomeDestination",
+            DrillerCount = 10,
+            SpecialistIds = new List<string>(),
+        });
+        
         SubmitGameEventResponse launchEventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
             GameEventData = new GameEventData()
             {
-                EventData = new LaunchEventData()
-                {
-                    SourceId = "someOutpostId",
-                    DestinationId = "SomeDestination",
-                    DrillerCount = 10,
-                    SpecialistIds = new List<string>(),
-                },
+                SerializedEventData = serializedEventData,
+                EventDataType = EventDataType.LaunchEventData,
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
         Assert.AreEqual(true, launchEventResponse.Status.IsSuccess);
-        Assert.AreEqual(EventDataType.LaunchEventData.ToString(), launchEventResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
+        Assert.AreEqual(EventDataType.LaunchEventData, launchEventResponse.GameRoomEvent.GameEventData.EventDataType);
+        Assert.AreEqual(serializedEventData, launchEventResponse.GameRoomEvent.GameEventData.SerializedEventData);
         Assert.IsTrue(launchEventResponse.EventId != null);
     }
     
     [Test]
     public async Task PlayerCanViewTheirOwnFutureEvents()
     {
+        var serializedEventData = JsonConvert.SerializeObject(new LaunchEventData()
+        {
+            SourceId = "someOutpostId",
+            DestinationId = "SomeDestination",
+            DrillerCount = 10,
+            SpecialistIds = new List<string>(),
+        });
+        
         SubmitGameEventResponse launchEventResponse = await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
             GameEventData = new GameEventData()
             {
-                EventData = new LaunchEventData()
-                {
-                    SourceId = "someOutpostId",
-                    DestinationId = "SomeDestination",
-                    DrillerCount = 10,
-                    SpecialistIds = new List<string>(),
-                },
+                SerializedEventData = serializedEventData,
+                EventDataType = EventDataType.LaunchEventData,
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
         Assert.AreEqual(true, launchEventResponse.Status.IsSuccess);
-        Assert.AreEqual(EventDataType.LaunchEventData.ToString(), launchEventResponse.GameRoomEvent.GameEventData.EventData.EventDataType);
+        Assert.AreEqual(EventDataType.LaunchEventData, launchEventResponse.GameRoomEvent.GameEventData.EventDataType);
+        Assert.AreEqual(serializedEventData, launchEventResponse.GameRoomEvent.GameEventData.SerializedEventData);
         Assert.IsTrue(launchEventResponse.EventId != null);
         
         // Submitting player can see their own events
@@ -160,7 +181,8 @@ public class GameEventControllerTest
             {
                 GameEventData = new GameEventData()
                 {
-                    EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                    EventDataType = EventDataType.ToggleShieldEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                     OccursAtTick = 42,
                 },
             }, "InvalidGameRoomId");
@@ -180,7 +202,8 @@ public class GameEventControllerTest
             {
                 GameEventData = new GameEventData()
                 {
-                    EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                    EventDataType = EventDataType.ToggleShieldEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                     OccursAtTick = 42,
                 },
             }, gameRoom.GameConfiguration.Id);
@@ -198,7 +221,8 @@ public class GameEventControllerTest
             {
                 GameEventData = new GameEventData()
                 {
-                    EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                    EventDataType = EventDataType.ToggleShieldEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                     OccursAtTick = -20,
                 },
             }, gameRoom.GameConfiguration.Id);
@@ -214,7 +238,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
@@ -242,7 +267,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
@@ -276,7 +302,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 2,
             },
         }, gameRoom.GameConfiguration.Id);
@@ -308,7 +335,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
@@ -325,7 +353,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 42,
             }
         }, gameRoom.GameConfiguration.Id, eventResponse.EventId);
@@ -340,7 +369,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
@@ -359,7 +389,8 @@ public class GameEventControllerTest
             {
                 GameEventData = new GameEventData()
                 {
-                    EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                    EventDataType = EventDataType.ToggleShieldEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                     OccursAtTick = 42,
                 }
             }, gameRoom.GameConfiguration.Id, "InvalidEventId");
@@ -375,7 +406,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
@@ -394,7 +426,8 @@ public class GameEventControllerTest
             {
                 GameEventData = new GameEventData()
                 {
-                    EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                    EventDataType = EventDataType.ToggleShieldEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                     OccursAtTick = 42,
                 }
             }, "InvalidRoomId", eventResponse.EventId);
@@ -410,7 +443,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 2,
             },
         }, gameRoom.GameConfiguration.Id);
@@ -431,7 +465,8 @@ public class GameEventControllerTest
             {
                 GameEventData = new GameEventData()
                 {
-                    EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                    EventDataType = EventDataType.ToggleShieldEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                     OccursAtTick = 2,
                 }
             }, gameRoom.GameConfiguration.Id, eventResponse.EventId);
@@ -447,7 +482,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
@@ -466,7 +502,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 2,
             }
         }, gameRoom.GameConfiguration.Id, eventResponse.EventId);
@@ -481,7 +518,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 42,
             },
         }, gameRoom.GameConfiguration.Id);
@@ -502,7 +540,8 @@ public class GameEventControllerTest
             {
                 GameEventData = new GameEventData()
                 {
-                    EventData = new ToggleShieldEventData() { SourceId = "anotherSource" },
+                    EventDataType = EventDataType.ToggleShieldEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                     OccursAtTick = 2,
                 }
             }, gameRoom.GameConfiguration.Id, eventResponse.EventId);
@@ -518,7 +557,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 3,
             },
         };
@@ -554,7 +594,8 @@ public class GameEventControllerTest
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData() { SourceId = "someOutpostId" },
+                EventDataType = EventDataType.ToggleShieldEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new ToggleShieldEventData() { SourceId = "someOutpostId" }),
                 OccursAtTick = 3,
             },
         };

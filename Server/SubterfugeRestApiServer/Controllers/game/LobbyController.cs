@@ -209,20 +209,14 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
             // Get current tick
             GameTick now = new GameTick(room.TimeStarted, DateTime.UtcNow);
 
-            var eventData = new GameEventData()
-            {
-                EventData = new PlayerLeaveGameEventData()
-                {
-                    Player = dbUserModel.ToSimpleUser()
-                },
-                OccursAtTick = now.GetTick(),
-            };
-            
             var leaveEvent = new DbGameEvent()
             {
                 OccursAtTick = now.GetTick(),
-                GameEventType = eventData.EventData.EventDataType,
-                SerializedEventData = JsonConvert.SerializeObject(eventData),
+                GameEventType = EventDataType.PlayerLeaveGameEventData,
+                SerializedEventData = JsonConvert.SerializeObject(new PlayerLeaveGameEventData()
+                {
+                    Player = dbUserModel.ToSimpleUser()
+                }),
                 IssuedBy = dbUserModel.ToUser(),
                 RoomId = room.Id,
             };

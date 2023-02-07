@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using SubterfugeCore.Core;
 using SubterfugeCore.Core.Components;
 using SubterfugeCore.Core.Config;
@@ -43,10 +44,11 @@ namespace SubterfugeCoreTest
 				GameEventData = new GameEventData()
 				{
 					OccursAtTick = 10,
-					EventData = new DrillMineEventData()
+					EventDataType = EventDataType.DrillMineEventData,
+					SerializedEventData = JsonConvert.SerializeObject(new DrillMineEventData()
 					{
 						SourceId = _o1.GetComponent<IdentityManager>().GetId()
-					},
+					}),
 				},
 				Id = Guid.NewGuid().ToString(),
 			};
@@ -55,10 +57,11 @@ namespace SubterfugeCoreTest
 				GameEventData = new GameEventData()
 				{
 					OccursAtTick = 20,
-					EventData = new DrillMineEventData()
+					EventDataType = EventDataType.DrillMineEventData,
+					SerializedEventData = JsonConvert.SerializeObject(new DrillMineEventData()
 					{
 						SourceId = _o2.GetComponent<IdentityManager>().GetId()
-					},
+					}),
 				},
 				Id = Guid.NewGuid().ToString(),
 			};
@@ -110,10 +113,11 @@ namespace SubterfugeCoreTest
 				GameEventData = new GameEventData()
 				{
 					OccursAtTick = 25,
-					EventData = new DrillMineEventData()
+					EventDataType = EventDataType.DrillMineEventData,
+					SerializedEventData = JsonConvert.SerializeObject(new DrillMineEventData()
 					{
 						SourceId = _o1.GetComponent<IdentityManager>().GetId()
-					},
+					}),
 				},
 				Id = Guid.NewGuid().ToString(),
 			});

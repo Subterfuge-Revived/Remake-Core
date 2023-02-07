@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using MongoDB.Bson.IO;
+using NUnit.Framework;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeRestApiClient;
 using SubterfugeServerConsole.Connections;
@@ -55,10 +56,11 @@ public class DatabaseSeeder
         {
             GameEventData = new GameEventData()
             {
-                EventData = new ToggleShieldEventData()
+                EventDataType = EventDataType.DrillMineEventData,
+                SerializedEventData = Newtonsoft.Json.JsonConvert.SerializeObject(new DrillMineEventData()
                 {
-                    SourceId = "MyOutpost"
-                },
+                    SourceId = "MyOtherOutpost"
+                }),
                 OccursAtTick = 15,
             }
         }, roomOne.GameConfiguration.Id);
@@ -67,10 +69,11 @@ public class DatabaseSeeder
         {
             GameEventData = new GameEventData()
             {
-                EventData = new DrillMineEventData()
+                EventDataType = EventDataType.DrillMineEventData,
+                SerializedEventData = Newtonsoft.Json.JsonConvert.SerializeObject(new DrillMineEventData()
                 {
                     SourceId = "MyOutpost"
-                },
+                }),
                 OccursAtTick = 23,
             }
         }, roomOne.GameConfiguration.Id);
