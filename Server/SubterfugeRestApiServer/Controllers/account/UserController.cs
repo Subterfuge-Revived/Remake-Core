@@ -12,6 +12,8 @@ using SubterfugeDatabaseProvider.Models;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Responses;
+using Twilio;
+using Twilio.Rest.Verify.V2.Service;
 
 namespace SubterfugeRestApiServer;
 
@@ -22,15 +24,24 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
     
     private readonly IDatabaseCollection<DbUserModel> _dbUsers;
     private readonly IDatabaseCollection<DbChatMessage> _dbChatMessages;
+    private readonly IConfiguration _config;
+    public readonly TwilioConfig _twilioConfig;
 
     public UserController(IConfiguration configuration, IDatabaseCollectionProvider mongo)
     {
         _config = configuration;
         _dbUsers = mongo.GetCollection<DbUserModel>();
         _dbChatMessages = mongo.GetCollection<DbChatMessage>();
+
+        _twilioConfig = new TwilioConfig(_config.GetSection("PhoneVerification"));
+        
+        // Check to send the user an SMS
+        if (_twilioConfig.enabled)
+        {
+            TwilioClient.Init(_twilioConfig.twilioAccountSid, _twilioConfig.twilioAuthToken);
+        }
     }
 
-    private readonly IConfiguration _config;
 
     [AllowAnonymous]
     [HttpPost]
@@ -45,7 +56,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         
         if (dbUserModel != null && dbUserModel.Username != request.Username)
         {
-            await FlagAccountDuplicate(user, dbUserModel, MultiBoxReason.LOGIN_WITH_CREDENTIALS_FOR_ANOTHER_ACCOUNT);
+            await FlagAccountDuplicate(user, dbUserModel, MultiBoxReason.LoginWithCredentialsForAnotherAccount);
         }
 
         
@@ -69,7 +80,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
 
         DbUserModel? matchingUsername = usersMatchingUsernamePhoneOrDeviceId.FirstOrDefault(it => it.Username == registrationRequeset.Username);
         if (matchingUsername != null)
-            throw new ConflictException("A very popular choice! Unfortunately, that username is taken...");
+            throw new ConflictException("There is already an account registered on this device.");
 
         // Create the new user account
         DbUserModel model = DbUserModel.FromRegistrationRequest(registrationRequeset);
@@ -78,14 +89,31 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         // Flag all accounts matching the phone number as a possible multibox.
         foreach(DbUserModel user in matchingPhone)
         {
-            await FlagAccountDuplicate(user, model, MultiBoxReason.DUPLICATE_PHONE_NUMBER);
+            await FlagAccountDuplicate(user, model, MultiBoxReason.DuplicatePhoneNumber);
         }
         
         var matchingDeviceId = usersMatchingUsernamePhoneOrDeviceId.Where(it => it.DeviceIdentifier == registrationRequeset.DeviceIdentifier).ToList();
         // Flag all accounts matching the device Id number as a possible multibox.
         foreach(DbUserModel user in matchingDeviceId)
         {
-            await FlagAccountDuplicate(user, model, MultiBoxReason.DUPLICATE_DEVICE_ID);
+            await FlagAccountDuplicate(user, model, MultiBoxReason.DuplicateDeviceId);
+        }
+        
+        // Check to send the user an SMS
+        if (_twilioConfig.enabled)
+        {
+            var verification = VerificationResource.Create(
+                to: registrationRequeset.PhoneNumber,
+                channel: "sms",
+                pathServiceSid: _twilioConfig.twilioVerificationServiceSid
+            );
+        }
+        else
+        {
+            // If phone validation is disabled, mark their account as being verified
+            var claimCopy = model.Claims.ToList();
+            claimCopy.Add(UserClaim.PhoneVerified);
+            model.Claims = claimCopy.ToArray();
         }
             
         // Create a new user model
@@ -97,6 +125,47 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
             Token = token,
             User = model.ToUser(),
             Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+            RequirePhoneValidation = _twilioConfig.enabled
+        };
+    }
+
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("verifyPhone")]
+    public async Task<AccountVadliationResponse> VerifyPhone(AccountValidationRequest validationRequest)
+    {
+        DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
+        if (dbUserModel == null)
+            throw new UnauthorizedException();
+
+        if (dbUserModel.PhoneNumber != validationRequest.PhoneNumber)
+            throw new UnauthorizedException();
+        
+        // Validate through twilio
+        var verificationCheck = VerificationCheckResource.Create(
+            to: validationRequest.PhoneNumber,
+            code: validationRequest.VerificationCode,
+            pathServiceSid: _twilioConfig.twilioVerificationServiceSid
+        );
+
+        if (verificationCheck.Status == "approved")
+        {
+            // Update the account model to be verified:
+            var claimCopy = dbUserModel.Claims.ToList();
+            claimCopy.Add(UserClaim.PhoneVerified);
+            dbUserModel.Claims = claimCopy.ToArray();
+
+            await _dbUsers.Upsert(dbUserModel);
+
+            return new AccountVadliationResponse()
+            {
+                wasValidationSuccessful = true,
+            };
+        }
+        
+        return new AccountVadliationResponse()
+        {
+            wasValidationSuccessful = false,
         };
     }
 
@@ -129,9 +198,6 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
     public async Task<GetDetailedUsersResponse> GetUsers([FromQuery] GetUserRequest request)
     {
         IMongoQueryable<DbUserModel> query = _dbUsers.Query();
-        
-        if (!request.EmailSearch.IsNullOrEmpty())
-            query = query.Where(it => it.Email.Contains(request.EmailSearch));
 
         if (!request.UsernameSearch.IsNullOrEmpty())
             query = query.Where(it => it.Username.Contains(request.UsernameSearch));
@@ -227,7 +293,6 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         var claims = new List<Claim> {
             new Claim("name", user.Username),
             new Claim("uuid", user.Id),
-            new Claim("email", user.Email),
             new Claim("DateOfJoin", ((DateTimeOffset)user.DateCreated).ToUnixTimeSeconds().ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };

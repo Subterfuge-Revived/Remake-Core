@@ -5,11 +5,12 @@ namespace SubterfugeCore.Models.GameEvents
 {
     public enum RoomStatus
     {
-        Open,
-        Ongoing,
-        Closed,
-        Completed,
-        Expired,
+        Unknown = 0,
+        Open = 1,
+        Ongoing = 2,
+        Closed = 3,
+        Completed = 4,
+        Expired = 5,
     }
     
     public class GameConfiguration {
@@ -56,8 +57,9 @@ namespace SubterfugeCore.Models.GameEvents
 
     public enum Goal
     {
-        Mining,
-        Domination
+        Unknown = 0,
+        Mining = 1,
+        Domination = 2,
     }
 
     public class GetLobbyRequest

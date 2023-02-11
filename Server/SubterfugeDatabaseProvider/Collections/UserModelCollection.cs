@@ -40,7 +40,6 @@ public class UserModelCollection : IDatabaseCollection<DbUserModel>
         {
             new (Builders<DbUserModel>.IndexKeys.Hashed(user => user.DeviceIdentifier)),
             new (Builders<DbUserModel>.IndexKeys.Ascending(user => user.Username)),
-            new (Builders<DbUserModel>.IndexKeys.Ascending(user => user.Email)),
             new (Builders<DbUserModel>.IndexKeys.Hashed(user => user.PhoneNumber)),
         });
     }

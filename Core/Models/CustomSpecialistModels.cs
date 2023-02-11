@@ -32,61 +32,62 @@ namespace SubterfugeCore.Models.GameEvents
 
     public enum EffectTrigger
     {
-        NoTrigger,
-        Hire,
-        Promote,
-        SubLaunch,
-        SubArrive,
-        OutpostCombat,
-        SubCombat,
-        CombatLoss,
-        CombatVictory,
-        FactoryProduce,
-        MineProduce,
-        SubEnterVision,
+        NoTrigger = 0,
+        Hire = 1,
+        Promote = 2,
+        SubLaunch = 3,
+        SubArrive = 4,
+        OutpostCombat = 5,
+        SubCombat = 6,
+        CombatLoss = 7,
+        CombatVictory = 8,
+        FactoryProduce = 9,
+        MineProduce = 10,
+        SubEnterVision = 11,
     }
 
     public enum EffectTarget
     {
-        NoTarget,
-        Friendly,
-        Enemy,
-        OnlyCombatParticipants,
-        Any,
+        NoTarget = 0,
+        Friendly = 1,
+        Enemy = 2,
+        OnlyCombatParticipants = 3,
+        Any = 4,
     }
 
     public enum EffectTriggerRange
     {
-        Self,
-        Local,
-        ConstantRange,
-        LocationVisionRange,
-        PlayerVisionRange,
-        Global,
+        None = 0,
+        Self = 1,
+        Local = 2,
+        ConstantRange = 3,
+        LocationVisionRange = 4,
+        PlayerVisionRange = 5,
+        Global = 6,
     }
 
     public enum EffectModifier
     {
-        NoEffect,
-        Driller,
-        SpecialistCapacity,
-        ShieldValue,
-        ShieldRegenerationRate,
-        ShieldMaxValue,
-        VisionRange,
-        Speed,
-        KillPlayer,
-        VictoryPlayer,
-        NeptuniumGenerationRate,
-        KillSpecialist,
-        SwapSpecialistOwner,
+        NoEffect = 0,
+        Driller = 1,
+        SpecialistCapacity = 2,
+        ShieldValue = 3,
+        ShieldRegenerationRate = 4,
+        ShieldMaxValue = 5,
+        VisionRange = 6,
+        Speed = 7,
+        KillPlayer = 8,
+        VictoryPlayer = 9,
+        NeptuniumGenerationRate = 10,
+        KillSpecialist = 11,
+        SwapSpecialistOwner = 12,
     }
 
     public enum EffectScale
     {
-        NoScale,
-        ConstantValue,
-        PlayerOutpostCount
+        NoScale = 0,
+        ConstantValue = 1,
+        PlayerOutpostCount = 2,
     }
     
     public class SpecialistPackage {

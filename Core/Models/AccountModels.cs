@@ -20,15 +20,28 @@ namespace SubterfugeCore.Models.GameEvents
     {
         public string Username { get; set; } = "username";
         public string Password { get; set; } = "password";
-        public string Email { get; set; } = "yourEmail@email.com";
         public string DeviceIdentifier { get; set; } = "someDeviceIdentifier";
-        public string PhoneNumber { get; set; } = "SomePhoneNumber";
+        public string PhoneNumber { get; set; } = "+13069999999";
     }
 
     public class AccountRegistrationResponse : NetworkResponse
     {
         public User User { get; set; } = new User();
         public string Token { get; set; } = "LoginToken";
+        public bool RequirePhoneValidation = true;
+    }
+    
+    
+
+    public class AccountValidationRequest
+    {
+        public string PhoneNumber { get; set; }
+        public string VerificationCode { get; set; }
+    }
+
+    public class AccountVadliationResponse
+    {
+        public bool wasValidationSuccessful { get; set; } = false;
     }
 
     public class GetRolesResponse : NetworkResponse
@@ -44,7 +57,6 @@ namespace SubterfugeCore.Models.GameEvents
     public class GetUserRequest
     {
         public string? UsernameSearch { get; set; } = "";
-        public string? EmailSearch { get; set; } = "";
         public string? DeviceIdentifierSearch { get; set; } = "";
         public string? UserIdSearch { get; set; } = "";
         public UserClaim? RequireUserClaim { get; set; } = null;
@@ -64,12 +76,11 @@ namespace SubterfugeCore.Models.GameEvents
 
     public enum UserClaim
     {
-        Unknown,
-        User,
-        Moderator,
-        Administrator,
-        EmailVerified,
-        PhoneVerified,
-        DiscordVerified,
+        Unknown = 0,
+        User = 1,
+        Moderator = 2,
+        Administrator = 3,
+        PhoneVerified = 4,
+        DiscordVerified = 5,
     }
 }

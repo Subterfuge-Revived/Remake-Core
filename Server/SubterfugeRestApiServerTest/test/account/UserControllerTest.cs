@@ -34,7 +34,6 @@ public class UserControllerTest
         var response = await client.UserApi.RegisterAccount(new AccountRegistrationRequest()
         {
             DeviceIdentifier = "MyDevice",
-            Email = "someEmail@email.com",
             Password = "test",
             PhoneNumber = "1231231231",
             Username = "test"

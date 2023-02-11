@@ -6,17 +6,17 @@ namespace SubterfugeCore.Models.GameEvents
     // IMPORTANT! If new event types are added, ensure that DbGameEvent implements a serializer for the event data when it reads stores to the DB
     public enum EventDataType
     {
-        Unknown,
-        LaunchEventData,
-        ToggleShieldEventData,
-        DrillMineEventData,
-        PlayerLeaveGameEventData,
+        Unknown = 0,
+        LaunchEventData = 1,
+        ToggleShieldEventData = 2,
+        DrillMineEventData = 3,
+        PlayerLeaveGameEventData = 4,
         
         // Admin or server-only events.
         // Validate that a player does not submit these.
-        PauseGameEventData,
-        UnpauseGameEventData,
-        GameEndEventData,
+        PauseGameEventData = 5,
+        UnpauseGameEventData = 6,
+        GameEndEventData = 7,
     }
 
     public class LaunchEventData

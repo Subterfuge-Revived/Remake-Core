@@ -9,7 +9,6 @@ namespace SubterfugeCore.Models.GameEvents
     {
         public string Id { get; set; }
         public string Username { get; set; }
-        public string Email { get; set; }
         public string DeviceIdentifier { get; set; }
         public string PhoneNumberHash { get; set; }
         public string DiscordUsername { get; set; }
@@ -70,12 +69,11 @@ namespace SubterfugeCore.Models.GameEvents
 
     public enum MultiBoxReason
     {
-        NONE,
-        LOGIN_WITH_CREDENTIALS_FOR_ANOTHER_ACCOUNT,
-        DUPLICATE_PHONE_NUMBER,
-        DUPLICATE_DEVICE_ID,
-        DUPLICATE_DISCORD_USERNAME,
-        DUPLICATE_EMAIL,
+        None = 0,
+        LoginWithCredentialsForAnotherAccount = 1,
+        DuplicatePhoneNumber = 2,
+        DuplicateDeviceId = 3,
+        DuplicateDiscordUsername = 4,
     }
 
     public class AccountBan
