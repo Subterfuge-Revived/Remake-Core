@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,9 @@ using SubterfugeRestApiServer.Authentication;
 using SubterfugeServerConsole.Connections;
 using SubterfugeServerConsole.Responses;
 using Twilio;
+using Twilio.Rest.Lookups.V2;
 using Twilio.Rest.Verify.V2.Service;
+using ValidationException = SubterfugeServerConsole.Responses.ValidationException;
 
 namespace SubterfugeRestApiServer;
 
@@ -102,11 +105,27 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         // Check to send the user an SMS
         if (_twilioConfig.enabled)
         {
-            VerificationResource.Create(
-                to: registrationRequeset.PhoneNumber,
+            // Verify that the submitted phone number is valid.
+            var checkPhoneNumber = await PhoneNumberResource.FetchAsync(
+                pathPhoneNumber: registrationRequeset.PhoneNumber
+            );
+
+            if (!checkPhoneNumber.Valid.Value)
+            {
+                var errors = checkPhoneNumber.ValidationErrors.Select(it => it.ToString());
+                var errorsAsString = String.Join(", ", errors);
+                throw new ValidationException(
+                    $"The provided phone number is invalid. Errors: {errorsAsString}");
+            }
+
+            await VerificationResource.CreateAsync(
+                to: checkPhoneNumber.PhoneNumber.ToString(),
                 channel: "sms",
                 pathServiceSid: _twilioConfig.twilioVerificationServiceSid
             );
+            
+            // Update the phone number to be the validated number.
+            model.PhoneNumber = checkPhoneNumber.PhoneNumber.ToString();
         }
         else
         {
