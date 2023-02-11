@@ -15,7 +15,6 @@ public class AccountUtils
         var accountRegistrationResponse = await TestUtils.GetClient().UserApi.RegisterAccount(new AccountRegistrationRequest()
         {
             DeviceIdentifier = deviceId ?? Guid.NewGuid().ToString(),
-            Email = email,
             Password = username,
             PhoneNumber = phone ?? Guid.NewGuid().ToString(),
             Username = username

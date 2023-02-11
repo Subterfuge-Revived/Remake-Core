@@ -12,8 +12,6 @@ public class DbUserModel
 
     public string Username { get; set; } = "";
     public string PasswordHash { get; set; } = "";
-    public string Email { get; set; } = "";
-    public string EmailVerificationCode { get; set; } = "";
     public string DeviceIdentifier { get; set; } = "";
     public string PhoneNumber { get; set; } = "";
     public string PhoneVerificationCode { get; set; } = "";
@@ -63,7 +61,6 @@ public class DbUserModel
             Claims = Claims,
             DateCreated = DateCreated,
             BannedUntil = BannedUntil,
-            Email = Email,
             DeviceIdentifier = JwtManager.HashString(DeviceIdentifier),
             PhoneNumberHash = JwtManager.HashString(PhoneNumber),
             DiscordUsername = DiscordUsername,
@@ -80,7 +77,6 @@ public class DbUserModel
         {
             Username = request.Username,
             PasswordHash = JwtManager.HashString(request.Password),
-            Email = request.Email,
             DeviceIdentifier = request.DeviceIdentifier,
             PhoneNumber = request.PhoneNumber,
         };

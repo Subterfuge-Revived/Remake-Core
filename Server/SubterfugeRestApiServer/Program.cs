@@ -30,11 +30,7 @@ builder.Services.PostConfigure<ApiBehaviorOptions>(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddControllers().AddNewtonsoftJson(options =>
-{
-    options.SerializerSettings.Converters.Add(new StringEnumConverter());
-});
+builder.Services.AddControllers().AddNewtonsoftJson();
 
 builder.Services.AddSwaggerGen(genOptions =>
     {

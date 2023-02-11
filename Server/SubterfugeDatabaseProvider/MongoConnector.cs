@@ -101,9 +101,9 @@ namespace SubterfugeServerConsole.Connections
             {
                 Id = "1",
                 Username = _config.SuperUserUsername,
-                Email = _config.SuperUserUsername,
                 PasswordHash = JwtManager.HashString(_config.SuperUserPassword),
-                Claims = new [] { UserClaim.User, UserClaim.Administrator, UserClaim.EmailVerified }
+                PhoneNumber = "9999999999",
+                Claims = new [] { UserClaim.User, UserClaim.Administrator, UserClaim.PhoneVerified }
             };
             await GetDbCollection<DbUserModel>().ReplaceOneAsync(
                 it => it.Id == dbUserModel.Id, dbUserModel, new UpdateOptions(){ IsUpsert = true});

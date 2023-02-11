@@ -30,9 +30,9 @@ namespace SubterfugeServerConsole.Connections
             {
                 Id = "1",
                 Username = "admin",
-                Email = "admin@admin.com",
                 PasswordHash = HashPassword("admin"),
-                Claims = new[] { UserClaim.User, UserClaim.Administrator, UserClaim.EmailVerified }
+                PhoneNumber = "9999999999",
+                Claims = new[] { UserClaim.User, UserClaim.Administrator, UserClaim.PhoneVerified }
             };
             
             await Mongo.GetCollection<DbUserModel>().Upsert(userModel);

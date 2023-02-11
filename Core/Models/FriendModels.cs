@@ -16,10 +16,10 @@
 
     public enum RelationshipStatus
     {
-        NoRelation,
-        Pending,
-        Friends,
-        Blocked,
+        NoRelation = 0,
+        Pending = 1,
+        Friends = 2,
+        Blocked = 3,
     }
     
     

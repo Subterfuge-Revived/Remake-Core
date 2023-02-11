@@ -79,7 +79,6 @@ public class UserControllerClient : ISubterfugeAccountApi
         var query = HttpUtility.ParseQueryString(string.Empty);
         query["pagination"] = request.pagination.ToString();
         query["UsernameSearch"] = request.UsernameSearch;
-        query["EmailSearch"] = request.EmailSearch;
         query["DeviceIdentifierSearch"] = request.DeviceIdentifierSearch;
         query["UserIdSearch"] = request.UserIdSearch;
         query["RequireUserClaims"] = request.RequireUserClaim.ToString();
