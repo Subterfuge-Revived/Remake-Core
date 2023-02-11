@@ -71,4 +71,16 @@ public class ForbidException : ActionResultException
     {
         return new ObjectResult(response) { StatusCode = (int)HttpStatusCode.Forbidden };
     }
-} 
+}
+
+public class ValidationException : ActionResultException
+{
+    public ValidationException(string details)
+    {
+        response.Status = ResponseFactory.createResponse(ResponseType.INVALID_REQUEST, details);
+    }
+    public override ActionResult ToActionResult()
+    {
+        return new BadRequestObjectResult(response) { StatusCode = (int)HttpStatusCode.BadRequest };
+    }
+}
