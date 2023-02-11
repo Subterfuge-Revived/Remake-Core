@@ -14,7 +14,6 @@ public class DbUserModel
     public string PasswordHash { get; set; } = "";
     public string DeviceIdentifier { get; set; } = "";
     public string PhoneNumber { get; set; } = "";
-    public string PhoneVerificationCode { get; set; } = "";
     public string DiscordUsername { get; set; } = "";
     public string DiscordVerificationCode { get; set; } = "";
     public UserClaim[] Claims { get; set; } = new[] { UserClaim.User };

@@ -35,13 +35,13 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class AccountValidationRequest
     {
-        public string PhoneNumber { get; set; }
         public string VerificationCode { get; set; }
     }
 
     public class AccountVadliationResponse
     {
         public bool wasValidationSuccessful { get; set; } = false;
+        public User User { get; set; } = new User();
     }
 
     public class GetRolesResponse : NetworkResponse

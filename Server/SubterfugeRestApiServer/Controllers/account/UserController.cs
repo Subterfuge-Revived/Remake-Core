@@ -102,7 +102,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         // Check to send the user an SMS
         if (_twilioConfig.enabled)
         {
-            var verification = VerificationResource.Create(
+            VerificationResource.Create(
                 to: registrationRequeset.PhoneNumber,
                 channel: "sms",
                 pathServiceSid: _twilioConfig.twilioVerificationServiceSid
@@ -129,7 +129,6 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         };
     }
 
-    [AllowAnonymous]
     [HttpPost]
     [Route("verifyPhone")]
     public async Task<AccountVadliationResponse> VerifyPhone(AccountValidationRequest validationRequest)
@@ -138,12 +137,9 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         if (dbUserModel == null)
             throw new UnauthorizedException();
 
-        if (dbUserModel.PhoneNumber != validationRequest.PhoneNumber)
-            throw new UnauthorizedException();
-        
         // Validate through twilio
         var verificationCheck = VerificationCheckResource.Create(
-            to: validationRequest.PhoneNumber,
+            to: dbUserModel.PhoneNumber,
             code: validationRequest.VerificationCode,
             pathServiceSid: _twilioConfig.twilioVerificationServiceSid
         );
@@ -159,12 +155,14 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
 
             return new AccountVadliationResponse()
             {
+                User = dbUserModel.ToUser(),
                 wasValidationSuccessful = true,
             };
         }
         
         return new AccountVadliationResponse()
         {
+            User = dbUserModel.ToUser(),
             wasValidationSuccessful = false,
         };
     }
