@@ -54,7 +54,7 @@ public class SpecialistConfigurationController: ControllerBase, ISubterfugeCusto
         IMongoQueryable<DbSpecialistConfiguration> query = _dbSpecialists.Query();
         
         if (request.SearchTerm != null)
-            query = query.Where(it => it.SpecialistName.Contains(request.SearchTerm));
+            query = query.Where(it => it.SpecialistName.ToLower().Contains(request.SearchTerm.ToLower()));
         
         if(request.CreatedByPlayerId != null)
             query = query.Where(it => it.Creator.Id == request.CreatedByPlayerId);

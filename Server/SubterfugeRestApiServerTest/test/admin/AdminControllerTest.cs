@@ -30,5 +30,11 @@ public class AdminControllerTest
     public async Task AdministratorCanViewTheServerExceptionLog(){}
     
     [Test]
+    public async Task AdministratorCanSearchTheServerExceptionLogCaseInsensitive(){}
+    
+    [Test]
     public async Task AdministratorCanViewAListOfPlayerActions(){}
+    
+    [Test]
+    public async Task AdministratorCanSearchTheListOfPlayerActionsCaseInsensitive(){}
 }

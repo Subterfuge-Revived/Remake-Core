@@ -120,9 +120,84 @@ public class UserControllerTest
     }
     
     [Test]
-    public async Task QueryParamsWorkOnGetUsersEndpoint()
+    public async Task AdminsCanGetUsersByUsername()
     {
-        // Make some dummy accounts with different data to filter on
+        await SeedUsersInDatabase();
+
+        // Can search by username
+        var usernameResponse = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest() { UsernameSearch = "UserOne"});
+        Assert.AreEqual(1, usernameResponse.users.Count);
+        Assert.IsTrue(usernameResponse.users.All(user => user.Username.Contains("UserOne")));
+    }
+
+    [Test]
+    public async Task AdminsCanGetUsersByUsernameCaseInsensitive()
+    {
+        await SeedUsersInDatabase();
+
+        // Can search by username
+        var usernameResponse = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest() { UsernameSearch = "userone"});
+        Assert.AreEqual(1, usernameResponse.users.Count);
+        Assert.IsTrue(usernameResponse.users.All(user => user.Username.Contains("UserOne")));
+    }
+    
+    [Test]
+    public async Task AdminsCanGetUsersByEmail()
+    {
+        await SeedUsersInDatabase();
+
+        var emailResponse = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest() { EmailSearch = "RealEmail" });
+        Assert.AreEqual(2, emailResponse.users.Count);
+        Assert.IsTrue(emailResponse.users.All(user => user.Email.Contains("RealEmail")));
+    }
+    
+    [Test]
+    public async Task AdminsCanGetUsersByEmailCaseInsensitive()
+    {
+        await SeedUsersInDatabase();
+
+        var emailResponse = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest() { EmailSearch = "realemail" });
+        Assert.AreEqual(2, emailResponse.users.Count);
+        Assert.IsTrue(emailResponse.users.All(user => user.Email.Contains("RealEmail")));
+    }
+    
+    [Test]
+    public async Task AdminsCanGetUsersByEmailAndUsername()
+    {
+        await SeedUsersInDatabase();
+
+        // Can search by email AND username
+        var emailAndUsernameResponse = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest() { EmailSearch = "realemail", UsernameSearch = "userTwo"});
+        Assert.AreEqual(1, emailAndUsernameResponse.users.Count);
+        Assert.IsTrue(emailAndUsernameResponse.users.All(user => user.Email.Contains("RealEmail") && user.Username.Contains("UserTwo")));
+    }
+    
+    [Test]
+    public async Task AdminsCanGetUsersByDeviceId()
+    {
+        await SeedUsersInDatabase();
+
+        // Can search by deviceId
+        var deviceIdResponse = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest(){ DeviceIdentifierSearch = "FakeDeviceId"});
+        Assert.AreEqual(1, deviceIdResponse.users.Count);
+        // Cannot ensure the returned user has the device ID because we hash them when they get returned.
+    }
+    
+    [Test]
+    public async Task AdminsCanGetUsersHavingSpecificRoles()
+    {
+        await SeedUsersInDatabase();
+
+        // Can search by Claims
+        var claimsResponse = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest(){ RequireUserClaim = UserClaim.User});
+        // There is 4! The super user is also considered a normal user!
+        Assert.AreEqual(4, claimsResponse.users.Count);
+        Assert.IsTrue(claimsResponse.users.All(user => user.Claims.Contains(UserClaim.User)));
+    }
+
+    [Test]
+    public async Task AdminsCanGetUsersByUserId()
+    {
         var userOne = await AccountUtils.AssertRegisterAccountAndAuthorized(
             username: "UserOne",
             email: "MyFakeEmail@someEmail.com",
@@ -130,8 +205,25 @@ public class UserControllerTest
             phone: "9999999999"
         );
         
+        await TestUtils.CreateSuperUserAndLogin();
+
+        var userIdResponse = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest(){ UserIdSearch = userOne.User.Id });
+        Assert.AreEqual(1, userIdResponse.users.Count);
+        Assert.IsTrue(userIdResponse.users.All(user => user.Id == userOne.User.Id));
+    }
+
+    private async Task SeedUsersInDatabase()
+    {
+        // Make some dummy accounts with different data to filter on
+        await AccountUtils.AssertRegisterAccountAndAuthorized(
+            username: "UserOne",
+            email: "MyFakeEmail@someEmail.com",
+            deviceId: "FakeDeviceId",
+            phone: "9999999999"
+        );
         
-        var userTwo = await AccountUtils.AssertRegisterAccountAndAuthorized(
+        
+        await AccountUtils.AssertRegisterAccountAndAuthorized(
             username: "UserTwo",
             email: "RealEmail@realEmail.com",
             deviceId: "RealDeviceId",
@@ -139,7 +231,7 @@ public class UserControllerTest
         );
         
         
-        var userThree = await AccountUtils.AssertRegisterAccountAndAuthorized(
+        await AccountUtils.AssertRegisterAccountAndAuthorized(
             username: "UserThree",
             email: "RealEmailAsWell@realEmail.com",
             deviceId: "DifferentDeviceId",
@@ -148,44 +240,5 @@ public class UserControllerTest
         
         
         await TestUtils.CreateSuperUserAndLogin();
-        
-        // Can search by username
-        var usernameResponse = await TestUtils.GetClient().UserApi.GetUsers(new GetUserRequest() {UsernameSearch = "UserOne"});
-        Assert.AreEqual(1, usernameResponse.users.Count);
-        Assert.IsTrue(usernameResponse.users.All(user => user.Username.Contains("UserOne")));
-        
-        // Can search by email
-        /*
-        var emailResponse = await TestUtils.GetClient().UserApi.GetUsers(email: "RealEmail");
-        Assert.AreEqual(2, emailResponse.Users.Count);
-        Assert.IsTrue(emailResponse.Users.All(user => user.Email.Contains("RealEmail")));
-        
-        // Can search by email AND username
-        var emailAndUsernameResponse = await TestUtils.GetClient().UserApi.GetUsers(email: "RealEmail", username: "UserTwo");
-        Assert.AreEqual(1, emailAndUsernameResponse.Users.Count);
-        Assert.IsTrue(emailAndUsernameResponse.Users.All(user => user.Email.Contains("RealEmail") && user.Username.Contains("UserTwo")));
-        
-        // Can search by deviceId
-        var deviceIdResponse = await TestUtils.GetClient().UserApi.GetUsers(deviceIdentifier: "FakeDeviceId");
-        Assert.AreEqual(1, deviceIdResponse.Users.Length);
-        Assert.IsTrue(deviceIdResponse.Users.All(user => user.DeviceIdentifier.Contains("FakeDeviceId")));
-        
-        // Can search by phone
-        var phoneResponse = await TestUtils.GetClient().UserApi.GetUsers(phone: "1231231231");
-        Assert.AreEqual(1, phoneResponse.Users.Length);
-        Assert.IsTrue(phoneResponse.Users.All(user => user.PhoneNumber == "1231231231"));
-        
-        // Can search by claims
-        var claimsResponse = await TestUtils.GetClient().UserApi.GetUsers(claim: UserClaim.User);
-        
-        // There is 4! The super user is also considered a normal user!
-        Assert.AreEqual(4, claimsResponse.Users.Length);
-        Assert.IsTrue(claimsResponse.Users.All(user => user.Claims.Contains(UserClaim.User)));
-        
-        // Can search by userId
-        var userIdResponse = await TestUtils.GetClient().UserApi.GetUsers(userId: userOne.User.Id);
-        Assert.AreEqual(1, userIdResponse.Users.Length);
-        Assert.IsTrue(userIdResponse.Users.All(user => user.Id == userOne.User.Id));
-        */
     }
 }

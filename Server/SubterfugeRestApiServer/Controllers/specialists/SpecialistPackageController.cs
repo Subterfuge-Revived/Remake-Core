@@ -68,7 +68,7 @@ public class SpecialistPackageController : ControllerBase, ISubterfugeSpecialist
         IMongoQueryable<DbSpecialistPackage> query = _dbSpecialistPackages.Query();
         
         if (request.SearchTerm != null)
-            query = query.Where(it => it.PackageName.Contains(request.SearchTerm));
+            query = query.Where(it => it.PackageName.ToLower().Contains(request.SearchTerm.ToLower()));
         
         if(request.CreatedByUserId != null)
             query = query.Where(it => it.Creator.Id == request.CreatedByUserId);
@@ -78,6 +78,8 @@ public class SpecialistPackageController : ControllerBase, ISubterfugeSpecialist
         
         if(request.ContainsPackageId != null)
             query = query.Where(it => it.PackageIds.Contains(request.ContainsPackageId));
+
+        var allPackages = await _dbSpecialistPackages.Query().ToListAsync();
         
         var results = (await query
                 .OrderByDescending(specialist => specialist.CreatedAt)
