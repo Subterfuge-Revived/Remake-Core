@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
@@ -217,7 +216,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         IMongoQueryable<DbUserModel> query = _dbUsers.Query();
 
         if (!request.UsernameSearch.IsNullOrEmpty())
-            query = query.Where(it => it.Username.Contains(request.UsernameSearch));
+            query = query.Where(it => it.Username.ToLower().Contains(request.UsernameSearch.ToLower()));
         
         if (!request.DeviceIdentifierSearch.IsNullOrEmpty())
             query = query.Where(it => it.DeviceIdentifier == request.DeviceIdentifierSearch);

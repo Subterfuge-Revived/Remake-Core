@@ -38,7 +38,7 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
         
         if (request.Username != null)
         {
-            query = query.Where(it => it.Username.Contains(request.Username));
+            query = query.Where(it => (it.Username ?? string.Empty).ToLower().Contains(request.Username.ToLower()));
         }
 
         if (request.UserId != null)
@@ -78,7 +78,7 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
     
         if (request.Username != null)
         {
-            query = query.Where(it => it.Username.Contains(request.Username));
+            query = query.Where(it => (it.Username ?? string.Empty).ToLower().Contains(request.Username.ToLower()));
         }
 
         if (request.UserId != null)

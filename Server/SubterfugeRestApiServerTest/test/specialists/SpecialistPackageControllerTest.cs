@@ -50,6 +50,24 @@ public class SpecialistPackageControllerTest
         Assert.AreEqual(1, playerPackages.SpecialistPackages[0].SpecialistIds.Count);
         Assert.AreEqual(specialist.SpecialistConfigurationId, playerPackages.SpecialistPackages[0].SpecialistIds[0]);
     }
+    
+    [Test]
+    public async Task CanSearchSpecialistPackagesCaseInsensitive()
+    {
+        var specialist = await submitCustomSpecialist("MySpecialist");
+        var packageResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.SpecialistConfigurationId });
+            
+        Assert.IsTrue(packageResponse .Status.IsSuccess);
+        Assert.NotNull(packageResponse.SpecialistPackageId);
+        
+        var playerPackages = await TestUtils.GetClient().SpecialistClient.GetSpecialistPackages(new GetSpecialistPackagesRequest()
+        {
+            SearchTerm = "package",
+        });
+            
+        Assert.AreEqual(1, playerPackages.SpecialistPackages.Count);
+        Assert.AreEqual(1, playerPackages.SpecialistPackages.Count(it => it.PackageName.ToLower().Contains("package")));
+    }
 
     [Test]
     public async Task CanAddMultipleSpecialistsToAPackage()

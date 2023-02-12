@@ -66,6 +66,24 @@ public class SpecialistConfigurationControllerTest
         Assert.AreEqual(1, specialistList.CustomSpecialists.Count(it => it.SpecialistName == specName));
         Assert.AreEqual(1, specialistList.CustomSpecialists.Count(it => it.SpecialistName == secondSpecName));
     }
+    
+    [Test]
+    public async Task CanGetAllSpecialistsByNameCaseInsensitive()
+    {
+        String specName = "MyCustomSpecialist";
+        await submitCustomSpecialist(specName);
+            
+        String secondSpecName = "MyCustomSpecialist2";
+        await submitCustomSpecialist(secondSpecName);
+
+        var search = "custom";
+        GetCustomSpecialistsResponse specialistList = await TestUtils.GetClient().SpecialistClient.GetCustomSpecialists(new GetCustomSpecialistsRequest()
+        {
+            SearchTerm = search
+        });
+        Assert.AreEqual(2, specialistList.CustomSpecialists.Count);
+        Assert.AreEqual(2, specialistList.CustomSpecialists.Count(it => it.SpecialistName.ToLower().Contains(search)));
+    }
 
     [Test]
     public async Task CanViewSpecialistsCreatedByAnyPlayer()
