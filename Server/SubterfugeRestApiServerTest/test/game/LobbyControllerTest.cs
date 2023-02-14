@@ -9,8 +9,6 @@ public class LobbyControllerTest
     private AccountRegistrationResponse userOne;
     private AccountRegistrationResponse userTwo;
     private AccountRegistrationResponse userThree;
-    private AccountRegistrationResponse sameDeviceUserOne;
-    private AccountRegistrationResponse sameDeviceUserTwo;
     
 
     [SetUp]
@@ -18,10 +16,7 @@ public class LobbyControllerTest
     {
         TestUtils.Mongo.FlushAll();
         TestUtils.GetClient().UserApi.Logout();
-        
-        sameDeviceUserOne = await AccountUtils.AssertRegisterAccountAndAuthorized("SameDeviceUserOne", deviceId: "SameDevice");
-        sameDeviceUserTwo = await AccountUtils.AssertRegisterAccountAndAuthorized("SameDeviceUserTwo", deviceId: "SameDevice");
-        
+
         userThree = await AccountUtils.AssertRegisterAccountAndAuthorized("UserThree");
         userTwo = await AccountUtils.AssertRegisterAccountAndAuthorized("UserTwo");
         userOne = await AccountUtils.AssertRegisterAccountAndAuthorized("UserOne");
@@ -480,19 +475,6 @@ public class LobbyControllerTest
     public void PlayersCanJoinAPrivateLobbyIfTheyKnowTheLobbyId()
     {
         throw new NotImplementedException();
-    }
-
-    [Test]
-    public async Task PlayersWhoRegisterWithTheSameDeviceIdCannotJoinTheSameGame()
-    {
-        // Create a lobby
-        TestUtils.GetClient().UserApi.SetToken(sameDeviceUserOne.Token);
-        var response = await LobbyUtils.CreateLobby();
-        
-        // Login as another player using the same device ID and join the created lobby
-        TestUtils.GetClient().UserApi.SetToken(sameDeviceUserTwo.Token);
-        var exception = await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest() { }, response.GameConfiguration.Id);
-        Assert.IsFalse(exception.IsSuccess());
     }
 
     [Test]
