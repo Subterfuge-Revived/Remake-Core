@@ -35,6 +35,7 @@ namespace SubterfugeServerConsole.Connections
             AddComponent(new ServerActionLogCollection(GetDbCollection<DbServerAction>()));
             AddComponent(new ServerExceptionLogCollection(GetDbCollection<DbServerException>()));
             AddComponent(new IpBanCollection(GetDbCollection<DbIpBan>()));
+            AddComponent(new GameAnnouncementCollection(GetDbCollection<DbGameAnnouncement>()));
 
             _logger?.LogInformation("Connected to database.");
             try

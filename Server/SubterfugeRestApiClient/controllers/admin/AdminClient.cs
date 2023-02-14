@@ -1,85 +1,72 @@
 ﻿using SubterfugeCore.Models.GameEvents;
 using SubterfugeCore.Models.GameEvents.Api;
-using SubterfugeRestApiClient.controllers.exception;
+using SubterfugeRestApiClient.controllers.Client;
 
 namespace SubterfugeRestApiClient.controllers.admin;
 
 public class AdminClient : ISubterfugeAdminApi
 {
-    private HttpClient client;
+    private SubterfugeHttpClient client;
 
-    public AdminClient(HttpClient client)
+    public AdminClient(SubterfugeHttpClient client)
     {
         this.client = client;
     }
     
-    public async Task<ServerActionLogResponse> GetActionLog(ServerActionLogRequeset request)
+    public async Task<SubterfugeResponse<ServerActionLogResponse>> GetActionLog(ServerActionLogRequeset request)
     {
-        HttpResponseMessage response = await client.GetAsync($"api/admin/serverLog");
-        if (!response.IsSuccessStatusCode)
+        return await client.Get<ServerActionLogResponse>($"api/admin/serverLog", new Dictionary<string, string>()
         {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<ServerActionLogResponse>();
+            { "Pagination", request.Pagination.ToString() },
+            { "Username", request.Username.ToString() },
+            { "UserId", request.UserId.ToString() },
+            { "HttpMethod", request.HttpMethod.ToString() },
+            { "RequestUrl", request.RequestUrl.ToString() },
+        });
     }
 
-    public async Task<ServerExceptionLogResponse> GetServerExceptions(ServerExceptionLogRequest request)
+    public async Task<SubterfugeResponse<ServerExceptionLogResponse>> GetServerExceptions(ServerExceptionLogRequest request)
     {
-        HttpResponseMessage response = await client.GetAsync($"api/admin/exceptions");
-        if (!response.IsSuccessStatusCode)
+        return await client.Get<ServerExceptionLogResponse>($"api/admin/exceptions", new Dictionary<string, string>()
         {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<ServerExceptionLogResponse>();
+            { "Pagination", request.Pagination.ToString() },
+            { "Username", request.Username.ToString() },
+            { "UserId", request.UserId.ToString() },
+            { "HttpMethod", request.HttpMethod.ToString() },
+            { "RequestUrl", request.RequestUrl.ToString() },
+            { "ExceptionSource", request.ExceptionSource.ToString() },
+            { "RemoteIpAddress", request.RemoteIpAddress.ToString() },
+        });
     }
 
-    public async Task<NetworkResponse> BanPlayer(BanPlayerRequest banPlayerRequest)
+    public async Task<SubterfugeResponse<BanPlayerResponse>> BanPlayer(BanPlayerRequest banPlayerRequest)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/admin/banPlayer", banPlayerRequest);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<NetworkResponse>();
+        return await client.Post<BanPlayerRequest, BanPlayerResponse>($"api/admin/banPlayer", banPlayerRequest);
     }
 
-    public async Task<NetworkResponse> BanIp(BanIpRequest banIpRequest)
+    public async Task<SubterfugeResponse<BanIpResponse>> BanIp(BanIpRequest banIpRequest)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/admin/banIp", banIpRequest);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<NetworkResponse>();
+        return await client.Post<BanIpRequest, BanIpResponse>($"api/admin/banIp", banIpRequest);
     }
 
-    public async Task<GetIpBansResponse> GetIpBans(int pagination)
+    public async Task<SubterfugeResponse<GetIpBansResponse>> GetIpBans(int pagination)
     {
-        HttpResponseMessage response = await client.GetAsync($"api/admin/ipBans");
-        if (!response.IsSuccessStatusCode)
+        return await client.Get<GetIpBansResponse>($"api/admin/ipBans", new Dictionary<string, string>()
         {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<GetIpBansResponse>();
+            { "Pagination", pagination.ToString() }
+        });
     }
 
-    public async Task<GetBannedPlayerResponse> GetBannedPlayers(int pagination)
+    public async Task<SubterfugeResponse<GetBannedPlayerResponse>> GetBannedPlayers(int pagination)
     {
-        HttpResponseMessage response = await client.GetAsync($"api/admin/playerBans");
-        if (!response.IsSuccessStatusCode)
+        return await client.Get<GetBannedPlayerResponse>($"api/admin/playerBans", new Dictionary<string, string>()
         {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<GetBannedPlayerResponse>();
+            { "Pagination", pagination.ToString() }
+        });
     }
 
-    public async Task<Echo> EchoRequest(Echo request)
+    public async Task<SubterfugeResponse<Echo>> EchoRequest(Echo request)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/admin/echo", request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<Echo>();
+        return await client.Post<Echo, Echo>($"api/admin/echo", request);
     }
 }

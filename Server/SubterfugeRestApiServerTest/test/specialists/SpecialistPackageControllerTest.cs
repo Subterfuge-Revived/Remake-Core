@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
 using SubterfugeCore.Models.GameEvents;
-using SubterfugeRestApiClient;
-using SubterfugeRestApiClient.controllers.exception;
 using SubterfugeServerConsole.Connections;
 
 namespace SubterfugeRestApiServerTest.test.specialists;
@@ -25,48 +23,49 @@ public class SpecialistPackageControllerTest
     public async Task CanCreateASpecialistPackage()
     {
         var specialist = await submitCustomSpecialist("MySpecialist");
-        var packageResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.SpecialistConfigurationId });
+        var packageResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.GetOrThrow().SpecialistConfigurationId });
             
-        Assert.IsTrue(packageResponse .Status.IsSuccess);
-        Assert.NotNull(packageResponse.SpecialistPackageId);
+        Assert.IsTrue(packageResponse.IsSuccess());
+        Assert.NotNull(packageResponse.GetOrThrow().SpecialistPackageId);
     }
 
     [Test]
     public async Task CanViewAPlayersSpecialistPackages()
     {
         var specialist = await submitCustomSpecialist("MySpecialist");
-        var packageResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.SpecialistConfigurationId });
+        var packageResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.GetOrThrow().SpecialistConfigurationId });
             
-        Assert.IsTrue(packageResponse .Status.IsSuccess);
-        Assert.NotNull(packageResponse.SpecialistPackageId);
+        Assert.IsTrue(packageResponse.IsSuccess());
+        Assert.NotNull(packageResponse.GetOrThrow().SpecialistPackageId);
         
         var playerPackages = await TestUtils.GetClient().SpecialistClient.GetSpecialistPackages(new GetSpecialistPackagesRequest()
         {
             CreatedByUserId = _userOne.User.Id,
         });
             
-        Assert.AreEqual(1, playerPackages.SpecialistPackages.Count);
-        Assert.AreEqual(_userOne.User.Id, playerPackages.SpecialistPackages[0].Creator.Id);
-        Assert.AreEqual(1, playerPackages.SpecialistPackages[0].SpecialistIds.Count);
-        Assert.AreEqual(specialist.SpecialistConfigurationId, playerPackages.SpecialistPackages[0].SpecialistIds[0]);
+        Assert.AreEqual(1, playerPackages.GetOrThrow().SpecialistPackages.Count);
+        Assert.AreEqual(_userOne.User.Id, playerPackages.GetOrThrow().SpecialistPackages[0].Creator.Id);
+        Assert.AreEqual(1, playerPackages.GetOrThrow().SpecialistPackages[0].SpecialistIds.Count);
+        Assert.AreEqual(specialist.GetOrThrow().SpecialistConfigurationId, playerPackages.GetOrThrow().SpecialistPackages[0].SpecialistIds[0]);
     }
     
     [Test]
     public async Task CanSearchSpecialistPackagesCaseInsensitive()
     {
         var specialist = await submitCustomSpecialist("MySpecialist");
-        var packageResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.SpecialistConfigurationId });
+        var packageResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.GetOrThrow().SpecialistConfigurationId });
             
-        Assert.IsTrue(packageResponse .Status.IsSuccess);
-        Assert.NotNull(packageResponse.SpecialistPackageId);
+        Assert.IsTrue(packageResponse.IsSuccess());
+        Assert.NotNull(packageResponse.GetOrThrow().SpecialistPackageId);
         
         var playerPackages = await TestUtils.GetClient().SpecialistClient.GetSpecialistPackages(new GetSpecialistPackagesRequest()
         {
             SearchTerm = "package",
         });
             
-        Assert.AreEqual(1, playerPackages.SpecialistPackages.Count);
-        Assert.AreEqual(1, playerPackages.SpecialistPackages.Count(it => it.PackageName.ToLower().Contains("package")));
+        Assert.IsTrue(playerPackages.IsSuccess());
+        Assert.AreEqual(1, playerPackages.GetOrThrow().SpecialistPackages.Count);
+        Assert.AreEqual(1, playerPackages.GetOrThrow().SpecialistPackages.Count(it => it.PackageName.ToLower().Contains("package")));
     }
 
     [Test]
@@ -74,88 +73,81 @@ public class SpecialistPackageControllerTest
     {
         var specialist = await submitCustomSpecialist("MySpecialist");
         var specialistTwo = await submitCustomSpecialist("MySpecialistTwo");
-        var packageResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.SpecialistConfigurationId, specialistTwo.SpecialistConfigurationId });
+        var packageResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.GetOrThrow().SpecialistConfigurationId, specialistTwo.GetOrThrow().SpecialistConfigurationId });
             
-        Assert.IsTrue(packageResponse .Status.IsSuccess);
-        Assert.NotNull(packageResponse.SpecialistPackageId);
+        Assert.IsTrue(packageResponse.IsSuccess());
+        Assert.NotNull(packageResponse.GetOrThrow().SpecialistPackageId);
         
         var playerPackages = await TestUtils.GetClient().SpecialistClient.GetSpecialistPackages(new GetSpecialistPackagesRequest()
         {
             CreatedByUserId = _userOne.User.Id,
         });
             
-        Assert.AreEqual(1, playerPackages.SpecialistPackages.Count);
-        Assert.AreEqual(_userOne.User.Id, playerPackages.SpecialistPackages[0].Creator.Id);
-        Assert.AreEqual(2, playerPackages.SpecialistPackages[0].SpecialistIds.Count);
-        Assert.AreEqual(specialist.SpecialistConfigurationId, playerPackages.SpecialistPackages[0].SpecialistIds[0]);
-        Assert.AreEqual(specialistTwo.SpecialistConfigurationId, playerPackages.SpecialistPackages[0].SpecialistIds[1]);
+        Assert.AreEqual(1, playerPackages.GetOrThrow().SpecialistPackages.Count);
+        Assert.AreEqual(_userOne.User.Id, playerPackages.GetOrThrow().SpecialistPackages[0].Creator.Id);
+        Assert.AreEqual(2, playerPackages.GetOrThrow().SpecialistPackages[0].SpecialistIds.Count);
+        Assert.AreEqual(specialist.GetOrThrow().SpecialistConfigurationId, playerPackages.GetOrThrow().SpecialistPackages[0].SpecialistIds[0]);
+        Assert.AreEqual(specialistTwo.GetOrThrow().SpecialistConfigurationId, playerPackages.GetOrThrow().SpecialistPackages[0].SpecialistIds[1]);
     }
 
     [Test]
     public async Task CanAddASpecialistPackageToAPackage()
     {
         var specialist = await submitCustomSpecialist("MySpecialist");
-        var packageOneResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.SpecialistConfigurationId });
-        Assert.IsTrue(packageOneResponse .Status.IsSuccess);
-        Assert.NotNull(packageOneResponse.SpecialistPackageId);
+        var packageOneResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.GetOrThrow().SpecialistConfigurationId });
+        Assert.IsTrue(packageOneResponse.IsSuccess());
+        Assert.NotNull(packageOneResponse.GetOrThrow().SpecialistPackageId);
         
         var specialistTwo = await submitCustomSpecialist("MySpecialistTwo");
         var packageTwoResponse = await submitSpecialistPackage(
             "MyPackageTwo", 
-            new List<string>() { specialistTwo.SpecialistConfigurationId }, 
-            new List<string>(){ packageOneResponse.SpecialistPackageId }
+            new List<string>() { specialistTwo.GetOrThrow().SpecialistConfigurationId }, 
+            new List<string>(){ packageOneResponse.GetOrThrow().SpecialistPackageId }
         );
-        Assert.IsTrue(packageTwoResponse .Status.IsSuccess);
-        Assert.NotNull(packageTwoResponse.SpecialistPackageId);
+        Assert.IsTrue(packageTwoResponse.IsSuccess());
+        Assert.NotNull(packageTwoResponse.GetOrThrow().SpecialistPackageId);
         
-        var playerPackages = await TestUtils.GetClient().SpecialistClient.GetSpecialistPackages(packageTwoResponse.SpecialistPackageId);
+        var playerPackages = await TestUtils.GetClient().SpecialistClient.GetSpecialistPackages(packageTwoResponse.GetOrThrow().SpecialistPackageId);
             
-        Assert.AreEqual(1, playerPackages.SpecialistPackages.Count);
-        Assert.AreEqual(_userOne.User.Id, playerPackages.SpecialistPackages[0].Creator.Id);
-        Assert.AreEqual(1, playerPackages.SpecialistPackages[0].SpecialistIds.Count);
-        Assert.AreEqual(specialistTwo.SpecialistConfigurationId, playerPackages.SpecialistPackages[0].SpecialistIds[0]);
-        Assert.AreEqual(packageOneResponse.SpecialistPackageId, playerPackages.SpecialistPackages[0].PackageIds[0]);
+        Assert.AreEqual(1, playerPackages.GetOrThrow().SpecialistPackages.Count);
+        Assert.AreEqual(_userOne.User.Id, playerPackages.GetOrThrow().SpecialistPackages[0].Creator.Id);
+        Assert.AreEqual(1, playerPackages.GetOrThrow().SpecialistPackages[0].SpecialistIds.Count);
+        Assert.AreEqual(specialistTwo.GetOrThrow().SpecialistConfigurationId, playerPackages.GetOrThrow().SpecialistPackages[0].SpecialistIds[0]);
+        Assert.AreEqual(packageOneResponse.GetOrThrow().SpecialistPackageId, playerPackages.GetOrThrow().SpecialistPackages[0].PackageIds[0]);
     }
 
     [Test]
     public async Task CannotReferenceAnInvalidSpecialistPackageId()
     {
         var specialist = await submitCustomSpecialist("MySpecialist");
-        var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
-        {
-            await submitSpecialistPackage(
+        var exception = await submitSpecialistPackage(
                 "MyPackage",
-                new List<string>() { specialist.SpecialistConfigurationId },
+                new List<string>() { specialist.GetOrThrow().SpecialistConfigurationId },
                 new List<string>() { "Non-existent-package" }
             );
-        });
-
-        Assert.AreEqual(ResponseType.NOT_FOUND, exception.response.Status.ResponseType);
-        Assert.AreEqual(false, exception.response.Status.IsSuccess);
+        Assert.AreEqual(false, exception.IsSuccess());
+        Assert.AreEqual(ResponseType.NOT_FOUND, exception.ResponseDetail.ResponseType);
     }
 
     [Test]
     public async Task CannotReferenceAnInvalidSpecialistId()
     {
-        var exception = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
-        {
-            await submitSpecialistPackage(
+        var exception =  await submitSpecialistPackage(
                 "MyPackage",
                 new List<string>() { "Non-existent-Specialist" }
             );
-        });
-        Assert.AreEqual(ResponseType.NOT_FOUND, exception.response.Status.ResponseType);
-        Assert.AreEqual(false, exception.response.Status.IsSuccess);
+        Assert.AreEqual(false, exception.IsSuccess());
+        Assert.AreEqual(ResponseType.NOT_FOUND, exception.ResponseDetail.ResponseType);
     }
 
     [Test]
     public async Task CanViewOtherPlayersPackages()
     {
         var specialist = await submitCustomSpecialist("MySpecialist");
-        var packageResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.SpecialistConfigurationId });
+        var packageResponse = await submitSpecialistPackage("MyPackage", new List<string>() { specialist.GetOrThrow().SpecialistConfigurationId });
             
-        Assert.IsTrue(packageResponse .Status.IsSuccess);
-        Assert.NotNull(packageResponse.SpecialistPackageId);
+        Assert.IsTrue(packageResponse.IsSuccess());
+        Assert.NotNull(packageResponse.GetOrThrow().SpecialistPackageId);
         
         TestUtils.GetClient().UserApi.SetToken(_userTwo.Token);
         
@@ -164,13 +156,13 @@ public class SpecialistPackageControllerTest
             CreatedByUserId = _userOne.User.Id,
         });
             
-        Assert.AreEqual(1, playerPackages.SpecialistPackages.Count);
-        Assert.AreEqual(_userOne.User.Id, playerPackages.SpecialistPackages[0].Creator.Id);
-        Assert.AreEqual(1, playerPackages.SpecialistPackages[0].SpecialistIds.Count);
-        Assert.AreEqual(specialist.SpecialistConfigurationId, playerPackages.SpecialistPackages[0].SpecialistIds[0]);
+        Assert.AreEqual(1, playerPackages.GetOrThrow().SpecialistPackages.Count);
+        Assert.AreEqual(_userOne.User.Id, playerPackages.GetOrThrow().SpecialistPackages[0].Creator.Id);
+        Assert.AreEqual(1, playerPackages.GetOrThrow().SpecialistPackages[0].SpecialistIds.Count);
+        Assert.AreEqual(specialist.GetOrThrow().SpecialistConfigurationId, playerPackages.GetOrThrow().SpecialistPackages[0].SpecialistIds[0]);
     }
     
-    private async Task<CreateSpecialistPackageResponse> submitSpecialistPackage(
+    private async Task<SubterfugeResponse<CreateSpecialistPackageResponse>> submitSpecialistPackage(
         string packageName,
         List<string> specialistIds,
         List<string> packageIds = null
@@ -188,7 +180,7 @@ public class SpecialistPackageControllerTest
         };
     }
     
-    private async Task<SubmitCustomSpecialistResponse> submitCustomSpecialist(String specialistName)
+    private async Task<SubterfugeResponse<SubmitCustomSpecialistResponse>> submitCustomSpecialist(String specialistName)
     {
         return await TestUtils.GetClient().SpecialistClient.SubmitCustomSpecialist(createSpecialistRequest(specialistName));
     }

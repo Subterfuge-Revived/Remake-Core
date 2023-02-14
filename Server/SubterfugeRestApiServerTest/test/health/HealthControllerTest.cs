@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using NUnit.Framework;
+using SubterfugeCore.Models.GameEvents;
 using SubterfugeRestApiClient;
-using SubterfugeRestApiClient.controllers.exception;
 using SubterfugeServerConsole.Connections;
 
 namespace SubterfugeRestApiServerTest.test.health;
@@ -21,17 +21,15 @@ public class HealthControllerTest
     public async Task AnyoneCanPing()
     {
         var response = await client.HealthClient.Ping();
-        Assert.IsTrue(response.Status.IsSuccess);
+        Assert.IsTrue(response.ResponseDetail.IsSuccess);
     }
 
     [Test]
     public async Task UnauthenticatedUsersCannotUseAuthorizedPing()
     {
-        var response = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
-        {
-            await client.HealthClient.AuthorizedPing();
-        });
-        Assert.AreEqual(HttpStatusCode.Unauthorized, response.rawResponse.StatusCode);
+        var response = await client.HealthClient.AuthorizedPing();
+        Assert.IsFalse(response.IsSuccess());
+        Assert.AreEqual(ResponseType.UNAUTHORIZED, response.ResponseDetail.ResponseType);
     }
     
     [Test]
@@ -39,7 +37,7 @@ public class HealthControllerTest
     {
         var user = await AccountUtils.AssertRegisterAccountAndAuthorized("NewUser");
         var response = await client.HealthClient.AuthorizedPing();
-        Assert.IsTrue(response.Status.IsSuccess);
+        Assert.IsTrue(response.ResponseDetail.IsSuccess);
     }
     
     [Test]
@@ -47,8 +45,8 @@ public class HealthControllerTest
     {
         var user = await AccountUtils.AssertRegisterAccountAndAuthorized("NewUser");
         var response = await client.HealthClient.AuthorizedPing();
-        Assert.IsTrue(response.Status.IsSuccess);
-        Assert.AreEqual(response.LoggedInUser.Id, user.User.Id);
+        Assert.IsTrue(response.ResponseDetail.IsSuccess);
+        Assert.AreEqual(response.GetOrThrow().LoggedInUser.Id, user.User.Id);
     }
 
 }

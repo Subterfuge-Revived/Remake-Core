@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using SubterfugeRestApiClient.controllers.account;
 using SubterfugeRestApiClient.controllers.admin;
+using SubterfugeRestApiClient.controllers.Client;
 using SubterfugeRestApiClient.controllers.game;
 using SubterfugeRestApiClient.controllers.health;
 using SubterfugeRestApiClient.controllers.social;
@@ -10,7 +11,7 @@ namespace SubterfugeRestApiClient
 {
     public class SubterfugeClient
     {
-        private HttpClient Client = new HttpClient();
+        private SubterfugeHttpClient subsHttpClient;
         
         // APIs
         public UserControllerClient UserApi;
@@ -22,6 +23,7 @@ namespace SubterfugeRestApiClient
         public SocialClient SocialClient;
         public SpecialistClient SpecialistClient;
         public AdminClient AdminClient;
+        public GameAnnouncementClient AnnouncementClient;
         
         /// <summary>
         /// The client constructor.
@@ -33,16 +35,8 @@ namespace SubterfugeRestApiClient
         /// </summary>
         public SubterfugeClient()
         {
-            string hostname = "localhost";
-            int port = 5295;
-            
-            // Get environment
-            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            if (environment == "Docker")
-            {
-                hostname = "server";
-            }
-            setupClient($"http://{hostname}:{port}/");
+            subsHttpClient = new SubterfugeHttpClient();
+            WireDependencies();
         }
         
         /// <summary>
@@ -51,26 +45,22 @@ namespace SubterfugeRestApiClient
         /// <param name="baseUrl">The server URL to connect to. Should include the protocol, hostname, and port. ex. http://localhost:5295</param>
         public SubterfugeClient(string baseUrl)
         {
-            setupClient(baseUrl);
+            subsHttpClient = new SubterfugeHttpClient(baseUrl);
+            WireDependencies();
         }
 
-        private void setupClient(string baseUrl)
+        private void WireDependencies()
         {
-            Client.BaseAddress = new Uri(baseUrl);
-            Client.DefaultRequestHeaders.Accept.Clear();
-            Client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json")
-            );
-
-            UserApi = new UserControllerClient(Client);
-            UserRoles = new UserRoleClient(Client);
-            GameEventClient = new GameEventClient(Client);
-            GroupClient = new GroupClient(Client);
-            LobbyClient = new LobbyClient(Client);
-            HealthClient = new HealthClient(Client);
-            SocialClient = new SocialClient(Client);
-            SpecialistClient = new SpecialistClient(Client);
-            AdminClient = new AdminClient(Client);
+            UserApi = new UserControllerClient(subsHttpClient);
+            UserRoles = new UserRoleClient(subsHttpClient);
+            GameEventClient = new GameEventClient(subsHttpClient);
+            GroupClient = new GroupClient(subsHttpClient);
+            LobbyClient = new LobbyClient(subsHttpClient);
+            HealthClient = new HealthClient(subsHttpClient);
+            SocialClient = new SocialClient(subsHttpClient);
+            SpecialistClient = new SpecialistClient(subsHttpClient);
+            AdminClient = new AdminClient(subsHttpClient);
+            AnnouncementClient = new GameAnnouncementClient(subsHttpClient);
         }
     }    
 }

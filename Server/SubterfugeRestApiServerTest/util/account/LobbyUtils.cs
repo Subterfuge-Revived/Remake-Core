@@ -11,17 +11,20 @@ public class LobbyUtils
         int maxPlayers = 5,
         bool isRanked = false,
         Goal goal = Goal.Domination
-    ) {
-            CreateRoomResponse roomResponse = await TestUtils.GetClient().LobbyClient.CreateNewRoom(CreateRoomRequest(roomName, maxPlayers: maxPlayers, isRanked: isRanked, goal: goal));
-            Assert.AreEqual(roomResponse.Status.IsSuccess, true);
-            Assert.IsTrue(roomResponse.GameConfiguration.Id != null);
-            return roomResponse;
+    )
+    {
+        var roomResponse = await TestUtils.GetClient().LobbyClient.CreateNewRoom(CreateRoomRequest(roomName, maxPlayers: maxPlayers, isRanked: isRanked, goal: goal));
+        CreateRoomResponse room = roomResponse.GetOrThrow();
+        Assert.AreEqual(roomResponse.IsSuccess(), true);
+        Assert.IsTrue(room.GameConfiguration.Id != null);
+        return room;
     }
 
     public static async Task<GetLobbyResponse> AssertPlayerInLobby(string playerId, bool isInLobby = true)
     {
-        GetLobbyResponse lobbyResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest());
-        Assert.AreEqual(lobbyResponse.Status.IsSuccess, true);
+        var roomResponse = await TestUtils.GetClient().LobbyClient.GetLobbies(new GetLobbyRequest());
+        GetLobbyResponse lobbyResponse = roomResponse.GetOrThrow();
+        Assert.AreEqual(roomResponse.IsSuccess(), true);
         if (isInLobby)
         {
             Assert.AreEqual(isInLobby, lobbyResponse.Lobbies[0].PlayersInLobby.Any(it => it.Id == playerId));

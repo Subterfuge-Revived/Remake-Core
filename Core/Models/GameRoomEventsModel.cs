@@ -20,7 +20,7 @@ namespace SubterfugeCore.Models.GameEvents
         public String SerializedEventData { get; set; }
     }
 
-    public class GetGameRoomEventsResponse : NetworkResponse
+    public class GetGameRoomEventsResponse
     {
         public List<GameRoomEvent> GameEvents { get; set; }
     }
@@ -30,7 +30,7 @@ namespace SubterfugeCore.Models.GameEvents
         public GameEventData GameEventData { get; set; }
     }
     
-    public class SubmitGameEventResponse : NetworkResponse
+    public class SubmitGameEventResponse
     {
         public string EventId { get; set; }
         public GameRoomEvent GameRoomEvent { get; set; }
@@ -41,6 +41,6 @@ namespace SubterfugeCore.Models.GameEvents
         public GameEventData GameEventData { get; set; }
     }
 
-    public class DeleteGameEventResponse : NetworkResponse { }
+    public class DeleteGameEventResponse { }
 
 }

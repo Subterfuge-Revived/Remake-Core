@@ -108,7 +108,7 @@ namespace SubterfugeCore.Models.GameEvents
         public string PromotesFromSpecialistId { get; set; }
     }
 
-    public class SubmitCustomSpecialistResponse : NetworkResponse
+    public class SubmitCustomSpecialistResponse
     {
         public string SpecialistConfigurationId { get; set; }
     }
@@ -121,7 +121,7 @@ namespace SubterfugeCore.Models.GameEvents
         public string? CreatedByPlayerId { get; set; }
     }
 
-    public class GetCustomSpecialistsResponse : NetworkResponse
+    public class GetCustomSpecialistsResponse
     {
         public List<SpecialistConfiguration> CustomSpecialists { get; set; }
     }
@@ -133,7 +133,7 @@ namespace SubterfugeCore.Models.GameEvents
         public List<string> PackageIds { get; set; }
     }
 
-    public class CreateSpecialistPackageResponse : NetworkResponse
+    public class CreateSpecialistPackageResponse
     {
         public string SpecialistPackageId { get; set; }
     }
@@ -147,7 +147,7 @@ namespace SubterfugeCore.Models.GameEvents
         public string? ContainsPackageId { get; set; }
     }
 
-    public class GetSpecialistPackagesResponse : NetworkResponse
+    public class GetSpecialistPackagesResponse
     {
         public List<SpecialistPackage> SpecialistPackages { get; set; }
     }

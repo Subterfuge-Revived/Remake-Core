@@ -25,11 +25,11 @@ public class SpecialistConfigurationController: ControllerBase, ISubterfugeCusto
 
     [HttpPost]
     [Route("create")]
-    public async Task<SubmitCustomSpecialistResponse> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request)
+    public async Task<SubterfugeResponse<SubmitCustomSpecialistResponse>> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
         if (user == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<SubmitCustomSpecialistResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
 
         var dbItem = DbSpecialistConfiguration.FromRequest(request, user.ToSimpleUser());
         await _dbSpecialists.Upsert(dbItem);
@@ -37,19 +37,18 @@ public class SpecialistConfigurationController: ControllerBase, ISubterfugeCusto
         // Get the generated specialist ID
         string specialistId = dbItem.Id;
 
-        return new SubmitCustomSpecialistResponse()
+        return SubterfugeResponse<SubmitCustomSpecialistResponse>.OfSuccess(new SubmitCustomSpecialistResponse()
         {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             SpecialistConfigurationId = specialistId,
-        };
+        });
     }
     
     [HttpGet]
-    public async Task<GetCustomSpecialistsResponse> GetCustomSpecialists([FromQuery] GetCustomSpecialistsRequest request)
+    public async Task<SubterfugeResponse<GetCustomSpecialistsResponse>> GetCustomSpecialists([FromQuery] GetCustomSpecialistsRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
         if (user == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetCustomSpecialistsResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
         
         IMongoQueryable<DbSpecialistConfiguration> query = _dbSpecialists.Query();
         
@@ -72,20 +71,19 @@ public class SpecialistConfigurationController: ControllerBase, ISubterfugeCusto
 
         GetCustomSpecialistsResponse response = new GetCustomSpecialistsResponse()
         {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             CustomSpecialists = results
         };
 
-        return response;
+        return SubterfugeResponse<GetCustomSpecialistsResponse>.OfSuccess(response);
     }
 
     [HttpGet]
     [Route("{specialistId}")]
-    public async Task<GetCustomSpecialistsResponse> GetCustomSpecialist(string specialistId)
+    public async Task<SubterfugeResponse<GetCustomSpecialistsResponse>> GetCustomSpecialist(string specialistId)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
         if (user == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetCustomSpecialistsResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
             
         // Search through all specialists for the search term.
         // TODO: Add filters to this endpoint.
@@ -95,10 +93,9 @@ public class SpecialistConfigurationController: ControllerBase, ISubterfugeCusto
             .Select(package => package.ToSpecialistConfiguration())
             .ToList();
 
-        return new GetCustomSpecialistsResponse()
+        return SubterfugeResponse<GetCustomSpecialistsResponse>.OfSuccess(new GetCustomSpecialistsResponse()
         {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             CustomSpecialists = results
-        };
+        });
     }
 }

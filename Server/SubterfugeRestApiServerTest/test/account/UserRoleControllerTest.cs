@@ -1,7 +1,5 @@
-﻿using System.Net;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SubterfugeCore.Models.GameEvents;
-using SubterfugeRestApiClient.controllers.exception;
 using SubterfugeServerConsole.Connections;
 
 namespace SubterfugeRestApiServerTest.test.account;
@@ -20,9 +18,9 @@ public class UserRoleControllerTest
     {
         var registerResponse = await AccountUtils.AssertRegisterAccountAndAuthorized("user");
         var response = await TestUtils.GetClient().UserRoles.GetRoles(registerResponse.User.Id);
-        Assert.IsTrue(response.Status.IsSuccess);
-        Assert.AreEqual(response.Status.ResponseType, ResponseType.SUCCESS);
-        Assert.Contains(UserClaim.User, response.Claims);
+        Assert.IsTrue(response.ResponseDetail.IsSuccess);
+        Assert.AreEqual(response.ResponseDetail.ResponseType, ResponseType.SUCCESS);
+        Assert.Contains(UserClaim.User, response.GetOrThrow().Claims);
     }
     
     [Test]
@@ -32,9 +30,9 @@ public class UserRoleControllerTest
         
         var adminResponse = await TestUtils.CreateSuperUserAndLogin();
         var response = await TestUtils.GetClient().UserRoles.GetRoles(registerResponse.User.Id);
-        Assert.IsTrue(response.Status.IsSuccess);
-        Assert.AreEqual(response.Status.ResponseType, ResponseType.SUCCESS);
-        Assert.Contains(UserClaim.User, response.Claims);
+        Assert.IsTrue(response.ResponseDetail.IsSuccess);
+        Assert.AreEqual(response.ResponseDetail.ResponseType, ResponseType.SUCCESS);
+        Assert.Contains(UserClaim.User, response.GetOrThrow().Claims);
     }
     
     [Test]
@@ -43,11 +41,9 @@ public class UserRoleControllerTest
         var userOne = await AccountUtils.AssertRegisterAccountAndAuthorized("userOne");
         var userTwo = await AccountUtils.AssertRegisterAccountAndAuthorized("userTwo");
         
-        var response = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
-        {
-            await TestUtils.GetClient().UserRoles.GetRoles(userOne.User.Id);
-        });
-        Assert.AreEqual(ResponseType.INVALID_REQUEST, response.response.Status.ResponseType);
+        var response =  await TestUtils.GetClient().UserRoles.GetRoles(userOne.User.Id);
+        Assert.IsFalse(response.IsSuccess());
+        Assert.AreEqual(ResponseType.PERMISSION_DENIED, response.ResponseDetail.ResponseType);
     }
     
     [Test]
@@ -57,25 +53,25 @@ public class UserRoleControllerTest
         
         var adminResponse = await TestUtils.CreateSuperUserAndLogin();
         var roleResponse = await TestUtils.GetClient().UserRoles.GetRoles(registerResponse.User.Id);
-        Assert.IsTrue(roleResponse.Status.IsSuccess);
-        Assert.AreEqual(roleResponse.Status.ResponseType, ResponseType.SUCCESS);
-        Assert.Contains(UserClaim.User, roleResponse.Claims);
-        Assert.IsFalse(roleResponse.Claims.Any(claim => claim == UserClaim.Administrator));
+        Assert.IsTrue(roleResponse.ResponseDetail.IsSuccess);
+        Assert.AreEqual(roleResponse.ResponseDetail.ResponseType, ResponseType.SUCCESS);
+        Assert.Contains(UserClaim.User, roleResponse.GetOrThrow().Claims);
+        Assert.IsFalse(roleResponse.GetOrThrow().Claims.Any(claim => claim == UserClaim.Administrator));
 
-        var newRoleList = roleResponse.Claims.ToList();
+        var newRoleList = roleResponse.GetOrThrow().Claims.ToList();
         newRoleList.Add(UserClaim.Administrator);
         var updateRole = await TestUtils.GetClient().UserRoles.SetRoles(registerResponse.User.Id,
             new UpdateRolesRequest()
             {
                 Claims = newRoleList.ToArray(),
             });
-        Assert.IsTrue(updateRole.Status.IsSuccess);
+        Assert.IsTrue(updateRole.ResponseDetail.IsSuccess);
         
         var updatedRoleResponse = await TestUtils.GetClient().UserRoles.GetRoles(registerResponse.User.Id);
-        Assert.IsTrue(updatedRoleResponse.Status.IsSuccess);
-        Assert.AreEqual(updatedRoleResponse.Status.ResponseType, ResponseType.SUCCESS);
-        Assert.Contains(UserClaim.User, updatedRoleResponse.Claims);
-        Assert.Contains(UserClaim.Administrator, updatedRoleResponse.Claims);
+        Assert.IsTrue(updatedRoleResponse.ResponseDetail.IsSuccess);
+        Assert.AreEqual(updatedRoleResponse.ResponseDetail.ResponseType, ResponseType.SUCCESS);
+        Assert.Contains(UserClaim.User, updatedRoleResponse.GetOrThrow().Claims);
+        Assert.Contains(UserClaim.Administrator, updatedRoleResponse.GetOrThrow().Claims);
     }
     
     [Test]
@@ -84,14 +80,12 @@ public class UserRoleControllerTest
         var userOne = await AccountUtils.AssertRegisterAccountAndAuthorized("userOne");
         var userTwo = await AccountUtils.AssertRegisterAccountAndAuthorized("userTwo");
 
-        var updateRole = Assert.ThrowsAsync<SubterfugeClientException>(async () =>
-        {
-            await TestUtils.GetClient().UserRoles.SetRoles(userOne.User.Id,
+        var updateRole = await TestUtils.GetClient().UserRoles.SetRoles(userOne.User.Id,
                 new UpdateRolesRequest()
                 {
                     Claims = new[] { UserClaim.Administrator, UserClaim.User },
                 });
-        });
-        Assert.AreEqual(HttpStatusCode.Forbidden, updateRole.rawResponse.StatusCode);
+        Assert.IsFalse(updateRole.IsSuccess());
+        Assert.AreEqual(ResponseType.PERMISSION_DENIED, updateRole.ResponseDetail.ResponseType);
     }
 }

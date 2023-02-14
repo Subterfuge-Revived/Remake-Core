@@ -4,15 +4,6 @@ namespace SubterfugeRestApiServer.Authentication
 {
     public class JwtManager
     {
-        /// <summary>
-        /// Use the below code to generate symmetric Secret Key
-        ///     var hmac = new HMACSHA256();
-        ///     var key = Convert.ToBase64String(hmac.Key);
-        /// </summary>
-        private const string Secret =
-            "db3OIsj+BXE9NZDy0t8W3TcNekrF+2d/1sFnWG4HnV8TZY30iTOdtVWJG8abWvB1GlOgJuQZdcF2Luqm/hccMw==";
-        // TODO: Update this secret with something that isn't public! Use code above to generate new secret
-
         public static String HashString(string password)
         {
             // Create salt

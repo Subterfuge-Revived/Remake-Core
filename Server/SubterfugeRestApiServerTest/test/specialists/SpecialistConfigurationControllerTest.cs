@@ -27,25 +27,26 @@ public class SpecialistConfigurationControllerTest
     {
         var specialist = createSpecialistRequest("New Specialist");
         
-        SubmitCustomSpecialistResponse response = await TestUtils.GetClient().SpecialistClient.SubmitCustomSpecialist(specialist);
-        Assert.IsTrue(response.Status.IsSuccess);
-        Assert.NotNull(response.SpecialistConfigurationId);
+        var response = await TestUtils.GetClient().SpecialistClient.SubmitCustomSpecialist(specialist);
+        Assert.IsTrue(response.IsSuccess());
+        Assert.NotNull(response.GetOrThrow().SpecialistConfigurationId);
     }
 
     [Test]
     public async Task PlayerCanViewCustomSpecialistAfterCreating()
     {
         String specName = "MyCustomSpecialist";
-        SubmitCustomSpecialistResponse response = await submitCustomSpecialist(specName);
+        SubmitCustomSpecialistResponse response = (await submitCustomSpecialist(specName)).GetOrThrow();
             
         string specUuid = response.SpecialistConfigurationId;
             
-        GetCustomSpecialistsResponse specResponse = await TestUtils.GetClient().SpecialistClient.GetCustomSpecialist(specUuid);
-        Assert.IsTrue(specResponse.CustomSpecialists.Count == 1);
-        Assert.AreEqual(specUuid, specResponse.CustomSpecialists[0].Id);
-        Assert.AreEqual(specName, specResponse.CustomSpecialists[0].SpecialistName);
-        Assert.AreEqual(1, specResponse.CustomSpecialists[0].Priority);
-        Assert.AreEqual(EffectModifier.Driller, specResponse.CustomSpecialists[0].SpecialistEffects[0].EffectModifier);
+        var specResponse = await TestUtils.GetClient().SpecialistClient.GetCustomSpecialist(specUuid);
+        Assert.IsTrue(specResponse.IsSuccess());
+        Assert.IsTrue(specResponse.GetOrThrow().CustomSpecialists.Count == 1);
+        Assert.AreEqual(specUuid, specResponse.GetOrThrow().CustomSpecialists[0].Id);
+        Assert.AreEqual(specName, specResponse.GetOrThrow().CustomSpecialists[0].SpecialistName);
+        Assert.AreEqual(1, specResponse.GetOrThrow().CustomSpecialists[0].Priority);
+        Assert.AreEqual(EffectModifier.Driller, specResponse.GetOrThrow().CustomSpecialists[0].SpecialistEffects[0].EffectModifier);
     }
 
     [Test]
@@ -58,13 +59,14 @@ public class SpecialistConfigurationControllerTest
         await submitCustomSpecialist(secondSpecName);
             
             
-        GetCustomSpecialistsResponse specialistList = await TestUtils.GetClient().SpecialistClient.GetCustomSpecialists(new GetCustomSpecialistsRequest()
+        var specialistList = await TestUtils.GetClient().SpecialistClient.GetCustomSpecialists(new GetCustomSpecialistsRequest()
         {
             CreatedByPlayerId = _userOne.User.Id
         });
-        Assert.AreEqual(2, specialistList.CustomSpecialists.Count);
-        Assert.AreEqual(1, specialistList.CustomSpecialists.Count(it => it.SpecialistName == specName));
-        Assert.AreEqual(1, specialistList.CustomSpecialists.Count(it => it.SpecialistName == secondSpecName));
+        Assert.IsTrue(specialistList.IsSuccess());
+        Assert.AreEqual(2, specialistList.GetOrThrow().CustomSpecialists.Count);
+        Assert.AreEqual(1, specialistList.GetOrThrow().CustomSpecialists.Count(it => it.SpecialistName == specName));
+        Assert.AreEqual(1, specialistList.GetOrThrow().CustomSpecialists.Count(it => it.SpecialistName == secondSpecName));
     }
     
     [Test]
@@ -77,12 +79,13 @@ public class SpecialistConfigurationControllerTest
         await submitCustomSpecialist(secondSpecName);
 
         var search = "custom";
-        GetCustomSpecialistsResponse specialistList = await TestUtils.GetClient().SpecialistClient.GetCustomSpecialists(new GetCustomSpecialistsRequest()
+        var specialistList = await TestUtils.GetClient().SpecialistClient.GetCustomSpecialists(new GetCustomSpecialistsRequest()
         {
             SearchTerm = search
         });
-        Assert.AreEqual(2, specialistList.CustomSpecialists.Count);
-        Assert.AreEqual(2, specialistList.CustomSpecialists.Count(it => it.SpecialistName.ToLower().Contains(search)));
+        Assert.IsTrue(specialistList.IsSuccess());
+        Assert.AreEqual(2, specialistList.GetOrThrow().CustomSpecialists.Count);
+        Assert.AreEqual(2, specialistList.GetOrThrow().CustomSpecialists.Count(it => it.SpecialistName.ToLower().Contains(search)));
     }
 
     [Test]
@@ -96,15 +99,16 @@ public class SpecialistConfigurationControllerTest
         String userTwoSpecialist = "MyCustomSpecialist";
         await submitCustomSpecialist(userTwoSpecialist);
 
-        GetCustomSpecialistsResponse specResponse = await TestUtils.GetClient().SpecialistClient.GetCustomSpecialists(new GetCustomSpecialistsRequest());
-        Assert.AreEqual(2, specResponse.CustomSpecialists.Count);
-        Assert.AreEqual(1, specResponse.CustomSpecialists.Count(it => it.SpecialistName == userOneSpecName));
-        Assert.AreEqual(1, specResponse.CustomSpecialists.Count(it => it.SpecialistName == userTwoSpecialist));
-        Assert.AreEqual(1, specResponse.CustomSpecialists.Count(it => it.Creator.Id == _userOne.User.Id));
-        Assert.AreEqual(1, specResponse.CustomSpecialists.Count(it => it.Creator.Id == _userTwo.User.Id));
+        var specResponse = await TestUtils.GetClient().SpecialistClient.GetCustomSpecialists(new GetCustomSpecialistsRequest());
+        Assert.IsTrue(specResponse.IsSuccess());
+        Assert.AreEqual(2, specResponse.GetOrThrow().CustomSpecialists.Count);
+        Assert.AreEqual(1, specResponse.GetOrThrow().CustomSpecialists.Count(it => it.SpecialistName == userOneSpecName));
+        Assert.AreEqual(1, specResponse.GetOrThrow().CustomSpecialists.Count(it => it.SpecialistName == userTwoSpecialist));
+        Assert.AreEqual(1, specResponse.GetOrThrow().CustomSpecialists.Count(it => it.Creator.Id == _userOne.User.Id));
+        Assert.AreEqual(1, specResponse.GetOrThrow().CustomSpecialists.Count(it => it.Creator.Id == _userTwo.User.Id));
     }
     
-    private async Task<SubmitCustomSpecialistResponse> submitCustomSpecialist(String specialistName)
+    private async Task<SubterfugeResponse<SubmitCustomSpecialistResponse>> submitCustomSpecialist(String specialistName)
     {
         return await TestUtils.GetClient().SpecialistClient.SubmitCustomSpecialist(createSpecialistRequest(specialistName));
     }

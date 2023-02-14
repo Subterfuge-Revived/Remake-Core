@@ -2,11 +2,6 @@
 
 namespace SubterfugeCore.Models.GameEvents
 {
-    public class NetworkResponse
-    {
-        public ResponseStatus Status { get; set; }
-    }
-
     public class ResponseStatus
     {
         public Boolean IsSuccess { get; set; }
@@ -16,9 +11,9 @@ namespace SubterfugeCore.Models.GameEvents
 
     public class PingRequest { }
 
-    public class PingResponse : NetworkResponse { }
+    public class PingResponse { }
 
-    public class AuthorizedPingResponse : NetworkResponse
+    public class AuthorizedPingResponse
     {
         public User LoggedInUser { get; set; }
     }
@@ -36,5 +31,8 @@ namespace SubterfugeCore.Models.GameEvents
         NOT_FOUND = 6,
         BANNED = 7,
         VALIDATION_ERROR = 8,
+        PERMISSION_DENIED = 9,
+        ROOM_IS_FULL = 10,
+        GAME_ALREADY_STARTED = 11,
     }
 }

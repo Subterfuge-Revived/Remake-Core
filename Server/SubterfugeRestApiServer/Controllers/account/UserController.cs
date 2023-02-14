@@ -11,11 +11,9 @@ using SubterfugeCore.Models.GameEvents.Api;
 using SubterfugeDatabaseProvider.Models;
 using SubterfugeRestApiServer.Authentication;
 using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Responses;
 using Twilio;
 using Twilio.Rest.Lookups.V2;
 using Twilio.Rest.Verify.V2.Service;
-using ValidationException = SubterfugeServerConsole.Responses.ValidationException;
 
 namespace SubterfugeRestApiServer;
 
@@ -23,7 +21,7 @@ namespace SubterfugeRestApiServer;
 [Route("api/user/")]
 public class UserController : ControllerBase, ISubterfugeAccountApi
 {
-    
+
     private readonly IDatabaseCollection<DbUserModel> _dbUsers;
     private readonly IDatabaseCollection<DbChatMessage> _dbChatMessages;
     private readonly IConfiguration _config;
@@ -48,59 +46,48 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
     [AllowAnonymous]
     [HttpPost]
     [Route("login")]
-    public async Task<AuthorizationResponse> Login(AuthorizationRequest request)
+    public async Task<SubterfugeResponse<AuthorizationResponse>> Login(AuthorizationRequest request)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         
         var user = await AuthenticateUserByPassword(request);
         if (user == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<AuthorizationResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in");
         
         if (dbUserModel != null && dbUserModel.Username != request.Username)
         {
             await FlagAccountDuplicate(user, dbUserModel, MultiBoxReason.LoginWithCredentialsForAnotherAccount);
         }
 
-        
         var tokenString = GenerateJsonWebToken(user);
-        return new AuthorizationResponse()
+        return SubterfugeResponse<AuthorizationResponse>.OfSuccess(new AuthorizationResponse()
         {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             Token = tokenString,
             User = user.ToUser(),
-        };
+        });
     }
 
     [AllowAnonymous]
     [HttpPost]
     [Route("register")]
-    public async Task<AccountRegistrationResponse> RegisterAccount(AccountRegistrationRequest registrationRequeset)
+    public async Task<SubterfugeResponse<AccountRegistrationResponse>> RegisterAccount(AccountRegistrationRequest registrationRequeset)
     {
         List<DbUserModel> usersMatchingUsernamePhoneOrDeviceId = await _dbUsers.Query()
             .Where(it => it.Username == registrationRequeset.Username || it.PhoneNumber == registrationRequeset.PhoneNumber || it.DeviceIdentifier == registrationRequeset.DeviceIdentifier)
             .ToListAsync();
 
-        DbUserModel? matchingUsername = usersMatchingUsernamePhoneOrDeviceId.FirstOrDefault(it => it.Username == registrationRequeset.Username);
-        if (matchingUsername != null)
-            throw new ConflictException("There is already an account registered on this device.");
+        var matchingUsername = usersMatchingUsernamePhoneOrDeviceId.Any(it => it.Username == registrationRequeset.Username);
+        if (matchingUsername)
+            return SubterfugeResponse<AccountRegistrationResponse>.OfFailure(ResponseType.DUPLICATE, "Username is taken.");
+        
+        if (usersMatchingUsernamePhoneOrDeviceId.Count > 0)
+        {
+            return SubterfugeResponse<AccountRegistrationResponse>.OfFailure(ResponseType.VALIDATION_ERROR, "An account is already registered to this device.");
+        }
 
         // Create the new user account
         DbUserModel model = DbUserModel.FromRegistrationRequest(registrationRequeset);
-        
-        var matchingPhone = usersMatchingUsernamePhoneOrDeviceId.Where(it => it.PhoneNumber == registrationRequeset.PhoneNumber).ToList();
-        // Flag all accounts matching the phone number as a possible multibox.
-        foreach(DbUserModel user in matchingPhone)
-        {
-            await FlagAccountDuplicate(user, model, MultiBoxReason.DuplicatePhoneNumber);
-        }
-        
-        var matchingDeviceId = usersMatchingUsernamePhoneOrDeviceId.Where(it => it.DeviceIdentifier == registrationRequeset.DeviceIdentifier).ToList();
-        // Flag all accounts matching the device Id number as a possible multibox.
-        foreach(DbUserModel user in matchingDeviceId)
-        {
-            await FlagAccountDuplicate(user, model, MultiBoxReason.DuplicateDeviceId);
-        }
-        
+
         // Check to send the user an SMS
         if (_twilioConfig.enabled)
         {
@@ -113,8 +100,8 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
             {
                 var errors = checkPhoneNumber.ValidationErrors.Select(it => it.ToString());
                 var errorsAsString = String.Join(", ", errors);
-                throw new ValidationException(
-                    $"The provided phone number is invalid. Errors: {errorsAsString}");
+                
+                return SubterfugeResponse<AccountRegistrationResponse>.OfFailure(ResponseType.VALIDATION_ERROR, $"The provided phone number is invalid. Errors: {errorsAsString}");
             }
 
             await VerificationResource.CreateAsync(
@@ -138,22 +125,21 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
         await _dbUsers.Upsert(model);
         
         string token = GenerateJsonWebToken(model);
-        return new AccountRegistrationResponse
+        return SubterfugeResponse<AccountRegistrationResponse>.OfSuccess(new AccountRegistrationResponse
         {
             Token = token,
             User = model.ToUser(),
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             RequirePhoneValidation = _twilioConfig.enabled
-        };
+        });
     }
 
     [HttpPost]
     [Route("verifyPhone")]
-    public async Task<AccountVadliationResponse> VerifyPhone(AccountValidationRequest validationRequest)
+    public async Task<SubterfugeResponse<AccountVadliationResponse>> VerifyPhone(AccountValidationRequest validationRequest)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<AccountVadliationResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
 
         // Validate through twilio
         var verificationCheck = VerificationCheckResource.Create(
@@ -171,18 +157,14 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
 
             await _dbUsers.Upsert(dbUserModel);
 
-            return new AccountVadliationResponse()
+            return SubterfugeResponse<AccountVadliationResponse>.OfSuccess(new AccountVadliationResponse()
             {
                 User = dbUserModel.ToUser(),
                 wasValidationSuccessful = true,
-            };
+            });
         }
         
-        return new AccountVadliationResponse()
-        {
-            User = dbUserModel.ToUser(),
-            wasValidationSuccessful = false,
-        };
+        return SubterfugeResponse<AccountVadliationResponse>.OfFailure(ResponseType.VALIDATION_ERROR, "Unable to verify account.");
     }
 
     private async Task FlagAccountDuplicate(DbUserModel accountOne, DbUserModel accountTwo, MultiBoxReason reason)
@@ -211,7 +193,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
     [Authorize(Roles = "Administrator")]
     [HttpGet]
     [Route("query")]
-    public async Task<GetDetailedUsersResponse> GetUsers([FromQuery] GetUserRequest request)
+    public async Task<SubterfugeResponse<GetDetailedUsersResponse>> GetUsers([FromQuery] GetUserRequest request)
     {
         IMongoQueryable<DbUserModel> query = _dbUsers.Query();
 
@@ -250,14 +232,14 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
             .Select(it => it.ToDetailedUser())
             .ToList();
 
-        return new GetDetailedUsersResponse()
+        return SubterfugeResponse<GetDetailedUsersResponse>.OfSuccess(new GetDetailedUsersResponse()
         {
             users = matchingUsers
-        };
+        });
     }
     
     [HttpGet]
-    public async Task<GetUserResponse> GetUser(string userId)
+    public async Task<SubterfugeResponse<GetUserResponse>> GetUser(string userId)
     {
         IMongoQueryable<DbUserModel> query = _dbUsers.Query();
         query = query.Where(it => it.Id == userId);
@@ -267,18 +249,18 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
             .FirstOrDefaultAsync());
 
         if (matchingUsers == null)
-            throw new NotFoundException("The requested player was not found");
+            return SubterfugeResponse<GetUserResponse>.OfFailure(ResponseType.NOT_FOUND, "The requested player was not found");
 
-        return new GetUserResponse()
+        return SubterfugeResponse<GetUserResponse>.OfSuccess(new GetUserResponse()
         {
             User = matchingUsers.ToUser()
-        };
+        });
     }
 
     [Authorize(Roles = "Administrator")]
     [HttpGet]
     [Route("messages")]
-    public async Task<GetPlayerChatMessagesResponse> GetPlayerChatMessages(string playerId, int pagination = 1)
+    public async Task<SubterfugeResponse<GetPlayerChatMessagesResponse>> GetPlayerChatMessages(string playerId, int pagination = 1)
     {
 
         var user = await _dbUsers.Query()
@@ -286,7 +268,7 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
             .FirstOrDefaultAsync();
 
         if (user == null)
-            throw new NotFoundException("Player not found");
+            return SubterfugeResponse<GetPlayerChatMessagesResponse>.OfFailure(ResponseType.NOT_FOUND, "The requested player was not found");
 
         var chatMessages = await _dbChatMessages.Query()
             .Where(it => it.SentBy.Id == playerId)
@@ -295,10 +277,10 @@ public class UserController : ControllerBase, ISubterfugeAccountApi
             .Take(50)
             .ToListAsync();
 
-        return new GetPlayerChatMessagesResponse()
+        return SubterfugeResponse<GetPlayerChatMessagesResponse>.OfSuccess(new GetPlayerChatMessagesResponse()
         {
             Messages = chatMessages.Select(it => it.ToChatMessage()).ToList()
-        };
+        });
     }
 
     private string GenerateJsonWebToken(DbUserModel user)

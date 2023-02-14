@@ -50,7 +50,7 @@ public class DatabaseSeeder
         await TestUtils.GetClient().GroupClient.SendMessage(new SendMessageRequest()
         {
             Message = "Hello there friend!"
-        }, roomOne.GameConfiguration.Id, groupOne.GroupId);
+        }, roomOne.GameConfiguration.Id, groupOne.GetOrThrow().GroupId);
 
         await TestUtils.GetClient().GameEventClient.SubmitGameEvent(new SubmitGameEventRequest()
         {
@@ -94,7 +94,7 @@ public class DatabaseSeeder
                 PackageIds = new List<string>() { },
                 PackageName = "My package",
                 SpecialistIds = new List<string>()
-                    { specOne.SpecialistConfigurationId, specTwo.SpecialistConfigurationId }
+                    { specOne.GetOrThrow().SpecialistConfigurationId, specTwo.GetOrThrow().SpecialistConfigurationId }
             });
 
         

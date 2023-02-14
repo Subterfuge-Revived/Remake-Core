@@ -1,85 +1,53 @@
 ﻿#nullable enable
-using System.Web;
 using SubterfugeCore.Models.GameEvents;
 using SubterfugeCore.Models.GameEvents.Api;
-using SubterfugeRestApiClient.controllers.exception;
+using SubterfugeRestApiClient.controllers.Client;
 
 namespace SubterfugeRestApiClient.controllers.game;
 
 public class LobbyClient : ISubterfugeGameLobbyApi
 {
-    private HttpClient client;
+    private SubterfugeHttpClient client;
 
-    public LobbyClient(HttpClient client)
+    public LobbyClient(SubterfugeHttpClient client)
     {
         this.client = client;
     }
 
-    public async Task<GetLobbyResponse> GetLobbies(GetLobbyRequest lobbyRequest)
+    public async Task<SubterfugeResponse<GetLobbyResponse>> GetLobbies(GetLobbyRequest lobbyRequest)
     {
-        Console.WriteLine("GetLobbies");
-        var query = HttpUtility.ParseQueryString(string.Empty);
-        query["Pagination"] = lobbyRequest.Pagination.ToString();
-        query["CreatedByUserId"] = lobbyRequest.CreatedByUserId;
-        query["RoomStatus"] = lobbyRequest.RoomStatus.ToString();
-        query["UserIdInRoom"] = lobbyRequest.UserIdInRoom;
-        query["RoomId"] = lobbyRequest.RoomId;
-        query["Goal"] = lobbyRequest.Goal.ToString();
-        query["MinPlayers"] = lobbyRequest.MinPlayers.ToString();
-        query["MaxPlayers"] = lobbyRequest.MaxPlayers.ToString();
-        query["IsAnonymous"] = lobbyRequest.IsAnonymous.ToString();
-        query["IsRanked"] = lobbyRequest.IsRanked.ToString();
-        string queryString = query.ToString();
-        
-        HttpResponseMessage response = await client.GetAsync($"api/lobby?{queryString}");
-        if (!response.IsSuccessStatusCode)
+        return await client.Get<GetLobbyResponse>($"api/lobby", new Dictionary<string, string>()
         {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<GetLobbyResponse>();
+            {"Pagination", lobbyRequest.Pagination.ToString() },
+            {"CreatedByUserId", lobbyRequest.CreatedByUserId },
+            {"RoomStatus", lobbyRequest.RoomStatus.ToString() },
+            {"UserIdInRoom", lobbyRequest.UserIdInRoom },
+            {"RoomId", lobbyRequest.RoomId },
+            {"Goal", lobbyRequest.Goal.ToString() },
+            {"MinPlayers", lobbyRequest.MinPlayers.ToString() },
+            {"MaxPlayers", lobbyRequest.MaxPlayers.ToString() },
+            {"IsAnonymous", lobbyRequest.IsAnonymous.ToString() },
+            {"IsRanked", lobbyRequest.IsRanked.ToString() },
+        });
     }
 
-    public async Task<CreateRoomResponse> CreateNewRoom(CreateRoomRequest request)
+    public async Task<SubterfugeResponse<CreateRoomResponse>> CreateNewRoom(CreateRoomRequest request)
     {
-        Console.WriteLine("CreateNewRoom");
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/lobby/create", request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<CreateRoomResponse>();
+        return await client.Post<CreateRoomRequest, CreateRoomResponse>($"api/lobby/create", request);
     }
     
-    public async Task<JoinRoomResponse> JoinRoom(JoinRoomRequest request, string guid)
+    public async Task<SubterfugeResponse<JoinRoomResponse>> JoinRoom(JoinRoomRequest request, string guid)
     {
-        Console.WriteLine("JoinRoom");
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/lobby/{guid}/join", request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<JoinRoomResponse>();
+        return await client.Post<JoinRoomRequest, JoinRoomResponse>($"api/lobby/{guid}/join", request);
     }
     
-    public async Task<LeaveRoomResponse> LeaveRoom(string guid)
+    public async Task<SubterfugeResponse<LeaveRoomResponse>> LeaveRoom(string guid)
     {
-        Console.WriteLine("LeaveRoom");
-        HttpResponseMessage response = await client.GetAsync($"api/lobby/{guid}/leave");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<LeaveRoomResponse>();
+        return await client.Get<LeaveRoomResponse>($"api/lobby/{guid}/leave", null);
     }
     
-    public async Task<StartGameEarlyResponse> StartGameEarly(string guid)
+    public async Task<SubterfugeResponse<StartGameEarlyResponse>> StartGameEarly(string guid)
     {
-        Console.WriteLine("StartGameEarly");
-        HttpResponseMessage response = await client.GetAsync($"api/lobby/{guid}/start");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<StartGameEarlyResponse>();
+        return await client.Get<StartGameEarlyResponse>($"api/lobby/{guid}/start", null);
     }
 }

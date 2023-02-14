@@ -1,37 +1,25 @@
 ﻿using SubterfugeCore.Models.GameEvents;
 using SubterfugeCore.Models.GameEvents.Api;
-using SubterfugeRestApiClient.controllers.exception;
+using SubterfugeRestApiClient.controllers.Client;
 
 namespace SubterfugeRestApiClient.controllers.health;
 
 public class HealthClient : ISubterfugeHealthApi
 {
-    private HttpClient client;
+    private SubterfugeHttpClient client;
 
-    public HealthClient(HttpClient client)
+    public HealthClient(SubterfugeHttpClient client)
     {
         this.client = client;
     }
     
-    public async Task<PingResponse> Ping()
+    public async Task<SubterfugeResponse<PingResponse>> Ping()
     {
-        Console.WriteLine("Ping");
-        HttpResponseMessage response = await client.GetAsync($"api/Health/Ping");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<PingResponse>();
+        return await client.Get<PingResponse>($"api/Health/Ping", null);
     }
     
-    public async Task<AuthorizedPingResponse> AuthorizedPing()
+    public async Task<SubterfugeResponse<AuthorizedPingResponse>> AuthorizedPing()
     {
-        Console.WriteLine("AuthorizedPing");
-        HttpResponseMessage response = await client.GetAsync($"api/Health/AuthorizedPing");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<AuthorizedPingResponse>();
+        return await client.Get<AuthorizedPingResponse>($"api/Health/AuthorizedPing", null);
     }
 }

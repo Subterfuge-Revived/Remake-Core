@@ -83,6 +83,11 @@ namespace SubterfugeCore.Models.GameEvents
         public string AdminNotes { get; set; } = "";
     }
 
+    public class BanPlayerResponse
+    {
+        public bool wasSuccess { get; set; }
+    }
+
     public class BanIpRequest
     {
         public string DirectIpOrRegex { get; set; }
@@ -90,6 +95,11 @@ namespace SubterfugeCore.Models.GameEvents
         public string Reason { get; set; }
         public DateTime Until { get; set; } = DateTime.Now.AddDays(1);
         public string AdminNotes { get; set; } = "";
+    }
+    
+    public class BanIpResponse
+    {
+        public bool wasSuccess { get; set; }
     }
 
     public class GetBannedPlayerResponse

@@ -32,25 +32,13 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
 
     private async Task HandleException(ExceptionContext context)
     {
-        if (context.Exception is ActionResultException actionResultException)
-        {
-            LogAction(context, actionResultException);
-            context.Result = actionResultException.ToActionResult();
-            context.ExceptionHandled = true;
-
-            return;
-        }
-        // If not an exception we can handle, we still want to format the response object:
+        // Format the response object:
         var response = new ObjectResult(
-            new NetworkResponse()
-            {
-                Status = new ResponseStatus()
-                {
-                    IsSuccess = false,
-                    ResponseType = ResponseType.INTERNAL_SERVER_ERROR,
-                    Detail = context.Exception?.Message + " " + context.Exception?.StackTrace,
-                },
-            })
+            SubterfugeResponse<string>.OfFailure(
+                ResponseType.INTERNAL_SERVER_ERROR,
+                context.Exception?.Message + " " + context.Exception?.StackTrace
+            )
+        )
         {
             StatusCode = StatusCodes.Status500InternalServerError
         };
@@ -60,29 +48,6 @@ public class ExceptionResponseMiddleware : ExceptionFilterAttribute
         
         LogException(context);
         await TryLogDatabase(context);
-    }
-
-    private void LogAction(ExceptionContext context, ActionResultException actionResultException)
-    {
-        var username = (context.HttpContext.Items["User"] as DbUserModel)?.Username;
-        var userId = (context.HttpContext.Items["User"] as DbUserModel)?.Id;
-        var remoteIpAddress = context.HttpContext.Connection.RemoteIpAddress;
-        var httpMethod = context.HttpContext.Request?.Method;
-        var requestUrl = context.HttpContext.Request?.Path.Value;
-        var queryString = context.HttpContext.Request?.QueryString;
-        var statusCode = 500;
-
-        _logger.LogInformation(
-            "{user}(uuid={userId}, ip={ip}) {method} {url}{queryString} => {statusCode} : {actionResultException}",
-            username,
-            userId,
-            remoteIpAddress,
-            httpMethod,
-            requestUrl,
-            queryString,
-            statusCode,
-            actionResultException.GetType().ToString()
-        );
     }
 
     private void LogException(ExceptionContext context)
