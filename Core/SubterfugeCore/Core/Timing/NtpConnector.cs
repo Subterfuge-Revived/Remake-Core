@@ -72,7 +72,7 @@ namespace SubterfugeCore.Core.Timing
         /// </summary>
         /// <param name="x">unsigned integer representing the retrieved bytes from the server</param>
         /// <returns>Bytes that have been swapped based on the server's Endianness</returns>
-        static uint SwapEndianness(ulong x)
+        private static uint SwapEndianness(ulong x)
         {
             return (uint)(((x & 0x000000ff) << 24) +
                            ((x & 0x0000ff00) << 8) +

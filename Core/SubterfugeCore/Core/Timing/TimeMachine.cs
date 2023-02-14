@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SubterfugeCore.Core.GameEvents.Base;
 
 namespace SubterfugeCore.Core.Timing
@@ -156,6 +157,21 @@ namespace SubterfugeCore.Core.Timing
         {
             List<GameEvent> gameEvents = new List<GameEvent>();
             foreach(GameEvent gameEvent in this._futureEventQueue.GetQueue()){
+                if (gameEvent != null){
+                    gameEvents.Add(gameEvent);
+                }
+            }
+            return gameEvents;
+        }
+        
+        /// <summary>
+        /// Get past events
+        /// </summary>
+        /// <returns>A list of the events in the future event queue</returns>
+        public List<GameEvent> GetPastEvents()
+        {
+            List<GameEvent> gameEvents = new List<GameEvent>();
+            foreach(GameEvent gameEvent in this._pastEventQueue.GetQueue()){
                 if (gameEvent != null){
                     gameEvents.Add(gameEvent);
                 }

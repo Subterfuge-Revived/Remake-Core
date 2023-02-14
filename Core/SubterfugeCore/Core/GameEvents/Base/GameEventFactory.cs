@@ -15,6 +15,14 @@ namespace SubterfugeCore.Core.GameEvents.Base
                     return new DrillMineEvent(model);
                 case EventDataType.ToggleShieldEventData:
                     return new ToggleShieldEvent(model);
+                case EventDataType.GameEndEventData:
+                    return new GameEndEvent(model);
+                case EventDataType.PauseGameEventData:
+                    return new PauseGameEvent(model);
+                case EventDataType.UnpauseGameEventData:
+                    return new UnpauseGameEvent(model);
+                case EventDataType.PlayerLeaveGameEventData:
+                    return new PlayerLeaveGameEvent(model);
                 default:
                     return null;
             }
