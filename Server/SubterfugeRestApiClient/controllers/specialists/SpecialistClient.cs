@@ -1,97 +1,62 @@
-﻿using System.Web;
-using SubterfugeCore.Models.GameEvents;
+﻿using SubterfugeCore.Models.GameEvents;
 using SubterfugeCore.Models.GameEvents.Api;
-using SubterfugeRestApiClient.controllers.exception;
+using SubterfugeRestApiClient.controllers.Client;
 
 namespace SubterfugeRestApiClient.controllers.specialists;
 
 public class SpecialistClient : ISubterfugeCustomSpecialistApi, ISubterfugeSpecialistPackageApi
 {
-    private HttpClient client;
+    private SubterfugeHttpClient client;
 
-    public SpecialistClient(HttpClient client)
+    public SpecialistClient(SubterfugeHttpClient client)
     {
         this.client = client;
     }
 
-    public async Task<CreateSpecialistPackageResponse> CreateSpecialistPackage(CreateSpecialistPackageRequest request)
+    public async Task<SubterfugeResponse<CreateSpecialistPackageResponse>> CreateSpecialistPackage(CreateSpecialistPackageRequest request)
     {
-        Console.WriteLine("CreateSpecialistPackage");
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/specialist/package/create", request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<CreateSpecialistPackageResponse>();
+        return await client.Post<CreateSpecialistPackageRequest, CreateSpecialistPackageResponse>($"api/specialist/package/create", request);
     }
     
-    public async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(GetSpecialistPackagesRequest request)
+    public async Task<SubterfugeResponse<GetSpecialistPackagesResponse>> GetSpecialistPackages(GetSpecialistPackagesRequest request)
     {
-        Console.WriteLine("GetSpecialistPackages");
-        var query = HttpUtility.ParseQueryString(string.Empty);
-        query["PageNumber"] = request.Pagination.ToString();
-        query["SearchTerm"] = request.SearchTerm;
-        query["CreatedByUserId"] = request.CreatedByUserId;
-        query["ContainsSpecialistId"] = request.ContainsSpecialistId;
-        query["ContainsPackageId"] = request.ContainsPackageId;
-        string queryString = query.ToString();
-        
-        HttpResponseMessage response = await client.GetAsync($"api/specialist/package?{queryString}");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<GetSpecialistPackagesResponse>();
+        return await client.Get<GetSpecialistPackagesResponse>($"api/specialist/package",
+            new Dictionary<string, string>()
+            {
+                { "PageNumber", request.Pagination.ToString() },
+                { "SearchTerm", request.SearchTerm },
+                { "CreatedByUserId", request.CreatedByUserId },
+                { "ContainsSpecialistId", request.ContainsSpecialistId },
+                { "ContainsPackageId", request.ContainsPackageId },
+            }
+        );
     }
     
-    public async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(string packageId)
+    public async Task<SubterfugeResponse<GetSpecialistPackagesResponse>> GetSpecialistPackages(string packageId)
     {
-        Console.WriteLine("GetSpecialistPackages");
-        HttpResponseMessage response = await client.GetAsync($"api/specialist/package/{packageId}");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<GetSpecialistPackagesResponse>();
+        return await client.Get<GetSpecialistPackagesResponse>($"api/specialist/package/{packageId}", null);
     }
 
-    public async Task<SubmitCustomSpecialistResponse> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request)
+    public async Task<SubterfugeResponse<SubmitCustomSpecialistResponse>> SubmitCustomSpecialist(SubmitCustomSpecialistRequest request)
     {
-        Console.WriteLine("SubmitCustomSpecialist");
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/specialist/create", request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<SubmitCustomSpecialistResponse>();
+        return await client.Post<SubmitCustomSpecialistRequest, SubmitCustomSpecialistResponse>($"api/specialist/create", request);
     }
 
-    public async Task<GetCustomSpecialistsResponse> GetCustomSpecialists(GetCustomSpecialistsRequest request)
+    public async Task<SubterfugeResponse<GetCustomSpecialistsResponse>> GetCustomSpecialists(GetCustomSpecialistsRequest request)
     {
-        Console.WriteLine("GetCustomSpecialists");
-        var query = HttpUtility.ParseQueryString(string.Empty);
-        query["PageNumber"] = request.Pagination.ToString();
-        query["SearchTerm"] = request.SearchTerm;
-        query["CreatedByPlayerId"] = request.CreatedByPlayerId;
-        query["PromotesFromSpecialistId"] = request.PromotesFromSpecialistId;
-        string queryString = query.ToString();
-        
-        HttpResponseMessage response = await client.GetAsync($"api/specialist?{queryString}");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<GetCustomSpecialistsResponse>();
+        return await client.Get<GetCustomSpecialistsResponse>($"api/specialist",
+            new Dictionary<string, string>()
+            {
+                { "PageNumber", request.Pagination.ToString() },
+                { "SearchTerm", request.SearchTerm },
+                { "CreatedByPlayerId", request.CreatedByPlayerId },
+                { "PromotesFromSpecialistId", request.PromotesFromSpecialistId },
+            }
+        );
     }
 
-    public async Task<GetCustomSpecialistsResponse> GetCustomSpecialist(string specialistId)
+    public async Task<SubterfugeResponse<GetCustomSpecialistsResponse>> GetCustomSpecialist(string specialistId)
     {
-        Console.WriteLine("GetCustomSpecialist");
-        HttpResponseMessage response = await client.GetAsync($"api/specialist/{specialistId}");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<GetCustomSpecialistsResponse>();
+        return await client.Get<GetCustomSpecialistsResponse>($"api/specialist/{specialistId}", null);
     }
 }

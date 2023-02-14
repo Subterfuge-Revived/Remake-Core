@@ -19,17 +19,7 @@ public class ErrorResponseMapper
                 .Select(e => e.ErrorMessage)
                 .ToList();
 
-            var response = new NetworkResponse()
-            {
-                Status = new ResponseStatus()
-                {
-                    Detail = "{ \"errors\": " + JsonSerializer.Serialize(errors) + " }",
-                    IsSuccess = false,
-                    ResponseType = ResponseType.VALIDATION_ERROR
-                }
-            };
-            
-
+            var response = SubterfugeResponse<string>.OfFailure(ResponseType.VALIDATION_ERROR, "{ \"errors\": " + JsonSerializer.Serialize(errors) + " }");
             return new BadRequestObjectResult(response);
         };
     }

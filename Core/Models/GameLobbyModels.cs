@@ -76,7 +76,7 @@ namespace SubterfugeCore.Models.GameEvents
         public bool? IsRanked { get; set; } = null;
     }
 
-    public class OpenLobbiesResponse : NetworkResponse
+    public class OpenLobbiesResponse
     {
         public GameConfiguration[] Rooms { get; set; } = new GameConfiguration[] { };
     }
@@ -91,20 +91,20 @@ namespace SubterfugeCore.Models.GameEvents
         public Boolean IsPrivate { get; set; }
     }
 
-    public class CreateRoomResponse : NetworkResponse
+    public class CreateRoomResponse
     {
         public GameConfiguration GameConfiguration { get; set; }
     }
 
-    public class JoinRoomResponse : NetworkResponse { }
+    public class JoinRoomResponse { }
 
     public class JoinRoomRequest { }
 
-    public class LeaveRoomResponse : NetworkResponse { }
+    public class LeaveRoomResponse { }
     
-    public class StartGameEarlyResponse : NetworkResponse { }
+    public class StartGameEarlyResponse { }
 
-    public class GetLobbyResponse : NetworkResponse
+    public class GetLobbyResponse
     {
         public GameConfiguration[] Lobbies { get; set; }
     }

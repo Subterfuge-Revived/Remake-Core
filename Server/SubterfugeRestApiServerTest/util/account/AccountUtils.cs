@@ -19,13 +19,13 @@ public class AccountUtils
             PhoneNumber = phone ?? Guid.NewGuid().ToString(),
             Username = username
         });
-        Assert.True(accountRegistrationResponse.Status.IsSuccess);
-        Assert.IsNotNull(accountRegistrationResponse.Token);
-        Assert.IsNotNull(accountRegistrationResponse.User);
-        Assert.AreEqual(accountRegistrationResponse.User.Username, username);
+        Assert.True(accountRegistrationResponse.IsSuccess());
+        Assert.IsNotNull(accountRegistrationResponse.GetOrThrow().Token);
+        Assert.IsNotNull(accountRegistrationResponse.GetOrThrow().User);
+        Assert.AreEqual(accountRegistrationResponse.GetOrThrow().User.Username, username);
 
         await AssertUserAuthorized();
-        return accountRegistrationResponse;
+        return accountRegistrationResponse.GetOrThrow();
     }
 
     public static async Task<AuthorizationResponse> AssertLogin(string username)
@@ -35,18 +35,18 @@ public class AccountUtils
             Password = username,
             Username = username
         });
-        Assert.True(loginResponse.Status.IsSuccess);
-        Assert.IsNotNull(loginResponse.Token);
-        Assert.IsNotNull(loginResponse.User);
-        Assert.AreEqual(loginResponse.User.Username, username);
+        Assert.True(loginResponse.IsSuccess());
+        Assert.IsNotNull(loginResponse.GetOrThrow().Token);
+        Assert.IsNotNull(loginResponse.GetOrThrow().User);
+        Assert.AreEqual(loginResponse.GetOrThrow().User.Username, username);
         
         await AccountUtils.AssertUserAuthorized();
-        return loginResponse;
+        return loginResponse.GetOrThrow();
     }
 
     public static async Task AssertUserAuthorized()
     {
         var pingResponse = await TestUtils.GetClient().HealthClient.AuthorizedPing();
-        Assert.True(pingResponse.Status.IsSuccess);
+        Assert.True(pingResponse.IsSuccess());
     }
 }

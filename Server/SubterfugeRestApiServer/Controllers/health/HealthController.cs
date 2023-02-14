@@ -13,25 +13,21 @@ public class HealthController : ControllerBase, ISubterfugeHealthApi
 {
     [HttpGet]
     [AllowAnonymous]
-    public async Task<PingResponse> Ping()
+    public async Task<SubterfugeResponse<PingResponse>> Ping()
     {
-        return await Task.FromResult(new PingResponse()
-        {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-        });
+        return SubterfugeResponse<PingResponse>.OfSuccess(new PingResponse());
     }
     
     [HttpGet]
     [Authorize]
-    public async Task<AuthorizedPingResponse> AuthorizedPing()
+    public async Task<SubterfugeResponse<AuthorizedPingResponse>> AuthorizedPing()
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<AuthorizedPingResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
         
-        return await Task.FromResult(new AuthorizedPingResponse()
+        return SubterfugeResponse<AuthorizedPingResponse>.OfSuccess(new AuthorizedPingResponse()
         {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             LoggedInUser = dbUserModel.ToUser()
         });
     }

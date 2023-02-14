@@ -4,6 +4,11 @@ namespace SubterfugeServerConsole.Responses
 {
     public class ResponseFactory
     {
+        public static SubterfugeResponse<T> ofSuccess<T>(T data)
+        {
+            return SubterfugeResponse<T>.OfSuccess(data);
+        }
+        
         public static ResponseStatus createResponse(ResponseType type, string? details="")
         {
             if (type == ResponseType.SUCCESS)

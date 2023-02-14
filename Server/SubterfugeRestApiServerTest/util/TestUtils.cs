@@ -30,6 +30,6 @@ public class TestUtils
     public static async Task<AuthorizationResponse> CreateSuperUserAndLogin()
     {
         var account = await Mongo.CreateSuperUser();
-        return await TestUtils.GetClient().UserApi.Login(new AuthorizationRequest() { Username = "admin", Password = "admin" });
+        return (await TestUtils.GetClient().UserApi.Login(new AuthorizationRequest() { Username = "admin", Password = "admin" })).GetOrThrow();
     }
 }

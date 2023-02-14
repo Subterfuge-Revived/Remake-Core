@@ -31,25 +31,25 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
 
     [HttpPost]
     [Route("group/create")]
-    public async Task<CreateMessageGroupResponse> CreateMessageGroup(CreateMessageGroupRequest request, string roomId)
+    public async Task<SubterfugeResponse<CreateMessageGroupResponse>> CreateMessageGroup(CreateMessageGroupRequest request, string roomId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<CreateMessageGroupResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
             
         var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            throw new NotFoundException("The specified room does not exist.");
+            return SubterfugeResponse<CreateMessageGroupResponse>.OfFailure(ResponseType.NOT_FOUND, "The specified room does not exist.");
 
         if (lobby.RoomStatus != RoomStatus.Ongoing)
-            throw new ForbidException();
+            return SubterfugeResponse<CreateMessageGroupResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Cannot start group chats in a game that has ended.");
 
         if (!request.UserIdsInGroup.Contains(dbUserModel.Id))
-            throw new BadRequestException("Cannot create a group without yourself in it");
+            request.UserIdsInGroup.Add(dbUserModel.Id);
         
         // If, for any player in the group request, they are not a player in the lobby, the request is invalid.
         if (request.UserIdsInGroup.Any(userId => lobby.PlayerIdsInLobby.All(ids => ids != userId)))
-            throw new BadRequestException("Cannot create a group with a player that is not in the game");
+            return SubterfugeResponse<CreateMessageGroupResponse>.OfFailure(ResponseType.VALIDATION_ERROR, "Cannot create a group with a player that is not in the game");
         
         // Check if there are existing groups that contain the same users.
         var existingGroups = await _dbMessageGroups.Query()
@@ -61,7 +61,7 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
             .ToListAsync();
         
         if(existingGroups.Count > 0)
-            throw new BadRequestException($"A chat group with the same members already exists in this room: {existingGroups[0].Id}");
+            return SubterfugeResponse<CreateMessageGroupResponse>.OfFailure(ResponseType.DUPLICATE, $"A chat group with the same members already exists in this room: {existingGroups[0].Id}");
 
         var userIdsAsUsers = (await _dbUserCollection.Query()
             .Where(user => request.UserIdsInGroup.Contains(user.Id))
@@ -70,36 +70,35 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
             .ToList();
         
         if (userIdsAsUsers.Count != request.UserIdsInGroup.Count)
-            throw new NotFoundException("One of the users in the group is not a valid user id");
+            return SubterfugeResponse<CreateMessageGroupResponse>.OfFailure(ResponseType.NOT_FOUND, "One of the users in the group is not a valid user id");
 
         var newGroup = DbMessageGroup.CreateGroup(roomId, userIdsAsUsers);
         await _dbMessageGroups.Upsert(newGroup);
         
-        return new CreateMessageGroupResponse()
+        return SubterfugeResponse<CreateMessageGroupResponse>.OfSuccess(new CreateMessageGroupResponse()
         {
             GroupId = newGroup.Id,
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        };
+        });
     }
 
     [HttpPost]
     [Route("group/{groupId}/send")]
-    public async Task<SendMessageResponse> SendMessage(SendMessageRequest request, string roomId, string groupId)
+    public async Task<SubterfugeResponse<SendMessageResponse>> SendMessage(SendMessageRequest request, string roomId, string groupId)
     {
         DbUserModel? currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
-            throw new UnauthorizedException();
-
+            return SubterfugeResponse<SendMessageResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
+            
         var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            throw new NotFoundException("The specified room does not exist.");
+            return SubterfugeResponse<SendMessageResponse>.OfFailure(ResponseType.NOT_FOUND, "The specified room does not exist.");
 
         var groupChat = await _dbMessageGroups.Query().FirstOrDefaultAsync(it => it.Id == groupId);
         if (groupChat == null)
-            throw new NotFoundException("The specified group does not exist.");
+            return SubterfugeResponse<SendMessageResponse>.OfFailure(ResponseType.NOT_FOUND, "The specified group does not exist.");
 
         if (groupChat.MembersInGroup.All(member => member.Id != currentUser.Id) && !currentUser.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<SendMessageResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "You are not a member of this group.");
 
         await _dbChatMessages.Upsert(new DbChatMessage()
         {
@@ -109,24 +108,21 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
             Message = request.Message,
         });
 
-        return new SendMessageResponse()
-        {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-        };
+        return SubterfugeResponse<SendMessageResponse>.OfSuccess(new SendMessageResponse());
     }
 
     [HttpGet]
     [Route("groups")]
-    public async Task<GetMessageGroupsResponse> GetMessageGroups(string roomId)
+    public async Task<SubterfugeResponse<GetMessageGroupsResponse>> GetMessageGroups(string roomId)
     {
         DbUserModel? currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetMessageGroupsResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
             
         var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            throw new NotFoundException("The specified room does not exist.");
-        
+            return SubterfugeResponse<GetMessageGroupsResponse>.OfFailure(ResponseType.NOT_FOUND, "The specified room does not exist.");
+
         var query = _dbMessageGroups.Query()
             .Where(group => group.RoomId == roomId);
         
@@ -139,34 +135,33 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
             .Select(async group => await group.ToMessageGroup(_dbChatMessages))
             .ToArray();
 
-        return new GetMessageGroupsResponse()
+        return SubterfugeResponse<GetMessageGroupsResponse>.OfSuccess(new GetMessageGroupsResponse()
         {
             MessageGroups = Task.WhenAll(groupChats).Result.ToList(),
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-        };
+        });
     }
 
     [HttpGet]
     [Route("group/{groupId}/messages")]
-    public async Task<GetGroupMessagesResponse> GetMessages(
+    public async Task<SubterfugeResponse<GetGroupMessagesResponse>> GetMessages(
         [FromQuery] GetGroupMessagesRequest request,
         string roomId,
         string groupId
     ) {
         DbUserModel? currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetGroupMessagesResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
             
         var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            throw new NotFoundException("The specified room does not exist.");
+            return SubterfugeResponse<GetGroupMessagesResponse>.OfFailure(ResponseType.NOT_FOUND, "The specified room does not exist.");
             
         var groupChat = await _dbMessageGroups.Query().FirstOrDefaultAsync(it => it.Id == groupId);
         if (groupChat == null)
-            throw new NotFoundException("The specified group does not exist within this room.");
+            return SubterfugeResponse<GetGroupMessagesResponse>.OfFailure(ResponseType.NOT_FOUND, "The specified group does not exist within this room.");
 
         if (groupChat.MembersInGroup.All(member => member.Id != currentUser.Id) && !currentUser.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<GetGroupMessagesResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Cannot get messages from a group you are not in");
 
         var messages = (await _dbChatMessages.Query()
                 .Where(message => message.RoomId == roomId)
@@ -178,10 +173,9 @@ public class MessageSubterfugeGroupController : ControllerBase, ISubterfugeGroup
             .Select(it => it.ToChatMessage())
             .ToList();
 
-        return new GetGroupMessagesResponse()
+        return SubterfugeResponse<GetGroupMessagesResponse>.OfSuccess(new GetGroupMessagesResponse()
         {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             Messages = messages,
-        };
+        });
     }
 }

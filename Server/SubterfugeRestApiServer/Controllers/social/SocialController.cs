@@ -29,20 +29,20 @@ public class SocialController : ControllerBase, ISubterfugeSocialApi
     
     [HttpGet]
     [Route("blocks")]
-    public async Task<ViewBlockedPlayersResponse> ViewBlockedPlayers(string userId)
+    public async Task<SubterfugeResponse<ViewBlockedPlayersResponse>> ViewBlockedPlayers(string userId)
     {
         DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<ViewBlockedPlayersResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
 
         if (userId != currentUser.Id && !currentUser.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<ViewBlockedPlayersResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Can only view your own blocked players.");
         
         DbUserModel targetUser = await _dbUserCollection.Query()
             .FirstOrDefaultAsync(it => it.Id == userId);
         
         if (targetUser == null)
-            throw new NotFoundException("The target player was not found");
+            return SubterfugeResponse<ViewBlockedPlayersResponse>.OfFailure(ResponseType.NOT_FOUND, "The target player was not found.");
         
         var blockedUser = (await _dbRelations.Query()
                 .Where(it => it.RelationshipStatus == RelationshipStatus.Blocked)
@@ -51,29 +51,28 @@ public class SocialController : ControllerBase, ISubterfugeSocialApi
             .Select(it => it.GetOtherUser(userId))
             .ToList();
 
-        return new ViewBlockedPlayersResponse()
+        return SubterfugeResponse<ViewBlockedPlayersResponse>.OfSuccess(new ViewBlockedPlayersResponse()
         {
             BlockedUsers = blockedUser,
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        };
+        });
     }
     
     [HttpGet]
     [Route("friendRequests")]
-    public async Task<ViewFriendRequestsResponse> ViewFriendRequests(string userId)
+    public async Task<SubterfugeResponse<ViewFriendRequestsResponse>> ViewFriendRequests(string userId)
     {
         DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<ViewFriendRequestsResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
 
         if (userId != currentUser.Id && !currentUser.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<ViewFriendRequestsResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Can only view your own friends.");
         
         DbUserModel targetUser = await _dbUserCollection.Query()
             .FirstOrDefaultAsync(it => it.Id == userId);
         
         if (targetUser == null)
-            throw new NotFoundException("The target player was not found");
+            return SubterfugeResponse<ViewFriendRequestsResponse>.OfFailure(ResponseType.NOT_FOUND, "The target player was not found.");
         
         // For friend requests, if you didn't start the relation, you will be the friend ID
         var requests = (await _dbRelations.Query()
@@ -83,27 +82,26 @@ public class SocialController : ControllerBase, ISubterfugeSocialApi
             .Select(it => it.GetOtherUser(userId))
             .ToList();
         
-        return new ViewFriendRequestsResponse()
+        return SubterfugeResponse<ViewFriendRequestsResponse>.OfSuccess(new ViewFriendRequestsResponse()
         {
             FriendRequests = requests,
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        };
+        });
     }
     
     [HttpPost]
     [Route("block")]
-    public async Task<BlockPlayerResponse> BlockPlayer(BlockPlayerRequest request, string userId)
+    public async Task<SubterfugeResponse<BlockPlayerResponse>> BlockPlayer(BlockPlayerRequest request, string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<BlockPlayerResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
 
         var playerToBlock = await _dbUserCollection.Query().FirstOrDefaultAsync(it => it.Id == userId);
         if (playerToBlock == null)
-            throw new NotFoundException("The specified player does not exist.");
+            return SubterfugeResponse<BlockPlayerResponse>.OfFailure(ResponseType.NOT_FOUND, "The target player was not found.");
 
         if (playerToBlock.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<BlockPlayerResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Cannot block an administrator.");
         
         var existingRelationship = await _dbRelations.Query()
             .FirstOrDefaultAsync(relation => 
@@ -126,24 +124,21 @@ public class SocialController : ControllerBase, ISubterfugeSocialApi
             existingRelationship.RelationshipStatus = RelationshipStatus.Blocked;
             await _dbRelations.Upsert(existingRelationship);
         }
-        
-        return new BlockPlayerResponse()
-        {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        };
+
+        return SubterfugeResponse<BlockPlayerResponse>.OfSuccess(new BlockPlayerResponse());
     }
     
     [HttpPost]
     [Route("unblock")]
-    public async Task<UnblockPlayerResponse> UnblockPlayer(UnblockPlayerRequest request, string userId)
+    public async Task<SubterfugeResponse<UnblockPlayerResponse>> UnblockPlayer(UnblockPlayerRequest request, string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<UnblockPlayerResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
 
         var playerToUnblock = await _dbUserCollection.Query().FirstOrDefaultAsync(it => it.Id == userId);
         if (playerToUnblock == null)
-            throw new NotFoundException("The specified player does not exist.");
+            return SubterfugeResponse<UnblockPlayerResponse>.OfFailure(ResponseType.NOT_FOUND, "The specified player does not exist.");
         
         var existingRelationship = await _dbRelations.Query()
             .FirstOrDefaultAsync(relation => 
@@ -163,33 +158,30 @@ public class SocialController : ControllerBase, ISubterfugeSocialApi
         else
         {
             if (existingRelationship.RelationshipStatus != RelationshipStatus.Blocked)
-                throw new ForbidException();
+                return SubterfugeResponse<UnblockPlayerResponse>.OfFailure(ResponseType.INVALID_REQUEST, "The player you wish to unblock is not currently blocked.");
             
             // Cannot unblock someone if you were not the one to block them.
             if (existingRelationship.Player.Id != dbUserModel.Id)
-                throw new ForbidException();
+                return SubterfugeResponse<UnblockPlayerResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "You cannot unblock this player, as you did not block them.");
             
             existingRelationship.RelationshipStatus = RelationshipStatus.NoRelation;
             await _dbRelations.Upsert(existingRelationship);
         }
         
-        return new UnblockPlayerResponse()
-        {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        };
+        return SubterfugeResponse<UnblockPlayerResponse>.OfSuccess(new UnblockPlayerResponse());
     }
 
     [HttpGet]
     [Route("addFriend")]
-    public async Task<AddAcceptFriendResponse> AddAcceptFriendRequest(string userId)
+    public async Task<SubterfugeResponse<AddAcceptFriendResponse>> AddAcceptFriendRequest(string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<AddAcceptFriendResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
 
         var playerToBefriend = await _dbUserCollection.Query().FirstOrDefaultAsync(it => it.Id == userId);
         if (playerToBefriend == null)
-            throw new NotFoundException("The specified player does not exist.");
+            return SubterfugeResponse<AddAcceptFriendResponse>.OfFailure(ResponseType.NOT_FOUND, "The specified player does not exist.");
         
         var existingRelationship = await _dbRelations.Query()
             .FirstOrDefaultAsync(relation => 
@@ -205,60 +197,51 @@ public class SocialController : ControllerBase, ISubterfugeSocialApi
                 RelationshipStatus = RelationshipStatus.Pending
             };
             await _dbRelations.Upsert(relationship);
-            return new AddAcceptFriendResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-            };
+            return SubterfugeResponse<AddAcceptFriendResponse>.OfSuccess(new AddAcceptFriendResponse());
         }
         
         switch (existingRelationship.RelationshipStatus)
         {
             case RelationshipStatus.Blocked:
-                throw new ForbidException();
+                return SubterfugeResponse<AddAcceptFriendResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Cannot be friends while blocked.");
             case RelationshipStatus.Friends:
-                throw new ConflictException("You are already friends with this player.");
+                return SubterfugeResponse<AddAcceptFriendResponse>.OfFailure(ResponseType.DUPLICATE, "You are already friends with this player.");
             case RelationshipStatus.Pending:
                 // If you did not create the request, set the relationship to be friends
                 if (existingRelationship.Player.Id != dbUserModel.Id)
                 {
                     existingRelationship.RelationshipStatus = RelationshipStatus.Friends;
                     await _dbRelations.Upsert(existingRelationship);
-                    return new AddAcceptFriendResponse()
-                    {
-                        Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-                    };
+                    return SubterfugeResponse<AddAcceptFriendResponse>.OfSuccess(new AddAcceptFriendResponse());
                 }
                 
                 // Cannot accept your own request
-                throw new ConflictException("You already have a pending friend request to this player.");
+                return SubterfugeResponse<AddAcceptFriendResponse>.OfFailure(ResponseType.DUPLICATE, "You already have a pending friend request to this player.");
             case RelationshipStatus.NoRelation:
                 existingRelationship.RelationshipStatus = RelationshipStatus.Friends;
                 // Swap the 'primary' friend to indicate who sent the request.
                 existingRelationship.Player = dbUserModel.ToUser();
                 existingRelationship.Friend = playerToBefriend.ToUser();
                 await _dbRelations.Upsert(existingRelationship);
-                return new AddAcceptFriendResponse()
-                {
-                    Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-                };
+                return SubterfugeResponse<AddAcceptFriendResponse>.OfSuccess(new AddAcceptFriendResponse());
             
             // Should never happen.
             default:
-                throw new ForbidException();
+                return SubterfugeResponse<AddAcceptFriendResponse>.OfFailure(ResponseType.INVALID_REQUEST, "I don't know how you did this, but well done; you've played the system.");
         }
     }
     
     [HttpGet]
     [Route("removeFriend")]
-    public async Task<DenyFriendRequestResponse> RemoveRejectFriend(string userId)
+    public async Task<SubterfugeResponse<DenyFriendRequestResponse>> RemoveRejectFriend(string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<DenyFriendRequestResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
 
         var playerToReject = await _dbUserCollection.Query().FirstOrDefaultAsync(it => it.Id == userId);
         if (playerToReject == null)
-            throw new NotFoundException("The specified player does not exist");
+            return SubterfugeResponse<DenyFriendRequestResponse>.OfFailure(ResponseType.NOT_FOUND, "The specified player does not exist.");
         
         var existingRelationship = await _dbRelations.Query()
             .FirstOrDefaultAsync(relation => 
@@ -266,36 +249,33 @@ public class SocialController : ControllerBase, ISubterfugeSocialApi
                 (relation.Player.Id == userId && relation.Friend.Id == dbUserModel.Id));
 
         if (existingRelationship == null)
-            throw new NotFoundException("A friend request from that player does not exist");
+            return SubterfugeResponse<DenyFriendRequestResponse>.OfFailure(ResponseType.INVALID_REQUEST, "A friend request from that player does not exist");
 
         if (existingRelationship.RelationshipStatus is not (RelationshipStatus.Pending or RelationshipStatus.Friends))
-            throw new ForbidException();
+            return SubterfugeResponse<DenyFriendRequestResponse>.OfFailure(ResponseType.INVALID_REQUEST, "Cannot revoke friendship status for this player.");
 
         existingRelationship.RelationshipStatus = RelationshipStatus.NoRelation;
         await _dbRelations.Upsert(existingRelationship);
         
-        return new DenyFriendRequestResponse()
-        {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        };
+        return SubterfugeResponse<DenyFriendRequestResponse>.OfSuccess(new DenyFriendRequestResponse());
     }
     
     [HttpGet]
     [Route("friends")]
-    public async Task<ViewFriendsResponse> GetFriendList(string userId)
+    public async Task<SubterfugeResponse<ViewFriendsResponse>> GetFriendList(string userId)
     {
         DbUserModel currentUser = HttpContext.Items["User"] as DbUserModel;
         if (currentUser == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<ViewFriendsResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
 
         if (userId != currentUser.Id && !currentUser.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<ViewFriendsResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Can only view your own friend list.");
         
         DbUserModel targetUser = await _dbUserCollection.Query()
             .FirstOrDefaultAsync(it => it.Id == userId);
         
         if (targetUser == null)
-            throw new NotFoundException("The target player was not found");
+            return SubterfugeResponse<ViewFriendsResponse>.OfFailure(ResponseType.NOT_FOUND, "The target player was not found");
         
         var friends = (await _dbRelations.Query()
                 .Where(relation => relation.Player.Id == userId || relation.Friend.Id == userId)
@@ -304,10 +284,9 @@ public class SocialController : ControllerBase, ISubterfugeSocialApi
             .Select(it => it.GetOtherUser(userId))
             .ToList();
         
-        return new ViewFriendsResponse()
+        return SubterfugeResponse<ViewFriendsResponse>.OfSuccess(new ViewFriendsResponse()
         {
             Friends = friends,
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        };
+        });
     }
 }

@@ -26,11 +26,11 @@ public class SpecialistPackageController : ControllerBase, ISubterfugeSpecialist
     
     [HttpPost]
     [Route("create")]
-    public async Task<CreateSpecialistPackageResponse> CreateSpecialistPackage(CreateSpecialistPackageRequest request)
+    public async Task<SubterfugeResponse<CreateSpecialistPackageResponse>> CreateSpecialistPackage(CreateSpecialistPackageRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
         if (user == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<CreateSpecialistPackageResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
 
         DbSpecialistPackage package = DbSpecialistPackage.FromRequest(request, user.ToSimpleUser());
         
@@ -40,30 +40,29 @@ public class SpecialistPackageController : ControllerBase, ISubterfugeSpecialist
             .ToListAsync();
 
         if (existingSpecialists.Count != request.SpecialistIds.Count)
-            throw new NotFoundException("A referenced specialist cannot be found.");
+            return SubterfugeResponse<CreateSpecialistPackageResponse>.OfFailure(ResponseType.NOT_FOUND, "A referenced specialist cannot be found.");
         
         var existingPackages = await _dbSpecialistPackages.Query()
             .Where(it => request.PackageIds.Contains(it.Id))
             .ToListAsync();
 
         if (existingPackages.Count != request.PackageIds.Count)
-            throw new NotFoundException("A referenced specialist package cannot be found.");
+            return SubterfugeResponse<CreateSpecialistPackageResponse>.OfFailure(ResponseType.NOT_FOUND, "A referenced specialist package cannot be found.");
         
         await _dbSpecialistPackages.Upsert(package);
 
-        return new CreateSpecialistPackageResponse()
+        return SubterfugeResponse<CreateSpecialistPackageResponse>.OfSuccess(new CreateSpecialistPackageResponse()
         {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             SpecialistPackageId = package.Id,
-        };
+        });
     }
     
     [HttpGet]
-    public async Task<GetSpecialistPackagesResponse> GetSpecialistPackages([FromQuery] GetSpecialistPackagesRequest request)
+    public async Task<SubterfugeResponse<GetSpecialistPackagesResponse>> GetSpecialistPackages([FromQuery] GetSpecialistPackagesRequest request)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
         if (user == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetSpecialistPackagesResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
         
         IMongoQueryable<DbSpecialistPackage> query = _dbSpecialistPackages.Query();
         
@@ -91,20 +90,19 @@ public class SpecialistPackageController : ControllerBase, ISubterfugeSpecialist
 
         GetSpecialistPackagesResponse response = new GetSpecialistPackagesResponse()
         {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             SpecialistPackages = results
         };
 
-        return response;
+        return SubterfugeResponse<GetSpecialistPackagesResponse>.OfSuccess(response);
     }
     
     [HttpGet]
     [Route("{packageId}")]
-    public async Task<GetSpecialistPackagesResponse> GetSpecialistPackages(string packageId)
+    public async Task<SubterfugeResponse<GetSpecialistPackagesResponse>> GetSpecialistPackages(string packageId)
     {
         DbUserModel? user = HttpContext.Items["User"] as DbUserModel;
         if (user == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetSpecialistPackagesResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
             
         // Search through all specialists for the search term.
         // TODO: Apply filters here
@@ -114,11 +112,10 @@ public class SpecialistPackageController : ControllerBase, ISubterfugeSpecialist
             .Select(it => it.ToSpecialistPackage())
             .ToList();
 
-        return new GetSpecialistPackagesResponse()
+        return SubterfugeResponse<GetSpecialistPackagesResponse>.OfSuccess(new GetSpecialistPackagesResponse()
         {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
             SpecialistPackages = results
-        };
+        });
     }
 
 }

@@ -31,18 +31,18 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
     
     [HttpGet]
     [Route("api/room/{roomId}/events")]
-    public async Task<GetGameRoomEventsResponse> GetGameRoomEvents(string roomId)
+    public async Task<SubterfugeResponse<GetGameRoomEventsResponse>> GetGameRoomEvents(string roomId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetGameRoomEventsResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in");
 
         var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            throw new NotFoundException("Cannot find the room you wish to get events from.");
+            return SubterfugeResponse<GetGameRoomEventsResponse>.OfFailure(ResponseType.NOT_FOUND, "Room not found");
 
         if (lobby.PlayerIdsInLobby.All(id => id != dbUserModel.Id) && !dbUserModel.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<GetGameRoomEventsResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Must be a player within the lobby to get the events.");
         
         List<DbGameEvent> events = await _dbGameEvents.Query()
             .Where(it => it.RoomId == roomId)
@@ -64,21 +64,20 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
 
         GetGameRoomEventsResponse response = new GetGameRoomEventsResponse();
         response.GameEvents = events.Select(it => it.ToGameEventData()).ToList();
-        response.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
-        return response;
+        return SubterfugeResponse<GetGameRoomEventsResponse>.OfSuccess(response);
     }
 
     [HttpPost]
     [Route("api/room/{roomId}/events")]
-    public async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
+    public async Task<SubterfugeResponse<SubmitGameEventResponse>> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in");
 
         var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            throw new NotFoundException("Cannot find the room you wish to submit this event to.");
+            return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(ResponseType.NOT_FOUND, "Cannot find the room you wish to submit this event to.");
 
         var adminEventTypes = new[]
         {
@@ -94,11 +93,11 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         {
             // They must be in the lobby
             if (!lobby.PlayerIdsInLobby.Contains(dbUserModel.Id))
-                throw new ForbidException();
+                return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Cannot submit game events if you are not in the game.");
             
             // If they are in the lobby, ensure their event is not an admin event.
             if(adminEventTypes.Contains(eventType))
-                throw new ForbidException();
+                return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Trying to submit administrative event as a player.");
         }
         else
         {
@@ -107,14 +106,17 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
             if (!lobby.PlayerIdsInLobby.Contains(dbUserModel.Id))
             {
                 if (!adminEventTypes.Contains(eventType))
-                    throw new ForbidException();
+                    return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Admins cannot submit normal events if they are not in the lobby");
             }
         }
         
         // Determine what tick the game is currently at.
         GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
         if(request.GameEventData.OccursAtTick <= currentTick.GetTick())
-            throw new BadRequestException("Cannot submit an event that has already happened. Current Tick:" + currentTick.GetTick());
+            return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(
+                ResponseType.VALIDATION_ERROR, 
+                $"Cannot submit an event at tick {request.GameEventData.OccursAtTick} because it is in the past. Current Tick:" + currentTick.GetTick()
+            );
         
         // TODO: Determine if any players have left the game or lost the game.
         // Prevent players who have left or lost from submitting events (Or we just let them but prevent it in the core side.
@@ -162,7 +164,10 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
         }
         catch (JsonSerializationException serializationException)
         {
-            throw new BadRequestException($"Event type is {eventType} but the server could not parse the event as such.");
+            return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(
+                ResponseType.VALIDATION_ERROR, 
+                $"Event type is {eventType} but the server could not parse the event as such."
+            );
         }
 
         var gameEvent = DbGameEvent.FromGameEventRequest(request, dbUserModel.ToUser(), roomId);
@@ -192,82 +197,77 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
             await _dbGameLobbies.Upsert(lobby);
         }
 
-        return new SubmitGameEventResponse()
+        return SubterfugeResponse<SubmitGameEventResponse>.OfSuccess(new SubmitGameEventResponse()
         {
             EventId = gameEvent.Id,
             GameRoomEvent = gameEvent.ToGameEventData(),
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        };
+        });
     }
 
     [HttpPut]
     [Route("api/room/{roomId}/events/{eventGuid}")]
-    public async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
+    public async Task<SubterfugeResponse<SubmitGameEventResponse>> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in");
 
         var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            throw new NotFoundException("Cannot find the room you wish to update.");
+            return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(ResponseType.NOT_FOUND, "Cannot find the room you wish to update.");
 
         var gameEvent = await _dbGameEvents.Query().FirstOrDefaultAsync(it => it.Id == eventGuid && it.RoomId == roomId);
         if (gameEvent == null)
-            throw new NotFoundException("Cannot find the game event you wish to update in the specified room.");
+            return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(ResponseType.NOT_FOUND, "Cannot find the game event you wish to update in the specified room.");
 
         if (gameEvent.IssuedBy.Id != dbUserModel.Id)
-            throw new ForbidException();
+            return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Cannot update an event issued by another player.");
         
         // Determine if the event has already passed.
         GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
 
         if (gameEvent.OccursAtTick <= currentTick.GetTick())
-            throw new BadRequestException("Cannot delete an event that has already happened");
+            return SubterfugeResponse<SubmitGameEventResponse>.OfFailure(ResponseType.VALIDATION_ERROR, "Cannot delete an event that has already happened");
         
         gameEvent.OccursAtTick = request.GameEventData.OccursAtTick;
         gameEvent.GameEventType = request.GameEventData.EventDataType;
         gameEvent.SerializedEventData = request.GameEventData.SerializedEventData;
         await _dbGameEvents.Upsert(gameEvent);
         
-        return new SubmitGameEventResponse()
+        return SubterfugeResponse<SubmitGameEventResponse>.OfSuccess(new SubmitGameEventResponse()
         {
             EventId = gameEvent.Id,
             GameRoomEvent = gameEvent.ToGameEventData(),
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        };
+        });
     }
 
     [HttpDelete]
     [Route("api/room/{roomId}/events/{eventGuid}")]
-    public async Task<DeleteGameEventResponse> DeleteGameEvent(string roomId, string eventGuid)
+    public async Task<SubterfugeResponse<DeleteGameEventResponse>> DeleteGameEvent(string roomId, string eventGuid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<DeleteGameEventResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
 
         var lobby = await _dbGameLobbies.Query().FirstOrDefaultAsync(it => it.Id == roomId);
         if (lobby == null)
-            throw new NotFoundException("Cannot find the room you wish to delete.");
+            return SubterfugeResponse<DeleteGameEventResponse>.OfFailure(ResponseType.NOT_FOUND, "Cannot find the room you wish to delete.");
         
         var gameEvent = await _dbGameEvents.Query().FirstOrDefaultAsync(it => it.Id == eventGuid && it.RoomId == roomId);
         if (gameEvent == null)
-            throw new NotFoundException("Cannot find the game event you wish to delete.");
+            return SubterfugeResponse<DeleteGameEventResponse>.OfFailure(ResponseType.NOT_FOUND, "Cannot find the game event you wish to delete.");
         
         // Determine if the event has already passed.
         GameTick currentTick = GameTick.fromGameConfiguration(await lobby.ToGameConfiguration(_dbUserCollection));
 
         if (gameEvent.OccursAtTick <= currentTick.GetTick())
-            throw new BadRequestException("Cannot delete an event that has already happened");
+            return SubterfugeResponse<DeleteGameEventResponse>.OfFailure(ResponseType.VALIDATION_ERROR, "Cannot delete an event that has already happened.");
 
         if (gameEvent.IssuedBy.Id != dbUserModel.Id)
-            throw new ForbidException();
+            return SubterfugeResponse<DeleteGameEventResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Cannot delete an event that you did not create.");
 
         await _dbGameEvents.Delete(gameEvent);
 
-        return new DeleteGameEventResponse()
-        {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-        };
+        return SubterfugeResponse<DeleteGameEventResponse>.OfSuccess(new DeleteGameEventResponse());
     }
 }

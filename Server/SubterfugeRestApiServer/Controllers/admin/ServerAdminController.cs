@@ -32,7 +32,7 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
 
     [HttpGet]
     [Route("serverLog")]
-    public async Task<ServerActionLogResponse> GetActionLog([FromQuery] ServerActionLogRequeset request)
+    public async Task<SubterfugeResponse<ServerActionLogResponse>> GetActionLog([FromQuery] ServerActionLogRequeset request)
     {
         var query = _dbServerLog.Query();
         
@@ -64,15 +64,15 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
             .Select(it => it.ToServerAction())
             .ToList();
 
-        return new ServerActionLogResponse()
+        return SubterfugeResponse<ServerActionLogResponse>.OfSuccess(new ServerActionLogResponse()
         {
             Actions = matchingServerActions,
-        };
+        });
     }
 
     [HttpGet]
     [Route("exceptions")]
-    public async Task<ServerExceptionLogResponse> GetServerExceptions([FromQuery] ServerExceptionLogRequest request)
+    public async Task<SubterfugeResponse<ServerExceptionLogResponse>> GetServerExceptions([FromQuery] ServerExceptionLogRequest request)
     {
         var query = _dbExceptionLog.Query();
     
@@ -114,26 +114,26 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
             .Select(it => it.ToServerException())
             .ToList();
 
-        return new ServerExceptionLogResponse()
+        return SubterfugeResponse<ServerExceptionLogResponse>.OfSuccess(new ServerExceptionLogResponse()
         {
             Exceptions = matchingServerActions
-        };
+        });
     }
 
     [HttpPost]
     [Route("banPlayer")]
-    public async Task<NetworkResponse> BanPlayer([FromBody] BanPlayerRequest banPlayerRequest)
+    public async Task<SubterfugeResponse<BanPlayerResponse>> BanPlayer([FromBody] BanPlayerRequest banPlayerRequest)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<BanPlayerResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in");
 
         if (!dbUserModel.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<BanPlayerResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Must be an administrator to do this");
         
         DbUserModel? targetUser = await _dbUsers.Query().FirstOrDefaultAsync(it => it.Id == banPlayerRequest.UserId);
         if (targetUser == null)
-            throw new NotFoundException("User not found.");
+            return SubterfugeResponse<BanPlayerResponse>.OfFailure(ResponseType.NOT_FOUND, "Player to ban not found");
 
         targetUser.BanHistory.Add(new AccountBan()
         {
@@ -147,28 +147,23 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
         
         await _dbUsers.Upsert(targetUser);
         
-        return new NetworkResponse()
+        return SubterfugeResponse<BanPlayerResponse>.OfSuccess(new BanPlayerResponse()
         {
-            Status = new ResponseStatus()
-            {
-                Detail = $"Successfully banned {banPlayerRequest.UserId} until {banPlayerRequest.Until}",
-                IsSuccess = true,
-                ResponseType = ResponseType.SUCCESS
-            }
-        };
+            wasSuccess = true,
+        });
     }
 
     [Authorize(Roles = "Administrator")]
     [HttpPost]
     [Route("banIp")]
-    public async Task<NetworkResponse> BanIp([FromBody] BanIpRequest banIpRequest)
+    public async Task<SubterfugeResponse<BanIpResponse>> BanIp([FromBody] BanIpRequest banIpRequest)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<BanIpResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in");
 
         if (!dbUserModel.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<BanIpResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Must be an Administrator.");
 
         var newBan = new DbIpBan()
         {
@@ -180,27 +175,22 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
         
         await _dbIpBans.Upsert(newBan);
 
-        return new NetworkResponse()
+        return SubterfugeResponse<BanIpResponse>.OfSuccess(new BanIpResponse()
         {
-            Status = new ResponseStatus()
-            {
-                Detail = $"Successfully banned {banIpRequest.DirectIpOrRegex} until {banIpRequest.Until}",
-                IsSuccess = true,
-                ResponseType = ResponseType.SUCCESS
-            }
-        };
+            wasSuccess = true,
+        });
     }
 
     [HttpGet]
     [Route("ipBans")]
-    public async Task<GetIpBansResponse> GetIpBans(int pagination = 1)
+    public async Task<SubterfugeResponse<GetIpBansResponse>> GetIpBans(int pagination = 1)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetIpBansResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in");
 
         if (!dbUserModel.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<GetIpBansResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Must be an Administrator.");
 
         var ipBans = (await _dbIpBans.Query()
             .OrderByDescending(it => it.DateApplied)
@@ -210,22 +200,22 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
             .Select(it => it.ToIpBan())
             .ToList();
 
-        return new GetIpBansResponse()
+        return SubterfugeResponse<GetIpBansResponse>.OfSuccess(new GetIpBansResponse()
         {
             BannedIps = ipBans
-        };
+        });
     }
 
     [HttpGet]
     [Route("playerBans")]
-    public async Task<GetBannedPlayerResponse> GetBannedPlayers(int pagination = 1)
+    public async Task<SubterfugeResponse<GetBannedPlayerResponse>> GetBannedPlayers(int pagination = 1)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetBannedPlayerResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in");
 
         if (!dbUserModel.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<GetBannedPlayerResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Must be an Administrator.");
 
         var bannedPlayers = (await _dbUsers.Query()
                 .OrderByDescending(it => it.BannedUntil)
@@ -236,16 +226,16 @@ public class SubterfugeAdminController : ControllerBase, ISubterfugeAdminApi
             .Select(it => it.ToDetailedUser())
             .ToList();
 
-        return new GetBannedPlayerResponse()
+        return SubterfugeResponse<GetBannedPlayerResponse>.OfSuccess(new GetBannedPlayerResponse()
         {
             BannedUsers = bannedPlayers
-        };
+        });
     }
 
     [HttpPost]
     [Route("echo")]
-    public async Task<Echo> EchoRequest(Echo request)
+    public async Task<SubterfugeResponse<Echo>> EchoRequest(Echo request)
     {
-        return request;
+        return SubterfugeResponse<Echo>.OfSuccess(request);
     }
 }

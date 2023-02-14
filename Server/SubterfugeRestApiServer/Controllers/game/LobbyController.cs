@@ -32,11 +32,11 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
     }
     
     [HttpGet]
-    public async Task<GetLobbyResponse> GetLobbies([FromQuery] GetLobbyRequest request)
+    public async Task<SubterfugeResponse<GetLobbyResponse>> GetLobbies([FromQuery] GetLobbyRequest request)
     {
         DbUserModel user = HttpContext.Items["User"] as DbUserModel;
         if (user == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetLobbyResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
         
         // If the player is not an admin; Ensure they only see their own lobbies (other than public ones)
         if (!user.HasClaim(UserClaim.Administrator))
@@ -53,7 +53,7 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
             else
             {
                 if (request.UserIdInRoom != user.Id)
-                    throw new ForbidException();
+                    return SubterfugeResponse<GetLobbyResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Cannot search for rooms other players are in.");
             }
         }
 
@@ -95,60 +95,55 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
             
         GetLobbyResponse roomResponse = new GetLobbyResponse();
         roomResponse.Lobbies = await Task.WhenAll(matchingRooms);
-        roomResponse.Status = ResponseFactory.createResponse(ResponseType.SUCCESS);
             
-        return roomResponse;
+        return SubterfugeResponse<GetLobbyResponse>.OfSuccess(roomResponse);
     }
 
     [HttpPost]
     [Route("create")]
-    public async Task<CreateRoomResponse> CreateNewRoom(CreateRoomRequest request)
+    public async Task<SubterfugeResponse<CreateRoomResponse>> CreateNewRoom(CreateRoomRequest request)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<CreateRoomResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
             
         // Ensure max players is over 1
         if (request.GameSettings.MaxPlayers < 2)
-            throw new BadRequestException("A lobby requires at least 2 players");
+            return SubterfugeResponse<CreateRoomResponse>.OfFailure(ResponseType.VALIDATION_ERROR, "A lobby requires MinPlayers to be 2 or more.");
 
         var room = DbGameLobbyConfiguration.FromRequest(request, dbUserModel.ToUser());
         await _dbLobbies.Upsert(room);
                
-        return new CreateRoomResponse()
+        return SubterfugeResponse<CreateRoomResponse>.OfSuccess(new CreateRoomResponse()
         {
             GameConfiguration = await room.ToGameConfiguration(_dbUserCollection),
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-        };
+        });
     }
 
     [HttpPost]
     [Route("{guid}/join")]
-    public async Task<JoinRoomResponse> JoinRoom(JoinRoomRequest request, string guid)
+    public async Task<SubterfugeResponse<JoinRoomResponse>> JoinRoom(JoinRoomRequest request, string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<JoinRoomResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
             
         var room = await _dbLobbies.Query().Where(it => it.Id == guid).FirstOrDefaultAsync();
         if (room == null)
-            throw new NotFoundException("Cannot find the room you wish to enter.");
+            return SubterfugeResponse<JoinRoomResponse>.OfFailure(ResponseType.NOT_FOUND, "Cannot find the room you wish to enter.");
 
         if (room.GameSettings.MaxPlayers <= room.PlayerIdsInLobby.Count)
-            throw new BadRequestException("This room has too many players.");
+            return SubterfugeResponse<JoinRoomResponse>.OfFailure(ResponseType.ROOM_IS_FULL, "Lobby is full.");
 
         if (room.PlayerIdsInLobby.Contains(dbUserModel.Id))
-            throw new ConflictException("Memory loss? You are already a member of this room.");
+            return SubterfugeResponse<JoinRoomResponse>.OfFailure(ResponseType.DUPLICATE, "You are already a member of this room.");
 
         if (room.RoomStatus != RoomStatus.Open)
-            throw new BadRequestException("You're too late! Your friends decided to play without you.");
-        
-        if(room.PlayerIdsInLobby.Count >= room.GameSettings.MaxPlayers)
-            throw new BadRequestException("The room is already full. Please try another lobby.");
-        
+            return SubterfugeResponse<JoinRoomResponse>.OfFailure(ResponseType.GAME_ALREADY_STARTED, "You're too late! Your friends decided to play without you.");
+
         // Check if any players in the room are "pseudonyms" / multiboxing
         if((await room.GetPlayersInLobby(_dbUserCollection)).Any(roomMember => roomMember.Pseudonyms.Any(pseudoUser => pseudoUser.Id == dbUserModel.Id)))
-            throw new ForbidException();
+            return SubterfugeResponse<JoinRoomResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Cannot join a game with an account registered to the same device");
         
         // Check if this is the last player to join
         if (room.PlayerIdsInLobby.Count == room.GameSettings.MaxPlayers - 1)
@@ -160,26 +155,23 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
         room.PlayerIdsInLobby.Add(dbUserModel.Id);
         await _dbLobbies.Upsert(room);
 
-        return new JoinRoomResponse()
-        {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-        };
+        return SubterfugeResponse<JoinRoomResponse>.OfSuccess(new JoinRoomResponse());
     }
     
     [HttpGet]
     [Route("{guid}/leave")]
-    public async Task<LeaveRoomResponse> LeaveRoom(string guid)
+    public async Task<SubterfugeResponse<LeaveRoomResponse>> LeaveRoom(string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<LeaveRoomResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
             
         var room = await _dbLobbies.Query().FirstOrDefaultAsync(it => it.Id == guid);
         if (room == null)
-            throw new NotFoundException("Cannot leave a room that does not exist");
+            return SubterfugeResponse<LeaveRoomResponse>.OfFailure(ResponseType.NOT_FOUND, "Cannot leave a room that does not exist");
 
         if (!room.PlayerIdsInLobby.Contains(dbUserModel.Id))
-            throw new NotFoundException("You are not a member of this lobby.");
+            return SubterfugeResponse<LeaveRoomResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "You are not a member of this lobby.");
 
         if (room.RoomStatus == RoomStatus.Open)
         {
@@ -187,20 +179,14 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
             {
                 // The creator is leaving the game. Destroy the lobby.
                 await _dbLobbies.Delete(room);
-                return new LeaveRoomResponse()
-                {
-                    Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-                };
+                return SubterfugeResponse<LeaveRoomResponse>.OfSuccess(new LeaveRoomResponse());
             }
         
             // Update the player list to remove the current player.
             room.PlayerIdsInLobby = room.PlayerIdsInLobby.Where(it => it != dbUserModel.Id).ToList();
             await _dbLobbies.Upsert(room);
 
-            return new LeaveRoomResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-            };
+            return SubterfugeResponse<LeaveRoomResponse>.OfSuccess(new LeaveRoomResponse());
         }
         
         if (room.RoomStatus == RoomStatus.Ongoing)
@@ -222,41 +208,35 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
             };
             await _dbGameEvents.Upsert(leaveEvent);
 
-            return new LeaveRoomResponse()
-            {
-                Status = ResponseFactory.createResponse(ResponseType.SUCCESS)
-            };
+            return SubterfugeResponse<LeaveRoomResponse>.OfSuccess(new LeaveRoomResponse());
         }
-
-        throw new BadRequestException("Cannot leave a room after it is over.");
+        
+        return SubterfugeResponse<LeaveRoomResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Cannot leave a room after it is over.");
     }
     
     [HttpGet]
     [Route("{guid}/start")]
-    public async Task<StartGameEarlyResponse> StartGameEarly(string guid)
+    public async Task<SubterfugeResponse<StartGameEarlyResponse>> StartGameEarly(string guid)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<StartGameEarlyResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in.");
             
         var room = await _dbLobbies.Query().FirstOrDefaultAsync(it => it.Id == guid);
         if (room == null)
-            throw new NotFoundException("The specified room does not exist.");
+            return SubterfugeResponse<StartGameEarlyResponse>.OfFailure(ResponseType.NOT_FOUND, "The specified room does not exist.");
 
         if (room.Creator.Id != dbUserModel.Id && !dbUserModel.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<StartGameEarlyResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "You are not the creator of the room; you cannot start the game early.");
 
         if (room.PlayerIdsInLobby.Count < 2)
-            throw new BadRequestException("Playing with yourself might be fun, but consider finding some friends first.");
+            return SubterfugeResponse<StartGameEarlyResponse>.OfFailure(ResponseType.VALIDATION_ERROR, "Playing with yourself might be fun, but consider finding some friends first. Cannot start the game without at least 2 players.");
 
         room.RoomStatus = RoomStatus.Ongoing;
         room.TimeStarted = DateTime.UtcNow;
         room.GameSettings.MaxPlayers = room.PlayerIdsInLobby.Count;
         await _dbLobbies.Upsert(room);
         
-        return new StartGameEarlyResponse()
-        {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
-        };
+        return SubterfugeResponse<StartGameEarlyResponse>.OfSuccess(new StartGameEarlyResponse());
     }
 }

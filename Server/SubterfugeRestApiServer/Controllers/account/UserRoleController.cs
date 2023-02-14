@@ -26,62 +26,56 @@ public class SubterfugeUserRoleController : ControllerBase, ISubterfugeUserRoleA
     [Authorize]
     [HttpGet]
     [Route("roles")]
-    public async Task<GetRolesResponse> GetRoles(string userId)
+    public async Task<SubterfugeResponse<GetRolesResponse>> GetRoles(string userId)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetRolesResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in");
 
         if (dbUserModel.HasClaim(UserClaim.Administrator))
         {
             DbUserModel? targetUser = await _dbUsers.Query().FirstOrDefaultAsync(it => it.Id == userId);
             if(targetUser == null)
-                throw new NotFoundException("Off the grid? We have no record of this user.");
+                return SubterfugeResponse<GetRolesResponse>.OfFailure(ResponseType.NOT_FOUND, "Off the grid? We have no record of this user.");
             
-            var response = new GetRolesResponse()
+            return SubterfugeResponse<GetRolesResponse>.OfSuccess(new GetRolesResponse()
             {
-                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
                 Claims = targetUser.Claims
-            };
-            return response;
+            });
         }
         
         if (dbUserModel.Id == userId)
         {
-            var response = new GetRolesResponse()
+            return SubterfugeResponse<GetRolesResponse>.OfSuccess(new GetRolesResponse()
             {
-                Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
                 Claims = dbUserModel.Claims
-            };
-            return response;
+            });
         }
 
-        throw new ForbidException();
+        return SubterfugeResponse<GetRolesResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Cannot get the roles of a user other than yourself.");
     }
 
     [Authorize(Roles = "Administrator")]
     [HttpPost]
     [Route("roles")]
-    public async Task<GetRolesResponse> SetRoles(string userId, UpdateRolesRequest request)
+    public async Task<SubterfugeResponse<GetRolesResponse>> SetRoles(string userId, UpdateRolesRequest request)
     {
         DbUserModel? dbUserModel = HttpContext.Items["User"] as DbUserModel;
         if (dbUserModel == null)
-            throw new UnauthorizedException();
+            return SubterfugeResponse<GetRolesResponse>.OfFailure(ResponseType.UNAUTHORIZED, "Not logged in");
 
         if (!dbUserModel.HasClaim(UserClaim.Administrator))
-            throw new ForbidException();
+            return SubterfugeResponse<GetRolesResponse>.OfFailure(ResponseType.PERMISSION_DENIED, "Admins only.");
         
         DbUserModel? targetUser = await _dbUsers.Query().FirstOrDefaultAsync(it => it.Id == userId);
         if (targetUser == null)
-            throw new NotFoundException("User not found.");
+            return SubterfugeResponse<GetRolesResponse>.OfFailure(ResponseType.NOT_FOUND, "The user you are trying to update the role for does not exist.");
 
         targetUser.Claims = request.Claims;
         await _dbUsers.Upsert(targetUser);
 
-        var response = new GetRolesResponse() {
-            Status = ResponseFactory.createResponse(ResponseType.SUCCESS),
+        return SubterfugeResponse<GetRolesResponse>.OfSuccess(new GetRolesResponse() {
             Claims = targetUser.Claims
-        };
-        return response;
+        });
     }
 }

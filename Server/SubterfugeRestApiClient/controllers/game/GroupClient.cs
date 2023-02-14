@@ -1,60 +1,36 @@
 ﻿using SubterfugeCore.Models.GameEvents;
 using SubterfugeCore.Models.GameEvents.Api;
-using SubterfugeRestApiClient.controllers.exception;
+using SubterfugeRestApiClient.controllers.Client;
 
 namespace SubterfugeRestApiClient.controllers.game;
 
 public class GroupClient : ISubterfugeGroupChatApi
 {
-    private HttpClient client;
+    private SubterfugeHttpClient client;
 
-    public GroupClient(HttpClient client)
+    public GroupClient(SubterfugeHttpClient client)
     {
         this.client = client;
     }
 
-    public async Task<CreateMessageGroupResponse> CreateMessageGroup(CreateMessageGroupRequest request, string roomId)
+    public async Task<SubterfugeResponse<CreateMessageGroupResponse>> CreateMessageGroup(CreateMessageGroupRequest request, string roomId)
     {
-        Console.WriteLine("CreateMessageGroup");
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/room/{roomId}/group/create", request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<CreateMessageGroupResponse>();
+        return await client.Post<CreateMessageGroupRequest, CreateMessageGroupResponse>($"api/room/{roomId}/group/create", request);
     }
 
-    public async Task<SendMessageResponse> SendMessage(SendMessageRequest request, string roomId, string groupId)
+    public async Task<SubterfugeResponse<SendMessageResponse>> SendMessage(SendMessageRequest request, string roomId, string groupId)
     {
-        Console.WriteLine("SendMessage");
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/room/{roomId}/group/{groupId}/send", request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<SendMessageResponse>();
+        return await client.Post<SendMessageRequest, SendMessageResponse>($"api/room/{roomId}/group/{groupId}/send", request);
     }
 
-    public async Task<GetMessageGroupsResponse> GetMessageGroups(string roomId)
+    public async Task<SubterfugeResponse<GetMessageGroupsResponse>> GetMessageGroups(string roomId)
     {
-        Console.WriteLine("GetMessageGroups");
-        HttpResponseMessage response = await client.GetAsync($"api/room/{roomId}/groups");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<GetMessageGroupsResponse>();
+        return await client.Get<GetMessageGroupsResponse>($"api/room/{roomId}/groups", null);
     }
 
-    public async Task<GetGroupMessagesResponse> GetMessages(GetGroupMessagesRequest request, string roomId, string groupId)
+    public async Task<SubterfugeResponse<GetGroupMessagesResponse>> GetMessages(GetGroupMessagesRequest request, string roomId, string groupId)
     {
-        Console.WriteLine("GetMessages");
-        HttpResponseMessage response = await client.GetAsync($"api/room/{roomId}/group/{groupId}/messages");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<GetGroupMessagesResponse>();
+        return await client.Get<GetGroupMessagesResponse>($"api/room/{roomId}/group/{groupId}/messages", null);
     }
 
 }

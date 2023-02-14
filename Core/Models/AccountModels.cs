@@ -10,7 +10,7 @@ namespace SubterfugeCore.Models.GameEvents
         public string Password { get; set; }
     }
 
-    public class AuthorizationResponse : NetworkResponse
+    public class AuthorizationResponse
     {
         public User User { get; set; }
         public string Token { get; set; }
@@ -24,7 +24,7 @@ namespace SubterfugeCore.Models.GameEvents
         public string PhoneNumber { get; set; } = "+13069999999";
     }
 
-    public class AccountRegistrationResponse : NetworkResponse
+    public class AccountRegistrationResponse
     {
         public User User { get; set; } = new User();
         public string Token { get; set; } = "LoginToken";
@@ -44,7 +44,7 @@ namespace SubterfugeCore.Models.GameEvents
         public User User { get; set; } = new User();
     }
 
-    public class GetRolesResponse : NetworkResponse
+    public class GetRolesResponse
     {
         public UserClaim[] Claims { get; set; } = new UserClaim[] {};
     }

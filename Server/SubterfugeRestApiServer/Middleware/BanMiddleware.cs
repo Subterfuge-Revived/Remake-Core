@@ -76,13 +76,11 @@ public class BanMiddleware
             queryString,
             "403"
         );
-        
-        var response = new ResponseStatus()
-        {
-            IsSuccess = false,
-            ResponseType = ResponseType.BANNED,
-            Detail = "You are banned.",
-        };
+
+        var response = SubterfugeResponse<string>.OfFailure(
+            ResponseType.BANNED,
+            "You are banned."
+        );
             
         context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
         context.Response.WriteAsync(JsonConvert.SerializeObject(response));

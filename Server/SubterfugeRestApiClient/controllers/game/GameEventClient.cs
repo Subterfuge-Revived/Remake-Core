@@ -1,60 +1,35 @@
-﻿using Newtonsoft.Json;
-using SubterfugeCore.Models.GameEvents;
+﻿using SubterfugeCore.Models.GameEvents;
 using SubterfugeCore.Models.GameEvents.Api;
-using SubterfugeRestApiClient.controllers.exception;
+using SubterfugeRestApiClient.controllers.Client;
 
 namespace SubterfugeRestApiClient.controllers.game;
 
 public class GameEventClient : ISubterfugeGameEventApi
 {
-    private HttpClient client;
+    private SubterfugeHttpClient client;
 
-    public GameEventClient(HttpClient client)
+    public GameEventClient(SubterfugeHttpClient client)
     {
         this.client = client;
     }
     
-    public async Task<GetGameRoomEventsResponse> GetGameRoomEvents(string roomId)
+    public async Task<SubterfugeResponse<GetGameRoomEventsResponse>> GetGameRoomEvents(string roomId)
     {
-        Console.WriteLine("GetGameRoomEvents");
-        HttpResponseMessage response = await client.GetAsync($"api/room/{roomId}/events");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<GetGameRoomEventsResponse>();
+        return await client.Get<GetGameRoomEventsResponse>($"api/room/{roomId}/events", null);
     }
 
-    public async Task<SubmitGameEventResponse> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
+    public async Task<SubterfugeResponse<SubmitGameEventResponse>> SubmitGameEvent(SubmitGameEventRequest request, string roomId)
     {
-        Console.WriteLine("SubmitGameEvent");
-        HttpResponseMessage response = await client.PostAsJsonAsync($"api/room/{roomId}/events", request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<SubmitGameEventResponse>();
+        return await client.Post<SubmitGameEventRequest, SubmitGameEventResponse>($"api/room/{roomId}/events", request);
     }
 
-    public async Task<SubmitGameEventResponse> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
+    public async Task<SubterfugeResponse<SubmitGameEventResponse>> UpdateGameEvent(UpdateGameEventRequest request, string roomId, string eventGuid)
     {
-        Console.WriteLine("UpdateGameEvent");
-        HttpResponseMessage response = await client.PutAsJsonAsync($"api/room/{roomId}/events/{eventGuid}", request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<SubmitGameEventResponse>();
+        return await client.Put<UpdateGameEventRequest, SubmitGameEventResponse>($"api/room/{roomId}/events/{eventGuid}", request);
     }
 
-    public async Task<DeleteGameEventResponse> DeleteGameEvent(string roomId, string eventGuid)
+    public async Task<SubterfugeResponse<DeleteGameEventResponse>> DeleteGameEvent(string roomId, string eventGuid)
     {
-        Console.WriteLine("DeleteGameEvent");
-        HttpResponseMessage response = await client.DeleteAsync($"api/room/{roomId}/events/{eventGuid}");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw await SubterfugeClientException.CreateFromResponseMessage(response);
-        }
-        return await response.Content.ReadAsAsync<DeleteGameEventResponse>();
+        return await client.Delete<DeleteGameEventResponse>($"api/room/{roomId}/events/{eventGuid}", null);
     }
 }
