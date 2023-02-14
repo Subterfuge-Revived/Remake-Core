@@ -6,6 +6,7 @@ using SubterfugeCore.Core.Entities.Positions;
 using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
 using SubterfugeCore.Core.Entities.Specialists;
 using SubterfugeCore.Core.GameEvents.Base;
+using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
 using SubterfugeCore.Core.Generation;
 using SubterfugeCore.Core.Players;
 using SubterfugeCore.Core.Timing;
@@ -101,6 +102,13 @@ namespace SubterfugeCore.Core
         /// <returns>null if the game is not over, or the Player who has won if it is over.</returns>
         public Player IsGameOver()
         {
+            GameEndEvent? endEvent = (GameEndEvent)this.TimeMachine.GetPastEvents().FirstOrDefault(it => it is GameEndEvent);
+            if (endEvent != null)
+            {
+                return this.TimeMachine.GetState()
+                    .GetPlayers()
+                    .FirstOrDefault(player => player.GetId() == endEvent.GetEventData().WinningPlayer.Id);
+            }
             switch (GameMode)
             {
                 case GameMode.Mining:
