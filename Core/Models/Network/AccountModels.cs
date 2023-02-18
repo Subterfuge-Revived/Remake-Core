@@ -1,7 +1,7 @@
 ﻿#nullable enable
 using System.Collections.Generic;
 
-namespace SubterfugeCore.Models.GameEvents
+namespace Subterfuge.Remake.Api.Network
 {
 
     public class AuthorizationRequest

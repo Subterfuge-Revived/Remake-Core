@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SubterfugeCore.Models.GameEvents
+namespace Subterfuge.Remake.Api.Network
 {
     // IMPORTANT! If new event types are added, ensure that DbGameEvent implements a serializer for the event data when it reads stores to the DB
     public enum EventDataType

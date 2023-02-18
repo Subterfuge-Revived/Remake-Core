@@ -1,8 +1,8 @@
-﻿using SubterfugeCore.Models.GameEvents;
-using SubterfugeCore.Models.GameEvents.Api;
-using SubterfugeRestApiClient.controllers.Client;
+﻿using Subterfuge.Remake.Api.Client.controllers.Client;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Api.Network.Api;
 
-namespace SubterfugeRestApiClient.controllers.admin;
+namespace Subterfuge.Remake.Api.Client.controllers.admin;
 
 public class AdminClient : ISubterfugeAdminApi
 {

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using SubterfugeCore.Core.GameEvents.Base;
+﻿using System.Collections.Generic;
+using Subterfuge.Remake.Core.GameEvents.Base;
 
-namespace SubterfugeCore.Core.Timing
+namespace Subterfuge.Remake.Core.Timing
 {
     public class TimeMachine
     {

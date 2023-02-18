@@ -1,6 +1,6 @@
-﻿using SubterfugeCore.Models.GameEvents;
+﻿using Subterfuge.Remake.Api.Network;
 
-namespace SubterfugeDatabaseProvider.Models;
+namespace Subterfuge.Remake.Server.Database.Models;
 
 public class DbChatMessage
 {

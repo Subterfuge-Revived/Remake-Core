@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Config;
-using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Core.Topologies;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Config;
+using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.Entities.Specialists;
+using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
+using Subterfuge.Remake.Core.Topologies;
 
-namespace SubterfugeCore.Core.Generation
+namespace Subterfuge.Remake.Core.Generation
 {
     public class MapGenerator
     {

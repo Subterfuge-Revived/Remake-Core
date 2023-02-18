@@ -3,11 +3,11 @@ using System.Text.RegularExpressions;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Newtonsoft.Json;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeDatabaseProvider.Models;
-using SubterfugeServerConsole.Connections;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Server.Database;
+using Subterfuge.Remake.Server.Database.Models;
 
-namespace SubterfugeRestApiServer.Middleware;
+namespace Subterfuge.Remake.Server.Middleware;
 
 public class BanMiddleware
 {

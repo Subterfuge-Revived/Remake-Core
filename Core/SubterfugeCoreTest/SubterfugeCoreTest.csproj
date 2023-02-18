@@ -11,6 +11,8 @@
     <OutputType>Library</OutputType>
 
     <Nullable>enable</Nullable>
+
+    <RootNamespace>Subterfuge.Remake.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

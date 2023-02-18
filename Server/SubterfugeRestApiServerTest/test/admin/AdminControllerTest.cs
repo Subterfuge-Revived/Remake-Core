@@ -1,8 +1,7 @@
 ﻿using NUnit.Framework;
-using SubterfugeRestApiClient;
-using SubterfugeServerConsole.Connections;
+using Subterfuge.Remake.Server.Test.util;
 
-namespace SubterfugeRestApiServerTest.test.admin;
+namespace Subterfuge.Remake.Server.Test.test.admin;
 
 public class AdminControllerTest
 {

@@ -1,7 +1,8 @@
-﻿using SubterfugeCore.Models.GameEvents;
-using SubterfugeRestApiClient;
+﻿using Subterfuge.Remake.Api.Client;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Server.Database;
 
-namespace SubterfugeServerConsole.Connections;
+namespace Subterfuge.Remake.Server.Test.util;
 
 public class TestUtils
 {

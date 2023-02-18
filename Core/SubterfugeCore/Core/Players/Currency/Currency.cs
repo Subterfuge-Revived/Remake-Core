@@ -1,4 +1,4 @@
-﻿namespace SubterfugeCore.Core.Players.Currency
+﻿namespace Subterfuge.Remake.Core.Players.Currency
 {
     /// <summary>
 	/// A currency object. This is used by the CurrencyManager.

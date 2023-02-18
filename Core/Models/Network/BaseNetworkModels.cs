@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SubterfugeCore.Models.GameEvents
+namespace Subterfuge.Remake.Api.Network
 {
     public class ResponseStatus
     {

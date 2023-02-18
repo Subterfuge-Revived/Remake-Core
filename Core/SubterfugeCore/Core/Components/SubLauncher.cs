@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.EventArgs;
-using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
-using SubterfugeCore.Core.GameState;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
+using Subterfuge.Remake.Core.GameState;
 
-namespace SubterfugeCore.Core.Components
+namespace Subterfuge.Remake.Core.Components
 {
     public class SubLauncher : EntityComponent
     {

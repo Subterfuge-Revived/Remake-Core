@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SubterfugeCore.Core.Entities.Specialists.Effects;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Entities.Specialists.Effects;
+using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.Entities.Specialists
+namespace Subterfuge.Remake.Core.Entities.Specialists
 {
     public class SpecialistPool
     {

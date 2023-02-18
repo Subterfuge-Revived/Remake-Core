@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using SubterfugeCore.Core.Entities.Specialists.Effects;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Entities.Specialists.Effects;
+using Subterfuge.Remake.Core.Players;
 
-namespace SubterfugeCore.Core.Entities.Specialists
+namespace Subterfuge.Remake.Core.Entities.Specialists
 {
     /// <summary>
     /// Base class for a specialist.

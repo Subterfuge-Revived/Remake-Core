@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using SubterfugeCore.Core.Components;
+using Subterfuge.Remake.Core.Components;
 
-namespace SubterfugeCore.Core.Entities
+namespace Subterfuge.Remake.Core.Entities
 {
     public abstract class Entity : IEntity
     {

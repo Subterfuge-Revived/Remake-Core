@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeDatabaseProvider.Models;
-using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Responses;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Server.Database;
+using Subterfuge.Remake.Server.Database.Models;
 
-namespace SubterfugeRestApiServer.Middleware;
+namespace Subterfuge.Remake.Server.Middleware;
 
 public class ExceptionResponseMiddleware : ExceptionFilterAttribute
 {

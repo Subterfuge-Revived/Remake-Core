@@ -1,16 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.Timing;
-using System.Collections.Generic;
-using SubterfugeCore.Core;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.GameEvents;
-using SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Core.Topologies;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Subterfuge.Remake.Core;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat;
+using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
+using Subterfuge.Remake.Core.Topologies;
 
-namespace SubterfugeCoreTest
+namespace Subterfuge.Remake.Test
 {
     [TestClass]
     public class TimeMachineTest

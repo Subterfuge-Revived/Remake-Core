@@ -1,4 +1,4 @@
-﻿namespace SubterfugeServerConsole.Connections;
+﻿namespace Subterfuge.Remake.Server.Database;
 
 public class MongoConfiguration
 {

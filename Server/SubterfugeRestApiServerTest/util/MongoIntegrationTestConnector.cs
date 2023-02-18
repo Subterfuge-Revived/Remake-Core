@@ -1,8 +1,9 @@
 ﻿using System.Security.Cryptography;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeDatabaseProvider.Models;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Server.Database;
+using Subterfuge.Remake.Server.Database.Models;
 
-namespace SubterfugeServerConsole.Connections
+namespace Subterfuge.Remake.Server.Test.util
 {
     public class MongoIntegrationTestConnector
     {

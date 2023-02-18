@@ -1,7 +1,7 @@
-﻿using SubterfugeDatabaseProvider.Models;
-using SubterfugeServerConsole.Connections;
+﻿using Subterfuge.Remake.Server.Database;
+using Subterfuge.Remake.Server.Database.Models;
 
-namespace SubterfugeRestApiServer.Middleware;
+namespace Subterfuge.Remake.Server.Middleware;
 
 public class LoggingMiddleware
 {

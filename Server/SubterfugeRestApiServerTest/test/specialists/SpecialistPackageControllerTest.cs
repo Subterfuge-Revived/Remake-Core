@@ -1,8 +1,9 @@
 ﻿using NUnit.Framework;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeServerConsole.Connections;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Server.Test.util;
+using Subterfuge.Remake.Server.Test.util.account;
 
-namespace SubterfugeRestApiServerTest.test.specialists;
+namespace Subterfuge.Remake.Server.Test.test.specialists;
 
 public class SpecialistPackageControllerTest
 {
@@ -15,8 +16,8 @@ public class SpecialistPackageControllerTest
         TestUtils.Mongo.FlushAll();
         TestUtils.GetClient().UserApi.Logout();
 
-        _userTwo = await AccountUtils.AssertRegisterAccountAndAuthorized("UserTwo");
-        _userOne = await AccountUtils.AssertRegisterAccountAndAuthorized("UserOne");
+        _userTwo = (await AccountUtils.AssertRegisterAccountAndAuthorized("UserTwo"));
+        _userOne = (await AccountUtils.AssertRegisterAccountAndAuthorized("UserOne"));
     }
 
     [Test]

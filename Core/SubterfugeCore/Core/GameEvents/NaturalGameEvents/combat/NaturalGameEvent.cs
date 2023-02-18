@@ -1,8 +1,8 @@
 ﻿using System;
-using SubterfugeCore.Core.GameEvents.Base;
-using SubterfugeCore.Core.Timing;
+using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat
+namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
 {
     public abstract class NaturalGameEvent : GameEvent
     {

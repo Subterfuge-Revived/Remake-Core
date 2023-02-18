@@ -1,11 +1,10 @@
-﻿using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.GameEvents.Base;
-using SubterfugeCore.Core.Timing;
+﻿using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat
+namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
 {
     /// <summary>
     /// Friendly sub arrival

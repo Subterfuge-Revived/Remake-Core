@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.GameEvents.Base;
-using SubterfugeCore.Core.GameEvents.Validators;
-using SubterfugeCore.Core.Timing;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Specialists;
+using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.Validators;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat
+namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
 {
     /// <summary>
     /// Performs specialist combat

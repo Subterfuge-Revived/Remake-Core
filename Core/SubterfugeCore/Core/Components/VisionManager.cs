@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.EventArgs;
-using SubterfugeCore.Core.GameState;
-using SubterfugeCore.Core.Timing;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.GameState;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.Components
+namespace Subterfuge.Remake.Core.Components
 {
     public class VisionManager : EntityComponent
     {

@@ -1,6 +1,6 @@
-﻿using SubterfugeCore.Core.Components;
+﻿using Subterfuge.Remake.Core.Components;
 
-namespace SubterfugeCore.Core.EventArgs
+namespace Subterfuge.Remake.Core.EventArgs
 {
     public class OnSpeedChangedEventArgs : System.EventArgs
     {

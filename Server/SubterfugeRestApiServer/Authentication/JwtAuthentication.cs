@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace SubterfugeRestApiServer.Authentication;
+namespace Subterfuge.Remake.Server.Authentication;
 
 public class JwtAuthenticationScheme
 {

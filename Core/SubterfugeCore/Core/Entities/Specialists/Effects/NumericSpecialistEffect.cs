@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using SubterfugeCore.Core.Components;
+using Subterfuge.Remake.Core.Components;
 
-namespace SubterfugeCore.Core.Entities.Specialists.Effects
+namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
 {
     public class NumericSpecialistEffect : SpecialistEffect
     {

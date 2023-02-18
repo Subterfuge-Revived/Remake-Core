@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeCore.Models.GameEvents.Api;
-using SubterfugeDatabaseProvider.Models;
-using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Responses;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Api.Network.Api;
+using Subterfuge.Remake.Server.Database;
+using Subterfuge.Remake.Server.Database.Models;
 
-namespace SubterfugeRestApiServer.specialists;
+namespace Subterfuge.Remake.Server.Controllers.specialists;
 
 [ApiController]
 [Authorize]

@@ -1,7 +1,7 @@
 ﻿using System;
-using SubterfugeCore.Core.Entities;
+using Subterfuge.Remake.Core.Entities;
 
-namespace SubterfugeCore.Core.Components
+namespace Subterfuge.Remake.Core.Components
 {
     public class IdentityManager : EntityComponent
     {

@@ -1,8 +1,8 @@
 ﻿using System;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.EventArgs;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.EventArgs;
 
-namespace SubterfugeCore.Core.Components
+namespace Subterfuge.Remake.Core.Components
 {
     public class ShieldManager : EntityComponent
     {

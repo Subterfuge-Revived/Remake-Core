@@ -1,4 +1,4 @@
-namespace SubterfugeCore.Core.Topologies
+namespace Subterfuge.Remake.Core.Topologies
 {
 	/// <summary>
 	/// A rectangular flat torus map. Contains height, width.

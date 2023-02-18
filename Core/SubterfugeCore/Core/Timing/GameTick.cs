@@ -1,7 +1,7 @@
 ﻿using System;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
 
-namespace SubterfugeCore.Core.Timing
+namespace Subterfuge.Remake.Core.Timing
 {
     /// <summary>
     /// GameTick class to more easily go to and from the current DateTime/TimeStamp to in-game ticks

@@ -1,6 +1,6 @@
-﻿using SubterfugeCore.Models.GameEvents;
+﻿using Subterfuge.Remake.Api.Network;
 
-namespace SubterfugeServerConsole.Responses
+namespace Subterfuge.Remake.Server.Controllers
 {
     public class ResponseFactory
     {

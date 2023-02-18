@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.EventArgs;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.EventArgs;
 
-namespace SubterfugeCoreTest.Core.Components
+namespace Subterfuge.Remake.Test.Core.Components
 {
     [TestClass]
     public class ShieldManagerTest

@@ -1,9 +1,10 @@
-﻿using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat;
-using SubterfugeCore.Core.Timing;
+﻿using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
+namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.outpost
 {
 	/// <summary>
 	/// Factory Production cycle
@@ -14,7 +15,7 @@ namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
 		private int _productionAmount;
 		private FactoryProduction _nextProduction;
 
-		public FactoryProduction(Factory factory, GameTick occursAt) : base(occursAt, Base.Priority.NaturalPriority9)
+		public FactoryProduction(Factory factory, GameTick occursAt) : base(occursAt, Priority.NaturalPriority9)
 		{
 			this._producingFactory = factory;
 			this._nextProduction = null;

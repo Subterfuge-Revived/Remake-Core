@@ -1,7 +1,7 @@
 ﻿using System;
-using SubterfugeCore.Core.Timing;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.Base
+namespace Subterfuge.Remake.Core.GameEvents.Base
 {
     /// <summary>
     /// An instave of a GameEvent that can be added to the TimeMachine.

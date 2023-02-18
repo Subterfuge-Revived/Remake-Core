@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace SubterfugeRestApiServer.Authentication
+namespace Subterfuge.Remake.Server.Database
 {
     public class JwtManager
     {

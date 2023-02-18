@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace SubterfugeCore.Core.Players.Currency
+namespace Subterfuge.Remake.Core.Players.Currency
 {
 	public class CurrencyManager
 	{
 		/// <summary>
 		/// A table of all the player's currencies
 		/// </summary>
-		private readonly Dictionary<CurrencyType, Currency> _currencies = new Dictionary<CurrencyType, Currency>();
+		private readonly Dictionary<CurrencyType, Subterfuge.Remake.Core.Players.Currency.Currency> _currencies = new Dictionary<CurrencyType, Subterfuge.Remake.Core.Players.Currency.Currency>();
 
 		/// <summary>
 		/// Creates a new currency as long as one with the same name doesn't already exist. Returns false if failed.
@@ -20,7 +20,7 @@ namespace SubterfugeCore.Core.Players.Currency
 		{
 			if (_currencies.ContainsKey(currencyType) == false)
 			{
-				Currency newCurrency = new Currency(currencyValue, canBeNegative);
+				Subterfuge.Remake.Core.Players.Currency.Currency newCurrency = new Subterfuge.Remake.Core.Players.Currency.Currency(currencyValue, canBeNegative);
 				_currencies.Add(currencyType, newCurrency);
 				return true; // Return true if the value was successfully created
 			}

@@ -1,4 +1,4 @@
-﻿namespace SubterfugeCore.Core
+﻿namespace Subterfuge.Remake.Core
 {
     /// <summary>
     /// List of all possible Subterfuge game modes.

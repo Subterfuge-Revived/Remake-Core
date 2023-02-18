@@ -1,10 +1,10 @@
-﻿using System.Net;
-using NUnit.Framework;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeRestApiClient;
-using SubterfugeServerConsole.Connections;
+﻿using NUnit.Framework;
+using Subterfuge.Remake.Api.Client;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Server.Test.util;
+using Subterfuge.Remake.Server.Test.util.account;
 
-namespace SubterfugeRestApiServerTest.test.health;
+namespace Subterfuge.Remake.Server.Test.test.health;
 
 public class HealthControllerTest
 {

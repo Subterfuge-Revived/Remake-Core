@@ -1,6 +1,6 @@
-﻿using SubterfugeCore.Core.Timing;
+﻿using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.Base
+namespace Subterfuge.Remake.Core.GameEvents.Base
 {
     /// <summary>
     /// Any reversible action

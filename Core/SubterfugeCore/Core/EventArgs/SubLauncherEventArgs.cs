@@ -1,7 +1,7 @@
-﻿using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
+﻿using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 
-namespace SubterfugeCore.Core.EventArgs
+namespace Subterfuge.Remake.Core.EventArgs
 {
     public class OnSubLaunchEventArgs : System.EventArgs
     {

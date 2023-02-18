@@ -1,13 +1,12 @@
-﻿using System.Net.Http.Headers;
-using SubterfugeRestApiClient.controllers.account;
-using SubterfugeRestApiClient.controllers.admin;
-using SubterfugeRestApiClient.controllers.Client;
-using SubterfugeRestApiClient.controllers.game;
-using SubterfugeRestApiClient.controllers.health;
-using SubterfugeRestApiClient.controllers.social;
-using SubterfugeRestApiClient.controllers.specialists;
+﻿using Subterfuge.Remake.Api.Client.controllers.account;
+using Subterfuge.Remake.Api.Client.controllers.admin;
+using Subterfuge.Remake.Api.Client.controllers.Client;
+using Subterfuge.Remake.Api.Client.controllers.game;
+using Subterfuge.Remake.Api.Client.controllers.health;
+using Subterfuge.Remake.Api.Client.controllers.social;
+using Subterfuge.Remake.Api.Client.controllers.specialists;
 
-namespace SubterfugeRestApiClient
+namespace Subterfuge.Remake.Api.Client
 {
     public class SubterfugeClient
     {

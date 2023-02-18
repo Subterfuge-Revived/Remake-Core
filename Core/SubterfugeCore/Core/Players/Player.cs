@@ -1,8 +1,8 @@
-﻿using SubterfugeCore.Core.Config;
-using SubterfugeCore.Core.Players.Currency;
-using SubterfugeCore.Models.GameEvents;
+﻿using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Config;
+using Subterfuge.Remake.Core.Players.Currency;
 
-namespace SubterfugeCore.Core.Players
+namespace Subterfuge.Remake.Core.Players
 {
     /// <summary>
     /// An instance of a player
@@ -12,7 +12,7 @@ namespace SubterfugeCore.Core.Players
         /// <summary>
         /// The name or alias of the player
         /// </summary>
-        private string PlayerName { get;  }
+        private string PlayerName { get; }
 
         /// <summary>
         /// The player's id

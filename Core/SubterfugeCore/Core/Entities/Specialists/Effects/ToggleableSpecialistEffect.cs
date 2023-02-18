@@ -1,4 +1,4 @@
-﻿namespace SubterfugeCore.Core.Entities.Specialists.Effects
+﻿namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
 {
     public abstract class ToggleableSpecialistEffect : SpecialistEffect
     {

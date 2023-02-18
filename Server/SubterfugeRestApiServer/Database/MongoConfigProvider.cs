@@ -1,6 +1,4 @@
-﻿using SubterfugeServerConsole.Connections;
-
-namespace SubterfugeRestApiServer.Database;
+﻿namespace Subterfuge.Remake.Server.Database;
 
 public class MongoConfigProvider : IMongoConfigurationProvider
 {

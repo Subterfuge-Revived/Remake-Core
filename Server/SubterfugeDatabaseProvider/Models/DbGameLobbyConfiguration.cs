@@ -1,9 +1,8 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeServerConsole.Connections;
+using Subterfuge.Remake.Api.Network;
 
-namespace SubterfugeDatabaseProvider.Models;
+namespace Subterfuge.Remake.Server.Database.Models;
 
 public class DbGameLobbyConfiguration
 {

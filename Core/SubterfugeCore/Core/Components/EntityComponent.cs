@@ -1,6 +1,6 @@
-﻿using SubterfugeCore.Core.Entities;
+﻿using Subterfuge.Remake.Core.Entities;
 
-namespace SubterfugeCore.Core.Components
+namespace Subterfuge.Remake.Core.Components
 {
 
     public abstract class EntityComponent

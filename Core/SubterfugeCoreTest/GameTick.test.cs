@@ -1,13 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using SubterfugeCore.Core;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Models.GameEvents;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core;
+using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
-
-namespace SubterfugeCoreTest
+namespace Subterfuge.Remake.Test
 {
     [TestClass]
     public class GameTickTest

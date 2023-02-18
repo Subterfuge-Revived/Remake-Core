@@ -1,7 +1,6 @@
-﻿using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities;
+﻿using Subterfuge.Remake.Core.Components;
 
-namespace SubterfugeCore.Core.EventArgs
+namespace Subterfuge.Remake.Core.EventArgs
 {
     public class OnShieldEnableEventArgs : System.EventArgs
     {
