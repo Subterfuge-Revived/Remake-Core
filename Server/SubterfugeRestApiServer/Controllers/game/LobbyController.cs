@@ -4,15 +4,13 @@ using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Newtonsoft.Json;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeCore.Models.GameEvents.Api;
-using SubterfugeDatabaseProvider.Models;
-using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Connections.Collections;
-using SubterfugeServerConsole.Responses;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Api.Network.Api;
+using Subterfuge.Remake.Core.Timing;
+using Subterfuge.Remake.Server.Database;
+using Subterfuge.Remake.Server.Database.Models;
 
-namespace SubterfugeRestApiServer;
+namespace Subterfuge.Remake.Server.Controllers.game;
 
 [ApiController]
 [Authorize]

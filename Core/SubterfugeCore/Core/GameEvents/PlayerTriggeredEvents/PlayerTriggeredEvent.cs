@@ -1,10 +1,10 @@
 ﻿using System;
-using SubterfugeCore.Core.GameEvents.Base;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
+namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 {
     public abstract class PlayerTriggeredEvent : GameEvent
     {

@@ -1,8 +1,7 @@
 ﻿using NUnit.Framework;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeServerConsole.Connections;
+using Subterfuge.Remake.Api.Network;
 
-namespace SubterfugeRestApiServerTest;
+namespace Subterfuge.Remake.Server.Test.util.account;
 
 public class AccountUtils
 {

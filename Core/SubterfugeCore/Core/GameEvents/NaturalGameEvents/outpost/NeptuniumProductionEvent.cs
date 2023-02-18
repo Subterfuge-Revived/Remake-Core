@@ -1,10 +1,10 @@
-﻿using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.GameEvents.Base;
-using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat;
-using SubterfugeCore.Core.Timing;
+﻿using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost
+namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.outpost
 {
 	public class NeptuniumProductionEvent : NaturalGameEvent
 	{

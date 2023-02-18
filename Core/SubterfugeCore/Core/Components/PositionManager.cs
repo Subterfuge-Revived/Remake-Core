@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Numerics;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Core.Topologies;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Timing;
+using Subterfuge.Remake.Core.Topologies;
 
-namespace SubterfugeCore.Core.Components
+namespace Subterfuge.Remake.Core.Components
 {
     public class PositionManager : EntityComponent
     {

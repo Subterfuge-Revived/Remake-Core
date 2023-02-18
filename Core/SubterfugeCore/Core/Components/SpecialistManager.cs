@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.EventArgs;
-using SubterfugeCore.Core.Players;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Specialists;
+using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.Players;
 
-namespace SubterfugeCore.Core.Components
+namespace Subterfuge.Remake.Core.Components
 {
     /// <summary>
     /// Specialist management class to facilitate adding and removing specialists from ISpecialistCarrier classes.

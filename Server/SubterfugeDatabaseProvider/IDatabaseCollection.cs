@@ -2,7 +2,7 @@
 using MongoDB.Driver.Linq;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace SubterfugeServerConsole.Connections;
+namespace Subterfuge.Remake.Server.Database;
 
 public interface IGenericDatabaseCollection
 {

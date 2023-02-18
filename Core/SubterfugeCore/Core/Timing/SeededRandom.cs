@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SubterfugeCore.Core.Timing
+namespace Subterfuge.Remake.Core.Timing
 {
     /// <summary>
     /// Seeded random class to ensure that all randomization within the game is done from the same randomizer.

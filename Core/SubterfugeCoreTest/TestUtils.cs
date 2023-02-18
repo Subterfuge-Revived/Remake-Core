@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Players;
 
-namespace SubterfugeCoreTest
+namespace Subterfuge.Remake.Test
 {
     public class TestUtils
     {

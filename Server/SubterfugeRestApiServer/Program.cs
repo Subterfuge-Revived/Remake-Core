@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
-using SubterfugeRestApiServer.Authentication;
-using SubterfugeRestApiServer.Database;
-using SubterfugeRestApiServer.Middleware;
-using SubterfugeServerConsole.Connections;
+using Subterfuge.Remake.Server.Authentication;
+using Subterfuge.Remake.Server.Database;
+using Subterfuge.Remake.Server.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.GameEvents.Base;
-using SubterfugeCore.Core.GameEvents.NaturalGameEvents.combat;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
+namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 {
     /// <summary>
     /// The event to launch a new sub. Create a new instance and add it to the time machine with `Game.timeMachine.add()`

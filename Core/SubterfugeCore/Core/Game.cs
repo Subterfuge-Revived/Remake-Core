@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Config;
-using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
-using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.GameEvents.Base;
-using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
-using SubterfugeCore.Core.Generation;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Config;
+using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.Entities.Specialists;
+using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.outpost;
+using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
+using Subterfuge.Remake.Core.Generation;
+using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core
+namespace Subterfuge.Remake.Core
 {
     /**
      * This game server class will hold all of the game logic.
@@ -45,6 +45,8 @@ namespace SubterfugeCore.Core
         /// This includes things like outpost generation and specialist pool randomization.
         /// </summary>
         public SeededRandom SeededRandom;
+        
+        public string GameVersion { get; private set; }
 
         /// <summary>
         /// Creates a new game using the provided GameConfiguration. Calling this constructor will trigger
@@ -54,6 +56,7 @@ namespace SubterfugeCore.Core
         public Game(GameConfiguration gameConfiguration)
         {
             SeededRandom = new SeededRandom(gameConfiguration.MapConfiguration.Seed);
+            GameVersion = gameConfiguration.GameVersion;
             
             // Creates a new game state and makes a time machine to reference the state
             GameState.GameState state = new GameState.GameState(gameConfiguration);

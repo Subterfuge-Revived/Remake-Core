@@ -1,7 +1,7 @@
-﻿using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities.Specialists;
+﻿using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities.Specialists;
 
-namespace SubterfugeCore.Core.EventArgs
+namespace Subterfuge.Remake.Core.EventArgs
 {
     public class OnAddSpecialistEventArgs
     {

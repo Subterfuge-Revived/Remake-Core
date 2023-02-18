@@ -1,4 +1,4 @@
-﻿namespace SubterfugeRestApiServer;
+﻿namespace Subterfuge.Remake.Server.Controllers.account;
 
 public class TwilioConfig
 {

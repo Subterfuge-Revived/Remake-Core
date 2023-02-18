@@ -1,8 +1,9 @@
 ﻿using NUnit.Framework;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeServerConsole.Connections;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Server.Test.util;
+using Subterfuge.Remake.Server.Test.util.account;
 
-namespace SubterfugeRestApiServerTest.test.social;
+namespace Subterfuge.Remake.Server.Test.test.social;
 
 public class SocialControllerFriendTest
 {

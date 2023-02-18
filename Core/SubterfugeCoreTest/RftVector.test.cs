@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SubterfugeCore.Core.Topologies;
+using Subterfuge.Remake.Core.Topologies;
 
-namespace SubterfugeCoreTest
+namespace Subterfuge.Remake.Test
 {
     [TestClass]
     public class RftVectorTest

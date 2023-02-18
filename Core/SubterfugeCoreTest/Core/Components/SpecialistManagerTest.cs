@@ -2,13 +2,13 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.EventArgs;
-using SubterfugeCore.Core.Players;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Specialists;
+using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.Players;
 
-namespace SubterfugeCoreTest.Core.Components
+namespace Subterfuge.Remake.Test.Core.Components
 {
     [TestClass]
     public class SpecialistManagerTest

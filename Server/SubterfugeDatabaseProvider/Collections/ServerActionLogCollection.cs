@@ -1,9 +1,8 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeDatabaseProvider.Models;
+using Subterfuge.Remake.Server.Database.Models;
 
-namespace SubterfugeServerConsole.Connections.Collections;
+namespace Subterfuge.Remake.Server.Database.Collections;
 
 public class ServerActionLogCollection : IDatabaseCollection<DbServerAction>
 {

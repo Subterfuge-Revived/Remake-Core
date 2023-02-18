@@ -1,8 +1,7 @@
 ﻿#nullable enable
-using System;
 using System.Threading.Tasks;
 
-namespace SubterfugeCore.Models.GameEvents.Api
+namespace Subterfuge.Remake.Api.Network.Api
 {
     /// <summary>
     /// Perform account operations

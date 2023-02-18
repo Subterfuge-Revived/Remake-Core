@@ -1,4 +1,4 @@
-﻿namespace SubterfugeCore.Core.Generation
+﻿namespace Subterfuge.Remake.Core.Generation
 {
     public class IdGenerator
     {

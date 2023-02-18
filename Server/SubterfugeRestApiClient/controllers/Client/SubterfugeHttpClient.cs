@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.WebUtilities;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
 
-namespace SubterfugeRestApiClient.controllers.Client;
+namespace Subterfuge.Remake.Api.Client.controllers.Client;
 
 public class SubterfugeHttpClient
 {

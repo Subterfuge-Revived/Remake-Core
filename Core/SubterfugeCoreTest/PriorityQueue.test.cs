@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SubterfugeCore.Core.Timing;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCoreTest
+namespace Subterfuge.Remake.Test
 {
     [TestClass]
     public class PriorityQueueTest

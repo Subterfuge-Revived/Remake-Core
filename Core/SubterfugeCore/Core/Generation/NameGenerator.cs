@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SubterfugeCore.Core.Timing;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.Generation
+namespace Subterfuge.Remake.Core.Generation
 {
     public class NameGenerator
     {

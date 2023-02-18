@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SubterfugeCore.Models.GameEvents
+namespace Subterfuge.Remake.Api.Network
 {
     // This data structure is ONLY for administrators.
     // Players will NOT get this information.

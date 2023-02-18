@@ -1,6 +1,6 @@
-﻿using SubterfugeCore.Models.GameEvents;
+﻿using Subterfuge.Remake.Api.Network;
 
-namespace SubterfugeCore.Core.Entities.Specialists.Effects
+namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
 {
     /// <summary>
     /// A factory to create new specialist effects.

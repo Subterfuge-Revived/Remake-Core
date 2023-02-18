@@ -1,10 +1,10 @@
-﻿using MongoDB.Bson.IO;
-using NUnit.Framework;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeRestApiClient;
-using SubterfugeServerConsole.Connections;
+﻿using NUnit.Framework;
+using Subterfuge.Remake.Api.Client;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Server.Test.util;
+using Subterfuge.Remake.Server.Test.util.account;
 
-namespace SubterfugeRestApiServerTest.test;
+namespace Subterfuge.Remake.Server.Test.test;
 
 public class DatabaseSeeder
 {

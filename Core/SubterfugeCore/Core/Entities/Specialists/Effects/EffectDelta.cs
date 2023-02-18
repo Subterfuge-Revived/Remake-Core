@@ -1,7 +1,7 @@
-﻿using SubterfugeCore.Core.Components;
-using SubterfugeCore.Models.GameEvents;
+﻿using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Components;
 
-namespace SubterfugeCore.Core.Entities.Specialists.Effects
+namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
 {
     /// <summary>
     /// An effect delta. This is a single addition or subtraction to apply.

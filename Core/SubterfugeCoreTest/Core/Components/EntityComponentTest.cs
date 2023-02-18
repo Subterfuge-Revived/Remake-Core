@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities;
 
-namespace SubterfugeCoreTest.Core.Components
+namespace Subterfuge.Remake.Test.Core.Components
 {
     [TestClass]
     public class EntityComponentTest

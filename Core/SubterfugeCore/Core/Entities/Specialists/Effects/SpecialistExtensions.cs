@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities.Positions;
 
-namespace SubterfugeCore.Core.Entities.Specialists.Effects
+namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
 {
     public static class SpecialistExtensions
     {

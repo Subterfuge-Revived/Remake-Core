@@ -1,8 +1,7 @@
-﻿using SubterfugeCore.Core.Config;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Core.Topologies;
+﻿using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Topologies;
 
-namespace SubterfugeCore.Core.Entities.Positions
+namespace Subterfuge.Remake.Core.Entities.Positions
 {
 	public class Generator : Outpost
 	{

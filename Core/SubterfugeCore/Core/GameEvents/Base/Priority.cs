@@ -1,4 +1,4 @@
-﻿namespace SubterfugeCore.Core.GameEvents.Base
+﻿namespace Subterfuge.Remake.Core.GameEvents.Base
 {
     public enum Priority
     {

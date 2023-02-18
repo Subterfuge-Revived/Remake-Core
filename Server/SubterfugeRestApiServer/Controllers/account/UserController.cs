@@ -6,16 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeCore.Models.GameEvents.Api;
-using SubterfugeDatabaseProvider.Models;
-using SubterfugeRestApiServer.Authentication;
-using SubterfugeServerConsole.Connections;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Api.Network.Api;
+using Subterfuge.Remake.Server.Database;
+using Subterfuge.Remake.Server.Database.Models;
 using Twilio;
 using Twilio.Rest.Lookups.V2;
 using Twilio.Rest.Verify.V2.Service;
 
-namespace SubterfugeRestApiServer;
+namespace Subterfuge.Remake.Server.Controllers.account;
 
 [ApiController]
 [Route("api/user/")]

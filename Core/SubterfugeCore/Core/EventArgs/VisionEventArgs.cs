@@ -1,7 +1,7 @@
-﻿using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities;
+﻿using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities;
 
-namespace SubterfugeCore.Core.EventArgs
+namespace Subterfuge.Remake.Core.EventArgs
 {
     public class OnVisionRangeChangeEventArgs : System.EventArgs
     {

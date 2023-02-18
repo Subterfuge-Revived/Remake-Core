@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>10</LangVersion>
+        <RootNamespace>Subterfuge.Remake.Server</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

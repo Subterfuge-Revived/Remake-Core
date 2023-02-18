@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeDatabaseProvider.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Subterfuge.Remake.Api.Network;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace SubterfugeRestApiServer.Middleware;
+namespace Subterfuge.Remake.Server.Middleware;
 
 public class ErrorResponseMapper
 {

@@ -1,7 +1,7 @@
 using System;
 using System.Numerics;
 
-namespace SubterfugeCore.Core.Topologies
+namespace Subterfuge.Remake.Core.Topologies
 {
 	
 	/// <summary>

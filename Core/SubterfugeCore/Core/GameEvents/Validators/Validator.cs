@@ -1,9 +1,9 @@
-﻿using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Positions;
+﻿using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.Entities.Specialists;
 
-namespace SubterfugeCore.Core.GameEvents.Validators
+namespace Subterfuge.Remake.Core.GameEvents.Validators
 {
     /// <summary>
     /// Validation object to ensure that objects exists and are properly created.

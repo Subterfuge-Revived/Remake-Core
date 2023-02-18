@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeCore.Models.GameEvents.Api;
-using SubterfugeDatabaseProvider.Models;
-using SubterfugeServerConsole.Responses;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Api.Network.Api;
+using Subterfuge.Remake.Server.Database.Models;
 
-namespace SubterfugeRestApiServer.health;
+namespace Subterfuge.Remake.Server.Controllers.health;
 
 [ApiController]
 [Route("api/[controller]/[action]")]

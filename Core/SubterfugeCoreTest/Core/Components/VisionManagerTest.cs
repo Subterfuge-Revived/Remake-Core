@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SubterfugeCore.Core;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.EventArgs;
-using SubterfugeCore.Core.GameState;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Core.Topologies;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.GameState;
+using Subterfuge.Remake.Core.Timing;
+using Subterfuge.Remake.Core.Topologies;
 
-namespace SubterfugeCoreTest.Core.Components
+namespace Subterfuge.Remake.Test.Core.Components
 {
     [TestClass]
     public class VisionManagerTest

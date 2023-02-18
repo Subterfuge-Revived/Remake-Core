@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SubterfugeCore.Core;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Config;
-using SubterfugeCore.Core.GameEvents.Base;
-using SubterfugeCore.Core.Entities.Positions;
-using SubterfugeCore.Core.GameEvents.NaturalGameEvents.outpost;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Config;
+using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.outpost;
+using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCoreTest
+namespace Subterfuge.Remake.Test
 {
 	[TestClass]
 	public class FactoryTest

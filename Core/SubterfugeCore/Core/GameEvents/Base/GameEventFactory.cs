@@ -1,7 +1,7 @@
-﻿using SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents;
-using SubterfugeCore.Models.GameEvents;
+﻿using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 
-namespace SubterfugeCore.Core.GameEvents.Base
+namespace Subterfuge.Remake.Core.GameEvents.Base
 {
     public static class GameEventFactory
     {

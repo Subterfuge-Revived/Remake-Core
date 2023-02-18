@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SubterfugeCore.Core.Generation;
-using SubterfugeCore.Core.Timing;
+using Subterfuge.Remake.Core.Generation;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCoreTest
+namespace Subterfuge.Remake.Test
 {
     [TestClass]
     public class NameGeneratorTest

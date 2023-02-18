@@ -7,7 +7,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SubterfugeCore.Core.Timing
+namespace Subterfuge.Remake.Core.Timing
 {
     /// <summary>
     /// Priority Queue data structure

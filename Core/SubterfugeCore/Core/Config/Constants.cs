@@ -1,4 +1,4 @@
-namespace SubterfugeCore.Core.Config
+namespace Subterfuge.Remake.Core.Config
 {
     /// <summary>
     /// A Collection of Constants like player base stats etc.

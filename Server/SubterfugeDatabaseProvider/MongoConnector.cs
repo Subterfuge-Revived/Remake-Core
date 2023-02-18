@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeDatabaseProvider.Models;
-using SubterfugeRestApiServer.Authentication;
-using SubterfugeServerConsole.Connections.Collections;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Server.Database.Collections;
+using Subterfuge.Remake.Server.Database.Models;
 
-namespace SubterfugeServerConsole.Connections
+namespace Subterfuge.Remake.Server.Database
 {
     public class MongoConnector : IDatabaseCollectionProvider
     {

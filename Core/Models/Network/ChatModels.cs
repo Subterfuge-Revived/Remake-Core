@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace SubterfugeCore.Models.GameEvents
+namespace Subterfuge.Remake.Api.Network
 {
 
     public class MessageGroup

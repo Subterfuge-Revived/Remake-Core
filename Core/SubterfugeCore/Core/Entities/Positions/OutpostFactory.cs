@@ -1,10 +1,10 @@
 ﻿using System;
-using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Config;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Core.Topologies;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Config;
+using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Topologies;
 
-namespace SubterfugeCore.Core.Entities.Positions
+namespace Subterfuge.Remake.Core.Entities.Positions
 {
     public class OutpostFactory
     {

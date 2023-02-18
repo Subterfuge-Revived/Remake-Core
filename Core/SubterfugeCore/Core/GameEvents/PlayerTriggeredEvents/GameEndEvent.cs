@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using SubterfugeCore.Core.Timing;
-using SubterfugeCore.Models.GameEvents;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.GameEvents.PlayerTriggeredEvents
+namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 {
     public class GameEndEvent : PlayerTriggeredEvent
     {

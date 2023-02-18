@@ -1,10 +1,9 @@
-﻿using SubterfugeCore.Core.Components;
-using SubterfugeCore.Core.Config;
-using SubterfugeCore.Core.Entities.Specialists;
-using SubterfugeCore.Core.Players;
-using SubterfugeCore.Core.Timing;
+﻿using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Config;
+using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
-namespace SubterfugeCore.Core.Entities
+namespace Subterfuge.Remake.Core.Entities
 {
     /// <summary>
     /// An instance of a Sub

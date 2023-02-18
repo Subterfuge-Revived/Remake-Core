@@ -1,11 +1,9 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Internal;
-using SubterfugeCore.Models.GameEvents;
-using SubterfugeDatabaseProvider.Models;
-using SubterfugeRestApiClient;
-using SubterfugeServerConsole.Connections;
+using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Server.Test.util;
+using Subterfuge.Remake.Server.Test.util.account;
 
-namespace SubterfugeRestApiServerTest.test.specialists;
+namespace Subterfuge.Remake.Server.Test.test.specialists;
 
 public class SpecialistConfigurationControllerTest
 {

@@ -1,9 +1,8 @@
 ﻿using MongoDB.Driver.Linq;
-using SubterfugeDatabaseProvider.Models;
-using SubterfugeServerConsole.Connections;
-using SubterfugeServerConsole.Connections.Collections;
+using Subterfuge.Remake.Server.Database;
+using Subterfuge.Remake.Server.Database.Models;
 
-namespace SubterfugeRestApiServer.Middleware;
+namespace Subterfuge.Remake.Server.Middleware;
 
 // Middleware to set a DbUserModel if the JWT token is set.
 public class JwtMiddleware

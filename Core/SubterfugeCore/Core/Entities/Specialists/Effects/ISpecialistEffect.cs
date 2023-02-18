@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SubterfugeCore.Core.Entities.Specialists.Effects
+namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
 {
     public interface ISpecialistEffect
     {

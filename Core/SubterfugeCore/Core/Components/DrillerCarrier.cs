@@ -1,7 +1,7 @@
-﻿using SubterfugeCore.Core.Entities;
-using SubterfugeCore.Core.Players;
+﻿using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Players;
 
-namespace SubterfugeCore.Core.Components
+namespace Subterfuge.Remake.Core.Components
 {
     public class DrillerCarrier : EntityComponent
     {
