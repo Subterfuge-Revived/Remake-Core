@@ -12,17 +12,31 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
     public class CombatCleanup : IReversible
     {
 
-        private readonly Entity _winner;
-        private readonly Entity _loser;
+        public readonly IEntity _winner;
+        public readonly IEntity _loser;
         private bool _isSuccess;
-        private readonly bool _isTie;
+        public readonly bool _isTie;
 
-        private readonly int _initialLoserDrillerCount;
-        private readonly Player _losingPlayer;
-        private List<Specialist> _loserSpecialists;
+        public readonly int _initialLoserDrillerCount;
+        public readonly Player _losingPlayer;
+        public List<Specialist> _loserSpecialists;
 
-        public CombatCleanup(Entity combatant1, Entity combatant2)
+        public CombatCleanup(IEntity combatant1, IEntity combatant2)
         {
+            if (combatant1.GetComponent<DrillerCarrier>().GetOwner().Equals(combatant2.GetComponent<DrillerCarrier>().GetOwner()))
+            {
+                // Friendly sub combat
+                Outpost _outpost = combatant1 as Outpost;
+                if (_outpost == null)
+                {
+                    _outpost = combatant2 as Outpost;
+                }
+
+                _winner = _outpost;
+                _loser = null;
+                return;
+            }
+            
             // Determine the losing sub:
             if (combatant1.GetComponent<DrillerCarrier>().GetDrillerCount() < combatant2.GetComponent<DrillerCarrier>().GetDrillerCount())
             {

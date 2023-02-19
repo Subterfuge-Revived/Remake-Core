@@ -9,7 +9,7 @@ namespace Subterfuge.Remake.Core.Components
 {
     public class MineProductionComponent : EntityComponent
     {
-	    private MineProducer MineProducer;
+	    public MineProducer MineProducer;
 		    
 	    public MineProductionComponent(
             IEntity parent,

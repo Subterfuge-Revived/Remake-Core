@@ -13,8 +13,8 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
     /// </summary>
     public class SpecialistCombat : IReversible
     {
-        private readonly Entity _combatant1;
-        private readonly Entity _combatant2;
+        private readonly IEntity _combatant1;
+        private readonly IEntity _combatant2;
         private bool _eventSuccess;
 
         private List<Specialist> _combatant1Specialists = new List<Specialist>();
@@ -25,7 +25,7 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         /// </summary>
         /// <param name="combatant1">Combatant 1</param>
         /// <param name="combatant2">Combatant 2</param>
-        public SpecialistCombat(Entity combatant1, Entity combatant2)
+        public SpecialistCombat(IEntity combatant1, IEntity combatant2)
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
@@ -58,8 +58,8 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
                     }
                 }
                 // Apply the specialist effect to the enemey.
-                Entity enemy = topPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == topPriority.GetOwner() ? _combatant2 : _combatant1;
-                Entity friendly = topPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == topPriority.GetOwner() ? _combatant1 : _combatant2;
+                IEntity enemy = topPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == topPriority.GetOwner() ? _combatant2 : _combatant1;
+                IEntity friendly = topPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == topPriority.GetOwner() ? _combatant1 : _combatant2;
                 if (topPriority != null) topPriority.ApplyEffect(state, friendly, enemy);
             }
             return true;
@@ -87,8 +87,8 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
                     }
                 }
                 // Apply the specialist effect to the enemey.
-                Entity enemy = lowPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == lowPriority.GetOwner() ? _combatant2 : _combatant1;
-                Entity friendly = lowPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == lowPriority.GetOwner() ? _combatant1 : _combatant2;
+                IEntity enemy = lowPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == lowPriority.GetOwner() ? _combatant2 : _combatant1;
+                IEntity friendly = lowPriority != null && _combatant1.GetComponent<DrillerCarrier>().GetOwner() == lowPriority.GetOwner() ? _combatant1 : _combatant2;
                 if (lowPriority != null) lowPriority.UndoEffect(state, friendly, enemy);
             }
             return true;

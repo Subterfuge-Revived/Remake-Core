@@ -28,11 +28,11 @@ namespace Subterfuge.Remake.Core.Components
 
         public Sub LaunchSub(
             TimeMachine timeMachine,
-            IGameState state,
             LaunchEvent launchEvent
         ) {
             // Determine any specialist effects if a specialist left the sub.
             LaunchEventData launchData = launchEvent.GetEventData();
+            GameState.GameState state = timeMachine.GetState();
             Entity source = state.GetEntity(launchData.SourceId);
             Entity destination = state.GetEntity(launchData.DestinationId);
 

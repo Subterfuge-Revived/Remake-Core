@@ -67,11 +67,11 @@ namespace Subterfuge.Remake.Core.Timing
             {
                 if (direction == TimeMachineDirection.FORWARD)
                 {
-                    this._gameState.CurrentTick = tick.Advance(1);
+                    this._gameState.CurrentTick = this._gameState.CurrentTick.Advance(1);
                 }
                 else
                 {
-                    this._gameState.CurrentTick = tick.Rewind(1);
+                    this._gameState.CurrentTick = this._gameState.CurrentTick.Rewind(1);
                 }
 
                 eventQueue

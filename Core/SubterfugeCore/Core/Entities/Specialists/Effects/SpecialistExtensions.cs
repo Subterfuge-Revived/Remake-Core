@@ -8,7 +8,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
 {
     public static class SpecialistExtensions
     {
-        public static float GetEffectScalar(this SpecialistEffectScale effectScale, GameState.GameState state, Entity friendly, Entity enemy)
+        public static float GetEffectScalar(this SpecialistEffectScale effectScale, GameState.GameState state, IEntity friendly, IEntity enemy)
         {
             // TODO: Apply specialist scaling here
             // Note: The forward effect value and backwards effect values should provide the same scaling ratio.

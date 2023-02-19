@@ -40,7 +40,7 @@ namespace Subterfuge.Remake.Test
                 RoomName = "Room",
                 TimeCreated = DateTime.UtcNow,
                 TimeStarted = DateTime.MinValue,
-                PlayersInLobby = players.Select(it => it.ToUser()).ToList(),
+                PlayersInLobby = players.Select(it => it.PlayerInstance.ToUser()).ToList(),
             };
             return config;
         }

@@ -237,14 +237,24 @@ namespace Subterfuge.Remake.Core.GameState
         /// you will likely never need to use this constructor.
         /// </summary>
         /// <param name="configuration">The Game configuration used to create the game. Required to setup the player list.</param>
-        public GameState(GameConfiguration configuration)
+        public GameState(List<Player> playersInGame)
         {
             // Set the start time to the time the game was initialized at and set the current tick
             this._startTime = new GameTick();
             this.CurrentTick = this._startTime;
             
             // Set the players.
-            this._players = configuration.PlayersInLobby.Select(it => new Player(it)).ToList();
+            this._players = playersInGame;
+        }
+        
+        public GameState(GameConfiguration gameConfig)
+        {
+            // Set the start time to the time the game was initialized at and set the current tick
+            this._startTime = new GameTick();
+            this.CurrentTick = this._startTime;
+            
+            // Set the players.
+            this._players = gameConfig.PlayersInLobby.Select(it => new Player(it)).ToList();
         }
 
         /// <summary>
@@ -394,15 +404,10 @@ namespace Subterfuge.Remake.Core.GameState
         /// <returns>A list of the player's controlled outposts</returns>
         public List<Outpost> GetPlayerOutposts(Player player)
         {
-            List<Outpost> playerOutposts = new List<Outpost>();
-            foreach (Outpost outpost in this._outposts)
-            {
-                if (outpost.GetComponent<DrillerCarrier>().GetOwner() == player)
-                {
-                    playerOutposts.Add(outpost);
-                }
-            }
-            return playerOutposts;
+            return this._outposts
+                .Where(it => it.GetComponent<DrillerCarrier>().GetOwner() != null)
+                .Where(it => it.GetComponent<DrillerCarrier>().GetOwner().Equals(player))
+                .ToList();
         }
 
         /// <summary>

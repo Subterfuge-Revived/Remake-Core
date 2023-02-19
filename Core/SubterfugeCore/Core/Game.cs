@@ -61,7 +61,7 @@ namespace Subterfuge.Remake.Core
             GameVersion = gameConfiguration.GameVersion;
             
             // Creates a new game state and makes a time machine to reference the state
-            GameState.GameState state = new GameState.GameState(gameConfiguration);
+            GameState.GameState state = new GameState.GameState(gameConfiguration.PlayersInLobby.Select(it => new Player(it)).ToList());
             TimeMachine = new TimeMachine(state);
 
             // Creates the map generator with a random seed

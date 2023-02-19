@@ -17,23 +17,23 @@ namespace Subterfuge.Remake.Core.Components
             Parent = parent;
         }
 
-        public override void Produce(int productionAmount)
+        protected override void Produce(int productionAmount)
         {
             Parent.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(productionAmount);
         }
 
-        public override void UndoProduce(int amountToRevert)
+        protected override void UndoProduce(int amountToRevert)
         {
             Parent.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(amountToRevert);
         }
 
-        public override int GetNextProductionAmount(GameState.GameState state, int baseValuePerProduction)
+        public override int GetNextProductionAmount(GameState.GameState state)
         {
-            if (!Parent.GetComponent<DrillerCarrier>().IsDestroyed() || !Parent.GetComponent<DrillerCarrier>().GetOwner().IsEliminated())
+            if (Parent.GetComponent<DrillerCarrier>().IsDestroyed() || Parent.GetComponent<DrillerCarrier>().GetOwner().IsEliminated())
             {
                 return 0;
             }
-            return state.GetPlayerOutposts(Parent.GetComponent<DrillerCarrier>().GetOwner()).Count * baseValuePerProduction;
+            return state.GetPlayerOutposts(Parent.GetComponent<DrillerCarrier>().GetOwner()).Count * BaseValuePerProduction;
         }
     }
 }

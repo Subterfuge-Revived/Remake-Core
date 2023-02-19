@@ -7,6 +7,7 @@ using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
+using Subterfuge.Remake.Core.GameState;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;
@@ -22,14 +23,22 @@ namespace Subterfuge.Remake.Test
         Outpost _outpost2;
         private readonly TestUtils _testUtils = new TestUtils();
 
+        private readonly List<Player> _playersInGame = new List<Player>()
+        {
+            new Player(new SimpleUser() { Id = "1" })
+        };
+
+        private TimeMachine _timeMachine;
+
         [TestInitialize]
         public void Setup()
         {
             this._map = new Rft(3000, 3000);
             this._outpostLocation = new RftVector(_map, 0, 0);
             this._outpostLocation = new RftVector(_map, 15, 15);
-            this._outpost = new Factory("0", _outpostLocation, new Player("1"));
-            this._outpost2 = new Factory("1", _outpostLocation, new Player("1"));
+            this._timeMachine = new TimeMachine(new GameState(_playersInGame));
+            this._outpost = new Factory("0", _outpostLocation, _playersInGame[0], _timeMachine);
+            this._outpost2 = new Factory("1", _outpostLocation, _playersInGame[0], _timeMachine);
         }
         
         [TestMethod]
@@ -83,8 +92,8 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void GetPosition()
         {
-            Assert.AreEqual(_outpostLocation.X, _outpost.GetComponent<PositionManager>().GetPositionAt(new GameTick(0)).X);
-            Assert.AreEqual(_outpostLocation.Y, _outpost.GetComponent<PositionManager>().GetPositionAt(new GameTick(0)).Y);
+            Assert.AreEqual(_outpostLocation.X, _outpost.GetComponent<PositionManager>().GetInitialPosition().X);
+            Assert.AreEqual(_outpostLocation.Y, _outpost.GetComponent<PositionManager>().GetInitialPosition().Y);
         }
         
         [TestMethod]
@@ -104,7 +113,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanRemoveDrillers()
         {
-            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             int initialDrillers = outpost.GetComponent<DrillerCarrier>().GetDrillerCount();
             outpost.GetComponent<DrillerCarrier>().RemoveDrillers(5);
             Assert.AreEqual(initialDrillers - 5, outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
@@ -113,7 +122,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanAddDrillers()
         {
-            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             int initialDrillers = outpost.GetComponent<DrillerCarrier>().GetDrillerCount();
             outpost.GetComponent<DrillerCarrier>().AddDrillers(40);
             Assert.AreEqual(initialDrillers + 40, outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
@@ -122,7 +131,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanSetDrillerCount()
         {
-            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             outpost.GetComponent<DrillerCarrier>().SetDrillerCount(420);
             Assert.AreEqual(420, outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
         }
@@ -130,15 +139,12 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanLaunchSubs()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            
-            Game game = new Game(_testUtils.GetDefaultGameConfiguration(players));
+            Game game = new Game(_testUtils.GetDefaultGameConfiguration(_playersInGame));
             game.TimeMachine.GetState().GetOutposts().Add(_outpost);
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 
             int initialDrillers = _outpost.GetComponent<DrillerCarrier>().GetDrillerCount();
-            _outpost.GetComponent<SubLauncher>().LaunchSub(game.TimeMachine.GetState(), new LaunchEvent(new GameRoomEvent()
+            _outpost.GetComponent<SubLauncher>().LaunchSub(_timeMachine, new LaunchEvent(new GameRoomEvent()
                 {
                     GameEventData = new GameEventData()
                     {
@@ -163,10 +169,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanUndoSubLaunch()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player("1"));
-            
-            Game game = new Game(_testUtils.GetDefaultGameConfiguration(players));
+            Game game = new Game(_testUtils.GetDefaultGameConfiguration(_playersInGame));
             game.TimeMachine.GetState().GetOutposts().Add(_outpost);
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 
@@ -201,7 +204,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanRemoveShields()
         {
-            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             outpost.GetComponent<ShieldManager>().SetShields(10);
             int initialShields = outpost.GetComponent<ShieldManager>().GetShields();
             outpost.GetComponent<ShieldManager>().RemoveShields(5);
@@ -211,7 +214,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanAddShields()
         {
-            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             int initialShield = outpost.GetComponent<ShieldManager>().GetShields();
             outpost.GetComponent<ShieldManager>().AddShield(1);
             Assert.AreEqual(initialShield + 1, outpost.GetComponent<ShieldManager>().GetShields());
@@ -220,7 +223,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanSetShields()
         {
-            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             outpost.GetComponent<ShieldManager>().SetShields(1);
             Assert.AreEqual(1, outpost.GetComponent<ShieldManager>().GetShields());
         }
@@ -228,7 +231,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void ShieldCapacityWorks()
         {
-            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             outpost.GetComponent<ShieldManager>().SetShieldCapacity(100);
             outpost.GetComponent<ShieldManager>().SetShields(5);
             outpost.GetComponent<ShieldManager>().AddShield(100);
@@ -242,7 +245,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CannotHaveNegativeShield()
         {
-            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), new Player("1"));
+            Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             outpost.GetComponent<ShieldManager>().SetShields(10);
             outpost.GetComponent<ShieldManager>().RemoveShields(15);
             Assert.AreEqual(0, outpost.GetComponent<ShieldManager>().GetShields());
@@ -251,7 +254,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanToggleShields()
         {
-            Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), new Player("1"));
+            Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             bool initialState = outpost.GetComponent<ShieldManager>().IsShieldActive();
             outpost.GetComponent<ShieldManager>().ToggleShield();
             Assert.AreEqual(!initialState, outpost.GetComponent<ShieldManager>().IsShieldActive());
@@ -260,18 +263,18 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanSeeLocationInVision()
         {
-            Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), new Player("1"));
-            Outpost outpost2 = new Mine("1",new RftVector(_map, Constants.BaseOutpostVisionRadius - 1, 0), new Player("2"));
-            Assert.IsTrue(outpost.GetComponent<VisionManager>().IsInVisionRange(new GameTick(1), outpost2.GetComponent<PositionManager>()));
+            Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
+            Outpost outpost2 = new Mine("1",new RftVector(_map, Constants.BaseOutpostVisionRadius - 1, 0), _playersInGame[0], _timeMachine);
+            Assert.IsTrue(outpost.GetComponent<VisionManager>().IsInVisionRange(outpost2.GetComponent<PositionManager>()));
         }
         
         [TestMethod]
         public void CannotSeeLocationOutOfVision()
         {
             
-            Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), new Player("1"));
-            Outpost outpost2 = new Mine("1",new RftVector(_map, Constants.BaseOutpostVisionRadius + 1, 0), new Player("2"));
-            Assert.IsFalse(outpost.GetComponent<VisionManager>().IsInVisionRange(new GameTick(1), outpost2.GetComponent<PositionManager>()));
+            Outpost outpost = new Mine("0",new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
+            Outpost outpost2 = new Mine("1",new RftVector(_map, Constants.BaseOutpostVisionRadius + 1, 0), _playersInGame[0], _timeMachine);
+            Assert.IsFalse(outpost.GetComponent<VisionManager>().IsInVisionRange(outpost2.GetComponent<PositionManager>()));
         }
     }
 }

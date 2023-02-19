@@ -174,7 +174,7 @@ namespace Subterfuge.Remake.Core.Generation
                     var vectorDistance = otherOutpost.GetComponent<PositionManager>().GetInitialPosition() - currentOutpostPosition;
 
                     //ensure that the new location is not too close to other outposts
-                    if (vectorDistance.Magnitude() < _mapConfiguration.MinimumOutpostDistance)
+                    if (vectorDistance.Length() < _mapConfiguration.MinimumOutpostDistance)
                     {
                         usableLocation = false;
                     }
@@ -219,13 +219,13 @@ namespace Subterfuge.Remake.Core.Generation
                 else
                 {
                     // Determine the distance to the current outpost from the centroid
-                    float currentDistance = (centroid - o.GetComponent<PositionManager>().GetInitialPosition()).Magnitude();
+                    float currentDistance = (centroid - o.GetComponent<PositionManager>().GetInitialPosition()).Length();
 
                     // Sort the closestOutpost list to determine the farthest outpost (maybe this one is closer).
-                    closestOutposts.Sort((a, b) => (int)((centroid - a.GetComponent<PositionManager>().GetInitialPosition()).Magnitude() - (centroid - b.GetComponent<PositionManager>().GetInitialPosition()).Magnitude()));
+                    closestOutposts.Sort((a, b) => (int)((centroid - a.GetComponent<PositionManager>().GetInitialPosition()).Length() - (centroid - b.GetComponent<PositionManager>().GetInitialPosition()).Length()));
 
                     // Determine the distance of the farthest outpost
-                    float farthestDistance = (centroid - closestOutposts[_mapConfiguration.OutpostsPerPlayer - 1].GetComponent<PositionManager>().GetInitialPosition()).Magnitude();
+                    float farthestDistance = (centroid - closestOutposts[_mapConfiguration.OutpostsPerPlayer - 1].GetComponent<PositionManager>().GetInitialPosition()).Length();
 
                     // If the current outpost is closer, put the current outpost in the list, replacing the farther outpost.
                     if (currentDistance < farthestDistance)

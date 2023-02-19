@@ -2,10 +2,11 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Specialists;
-using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
 
 namespace Subterfuge.Remake.Test.Core.Components
@@ -15,6 +16,9 @@ namespace Subterfuge.Remake.Test.Core.Components
     {
         private Mock<IEntity> _mockEntity;
         private Mock<IEntity> _mockSecondEntity;
+
+        private Player playerOne = new Player(new SimpleUser() { Id = "1" });
+        private Player playerTwo = new Player(new SimpleUser() { Id = "2" });
 
         private void MockSpecialistManagerEntity(
             int specialistCapacity = 3
@@ -101,7 +105,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialist = CreateSpecialist("a", 1, new Player("a"));
+            var specialist = CreateSpecialist("a", 1, playerOne);
             bool result = _mockEntity.Object.GetComponent<SpecialistManager>().AddSpecialist(specialist);
             Assert.IsTrue(result);
             
@@ -118,7 +122,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialist = CreateSpecialist("a", 1, new Player("a"));
+            var specialist = CreateSpecialist("a", 1, playerOne);
             bool result = _mockEntity.Object.GetComponent<SpecialistManager>().AddSpecialist(specialist);
             Assert.IsFalse(result);
             
@@ -135,8 +139,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialistOne = CreateSpecialist("a", 1, new Player("a"));
-            var specialistTwo = CreateSpecialist("b", 2, new Player("b"));
+            var specialistOne = CreateSpecialist("a", 1, playerOne);
+            var specialistTwo = CreateSpecialist("b", 2, playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
@@ -159,8 +163,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialistOne = CreateSpecialist("a", 1, new Player("a"));
-            var specialistTwo = CreateSpecialist("b", 2, new Player("b"));
+            var specialistOne = CreateSpecialist("a", 1, playerOne);
+            var specialistTwo = CreateSpecialist("b", 2, playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
@@ -183,7 +187,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialist = CreateSpecialist("a", 1, new Player("a"));
+            var specialist = CreateSpecialist("a", 1, playerOne);
             bool addResult = _mockEntity.Object.GetComponent<SpecialistManager>().AddSpecialist(specialist);
             Assert.IsTrue(addResult);
             
@@ -206,7 +210,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
             
-            var specialist = CreateSpecialist("a", 1, new Player("a"));
+            var specialist = CreateSpecialist("a", 1, playerOne);
             bool removeResult = _mockEntity.Object.GetComponent<SpecialistManager>().RemoveSpecialist(specialist);
             Assert.IsFalse(removeResult);
         }
@@ -220,8 +224,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialistOne = CreateSpecialist("a", 1, new Player("a"));
-            var specialistTwo = CreateSpecialist("b", 2, new Player("b"));
+            var specialistOne = CreateSpecialist("a", 1, playerOne);
+            var specialistTwo = CreateSpecialist("b", 2, playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
@@ -250,8 +254,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialistOne = CreateSpecialist("a", 1, new Player("a"));
-            var specialistTwo = CreateSpecialist("b", 2, new Player("b"));
+            var specialistOne = CreateSpecialist("a", 1, playerOne);
+            var specialistTwo = CreateSpecialist("b", 2, playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
@@ -297,8 +301,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
             Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialistOne = CreateSpecialist("a", 1, new Player("a"));
-            var specialistTwo = CreateSpecialist("b", 2, new Player("b"));
+            var specialistOne = CreateSpecialist("a", 1, playerOne);
+            var specialistTwo = CreateSpecialist("b", 2, playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
@@ -336,8 +340,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
             Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialistOne = CreateSpecialist("a", 1, new Player("a"));
-            var specialistTwo = CreateSpecialist("b", 2, new Player("b"));
+            var specialistOne = CreateSpecialist("a", 1, playerOne);
+            var specialistTwo = CreateSpecialist("b", 2, playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
@@ -375,8 +379,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
             Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialistOne = CreateSpecialist("a", 1, new Player("a"));
-            var specialistTwo = CreateSpecialist("b", 2, new Player("b"));
+            var specialistOne = CreateSpecialist("a", 1, playerOne);
+            var specialistTwo = CreateSpecialist("b", 2, playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
@@ -416,8 +420,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
             Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialistOne = CreateSpecialist("a", 1, new Player("a"));
-            var specialistTwo = CreateSpecialist("b", 2, new Player("b"));
+            var specialistOne = CreateSpecialist("a", 1, playerOne);
+            var specialistTwo = CreateSpecialist("b", 2, playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
@@ -453,8 +457,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialistOne = CreateSpecialist("a", 1, new Player("a"));
-            var specialistTwo = CreateSpecialist("b", 2, new Player("b"));
+            var specialistOne = CreateSpecialist("a", 1, playerOne);
+            var specialistTwo = CreateSpecialist("b", 2, playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
@@ -481,10 +485,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
             
-            var ownerOne = new Player("1");
-            var ownerTwo = new Player("2");
-            var specialistOne = CreateSpecialist("a", 1, ownerOne);
-            var specialistTwo = CreateSpecialist("b", 2, ownerTwo);
+            var specialistOne = CreateSpecialist("a", 1, playerOne);
+            var specialistTwo = CreateSpecialist("b", 2, playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
@@ -507,10 +509,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var ownerOne = new Player("1");
-            var ownerTwo = new Player("2");
-            var specialistOne = CreateSpecialist("a", 1, ownerOne);
-            var specialistTwo = CreateSpecialist("b", 2, ownerTwo);
+            var specialistOne = CreateSpecialist("a", 1, playerOne);
+            var specialistTwo = CreateSpecialist("b", 2, playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
@@ -524,7 +524,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
 
             List<Specialist> playerOneSpecs =
-                _mockEntity.Object.GetComponent<SpecialistManager>().GetPlayerSpecialists(ownerOne);
+                _mockEntity.Object.GetComponent<SpecialistManager>().GetPlayerSpecialists(playerOne);
             Assert.AreEqual(1, playerOneSpecs.Count);
             Assert.IsTrue(playerOneSpecs.Contains(specialistOne));
         }
@@ -540,7 +540,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialist = CreateSpecialist("a", 1, new Player("a"));
+            var specialist = CreateSpecialist("a", 1, playerOne);
 
             OnAddSpecialistEventArgs addSpecArgs = null;
             _mockEntity.Object.GetComponent<SpecialistManager>().OnAddSpecialist += (sender, args) =>
@@ -567,7 +567,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialist = CreateSpecialist("a", 1, new Player("a"));
+            var specialist = CreateSpecialist("a", 1, playerOne);
             bool addResult = _mockEntity.Object.GetComponent<SpecialistManager>().AddSpecialist(specialist);
             Assert.IsTrue(addResult);
             

@@ -17,7 +17,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
         /// <param name="state">The game state to get the effects for.</param>
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
-        public abstract List<EffectDelta> GetForwardEffectDeltas(GameState.GameState state, Entity friendly, Entity enemy);
+        public abstract List<EffectDelta> GetForwardEffectDeltas(GameState.GameState state, IEntity friendly, IEntity enemy);
         
         /// <summary>
         /// Applies the event's backwards action
@@ -25,9 +25,9 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
         /// <param name="state">The game state to get the effects for.</param>
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
-        public abstract List<EffectDelta> GetBackwardEffectDeltas(GameState.GameState state, Entity friendly, Entity enemy);
+        public abstract List<EffectDelta> GetBackwardEffectDeltas(GameState.GameState state, IEntity friendly, IEntity enemy);
 
-        protected List<IEntity> GetEffectTargets(GameState.GameState state, Entity friendly, Entity enemy)
+        protected List<IEntity> GetEffectTargets(GameState.GameState state, IEntity friendly, IEntity enemy)
         {
             List<IEntity> targets = new List<IEntity>();
             

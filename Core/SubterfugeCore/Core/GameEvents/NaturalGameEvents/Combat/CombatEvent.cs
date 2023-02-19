@@ -16,12 +16,14 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         /// <summary>
         /// One of the two combat participants
         /// </summary>
-        private readonly Entity _combatant1;
+        private readonly IEntity _combatant1;
         
         /// <summary>
         /// One of the two combat participants
         /// </summary>
-        private readonly Entity _combatant2;
+        private readonly IEntity _combatant2;
+        
+        public CombatCleanup combatSummary { get; set; }
         
         /// <summary>
         /// A list of combat actions that will occur when the event is triggered.
@@ -34,7 +36,7 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         /// <param name="combatant1">The first combatant</param>
         /// <param name="combatant2">The second combatant</param>
         /// <param name="tick">The tick the combat occurs</param>
-        public CombatEvent(Entity combatant1, Entity combatant2, GameTick tick) : base(tick, Priority.NaturalPriority9)
+        public CombatEvent(IEntity combatant1, IEntity combatant2, GameTick tick) : base(tick, Priority.NaturalPriority9)
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
@@ -56,13 +58,16 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
             {
                 this._actions.Add(new SpecialistCombat(_combatant1, _combatant2));
                 this._actions.Add(new DrillerCombat(_combatant1, _combatant2));
-                this._actions.Add(new CombatCleanup(_combatant1, _combatant2));
             }
+
+            combatSummary = new CombatCleanup(_combatant1, _combatant2);
+            this._actions.Add(combatSummary);
 
             foreach (IReversible action in this._actions)
             {
                 action.ForwardAction(timeMachine, state);
             }
+            
             this.EventSuccess = true;
             return true;
         }
@@ -95,9 +100,9 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         /// Returns a list of two objects containing both objects participating in combat.
         /// </summary>
         /// <returns>A list of the combatants</returns>
-        public List<Entity> GetCombatants()
+        public List<IEntity> GetCombatants()
         {
-            List<Entity> combatants = new List<Entity>
+            List<IEntity> combatants = new List<IEntity>
             {
                 _combatant1,
                 _combatant2

@@ -89,7 +89,7 @@ namespace Subterfuge.Remake.Core.Components
             _isCaptured = false;
         }
 
-        public Player GetOwner()
+        public Player? GetOwner()
         {
             return this._owner;
         }

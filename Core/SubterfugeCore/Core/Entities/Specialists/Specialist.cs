@@ -91,7 +91,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <param name="state">The game state</param>
         /// <param name="friendly">The friendly combatable to effect</param>
         /// <param name="enemy">The enemy combatable to effect</param>
-        public void ApplyEffect(GameState.GameState state, Entity friendly, Entity enemy)
+        public void ApplyEffect(GameState.GameState state, IEntity friendly, IEntity enemy)
         {
             foreach(var specialistEffect in _specialistEffects)
             {
@@ -106,7 +106,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <param name="state">Gamestate</param>
         /// <param name="friendly">The friendly combatable to reverse effects to</param>
         /// <param name="enemy">The enemy combatable to reverse effects to</param>
-        public void UndoEffect(GameState.GameState state, Entity friendly, Entity enemy)
+        public void UndoEffect(GameState.GameState state, IEntity friendly, IEntity enemy)
         {
             foreach (var specialistEffect in this._specialistEffects)
             {

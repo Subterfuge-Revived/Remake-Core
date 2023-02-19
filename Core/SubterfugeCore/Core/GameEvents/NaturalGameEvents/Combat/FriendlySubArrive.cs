@@ -20,10 +20,18 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         /// <param name="combatant1">Combatant 1</param>
         /// <param name="combatant2">Combatant 2</param>
         /// <param name="occursAt">Tick of sub arrival</param>
-        public FriendlySubArrive(Entity combatant1, Entity combatant2, GameTick occursAt) : base(occursAt, Priority.NaturalPriority9)
+        public FriendlySubArrive(IEntity combatant1, IEntity combatant2, GameTick occursAt) : base(occursAt, Priority.NaturalPriority9)
         {
-            this._arrivingSub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
-            this._outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);
+            Sub _arrivingSub = combatant1 as Sub;
+            if (_arrivingSub == null)
+            {
+                _arrivingSub = combatant2 as Sub;
+                _outpost = combatant1 as Outpost;
+            }
+            else
+            {
+                _outpost = combatant2 as Outpost;
+            }
         }
 
         /// <summary>

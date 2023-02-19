@@ -16,26 +16,26 @@ namespace Subterfuge.Remake.Test
     {
         GameState _state;
         Rft _map;
-        Player _player1;
+        Player _player1 = new Player(new SimpleUser() { Id = "1" });
         Outpost _outpost;
         Sub _tempSub;
         private TestUtils testUtils = new TestUtils();
-
+        TimeMachine _timeMachine;
 
         [TestInitialize]
         public void Setup()
         {
-            _player1 = new Player("1");
             List<Player> players = new List<Player>();
 
             GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
             Assert.IsNotNull(config);
-            
+
             _state = new GameState(config);
+            _timeMachine = new TimeMachine(_state);
             _map = new Rft(300,300);
-            _outpost = new Generator("0",new RftVector(_map, 0, 0), _player1);
+            _outpost = new Generator("0",new RftVector(_map, 0, 0), _player1, _timeMachine);
             _outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
-            _tempSub = new Sub("1", _outpost, _outpost, new GameTick(), 10, _player1);
+            _tempSub = new Sub("1", _outpost, _outpost, new GameTick(), 10, _player1, _timeMachine);
         }
 
         [TestMethod]

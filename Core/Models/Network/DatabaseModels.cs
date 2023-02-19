@@ -28,6 +28,15 @@ namespace Subterfuge.Remake.Api.Network
     {
         public string Id { get; set; }
         public string Username { get; set; }
+
+        public User ToUser()
+        {
+            return new User()
+            {
+                Id = Id,
+                Username = Username,
+            };
+        }
     }
     
     public class User

@@ -97,20 +97,20 @@ namespace Subterfuge.Remake.Test
             Rft map = new Rft(mapDimension, mapDimension);
             
             RftVector vector = new RftVector(map, 0, 1);
-            Assert.AreEqual(1, vector.Magnitude());
+            Assert.AreEqual(1, vector.Length());
             
             for (int i = 0; i < 300; i++)
             {
                 vector = new RftVector(map, 0, i);
                 float position = vector.Y;
-                Assert.AreEqual(Math.Abs(position), vector.Magnitude());
+                Assert.AreEqual(Math.Abs(position), vector.Length());
             }
 
             int somePosition = 152;
             RftVector vectorTwo = new RftVector(somePosition, somePosition);
             float wrappedPosition = vectorTwo.X;
             
-            Assert.AreEqual((float)Math.Sqrt(wrappedPosition*wrappedPosition + wrappedPosition*wrappedPosition), vectorTwo.Magnitude());
+            Assert.AreEqual((float)Math.Sqrt(wrappedPosition*wrappedPosition + wrappedPosition*wrappedPosition), vectorTwo.Length());
         }
 
         [TestMethod]
@@ -173,7 +173,7 @@ namespace Subterfuge.Remake.Test
             
             // Determine the distance between them. Expect 2.
             RftVector difference = rightEdgeMap - leftEdgeMap;
-            Assert.AreEqual(2, difference.Magnitude());
+            Assert.AreEqual(2, difference.Length());
             Assert.AreEqual(-2, difference.X);
             Assert.AreEqual(0, difference.Y);
         }
@@ -193,7 +193,7 @@ namespace Subterfuge.Remake.Test
             
             // Determine location of new point. Expect opposite map edge.
             RftVector sum = rightEdgeMap + forceWrap;
-            Assert.AreEqual(mapRadius - 1, sum.Magnitude());
+            Assert.AreEqual(mapRadius - 1, sum.Length());
             Assert.AreEqual(-(mapRadius - 1), sum.X);
             Assert.AreEqual(0, sum.Y);
         }

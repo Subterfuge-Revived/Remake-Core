@@ -105,7 +105,7 @@ namespace Subterfuge.Remake.Core.Topologies
 		/// <summary>
 		/// Returns float: the magnitude of the RftVector as if it were a Vector2.
 		/// </summary>
-		public float Magnitude() {return (float)Math.Sqrt(_x*_x + _y*_y);}
+		public float Length() {return (float)Math.Sqrt(_x*_x + _y*_y);}
 
 		/// <summary>
 		/// Returns Vector2: the RftVector normalized to have magnitude 1. (0, 0) normalized will return (1, 0).
@@ -113,7 +113,7 @@ namespace Subterfuge.Remake.Core.Topologies
 		public RftVector Normalize()
 		{
 			if ((this._x == 0) && (this._y == 0)) { return new RftVector(1, 0); }
-			return new RftVector(_x / this.Magnitude(), _y / this.Magnitude());
+			return new RftVector(_x / this.Length(), _y / this.Length());
 		}
 
 		/// <summary>

@@ -17,7 +17,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Validators
         /// <param name="state">The gamestate</param>
         /// <param name="combatable">The ICombatable to validate</param>
         /// <returns></returns>
-        public static bool ValidateICombatable(GameState.GameState state, Entity combatable)
+        public static bool ValidateICombatable(GameState.GameState state, IEntity combatable)
         {
             if(combatable is Outpost)
             {

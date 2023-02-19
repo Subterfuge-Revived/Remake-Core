@@ -20,7 +20,7 @@ namespace Subterfuge.Remake.Core.Components
             _timeMachine = timeMachine;
         }
 
-        public override void Produce(int productionAmount)
+        protected override void Produce(int productionAmount)
         {
             _timeMachine
                 .GetState()
@@ -31,7 +31,7 @@ namespace Subterfuge.Remake.Core.Components
                 });
         }
 
-        public override void UndoProduce(int amountToRevert)
+        protected override void UndoProduce(int amountToRevert)
         {
             _timeMachine
                 .GetState()
@@ -42,9 +42,9 @@ namespace Subterfuge.Remake.Core.Components
                 });
         }
 
-        public override int GetNextProductionAmount(GameState.GameState state, int baseValuePerProduction)
+        public override int GetNextProductionAmount(GameState.GameState state)
         {
-            return 1;
+            return BaseValuePerProduction;
         }
     }
 }
