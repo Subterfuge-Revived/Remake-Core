@@ -19,11 +19,19 @@ namespace Subterfuge.Remake.Core.Entities
         /// <param name="launchTime">The time of launch</param>
         /// <param name="drillerCount">The amount of drillers to launch</param>
         /// <param name="owner">The owner</param>
-        public Sub(string id, IEntity source, IEntity destination, GameTick launchTime, int drillerCount, Player owner)
+        public Sub(
+            string id,
+            IEntity source,
+            IEntity destination,
+            GameTick launchTime,
+            int drillerCount,
+            Player owner,
+            TimeMachine timeMachine
+        )
         {
             AddComponent(new DrillerCarrier(this, drillerCount, owner));
             AddComponent(new SpeedManager(this, 1.0f));
-            AddComponent(new PositionManager(this, source.GetComponent<PositionManager>().GetPositionAt(launchTime),destination, launchTime));
+            AddComponent(new PositionManager(this, source, destination, launchTime, timeMachine));
             AddComponent(new SpecialistManager(this));
             AddComponent(new IdentityManager(this, id));
             AddComponent(new ShieldManager(this, 0));

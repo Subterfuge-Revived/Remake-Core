@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Specialists;
-using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
 
 namespace Subterfuge.Remake.Core.Components
@@ -11,7 +11,7 @@ namespace Subterfuge.Remake.Core.Components
     /// <summary>
     /// Specialist management class to facilitate adding and removing specialists from ISpecialistCarrier classes.
     /// </summary>
-    public class SpecialistManager : EntityComponent
+    public class SpecialistManager : EntityComponent, ISpecialistCarrierEventPublisher
     {
         /// <summary>
         /// The maximum number of specialists that can be stored in this carrier

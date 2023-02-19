@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 
 namespace Subterfuge.Remake.Core.Timing
 {
-    public class TimeMachine
+    public class TimeMachine : ITickEventPublisher
     {
-        // List of known events
-        private ReversePriorityQueue<GameEvent> _pastEventQueue = new ReversePriorityQueue<GameEvent>();
-        private PriorityQueue<GameEvent> _futureEventQueue = new PriorityQueue<GameEvent>();
+        // List of Player Events mapped to each tick
+        private List<GameEvent> eventQueue = new List<GameEvent>();
 
         // Current representation of the game state
         private GameState.GameState _gameState;
@@ -37,28 +39,17 @@ namespace Subterfuge.Remake.Core.Timing
         /// <param name="gameEvent">The game event to add to the Queue</param>
         public void AddEvent(GameEvent gameEvent)
         {
-            this._futureEventQueue.Enqueue(gameEvent);
+            eventQueue.Add(gameEvent);
         }
-        
+
         /// <summary>
         /// Removes a GameEvent from the game.
         /// </summary>
         /// <param name="gameEvent">The GameEvent to remove from the queue</param>
         public void RemoveEvent(GameEvent gameEvent)
         {
-            if (this._futureEventQueue.GetQueue().Contains(gameEvent))
-            {
-                this._futureEventQueue.Remove(gameEvent);
-            }
-            else
-            {
-                // Go to 1 tick before the event occurs.
-                GameTick currentTick = GetCurrentTick();
-                GoTo(gameEvent);
-                Rewind(1);
-                this._futureEventQueue.Remove(gameEvent);
-                GoTo(currentTick);
-            }
+            
+            eventQueue.Remove(gameEvent);
         }
 
         /// <summary>
@@ -67,46 +58,44 @@ namespace Subterfuge.Remake.Core.Timing
         /// <param name="tick">The GameTick to jump to</param>
         public void GoTo(GameTick tick)
         {
-            if (tick > _gameState.CurrentTick)
-            {
-                bool evaluating = true;
-                while (evaluating)
-                {
+            TimeMachineDirection direction = tick > _gameState.CurrentTick
+                ? TimeMachineDirection.FORWARD
+                : TimeMachineDirection.REVERSE;
 
-                    if (_futureEventQueue.Count > 0)
-                    {
-                        if (_futureEventQueue.Peek().GetOccursAt() <= tick)
-                        {
-                            // Move commands from the future to the past
-                            GameEvent futureToPast = _futureEventQueue.Dequeue();
-                            futureToPast.ForwardAction(this, _gameState);
-                            _pastEventQueue.Enqueue(futureToPast);
-                            continue;
-                        }
-                    }
-                    evaluating = false;
-                }
-            }
-            else
+
+            while (tick != GetCurrentTick())
             {
-                bool evaluating = true;
-                while (evaluating)
+                if (direction == TimeMachineDirection.FORWARD)
                 {
-                    if (_pastEventQueue.Count > 0)
-                    {
-                        if (_pastEventQueue.Peek().GetOccursAt() >= tick)
-                        {
-                            // Move commands from the past to the future
-                            GameEvent pastToFuture = _pastEventQueue.Dequeue();
-                            pastToFuture.BackwardAction(this, _gameState);
-                            _futureEventQueue.Enqueue(pastToFuture);
-                            continue;
-                        }
-                    }
-                    evaluating = false;
+                    this._gameState.CurrentTick = tick.Advance(1);
                 }
+                else
+                {
+                    this._gameState.CurrentTick = tick.Rewind(1);
+                }
+
+                eventQueue
+                    .Where(it => it.GetOccursAt() == this._gameState.CurrentTick)
+                    .ToList()
+                    .ForEach(it =>
+                    {
+                        if (direction == TimeMachineDirection.FORWARD)
+                        {
+                            it.ForwardAction(this, _gameState);
+                        }
+                        else
+                        {
+                            it.BackwardAction(this, _gameState);
+                        }
+                    });
+
+                this.OnTick?.Invoke(this, new OnTickEventArgs()
+                {
+                    Direction = direction,
+                    CurrentState = this._gameState,
+                    CurrentTick = this._gameState.CurrentTick,
+                });
             }
-            this._gameState.CurrentTick = tick;
         }
 
         /// <summary>
@@ -154,13 +143,9 @@ namespace Subterfuge.Remake.Core.Timing
         /// <returns>A list of the events in the future event queue</returns>
         public List<GameEvent> GetQueuedEvents()
         {
-            List<GameEvent> gameEvents = new List<GameEvent>();
-            foreach(GameEvent gameEvent in this._futureEventQueue.GetQueue()){
-                if (gameEvent != null){
-                    gameEvents.Add(gameEvent);
-                }
-            }
-            return gameEvents;
+            return eventQueue
+                .Where(it => it.GetOccursAt() > GetCurrentTick())
+                .ToList();
         }
         
         /// <summary>
@@ -169,13 +154,11 @@ namespace Subterfuge.Remake.Core.Timing
         /// <returns>A list of the events in the future event queue</returns>
         public List<GameEvent> GetPastEvents()
         {
-            List<GameEvent> gameEvents = new List<GameEvent>();
-            foreach(GameEvent gameEvent in this._pastEventQueue.GetQueue()){
-                if (gameEvent != null){
-                    gameEvents.Add(gameEvent);
-                }
-            }
-            return gameEvents;
+            return eventQueue
+                .Where(it => it.GetOccursAt() <= GetCurrentTick())
+                .ToList();
         }
+
+        public event EventHandler<OnTickEventArgs>? OnTick;
     }
 }

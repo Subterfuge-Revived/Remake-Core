@@ -44,7 +44,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             return new GameRoomEvent()
             {
                 Id = GetEventId(),
-                IssuedBy = IssuedBy().ToUser(),
+                IssuedBy = IssuedBy().PlayerInstance,
                 TimeIssued = Model.TimeIssued,
                 GameEventData = Model.GameEventData
             };

@@ -31,9 +31,6 @@
     <Compile Update="Core\Timing\GameTick.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="Core\Timing\NtpConnector.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>

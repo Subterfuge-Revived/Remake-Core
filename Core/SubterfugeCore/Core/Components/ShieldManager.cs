@@ -1,10 +1,10 @@
 ﻿using System;
 using Subterfuge.Remake.Core.Entities;
-using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 
 namespace Subterfuge.Remake.Core.Components
 {
-    public class ShieldManager : EntityComponent
+    public class ShieldManager : EntityComponent, IShieldEventPublisher
     {
         /// <summary>
         /// The outposts shields
@@ -22,14 +22,9 @@ namespace Subterfuge.Remake.Core.Components
         int _shieldCapacity;
 
         
-        // Shield Toggle Events:
         public event EventHandler<OnShieldEnableEventArgs> OnShieldEnable;
         public event EventHandler<OnShieldDisableEventArgs> OnShieldDisable;
-        
-        // Shield Capacity Events:
         public event EventHandler<OnShieldCapacityChangeEventArgs> OnShieldCapacityChange;
-        
-        // Shield Modification Events:
         public event EventHandler<OnShieldValueChangeEventArgs> OnShieldValueChange;
         
         
@@ -70,7 +65,7 @@ namespace Subterfuge.Remake.Core.Components
             }
             OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
             {
-                PreviousValue = previousValue,
+                ShieldDelta = this._shields - previousValue,
                 ShieldManager = this,
             });
         }
@@ -88,7 +83,7 @@ namespace Subterfuge.Remake.Core.Components
             }
             OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
             {
-                PreviousValue = previousValue,
+                ShieldDelta = this._shields - previousValue,
                 ShieldManager = this,
             });
         }
@@ -129,7 +124,7 @@ namespace Subterfuge.Remake.Core.Components
             }
             OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
             {
-                PreviousValue = previousValue,
+                ShieldDelta = this._shields - previousValue,
                 ShieldManager = this,
             });
         }
@@ -150,7 +145,7 @@ namespace Subterfuge.Remake.Core.Components
             
             OnShieldCapacityChange?.Invoke(this, new OnShieldCapacityChangeEventArgs()
             {
-                PreviousCapacity = previousCapacity,
+                CapacityDelta = this._shieldCapacity - previousCapacity,
                 ShieldManager = this,
             });
         }

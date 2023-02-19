@@ -201,7 +201,7 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
                 {
                     Player = dbUserModel.ToSimpleUser()
                 }),
-                IssuedBy = dbUserModel.ToUser(),
+                IssuedBy = dbUserModel.ToSimpleUser(),
                 RoomId = room.Id,
             };
             await _dbGameEvents.Upsert(leaveEvent);

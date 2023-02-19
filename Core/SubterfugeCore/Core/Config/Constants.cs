@@ -1,3 +1,5 @@
+using Subterfuge.Remake.Core.Timing;
+
 namespace Subterfuge.Remake.Core.Config
 {
     /// <summary>
@@ -64,5 +66,11 @@ namespace Subterfuge.Remake.Core.Config
 		/// The driller cost increase for each mine beyond the first {2} drilled mines.
 		/// </summary>
 		public const int MiningCostIncrease = 100;
+		
+		/// <summary>
+		/// The amount of units a sub with speed multiplier of 1 travels in an Rft map in 24 hours. 144 units / day = 0.1 units / minute = 1 unit / 10 minutes
+		/// By default, subs will move 1 unit per tick.
+		/// </summary>
+		public const float STANDARD_SUB_RFT_UNITS_PER_DAY = 144;
     }
 }

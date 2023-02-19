@@ -8,7 +8,7 @@ public class DbGameEvent
     public DateTime TimeIssued { get; set; } = DateTime.UtcNow;
     public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
     public string RoomId { get; set; }
-    public User IssuedBy { get; set; }
+    public SimpleUser IssuedBy { get; set; }
     public int OccursAtTick { get; set; }
     public EventDataType GameEventType { get; set; }
     
@@ -32,7 +32,7 @@ public class DbGameEvent
         };
     }
 
-    public static DbGameEvent FromGameEventRequest(SubmitGameEventRequest request, User issuer, string roomId)
+    public static DbGameEvent FromGameEventRequest(SubmitGameEventRequest request, SimpleUser issuer, string roomId)
     {
         return new DbGameEvent()
         {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Numerics;
+using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;
 
@@ -9,20 +11,67 @@ namespace Subterfuge.Remake.Core.Components
     public class PositionManager : EntityComponent
     {
         private readonly IEntity _destination;
+        private readonly IEntity _source;
         private readonly RftVector _initialLocation;
+        public RftVector CurrentLocation { get; private set; }
         private readonly GameTick _startTime;
         private readonly SpeedManager _speedManager;
         
         public PositionManager(
             IEntity parent,
-            RftVector initialLocation,
+            IEntity initialLocation,
             IEntity destination,
-            GameTick startTime
+            GameTick startTime,
+            TimeMachine timeMachine
         ) : base(parent) {
             this._destination = destination;
-            this._initialLocation = initialLocation;
+            this._source = initialLocation;
+            this._initialLocation = _source.GetComponent<PositionManager>().CurrentLocation;
             _speedManager = parent.GetComponent<SpeedManager>();
             this._startTime = startTime;
+            CurrentLocation = this._initialLocation;
+
+            // Register to move this object on every tick.
+            timeMachine.OnTick += MoveOnTick;
+        }
+        
+        public PositionManager(
+            IEntity parent,
+            TimeMachine timeMachine,
+            RftVector location,
+            GameTick startTime
+        ) : base(parent) {
+            this._destination = null;
+            this._source = null;
+            this._initialLocation = location;
+            this._startTime = startTime;
+            _speedManager = parent.GetComponent<SpeedManager>();
+            CurrentLocation = this._initialLocation;
+
+            // Register to move this object on every tick.
+            timeMachine.OnTick += MoveOnTick;
+        }
+
+        /// <summary>
+        /// Moves the object 1 unit every tick scaled by speed.
+        /// </summary>
+        /// <param name="sender">The TimeMachine instance that published the event</param>
+        /// <param name="onTick">On Tick event args</param>
+        private void MoveOnTick(object sender, OnTickEventArgs onTick)
+        {
+            if (_destination != null)
+            {
+                RftVector direction = GetUnitDirection();
+
+                if (onTick.Direction == TimeMachineDirection.FORWARD)
+                {
+                    this.CurrentLocation += direction * _speedManager.GetSpeed();
+                }
+                else
+                {
+                    this.CurrentLocation -= direction * _speedManager.GetSpeed();
+                }
+            }
         }
 
         /// <summary>
@@ -31,7 +80,7 @@ namespace Subterfuge.Remake.Core.Components
         /// <returns>Gets the angle of the sub's path</returns>
         public double GetRotationRadians()
         {
-            RftVector direction = GetDirection();
+            RftVector direction = GetUnitDirection();
             return Math.Atan2(direction.Y, direction.X);
         }
 
@@ -42,7 +91,7 @@ namespace Subterfuge.Remake.Core.Components
 
         public RftVector GetExpectedDestination()
         {
-            // If there is no destination, return the current position.
+            // If there is no destination, return to the source.
             if (_destination == null)
             {
                 return _initialLocation;
@@ -52,9 +101,7 @@ namespace Subterfuge.Remake.Core.Components
             // Linear interpolation
             if (Math.Abs(_destination.GetComponent<SpeedManager>().GetSpeed()) < 0.001)
             {
-                // If the target is not moving, interpolate the current position from the destination.
-                // Linear interpolation
-                return _destination.GetComponent<PositionManager>().GetPositionAt(_startTime);
+                return _destination.GetComponent<PositionManager>().CurrentLocation;
             }
             else
             {
@@ -63,33 +110,10 @@ namespace Subterfuge.Remake.Core.Components
                 {
                     return null;
                 }
-                // If the target is moving....
+                
                 // Get the target's interception point using the initial position & the speed.
                 var interceptionPoint = _destination.GetComponent<PositionManager>()
                     .GetInterceptionPosition(_initialLocation, _speedManager.GetSpeed());
-                return interceptionPoint;
-            }
-        }
-
-        public RftVector GetPositionAt(GameTick currentTick)
-        {
-            // If this is not moving, or there is no destination, return the current position.
-            if (Math.Abs(_speedManager.GetSpeed()) < 0.001 | _destination == null)
-            {
-                return _initialLocation;
-            }
-            
-            if (_destination.GetComponent<SpeedManager>().GetSpeed() < 0.001)
-            {
-                // If the target is not moving, interpolate the current position from the destination.
-                // Linear interpolation
-                return InterpolateCurrentPosition(currentTick);
-            }
-            else
-            {
-                // If the target is moving....
-                // Get the target's interception point using the initial position & the speed.
-                var interceptionPoint = _destination.GetComponent<PositionManager>().GetInterceptionPosition(_initialLocation, _speedManager.GetSpeed());
                 return interceptionPoint;
             }
         }
@@ -106,7 +130,7 @@ namespace Subterfuge.Remake.Core.Components
             
             var distanceBetweenTargets = (_initialLocation - targetFrom).Magnitude();
             var directionBetweenTargets = Math.Atan2(_initialLocation.Y - targetFrom.Y, _initialLocation.X - targetFrom.X);
-            var alpha = Math.PI + directionBetweenTargets - Math.Atan2(GetDirection().Y, GetDirection().X);
+            var alpha = Math.PI + directionBetweenTargets - Math.Atan2(GetUnitDirection().Y, GetUnitDirection().X);
 
             if (Math.Abs(chaserSpeed - _speedManager.GetSpeed()) < 0.001)
             {
@@ -121,7 +145,7 @@ namespace Subterfuge.Remake.Core.Components
                 var otherAngles = ((Math.PI * 2) - radians) / 2.0;
                 var distanceToTravelBeforeInterception = (float)(Math.Abs(Math.Cos(otherAngles) * distanceBetweenTargets));
                 var timeToReach = distanceToTravelBeforeInterception / _speedManager.GetSpeed();
-                var dir = GetDirection().Normalize();
+                var dir = GetUnitDirection().Normalize();
                 return new RftVector(_initialLocation.X + (dir.X * timeToReach), _initialLocation.Y + (dir.Y * timeToReach));
             }
 
@@ -136,36 +160,21 @@ namespace Subterfuge.Remake.Core.Components
 
             var time = (Math.Sqrt(discriminant) - b) / (2 * a);
             var x = _initialLocation.X +
-                    (this._speedManager.GetSpeed() * time) * Math.Cos(Math.Atan2(GetDirection().Y, GetDirection().X));
+                    (this._speedManager.GetSpeed() * time) * Math.Cos(Math.Atan2(GetUnitDirection().Y, GetUnitDirection().X));
             var y = _initialLocation.Y +
-                    (this._speedManager.GetSpeed() * time) * Math.Sin(Math.Atan2(GetDirection().Y, GetDirection().X));
+                    (this._speedManager.GetSpeed() * time) * Math.Sin(Math.Atan2(GetUnitDirection().Y, GetUnitDirection().X));
             
             return new RftVector((float)x, (float)y);
         }
 
-        private RftVector InterpolateCurrentPosition(GameTick currentTick)
-        {
-            // Determine number of ticks after launch:
-            int elapsedTicks = currentTick - _startTime;
-
-            // Determine direction vector
-            Vector2 direction = (GetExpectedDestination() - _initialLocation).Normalize();
-
-            if(elapsedTicks > 0)
-            {
-                return _initialLocation + new RftVector(RftVector.Map, (direction * (elapsedTicks * _speedManager.GetSpeed())));
-            }
-            return _initialLocation;
-        }
-
-        public RftVector GetDirection()
+        public RftVector GetUnitDirection()
         {
             if (_destination == null)
             {
                 return new RftVector(0, 0);
             }
 
-            return (GetExpectedDestination() - _initialLocation);
+            return (GetExpectedDestination() - _initialLocation).Normalize();
         }
 
         public GameTick GetExpectedArrival()
@@ -174,7 +183,7 @@ namespace Subterfuge.Remake.Core.Components
             {
                 return null;
             }
-            RftVector direction = GetDirection();
+            RftVector direction = GetUnitDirection();
             int ticksToArrive = (int) Math.Floor(direction.Magnitude() / _speedManager.GetSpeed());
             return _startTime.Advance(ticksToArrive);
         }
@@ -182,6 +191,11 @@ namespace Subterfuge.Remake.Core.Components
         public IEntity GetDestination()
         {
             return _destination;
+        }
+
+        public RftVector GetInitialPosition()
+        {
+            return this._initialLocation;
         }
     }
 }

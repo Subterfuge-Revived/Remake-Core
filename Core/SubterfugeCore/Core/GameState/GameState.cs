@@ -355,8 +355,8 @@ namespace Subterfuge.Remake.Core.GameState
             {
 
                 if (
-                    sub.GetComponent<PositionManager>().GetExpectedDestination() == destination.GetComponent<PositionManager>().GetPositionAt(CurrentTick) || 
-                    sub.GetComponent<PositionManager>().GetPositionAt(CurrentTick) == source.GetComponent<PositionManager>().GetPositionAt(CurrentTick))
+                    sub.GetComponent<PositionManager>().GetExpectedDestination() == destination.GetComponent<PositionManager>().CurrentLocation || 
+                    sub.GetComponent<PositionManager>().CurrentLocation == source.GetComponent<PositionManager>().CurrentLocation)
                 {
                     // TODO:
                     // if (sub.GetComponent<PositionManager>().GetSource() == source || sub.GetComponent<PositionManager>().GetSource() == destination)
@@ -571,7 +571,7 @@ namespace Subterfuge.Remake.Core.GameState
         {
             foreach(Outpost o in GetPlayerOutposts(player))
             {
-                if (o.GetComponent<VisionManager>().IsInVisionRange(CurrentTick, positionManager))
+                if (o.GetComponent<VisionManager>().IsInVisionRange(positionManager))
                 {
                     return true;
                 }
@@ -579,7 +579,7 @@ namespace Subterfuge.Remake.Core.GameState
 
             foreach (Sub s in GetPlayerSubs(player))
             {
-                if (s.GetComponent<VisionManager>().IsInVisionRange(CurrentTick, positionManager))
+                if (s.GetComponent<VisionManager>().IsInVisionRange(positionManager))
                 {
                     return true;
                 }
@@ -627,7 +627,7 @@ namespace Subterfuge.Remake.Core.GameState
 
             foreach (IEntity e in gameObjects)
             {
-                if (Vector2.Distance(e.GetComponent<PositionManager>().GetPositionAt(GetCurrentTick()).ToVector2(), pos.ToVector2()) < range)
+                if (Vector2.Distance(e.GetComponent<PositionManager>().CurrentLocation.ToVector2(), pos.ToVector2()) < range)
                 {
                     gameObjectsinRange.Add(e);
                 }

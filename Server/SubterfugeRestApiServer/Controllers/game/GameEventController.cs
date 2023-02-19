@@ -168,7 +168,7 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
             );
         }
 
-        var gameEvent = DbGameEvent.FromGameEventRequest(request, dbUserModel.ToUser(), roomId);
+        var gameEvent = DbGameEvent.FromGameEventRequest(request, dbUserModel.ToSimpleUser(), roomId);
         await _dbGameEvents.Upsert(gameEvent);
         
         // If the game event was an end game event, we should also update the lobby to be marked as closed and the game over.

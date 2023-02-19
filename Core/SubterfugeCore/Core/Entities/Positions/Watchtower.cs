@@ -1,5 +1,6 @@
 ﻿using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;
 
 namespace Subterfuge.Remake.Core.Entities.Positions
@@ -11,8 +12,11 @@ namespace Subterfuge.Remake.Core.Entities.Positions
 		/// </summary>
 		/// <param name="id">The id of the outpost</param>
 		/// <param name="outpostStartPosition">Position of outpost</param>
-		public Watchtower(string id, RftVector outpostStartPosition) : base(id, outpostStartPosition)
-		{
+		public Watchtower(
+			string id,
+			RftVector outpostStartPosition,
+			TimeMachine timeMachine
+		) : base(id, outpostStartPosition, timeMachine) {
 		}
 
 		/// <summary>
@@ -21,8 +25,12 @@ namespace Subterfuge.Remake.Core.Entities.Positions
 		/// <param name="id">THe id of the outpost</param>
 		/// <param name="outpostStartPosition">Position of outpost</param>
 		/// <param name="outpostOwner">Owner of outpost</param>
-		public Watchtower(string id, RftVector outpostStartPosition, Player outpostOwner) : base(id, outpostStartPosition, outpostOwner, Constants.BaseWatchtowerVisionRadius)
-		{
+		public Watchtower(
+			string id,
+			RftVector outpostStartPosition,
+			Player outpostOwner,
+			TimeMachine timeMachine
+		) : base(id, outpostStartPosition, timeMachine, outpostOwner, Constants.BaseWatchtowerVisionRadius) {
 		}
 
 		public override OutpostType GetOutpostType()
