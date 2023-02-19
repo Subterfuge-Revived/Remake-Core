@@ -12,12 +12,7 @@ namespace Subterfuge.Remake.Core.Players
         /// <summary>
         /// The name or alias of the player
         /// </summary>
-        private string PlayerName { get; }
-
-        /// <summary>
-        /// The player's id
-        /// </summary>
-        private string PlayerId { get; }
+        public SimpleUser PlayerInstance { get; set; }
 
         /// <summary>
         /// The number of mines the player has drilled.
@@ -40,42 +35,21 @@ namespace Subterfuge.Remake.Core.Players
         public CurrencyManager CurrencyManager;
 
         /// <summary>
-        /// Constructor to create an instance of a player based off of their player Id
-        /// </summary>
-        /// <param name="playerId">The player's ID in the database</param>
-        public Player(string playerId)
-        {
-            this.PlayerId = playerId;
-            this.PlayerName = playerId;
-            this._numMinesBuilt = 0;
-            this._neptunium = 0;
-            this._isEliminated = false;
-            this.CurrencyManager = new CurrencyManager();
-        }
-
-        /// <summary>
-        /// Constructor to create an instance of a player based off of their player Id and name
-        /// </summary>
-        /// <param name="playerId">The player's ID in the database</param>
-        /// <param name="name">The player's name</param>
-        public Player(string playerId, string name)
-        {
-            this.PlayerId = playerId;
-            this.PlayerName = name;
-            this._numMinesBuilt = 0;
-            this._neptunium = 0;
-            this._isEliminated = false;
-            this.CurrencyManager = new CurrencyManager();
-        }
-
-        /// <summary>
         /// Creates a player from a protobuf player.
         /// </summary>
         /// <param name="user">protobuf player</param>
         public Player(User user)
         {
-            this.PlayerId = user.Id;
-            this.PlayerName = user.Username;
+            this.PlayerInstance = user.ToSimpleUser();
+            this._numMinesBuilt = 0;
+            this._neptunium = 0;
+            this._isEliminated = false;
+            this.CurrencyManager = new CurrencyManager();
+        }
+
+        public Player(SimpleUser playerInstance)
+        {
+            this.PlayerInstance = playerInstance;
             this._numMinesBuilt = 0;
             this._neptunium = 0;
             this._isEliminated = false;
@@ -88,7 +62,7 @@ namespace Subterfuge.Remake.Core.Players
         /// <returns>The player's database ID</returns>
         public string GetId()
         {
-            return this.PlayerId;
+            return this.PlayerInstance.Id;
         }
 
         /// <summary>
@@ -97,7 +71,7 @@ namespace Subterfuge.Remake.Core.Players
         /// <returns>The player's username</returns>
         public string GetPlayerName()
         {
-            return this.PlayerName;
+            return this.PlayerInstance.Username;
         }
 
         /// <summary>
@@ -152,57 +126,6 @@ namespace Subterfuge.Remake.Core.Players
         public bool IsEliminated()
         {
             return this._isEliminated;
-        }
-
-        public User ToUser()
-        {
-            return new User()
-            {
-                Id = PlayerId,
-                Username = PlayerName,
-            };
-        }
-
-        public override bool Equals(object obj)
-        {
-            var player = obj as Player;
-            if (player is null)
-            {
-                return false;
-            }
-
-            return this == player;
-        }
-
-        public override int GetHashCode()
-        {
-            return (PlayerId != null ? PlayerId.GetHashCode() : 0);
-        }
-
-        public static bool operator ==(Player p1, Player p2)
-        {
-            if (p1 is null && p2 is null)
-            {
-                return true;
-            }
-            if (p1 is null || p2 is null)
-            {
-                return false;
-            }
-            return (p1.PlayerId == p2.PlayerId);
-        }
-        
-        public static bool operator !=(Player p1, Player p2)
-        {
-            if (p1 is null && p2 is null)
-            {
-                return false;
-            }
-            if (p1 is null || p2 is null)
-            {
-                return true;
-            }
-            return (p1.PlayerId != p2.PlayerId);
         }
     }
 }

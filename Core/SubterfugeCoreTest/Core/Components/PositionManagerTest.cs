@@ -382,8 +382,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(100, chaserChaserPositionManager.GetExpectedArrival().GetTick());
             Assert.AreEqual(0, chaserChaserPositionManager.GetExpectedDestination().X);
             Assert.AreEqual(100, chaserChaserPositionManager.GetExpectedDestination().Y);
-            Assert.AreEqual(0, chaserChaserPositionManager.GetDirection().X);
-            Assert.AreEqual(100, chaserChaserPositionManager.GetDirection().Y);
+            Assert.AreEqual(0, chaserChaserPositionManager.GetUnitDirection().X);
+            Assert.AreEqual(100, chaserChaserPositionManager.GetUnitDirection().Y);
         }
         
         [TestMethod]
@@ -416,8 +416,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(100, chaserChaserPositionManager.GetExpectedArrival().GetTick());
             Assert.AreEqual(0, chaserChaserPositionManager.GetExpectedDestination().X);
             Assert.AreEqual(200, chaserChaserPositionManager.GetExpectedDestination().Y);
-            Assert.AreEqual(0, chaserChaserPositionManager.GetDirection().X);
-            Assert.AreEqual(200, chaserChaserPositionManager.GetDirection().Y);
+            Assert.AreEqual(0, chaserChaserPositionManager.GetUnitDirection().X);
+            Assert.AreEqual(200, chaserChaserPositionManager.GetUnitDirection().Y);
         }
         
         [TestMethod]
@@ -448,8 +448,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(100, chaserChaserPositionManager.GetExpectedArrival().GetTick());
             Assert.AreEqual(0, chaserChaserPositionManager.GetExpectedDestination().X);
             Assert.AreEqual(200, chaserChaserPositionManager.GetExpectedDestination().Y);
-            Assert.AreEqual(200, chaserChaserPositionManager.GetDirection().X);
-            Assert.AreEqual(0, chaserChaserPositionManager.GetDirection().Y);
+            Assert.AreEqual(200, chaserChaserPositionManager.GetUnitDirection().X);
+            Assert.AreEqual(0, chaserChaserPositionManager.GetUnitDirection().Y);
         }
     }
 }

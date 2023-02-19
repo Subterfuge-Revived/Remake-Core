@@ -110,10 +110,10 @@ namespace Subterfuge.Remake.Core.Topologies
 		/// <summary>
 		/// Returns Vector2: the RftVector normalized to have magnitude 1. (0, 0) normalized will return (1, 0).
 		/// </summary>
-		public Vector2 Normalize()
+		public RftVector Normalize()
 		{
-			if ((this._x == 0) && (this._y == 0)) { return new Vector2(1, 0); }
-			return new Vector2(_x / this.Magnitude(), _y / this.Magnitude());
+			if ((this._x == 0) && (this._y == 0)) { return new RftVector(1, 0); }
+			return new RftVector(_x / this.Magnitude(), _y / this.Magnitude());
 		}
 
 		/// <summary>
@@ -165,5 +165,8 @@ namespace Subterfuge.Remake.Core.Topologies
 			new RftVector(Map, a._x + b._x, a._y + b._y);
 
 		public static RftVector operator -(RftVector a, RftVector b) => a + (-b);
+
+		public static RftVector operator *(RftVector a, float scaleBy) =>
+			new RftVector(Map, a._x * (float)Math.Sqrt(scaleBy), a._y * (float)Math.Sqrt(scaleBy));
 	}
 }

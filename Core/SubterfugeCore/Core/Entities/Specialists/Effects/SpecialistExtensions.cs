@@ -112,7 +112,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
             switch (effectScale.EffectTriggerRange)
             {
                 case EffectTriggerRange.Local:
-                    candidates = candidates.FindAll(x => x.GetComponent<PositionManager>().GetPositionAt(state.CurrentTick) == friendly.GetComponent<PositionManager>().GetPositionAt(state.CurrentTick));
+                    candidates = candidates.FindAll(x => x.GetComponent<PositionManager>().CurrentLocation == friendly.GetComponent<PositionManager>().CurrentLocation);
                     break;
                 case EffectTriggerRange.Self:
                     candidates = candidates.FindAll(x => x == friendly);

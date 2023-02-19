@@ -3,7 +3,6 @@ using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Positions;
-using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.outpost;
 using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
@@ -31,12 +30,11 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 				var drillerCarrier = drillLocation.GetComponent<DrillerCarrier>();
 				if (state.GetOutposts().Contains(_original) && !drillerCarrier.GetOwner().IsEliminated() && drillerCarrier.GetDrillerCount() >= drillerCarrier.GetOwner().GetRequiredDrillersToMine())
 				{
-					_drilledMine = new Mine(_original);
+					_drilledMine = new Mine(_original, timeMachine);
 					if (state.ReplaceOutpost(_original, _drilledMine))
 					{
 						drillerCarrier.RemoveDrillers(drillerCarrier.GetOwner().GetRequiredDrillersToMine());
 						drillerCarrier.GetOwner().AlterMinesDrilled(1);
-						timeMachine.AddEvent(new NeptuniumProductionEvent(_drilledMine, GetOccursAt().Advance(Mine.TICKS_PER_PRODUCTION_PER_MINE / state.GetPlayerOutposts(drillerCarrier.GetOwner()).Count)));
 						EventSuccess = true;
 					}
 				}

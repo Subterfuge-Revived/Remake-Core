@@ -1,8 +1,16 @@
-﻿using Subterfuge.Remake.Core.Components;
+﻿using System;
+using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
 
-namespace Subterfuge.Remake.Core.EventArgs
+namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
 {
+    public interface IVisionEventPublisher
+    {
+        event EventHandler<OnVisionRangeChangeEventArgs> OnVisionRangeChange;
+        event EventHandler<OnEntityEnterVisionRangeEventArgs> OnEntityEnterVisionRange;
+        event EventHandler<OnEntityLeaveVisionRangeEventArgs> OnEntityLeaveVisionRange;
+    }
+    
     public class OnVisionRangeChangeEventArgs : System.EventArgs
     {
         public float PreviousVisionRange { get; set; }

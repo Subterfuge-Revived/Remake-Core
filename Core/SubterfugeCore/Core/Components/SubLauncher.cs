@@ -2,13 +2,14 @@
 using System.Linq;
 using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities;
-using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.GameState;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Components
 {
-    public class SubLauncher : EntityComponent
+    public class SubLauncher : EntityComponent, ISubLaunchEventPublisher
     {
 
         /// <summary>
@@ -17,8 +18,7 @@ namespace Subterfuge.Remake.Core.Components
         private readonly DrillerCarrier _drillerCarrier;
         private readonly SpecialistManager _specialistManager;
         
-        public event EventHandler<OnSubLaunchEventArgs> OnSubLaunch;
-        public event EventHandler<OnUndoSubLaunchEventArgs> OnUndoSubLaunch;
+        public event EventHandler<OnSubLaunchEventArgs> OnSubLaunched;
 
         public SubLauncher(IEntity parent) : base(parent)
         {
@@ -26,8 +26,11 @@ namespace Subterfuge.Remake.Core.Components
             _specialistManager = parent.GetComponent<SpecialistManager>();
         }
 
-        public Sub LaunchSub(IGameState state, LaunchEvent launchEvent)
-        {
+        public Sub LaunchSub(
+            TimeMachine timeMachine,
+            IGameState state,
+            LaunchEvent launchEvent
+        ) {
             // Determine any specialist effects if a specialist left the sub.
             LaunchEventData launchData = launchEvent.GetEventData();
             Entity source = state.GetEntity(launchData.SourceId);
@@ -36,17 +39,18 @@ namespace Subterfuge.Remake.Core.Components
             if (destination != null && _drillerCarrier.HasDrillers(launchData.DrillerCount))
             {
                 _drillerCarrier.RemoveDrillers(launchData.DrillerCount);
-                Sub launchedSub = new Sub(launchEvent.GetEventId(), source, destination, state.GetCurrentTick(), launchData.DrillerCount, this._drillerCarrier.GetOwner());
+                Sub launchedSub = new Sub(launchEvent.GetEventId(), source, destination, state.GetCurrentTick(), launchData.DrillerCount, this._drillerCarrier.GetOwner(), timeMachine);
                 this._specialistManager.TransferSpecialistsById(launchedSub.GetComponent<SpecialistManager>(), launchData.SpecialistIds.ToList());
                 state.AddSub(launchedSub);
                 launchEvent.SetLaunchedSub(launchedSub);
                 
-                OnSubLaunch?.Invoke(this, new OnSubLaunchEventArgs()
+                OnSubLaunched?.Invoke(this, new OnSubLaunchEventArgs()
                 {
                     Destination = destination,
                     LaunchedSub = launchedSub,
                     LaunchEvent = launchEvent,
-                    Source = source
+                    Source = source,
+                    Direction = TimeMachineDirection.FORWARD
                 });
                 
                 return launchedSub;
@@ -67,13 +71,14 @@ namespace Subterfuge.Remake.Core.Components
                 launchedSub.GetComponent<SpecialistManager>().TransferSpecialistsTo(_specialistManager);
                 state.RemoveSub(launchEvent.GetActiveSub());
                 
-                OnUndoSubLaunch?.Invoke(this, new OnUndoSubLaunchEventArgs()
+                OnSubLaunched?.Invoke(this, new OnSubLaunchEventArgs()
                 {
-                    Destination = state.GetEntity(launchData.DestinationId),
                     LaunchedSub = launchedSub,
                     LaunchEvent = launchEvent,
-                    Source = state.GetEntity(launchData.SourceId)
+                    Source = Parent,
+                    Direction = TimeMachineDirection.REVERSE
                 });
+                
             }
         }
 

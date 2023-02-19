@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Subterfuge.Remake.Core.Entities;
-using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.GameState;
-using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Components
 {
-    public class VisionManager : EntityComponent
+    public class VisionManager : EntityComponent, IVisionEventPublisher
     {
         private float _visionRange;
         private PositionManager position;
@@ -39,7 +38,7 @@ namespace Subterfuge.Remake.Core.Components
         /// <param name="newVisionRange">The new vision range.</param>
         /// <param name="state">The game state</param>
         /// <param name="tick">The current tick</param>
-        public void SetVisionRange(float newVisionRange, IGameState state, GameTick tick)
+        public void SetVisionRange(float newVisionRange, IGameState state)
         {
             var previousVisionRange = this._visionRange;
             this._visionRange = newVisionRange;
@@ -52,7 +51,7 @@ namespace Subterfuge.Remake.Core.Components
             });
             
             // Update what the vision manager can see.
-            GetEntitiesInVisionRange(state, tick);
+            GetEntitiesInVisionRange(state);
         }
 
 
@@ -62,15 +61,15 @@ namespace Subterfuge.Remake.Core.Components
         /// <param name="tick">The tick to check</param>
         /// <param name="positionManager">The position manager</param>
         /// <returns>If the object is in the vision range.</returns>
-        public bool IsInVisionRange(GameTick tick, PositionManager positionManager)
+        public bool IsInVisionRange(PositionManager positionManager)
         {
-            var pos = position.GetPositionAt(tick);
-            return Vector2.Distance(pos.ToVector2(), positionManager.GetPositionAt(tick).ToVector2()) < _visionRange;
+            var pos = position.CurrentLocation;
+            return Vector2.Distance(pos.ToVector2(), positionManager.CurrentLocation.ToVector2()) < _visionRange;
         }
 
-        public List<IEntity> GetEntitiesInVisionRange(IGameState state, GameTick tick)
+        public List<IEntity> GetEntitiesInVisionRange(IGameState state)
         {
-            var currentPosition = this.position.GetPositionAt(tick);
+            var currentPosition = this.position.CurrentLocation;
             var currentEntitiesInRange = state.EntitesInRange(this._visionRange, currentPosition);
             
             // Check entities that have left the vision range (or that have died/etc.)

@@ -21,13 +21,13 @@ namespace Subterfuge.Remake.Core.Entities.Positions
         public Outpost(
             string id,
             RftVector outpostStartPosition,
+            TimeMachine timeMachine,
             Player outpostOwner = null,
             float visionRadius = Constants.BaseOutpostVisionRadius
-            )
-        {
+        ) {
             AddComponent(new DrillerCarrier(this, Constants.InitialDrillersPerOutpost, outpostOwner));
             AddComponent(new SpeedManager(this, 0.0f));
-            AddComponent(new PositionManager(this, outpostStartPosition, null, new GameTick()));
+            AddComponent(new PositionManager(this, timeMachine, outpostStartPosition, new GameTick()));
             AddComponent(new SpecialistManager(this, 100));
             AddComponent(new IdentityManager(this, id));
             AddComponent(new ShieldManager(this, Constants.InitialMaxShieldsPerOutpost));

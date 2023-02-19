@@ -1,8 +1,16 @@
-﻿using Subterfuge.Remake.Core.Components;
+﻿using System;
+using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities.Specialists;
 
-namespace Subterfuge.Remake.Core.EventArgs
+namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
 {
+    public interface ISpecialistCarrierEventPublisher
+    {
+        event EventHandler<OnAddSpecialistEventArgs> OnAddSpecialist;
+        event EventHandler<OnRemoveSpecialistEventArgs> OnRemoveSpecialist;
+        event EventHandler<OnSpecialistCapacityChangeEventArgs> OnSpecialistCapacityChange;
+    }
+    
     public class OnAddSpecialistEventArgs
     {
         public Specialist AddedSpecialist { get; set; }

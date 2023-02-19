@@ -8,7 +8,7 @@ namespace Subterfuge.Remake.Api.Network
         public string Id { get; set; }
         public string RoomId { get; set; }
         public DateTime TimeIssued { get; set; }
-        public User IssuedBy { get; set; }
+        public SimpleUser IssuedBy { get; set; }
         
         public GameEventData GameEventData { get; set; }
     }

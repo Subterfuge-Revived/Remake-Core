@@ -1,10 +1,10 @@
 ﻿using System;
 using Subterfuge.Remake.Core.Entities;
-using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 
 namespace Subterfuge.Remake.Core.Components
 {
-    public class SpeedManager : EntityComponent
+    public class SpeedManager : EntityComponent, ISpeedEventPublisher
     {
         private float _speed;
         

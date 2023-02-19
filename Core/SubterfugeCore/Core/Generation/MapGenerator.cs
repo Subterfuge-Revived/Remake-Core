@@ -46,15 +46,21 @@ namespace Subterfuge.Remake.Core.Generation
         
         private readonly List<Player> _players;
 
+        private TimeMachine _timeMachine;
+
         /// <summary>
         /// Map Generation constructor to seed map generation
         /// </summary>
         /// <param name="mapConfiguration">The map configuration parameters</param>
         /// <param name="players">The players in the game</param>
-        public MapGenerator(MapConfiguration mapConfiguration, List<Player> players)
-        {
+        public MapGenerator(
+            MapConfiguration mapConfiguration,
+            List<Player> players,
+            TimeMachine timeMachine
+        ) {
             this._players = players;
             this._mapConfiguration = mapConfiguration;
+            _timeMachine = timeMachine;
             
             if (players.Count <= 0)
             {
@@ -93,7 +99,7 @@ namespace Subterfuge.Remake.Core.Generation
             foreach (Outpost outpost in outposts)
             {
                 // Get original outpost location
-                RftVector position = outpost.GetComponent<PositionManager>().GetPositionAt(new GameTick(0));
+                RftVector position = outpost.GetComponent<PositionManager>().GetInitialPosition();
 
                 // New vector for the copied location
                 RftVector newPosition = new RftVector(RftVector.Map, position.X, position.Y);
@@ -165,7 +171,7 @@ namespace Subterfuge.Remake.Core.Generation
                 {
                     // Get the X and Y pos to find distance
                     var otherOutpost = playerOutposts[idx];
-                    var vectorDistance = otherOutpost.GetComponent<PositionManager>().GetPositionAt(new GameTick(0)) - currentOutpostPosition;
+                    var vectorDistance = otherOutpost.GetComponent<PositionManager>().GetInitialPosition() - currentOutpostPosition;
 
                     //ensure that the new location is not too close to other outposts
                     if (vectorDistance.Magnitude() < _mapConfiguration.MinimumOutpostDistance)
@@ -213,13 +219,13 @@ namespace Subterfuge.Remake.Core.Generation
                 else
                 {
                     // Determine the distance to the current outpost from the centroid
-                    float currentDistance = (centroid - o.GetComponent<PositionManager>().GetPositionAt(new GameTick(0))).Magnitude();
+                    float currentDistance = (centroid - o.GetComponent<PositionManager>().GetInitialPosition()).Magnitude();
 
                     // Sort the closestOutpost list to determine the farthest outpost (maybe this one is closer).
-                    closestOutposts.Sort((a, b) => (int)((centroid - a.GetComponent<PositionManager>().GetPositionAt(new GameTick(0))).Magnitude() - (centroid - b.GetComponent<PositionManager>().GetPositionAt(new GameTick(0))).Magnitude()));
+                    closestOutposts.Sort((a, b) => (int)((centroid - a.GetComponent<PositionManager>().GetInitialPosition()).Magnitude() - (centroid - b.GetComponent<PositionManager>().GetInitialPosition()).Magnitude()));
 
                     // Determine the distance of the farthest outpost
-                    float farthestDistance = (centroid - closestOutposts[_mapConfiguration.OutpostsPerPlayer - 1].GetComponent<PositionManager>().GetPositionAt(new GameTick(0))).Magnitude();
+                    float farthestDistance = (centroid - closestOutposts[_mapConfiguration.OutpostsPerPlayer - 1].GetComponent<PositionManager>().GetInitialPosition()).Magnitude();
 
                     // If the current outpost is closer, put the current outpost in the list, replacing the farther outpost.
                     if (currentDistance < farthestDistance)
@@ -332,10 +338,10 @@ namespace Subterfuge.Remake.Core.Generation
         {
             switch (type)
             {
-                case OutpostType.Factory: return new Factory(_generator.GetNextId(), outpostPosition);
-                case OutpostType.Generator: return new Generator(_generator.GetNextId(), outpostPosition);
-                case OutpostType.Mine: return new Mine(_generator.GetNextId(), outpostPosition);
-                case OutpostType.Watchtower: return new Watchtower(_generator.GetNextId(), outpostPosition);
+                case OutpostType.Factory: return new Factory(_generator.GetNextId(), outpostPosition, _timeMachine);
+                case OutpostType.Generator: return new Generator(_generator.GetNextId(), outpostPosition, _timeMachine);
+                case OutpostType.Mine: return new Mine(_generator.GetNextId(), outpostPosition, _timeMachine);
+                case OutpostType.Watchtower: return new Watchtower(_generator.GetNextId(), outpostPosition, _timeMachine);
                 default: throw new OutpostTypeException("Invalid Outpost Type");
             }
         }

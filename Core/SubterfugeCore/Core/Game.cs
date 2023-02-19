@@ -6,7 +6,7 @@ using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.Entities.Specialists;
 using Subterfuge.Remake.Core.GameEvents.Base;
-using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.outpost;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.Generation;
 using Subterfuge.Remake.Core.Players;
@@ -45,6 +45,8 @@ namespace Subterfuge.Remake.Core
         /// This includes things like outpost generation and specialist pool randomization.
         /// </summary>
         public SeededRandom SeededRandom;
+
+        public CurrencyProducer CurrencyProducer;
         
         public string GameVersion { get; private set; }
 
@@ -63,7 +65,7 @@ namespace Subterfuge.Remake.Core
             TimeMachine = new TimeMachine(state);
 
             // Creates the map generator with a random seed
-            MapGenerator mapGenerator = new MapGenerator(gameConfiguration.MapConfiguration, state.GetPlayers());
+            MapGenerator mapGenerator = new MapGenerator(gameConfiguration.MapConfiguration, state.GetPlayers(), TimeMachine);
             
             // Generate the map
             List<Outpost> generatedOutposts = mapGenerator.GenerateMap();
@@ -73,16 +75,9 @@ namespace Subterfuge.Remake.Core
             
             // Populate the specialist pool
             SpecialistPool = new SpecialistPool(SeededRandom, gameConfiguration.GameSettings.AllowedSpecialists.ToList());
+            CurrencyProducer = new CurrencyProducer(TimeMachine);
 
-            // All owned factories should start producing drillers
-            foreach (Outpost o in generatedOutposts)
-            {
-                if (o is Factory && o.GetComponent<DrillerCarrier>().GetOwner() != null)
-                {
-                    Factory f = (Factory)o;
-                    TimeMachine.AddEvent(new FactoryProduction(f, f.GetTicksToFirstProduction()));
-                }
-            }
+            TimeMachine.OnTick += PlayerCurrencyEventListener;
         }
 
         public void LoadGameEvents(List<GameRoomEvent> gameEvents)
@@ -147,6 +142,11 @@ namespace Subterfuge.Remake.Core
         public SpecialistPool GetSpecialistPool()
         {
             return SpecialistPool;
+        }
+
+        private void PlayerCurrencyEventListener(object sender, OnTickEventArgs onTick)
+        {
+            
         }
     }
 }
