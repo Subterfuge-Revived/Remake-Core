@@ -22,7 +22,7 @@ namespace Subterfuge.Remake.Core.Components
 	    /// <summary>
 	    /// Amount of drillers produced each production cycle
 	    /// </summary>
-	    private int _baseValuePerProduction;
+	    protected int BaseValuePerProduction;
 
 	    private List<ProductionEventArgs> _productionEvents = new List<ProductionEventArgs>();
 
@@ -32,7 +32,7 @@ namespace Subterfuge.Remake.Core.Components
             TimeMachine timeMachine
         ) {
 		    _ticksPerProductionCycle = ticksPerProductionCycle;
-		    _baseValuePerProduction = baseValuePerProduction;
+		    BaseValuePerProduction = baseValuePerProduction;
             this._nextProductionTick = timeMachine.GetCurrentTick().Advance(_ticksPerProductionCycle);
             
             timeMachine.OnTick += ProductionTickListener;
@@ -40,12 +40,22 @@ namespace Subterfuge.Remake.Core.Components
 
 	    public void ChangeAmountProducedPerCycle(int delta)
 	    {
-		    _baseValuePerProduction = Math.Max(0, _baseValuePerProduction + delta);
+		    BaseValuePerProduction = Math.Max(0, BaseValuePerProduction + delta);
 	    }
 
 	    public void ChangeTicksPerProductionCycle(int delta)
 	    {
 		    _ticksPerProductionCycle = Math.Max(0, _ticksPerProductionCycle + delta);
+	    }
+
+	    public GameTick GetNextProductionTick()
+	    {
+		    return _nextProductionTick;
+	    }
+
+	    public int GetTicksPerProductionCycle()
+	    {
+		    return _ticksPerProductionCycle;
 	    }
 
         private void ProductionTickListener(object timeMachine, OnTickEventArgs tickEventArgs)
@@ -54,8 +64,7 @@ namespace Subterfuge.Remake.Core.Components
 			{
 				if (_nextProductionTick == tickEventArgs.CurrentTick)
 				{
-					
-					var productionAmount = this.GetNextProductionAmount(tickEventArgs.CurrentState, _baseValuePerProduction);
+					var productionAmount = this.GetNextProductionAmount(tickEventArgs.CurrentState);
 					_nextProductionTick = tickEventArgs.CurrentTick.Advance(_ticksPerProductionCycle);
 					
 					Produce(productionAmount);
@@ -74,19 +83,22 @@ namespace Subterfuge.Remake.Core.Components
 			}
 			else
 			{
-				var lastProductionEvent = _productionEvents[_productionEvents.Count - 1];
-				if (lastProductionEvent.TickProducedAt.Rewind(1) == tickEventArgs.CurrentTick)
+				if (_productionEvents.Count > 0)
 				{
-					UndoProduce(lastProductionEvent.ValueProduced);
-					_nextProductionTick = tickEventArgs.CurrentTick.Rewind(_ticksPerProductionCycle);
-					OnResourceProduced?.Invoke(this, lastProductionEvent);
+					var lastProductionEvent = _productionEvents[_productionEvents.Count - 1];
+					if (lastProductionEvent.TickProducedAt.Rewind(1) == tickEventArgs.CurrentTick)
+					{
+						UndoProduce(lastProductionEvent.ValueProduced);
+						_nextProductionTick = tickEventArgs.CurrentTick.Rewind(_ticksPerProductionCycle);
+						OnResourceProduced?.Invoke(this, lastProductionEvent);
+					}
 				}
 			}
 		}
 
-        public abstract void Produce(int productionAmount);
+        protected abstract void Produce(int productionAmount);
 
-        public abstract void UndoProduce(int amountToRevert);
+        protected abstract void UndoProduce(int amountToRevert);
 
 		/// <summary>
 		/// Gets the number of units that would be produced by this mine if
@@ -94,7 +106,7 @@ namespace Subterfuge.Remake.Core.Components
 		/// </summary>
 		/// <param name="state">The current game state</param>
 		/// <returns>The total amount of neptunium produced if the production occurred now.</returns>
-		public abstract int GetNextProductionAmount(GameState.GameState state, int baseValuePerProduction);
+		public abstract int GetNextProductionAmount(GameState.GameState state);
 
 		public event EventHandler<ProductionEventArgs>? OnResourceProduced;
     }

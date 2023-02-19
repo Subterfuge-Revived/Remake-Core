@@ -1,6 +1,7 @@
 ﻿using System;
 using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Components
@@ -19,23 +20,23 @@ namespace Subterfuge.Remake.Core.Components
             Parent = parent;
         }
 
-        public override void Produce(int productionAmount)
+        protected override void Produce(int productionAmount)
         {
             Parent.GetComponent<DrillerCarrier>().AddDrillers(productionAmount);
         }
 
-        public override void UndoProduce(int amountToRevert)
+        protected override void UndoProduce(int amountToRevert)
         {
             Parent.GetComponent<DrillerCarrier>().RemoveDrillers(amountToRevert);
         }
 
-        public override int GetNextProductionAmount(GameState.GameState state, int baseValuePerProduction)
+        public override int GetNextProductionAmount(GameState.GameState state)
         {
-            if (!Parent.GetComponent<DrillerCarrier>().IsDestroyed())
+            if (Parent.GetComponent<DrillerCarrier>().IsDestroyed())
             {
                 return 0;
             }
-            return Math.Min(state.GetExtraDrillerCapcity(Parent.GetComponent<DrillerCarrier>().GetOwner()), baseValuePerProduction);
+            return Math.Min(state.GetExtraDrillerCapcity(Parent.GetComponent<DrillerCarrier>().GetOwner()), BaseValuePerProduction);
         }
     }
 }

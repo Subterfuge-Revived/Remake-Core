@@ -127,5 +127,17 @@ namespace Subterfuge.Remake.Core.Players
         {
             return this._isEliminated;
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || this == null)
+                return false;
+            
+            Player? other = obj as Player;
+            if (obj == null)
+                return false;
+            
+            return other.PlayerInstance.Id == this.PlayerInstance.Id;
+        }
     }
 }

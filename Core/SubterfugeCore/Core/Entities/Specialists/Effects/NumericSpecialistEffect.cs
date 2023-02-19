@@ -16,7 +16,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
         /// <returns></returns>
-        private float GetForwardEffectDelta(GameState.GameState state, int startValue, Entity friendly, Entity enemy)
+        private float GetForwardEffectDelta(GameState.GameState state, int startValue, IEntity friendly, IEntity enemy)
         {
             if (configuration.EffectScale == null)
             {
@@ -36,7 +36,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
         /// <param name="friendly">The friendly participant. Null if none.</param>
         /// <param name="enemy">The enemy participant. Null if none.</param>
         /// <returns></returns>
-        public float GetBackwardsEffectDelta(GameState.GameState state, int endValue, Entity friendly, Entity enemy)
+        public float GetBackwardsEffectDelta(GameState.GameState state, int endValue, IEntity friendly, IEntity enemy)
         {
             if (configuration.EffectScale == null)
             {
@@ -53,7 +53,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
         /// <param name="friendly">The original friendly triggering the event (if any)</param>
         /// <param name="enemy">The enemy participating in the event (if any)</param>
         /// <returns>A list of effect deltas to be applied</returns>
-        public override List<EffectDelta> GetForwardEffectDeltas(GameState.GameState state, Entity friendly, Entity enemy)
+        public override List<EffectDelta> GetForwardEffectDeltas(GameState.GameState state, IEntity friendly, IEntity enemy)
         {
             List<IEntity> targets = this.GetEffectTargets(state, friendly, enemy);
             List<EffectDelta> deltas = new List<EffectDelta>();
@@ -84,7 +84,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Effects
         /// <param name="friendly">The friendly triggering the event (if any)</param>
         /// <param name="enemy">The enemy participating in the event (if any)</param>
         /// <returns></returns>
-        public override List<EffectDelta> GetBackwardEffectDeltas(GameState.GameState state, Entity friendly, Entity enemy)
+        public override List<EffectDelta> GetBackwardEffectDeltas(GameState.GameState state, IEntity friendly, IEntity enemy)
         {
             List<IEntity> targets = this.GetEffectTargets(state, friendly, enemy);
             List<EffectDelta> deltas = new List<EffectDelta>();

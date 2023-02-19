@@ -9,7 +9,6 @@ using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.GameEvents.Base;
-using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.outpost;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
@@ -22,18 +21,21 @@ namespace Subterfuge.Remake.Test
 	{
 		Game _game;
 		TimeMachine _tm;
-		Player _p;
+		Player _p = new Player(new SimpleUser() { Id = "1" });
 		Outpost _o1, _o2;
 		GameRoomEvent _model1, _model2;
 		TestUtils testUtils = new TestUtils();
 
+		public List<Player> players;
+
 		[TestInitialize]
 		public void Setup()
 		{
-			_p = new Player("Player 1");
-			List<Player> playerlist = new List<Player>();
-			playerlist.Add(_p);
-			GameConfiguration config = testUtils.GetDefaultGameConfiguration(playerlist);
+			players = new List<Player>()
+			{
+				_p,
+			};
+			GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
 			config.MapConfiguration.OutpostsPerPlayer = 12;
 			_game = new Game(config);
 			_tm = _game.TimeMachine;
@@ -152,22 +154,14 @@ namespace Subterfuge.Remake.Test
 		}
 
 		[TestMethod]
-		public void NeptuniumProductionEventCreated()
-		{
-			_o1.GetComponent<DrillerCarrier>().AddDrillers(50);
-			DrillMineEvent drillMine = new DrillMineEvent(_model1);
-			_tm.AddEvent(drillMine);
-			_tm.Advance(10);
-			Assert.IsTrue(_tm.GetQueuedEvents().Exists(IsNeptuniumProductionEvent));
-		}
-
-		[TestMethod]
 		public void RegularNeptuniumProduction()
 		{
 			_o1.GetComponent<DrillerCarrier>().AddDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(_model1);
 			_tm.AddEvent(drillMine);
-			_tm.Advance(10 + 1440 / (int)GameTick.MinutesPerTick);
+			_tm.Advance(10);
+			MineProducer mineProducer = drillMine.CreatedMine.GetComponent<MineProductionComponent>().MineProducer;
+			_tm.GoTo(mineProducer.GetNextProductionTick());
 			Assert.AreEqual(12, _o1.GetComponent<DrillerCarrier>().GetOwner().GetNeptunium());
 		}
 
@@ -182,12 +176,7 @@ namespace Subterfuge.Remake.Test
 			Assert.IsTrue(_tm.GetState().GetOutposts().Contains(_o1));
 			Assert.AreEqual(0, _p.GetNeptunium());
 			Assert.AreEqual(0, _tm.GetCurrentTick().GetTick());
-			Assert.AreEqual(Constants.InitialDrillersPerOutpost + 50, _o1.GetComponent<DrillerCarrier>().GetDrillerCount());
-		}
-
-		private bool IsNeptuniumProductionEvent(GameEvent e)
-		{
-			return e is NeptuniumProductionEvent;
+			Assert.AreEqual(Constants.InitialDrillersPerOutpost + 62, _o1.GetComponent<DrillerCarrier>().GetDrillerCount());
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core;
 using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
@@ -15,7 +16,7 @@ namespace Subterfuge.Remake.Test
     public class TimeMachineTest
     {
         TestUtils testUtils = new TestUtils();
-        Player player = new Player("1");
+        Player player = new Player(new SimpleUser() { Id = "1" });
         private Game _game;
         
         [TestInitialize]
@@ -35,11 +36,10 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void AddEvent()
         {
-            Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
+            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player, _game.TimeMachine);
             outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
-            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
+            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player, _game.TimeMachine);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick());
 
             _game.TimeMachine.AddEvent(arriveEvent);
@@ -78,11 +78,10 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void EventsSwitchQueuesWhenPassedForward()
         {
-            Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
+            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player, _game.TimeMachine);
             outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
-            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
+            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player, _game.TimeMachine);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             _game.TimeMachine.AddEvent(arriveEvent);
@@ -97,11 +96,10 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void EventsSwitchQueuesWhenRewind()
         {
-            Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
+            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player, _game.TimeMachine);
             outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
-            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
+            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player, _game.TimeMachine);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             _game.TimeMachine.AddEvent(arriveEvent);
@@ -121,11 +119,10 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanRemoveEvents()
         {
-            Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
+            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player, _game.TimeMachine);
             outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
-            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
+            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player, _game.TimeMachine);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             _game.TimeMachine.AddEvent(arriveEvent);
@@ -150,11 +147,10 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanGoToAnEvent()
         {
-            Player player1 = new Player("1");
             Rft map = new Rft(3000, 3000);
-            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player1);
+            Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player, _game.TimeMachine);
             outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
-            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player1);
+            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player, _game.TimeMachine);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             _game.TimeMachine.AddEvent(arriveEvent);

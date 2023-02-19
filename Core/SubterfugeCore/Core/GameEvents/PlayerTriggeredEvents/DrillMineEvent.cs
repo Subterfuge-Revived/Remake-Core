@@ -9,8 +9,8 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 {
 	public class DrillMineEvent : PlayerTriggeredEvent
 	{
-		private Outpost _original;
-		private Mine _drilledMine;
+		public Outpost OriginalOutpost;
+		public Mine CreatedMine;
 
 		public DrillMineEvent(GameRoomEvent mining) : base(mining)
 		{
@@ -26,12 +26,12 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 			Entity drillLocation = state.GetEntity(GetEventData().SourceId);
 			if (drillLocation != null && drillLocation is Outpost && !(drillLocation is Mine) && !((Outpost)drillLocation).GetComponent<DrillerCarrier>().IsDestroyed())
 			{
-				_original = (Outpost)drillLocation;
+				OriginalOutpost = (Outpost)drillLocation;
 				var drillerCarrier = drillLocation.GetComponent<DrillerCarrier>();
-				if (state.GetOutposts().Contains(_original) && !drillerCarrier.GetOwner().IsEliminated() && drillerCarrier.GetDrillerCount() >= drillerCarrier.GetOwner().GetRequiredDrillersToMine())
+				if (state.GetOutposts().Contains(OriginalOutpost) && !drillerCarrier.GetOwner().IsEliminated() && drillerCarrier.GetDrillerCount() >= drillerCarrier.GetOwner().GetRequiredDrillersToMine())
 				{
-					_drilledMine = new Mine(_original, timeMachine);
-					if (state.ReplaceOutpost(_original, _drilledMine))
+					CreatedMine = new Mine(OriginalOutpost, timeMachine);
+					if (state.ReplaceOutpost(OriginalOutpost, CreatedMine))
 					{
 						drillerCarrier.RemoveDrillers(drillerCarrier.GetOwner().GetRequiredDrillersToMine());
 						drillerCarrier.GetOwner().AlterMinesDrilled(1);
@@ -50,8 +50,8 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 		{
 			if (EventSuccess)
 			{
-				var drillerCarrier = _drilledMine.GetComponent<DrillerCarrier>();
-				state.ReplaceOutpost(_drilledMine, _original);
+				var drillerCarrier = CreatedMine.GetComponent<DrillerCarrier>();
+				state.ReplaceOutpost(CreatedMine, OriginalOutpost);
 				drillerCarrier.GetOwner().AlterMinesDrilled(-1);
 				drillerCarrier.AddDrillers(drillerCarrier.GetOwner().GetRequiredDrillersToMine());
 			}

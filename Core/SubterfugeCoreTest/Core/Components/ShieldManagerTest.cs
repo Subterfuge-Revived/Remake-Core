@@ -2,7 +2,7 @@
 using Moq;
 using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
-using Subterfuge.Remake.Core.EventArgs;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 
 namespace Subterfuge.Remake.Test.Core.Components
 {
@@ -320,7 +320,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             
             Assert.IsTrue(eventFired);
             Assert.IsNotNull(valueChangeArgs);
-            Assert.AreEqual(initialShields, valueChangeArgs.PreviousValue);
+            Assert.AreEqual(1 - initialShields, valueChangeArgs.ShieldDelta);
             Assert.AreEqual(_mockEntity.Object.GetComponent<ShieldManager>(), valueChangeArgs.ShieldManager);
         }
         
@@ -343,7 +343,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             
             Assert.IsTrue(eventFired);
             Assert.IsNotNull(valueChangeArgs);
-            Assert.AreEqual(initialShields, valueChangeArgs.PreviousValue);
+            Assert.AreEqual(10 - initialShields, valueChangeArgs.ShieldDelta);
             Assert.AreEqual(_mockEntity.Object.GetComponent<ShieldManager>(), valueChangeArgs.ShieldManager);
         }
         
@@ -366,7 +366,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             
             Assert.IsTrue(eventFired);
             Assert.IsNotNull(valueChangeArgs);
-            Assert.AreEqual(initialShields, valueChangeArgs.PreviousValue);
+            Assert.AreEqual(-10, valueChangeArgs.ShieldDelta);
             Assert.AreEqual(_mockEntity.Object.GetComponent<ShieldManager>(), valueChangeArgs.ShieldManager);
         }
         
@@ -389,7 +389,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             
             Assert.IsTrue(eventFired);
             Assert.IsNotNull(capacityChangeArgs);
-            Assert.AreEqual(initialShieldCapacity, capacityChangeArgs.PreviousCapacity);
+            Assert.AreEqual(10 - initialShieldCapacity, capacityChangeArgs.CapacityDelta);
             Assert.AreEqual(_mockEntity.Object.GetComponent<ShieldManager>(), capacityChangeArgs.ShieldManager);
         }
     }

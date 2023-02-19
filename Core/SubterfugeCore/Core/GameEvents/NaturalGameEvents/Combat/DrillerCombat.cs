@@ -11,8 +11,8 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
     /// </summary>
     public class DrillerCombat : IReversible
     {
-        private readonly Entity _combatant1;
-        private readonly Entity _combatant2;
+        private readonly IEntity _combatant1;
+        private readonly IEntity _combatant2;
         private bool _eventSuccess;
 
         private int _preCombatDrillers1;
@@ -23,7 +23,7 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         /// </summary>
         /// <param name="combatant1">Combatant 1</param>
         /// <param name="combatant2">Combatant 2</param>
-        public DrillerCombat(Entity combatant1, Entity combatant2)
+        public DrillerCombat(IEntity combatant1, IEntity combatant2)
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;

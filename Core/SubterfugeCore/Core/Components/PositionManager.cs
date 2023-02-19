@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Numerics;
-using Subterfuge.Remake.Core.Config;
+using System.Collections.Generic;
+using System.Linq;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
+using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;
 
 namespace Subterfuge.Remake.Core.Components
 {
-    public class PositionManager : EntityComponent
+    public class PositionManager : EntityComponent, ICombatEventPublisher
     {
         private readonly IEntity _destination;
         private readonly IEntity _source;
@@ -16,6 +17,8 @@ namespace Subterfuge.Remake.Core.Components
         public RftVector CurrentLocation { get; private set; }
         private readonly GameTick _startTime;
         private readonly SpeedManager _speedManager;
+
+        private List<CombatEvent> localCombatEvents = new List<CombatEvent>();
         
         public PositionManager(
             IEntity parent,
@@ -32,7 +35,7 @@ namespace Subterfuge.Remake.Core.Components
             CurrentLocation = this._initialLocation;
 
             // Register to move this object on every tick.
-            timeMachine.OnTick += MoveOnTick;
+            timeMachine.OnTick += OnTickCheck;
         }
         
         public PositionManager(
@@ -49,7 +52,7 @@ namespace Subterfuge.Remake.Core.Components
             CurrentLocation = this._initialLocation;
 
             // Register to move this object on every tick.
-            timeMachine.OnTick += MoveOnTick;
+            timeMachine.OnTick += OnTickCheck;
         }
 
         /// <summary>
@@ -57,7 +60,7 @@ namespace Subterfuge.Remake.Core.Components
         /// </summary>
         /// <param name="sender">The TimeMachine instance that published the event</param>
         /// <param name="onTick">On Tick event args</param>
-        private void MoveOnTick(object sender, OnTickEventArgs onTick)
+        private void OnTickCheck(object sender, OnTickEventArgs onTick)
         {
             if (_destination != null)
             {
@@ -71,6 +74,62 @@ namespace Subterfuge.Remake.Core.Components
                 {
                     this.CurrentLocation -= direction * _speedManager.GetSpeed();
                 }
+            }
+            
+            // Check for combat events.
+            if (Parent is Sub)
+            {
+                CheckCombat(sender as TimeMachine, onTick);
+            }
+        }
+
+        private void CheckCombat(TimeMachine timeMachine, OnTickEventArgs onTick)
+        {
+            timeMachine
+                .GetState()
+                .GetAllGameObjects()
+                .Where(entity => entity != Parent)
+                .Where(entity => entity != _source)
+                .Where(entity =>
+                    (entity.GetComponent<PositionManager>().CurrentLocation - this.CurrentLocation).Length() < 1)
+                .ToList()
+                .ForEach(entityToFight =>
+                {
+                    if (onTick.Direction == TimeMachineDirection.FORWARD)
+                    {
+                        var combat = new CombatEvent(this.Parent, entityToFight,
+                            timeMachine.GetCurrentTick());
+                        
+                        OnPreCombat?.Invoke(this, new OnPreCombatEventArgs()
+                        {
+                            Direction = onTick.Direction,
+                            ParticipantOne = Parent,
+                            ParticipantTwo = entityToFight,
+                        });
+                        
+                        combat.ForwardAction(timeMachine, timeMachine.GetState());
+                        localCombatEvents.Add(combat);
+                        
+                        OnPostCombat?.Invoke(this, new PostCombatEventArgs()
+                        {
+                            Direction = onTick.Direction,
+                            Winner = combat.combatSummary._winner,
+                            CombatSummary = combat.combatSummary
+                        });
+                    }
+                });
+            
+            // Also check to undo events...
+            if (onTick.Direction == TimeMachineDirection.REVERSE)
+            {
+                localCombatEvents
+                    .Where(it => it.GetOccursAt() == onTick.CurrentTick.Advance(1))
+                    .ToList()
+                    .ForEach(it =>
+                    {
+                        it.BackwardAction(timeMachine, timeMachine.GetState());
+                        localCombatEvents.Remove(it);
+                    });
             }
         }
 
@@ -128,7 +187,7 @@ namespace Subterfuge.Remake.Core.Components
         {
             // https://stackoverflow.com/questions/37250215/intersection-of-two-moving-objects-with-latitude-longitude-coordinates
             
-            var distanceBetweenTargets = (_initialLocation - targetFrom).Magnitude();
+            var distanceBetweenTargets = (_initialLocation - targetFrom).Length();
             var directionBetweenTargets = Math.Atan2(_initialLocation.Y - targetFrom.Y, _initialLocation.X - targetFrom.X);
             var alpha = Math.PI + directionBetweenTargets - Math.Atan2(GetUnitDirection().Y, GetUnitDirection().X);
 
@@ -184,7 +243,7 @@ namespace Subterfuge.Remake.Core.Components
                 return null;
             }
             RftVector direction = GetUnitDirection();
-            int ticksToArrive = (int) Math.Floor(direction.Magnitude() / _speedManager.GetSpeed());
+            int ticksToArrive = (int) Math.Floor(direction.Length() / _speedManager.GetSpeed());
             return _startTime.Advance(ticksToArrive);
         }
 
@@ -197,5 +256,8 @@ namespace Subterfuge.Remake.Core.Components
         {
             return this._initialLocation;
         }
+
+        public event EventHandler<OnPreCombatEventArgs>? OnPreCombat;
+        public event EventHandler<PostCombatEventArgs>? OnPostCombat;
     }
 }

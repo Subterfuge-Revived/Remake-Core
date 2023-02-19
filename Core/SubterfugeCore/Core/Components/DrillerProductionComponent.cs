@@ -8,14 +8,14 @@ namespace Subterfuge.Remake.Core.Components
 {
     public class DrillerProductionComponent : EntityComponent
     {
-        private DrillerProducer MineProducer;
+        public DrillerProducer DrillerProducer { get; }
 		    
         public DrillerProductionComponent(
             IEntity parent,
             TimeMachine timeMachine
         ) : base(parent)
         {
-            MineProducer = new DrillerProducer(parent, timeMachine);
+            DrillerProducer = new DrillerProducer(parent, timeMachine);
         }
     }
 }
