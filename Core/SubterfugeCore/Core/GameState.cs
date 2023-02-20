@@ -101,7 +101,7 @@ namespace Subterfuge.Remake.Core.GameState
         /// </summary>
         /// <param name="id">The ID of the outpost you want to obtain.</param>
         /// <returns>The outpost matching the input Guid. Null if no results.</returns>
-        Entity GetEntity(string id);
+        Entity? GetEntity(string id);
 
         /// <summary>
         /// Determines if the referenced outpost exists.
@@ -137,13 +137,6 @@ namespace Subterfuge.Remake.Core.GameState
         /// <param name="player">The player to get specialists for</param>
         /// <returns>A list of the player's specialists</returns>
         List<Specialist> GetPlayerSpecialists(Player player);
-
-        /// <summary>
-        /// Determine if the player is alive
-        /// </summary>
-        /// <param name="player">The player</param>
-        /// <returns>If the player is alive</returns>
-        bool IsPlayerAlive(Player player);
 
         /// <summary>
         /// Gets the player's driller count
@@ -243,7 +236,7 @@ namespace Subterfuge.Remake.Core.GameState
             this._startTime = new GameTick();
             this.CurrentTick = this._startTime;
             
-            // Set the players.
+            // Set the players and attach their specialist pools.
             this._players = playersInGame;
         }
         
@@ -415,7 +408,7 @@ namespace Subterfuge.Remake.Core.GameState
         /// </summary>
         /// <param name="id">The ID of the outpost you want to obtain.</param>
         /// <returns>The outpost matching the input Guid. Null if no results.</returns>
-        public Entity GetEntity(string id)
+        public Entity? GetEntity(string id)
         {
             foreach (Outpost outpost in this._outposts)
             {
@@ -518,17 +511,6 @@ namespace Subterfuge.Remake.Core.GameState
             }
 
             return specialists;
-        }
-
-        /// <summary>
-        /// Determine if the player is alive
-        /// </summary>
-        /// <param name="player">The player</param>
-        /// <returns>If the player is alive</returns>
-        public bool IsPlayerAlive(Player player)
-        {
-            List<Specialist> specs = GetPlayerSpecialists(player);
-            return specs.Find(spec => spec is Queen).IsCaptured();
         }
 
         /// <summary>

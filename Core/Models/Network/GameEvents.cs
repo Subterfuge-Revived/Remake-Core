@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace Subterfuge.Remake.Api.Network
 {
-    // IMPORTANT! If new event types are added, ensure that DbGameEvent implements a serializer for the event data when it reads stores to the DB
+    // IMPORTANT! If new event types are added, ensure that SubterfugeGameEventController implements a deserializer for the event data to verify it
+    // Also ensure that GameEventFactory has a deserializer to convert the event into a game event.
     public enum EventDataType
     {
         Unknown = 0,
@@ -11,12 +12,11 @@ namespace Subterfuge.Remake.Api.Network
         ToggleShieldEventData = 2,
         DrillMineEventData = 3,
         PlayerLeaveGameEventData = 4,
-        
-        // Admin or server-only events.
-        // Validate that a player does not submit these.
-        PauseGameEventData = 5,
-        UnpauseGameEventData = 6,
-        GameEndEventData = 7,
+        PauseGameEventData = 5, // Admin Only
+        UnpauseGameEventData = 6, // Admin Only
+        GameEndEventData = 7, // Admin Only
+        HireSpecialistEventData = 8,
+        PromoteSpecialistEventData = 9,
     }
 
     public class LaunchEventData
@@ -58,5 +58,17 @@ namespace Subterfuge.Remake.Api.Network
         public DateTime GameEndAt { get; set; } = DateTime.Now;
         public bool ClosedByAdmin { get; set; } = false; 
         public SimpleUser? WinningPlayer { get; set; }
+    }
+
+    public class HireSpecialistEventData
+    {
+        public string HireLocation { get; set; }
+        public string SpecialistIdHired { get; set; }
+    }
+
+    public class PromoteSpecialistEventData
+    {
+        public string PromotionLocation { get; set; }
+        public string SpecialistIdPromoted { get; set; }
     }
 }

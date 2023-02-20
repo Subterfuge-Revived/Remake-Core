@@ -20,11 +20,18 @@ namespace Subterfuge.Remake.Api.Network
         public GameSettings GameSettings { get; set; }
         public MapConfiguration MapConfiguration { get; set; }
         public string RoomName { get; set; }
-        public string GameVersion { get; set; }
+        public GameVersion GameVersion { get; set; } = GameVersion.V1;
         public DateTime TimeCreated { get; set; }
         public DateTime TimeStarted { get; set; }
         public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
         public List<User> PlayersInLobby { get; set; }
+        public Dictionary<string, List<string>> PlayerSpecialistDecks { get; set; }
+    }
+    
+    public enum GameVersion
+    {
+        UNKNOWN = 0,
+        V1 = 1,
     }
 
     public class GameSettings

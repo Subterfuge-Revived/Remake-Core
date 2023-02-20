@@ -14,6 +14,15 @@ namespace Subterfuge.Remake.Core.Timing
         /// <summary>
         /// Seeded random constructor.
         /// </summary>
+        public SeededRandom()
+        {
+            this._generator = new Random(Game.GameConfiguration.MapConfiguration.Seed);
+            this._currentRand = 0;
+        }
+        
+        /// <summary>
+        /// Only needed for testing
+        /// </summary>
         /// <param name="seed">The seed to generate random numbers from</param>
         public SeededRandom(int seed)
         {

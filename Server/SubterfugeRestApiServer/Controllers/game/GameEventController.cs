@@ -156,7 +156,12 @@ public class SubterfugeGameEventController : ControllerBase, ISubterfugeGameEven
                             Username = dbUserModel.Username
                         };
                     }
-
+                    break;
+                case EventDataType.HireSpecialistEventData:
+                    JsonConvert.DeserializeObject<HireSpecialistEventData>(request.GameEventData.SerializedEventData);
+                    break;
+                case EventDataType.PromoteSpecialistEventData:
+                    JsonConvert.DeserializeObject<PromoteSpecialistEventData>(request.GameEventData.SerializedEventData);
                     break;
             }
         }
