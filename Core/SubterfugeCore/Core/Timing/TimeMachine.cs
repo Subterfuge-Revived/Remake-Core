@@ -87,6 +87,14 @@ namespace Subterfuge.Remake.Core.Timing
                         {
                             it.BackwardAction(this, _gameState);
                         }
+                        
+                        this.OnGameEvent?.Invoke(this, new OnGameEventTriggeredEventArgs()
+                        {
+                            Direction = direction,
+                            CurrentState = this._gameState,
+                            CurrentTick = this._gameState.CurrentTick,
+                            GameEvent = it,
+                        });
                     });
 
                 this.OnTick?.Invoke(this, new OnTickEventArgs()
@@ -160,5 +168,6 @@ namespace Subterfuge.Remake.Core.Timing
         }
 
         public event EventHandler<OnTickEventArgs>? OnTick;
+        public event EventHandler<OnGameEventTriggeredEventArgs>? OnGameEvent;
     }
 }

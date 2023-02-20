@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Config;
@@ -18,11 +19,6 @@ namespace Subterfuge.Remake.Core.Generation
         /// A list of the generated outposts.
         /// </summary>
         private readonly List<Outpost> _outposts = new List<Outpost>();
-
-        /// <summary>
-        /// Seeded Random for number generation
-        /// </summary>
-        private readonly SeededRandom _randomGenerator;
 
         /// <summary>
         /// To generate outpost names
@@ -72,8 +68,7 @@ namespace Subterfuge.Remake.Core.Generation
                 throw new OutpostPerPlayerException("outpostsPerPlayer must be greater than or equal to one.");
             }
 
-            this._randomGenerator = new SeededRandom(mapConfiguration.Seed);
-            this._nameGenerator = new NameGenerator(_randomGenerator);
+            this._nameGenerator = new NameGenerator(Game.SeededRandom);
 
             // Set the map size.
             int halfPlayers = (int)(Math.Floor(players.Count / 2.0));
@@ -90,7 +85,7 @@ namespace Subterfuge.Remake.Core.Generation
         private List<Outpost> TranslateOutposts(List<Outpost> outposts, RftVector translation)
         {
             // Generate a random rotation of 0/90/180/270 so the map doesn't appear to be tiled.
-            double rotation = _randomGenerator.NextRand(0, 3) * Math.PI / 2;
+            double rotation = Game.SeededRandom.NextRand(0, 3) * Math.PI / 2;
 
             // List to store the newly translated outposts
             List<Outpost> translatedOutposts = new List<Outpost>();
@@ -147,8 +142,8 @@ namespace Subterfuge.Remake.Core.Generation
             while (playerOutposts.Count < _mapConfiguration.OutpostsPerPlayer + _mapConfiguration.DormantsPerPlayer)
             {
                 // calculate the new outposts location within allowable radius
-                var distance = this._randomGenerator.NextDouble() * (_mapConfiguration.MaximumOutpostDistance - _mapConfiguration.MinimumOutpostDistance) + _mapConfiguration.MinimumOutpostDistance;
-                var direction = this._randomGenerator.NextDouble() * Math.PI * 2;
+                var distance = Game.SeededRandom.NextDouble() * (_mapConfiguration.MaximumOutpostDistance - _mapConfiguration.MinimumOutpostDistance) + _mapConfiguration.MinimumOutpostDistance;
+                var direction = Game.SeededRandom.NextDouble() * Math.PI * 2;
 
                 // Determine the type of outpost that is generated
                 OutpostType[] validTypes =
@@ -157,7 +152,7 @@ namespace Subterfuge.Remake.Core.Generation
                     OutpostType.Generator,
                     OutpostType.Watchtower,
                 };
-                OutpostType type = validTypes[this._randomGenerator.NextRand(0, 3)];
+                OutpostType type = validTypes[Game.SeededRandom.NextRand(0, 3)];
 
                 //convert distance & direction into vector X and Y
                 var x = Convert.ToInt32(Math.Cos(direction) * distance);
@@ -301,7 +296,7 @@ namespace Subterfuge.Remake.Core.Generation
                                 o.GetComponent<DrillerCarrier>().SetOwner(_players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
                             if (!queenGenerated)
                             {
-                                o.GetComponent<SpecialistManager>().AddSpecialist(new Queen(o.GetComponent<DrillerCarrier>().GetOwner()));
+                                o.GetComponent<SpecialistManager>().AddSpecialist(CreateQueen(o.GetComponent<DrillerCarrier>().GetOwner()));
                                 queenGenerated = true;
                             }
                         }
@@ -326,6 +321,12 @@ namespace Subterfuge.Remake.Core.Generation
 
             // Return a list of the generated outposts.
             return this._outposts;
+        }
+
+        private Specialist CreateQueen(Player player)
+        {
+            return new Specialist(Game.SpecialistConfigurationPool.GetPool().FirstOrDefault(it => it.Id == "Queen"),
+                player);
         }
 
         /// <summary>

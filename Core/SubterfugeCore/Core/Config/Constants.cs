@@ -78,5 +78,10 @@ namespace Subterfuge.Remake.Core.Config
 		/// (10 ticks * 20 shields * 15m per tick) / 60 m per hour = 50 hours to regen 20 shields.
 		/// </summary>
 		public const int BASE_SHIELD_REGENERATION_TICKS = 10;
+
+		/// <summary>
+		/// The number of specialists to offer per cycle
+		/// </summary>
+		public const int SPECIALISTS_OFFERED_PER_CYCLE = 2;
     }
 }

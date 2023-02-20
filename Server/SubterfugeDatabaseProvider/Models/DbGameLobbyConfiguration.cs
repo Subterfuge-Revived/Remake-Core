@@ -16,8 +16,10 @@ public class DbGameLobbyConfiguration
     public GameSettings GameSettings { get; set; }
     public MapConfiguration MapConfiguration { get; set; }
     public string RoomName { get; set; }
-    public string GameVersion { get; set; } = "0.0.1";
+    public GameVersion GameVersion { get; set; } = GameVersion.V1;
     public List<string> PlayerIdsInLobby { get; set; }
+
+    public Dictionary<string, List<string>> PlayerSpecialistDecks { get; set; } = new Dictionary<string, List<string>>();
 
     public static DbGameLobbyConfiguration FromRequest(CreateRoomRequest request, User creator)
     {

@@ -6,7 +6,6 @@ using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.Entities.Specialists;
 using Subterfuge.Remake.Core.GameEvents.Base;
-using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.Generation;
 using Subterfuge.Remake.Core.Players;
@@ -33,22 +32,20 @@ namespace Subterfuge.Remake.Core
         /// The specialist pool for the game. Provides a list of the possible specialists that can be obtained
         /// as well as their configuration.
         /// </summary>
-        public SpecialistPool SpecialistPool;
-
-        /// <summary>
-        /// The game mode selected for the game
-        /// </summary>
-        public GameMode GameMode { get; set; } = GameMode.Mining;
+        public static GlobalSpecialistPool SpecialistConfigurationPool = new GlobalSpecialistPool();
 
         /// <summary>
         /// The random number generated used for all randomly selected events within the game.
         /// This includes things like outpost generation and specialist pool randomization.
         /// </summary>
-        public SeededRandom SeededRandom;
+        public static SeededRandom SeededRandom;
 
-        public CurrencyProducer CurrencyProducer;
-        
-        public string GameVersion { get; private set; }
+        /// <summary>
+        /// Current Game configuration
+        /// </summary>
+        public static GameConfiguration GameConfiguration;
+
+        private CurrencyProducer CurrencyProducer;
 
         /// <summary>
         /// Creates a new game using the provided GameConfiguration. Calling this constructor will trigger
@@ -57,8 +54,8 @@ namespace Subterfuge.Remake.Core
         /// <param name="gameConfiguration">Settings that determine how the game should be configured during generation.</param>
         public Game(GameConfiguration gameConfiguration)
         {
-            SeededRandom = new SeededRandom(gameConfiguration.MapConfiguration.Seed);
-            GameVersion = gameConfiguration.GameVersion;
+            GameConfiguration = gameConfiguration;
+            SeededRandom = new SeededRandom();
             
             // Creates a new game state and makes a time machine to reference the state
             GameState.GameState state = new GameState.GameState(gameConfiguration.PlayersInLobby.Select(it => new Player(it)).ToList());
@@ -74,10 +71,7 @@ namespace Subterfuge.Remake.Core
             state.GetOutposts().AddRange(generatedOutposts);
             
             // Populate the specialist pool
-            SpecialistPool = new SpecialistPool(SeededRandom, gameConfiguration.GameSettings.AllowedSpecialists.ToList());
             CurrencyProducer = new CurrencyProducer(TimeMachine);
-
-            TimeMachine.OnTick += PlayerCurrencyEventListener;
         }
 
         public void LoadGameEvents(List<GameRoomEvent> gameEvents)
@@ -107,9 +101,9 @@ namespace Subterfuge.Remake.Core
                     .GetPlayers()
                     .FirstOrDefault(player => player.GetId() == endEvent.GetEventData().WinningPlayer.Id);
             }
-            switch (GameMode)
+            switch (GameConfiguration.GameSettings.Goal)
             {
-                case GameMode.Mining:
+                case Goal.Mining:
                     foreach (Player p in TimeMachine.GetState().GetPlayers())
                     {
                         if (!p.IsEliminated() && p.GetNeptunium() >= Constants.MiningNeptuniumToWin)
@@ -120,7 +114,7 @@ namespace Subterfuge.Remake.Core
 
                     return null;
 
-                case GameMode.Domination:
+                case Goal.Domination:
                     foreach (Player p in TimeMachine.GetState().GetPlayers())
                     {
                         if (!p.IsEliminated() && TimeMachine.GetState().GetPlayerOutposts(p).Count >
@@ -137,16 +131,6 @@ namespace Subterfuge.Remake.Core
                 default:
                     return null;
             }
-        }
-
-        public SpecialistPool GetSpecialistPool()
-        {
-            return SpecialistPool;
-        }
-
-        private void PlayerCurrencyEventListener(object sender, OnTickEventArgs onTick)
-        {
-            
         }
     }
 }

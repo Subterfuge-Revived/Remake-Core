@@ -44,8 +44,10 @@ namespace Subterfuge.Remake.Test.Core.Components
             Player owner
             )
         {
-            return new Specialist(name, priority, owner);
+            return new Specialist(new SpecialistConfiguration(), owner);
         }
+        
+        
         
         [TestMethod]
         public void CanInitializeSpecialistManager()

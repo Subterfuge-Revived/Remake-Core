@@ -7,7 +7,7 @@ namespace Subterfuge.Remake.Api.Network
     public class SpecialistConfiguration
     {
         public string Id { get; set; }
-        public long Priority { get; set; }
+        public int Priority { get; set; }
         public string SpecialistName { get; set; }
         public SimpleUser Creator { get; set; }
         public List<SpecialistEffectConfiguration> SpecialistEffects { get; set; }
@@ -102,7 +102,7 @@ namespace Subterfuge.Remake.Api.Network
 
     public class SubmitCustomSpecialistRequest
     {
-        public long Priority { get; set; }
+        public int Priority { get; set; }
         public string SpecialistName { get; set; }
         public List<SpecialistEffectConfiguration> SpecialistEffects { get; set; }
         public string PromotesFromSpecialistId { get; set; }

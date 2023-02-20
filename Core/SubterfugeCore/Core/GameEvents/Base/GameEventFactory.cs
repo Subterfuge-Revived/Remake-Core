@@ -23,6 +23,10 @@ namespace Subterfuge.Remake.Core.GameEvents.Base
                     return new UnpauseGameEvent(model);
                 case EventDataType.PlayerLeaveGameEventData:
                     return new PlayerLeaveGameEvent(model);
+                case EventDataType.HireSpecialistEventData:
+                    return new HireSpecialistEvent(model);
+                case EventDataType.PromoteSpecialistEventData:
+                    return new PromoteSpecialistEvent(model);
                 default:
                     return null;
             }

@@ -139,7 +139,7 @@ public class GameEventControllerTest
         Assert.AreEqual(serializedEventData, launchEventResponse.GetOrThrow().GameRoomEvent.GameEventData.SerializedEventData);
         Assert.IsTrue(launchEventResponse.GetOrThrow().EventId != null);
     }
-    
+
     [Test]
     public async Task PlayerCanViewTheirOwnFutureEvents()
     {

@@ -12,16 +12,6 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
     public class Specialist
     {
         /// <summary>
-        /// The specialist priority
-        /// </summary>
-        private readonly int _priority;
-        
-        /// <summary>
-        /// The name of the specialist
-        /// </summary>
-        private string _specialistName;
-        
-        /// <summary>
         /// The name of the specialist
         /// </summary>
         /// TODO: Generate the id from a known seed.
@@ -37,10 +27,12 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// </summary>
         private readonly List<ISpecialistEffect> _specialistEffects = new List<ISpecialistEffect>();
 
+        public SpecialistConfiguration Configuration;
+
         /// <summary>
         /// Is the specialist captured by another player?
         /// </summary>
-        private bool _isCaptured;
+        private bool _isCaptured = false;
 
         /// <summary>
         /// Abstract constructor for a specialist. All inherited specialist classes require implementing this.
@@ -48,10 +40,9 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <param name="name">The name of the specialist</param>
         /// <param name="priority">The specialist priority</param>
         /// <param name="owner">The player that owns the specialist</param>
-        public Specialist(string name, int priority, Player owner)
+        public Specialist(SpecialistConfiguration configuration, Player owner)
         {
-            _specialistName = name;
-            _priority = priority;
+            Configuration = configuration;
             _owner = owner;
         }
         
@@ -121,7 +112,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <returns>The combat priority of the specialist</returns>
         public int GetPriority()
         {
-            return this._priority;
+            return this.Configuration.Priority;
         }
 
         /// <summary>

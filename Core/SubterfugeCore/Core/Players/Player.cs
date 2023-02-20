@@ -1,6 +1,9 @@
-﻿using Subterfuge.Remake.Api.Network;
+﻿using System.Collections.Generic;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Config;
+using Subterfuge.Remake.Core.Entities.Specialists;
 using Subterfuge.Remake.Core.Players.Currency;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Players
 {
@@ -34,6 +37,8 @@ namespace Subterfuge.Remake.Core.Players
         /// </summary>
         public CurrencyManager CurrencyManager;
 
+        public SpecialistPool SpecialistPool;
+
         /// <summary>
         /// Creates a player from a protobuf player.
         /// </summary>
@@ -54,6 +59,18 @@ namespace Subterfuge.Remake.Core.Players
             this._neptunium = 0;
             this._isEliminated = false;
             this.CurrencyManager = new CurrencyManager();
+        }
+        
+        public Player(
+            SimpleUser playerInstance,
+            List<string> specialistPool
+        ) {
+            this.PlayerInstance = playerInstance;
+            this._numMinesBuilt = 0;
+            this._neptunium = 0;
+            this._isEliminated = false;
+            this.CurrencyManager = new CurrencyManager();
+            this.SpecialistPool = new SpecialistPool(this, Game.SeededRandom, specialistPool);
         }
 
         /// <summary>
