@@ -343,7 +343,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             
             Assert.IsTrue(eventFired);
             Assert.IsNotNull(valueChangeArgs);
-            Assert.AreEqual(10 - initialShields, valueChangeArgs.ShieldDelta);
+            Assert.AreEqual(10, valueChangeArgs.ShieldDelta);
             Assert.AreEqual(_mockEntity.Object.GetComponent<ShieldManager>(), valueChangeArgs.ShieldManager);
         }
         

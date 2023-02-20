@@ -64,9 +64,9 @@ namespace Subterfuge.Remake.Core.Components
             // Determine any specialist effects if a specialist left the sub.
             LaunchEventData launchData = launchEvent.GetEventData();
 
-            if (launchEvent.GetActiveSub() != null)
+            Sub launchedSub = launchEvent.GetActiveSub();
+            if (launchedSub != null)
             {
-                Sub launchedSub = launchEvent.GetActiveSub();
                 _drillerCarrier.AddDrillers(launchData.DrillerCount);
                 launchedSub.GetComponent<SpecialistManager>().TransferSpecialistsTo(_specialistManager);
                 state.RemoveSub(launchEvent.GetActiveSub());

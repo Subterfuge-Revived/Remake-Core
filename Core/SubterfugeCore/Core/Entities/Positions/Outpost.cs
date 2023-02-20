@@ -28,12 +28,13 @@ namespace Subterfuge.Remake.Core.Entities.Positions
         ) {
             AddComponent(new DrillerCarrier(this, Constants.InitialDrillersPerOutpost, outpostOwner));
             AddComponent(new SpeedManager(this, 0.0f));
-            AddComponent(new PositionManager(this, timeMachine, outpostStartPosition, new GameTick()));
+            AddComponent(new PositionManager(this, outpostStartPosition, new GameTick(), timeMachine));
             AddComponent(new SpecialistManager(this, 100));
             AddComponent(new IdentityManager(this, id));
             AddComponent(new ShieldManager(this, Constants.InitialMaxShieldsPerOutpost));
             AddComponent(new SubLauncher(this));
             AddComponent(new VisionManager(this, visionRadius));
+            AddComponent(new ShieldRegenerationComponent(this, timeMachine));
         }
 
         /// <summary>
@@ -50,6 +51,7 @@ namespace Subterfuge.Remake.Core.Entities.Positions
             AddComponent(o.GetComponent<ShieldManager>());
             AddComponent(o.GetComponent<SubLauncher>());
             AddComponent(o.GetComponent<VisionManager>());
+            AddComponent(o.GetComponent<ShieldRegenerationComponent>());
         }
 
         /// <summary>

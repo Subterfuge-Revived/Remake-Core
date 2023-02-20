@@ -56,13 +56,8 @@ namespace Subterfuge.Remake.Core.Components
         public void SetShields(int shieldValue)
         {
             var previousValue = _shields;
-            if(shieldValue > this._shieldCapacity)
-            {
-                this._shields = this._shieldCapacity;
-            } else
-            {
-                this._shields = shieldValue;
-            }
+            this._shields = Math.Max(0, Math.Min(shieldValue, this._shieldCapacity));
+            
             OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
             {
                 ShieldDelta = this._shields - previousValue,
@@ -73,14 +68,8 @@ namespace Subterfuge.Remake.Core.Components
         public void RemoveShields(int shieldsToRemove)
         {
             var previousValue = _shields;
-            if (this._shields - shieldsToRemove < 0)
-            {
-                this._shields = 0;
-            }
-            else
-            {
-                this._shields -= shieldsToRemove;
-            }
+            this._shields = Math.Max(0, this._shields - shieldsToRemove);
+            
             OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
             {
                 ShieldDelta = this._shields - previousValue,
@@ -115,13 +104,8 @@ namespace Subterfuge.Remake.Core.Components
         public void AddShield(int shields)
         {
             var previousValue = _shields;
-            if(this._shields + shields > this._shieldCapacity)
-            {
-                this._shields = this._shieldCapacity;
-            } else
-            {
-                this._shields += shields;
-            }
+            this._shields = Math.Min(this._shieldCapacity, this._shields + shields);
+            
             OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
             {
                 ShieldDelta = this._shields - previousValue,
@@ -138,10 +122,8 @@ namespace Subterfuge.Remake.Core.Components
         {
             var previousCapacity = _shieldCapacity;
             this._shieldCapacity = capactiy;
-            if (_shields > _shieldCapacity)
-            {
-                this._shields = _shieldCapacity;
-            }
+
+            this._shields = Math.Min(_shields, _shieldCapacity);
             
             OnShieldCapacityChange?.Invoke(this, new OnShieldCapacityChangeEventArgs()
             {

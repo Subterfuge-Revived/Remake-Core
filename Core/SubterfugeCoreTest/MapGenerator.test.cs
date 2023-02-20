@@ -26,6 +26,12 @@ namespace Subterfuge.Remake.Test
             new Player(new SimpleUser() { Id = "4" })
         };
 
+        [TestInitialize]
+        public void Setup()
+        {
+            _timeMachine = new TimeMachine(new GameState(players));
+        }
+
         [TestMethod]
         public void Constructor()
         {
@@ -39,8 +45,6 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 5;
             config.MapConfiguration.OutpostsPerPlayer = 7;
 
-            _timeMachine = new TimeMachine(new GameState(players));
-                
             MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
             Assert.IsNotNull(generator);
         }
@@ -201,7 +205,7 @@ namespace Subterfuge.Remake.Test
             
             // Ensure all 7 outposts were generated on top of each other.
             // Should be at 0,0
-            Assert.AreEqual(config.MapConfiguration.OutpostsPerPlayer, generatedOutposts.Count);
+            Assert.AreEqual(config.MapConfiguration.OutpostsPerPlayer * players.Count, generatedOutposts.Count);
         }
         
         [TestMethod]
@@ -252,7 +256,7 @@ namespace Subterfuge.Remake.Test
                     dormants++;
                 }
             }
-            Assert.AreEqual(config.MapConfiguration.DormantsPerPlayer, dormants);
+            Assert.AreEqual(config.MapConfiguration.DormantsPerPlayer * players.Count, dormants);
         }
         
         [TestMethod]
@@ -273,7 +277,7 @@ namespace Subterfuge.Remake.Test
             List<Outpost> generatedOutposts = generator.GenerateMap();
             
             // Ensure the distance between outposts is over 199.
-            Assert.AreEqual(2, generatedOutposts.Count);
+            Assert.AreEqual(config.MapConfiguration.OutpostsPerPlayer * players.Count, generatedOutposts.Count);
             // Ensure the distance between the two is respected.
             Outpost outpost1 = generatedOutposts[0];
             Outpost outpost2 = generatedOutposts[1];

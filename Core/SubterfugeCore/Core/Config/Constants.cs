@@ -72,5 +72,11 @@ namespace Subterfuge.Remake.Core.Config
 		/// By default, subs will move 1 unit per tick.
 		/// </summary>
 		public const float STANDARD_SUB_RFT_UNITS_PER_DAY = 144;
+
+		/// <summary>
+		/// The number of ticks required to elapse before 1 shield is generated
+		/// (10 ticks * 20 shields * 15m per tick) / 60 m per hour = 50 hours to regen 20 shields.
+		/// </summary>
+		public const int BASE_SHIELD_REGENERATION_TICKS = 10;
     }
 }

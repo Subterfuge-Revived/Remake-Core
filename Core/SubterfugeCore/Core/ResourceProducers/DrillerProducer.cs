@@ -32,7 +32,8 @@ namespace Subterfuge.Remake.Core.Components
 
         public override int GetNextProductionAmount(GameState.GameState state)
         {
-            if (Parent.GetComponent<DrillerCarrier>().IsDestroyed())
+            var owner = Parent.GetComponent<DrillerCarrier>().GetOwner();
+            if (Parent.GetComponent<DrillerCarrier>().IsDestroyed() || (owner != null && owner.IsEliminated()))
             {
                 return 0;
             }

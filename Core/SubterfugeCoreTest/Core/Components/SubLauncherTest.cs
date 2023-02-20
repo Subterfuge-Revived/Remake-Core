@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
@@ -6,19 +7,23 @@ using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.GameState;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;
 
 namespace Subterfuge.Remake.Test.Core.Components
 {
-    /*
     [TestClass]
     public class SubLauncherTest
     {
         private Mock<IEntity> _mockEntity;
         private Player initialOwner = new Player(new SimpleUser(){ Id = "1" });
+
+        private List<Player> players;
+        private TimeMachine _timeMachine;
         
         public void MockSubLauncherEntity(
             int initialDrillers,
@@ -35,6 +40,16 @@ namespace Subterfuge.Remake.Test.Core.Components
                 .Returns(new SubLauncher(_mockEntity.Object));
         }
         
+        [TestInitialize]
+        public void Setup()
+        {
+            players = new List<Player>()
+            {
+                initialOwner
+            };
+            _timeMachine = new TimeMachine(new GameState(players));
+        }
+        
         [TestMethod]
         public void CanInitializeSubLauncher()
         {
@@ -47,6 +62,120 @@ namespace Subterfuge.Remake.Test.Core.Components
         {
             MockSubLauncherEntity(10, initialOwner, 3);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SubLauncher>());
+
+            var launchEventData = new LaunchEventData()
+            {
+                DestinationId = "1",
+                DrillerCount = 5,
+                SourceId = "2"
+            };
+            var launchEvent = new LaunchEvent(new GameRoomEvent()
+            {
+                GameEventData = new GameEventData()
+                {
+                    OccursAtTick = 1,
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(launchEventData),
+                },
+                Id = "asdf",
+                IssuedBy = initialOwner.PlayerInstance,
+                RoomId = "1",
+                TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
+            });
+
+            RftVector.Map = new Rft(100, 100);
+            var destination = new Generator(launchEventData.DestinationId, new RftVector(0, 0), _timeMachine); 
+            var source = new Generator(launchEventData.SourceId, new RftVector(0, 0), _timeMachine);
+            
+            _timeMachine.GetState().GetOutposts().Add(destination);
+            _timeMachine.GetState().GetOutposts().Add(source);
+
+            var launchedSub = _mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(_timeMachine, launchEvent);
+            
+            // Verify the sub was added to the state
+            Assert.IsNotNull(launchedSub);
+            Assert.AreEqual(destination, launchedSub.GetComponent<PositionManager>().GetDestination());
+            Assert.AreEqual(launchEventData.DrillerCount, launchedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
+            Assert.AreEqual(initialOwner, launchedSub.GetComponent<DrillerCarrier>().GetOwner());
+            Assert.AreEqual(0, launchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
+        }
+
+        [TestMethod]
+        public void CanUndoASubLaunch()
+        {
+            MockSubLauncherEntity(10, initialOwner, 3);
+
+            var launchEventData = new LaunchEventData()
+            {
+                DestinationId = "1",
+                DrillerCount = 5,
+                SourceId = "2"
+            };
+            var launchEvent = new LaunchEvent(new GameRoomEvent()
+            {
+                GameEventData = new GameEventData()
+                {
+                    OccursAtTick = 1,
+                    EventDataType = EventDataType.LaunchEventData,
+                    SerializedEventData = JsonConvert.SerializeObject(launchEventData),
+                },
+                Id = "asdf",
+                IssuedBy = initialOwner.PlayerInstance,
+                RoomId = "1",
+                TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
+            });
+
+            RftVector.Map = new Rft(100, 100);
+            var destination = new Generator(launchEventData.DestinationId, new RftVector(0, 0), _timeMachine); 
+            var source = new Generator(launchEventData.SourceId, new RftVector(0, 0), initialOwner, _timeMachine);
+            var initialDrillerCount = source.GetComponent<DrillerCarrier>().GetDrillerCount();
+            
+            OnSubLaunchEventArgs subLaunchEventData = null;
+            OnSubLaunchEventArgs undoSubLaunch = null;
+            source.GetComponent<SubLauncher>().OnSubLaunched += (sender, args) =>
+            {
+                if (args.Direction == TimeMachineDirection.FORWARD)
+                {
+                    subLaunchEventData = args;   
+                }
+                else
+                {
+                    undoSubLaunch = args;
+                }
+            };
+            
+            _timeMachine.GetState().GetOutposts().Add(destination);
+            _timeMachine.GetState().GetOutposts().Add(source);
+            
+            var launchedSub = source.GetComponent<SubLauncher>().LaunchSub(_timeMachine, launchEvent);
+
+            Assert.IsNotNull(subLaunchEventData);
+            Assert.AreEqual(destination, subLaunchEventData.Destination);
+            Assert.AreEqual(source, subLaunchEventData.Source);
+            
+            Assert.IsNotNull(subLaunchEventData.LaunchedSub);
+            
+            // Verify the sub was added to the state
+            Assert.IsNotNull(launchedSub);
+            Assert.AreEqual(launchEventData.DrillerCount, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
+            Assert.AreEqual(initialOwner, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetOwner());
+            Assert.AreEqual(initialDrillerCount - launchEvent.GetEventData().DrillerCount, source.GetComponent<DrillerCarrier>().GetDrillerCount());
+            Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
+
+            source.GetComponent<SubLauncher>().UndoLaunch(_timeMachine.GetState(), launchEvent);
+            
+            // Verify the sub that was launched, is removed from the state, and the outposts have their original driller counts.
+            Assert.IsNotNull(undoSubLaunch);
+            Assert.AreEqual(initialDrillerCount, source.GetComponent<DrillerCarrier>().GetDrillerCount());
+            Assert.AreEqual(initialOwner, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetOwner());
+            Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
+        }
+        
+        // Event Handler Tests
+        [TestMethod]
+        public void LaunchingASubTriggersAnOnLaunchEvent()
+        {
+            MockSubLauncherEntity(10, initialOwner, 3);
 
             var mockGameState = new Mock<IGameState>();
             var launchEventData = new LaunchEventData()
@@ -70,136 +199,28 @@ namespace Subterfuge.Remake.Test.Core.Components
             });
 
             RftVector.Map = new Rft(100, 100);
-            var destination = new Generator(launchEventData.DestinationId, new RftVector(0, 0)); 
-            var source = new Generator(launchEventData.SourceId, new RftVector(0, 0)); 
-            mockGameState.Setup(it => it.GetEntity(launchEventData.SourceId)).Returns(source);
-            mockGameState.Setup(it => it.GetEntity(launchEventData.DestinationId)).Returns(destination);
-
-            Sub capturedSub = null;
-            mockGameState.Setup(it => it.AddSub(It.IsAny<Sub>())).Callback<Sub>(sub => { capturedSub = sub; });
+            var destination = new Generator(launchEventData.DestinationId, new RftVector(0, 0), _timeMachine);
+            var source = new Generator(launchEventData.SourceId, new RftVector(0, 0), initialOwner, _timeMachine);
             
-            _mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
-            
-            // Verify the sub was added to the state
-            mockGameState.Verify(it => it.AddSub(It.IsAny<Sub>()), Times.Once);
-            Assert.IsNotNull(capturedSub);
-            Assert.AreEqual(destination, capturedSub.GetComponent<PositionManager>().GetDestination());
-            Assert.AreEqual(launchEventData.DrillerCount, capturedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
-            Assert.AreEqual(initialOwner, capturedSub.GetComponent<DrillerCarrier>().GetOwner());
-            Assert.AreEqual(0, capturedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
-        }
-
-        [TestMethod]
-        public void CanUndoASubLaunch()
-        {
-            MockSubLauncherEntity(10, initialOwner, 3);
-            Assert.IsNotNull(_mockEntity.Object.GetComponent<SubLauncher>());
+            _timeMachine.GetState().GetOutposts().Add(destination);
+            _timeMachine.GetState().GetOutposts().Add(source);
 
             OnSubLaunchEventArgs subLaunchEventData = null;
-            _mockEntity.Object.GetComponent<SubLauncher>().OnSubLaunch += (sender, args) =>
+            source.GetComponent<SubLauncher>().OnSubLaunched += (source, launchArgs) =>
             {
-                subLaunchEventData = args;
-            };
-
-            var mockGameState = new Mock<IGameState>();
-            var launchEventData = new LaunchEventData()
-            {
-                DestinationId = "1",
-                DrillerCount = 5,
-                SourceId = "2"
-            };
-            var launchEvent = new LaunchEvent(new GameRoomEvent()
-            {
-                GameEventData = new GameEventData()
+                if (launchArgs.Direction == TimeMachineDirection.FORWARD)
                 {
-                    OccursAtTick = 1,
-                    EventDataType = EventDataType.LaunchEventData,
-                    SerializedEventData = JsonConvert.SerializeObject(launchEventData),
-                },
-                Id = "asdf",
-                IssuedBy = initialOwner.ToUser(),
-                RoomId = "1",
-                TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
-            });
-
-            RftVector.Map = new Rft(100, 100);
-            var destination = new Generator(launchEventData.DestinationId, new RftVector(0, 0)); 
-            var source = new Generator(launchEventData.SourceId, new RftVector(0, 0)); 
-            mockGameState.Setup(it => it.GetEntity(launchEventData.SourceId)).Returns(source);
-            mockGameState.Setup(it => it.GetEntity(launchEventData.DestinationId)).Returns(destination);
-            
-            _mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
-
-            Assert.IsNotNull(subLaunchEventData);
-            Assert.AreEqual(destination, subLaunchEventData.Destination);
-            Assert.AreEqual(source, subLaunchEventData.Source);
-            
-            Assert.IsNotNull(subLaunchEventData.LaunchedSub);
-            
-            // Verify the sub was added to the state
-            mockGameState.Verify(it => it.AddSub(subLaunchEventData.LaunchedSub), Times.Once);
-            
-            Assert.AreEqual(launchEventData.DrillerCount, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
-            Assert.AreEqual(initialOwner, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetOwner());
-            Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
-
-            _mockEntity.Object.GetComponent<SubLauncher>().UndoLaunch(mockGameState.Object, launchEvent);
-            
-            // Verify the sub that was launched is removed from the state
-            mockGameState.Verify(it => it.RemoveSub(subLaunchEventData.LaunchedSub), Times.Once);
-        }
-        
-        // Event Handler Tests
-        [TestMethod]
-        public void LaunchingASubTriggersAnOnLaunchEvent()
-        {
-            MockSubLauncherEntity(10, initialOwner, 3);
-            Assert.IsNotNull(_mockEntity.Object.GetComponent<SubLauncher>());
-
-            OnSubLaunchEventArgs subLaunchEventData = null;
-            _mockEntity.Object.GetComponent<SubLauncher>().OnSubLaunch += (sender, args) =>
-            {
-                subLaunchEventData = args;
+                    subLaunchEventData = launchArgs;
+                }
             };
 
-            var mockGameState = new Mock<IGameState>();
-            var launchEventData = new LaunchEventData()
-            {
-                DestinationId = "1",
-                DrillerCount = 5,
-                SourceId = "2"
-            };
-            var launchEvent = new LaunchEvent(new GameRoomEvent()
-            {
-                GameEventData = new GameEventData()
-                {
-                    OccursAtTick = 1,
-                    EventDataType = EventDataType.LaunchEventData,
-                    SerializedEventData = JsonConvert.SerializeObject(launchEventData),
-                },
-                Id = "asdf",
-                IssuedBy = initialOwner.ToUser(),
-                RoomId = "1",
-                TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
-            });
-
-            RftVector.Map = new Rft(100, 100);
-            var destination = new Generator(launchEventData.DestinationId, new RftVector(0, 0));
-            var source = new Generator(launchEventData.SourceId, new RftVector(0, 0));
-            mockGameState.Setup(it => it.GetEntity(launchEventData.SourceId)).Returns(source);
-            mockGameState.Setup(it => it.GetEntity(launchEventData.DestinationId)).Returns(destination);
-
-            Sub capturedSub = null;
-            mockGameState.Setup(it => it.AddSub(It.IsAny<Sub>())).Callback<Sub>(sub => { capturedSub = sub; });
-
-            _mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
-            // Verify the sub was added to the state
-            mockGameState.Verify(it => it.AddSub(subLaunchEventData.LaunchedSub), Times.Once);
-            Assert.IsNotNull(capturedSub);
-            Assert.AreEqual(destination, capturedSub.GetComponent<PositionManager>().GetDestination());
-            Assert.AreEqual(launchEventData.DrillerCount, capturedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
-            Assert.AreEqual(initialOwner, capturedSub.GetComponent<DrillerCarrier>().GetOwner());
-            Assert.AreEqual(0, capturedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
+            var sub = source.GetComponent<SubLauncher>().LaunchSub(_timeMachine, launchEvent);
+            
+            Assert.IsNotNull(sub);
+            Assert.AreEqual(destination, sub.GetComponent<PositionManager>().GetDestination());
+            Assert.AreEqual(launchEventData.DrillerCount, sub.GetComponent<DrillerCarrier>().GetDrillerCount());
+            Assert.AreEqual(initialOwner, sub.GetComponent<DrillerCarrier>().GetOwner());
+            Assert.AreEqual(0, sub.GetComponent<SpecialistManager>().GetSpecialistCount());
 
             // Verify event data
             Assert.IsNotNull(subLaunchEventData);
@@ -217,19 +238,6 @@ namespace Subterfuge.Remake.Test.Core.Components
         public void UndoingALaunchTriggersAnUndoLaunchEvent()
         {
             MockSubLauncherEntity(10, initialOwner, 3);
-            Assert.IsNotNull(_mockEntity.Object.GetComponent<SubLauncher>());
-
-            OnSubLaunchEventArgs subLaunchEventData = null;
-            _mockEntity.Object.GetComponent<SubLauncher>().OnSubLaunch += (sender, args) =>
-            {
-                subLaunchEventData = args;
-            };
-            
-            OnUndoSubLaunchEventArgs undoSubLaunchEvent = null;
-            _mockEntity.Object.GetComponent<SubLauncher>().OnUndoSubLaunch += (sender, args) =>
-            {
-                undoSubLaunchEvent = args;
-            };
 
             var mockGameState = new Mock<IGameState>();
             var launchEventData = new LaunchEventData()
@@ -247,28 +255,40 @@ namespace Subterfuge.Remake.Test.Core.Components
                     SerializedEventData = JsonConvert.SerializeObject(launchEventData),
                 },
                 Id = "asdf",
-                IssuedBy = initialOwner.ToUser(),
+                IssuedBy = initialOwner.PlayerInstance,
                 RoomId = "1",
                 TimeIssued = DateTime.FromFileTimeUtc(1234123412341234),
             });
 
             RftVector.Map = new Rft(100, 100);
-            var destination = new Generator(launchEventData.DestinationId, new RftVector(0, 0)); 
-            var source = new Generator(launchEventData.SourceId, new RftVector(0, 0)); 
-            mockGameState.Setup(it => it.GetEntity(launchEventData.SourceId)).Returns(source);
-            mockGameState.Setup(it => it.GetEntity(launchEventData.DestinationId)).Returns(destination);
+            var destination = new Generator(launchEventData.DestinationId, new RftVector(0, 0), _timeMachine); 
+            var source = new Generator(launchEventData.SourceId, new RftVector(0, 0), initialOwner, _timeMachine); 
             
-            Sub capturedSub = null;
-            mockGameState.Setup(it => it.AddSub(It.IsAny<Sub>())).Callback<Sub>(sub => { capturedSub = sub; });
+            _timeMachine.GetState().GetOutposts().Add(destination);
+            _timeMachine.GetState().GetOutposts().Add(source);
             
-            _mockEntity.Object.GetComponent<SubLauncher>().LaunchSub(mockGameState.Object, launchEvent);
+            OnSubLaunchEventArgs subLaunchEventData = null;
+            OnSubLaunchEventArgs undoSubLaunch = null;
+            source.GetComponent<SubLauncher>().OnSubLaunched += (sender, args) =>
+            {
+                if (args.Direction == TimeMachineDirection.FORWARD)
+                {
+                    subLaunchEventData = args;   
+                }
+                else
+                {
+                    undoSubLaunch = args;
+                }
+            };
+            
+            
+            var launchedSub = source.GetComponent<SubLauncher>().LaunchSub(_timeMachine, launchEvent);
             // Verify the sub was added to the state
-            mockGameState.Verify(it => it.AddSub(subLaunchEventData.LaunchedSub), Times.Once);
-            Assert.IsNotNull(capturedSub);
-            Assert.AreEqual(destination, capturedSub.GetComponent<PositionManager>().GetDestination());
-            Assert.AreEqual(launchEventData.DrillerCount, capturedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
-            Assert.AreEqual(initialOwner, capturedSub.GetComponent<DrillerCarrier>().GetOwner());
-            Assert.AreEqual(0, capturedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.IsNotNull(launchedSub);
+            Assert.AreEqual(destination, launchedSub.GetComponent<PositionManager>().GetDestination());
+            Assert.AreEqual(launchEventData.DrillerCount, launchedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
+            Assert.AreEqual(initialOwner, launchedSub.GetComponent<DrillerCarrier>().GetOwner());
+            Assert.AreEqual(0, launchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
             
             // Verify event data
             Assert.IsNotNull(subLaunchEventData);
@@ -279,17 +299,14 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialOwner, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetOwner());
             Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
             
-            _mockEntity.Object.GetComponent<SubLauncher>().UndoLaunch(mockGameState.Object, launchEvent);
+            source.GetComponent<SubLauncher>().UndoLaunch(mockGameState.Object, launchEvent);
             
             // Verify the sub that was launched is removed from the state
-            mockGameState.Verify(it => it.RemoveSub(subLaunchEventData.LaunchedSub), Times.Once);
             // Verify event data
-            Assert.IsNotNull(undoSubLaunchEvent);
-            Assert.AreEqual(subLaunchEventData.LaunchedSub, undoSubLaunchEvent.LaunchedSub);
-            Assert.AreEqual(subLaunchEventData.Destination, undoSubLaunchEvent.Destination);
-            Assert.AreEqual(subLaunchEventData.Source, undoSubLaunchEvent.Source);
-            Assert.AreEqual(subLaunchEventData.LaunchEvent, undoSubLaunchEvent.LaunchEvent);
+            Assert.IsNotNull(undoSubLaunch);
+            Assert.AreEqual(subLaunchEventData.LaunchedSub, undoSubLaunch.LaunchedSub);
+            Assert.AreEqual(subLaunchEventData.Source, undoSubLaunch.Source);
+            Assert.AreEqual(subLaunchEventData.LaunchEvent, undoSubLaunch.LaunchEvent);
         }
     }
-    */
 }

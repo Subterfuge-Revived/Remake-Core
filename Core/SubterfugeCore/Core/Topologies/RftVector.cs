@@ -167,6 +167,6 @@ namespace Subterfuge.Remake.Core.Topologies
 		public static RftVector operator -(RftVector a, RftVector b) => a + (-b);
 
 		public static RftVector operator *(RftVector a, float scaleBy) =>
-			new RftVector(Map, a._x * (float)Math.Sqrt(scaleBy), a._y * (float)Math.Sqrt(scaleBy));
+			new RftVector(Map, a._x * scaleBy, a._y * scaleBy);
 	}
 }
