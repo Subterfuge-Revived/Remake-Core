@@ -1,16 +1,17 @@
-﻿using Subterfuge.Remake.Core.Entities;
+﻿using Subterfuge.Remake.Core.Config;
+using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Components
 {
-    public class MineProducer : ResourceProducer
+    public class ShieldRegenerator : ResourceProducer
     {
         private IEntity Parent;
-        public MineProducer(
+        public ShieldRegenerator(
             IEntity parent,
             TimeMachine timeMachine
         ) : base(
-            (int)(1440 / GameTick.MinutesPerTick),
+            Constants.BASE_SHIELD_REGENERATION_TICKS,
             1,
             timeMachine
         ) {
@@ -19,12 +20,12 @@ namespace Subterfuge.Remake.Core.Components
 
         protected override void Produce(int productionAmount)
         {
-            Parent.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(productionAmount);
+            Parent.GetComponent<ShieldManager>().AddShield(productionAmount);
         }
 
         protected override void UndoProduce(int amountToRevert)
         {
-            Parent.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(amountToRevert);
+            Parent.GetComponent<ShieldManager>().RemoveShields(amountToRevert);
         }
 
         public override int GetNextProductionAmount(GameState.GameState state)
@@ -34,7 +35,7 @@ namespace Subterfuge.Remake.Core.Components
             {
                 return 0;
             }
-            return state.GetPlayerOutposts(Parent.GetComponent<DrillerCarrier>().GetOwner()).Count * BaseValuePerProduction;
+            return BaseValuePerProduction;
         }
     }
 }

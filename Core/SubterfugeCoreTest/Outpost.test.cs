@@ -144,7 +144,7 @@ namespace Subterfuge.Remake.Test
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 
             int initialDrillers = _outpost.GetComponent<DrillerCarrier>().GetDrillerCount();
-            _outpost.GetComponent<SubLauncher>().LaunchSub(_timeMachine, new LaunchEvent(new GameRoomEvent()
+            _outpost.GetComponent<SubLauncher>().LaunchSub(game.TimeMachine, new LaunchEvent(new GameRoomEvent()
                 {
                     GameEventData = new GameEventData()
                     {

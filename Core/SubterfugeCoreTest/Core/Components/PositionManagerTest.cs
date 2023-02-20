@@ -1,19 +1,31 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.GameState;
+using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;
 
 namespace Subterfuge.Remake.Test.Core.Components
 {
-    /*
     [TestClass]
     public class PositionManagerTest
     {
         private Mock<IEntity> _mockDestinationEntity;
         private Mock<IEntity> _mockChaserEntity;
         private Mock<IEntity> _mockChaserChaserEntity;
+
+        private List<Player> players = new List<Player>()
+        {
+            new Player(new SimpleUser() { Id = "1" }),
+        };
+        private TimeMachine _timeMachine;
+        
         private void MockDestinationPositionManagerEntity(
             float speed,
             RftVector initialLocation,
@@ -25,7 +37,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             _mockDestinationEntity.Setup(it => it.GetComponent<SpeedManager>())
                 .Returns(new SpeedManager(_mockDestinationEntity.Object, speed));
             _mockDestinationEntity.Setup(it => it.GetComponent<PositionManager>())
-                .Returns(new PositionManager(_mockDestinationEntity.Object, initialLocation, destination, new GameTick(launchTick)));
+                .Returns(new PositionManager(_mockDestinationEntity.Object, EntityAtPosition(initialLocation), destination, new GameTick(launchTick), _timeMachine));
         }
         
         private void MockChaserPositionManagerEntity(
@@ -38,7 +50,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             _mockChaserEntity.Setup(it => it.GetComponent<SpeedManager>())
                 .Returns(new SpeedManager(_mockChaserEntity.Object, speed));
             _mockChaserEntity.Setup(it => it.GetComponent<PositionManager>())
-                .Returns(new PositionManager(_mockChaserEntity.Object, initialLocation, _mockDestinationEntity.Object, new GameTick(launchTick)));
+                .Returns(new PositionManager(_mockChaserEntity.Object, EntityAtPosition(initialLocation), _mockDestinationEntity.Object, new GameTick(launchTick), _timeMachine));
         }
         
         private void MockChasersChaserPositionManagerEntity(
@@ -51,16 +63,17 @@ namespace Subterfuge.Remake.Test.Core.Components
             _mockChaserChaserEntity.Setup(it => it.GetComponent<SpeedManager>())
                 .Returns(new SpeedManager(_mockChaserChaserEntity.Object, speed));
             _mockChaserChaserEntity.Setup(it => it.GetComponent<PositionManager>())
-                .Returns(new PositionManager(_mockChaserChaserEntity.Object, initialLocation, _mockChaserEntity.Object, new GameTick(launchTick)));
+                .Returns(new PositionManager(_mockChaserChaserEntity.Object, EntityAtPosition(initialLocation), _mockChaserEntity.Object, new GameTick(launchTick), _timeMachine));
         }
 
         [TestInitialize]
         public void Setup()
         {
             RftVector.Map = new Rft(1000, 1000);
+            _timeMachine = new TimeMachine(new GameState((players)));
+
         }
 
-        /*
         [TestMethod]
         public void CanInstantiateAPositionManager()
         {
@@ -74,12 +87,22 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockDestinationPositionManagerEntity(0.0f, initialLocation);
             var positionManager = _mockDestinationEntity.Object.GetComponent<PositionManager>();
             Assert.AreEqual(0, positionManager.GetSpawnTick().GetTick());
-            Assert.AreEqual(initialLocation.X, positionManager.GetPositionAt(new GameTick(0)).X);
-            Assert.AreEqual(initialLocation.Y, positionManager.GetPositionAt(new GameTick(0)).Y);
-            Assert.AreEqual(initialLocation.X, positionManager.GetPositionAt(new GameTick(14)).X);
-            Assert.AreEqual(initialLocation.Y, positionManager.GetPositionAt(new GameTick(144)).Y);
-            Assert.AreEqual(initialLocation.X, positionManager.GetPositionAt(new GameTick(463)).X);
-            Assert.AreEqual(initialLocation.Y, positionManager.GetPositionAt(new GameTick(6875)).Y);
+            Assert.AreEqual(initialLocation.X, positionManager.CurrentLocation.X);
+            Assert.AreEqual(initialLocation.Y, positionManager.CurrentLocation.Y);
+            
+            _timeMachine.Advance(14);
+            Assert.AreEqual(initialLocation.X, positionManager.CurrentLocation.X);
+            Assert.AreEqual(initialLocation.Y, positionManager.CurrentLocation.Y);
+            
+            _timeMachine.Advance(144);
+            Assert.AreEqual(initialLocation.X, positionManager.CurrentLocation.X);
+            Assert.AreEqual(initialLocation.Y, positionManager.CurrentLocation.Y);
+            _timeMachine.Advance(463);
+            Assert.AreEqual(initialLocation.X, positionManager.CurrentLocation.X);
+            Assert.AreEqual(initialLocation.Y, positionManager.CurrentLocation.Y);
+            _timeMachine.Advance(6875);
+            Assert.AreEqual(initialLocation.X, positionManager.CurrentLocation.X);
+            Assert.AreEqual(initialLocation.Y, positionManager.CurrentLocation.Y);
         }
         
         [TestMethod]
@@ -290,9 +313,13 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(100, chaserPositionManager.GetExpectedArrival().GetTick());
             for (var x = 0; x <= 100; x++)
             {
-                Assert.AreEqual(x, chaserPositionManager.GetPositionAt(new GameTick(x)).X);
-                Assert.AreEqual(0, chaserPositionManager.GetPositionAt(new GameTick(x)).Y);    
+                Assert.AreEqual(x, chaserPositionManager.CurrentLocation.X);
+                Assert.AreEqual(0, chaserPositionManager.CurrentLocation.Y);
+                _timeMachine.Advance(1);    
             }
+            
+            
+            _timeMachine.GoTo(new GameTick(0));
 
             // Test Two, 100 units over 50 ticks.
             destinationLocation = new RftVector(100, 0);
@@ -306,9 +333,13 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(50, chaserPositionManager.GetExpectedArrival().GetTick());
             for (var x = 0; x <= 50; x++)
             {
-                Assert.AreEqual(x*2, chaserPositionManager.GetPositionAt(new GameTick(x)).X);
-                Assert.AreEqual(0, chaserPositionManager.GetPositionAt(new GameTick(x)).Y);    
+                Assert.AreEqual(x*2, chaserPositionManager.CurrentLocation.X);
+                Assert.AreEqual(0, chaserPositionManager.CurrentLocation.Y);    
+                _timeMachine.Advance(1);
             }
+            
+            
+            _timeMachine.GoTo(new GameTick(0));
             
             // Test Three, random distance.
             destinationLocation = new RftVector(131, 121);
@@ -319,7 +350,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockChaserPositionManagerEntity(speed, chaserLocation);
             chaserPositionManager = _mockChaserEntity.Object.GetComponent<PositionManager>();
 
-            var totalDistance = destinationLocation.Magnitude();
+            var totalDistance = destinationLocation.Length();
             var normalizedDirection = destinationLocation.Normalize();
             var expectedTicks = Math.Floor(totalDistance / speed);
             var lastTick = (int)Math.Floor(totalDistance / speed);
@@ -330,11 +361,12 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(normalizedDirection.Y, chaserPositionManager.GetDirection().Normalize().Y);
             for (var x = 0; x <= expectedTicks; x++)
             {
-                Assert.AreEqual((normalizedDirection * x * speed).X, chaserPositionManager.GetPositionAt(new GameTick(x)).X, 0.01);
-                Assert.AreEqual((normalizedDirection * x * speed).Y, chaserPositionManager.GetPositionAt(new GameTick(x)).Y, 0.01);    
+                Assert.AreEqual((normalizedDirection * x * speed).X, chaserPositionManager.CurrentLocation.X, 0.01);
+                Assert.AreEqual((normalizedDirection * x * speed).Y, chaserPositionManager.CurrentLocation.Y, 0.01);   
+                _timeMachine.Advance(1); 
             }
-            Assert.AreEqual(destinationLocation.X, chaserPositionManager.GetPositionAt(new GameTick(lastTick)).X, speed/2);
-            Assert.AreEqual(destinationLocation.Y, chaserPositionManager.GetPositionAt(new GameTick(lastTick)).Y, speed/2);
+            Assert.AreEqual(destinationLocation.X, chaserPositionManager.CurrentLocation.X, speed/2);
+            Assert.AreEqual(destinationLocation.Y, chaserPositionManager.CurrentLocation.Y, speed/2);
         }
         
         [TestMethod]
@@ -366,12 +398,14 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(200, chaserPositionManager.GetExpectedArrival().GetTick());
             Assert.AreEqual(destinationLocation.X, chaserPositionManager.GetExpectedDestination().X);
             Assert.AreEqual(destinationLocation.Y, chaserPositionManager.GetExpectedDestination().Y);
+            
+            _timeMachine.Advance(100);
             // At tick 100, this unit will be at (0, 100)
-            Assert.AreEqual(0, chaserPositionManager.GetPositionAt(new GameTick(100)).X);
-            Assert.AreEqual(destinationLocation.Y, chaserPositionManager.GetPositionAt(new GameTick(100)).Y);
+            Assert.AreEqual(0, chaserPositionManager.CurrentLocation.X);
+            Assert.AreEqual(destinationLocation.Y, chaserPositionManager.CurrentLocation.Y);
+            _timeMachine.Rewind(100);
             
-            // Therefore, if a chaser starts at (0, 0), it can intercept this sub at (0, 100) in 100 ticks.
-            
+            // Therefore, if a chaser starts at (0, 0), 100 ticks lets the chaser intercept this sub at (0, 100).
 
             var chasersChaserInitialPosition = new RftVector(0, 0);
             MockChasersChaserPositionManagerEntity(1.0f, chasersChaserInitialPosition);
@@ -383,8 +417,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(100, chaserChaserPositionManager.GetExpectedArrival().GetTick());
             Assert.AreEqual(0, chaserChaserPositionManager.GetExpectedDestination().X);
             Assert.AreEqual(100, chaserChaserPositionManager.GetExpectedDestination().Y);
-            Assert.AreEqual(0, chaserChaserPositionManager.GetUnitDirection().X);
-            Assert.AreEqual(100, chaserChaserPositionManager.GetUnitDirection().Y);
+            Assert.AreEqual(0, chaserChaserPositionManager.GetDirection().X);
+            Assert.AreEqual(100, chaserChaserPositionManager.GetDirection().Y);
         }
         
         [TestMethod]
@@ -400,9 +434,12 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(200, chaserPositionManager.GetExpectedArrival().GetTick());
             Assert.AreEqual(destinationLocation.X, chaserPositionManager.GetExpectedDestination().X);
             Assert.AreEqual(destinationLocation.Y, chaserPositionManager.GetExpectedDestination().Y);
+            
+            _timeMachine.Advance(100);
             // At tick 100, this unit will be at (0, 200)
-            Assert.AreEqual(0, chaserPositionManager.GetPositionAt(new GameTick(100)).X);
-            Assert.AreEqual(destinationLocation.Y, chaserPositionManager.GetPositionAt(new GameTick(100)).Y);
+            Assert.AreEqual(0, chaserPositionManager.CurrentLocation.X);
+            Assert.AreEqual(destinationLocation.Y, chaserPositionManager.CurrentLocation.Y);
+            _timeMachine.Rewind(100);
             
             // Therefore, if a chaser starts at (0, 0), with speed 2 it can intercept this sub at (0, 200) in 100 ticks.
             
@@ -417,8 +454,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(100, chaserChaserPositionManager.GetExpectedArrival().GetTick());
             Assert.AreEqual(0, chaserChaserPositionManager.GetExpectedDestination().X);
             Assert.AreEqual(200, chaserChaserPositionManager.GetExpectedDestination().Y);
-            Assert.AreEqual(0, chaserChaserPositionManager.GetUnitDirection().X);
-            Assert.AreEqual(200, chaserChaserPositionManager.GetUnitDirection().Y);
+            Assert.AreEqual(0, chaserChaserPositionManager.GetDirection().X);
+            Assert.AreEqual(200, chaserChaserPositionManager.GetDirection().Y);
         }
         
         [TestMethod]
@@ -434,9 +471,12 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(200, chaserPositionManager.GetExpectedArrival().GetTick());
             Assert.AreEqual(destinationLocation.X, chaserPositionManager.GetExpectedDestination().X);
             Assert.AreEqual(destinationLocation.Y, chaserPositionManager.GetExpectedDestination().Y);
+            
+            _timeMachine.Advance(100);
             // At tick 100, this unit will be at (0, 200)
-            Assert.AreEqual(0, chaserPositionManager.GetPositionAt(new GameTick(100)).X);
-            Assert.AreEqual(destinationLocation.Y, chaserPositionManager.GetPositionAt(new GameTick(100)).Y);
+            Assert.AreEqual(0, chaserPositionManager.CurrentLocation.X);
+            Assert.AreEqual(destinationLocation.Y, chaserPositionManager.CurrentLocation.Y);
+            _timeMachine.Rewind(100);
             
             // Therefore, if a chaser starts at the same position but a bit behind at double speed, it can intercept this sub at (0, 200) in 100 ticks.
             var chasersChaserInitialPosition = new RftVector(-200, 200);
@@ -449,9 +489,13 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(100, chaserChaserPositionManager.GetExpectedArrival().GetTick());
             Assert.AreEqual(0, chaserChaserPositionManager.GetExpectedDestination().X);
             Assert.AreEqual(200, chaserChaserPositionManager.GetExpectedDestination().Y);
-            Assert.AreEqual(200, chaserChaserPositionManager.GetUnitDirection().X);
-            Assert.AreEqual(0, chaserChaserPositionManager.GetUnitDirection().Y);
+            Assert.AreEqual(200, chaserChaserPositionManager.GetDirection().X);
+            Assert.AreEqual(0, chaserChaserPositionManager.GetDirection().Y);
+        }
+
+        private IEntity EntityAtPosition(RftVector position)
+        {
+            return new Generator(Guid.NewGuid().ToString(), position, _timeMachine);
         }
     }
-    */
 }

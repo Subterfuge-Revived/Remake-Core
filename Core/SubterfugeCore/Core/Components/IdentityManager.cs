@@ -14,10 +14,10 @@ namespace Subterfuge.Remake.Core.Components
             this._name = name;
         }
         
-        public IdentityManager(IEntity parent, string name = null) : base(parent)
+        public IdentityManager(IEntity parent, string id = null) : base(parent)
         {
-            this._id = Guid.NewGuid().ToString();
-            this._name = name;
+            this._id = id;
+            this._name = Guid.NewGuid().ToString();
         }
 
         public void SetName(string name)

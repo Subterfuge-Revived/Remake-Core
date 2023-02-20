@@ -39,11 +39,11 @@ namespace Subterfuge.Remake.Test
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player, _game.TimeMachine);
             outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
-            Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player, _game.TimeMachine);
-            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick());
+            Sub sub = new Sub("1", outpost, outpost, new GameTick(10), 10, player, _game.TimeMachine);
+            CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(10));
 
             _game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(2, _game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(1, _game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, _game.TimeMachine.GetQueuedEvents()[0]);
         }
 
@@ -85,12 +85,12 @@ namespace Subterfuge.Remake.Test
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             _game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(2, _game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(1, _game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, _game.TimeMachine.GetQueuedEvents()[0]);
             
             // Go past the tick
             _game.TimeMachine.Advance(6);
-            Assert.AreEqual(1, _game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(0, _game.TimeMachine.GetQueuedEvents().Count);
         }
 
         [TestMethod]
@@ -103,16 +103,16 @@ namespace Subterfuge.Remake.Test
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             _game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(2, _game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(1, _game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, _game.TimeMachine.GetQueuedEvents()[0]);
             
             // Go past the tick
             _game.TimeMachine.Advance(6);
-            Assert.AreEqual(1, _game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(0, _game.TimeMachine.GetQueuedEvents().Count);
             
             // Rewind back
             _game.TimeMachine.Rewind(6);
-            Assert.AreEqual(2, _game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(1, _game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, _game.TimeMachine.GetQueuedEvents()[0]);
         }
         
@@ -126,11 +126,11 @@ namespace Subterfuge.Remake.Test
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             _game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(2, _game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(1, _game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, _game.TimeMachine.GetQueuedEvents()[0]);
             
             _game.TimeMachine.RemoveEvent(arriveEvent);
-            Assert.AreEqual(1, _game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(0, _game.TimeMachine.GetQueuedEvents().Count);
         }
         
         [TestMethod]
@@ -154,12 +154,12 @@ namespace Subterfuge.Remake.Test
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
             _game.TimeMachine.AddEvent(arriveEvent);
-            Assert.AreEqual(2, _game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(1, _game.TimeMachine.GetQueuedEvents().Count);
             Assert.AreEqual(arriveEvent, _game.TimeMachine.GetQueuedEvents()[0]);
             
             _game.TimeMachine.GoTo(arriveEvent);
             Assert.AreEqual(arriveEvent.GetOccursAt().GetTick(), _game.TimeMachine.GetCurrentTick().GetTick());
-            Assert.AreEqual(1, _game.TimeMachine.GetQueuedEvents().Count);
+            Assert.AreEqual(0, _game.TimeMachine.GetQueuedEvents().Count);
         }
 
     }
