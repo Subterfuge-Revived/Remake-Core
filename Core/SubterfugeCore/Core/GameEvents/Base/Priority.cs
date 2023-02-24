@@ -4,14 +4,23 @@
     {
         PlayerIssuedCommand = 100,
         NaturalPriority9 = 90,
-        NaturalPriority8 = 80,
-        NaturalPriority7 = 70,
-        NaturalPriority6 = 60,
-        NaturalPriority5 = 50,
-        NaturalPriority4 = 40,
-        NaturalPriority3 = 30,
-        NaturalPriority2 = 20,
-        NaturalPriority1 = 10,
-        LowPriorty = 0,
+        
+        // Combat priorities applied by specialists
+        SPECIALIST_EXPLODE = 89,
+        SPECIALIST_NEUTRALIZE_SPECIALIST_EFFECTS = 80,
+        SPECIALIST_DEMOTE_EFFECT = 60,
+        SPECIALIST_SHIELD_EFFECT = 40,
+        SPECIALIST_DRILLER_EFFECT = 30,
+        SPECIALIST_STEAL_EFFECT = 25,
+        SPECIALIST_SUB_REDIRECT = 20,
+        SPECIALIST_SLOW_EFFECT = 15,
+        SPECIALIST_SWAP_SPECIALISTS_EFFECT = 12,
+        SPECIALIST_KILL_SPECIALISTS = 10,
+        
+        // Natural Combat events
+        SHIELD_COMBAT = 2,
+        // Ownership transfer and specialist capture happens here.
+        // At this event, the combat is done.
+        DRILLER_COMBAT = 1,
     }
 }

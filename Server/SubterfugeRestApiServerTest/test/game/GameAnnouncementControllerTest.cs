@@ -8,7 +8,7 @@ namespace Subterfuge.Remake.Server.Test.test.game;
 public class GameAnnouncementControllerTest
 {
     [SetUp]
-    public async Task Setup()
+    public void Setup()
     {
         TestUtils.Mongo.FlushAll();
         TestUtils.GetClient().UserApi.Logout();

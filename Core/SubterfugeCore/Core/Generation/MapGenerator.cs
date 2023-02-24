@@ -235,7 +235,7 @@ namespace Subterfuge.Remake.Core.Generation
             foreach (Outpost closeOutpost in closestOutposts)
             {
                 closeOutpost.GetComponent<DrillerCarrier>().SetOwner(player);
-                closeOutpost.GetComponent<DrillerCarrier>().AddDrillers(Constants.InitialDrillersPerOutpost);
+                closeOutpost.GetComponent<DrillerCarrier>().AlterDrillers(Constants.InitialDrillersPerOutpost);
             }
         }
 
@@ -296,7 +296,7 @@ namespace Subterfuge.Remake.Core.Generation
                                 o.GetComponent<DrillerCarrier>().SetOwner(_players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
                             if (!queenGenerated)
                             {
-                                o.GetComponent<SpecialistManager>().AddSpecialist(CreateQueen(o.GetComponent<DrillerCarrier>().GetOwner()));
+                                o.GetComponent<SpecialistManager>().AddFriendlySpecialist(CreateQueen(o.GetComponent<DrillerCarrier>().GetOwner()));
                                 queenGenerated = true;
                             }
                         }
@@ -325,8 +325,7 @@ namespace Subterfuge.Remake.Core.Generation
 
         private Specialist CreateQueen(Player player)
         {
-            return new Specialist(Game.SpecialistConfigurationPool.GetPool().FirstOrDefault(it => it.Id == "Queen"),
-                player);
+            return SpecialistFactory.CreateSpecialist(SpecialistIds.Queen, player);
         }
 
         /// <summary>

@@ -23,7 +23,7 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
 
         public CombatCleanup(IEntity combatant1, IEntity combatant2)
         {
-            if (combatant1.GetComponent<DrillerCarrier>().GetOwner().Equals(combatant2.GetComponent<DrillerCarrier>().GetOwner()))
+            if (combatant1.GetComponent<DrillerCarrier>().GetOwner().PlayerInstance == combatant2.GetComponent<DrillerCarrier>().GetOwner().PlayerInstance)
             {
                 // Friendly sub combat
                 Outpost _outpost = combatant1 as Outpost;
@@ -112,7 +112,7 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
                 
                 // Remove the winning sub and make it arrive at the outpost.
                 _loser.GetComponent<DrillerCarrier>().SetDrillerCount(0);
-                _loser.GetComponent<DrillerCarrier>().AddDrillers(_winner.GetComponent<DrillerCarrier>().GetDrillerCount());
+                _loser.GetComponent<DrillerCarrier>().AlterDrillers(_winner.GetComponent<DrillerCarrier>().GetDrillerCount());
                 
                 // Transfer any specialists to the outpost.
                 _loser.GetComponent<SpecialistManager>().CaptureAll();
@@ -156,7 +156,7 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
                 _loser.GetComponent<DrillerCarrier>().SetDrillerCount(_initialLoserDrillerCount);
                 
                 // Put the winner's specialists back
-                _winner.GetComponent<SpecialistManager>().AddSpecialists(_loser.GetComponent<SpecialistManager>().GetPlayerSpecialists(_winner.GetComponent<DrillerCarrier>().GetOwner()));
+                _winner.GetComponent<SpecialistManager>().AddFriendlySpecialists(_loser.GetComponent<SpecialistManager>().GetPlayerSpecialists(_winner.GetComponent<DrillerCarrier>().GetOwner()));
                 // Uncapture the losing player's specialists
                 _loser.GetComponent<SpecialistManager>().UncaptureAll();
                 

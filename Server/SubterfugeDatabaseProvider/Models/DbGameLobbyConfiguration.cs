@@ -19,18 +19,20 @@ public class DbGameLobbyConfiguration
     public GameVersion GameVersion { get; set; } = GameVersion.V1;
     public List<string> PlayerIdsInLobby { get; set; }
 
-    public Dictionary<string, List<string>> PlayerSpecialistDecks { get; set; } = new Dictionary<string, List<string>>();
+    public Dictionary<string, List<SpecialistIds>> PlayerSpecialistDecks { get; set; } = new Dictionary<string, List<SpecialistIds>>();
 
     public static DbGameLobbyConfiguration FromRequest(CreateRoomRequest request, User creator)
     {
-        return new DbGameLobbyConfiguration()
+        var lobby = new DbGameLobbyConfiguration()
         {
             Creator = creator,
             GameSettings = request.GameSettings,
             MapConfiguration = request.MapConfiguration,
             RoomName = request.RoomName,
-            PlayerIdsInLobby = new List<string>() { creator.Id }
+            PlayerIdsInLobby = new List<string>() { creator.Id },
         };
+        lobby.PlayerSpecialistDecks.Add(creator.Id, request.CreatorSpecialistDeck);
+        return lobby;
     }
 
     public async Task<List<User>> GetPlayersInLobby(IDatabaseCollection<DbUserModel> _dbUserCollection)

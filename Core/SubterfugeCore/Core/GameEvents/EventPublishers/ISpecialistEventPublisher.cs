@@ -1,4 +1,5 @@
 ﻿using System;
+using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.Entities.Specialists;
@@ -8,9 +9,11 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
     public interface ISpecialistEventPublisher
     {
         event EventHandler<OnSpecialistHireEventArgs> OnSpecialistHire;
-        event EventHandler<OnSpecialistCaptureEventArgs> OnSpecialistCapture;
-        event EventHandler<OnSpecialistUncaptureEventArgs> OnSpecialistUncapture;
+        event EventHandler<OnSpecialistsCapturedEventArgs> OnCaptured;
         event EventHandler<OnSpecialistPromotionEventArgs> OnSpecialistPromotion;
+        event EventHandler<OnAddSpecialistEventArgs> OnSpecialistArrive;
+        event EventHandler<OnRemoveSpecialistEventArgs> OnSpecialistLeave;
+        event EventHandler<OnSpecialistCapacityChangeEventArgs> OnSpecialistCapacityChange;
     }
 
     public class OnSpecialistHireEventArgs
@@ -19,9 +22,8 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
         public IEntity HireLocation { get; set; }
     }
 
-    public class OnSpecialistCaptureEventArgs
+    public class OnSpecialistsCapturedEventArgs
     {
-        public Specialist Specialist { get; set; }
         public IEntity CaptureLocation { get; set; }
     }
     
@@ -36,5 +38,20 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
     {
         public Specialist PromotedTo { get; set; }
         public IEntity Location { get; set; }
+    }
+    
+    public class OnAddSpecialistEventArgs
+    {
+        public Specialist AddedSpecialist { get; set; }
+    }
+
+    public class OnRemoveSpecialistEventArgs
+    {
+        public Specialist RemovedSpecialist { get; set; }
+    }
+
+    public class OnSpecialistCapacityChangeEventArgs
+    {
+        public int CapacityDelta { get; set; }
     }
 }

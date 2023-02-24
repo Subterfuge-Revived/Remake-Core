@@ -29,12 +29,6 @@ namespace Subterfuge.Remake.Core
         public TimeMachine TimeMachine;
 
         /// <summary>
-        /// The specialist pool for the game. Provides a list of the possible specialists that can be obtained
-        /// as well as their configuration.
-        /// </summary>
-        public static GlobalSpecialistPool SpecialistConfigurationPool = new GlobalSpecialistPool();
-
-        /// <summary>
         /// The random number generated used for all randomly selected events within the game.
         /// This includes things like outpost generation and specialist pool randomization.
         /// </summary>

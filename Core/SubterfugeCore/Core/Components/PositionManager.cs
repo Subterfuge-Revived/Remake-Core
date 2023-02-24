@@ -11,7 +11,7 @@ namespace Subterfuge.Remake.Core.Components
 {
     public class PositionManager : EntityComponent, ICombatEventPublisher
     {
-        private readonly IEntity _destination;
+        private IEntity _destination;
         private readonly IEntity _source;
         private readonly RftVector _initialLocation;
         public RftVector CurrentLocation { get; private set; }
@@ -89,9 +89,18 @@ namespace Subterfuge.Remake.Core.Components
                 .GetState()
                 .GetAllGameObjects()
                 .Where(entity => entity != Parent)
-                .Where(entity => entity != _source)
                 .Where(entity =>
-                    (entity.GetComponent<PositionManager>().CurrentLocation - this.CurrentLocation).Length() < 1)
+                {
+                    // If the sub has just launched, ignore it's source.
+                    // Otherwise, it could be returning to the source.
+                    if (onTick.CurrentTick.GetTick() - this.GetSpawnTick().GetTick() > 2)
+                    {
+                        return entity != _source;
+                    }
+                    return true;
+                })
+                .Where(entity =>
+                    (entity.GetComponent<PositionManager>().CurrentLocation - this.CurrentLocation).Length() < Parent.GetComponent<SpeedManager>().GetSpeed())
                 .ToList()
                 .ForEach(entityToFight =>
                 {
@@ -100,20 +109,21 @@ namespace Subterfuge.Remake.Core.Components
                         var combat = new CombatEvent(this.Parent, entityToFight,
                             timeMachine.GetCurrentTick());
                         
+                        // Allow any listenint specialists to modify the combat object.
                         OnPreCombat?.Invoke(this, new OnPreCombatEventArgs()
                         {
                             Direction = onTick.Direction,
-                            ParticipantOne = Parent,
-                            ParticipantTwo = entityToFight,
+                            CombatEvent = combat,
                         });
                         
                         combat.ForwardAction(timeMachine, timeMachine.GetState());
                         localCombatEvents.Add(combat);
                         
+                        // Notify of a completed combat.
                         OnPostCombat?.Invoke(this, new PostCombatEventArgs()
                         {
                             Direction = onTick.Direction,
-                            Winner = combat.combatSummary._winner,
+                            SurvivingEntity = combat.combatSummary._winner,
                             CombatSummary = combat.combatSummary
                         });
                     }
@@ -256,6 +266,16 @@ namespace Subterfuge.Remake.Core.Components
         public RftVector GetInitialPosition()
         {
             return this._initialLocation;
+        }
+
+        public void SetDestination(IEntity destination)
+        {
+            this._destination = destination;
+        }
+
+        public IEntity GetSource()
+        {
+            return _source;
         }
 
         public event EventHandler<OnPreCombatEventArgs>? OnPreCombat;

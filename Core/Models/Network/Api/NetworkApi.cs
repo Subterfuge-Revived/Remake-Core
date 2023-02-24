@@ -336,54 +336,6 @@ namespace Subterfuge.Remake.Api.Network.Api
         /// <returns>A list of the player's friends</returns>
         Task<SubterfugeResponse<ViewFriendsResponse>> GetFriendList(string userId);
     }
-    
-    public interface ISubterfugeCustomSpecialistApi
-    {
-        /// <summary>
-        /// Create a custom specialist
-        /// </summary>
-        /// <param name="submitCustomSpecialistRequest">Details about the specialist configuration</param>
-        /// <returns>If the specialist was submitted</returns>
-        Task<SubterfugeResponse<SubmitCustomSpecialistResponse>> SubmitCustomSpecialist(SubmitCustomSpecialistRequest submitCustomSpecialistRequest);
-        
-        /// <summary>
-        /// Query a list of custom specialists
-        /// </summary>
-        /// <param name="getCustomSpecialistsRequest">Query parameters</param>
-        /// <returns>A list of custom specialists matching the query parameters</returns>
-        Task<SubterfugeResponse<GetCustomSpecialistsResponse>> GetCustomSpecialists(GetCustomSpecialistsRequest getCustomSpecialistsRequest);
-        
-        /// <summary>
-        /// Gets details about a particular specialist
-        /// </summary>
-        /// <param name="specialistId">The specialist ID</param>
-        /// <returns>The specialist configuration details</returns>
-        Task<SubterfugeResponse<GetCustomSpecialistsResponse>> GetCustomSpecialist(string specialistId);
-    }
-
-    public interface ISubterfugeSpecialistPackageApi
-    {
-        /// <summary>
-        /// Creates a specialist package which contains a collection of multiple specialists or packages.
-        /// </summary>
-        /// <param name="createSpecialistPackageRequest">Details about the specialists included in the package</param>
-        /// <returns>Details about the created package</returns>
-        Task<SubterfugeResponse<CreateSpecialistPackageResponse>> CreateSpecialistPackage(CreateSpecialistPackageRequest createSpecialistPackageRequest);
-        
-        /// <summary>
-        /// Query a list of specialist packages matching the query parameters
-        /// </summary>
-        /// <param name="getSpecialistPackagesRequest">Query parameters</param>
-        /// <returns>A list of specialist packages matching the query parameters</returns>
-        Task<SubterfugeResponse<GetSpecialistPackagesResponse>> GetSpecialistPackages(GetSpecialistPackagesRequest getSpecialistPackagesRequest);
-        
-        /// <summary>
-        /// Gets a specialist package by ID
-        /// </summary>
-        /// <param name="packageId">The specialist package ID</param>
-        /// <returns>Details about the specialist package and included specialists.</returns>
-        Task<SubterfugeResponse<GetSpecialistPackagesResponse>> GetSpecialistPackages(string packageId);
-    }
 
     public interface ISubterfugeAnnouncementApi
     {

@@ -1,4 +1,5 @@
-﻿using Subterfuge.Remake.Api.Client;
+﻿#nullable enable
+using Subterfuge.Remake.Api.Client;
 using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Server.Database;
 
@@ -16,7 +17,7 @@ public class TestUtils
             int port = 5295;
             
             // Get environment
-            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            string? environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             if (environment == "Docker")
             {
                 hostname = "server";
@@ -32,5 +33,30 @@ public class TestUtils
     {
         var account = await Mongo.CreateSuperUser();
         return (await TestUtils.GetClient().UserApi.Login(new AuthorizationRequest() { Username = "admin", Password = "admin" })).GetOrThrow();
+    }
+
+    public static JoinRoomRequest CreateJoinRequest()
+    {
+        return new JoinRoomRequest()
+        {
+            SpecialistDeck = new List<SpecialistIds>()
+            {
+                SpecialistIds.Advisor,
+                SpecialistIds.Amnesiac,
+                SpecialistIds.Assasin,
+                SpecialistIds.Automation,
+                SpecialistIds.Dispatcher,
+                SpecialistIds.Economist,
+                SpecialistIds.Enforcer,
+                SpecialistIds.Engineer,
+                SpecialistIds.Escort,
+                SpecialistIds.Foreman,
+                SpecialistIds.Helmsman,
+                SpecialistIds.Hypnotist,
+                SpecialistIds.Icicle,
+                SpecialistIds.Industrialist,
+                SpecialistIds.Infiltrator
+            }
+        };
     }
 }

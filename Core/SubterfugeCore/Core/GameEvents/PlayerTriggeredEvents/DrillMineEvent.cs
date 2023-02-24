@@ -33,7 +33,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 					CreatedMine = new Mine(OriginalOutpost, timeMachine);
 					if (state.ReplaceOutpost(OriginalOutpost, CreatedMine))
 					{
-						drillerCarrier.RemoveDrillers(drillerCarrier.GetOwner().GetRequiredDrillersToMine());
+						drillerCarrier.AlterDrillers(drillerCarrier.GetOwner().GetRequiredDrillersToMine() * -1);
 						drillerCarrier.GetOwner().AlterMinesDrilled(1);
 						EventSuccess = true;
 					}
@@ -53,7 +53,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 				var drillerCarrier = CreatedMine.GetComponent<DrillerCarrier>();
 				state.ReplaceOutpost(CreatedMine, OriginalOutpost);
 				drillerCarrier.GetOwner().AlterMinesDrilled(-1);
-				drillerCarrier.AddDrillers(drillerCarrier.GetOwner().GetRequiredDrillersToMine());
+				drillerCarrier.AlterDrillers(drillerCarrier.GetOwner().GetRequiredDrillersToMine());
 			}
 			return EventSuccess;
 		}

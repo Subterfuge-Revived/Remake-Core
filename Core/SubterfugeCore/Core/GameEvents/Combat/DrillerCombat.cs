@@ -54,8 +54,8 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
             {
                 _preCombatDrillers1 = _combatant1.GetComponent<DrillerCarrier>().GetDrillerCount();
                 _preCombatDrillers2 = _combatant2.GetComponent<DrillerCarrier>().GetDrillerCount();
-                _combatant1.GetComponent<DrillerCarrier>().RemoveDrillers(_preCombatDrillers2);
-                _combatant2.GetComponent<DrillerCarrier>().RemoveDrillers(_preCombatDrillers1);
+                _combatant1.GetComponent<DrillerCarrier>().AlterDrillers(_preCombatDrillers2 * -1);
+                _combatant2.GetComponent<DrillerCarrier>().AlterDrillers(_preCombatDrillers1 * -1);
                 this._eventSuccess = true; 
             }
             else

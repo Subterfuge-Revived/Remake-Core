@@ -1,4 +1,7 @@
-﻿using Subterfuge.Remake.Core.Entities;
+﻿using System;
+using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
 
 namespace Subterfuge.Remake.Core.Components
@@ -40,31 +43,11 @@ namespace Subterfuge.Remake.Core.Components
             this._drillers = drillerCount;
         }
 
-        /// <summary>
-        /// Adds drillers to the carrier
-        /// </summary>
-        /// <param name="drillersToAdd"></param>
-        public void AddDrillers(int drillersToAdd)
+        public int AlterDrillers(int delta)
         {
-            this._drillers += drillersToAdd;
-        }
-
-        /// <summary>
-        /// Removes drillers from the carrier
-        /// </summary>
-        /// <param name="drillersToRemove">Drillers to remove</param>
-
-        public void RemoveDrillers(int drillersToRemove)
-        {
-            if (this._drillers >= drillersToRemove)
-            {
-                this._drillers -= drillersToRemove;
-            }
-            else
-            {
-                this._drillers = 0;
-                this._isCaptured = true;
-            }
+            var initialAmount = _drillers;
+            _drillers = Math.Max(0, _drillers + delta);
+            return initialAmount - _drillers;
         }
 
         /// <summary>

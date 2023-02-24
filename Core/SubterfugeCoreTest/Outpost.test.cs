@@ -115,7 +115,7 @@ namespace Subterfuge.Remake.Test
         {
             Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             int initialDrillers = outpost.GetComponent<DrillerCarrier>().GetDrillerCount();
-            outpost.GetComponent<DrillerCarrier>().RemoveDrillers(5);
+            outpost.GetComponent<DrillerCarrier>().AlterDrillers(-5);
             Assert.AreEqual(initialDrillers - 5, outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
         }
         
@@ -124,7 +124,7 @@ namespace Subterfuge.Remake.Test
         {
             Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             int initialDrillers = outpost.GetComponent<DrillerCarrier>().GetDrillerCount();
-            outpost.GetComponent<DrillerCarrier>().AddDrillers(40);
+            outpost.GetComponent<DrillerCarrier>().AlterDrillers(40);
             Assert.AreEqual(initialDrillers + 40, outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
         }
         

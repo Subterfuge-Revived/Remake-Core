@@ -19,7 +19,10 @@ namespace Subterfuge.Remake.Api.Network
         PromoteSpecialistEventData = 9,
     }
 
-    public class LaunchEventData
+    // Make all of these classes have a common base
+    public class EventData { }
+
+    public class LaunchEventData : EventData
     {
         public string SourceId { get; set; }
         public string DestinationId { get; set; }
@@ -27,48 +30,49 @@ namespace Subterfuge.Remake.Api.Network
         public List<string> SpecialistIds { get; set; } = new List<string>();
     }
 
-    public class ToggleShieldEventData
+    public class ToggleShieldEventData : EventData
     {
         public string SourceId { get; set; }
     }
     
-    public class DrillMineEventData
+    public class DrillMineEventData : EventData
     {
         public String SourceId { get; set; }
     }
 
-    public class PlayerLeaveGameEventData
+    public class PlayerLeaveGameEventData : EventData
     {
         public SimpleUser Player { get; set; }
     }
 
     // Empty event. Will prevent the game from moving/ticking forwards until a following "Unpause game event data" is present in the 
-    public class PauseGameEventData
+    public class PauseGameEventData : EventData
     {
         public DateTime TimePaused { get; set; } = DateTime.Now;
     }
 
-    public class UnpauseGameEventData
+    public class UnpauseGameEventData : EventData
     {
         public DateTime TimeUnpaused { get; set; } = DateTime.Now;
     }
 
-    public class GameEndEventData
+    public class GameEndEventData : EventData
     {
         public DateTime GameEndAt { get; set; } = DateTime.Now;
         public bool ClosedByAdmin { get; set; } = false; 
         public SimpleUser? WinningPlayer { get; set; }
     }
 
-    public class HireSpecialistEventData
+    public class HireSpecialistEventData : EventData
     {
         public string HireLocation { get; set; }
-        public string SpecialistIdHired { get; set; }
+        public SpecialistIds SpecialistIdHired { get; set; }
     }
 
-    public class PromoteSpecialistEventData
+    public class PromoteSpecialistEventData : EventData
     {
         public string PromotionLocation { get; set; }
-        public string SpecialistIdPromoted { get; set; }
+        public string SpecialistIdPromotedFrom { get; set; }
+        public string SpecialistIdPromotedTo { get; set; }
     }
 }

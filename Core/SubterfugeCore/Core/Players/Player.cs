@@ -63,7 +63,7 @@ namespace Subterfuge.Remake.Core.Players
         
         public Player(
             SimpleUser playerInstance,
-            List<string> specialistPool
+            List<SpecialistIds> specialistPool
         ) {
             this.PlayerInstance = playerInstance;
             this._numMinesBuilt = 0;

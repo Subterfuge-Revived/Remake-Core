@@ -34,7 +34,7 @@ namespace Subterfuge.Remake.Test
             _timeMachine = new TimeMachine(_state);
             _map = new Rft(300,300);
             _outpost = new Generator("0",new RftVector(_map, 0, 0), _player1, _timeMachine);
-            _outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
+            _outpost.GetComponent<DrillerCarrier>().AlterDrillers(10);
             _tempSub = new Sub("1", _outpost, _outpost, new GameTick(), 10, _player1, _timeMachine);
         }
 

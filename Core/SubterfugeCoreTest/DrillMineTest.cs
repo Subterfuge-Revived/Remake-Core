@@ -97,7 +97,7 @@ namespace Subterfuge.Remake.Test
 		[TestMethod]
 		public void DrillFirstMine()
 		{
-			_o1.GetComponent<DrillerCarrier>().AddDrillers(50);
+			_o1.GetComponent<DrillerCarrier>().AlterDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(_model1);
 			_tm.AddEvent(drillMine);
 			_tm.Advance(10);
@@ -123,8 +123,8 @@ namespace Subterfuge.Remake.Test
 				},
 				Id = Guid.NewGuid().ToString(),
 			});
-			_o1.GetComponent<DrillerCarrier>().AddDrillers(150);
-			_o2.GetComponent<DrillerCarrier>().AddDrillers(300);
+			_o1.GetComponent<DrillerCarrier>().AlterDrillers(150);
+			_o2.GetComponent<DrillerCarrier>().AlterDrillers(300);
 			_o2.GetComponent<DrillerCarrier>().Destroy();
 			_tm.AddEvent(drillMine);
 			_tm.AddEvent(drillMineAgain);
@@ -137,8 +137,8 @@ namespace Subterfuge.Remake.Test
 		[TestMethod]
 		public void MiningCostIncreases()
 		{
-			_o1.GetComponent<DrillerCarrier>().AddDrillers(50);
-			_o2.GetComponent<DrillerCarrier>().AddDrillers(50);
+			_o1.GetComponent<DrillerCarrier>().AlterDrillers(50);
+			_o2.GetComponent<DrillerCarrier>().AlterDrillers(50);
 			DrillMineEvent drillFirstMine = new DrillMineEvent(_model1);
 			DrillMineEvent drillSecondMine = new DrillMineEvent(_model2);
 			_tm.AddEvent(drillFirstMine);
@@ -147,7 +147,7 @@ namespace Subterfuge.Remake.Test
 			Assert.IsTrue(drillFirstMine.WasEventSuccessful());
 			Assert.IsFalse(drillSecondMine.WasEventSuccessful());
 			_tm.Rewind(20);
-			_o2.GetComponent<DrillerCarrier>().AddDrillers(100);
+			_o2.GetComponent<DrillerCarrier>().AlterDrillers(100);
 			_tm.Advance(20);
 			Assert.IsTrue(drillSecondMine.WasEventSuccessful());
 			Assert.AreEqual(200, _o1.GetComponent<DrillerCarrier>().GetOwner().GetRequiredDrillersToMine());
@@ -156,7 +156,7 @@ namespace Subterfuge.Remake.Test
 		[TestMethod]
 		public void RegularNeptuniumProduction()
 		{
-			_o1.GetComponent<DrillerCarrier>().AddDrillers(50);
+			_o1.GetComponent<DrillerCarrier>().AlterDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(_model1);
 			_tm.AddEvent(drillMine);
 			_tm.Advance(10);
@@ -168,7 +168,7 @@ namespace Subterfuge.Remake.Test
 		[TestMethod]
 		public void RewindTest()
 		{
-			_o1.GetComponent<DrillerCarrier>().AddDrillers(50);
+			_o1.GetComponent<DrillerCarrier>().AlterDrillers(50);
 			DrillMineEvent drillMine = new DrillMineEvent(_model1);
 			_tm.AddEvent(drillMine);
 			_tm.Advance(10 + 1440 / (int)GameTick.MinutesPerTick);

@@ -6,6 +6,7 @@ using MongoDB.Driver.Linq;
 using Newtonsoft.Json;
 using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Api.Network.Api;
+using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Server.Database;
 using Subterfuge.Remake.Server.Database.Models;
@@ -108,6 +109,10 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
         // Ensure max players is over 1
         if (request.GameSettings.MaxPlayers < 2)
             return SubterfugeResponse<CreateRoomResponse>.OfFailure(ResponseType.VALIDATION_ERROR, "A lobby requires MinPlayers to be 2 or more.");
+        
+        // Ensure the player has specified a deck
+        if(request.CreatorSpecialistDeck.Count != Constants.REQUIRED_PLAYER_SPECIALIST_DECK_SIZE)
+            return SubterfugeResponse<CreateRoomResponse>.OfFailure(ResponseType.VALIDATION_ERROR, $"Specialist deck contains only {request.CreatorSpecialistDeck.Count} but requires exactly {Constants.REQUIRED_PLAYER_SPECIALIST_DECK_SIZE}.");
 
         var room = DbGameLobbyConfiguration.FromRequest(request, dbUserModel.ToUser());
         await _dbLobbies.Upsert(room);
@@ -138,6 +143,10 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
 
         if (room.RoomStatus != RoomStatus.Open)
             return SubterfugeResponse<JoinRoomResponse>.OfFailure(ResponseType.GAME_ALREADY_STARTED, "You're too late! Your friends decided to play without you.");
+        
+        // Ensure the player has specified a deck
+        if(request.SpecialistDeck.Count != Constants.REQUIRED_PLAYER_SPECIALIST_DECK_SIZE)
+            return SubterfugeResponse<JoinRoomResponse>.OfFailure(ResponseType.VALIDATION_ERROR, $"Specialist deck contains only {request.SpecialistDeck.Count} but requires exactly {Constants.REQUIRED_PLAYER_SPECIALIST_DECK_SIZE}.");
 
         // Check if any players in the room are "pseudonyms" / multiboxing
         if((await room.GetPlayersInLobby(_dbUserCollection)).Any(roomMember => roomMember.Pseudonyms.Any(pseudoUser => pseudoUser.Id == dbUserModel.Id)))
@@ -151,6 +160,7 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
         }
         
         room.PlayerIdsInLobby.Add(dbUserModel.Id);
+        room.PlayerSpecialistDecks.Add(dbUserModel.Id, request.SpecialistDeck);
         await _dbLobbies.Upsert(room);
 
         return SubterfugeResponse<JoinRoomResponse>.OfSuccess(new JoinRoomResponse());
@@ -182,6 +192,7 @@ public class LobbyController : ControllerBase, ISubterfugeGameLobbyApi
         
             // Update the player list to remove the current player.
             room.PlayerIdsInLobby = room.PlayerIdsInLobby.Where(it => it != dbUserModel.Id).ToList();
+            room.PlayerSpecialistDecks.Remove(dbUserModel.Id);
             await _dbLobbies.Upsert(room);
 
             return SubterfugeResponse<LeaveRoomResponse>.OfSuccess(new LeaveRoomResponse());

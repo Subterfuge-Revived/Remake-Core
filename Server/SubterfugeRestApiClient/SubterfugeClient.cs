@@ -4,7 +4,6 @@ using Subterfuge.Remake.Api.Client.controllers.Client;
 using Subterfuge.Remake.Api.Client.controllers.game;
 using Subterfuge.Remake.Api.Client.controllers.health;
 using Subterfuge.Remake.Api.Client.controllers.social;
-using Subterfuge.Remake.Api.Client.controllers.specialists;
 
 namespace Subterfuge.Remake.Api.Client
 {
@@ -20,7 +19,6 @@ namespace Subterfuge.Remake.Api.Client
         public LobbyClient LobbyClient;
         public HealthClient HealthClient;
         public SocialClient SocialClient;
-        public SpecialistClient SpecialistClient;
         public AdminClient AdminClient;
         public GameAnnouncementClient AnnouncementClient;
         
@@ -35,7 +33,15 @@ namespace Subterfuge.Remake.Api.Client
         public SubterfugeClient()
         {
             subsHttpClient = new SubterfugeHttpClient();
-            WireDependencies();
+            UserApi = new UserControllerClient(subsHttpClient);
+            UserRoles = new UserRoleClient(subsHttpClient);
+            GameEventClient = new GameEventClient(subsHttpClient);
+            GroupClient = new GroupClient(subsHttpClient);
+            LobbyClient = new LobbyClient(subsHttpClient);
+            HealthClient = new HealthClient(subsHttpClient);
+            SocialClient = new SocialClient(subsHttpClient);
+            AdminClient = new AdminClient(subsHttpClient);
+            AnnouncementClient = new GameAnnouncementClient(subsHttpClient);
         }
         
         /// <summary>
@@ -45,11 +51,6 @@ namespace Subterfuge.Remake.Api.Client
         public SubterfugeClient(string baseUrl)
         {
             subsHttpClient = new SubterfugeHttpClient(baseUrl);
-            WireDependencies();
-        }
-
-        private void WireDependencies()
-        {
             UserApi = new UserControllerClient(subsHttpClient);
             UserRoles = new UserRoleClient(subsHttpClient);
             GameEventClient = new GameEventClient(subsHttpClient);
@@ -57,7 +58,6 @@ namespace Subterfuge.Remake.Api.Client
             LobbyClient = new LobbyClient(subsHttpClient);
             HealthClient = new HealthClient(subsHttpClient);
             SocialClient = new SocialClient(subsHttpClient);
-            SpecialistClient = new SpecialistClient(subsHttpClient);
             AdminClient = new AdminClient(subsHttpClient);
             AnnouncementClient = new GameAnnouncementClient(subsHttpClient);
         }

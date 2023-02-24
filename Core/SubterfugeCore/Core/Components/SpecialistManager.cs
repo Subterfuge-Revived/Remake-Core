@@ -11,7 +11,7 @@ namespace Subterfuge.Remake.Core.Components
     /// <summary>
     /// Specialist management class to facilitate adding and removing specialists from ISpecialistCarrier classes.
     /// </summary>
-    public class SpecialistManager : EntityComponent, ISpecialistCarrierEventPublisher
+    public class SpecialistManager : EntityComponent, ISpecialistEventPublisher
     {
         /// <summary>
         /// The maximum number of specialists that can be stored in this carrier
@@ -23,10 +23,14 @@ namespace Subterfuge.Remake.Core.Components
         /// </summary>
         List<Specialist> _specialists = new List<Specialist>();
 
+        public event EventHandler<OnSpecialistHireEventArgs>? OnSpecialistHire;
+        public event EventHandler<OnSpecialistsCapturedEventArgs>? OnCaptured;
+        public event EventHandler<OnSpecialistsCapturedEventArgs>? OnUncaptured;
+        public event EventHandler<OnSpecialistPromotionEventArgs>? OnSpecialistPromotion;
+        public event EventHandler<OnAddSpecialistEventArgs>? OnSpecialistArrive;
+        public event EventHandler<OnRemoveSpecialistEventArgs>? OnSpecialistLeave;
+        public event EventHandler<OnSpecialistCapacityChangeEventArgs>? OnSpecialistCapacityChange;
         
-        public event EventHandler<OnAddSpecialistEventArgs> OnAddSpecialist;
-        public event EventHandler<OnRemoveSpecialistEventArgs> OnRemoveSpecialist;
-        public event EventHandler<OnSpecialistCapacityChangeEventArgs> OnSpecialistCapacityChange;
 
         /// <summary>
         /// Constructor with a specific capacity
@@ -56,19 +60,33 @@ namespace Subterfuge.Remake.Core.Components
             return (_specialists.Count + specsToAdd) <= _capacity;
         }
 
-        /// <summary>
-        /// Adds a specialist to the location
-        /// </summary>
-        /// <param name="specialist">The specialist to add to the location</param>
-        public bool AddSpecialist(Specialist specialist)
+        public bool HireSpecialist(Specialist specialist)
         {
             if (_specialists.Count < _capacity)
             {
                 _specialists.Add(specialist);
-                OnAddSpecialist?.Invoke(this, new OnAddSpecialistEventArgs()
+                OnSpecialistHire?.Invoke(this, new OnSpecialistHireEventArgs()
+                {
+                    HiredSpecialist = specialist,
+                    HireLocation = Parent,
+                });
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Adds a specialist to the location
+        /// </summary>
+        /// <param name="specialist">The specialist to add to the location</param>
+        public bool AddFriendlySpecialist(Specialist specialist)
+        {
+            if (_specialists.Count < _capacity)
+            {
+                _specialists.Add(specialist);
+                OnSpecialistArrive?.Invoke(this, new OnAddSpecialistEventArgs()
                 {
                     AddedSpecialist = specialist,
-                    AddedTo = this,
                 });
                 return true;
             }
@@ -79,7 +97,7 @@ namespace Subterfuge.Remake.Core.Components
         /// Adds a list of specialists
         /// </summary>
         /// <param name="specialists">A list of specialists to add</param>
-        public int AddSpecialists(List<Specialist> specialists)
+        public int AddFriendlySpecialists(List<Specialist> specialists)
         {
             var addedSpecialists = 0;
             foreach(Specialist s in specialists)
@@ -88,10 +106,9 @@ namespace Subterfuge.Remake.Core.Components
                 {
                     addedSpecialists++;
                     _specialists.Add(s);
-                    OnAddSpecialist?.Invoke(this, new OnAddSpecialistEventArgs()
+                    OnSpecialistArrive?.Invoke(this, new OnAddSpecialistEventArgs()
                     {
                         AddedSpecialist = s,
-                        AddedTo = this,
                     });
                 }
             }
@@ -103,15 +120,14 @@ namespace Subterfuge.Remake.Core.Components
         /// Removes a specialist
         /// </summary>
         /// <param name="specialist">The specialist to remove</param>
-        public bool RemoveSpecialist(Specialist specialist)
+        public bool RemoveFriendlySpecialist(Specialist specialist)
         {
             if (_specialists.Contains(specialist))
             {
                 _specialists.Remove(specialist);
-                OnRemoveSpecialist?.Invoke(this, new OnRemoveSpecialistEventArgs()
+                OnSpecialistLeave?.Invoke(this, new OnRemoveSpecialistEventArgs()
                 {
                     RemovedSpecialist = specialist,
-                    RemovedFrom = this,
                 });
                 return true;
             }
@@ -122,7 +138,7 @@ namespace Subterfuge.Remake.Core.Components
         /// Removes a list of specialsits
         /// </summary>
         /// <param name="specialists">The list of specialists to remove</param>
-        public int RemoveSpecialists(List<Specialist> specialists)
+        public int RemoveFriendlySpecialists(List<Specialist> specialists)
         {
             var removedSpecialists = 0;
             foreach(Specialist s in specialists)
@@ -131,10 +147,9 @@ namespace Subterfuge.Remake.Core.Components
                 {
                     removedSpecialists++;
                     _specialists.Remove(s);
-                    OnRemoveSpecialist?.Invoke(this, new OnRemoveSpecialistEventArgs()
+                    OnSpecialistLeave?.Invoke(this, new OnRemoveSpecialistEventArgs()
                     {
                         RemovedSpecialist = s,
-                        RemovedFrom = this,
                     });
                 }
             }
@@ -155,15 +170,13 @@ namespace Subterfuge.Remake.Core.Components
         /// Sets the capacity
         /// </summary>
         /// <param name="capacity">The capacity to set</param>
-        public void SetCapacity(int capacity)
+        public void AlterCapacity(int delta)
         {
-            var previousCapacity = _capacity;
-            _capacity = capacity;
+            var initialCapacity = _capacity;
+            _capacity = Math.Max(0, _capacity + delta);
             OnSpecialistCapacityChange?.Invoke(this, new OnSpecialistCapacityChangeEventArgs()
             {
-                NewCapacity = capacity,
-                PreviousCapacity = previousCapacity,
-                SpecialistManager = this,
+                CapacityDelta = _capacity - initialCapacity
             });
         }
 
@@ -186,12 +199,8 @@ namespace Subterfuge.Remake.Core.Components
             if (specialistManager.CanAddSpecialists(this._specialists.Count))
             {
                 List<Specialist> toRemove = new List<Specialist>(_specialists);
-                foreach (Specialist s in toRemove)
-                {
-                    RemoveSpecialist(s);
-                    specialistManager.AddSpecialist(s);
-                }
-
+                RemoveFriendlySpecialists(toRemove);
+                specialistManager.AddFriendlySpecialists(toRemove);
                 return true;
             }
             return false;
@@ -207,12 +216,8 @@ namespace Subterfuge.Remake.Core.Components
             var specialistsMatchingId = _specialists.Where(it => specialistIds.Contains(it.GetId())).ToList();
             if (destinationSpecialistManager.CanAddSpecialists(specialistsMatchingId.Count))
             {
-                foreach (Specialist s in specialistsMatchingId)
-                {
-                    RemoveSpecialist(s);
-                    destinationSpecialistManager.AddSpecialist(s);
-                }
-
+                RemoveFriendlySpecialists(specialistsMatchingId);
+                destinationSpecialistManager.AddFriendlySpecialists(specialistsMatchingId);
                 return true;
             }
 
@@ -228,6 +233,21 @@ namespace Subterfuge.Remake.Core.Components
             {
                 s.SetCaptured(true);
             }
+            OnCaptured?.Invoke(this, new OnSpecialistsCapturedEventArgs()
+            {
+                CaptureLocation = Parent,
+            });
+        }
+        
+        /// <summary>
+        /// Sets all of the specialists within this specialist manager to be captured.
+        /// </summary>
+        public void KillAll()
+        {
+            foreach(Specialist s in _specialists)
+            {
+                this._specialists.Remove(s);
+            }
         }
 
         /// <summary>
@@ -239,10 +259,14 @@ namespace Subterfuge.Remake.Core.Components
             {
                 s.SetCaptured(false);
             }
+            OnUncaptured?.Invoke(this, new OnSpecialistsCapturedEventArgs()
+            {
+                CaptureLocation = Parent,
+            });
         }
         
         /// <summary>
-        /// Gets all of the specialists beloging to a specific player.
+        /// Gets all of the specialists belonging to a specific player.
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>

@@ -38,7 +38,7 @@ namespace Subterfuge.Remake.Test
         {
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player, _game.TimeMachine);
-            outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
+            outpost.GetComponent<DrillerCarrier>().AlterDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(10), 10, player, _game.TimeMachine);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(10));
 
@@ -80,7 +80,7 @@ namespace Subterfuge.Remake.Test
         {
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player, _game.TimeMachine);
-            outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
+            outpost.GetComponent<DrillerCarrier>().AlterDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player, _game.TimeMachine);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
@@ -98,7 +98,7 @@ namespace Subterfuge.Remake.Test
         {
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player, _game.TimeMachine);
-            outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
+            outpost.GetComponent<DrillerCarrier>().AlterDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player, _game.TimeMachine);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
@@ -121,7 +121,7 @@ namespace Subterfuge.Remake.Test
         {
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player, _game.TimeMachine);
-            outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
+            outpost.GetComponent<DrillerCarrier>().AlterDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player, _game.TimeMachine);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
@@ -149,7 +149,7 @@ namespace Subterfuge.Remake.Test
         {
             Rft map = new Rft(3000, 3000);
             Outpost outpost = new Generator("0", new RftVector(map, 0, 0), player, _game.TimeMachine);
-            outpost.GetComponent<DrillerCarrier>().AddDrillers(10);
+            outpost.GetComponent<DrillerCarrier>().AlterDrillers(10);
             Sub sub = new Sub("1", outpost, outpost, new GameTick(), 10, player, _game.TimeMachine);
             CombatEvent arriveEvent = new CombatEvent(sub, outpost, new GameTick(5));
 
