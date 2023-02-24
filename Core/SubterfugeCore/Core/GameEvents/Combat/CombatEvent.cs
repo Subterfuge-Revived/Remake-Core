@@ -2,6 +2,7 @@
 using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat.CombatEvents;
 using Subterfuge.Remake.Core.GameEvents.Validators;
 using Subterfuge.Remake.Core.Timing;
 
@@ -22,13 +23,8 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         /// One of the two combat participants
         /// </summary>
         private readonly IEntity _combatant2;
-        
-        public CombatCleanup combatSummary { get; set; }
-        
-        /// <summary>
-        /// A list of combat actions that will occur when the event is triggered.
-        /// </summary>
-        private readonly List<IReversible> _actions = new List<IReversible>();
+
+        public List<NaturalGameEvent> CombatEventList = new List<NaturalGameEvent>();
 
         /// <summary>
         /// Constructor for the combat event
@@ -40,47 +36,53 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
+            
+            // Determine additional events that should be triggered for this particular combat.
+            if (IsFriendlyCombat())
+            {
+                this.CombatEventList.Add(new FriendlySubArrive(_combatant1, _combatant2, base.GetOccursAt()));
+            } else
+            {
+                // Note: Other combat effects will get added to the list of game events for this event through the PreCombat event listener!
+                
+                // Add the base driller and shield combat events.
+                CombatEventList.Add(new NaturalDrillerCombatEffect());
+                CombatEventList.Add(new NaturalShieldCombatEffect());
+            }
         }
 
         public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
+            // Sort the combat event list by priority.
+            
+            CombatEventList.Sort();
             if (!Validator.ValidateICombatable(state, _combatant1) || !Validator.ValidateICombatable(state, _combatant2))
             {
                 this.EventSuccess = false;
                 return false;
             }
-            
-            // Determine additional events that should be triggered for this particular combat.
-            if (_combatant1.GetComponent<DrillerCarrier>().GetOwner() == _combatant2.GetComponent<DrillerCarrier>().GetOwner())
-            {
-                this._actions.Add(new FriendlySubArrive(_combatant1, _combatant2, base.GetOccursAt()));
-            } else
-            {
-                this._actions.Add(new SpecialistCombat(_combatant1, _combatant2));
-                this._actions.Add(new DrillerCombat(_combatant1, _combatant2));
-            }
 
-            combatSummary = new CombatCleanup(_combatant1, _combatant2);
-            this._actions.Add(combatSummary);
-
-            foreach (IReversible action in this._actions)
-            {
-                action.ForwardAction(timeMachine, state);
-            }
-            
+            // Sort the list in order of priority.
+            // Default order is ascending so reverse it after.
+            CombatEventList.Sort();
+            CombatEventList.Reverse();
+            CombatEventList.ForEach(action => action.ForwardAction(timeMachine, state));
             this.EventSuccess = true;
             return true;
+        }
+
+        private bool IsFriendlyCombat()
+        {
+            return _combatant1.GetComponent<DrillerCarrier>().GetOwner() ==
+                   _combatant2.GetComponent<DrillerCarrier>().GetOwner();
         }
 
         public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
         {
             if (EventSuccess)
             {
-                // perform actions in reverse
-                for (int i = _actions.Count - 1; i >= 0; i--)
-                {
-                    this._actions[i].BackwardAction(timeMachine, state);
-                }
+                CombatEventList.Sort();
+                CombatEventList.ForEach(action => action.BackwardAction(timeMachine, state));
             }
 
             return this.EventSuccess;
@@ -96,18 +98,9 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
             return this.EventSuccess;
         }
 
-        /// <summary>
-        /// Returns a list of two objects containing both objects participating in combat.
-        /// </summary>
-        /// <returns>A list of the combatants</returns>
-        public List<IEntity> GetCombatants()
+        public void AddEffectToCombat(NaturalGameEvent combatEffect)
         {
-            List<IEntity> combatants = new List<IEntity>
-            {
-                _combatant1,
-                _combatant2
-            };
-            return combatants;
+            CombatEventList.Add(combatEffect);
         }
     }
 }

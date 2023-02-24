@@ -56,11 +56,28 @@ public class LobbyUtils
                 IsRanked = isRanked,
                 MaxPlayers = maxPlayers,
                 MinutesPerTick = 15,
-                AllowedSpecialists = { }
             },
             IsPrivate = false,
             MapConfiguration = CreateMapConfiguration(),
             RoomName = roomName,
+            CreatorSpecialistDeck = new List<SpecialistIds>()
+            {
+                SpecialistIds.Advisor,
+                SpecialistIds.Amnesiac,
+                SpecialistIds.Assasin,
+                SpecialistIds.Automation,
+                SpecialistIds.Dispatcher,
+                SpecialistIds.Economist,
+                SpecialistIds.Enforcer,
+                SpecialistIds.Engineer,
+                SpecialistIds.Escort,
+                SpecialistIds.Foreman,
+                SpecialistIds.Helmsman,
+                SpecialistIds.Hypnotist,
+                SpecialistIds.Icicle,
+                SpecialistIds.Industrialist,
+                SpecialistIds.Infiltrator
+            }
         };
     }
     

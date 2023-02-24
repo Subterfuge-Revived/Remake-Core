@@ -36,7 +36,7 @@ public class LobbyControllerTest
         var lobbyResponse = await LobbyUtils.CreateLobby();
         
         TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        var joinResponse = await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), lobbyResponse.GameConfiguration.Id);
+        var joinResponse = await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), lobbyResponse.GameConfiguration.Id);
         Assert.IsTrue(joinResponse.ResponseDetail.IsSuccess);
         
         // View open rooms.
@@ -63,10 +63,10 @@ public class LobbyControllerTest
         
         
         TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        var joinResponseOne = await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), lobbyResponse.GameConfiguration.Id);
+        var joinResponseOne = await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), lobbyResponse.GameConfiguration.Id);
         Assert.IsTrue(joinResponseOne.ResponseDetail.IsSuccess);
 
-        var exception = await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), lobbyResponse.GameConfiguration.Id);
+        var exception = await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), lobbyResponse.GameConfiguration.Id);
         Assert.IsFalse(exception.IsSuccess());
         Assert.AreEqual(ResponseType.DUPLICATE, exception.ResponseDetail.ResponseType);
     }
@@ -77,12 +77,12 @@ public class LobbyControllerTest
         var lobbyResponse = await LobbyUtils.CreateLobby(maxPlayers: 2);
         
         TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        var joinTwoResponse = await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), lobbyResponse.GameConfiguration.Id);
+        var joinTwoResponse = await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), lobbyResponse.GameConfiguration.Id);
         Assert.IsTrue(joinTwoResponse.ResponseDetail.IsSuccess);
         
         
         TestUtils.GetClient().UserApi.SetToken(userThree.Token);
-        var exception = await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), lobbyResponse.GameConfiguration.Id);
+        var exception = await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), lobbyResponse.GameConfiguration.Id);
         Assert.IsFalse(exception.IsSuccess());
         Assert.AreEqual(ResponseType.ROOM_IS_FULL, exception.ResponseDetail.ResponseType);
     }
@@ -93,7 +93,7 @@ public class LobbyControllerTest
         var lobbyResponse = await LobbyUtils.CreateLobby(maxPlayers: 2);
         
         TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        var joinTwoResponse = await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), lobbyResponse.GameConfiguration.Id);
+        var joinTwoResponse = await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), lobbyResponse.GameConfiguration.Id);
         Assert.IsTrue(joinTwoResponse.ResponseDetail.IsSuccess);
         
         // Check to see that the game room is ONGOING
@@ -108,7 +108,7 @@ public class LobbyControllerTest
         var lobbyResponse = await LobbyUtils.CreateLobby();
         
         TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        var joinTwoResponse = await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), lobbyResponse.GameConfiguration.Id);
+        var joinTwoResponse = await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), lobbyResponse.GameConfiguration.Id);
         Assert.IsTrue(joinTwoResponse.ResponseDetail.IsSuccess);
         
         // Check to see the player has joined
@@ -359,7 +359,7 @@ public class LobbyControllerTest
         
         // Login as another player and join the created lobby
         TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest() { }, response.GameConfiguration.Id);
+        await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), response.GameConfiguration.Id);
         
         // Leave the room as the creator
         TestUtils.GetClient().UserApi.SetToken(userOne.Token);
@@ -385,7 +385,7 @@ public class LobbyControllerTest
         
         // Login as another player and join the created lobby
         TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest() { }, response.GameConfiguration.Id);
+        await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), response.GameConfiguration.Id);
         
         // Start the room as the creator
         TestUtils.GetClient().UserApi.SetToken(userOne.Token);
@@ -412,7 +412,7 @@ public class LobbyControllerTest
         
         // Login as another player and join the created lobby
         TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest() { }, response.GameConfiguration.Id);
+        await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), response.GameConfiguration.Id);
         
         // Start the room as the creator
         TestUtils.GetClient().UserApi.SetToken(userOne.Token);
@@ -486,7 +486,7 @@ public class LobbyControllerTest
         
         // Login as another player and join the created lobby
         TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest() { }, response.GameConfiguration.Id);
+        await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), response.GameConfiguration.Id);
         
         // Start the room as the creator
         TestUtils.GetClient().UserApi.SetToken(userOne.Token);

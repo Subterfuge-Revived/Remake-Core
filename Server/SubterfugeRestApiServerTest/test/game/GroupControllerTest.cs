@@ -28,10 +28,10 @@ public class GroupControllerTest
         gameRoom = (await TestUtils.GetClient().LobbyClient.CreateNewRoom(getCreateRoomRequest())).GetOrThrow();
         
         TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), gameRoom.GameConfiguration.Id);
+        await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), gameRoom.GameConfiguration.Id);
         
         TestUtils.GetClient().UserApi.SetToken(userThree.Token);
-        await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), gameRoom.GameConfiguration.Id);
+        await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), gameRoom.GameConfiguration.Id);
         // Game has begun.
         TestUtils.GetClient().UserApi.SetToken(userOne.Token);
     }
@@ -279,6 +279,24 @@ public class GroupControllerTest
                     GeneratorWeight = 0.33f,
                     WatchtowerWeight = 0.33f,
                 }
+            },
+            CreatorSpecialistDeck = new List<SpecialistIds>()
+            {
+                SpecialistIds.Advisor,
+                SpecialistIds.Amnesiac,
+                SpecialistIds.Assasin,
+                SpecialistIds.Automation,
+                SpecialistIds.Dispatcher,
+                SpecialistIds.Economist,
+                SpecialistIds.Enforcer,
+                SpecialistIds.Engineer,
+                SpecialistIds.Escort,
+                SpecialistIds.Foreman,
+                SpecialistIds.Helmsman,
+                SpecialistIds.Hypnotist,
+                SpecialistIds.Icicle,
+                SpecialistIds.Industrialist,
+                SpecialistIds.Infiltrator
             }
         };
     }

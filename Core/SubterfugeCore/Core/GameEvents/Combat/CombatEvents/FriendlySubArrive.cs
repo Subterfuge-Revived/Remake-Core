@@ -42,9 +42,9 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         {
             if (EventSuccess)
             {
-                _outpost.GetComponent<DrillerCarrier>().RemoveDrillers(_arrivingSub.GetComponent<DrillerCarrier>().GetDrillerCount());
+                _outpost.GetComponent<DrillerCarrier>().AlterDrillers(_arrivingSub.GetComponent<DrillerCarrier>().GetDrillerCount() * -1);
                 _outpost.GetComponent<SpecialistManager>()
-                    .RemoveSpecialists(_arrivingSub.GetComponent<SpecialistManager>().GetSpecialists());
+                    .RemoveFriendlySpecialists(_arrivingSub.GetComponent<SpecialistManager>().GetSpecialists());
                 state.AddSub(this._arrivingSub);
                 return true;
             }
@@ -59,8 +59,8 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         {
             if (state.SubExists(_arrivingSub) && state.OutpostExists(_outpost))
             {
-                _outpost.GetComponent<DrillerCarrier>().AddDrillers(_arrivingSub.GetComponent<DrillerCarrier>().GetDrillerCount());
-                _outpost.GetComponent<SpecialistManager>().AddSpecialists(_arrivingSub.GetComponent<SpecialistManager>().GetSpecialists());
+                _outpost.GetComponent<DrillerCarrier>().AlterDrillers(_arrivingSub.GetComponent<DrillerCarrier>().GetDrillerCount());
+                _outpost.GetComponent<SpecialistManager>().AddFriendlySpecialists(_arrivingSub.GetComponent<SpecialistManager>().GetSpecialists());
                 state.RemoveSub(_arrivingSub);
                 EventSuccess = true;
             }

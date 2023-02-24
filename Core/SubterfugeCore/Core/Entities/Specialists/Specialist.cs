@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Entities.Specialists.Effects;
+using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.Players;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists
@@ -9,7 +9,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
     /// <summary>
     /// Base class for a specialist.
     /// </summary>
-    public class Specialist
+    public abstract class Specialist
     {
         /// <summary>
         /// The name of the specialist
@@ -20,19 +20,22 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <summary>
         /// The player who owns the specialist
         /// </summary>
-        Player _owner;
-        
-        /// <summary>
-        /// A list of specialist effects that the specialist can apply
-        /// </summary>
-        private readonly List<ISpecialistEffect> _specialistEffects = new List<ISpecialistEffect>();
-
-        public SpecialistConfiguration Configuration;
+        protected Player _owner;
 
         /// <summary>
         /// Is the specialist captured by another player?
         /// </summary>
-        private bool _isCaptured = false;
+        protected bool _isCaptured = false;
+
+        /// <summary>
+        /// Determines priority in combat
+        /// </summary>
+        protected Priority Priority;
+
+        /// <summary>
+        /// Determines the level of the effects applied
+        /// </summary>
+        protected int _level = 1;
 
         /// <summary>
         /// Abstract constructor for a specialist. All inherited specialist classes require implementing this.
@@ -40,79 +43,19 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <param name="name">The name of the specialist</param>
         /// <param name="priority">The specialist priority</param>
         /// <param name="owner">The player that owns the specialist</param>
-        public Specialist(SpecialistConfiguration configuration, Player owner)
+        public Specialist(Player owner, Priority priority)
         {
-            Configuration = configuration;
+            Priority = priority;
             _owner = owner;
-        }
-        
-        /// <summary>
-        /// Returns a list of specialist effects that the specialist possesses.
-        /// </summary>
-        /// <returns>A list of specialist effects that the specialist can apply</returns>
-        public List<ISpecialistEffect> GetSpecialistEffects()
-        {
-            return this._specialistEffects;
-        }
-
-        /// <summary>
-        /// Removes a specialist effect from the specailist
-        /// </summary>
-        /// <param name="effect">The specialist effect to remove.</param>
-        public void RemoveSpecialistEffect(ISpecialistEffect effect)
-        {
-            if(_specialistEffects.Contains(effect))
-            {
-                _specialistEffects.Remove(effect);
-            }
-        }
-
-        /// <summary>
-        /// Adds a specialist effect to the specialist
-        /// </summary>
-        /// <param name="effect">The effect to add.</param>
-        public void AddSpecialistEffect(ISpecialistEffect effect)
-        {
-            _specialistEffects.Add(effect);
-        }
-
-        /// <summary>
-        /// Applies the specialist's effects to a friendly and enemy combatable.
-        /// </summary>
-        /// <param name="state">The game state</param>
-        /// <param name="friendly">The friendly combatable to effect</param>
-        /// <param name="enemy">The enemy combatable to effect</param>
-        public void ApplyEffect(GameState.GameState state, IEntity friendly, IEntity enemy)
-        {
-            foreach(var specialistEffect in _specialistEffects)
-            {
-                var effect = (SpecialistEffect)specialistEffect;
-                effect.GetForwardEffectDeltas(state, friendly, enemy);
-            }
-        }
-
-        /// <summary>
-        /// Reverses a specialist effect to a friendly and enemy combatable
-        /// </summary>
-        /// <param name="state">Gamestate</param>
-        /// <param name="friendly">The friendly combatable to reverse effects to</param>
-        /// <param name="enemy">The enemy combatable to reverse effects to</param>
-        public void UndoEffect(GameState.GameState state, IEntity friendly, IEntity enemy)
-        {
-            foreach (var specialistEffect in this._specialistEffects)
-            {
-                var effect = (SpecialistEffect)specialistEffect;
-                effect.GetBackwardEffectDeltas(state, friendly, enemy);
-            }
         }
 
         /// <summary>
         /// Returns the specialist's priority.
         /// </summary>
         /// <returns>The combat priority of the specialist</returns>
-        public int GetPriority()
+        public Priority GetPriority()
         {
-            return this.Configuration.Priority;
+            return Priority;
         }
 
         /// <summary>
@@ -143,24 +86,6 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         }
 
         /// <summary>
-        /// invokes the effects of a specialist effect
-        /// </summary>
-        /// <param name="trigger">The event that triggered the effects to determine if effects should be triggered.</param>
-        public void Invoke(EffectTrigger trigger)
-        {
-            // Loop through specialist effects.
-            // Determine if the effect should be triggered.
-            foreach (var specialistEffect1 in _specialistEffects)
-            {
-                var specialistEffect = (SpecialistEffect)specialistEffect1;
-                if (specialistEffect.configuration.EffectTrigger == trigger)
-                {
-                    // specialistEffect.forwardEffect();
-                }
-            }
-        }
-
-        /// <summary>
         /// Captures the specialist
         /// </summary>
         /// <param name="isCaptured">Sets the specialist captured state</param>
@@ -177,5 +102,24 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         {
             return _isCaptured;
         }
+
+        public int GetLevel()
+        {
+            return _level;
+        }
+
+        public void Promote()
+        {
+            _level++;
+        }
+
+        public void UndoPromote()
+        {
+            _level--;
+        }
+        
+        public abstract void ArriveAt(IEntity entity);
+        public abstract void LeaveLocation(IEntity entity);
+        public abstract SpecialistIds GetSpecialistId();
     }
 }

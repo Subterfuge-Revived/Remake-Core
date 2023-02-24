@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 
 namespace Subterfuge.Remake.Api.Network
 {
@@ -25,7 +28,7 @@ namespace Subterfuge.Remake.Api.Network
         public DateTime TimeStarted { get; set; }
         public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
         public List<User> PlayersInLobby { get; set; }
-        public Dictionary<string, List<string>> PlayerSpecialistDecks { get; set; }
+        public Dictionary<string, List<SpecialistIds>> PlayerSpecialistDecks { get; set; }
     }
     
     public enum GameVersion
@@ -36,7 +39,6 @@ namespace Subterfuge.Remake.Api.Network
 
     public class GameSettings
     {
-        public List<SpecialistConfiguration> AllowedSpecialists { get; set; } = new List<SpecialistConfiguration>();
         public double MinutesPerTick { get; set; }
         public Goal Goal { get; set; }
         public Boolean IsRanked { get; set; }
@@ -96,6 +98,7 @@ namespace Subterfuge.Remake.Api.Network
         public MapConfiguration MapConfiguration { get; set; }
         public string RoomName { get; set; }
         public Boolean IsPrivate { get; set; }
+        public List<SpecialistIds> CreatorSpecialistDeck { get; set; }
     }
 
     public class CreateRoomResponse
@@ -105,7 +108,10 @@ namespace Subterfuge.Remake.Api.Network
 
     public class JoinRoomResponse { }
 
-    public class JoinRoomRequest { }
+    public class JoinRoomRequest
+    {
+        public List<SpecialistIds> SpecialistDeck { get; set; }
+    }
 
     public class LeaveRoomResponse { }
     
@@ -114,5 +120,49 @@ namespace Subterfuge.Remake.Api.Network
     public class GetLobbyResponse
     {
         public GameConfiguration[] Lobbies { get; set; }
+    }
+
+    public enum SpecialistIds
+    {
+        Unknown = 0,
+        Infiltrator = 1,
+        Helmsman = 2,
+        Veteran = 3,
+        Dispatcher = 4,
+        Assasin = 5,
+        Pirate = 6,
+        Inspector = 7,
+        Smuggler = 8,
+        Sentry = 9,
+        Revered_Elder = 10,
+        Saboteur = 11,
+        Princess = 12,
+        Intelligence_Officer = 13,
+        Foreman = 14,
+        Tinkerer = 15,
+        Hypnotist = 16,
+        Warden = 17,
+        Technician = 18,
+        Automation = 19,
+        Advisor = 20,
+        Amnesiac = 21,
+        Martyr = 22,
+        Sniper = 23,
+        Iron_Maiden = 24,
+        Scrutineer = 25,
+        Theif = 26,
+        Escort = 27,
+        Sapper = 28,
+        Icicle = 29,
+        Engineer = 30,
+        Enforcer = 31,
+        Merchant = 32,
+        Economist = 33,
+        Double_Agent = 34,
+        Industrialist = 35,
+        Breeder = 36,
+        
+        // Heroes in the 1000 range
+        Queen = 1001,
     }
 }

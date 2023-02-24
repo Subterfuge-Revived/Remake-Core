@@ -38,7 +38,7 @@ namespace Subterfuge.Remake.Core.Components
 
             if (destination != null && _drillerCarrier.HasDrillers(launchData.DrillerCount))
             {
-                _drillerCarrier.RemoveDrillers(launchData.DrillerCount);
+                _drillerCarrier.AlterDrillers(launchData.DrillerCount * -1);
                 Sub launchedSub = new Sub(launchEvent.GetEventId(), source, destination, state.GetCurrentTick(), launchData.DrillerCount, this._drillerCarrier.GetOwner(), timeMachine);
                 this._specialistManager.TransferSpecialistsById(launchedSub.GetComponent<SpecialistManager>(), launchData.SpecialistIds.ToList());
                 state.AddSub(launchedSub);
@@ -67,7 +67,7 @@ namespace Subterfuge.Remake.Core.Components
             Sub launchedSub = launchEvent.GetActiveSub();
             if (launchedSub != null)
             {
-                _drillerCarrier.AddDrillers(launchData.DrillerCount);
+                _drillerCarrier.AlterDrillers(launchData.DrillerCount);
                 launchedSub.GetComponent<SpecialistManager>().TransferSpecialistsTo(_specialistManager);
                 state.RemoveSub(launchEvent.GetActiveSub());
                 

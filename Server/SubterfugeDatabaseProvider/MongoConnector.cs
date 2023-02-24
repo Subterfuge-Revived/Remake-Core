@@ -29,8 +29,6 @@ namespace Subterfuge.Remake.Server.Database
             AddComponent(new GameEventCollection(GetDbCollection<DbGameEvent>()));
             AddComponent(new ChatMessageCollection(GetDbCollection<DbChatMessage>()));
             AddComponent(new GroupCollection(GetDbCollection<DbMessageGroup>()));
-            AddComponent(new SpecialistConfigurationCollection(GetDbCollection<DbSpecialistConfiguration>()));
-            AddComponent(new SpecialistPackageCollection(GetDbCollection<DbSpecialistPackage>()));
             AddComponent(new ServerActionLogCollection(GetDbCollection<DbServerAction>()));
             AddComponent(new ServerExceptionLogCollection(GetDbCollection<DbServerException>()));
             AddComponent(new IpBanCollection(GetDbCollection<DbIpBan>()));

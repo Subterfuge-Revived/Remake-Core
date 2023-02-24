@@ -36,20 +36,9 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
                 return EventSuccess;
             }
 
-            var specialistHired = this.IssuedBy()
-                .SpecialistPool
-                .PeekOffers()
-                .FirstOrDefault(it => it.Id == hireEvent.SpecialistIdHired);
-
-            if (specialistHired == null)
-            {
-                EventSuccess = false;
-                return EventSuccess;
-            }
-
-            var specialist = this.IssuedBy().SpecialistPool.HireSpecialist(specialistHired);
+            var specialist = this.IssuedBy().SpecialistPool.HireSpecialist(hireEvent.SpecialistIdHired);
             hireLocation.GetComponent<SpecialistManager>()
-                .AddSpecialist(specialist);
+                .AddFriendlySpecialist(specialist);
 
             HiredSpecialist = specialist;
             HiredAt = hireLocation;
@@ -63,7 +52,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             if (EventSuccess)
             {
                 HiredAt.GetComponent<SpecialistManager>()
-                    .RemoveSpecialist(HiredSpecialist);
+                    .RemoveFriendlySpecialist(HiredSpecialist);
                 
                 this.IssuedBy()
                     .SpecialistPool

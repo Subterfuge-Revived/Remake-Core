@@ -13,8 +13,8 @@ namespace Subterfuge.Remake.Core.Components
             IEntity parent,
             TimeMachine timeMachine
         ) : base(
-            (int)(Constants.MinutesPerProduction / GameTick.MinutesPerTick),
-            Constants.BaseFactoryProduction,
+            Constants.TicksPerProduction,
+            Constants.BaseFactoryProductionAmount,
             timeMachine
         ) {
             Parent = parent;
@@ -22,12 +22,12 @@ namespace Subterfuge.Remake.Core.Components
 
         protected override void Produce(int productionAmount)
         {
-            Parent.GetComponent<DrillerCarrier>().AddDrillers(productionAmount);
+            Parent.GetComponent<DrillerCarrier>().AlterDrillers(productionAmount);
         }
 
         protected override void UndoProduce(int amountToRevert)
         {
-            Parent.GetComponent<DrillerCarrier>().RemoveDrillers(amountToRevert);
+            Parent.GetComponent<DrillerCarrier>().AlterDrillers(amountToRevert * -1);
         }
 
         public override int GetNextProductionAmount(GameState.GameState state)

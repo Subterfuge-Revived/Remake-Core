@@ -70,7 +70,7 @@ namespace Subterfuge.Remake.Test
 			var drillerProducer = _f.GetComponent<DrillerProductionComponent>();
 			_tm.GoTo(drillerProducer.DrillerProducer.GetNextProductionTick());
 			int endingDrillers = _f.GetComponent<DrillerCarrier>().GetDrillerCount();
-			Assert.AreEqual(endingDrillers - startingDrillers, Constants.BaseFactoryProduction);
+			Assert.AreEqual(endingDrillers - startingDrillers, Constants.BaseFactoryProductionAmount);
 		}
 
 		[TestMethod]
@@ -88,7 +88,7 @@ namespace Subterfuge.Remake.Test
 				if (totalDrillers < drillerCap)
 				{
 					lastDrillerCount = _f.GetComponent<DrillerCarrier>().GetDrillerCount() - startingDrillers;
-					Assert.AreEqual(Constants.BaseFactoryProduction * (i + 1),
+					Assert.AreEqual(Constants.BaseFactoryProductionAmount * (i + 1),
 						_f.GetComponent<DrillerCarrier>().GetDrillerCount() - startingDrillers);
 				}
 				else

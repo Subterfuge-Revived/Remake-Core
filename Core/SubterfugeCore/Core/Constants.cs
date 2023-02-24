@@ -20,12 +20,12 @@ namespace Subterfuge.Remake.Core.Config
 		/// <summary>
 		/// The base factory production per tick
 		/// </summary>
-		public const int BaseFactoryProduction = 6;
+		public const int BaseFactoryProductionAmount = 6;
 
 		/// <summary>
 		/// The base time (in minutes) per production
 		/// </summary>
-		public const int MinutesPerProduction = 480;
+		public const int TicksPerProduction = 32;
 
 		/// <summary>
 		/// The initial number of drillers an outpost will have when generated.
@@ -83,5 +83,10 @@ namespace Subterfuge.Remake.Core.Config
 		/// The number of specialists to offer per cycle
 		/// </summary>
 		public const int SPECIALISTS_OFFERED_PER_CYCLE = 2;
+		
+		/// <summary>
+		/// The number of specialists required in the player's deck when they join a game.
+		/// </summary>
+		public const int REQUIRED_PLAYER_SPECIALIST_DECK_SIZE = 15;
     }
 }

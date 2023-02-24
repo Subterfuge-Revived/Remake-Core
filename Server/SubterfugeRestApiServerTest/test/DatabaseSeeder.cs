@@ -40,7 +40,7 @@ public class DatabaseSeeder
         
         // Login to a different account to test searching for players in a room.
         TestUtils.GetClient().UserApi.SetToken(userTwo.Token);
-        await TestUtils.GetClient().LobbyClient.JoinRoom(new JoinRoomRequest(), roomOne.GameConfiguration.Id);
+        await TestUtils.GetClient().LobbyClient.JoinRoom(TestUtils.CreateJoinRequest(), roomOne.GameConfiguration.Id);
 
         var groupOne = await TestUtils.GetClient().GroupClient.CreateMessageGroup(new CreateMessageGroupRequest()
         {
@@ -84,20 +84,8 @@ public class DatabaseSeeder
         await TestUtils.GetClient().SocialClient.AddAcceptFriendRequest(userTwo.User.Id); // User one and two are friends.
         await TestUtils.GetClient().SocialClient.BlockPlayer(new BlockPlayerRequest(), userThree.User.Id); // User one has blocked user three
 
-        var specOne = await TestUtils.GetClient().SpecialistClient.SubmitCustomSpecialist(createSpecialistRequest("My Specialist!"));
-        var specTwo = await TestUtils.GetClient().SpecialistClient.SubmitCustomSpecialist(createSpecialistRequest("My Second Specialist"));
-        var specThree = await TestUtils.GetClient().SpecialistClient.SubmitCustomSpecialist(createSpecialistRequest("My Third Specialist"));
 
-        await TestUtils.GetClient().SpecialistClient.CreateSpecialistPackage(
-            new CreateSpecialistPackageRequest()
-            {
-                PackageIds = new List<string>() { },
-                PackageName = "My package",
-                SpecialistIds = new List<string>()
-                    { specOne.GetOrThrow().SpecialistConfigurationId, specTwo.GetOrThrow().SpecialistConfigurationId }
-            });
 
-        
         TestUtils.GetClient().UserApi.SetToken(admin.Token);
 
         await TestUtils.GetClient().AdminClient.BanPlayer(new BanPlayerRequest()
@@ -107,32 +95,5 @@ public class DatabaseSeeder
                 Until = DateTime.Now.AddHours(1),
                 UserId = userThree.User.Id,
             });
-    }
-    
-    private SubmitCustomSpecialistRequest createSpecialistRequest(String specialistName) {
-        return new SubmitCustomSpecialistRequest()
-        {
-            
-            Priority = 1,
-            SpecialistName = specialistName,
-            SpecialistEffects = new List<SpecialistEffectConfiguration>()
-            {
-                new SpecialistEffectConfiguration()
-                {
-                    EffectModifier = EffectModifier.Driller,
-                    EffectScale = new SpecialistEffectScale()
-                    {
-                        EffectScale = EffectScale.ConstantValue,
-                        EffectScaleTarget = EffectTarget.NoTarget,
-                        EffectTriggerRange = EffectTriggerRange.Self
-                    },
-                    EffectTarget = EffectTarget.Friendly,
-                    EffectTrigger = EffectTrigger.SubCombat,
-                    EffectTriggerRange = EffectTriggerRange.Self,
-                    Value = 15,
-                }
-            },
-            PromotesFromSpecialistId = "",
-        };
     }
 }
