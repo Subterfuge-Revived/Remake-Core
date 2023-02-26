@@ -157,8 +157,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialistOne = new Advisor(playerOne);
-            var specialistTwo = new Advisor(playerTwo);
+            var specialistOne = new Smuggler(playerOne);
+            var specialistTwo = new Smuggler(playerTwo);
             
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
