@@ -6,7 +6,7 @@ using MongoDB.Driver.Linq;
 using Newtonsoft.Json;
 using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Api.Network.Api;
-using Subterfuge.Remake.Core.Config;
+using Subterfuge.Remake.Core;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Server.Database;
 using Subterfuge.Remake.Server.Database.Models;

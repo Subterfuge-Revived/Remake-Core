@@ -18,13 +18,13 @@ namespace Subterfuge.Remake.Core.GameEvents.Base
         /// This function will check all conditions required to perform the command as well as perform the command
         /// to show the outcome of the command.
         /// </summary>
-        public abstract bool ForwardAction(TimeMachine timeMachine, GameState.GameState state);
+        public abstract bool ForwardAction(TimeMachine timeMachine, GameState state);
 
         /// <summary>
         /// This function will be executed when going back in time in order to undo an action.
         /// For example, this will un-hire a specialist returning the hire point to the queen, or un-launch a sub returning the drillers to the owner.
         /// </summary>
-        public abstract bool BackwardAction(TimeMachine timeMachine, GameState.GameState state);
+        public abstract bool BackwardAction(TimeMachine timeMachine, GameState state);
 
         /// <summary>
         /// Get the tick the game event occurs at

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.Timing;
 
@@ -21,7 +21,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 			return JsonConvert.DeserializeObject<DrillMineEventData>(Model.GameEventData.SerializedEventData);
 		}
 
-		public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
+		public override bool ForwardAction(TimeMachine timeMachine, GameState state)
 		{
 			Entity drillLocation = state.GetEntity(GetEventData().SourceId);
 			if (drillLocation != null && drillLocation is Outpost && !(drillLocation is Mine) && !((Outpost)drillLocation).GetComponent<DrillerCarrier>().IsDestroyed())
@@ -46,7 +46,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 			return EventSuccess;
 		}
 
-		public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
+		public override bool BackwardAction(TimeMachine timeMachine, GameState state)
 		{
 			if (EventSuccess)
 			{

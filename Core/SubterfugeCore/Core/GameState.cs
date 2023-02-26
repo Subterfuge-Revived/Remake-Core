@@ -2,16 +2,15 @@
 using System.Linq;
 using System.Numerics;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Components;
-using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.Entities.Specialists;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;
 
-namespace Subterfuge.Remake.Core.GameState
+namespace Subterfuge.Remake.Core
 {
     public interface IGameState
     {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
 
@@ -13,8 +12,8 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <summary>
         /// Holds a collection of all of the specialists being used in the active game.
         /// </summary>
-        private List<SpecialistIds> _specialistHireOrder = new List<SpecialistIds>();
-        private List<SpecialistIds> _hiredSpecialists = new List<SpecialistIds>();
+        private List<SpecialistTypeId> _specialistHireOrder = new List<SpecialistTypeId>();
+        private List<SpecialistTypeId> _hiredSpecialists = new List<SpecialistTypeId>();
         private int currentHireIndex = 0;
 
         private Player _player;
@@ -22,7 +21,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         public SpecialistPool(
             Player player,
             SeededRandom seededRandom,
-            List<SpecialistIds> playerSpecialistDeck
+            List<SpecialistTypeId> playerSpecialistDeck
         )
         {
             _player = player;
@@ -40,18 +39,18 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// Look at the N next specialists in the pool
         /// </summary>
         /// <returns></returns>
-        public List<SpecialistIds> PeekOffers()
+        public List<SpecialistTypeId> PeekOffers()
         {
             var index = (currentHireIndex * Constants.SPECIALISTS_OFFERED_PER_CYCLE) % _specialistHireOrder.Count;
             return _specialistHireOrder.GetRange(index, Constants.SPECIALISTS_OFFERED_PER_CYCLE);
         }
 
-        public Specialist HireSpecialist(SpecialistIds specialistId) {
-            if (PeekOffers().Contains(specialistId))
+        public Specialist HireSpecialist(SpecialistTypeId specialistTypeId) {
+            if (PeekOffers().Contains(specialistTypeId))
             {
                 currentHireIndex++;
-                _hiredSpecialists.Add(specialistId);
-                return SpecialistFactory.CreateSpecialist(specialistId, _player);
+                _hiredSpecialists.Add(specialistTypeId);
+                return SpecialistFactory.CreateSpecialist(specialistTypeId, _player);
             }
             return null;
         }

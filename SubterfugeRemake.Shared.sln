@@ -10,10 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubterfugeCoreTest", "Core\SubterfugeCoreTest\SubterfugeCoreTest.csproj", "{C8124D15-E4F5-4799-AB34-7A2E54552108}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{BF8D86D2-5F72-4559-90EC-7A249CC25B59}"
-ProjectSection(SolutionItems) = preProject
-	Server\docker-compose.yml = Server\docker-compose.yml
-	Server\Dockerfile = Server\Dockerfile
-EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Core\Models\Models.csproj", "{98D9890E-D1CC-4028-AB07-4815D031349F}"
 EndProject

@@ -2,7 +2,7 @@
 using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.Timing;
 
-namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
+namespace Subterfuge.Remake.Core.GameEvents.Combat
 {
     public abstract class NaturalGameEvent : GameEvent
     {

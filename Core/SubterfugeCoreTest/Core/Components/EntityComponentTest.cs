@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 
 namespace Subterfuge.Remake.Test.Core.Components
 {
@@ -84,7 +84,10 @@ namespace Subterfuge.Remake.Test.Core.Components
         {
             var testEntity = new TestNullComponent();
             Assert.IsFalse(testEntity.HasComponent<TestReturnIntComponent>());
-            Assert.IsNull(testEntity.GetComponent<TestReturnIntComponent>());
+            var exception = Assert.ThrowsException<ComponentDoesNotExistException>(() =>
+            {
+                testEntity.GetComponent<TestReturnIntComponent>();
+            });
         }
 
         [TestMethod]

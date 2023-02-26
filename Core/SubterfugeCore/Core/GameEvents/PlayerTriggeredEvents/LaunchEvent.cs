@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.GameEvents.Base;
-using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;
 
@@ -35,7 +34,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
         /// <summary>
         /// Performs the backwards event
         /// </summary>
-        public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             if (this.EventSuccess)
             {
@@ -57,7 +56,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
         /// <summary>
         /// Performs the forward event
         /// </summary>
-        public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             this._launchedSub = state.GetEntity(GetEventData().SourceId).GetComponent<SubLauncher>().LaunchSub(timeMachine, this);
             

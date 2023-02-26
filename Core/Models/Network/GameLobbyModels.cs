@@ -23,18 +23,18 @@ namespace Subterfuge.Remake.Api.Network
         public GameSettings GameSettings { get; set; }
         public MapConfiguration MapConfiguration { get; set; }
         public string RoomName { get; set; }
-        public GameVersion GameVersion { get; set; } = GameVersion.V1;
+        public GameVersion GameVersion { get; set; } = GameVersion.ALPHA01;
         public DateTime TimeCreated { get; set; }
         public DateTime TimeStarted { get; set; }
         public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
         public List<User> PlayersInLobby { get; set; }
-        public Dictionary<string, List<SpecialistIds>> PlayerSpecialistDecks { get; set; }
+        public Dictionary<string, List<SpecialistTypeId>> PlayerSpecialistDecks { get; set; }
     }
     
     public enum GameVersion
     {
         UNKNOWN = 0,
-        V1 = 1,
+        ALPHA01 = 1,
     }
 
     public class GameSettings
@@ -98,7 +98,7 @@ namespace Subterfuge.Remake.Api.Network
         public MapConfiguration MapConfiguration { get; set; }
         public string RoomName { get; set; }
         public Boolean IsPrivate { get; set; }
-        public List<SpecialistIds> CreatorSpecialistDeck { get; set; }
+        public List<SpecialistTypeId> CreatorSpecialistDeck { get; set; }
     }
 
     public class CreateRoomResponse
@@ -110,7 +110,7 @@ namespace Subterfuge.Remake.Api.Network
 
     public class JoinRoomRequest
     {
-        public List<SpecialistIds> SpecialistDeck { get; set; }
+        public List<SpecialistTypeId> SpecialistDeck { get; set; }
     }
 
     public class LeaveRoomResponse { }
@@ -122,7 +122,7 @@ namespace Subterfuge.Remake.Api.Network
         public GameConfiguration[] Lobbies { get; set; }
     }
 
-    public enum SpecialistIds
+    public enum SpecialistTypeId
     {
         Unknown = 0,
         Infiltrator = 1,

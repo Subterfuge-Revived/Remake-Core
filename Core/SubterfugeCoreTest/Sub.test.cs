@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
-using Subterfuge.Remake.Core.GameState;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;

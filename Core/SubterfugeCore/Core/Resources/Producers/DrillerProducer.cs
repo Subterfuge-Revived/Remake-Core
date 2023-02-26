@@ -1,43 +1,47 @@
 ﻿using System;
-using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities;
-using Subterfuge.Remake.Core.GameEvents.EventPublishers;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Timing;
 
-namespace Subterfuge.Remake.Core.Components
+namespace Subterfuge.Remake.Core.Resources.Producers
 {
     public class DrillerProducer : ResourceProducer
     {
-        private IEntity Parent;
+        private IEntity ProduceAt;
         public DrillerProducer(
-            IEntity parent,
+            IEntity produceAt,
             TimeMachine timeMachine
         ) : base(
             Constants.TicksPerProduction,
             Constants.BaseFactoryProductionAmount,
             timeMachine
         ) {
-            Parent = parent;
+            ProduceAt = produceAt;
         }
 
         protected override void Produce(int productionAmount)
         {
-            Parent.GetComponent<DrillerCarrier>().AlterDrillers(productionAmount);
+            ProduceAt.GetComponent<DrillerCarrier>().AlterDrillers(productionAmount);
         }
 
         protected override void UndoProduce(int amountToRevert)
         {
-            Parent.GetComponent<DrillerCarrier>().AlterDrillers(amountToRevert * -1);
+            ProduceAt.GetComponent<DrillerCarrier>().AlterDrillers(amountToRevert * -1);
         }
 
-        public override int GetNextProductionAmount(GameState.GameState state)
+        public void SetEntity(IEntity entity)
         {
-            var owner = Parent.GetComponent<DrillerCarrier>().GetOwner();
-            if (Parent.GetComponent<DrillerCarrier>().IsDestroyed() || (owner != null && owner.IsEliminated()))
+            ProduceAt = entity;
+        }
+
+        public override int GetNextProductionAmount(GameState state)
+        {
+            var owner = ProduceAt.GetComponent<DrillerCarrier>().GetOwner();
+            if (ProduceAt.GetComponent<DrillerCarrier>().IsDestroyed() || (owner != null && owner.IsEliminated()))
             {
                 return 0;
             }
-            return Math.Min(state.GetExtraDrillerCapcity(Parent.GetComponent<DrillerCarrier>().GetOwner()), BaseValuePerProduction);
+            return Math.Min(state.GetExtraDrillerCapcity(ProduceAt.GetComponent<DrillerCarrier>().GetOwner()), BaseValuePerProduction);
         }
     }
 }

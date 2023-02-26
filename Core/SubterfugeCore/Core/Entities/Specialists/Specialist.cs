@@ -1,6 +1,5 @@
 ﻿using System;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.Players;
 
@@ -28,14 +27,11 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         protected bool _isCaptured = false;
 
         /// <summary>
-        /// Determines priority in combat
-        /// </summary>
-        protected Priority Priority;
-
-        /// <summary>
         /// Determines the level of the effects applied
         /// </summary>
         protected int _level = 1;
+        
+        public bool IsHero { get; }
 
         /// <summary>
         /// Abstract constructor for a specialist. All inherited specialist classes require implementing this.
@@ -43,19 +39,10 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <param name="name">The name of the specialist</param>
         /// <param name="priority">The specialist priority</param>
         /// <param name="owner">The player that owns the specialist</param>
-        public Specialist(Player owner, Priority priority)
+        public Specialist(Player owner, bool isHero)
         {
-            Priority = priority;
             _owner = owner;
-        }
-
-        /// <summary>
-        /// Returns the specialist's priority.
-        /// </summary>
-        /// <returns>The combat priority of the specialist</returns>
-        public Priority GetPriority()
-        {
-            return Priority;
+            IsHero = isHero;
         }
 
         /// <summary>
@@ -64,7 +51,8 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <returns>The specialist's id</returns>
         public string GetId()
         {
-            return _specialistId;
+            // TODO: Do something else here.
+            return GetSpecialistId().ToString();
         }
 
         /// <summary>
@@ -120,6 +108,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         
         public abstract void ArriveAt(IEntity entity);
         public abstract void LeaveLocation(IEntity entity);
-        public abstract SpecialistIds GetSpecialistId();
+        public abstract void OnCaptured(IEntity captureLocation);
+        public abstract SpecialistTypeId GetSpecialistId();
     }
 }

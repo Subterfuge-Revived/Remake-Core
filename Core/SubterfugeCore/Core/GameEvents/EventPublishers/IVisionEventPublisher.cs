@@ -1,6 +1,6 @@
 ﻿using System;
-using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 
 namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
 {

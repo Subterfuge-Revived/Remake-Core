@@ -19,8 +19,11 @@
         
         // Natural Combat events
         SHIELD_COMBAT = 2,
+        DRILLER_COMBAT = 1,
+        
         // Ownership transfer and specialist capture happens here.
         // At this event, the combat is done.
-        DRILLER_COMBAT = 1,
+        // Friendly combats immediately jump to this stage.
+        COMBAT_RESOLVE = 0,
     }
 }

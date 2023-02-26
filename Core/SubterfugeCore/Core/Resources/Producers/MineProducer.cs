@@ -1,40 +1,41 @@
 ﻿using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Timing;
 
-namespace Subterfuge.Remake.Core.Components
+namespace Subterfuge.Remake.Core.Resources.Producers
 {
     public class MineProducer : ResourceProducer
     {
-        private IEntity Parent;
+        private IEntity ProduceAt;
         public MineProducer(
-            IEntity parent,
+            IEntity produceAt,
             TimeMachine timeMachine
         ) : base(
             (int)(1440 / GameTick.MinutesPerTick),
             1,
             timeMachine
         ) {
-            Parent = parent;
+            ProduceAt = produceAt;
         }
 
         protected override void Produce(int productionAmount)
         {
-            Parent.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(productionAmount);
+            ProduceAt.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(productionAmount);
         }
 
         protected override void UndoProduce(int amountToRevert)
         {
-            Parent.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(amountToRevert);
+            ProduceAt.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(amountToRevert);
         }
 
-        public override int GetNextProductionAmount(GameState.GameState state)
+        public override int GetNextProductionAmount(GameState state)
         {
-            var owner = Parent.GetComponent<DrillerCarrier>().GetOwner();
-            if (Parent.GetComponent<DrillerCarrier>().IsDestroyed() || (owner != null && owner.IsEliminated()))
+            var owner = ProduceAt.GetComponent<DrillerCarrier>().GetOwner();
+            if (ProduceAt.GetComponent<DrillerCarrier>().IsDestroyed() || (owner != null && owner.IsEliminated()))
             {
                 return 0;
             }
-            return state.GetPlayerOutposts(Parent.GetComponent<DrillerCarrier>().GetOwner()).Count * BaseValuePerProduction;
+            return state.GetPlayerOutposts(ProduceAt.GetComponent<DrillerCarrier>().GetOwner()).Count * BaseValuePerProduction;
         }
     }
 }

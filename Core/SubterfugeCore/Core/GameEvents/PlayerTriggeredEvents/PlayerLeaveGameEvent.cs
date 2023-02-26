@@ -17,7 +17,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
         }
 
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             var playerToLeave = state.GetPlayers()
                 .FirstOrDefault(player => player.GetId() == GetEventData().Player.Id);
@@ -32,7 +32,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             return false;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             var playerToLeave = state.GetPlayers()
                 .FirstOrDefault(player => player.GetId() == GetEventData().Player.Id);

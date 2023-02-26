@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities.Specialists;
 using Subterfuge.Remake.Core.Players.Currency;
-using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Players
 {
@@ -15,7 +14,7 @@ namespace Subterfuge.Remake.Core.Players
         /// <summary>
         /// The name or alias of the player
         /// </summary>
-        public SimpleUser PlayerInstance { get; set; }
+        public SimpleUser PlayerInstance { get; }
 
         /// <summary>
         /// The number of mines the player has drilled.
@@ -63,7 +62,7 @@ namespace Subterfuge.Remake.Core.Players
         
         public Player(
             SimpleUser playerInstance,
-            List<SpecialistIds> specialistPool
+            List<SpecialistTypeId> specialistPool
         ) {
             this.PlayerInstance = playerInstance;
             this._numMinesBuilt = 0;
@@ -147,13 +146,19 @@ namespace Subterfuge.Remake.Core.Players
 
         public override bool Equals(object? obj)
         {
-            if (obj == null || this == null)
-                return false;
-            
             Player? other = obj as Player;
-            if (obj == null)
+            if (other == null)
                 return false;
-            
+            return Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return PlayerInstance.GetHashCode();
+        }
+
+        private bool Equals(Player other)
+        {
             return other.PlayerInstance.Id == this.PlayerInstance.Id;
         }
     }

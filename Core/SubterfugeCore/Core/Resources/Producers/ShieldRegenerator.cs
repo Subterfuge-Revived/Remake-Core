@@ -1,37 +1,37 @@
-﻿using Subterfuge.Remake.Core.Config;
-using Subterfuge.Remake.Core.Entities;
+﻿using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Timing;
 
-namespace Subterfuge.Remake.Core.Components
+namespace Subterfuge.Remake.Core.Resources.Producers
 {
     public class ShieldRegenerator : ResourceProducer
     {
-        private IEntity Parent;
+        private IEntity ProduceAt;
         public ShieldRegenerator(
-            IEntity parent,
+            IEntity produceAt,
             TimeMachine timeMachine
         ) : base(
             Constants.BASE_SHIELD_REGENERATION_TICKS,
             1,
             timeMachine
         ) {
-            Parent = parent;
+            ProduceAt = produceAt;
         }
 
         protected override void Produce(int productionAmount)
         {
-            Parent.GetComponent<ShieldManager>().AddShield(productionAmount);
+            ProduceAt.GetComponent<ShieldManager>().AddShield(productionAmount);
         }
 
         protected override void UndoProduce(int amountToRevert)
         {
-            Parent.GetComponent<ShieldManager>().RemoveShields(amountToRevert);
+            ProduceAt.GetComponent<ShieldManager>().RemoveShields(amountToRevert);
         }
 
-        public override int GetNextProductionAmount(GameState.GameState state)
+        public override int GetNextProductionAmount(GameState state)
         {
-            var owner = Parent.GetComponent<DrillerCarrier>().GetOwner();
-            if (Parent.GetComponent<DrillerCarrier>().IsDestroyed() || (owner != null && owner.IsEliminated()))
+            var owner = ProduceAt.GetComponent<DrillerCarrier>().GetOwner();
+            if (ProduceAt.GetComponent<DrillerCarrier>().IsDestroyed() || (owner != null && owner.IsEliminated()))
             {
                 return 0;
             }

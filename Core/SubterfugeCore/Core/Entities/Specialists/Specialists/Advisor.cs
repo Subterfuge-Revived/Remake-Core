@@ -1,29 +1,39 @@
 ﻿using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Components;
-using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Players;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
     public class Advisor : Specialist
     {
-        public Advisor(Player owner) : base(owner, Priority.NaturalPriority9)
+        public Advisor(Player owner) : base(owner, false)
         {
         }
 
         public override void ArriveAt(IEntity entity)
         {
-            entity.GetComponent<SpecialistManager>().AlterCapacity(1);
+            if (!_isCaptured)
+            {
+                entity.GetComponent<SpecialistManager>().AlterCapacity(1);
+            }
         }
 
         public override void LeaveLocation(IEntity entity)
         {
-            entity.GetComponent<SpecialistManager>().AlterCapacity(-1);
+            if (!_isCaptured)
+            {
+                entity.GetComponent<SpecialistManager>().AlterCapacity(-1);
+            }
         }
 
-        public override SpecialistIds GetSpecialistId()
+        public override void OnCaptured(IEntity captureLocation)
         {
-            return SpecialistIds.Advisor;
+            captureLocation.GetComponent<SpecialistManager>().AlterCapacity(-1);
+        }
+
+        public override SpecialistTypeId GetSpecialistId()
+        {
+            return SpecialistTypeId.Advisor;
         }
     }
 }

@@ -4,13 +4,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core;
-using Subterfuge.Remake.Core.Components;
-using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Resources.Producers;
 using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Test
