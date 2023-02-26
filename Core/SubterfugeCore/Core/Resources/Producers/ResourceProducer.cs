@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Timing;
 
-namespace Subterfuge.Remake.Core.Components
+namespace Subterfuge.Remake.Core.Resources.Producers
 {
     public abstract class ResourceProducer : IResourceProductionEventPublisher
     {
@@ -74,7 +73,7 @@ namespace Subterfuge.Remake.Core.Components
 						TickProducedAt = tickEventArgs.CurrentTick,
 						Direction = tickEventArgs.Direction,
 						ValueProduced = productionAmount,
-						NextProduction = _nextProductionTick
+						NextProduction = _nextProductionTick,
 					};
 
 					_productionEvents.Add(productionEvent);
@@ -106,7 +105,7 @@ namespace Subterfuge.Remake.Core.Components
 		/// </summary>
 		/// <param name="state">The current game state</param>
 		/// <returns>The total amount of neptunium produced if the production occurred now.</returns>
-		public abstract int GetNextProductionAmount(GameState.GameState state);
+		public abstract int GetNextProductionAmount(GameState state);
 
 		public event EventHandler<ProductionEventArgs>? OnResourceProduced;
     }

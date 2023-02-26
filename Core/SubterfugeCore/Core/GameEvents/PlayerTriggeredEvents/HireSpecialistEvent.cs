@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using Newtonsoft.Json;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Components;
-using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.Entities.Specialists;
 using Subterfuge.Remake.Core.Timing;
@@ -25,7 +24,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             return JsonConvert.DeserializeObject<HireSpecialistEventData>(Model.GameEventData.SerializedEventData);
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             HireSpecialistEventData hireEvent = GetEventData();
             
@@ -36,7 +35,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
                 return EventSuccess;
             }
 
-            var specialist = this.IssuedBy().SpecialistPool.HireSpecialist(hireEvent.SpecialistIdHired);
+            var specialist = this.IssuedBy().SpecialistPool.HireSpecialist(hireEvent.SpecialistTypeIdHired);
             hireLocation.GetComponent<SpecialistManager>()
                 .AddFriendlySpecialist(specialist);
 
@@ -47,7 +46,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             return EventSuccess;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             if (EventSuccess)
             {

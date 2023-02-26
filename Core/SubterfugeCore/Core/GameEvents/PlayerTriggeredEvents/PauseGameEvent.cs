@@ -9,12 +9,12 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
         {
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             throw new System.NotImplementedException();
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             throw new System.NotImplementedException();
         }

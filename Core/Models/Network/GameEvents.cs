@@ -66,7 +66,7 @@ namespace Subterfuge.Remake.Api.Network
     public class HireSpecialistEventData : EventData
     {
         public string HireLocation { get; set; }
-        public SpecialistIds SpecialistIdHired { get; set; }
+        public SpecialistTypeId SpecialistTypeIdHired { get; set; }
     }
 
     public class PromoteSpecialistEventData : EventData

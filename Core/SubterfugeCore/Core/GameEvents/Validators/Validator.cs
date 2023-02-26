@@ -1,5 +1,5 @@
-﻿using Subterfuge.Remake.Core.Components;
-using Subterfuge.Remake.Core.Entities;
+﻿using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.Entities.Specialists;
 
@@ -17,7 +17,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Validators
         /// <param name="state">The gamestate</param>
         /// <param name="combatable">The ICombatable to validate</param>
         /// <returns></returns>
-        public static bool ValidateICombatable(GameState.GameState state, IEntity combatable)
+        public static bool ValidateICombatable(GameState state, IEntity combatable)
         {
             if(combatable is Outpost)
             {
@@ -35,7 +35,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Validators
         /// <param name="state">The game state</param>
         /// <param name="sub">The sub to validate</param>
         /// <returns>If the sub is valid</returns>
-        public static bool ValidateSub(GameState.GameState state, Sub sub)
+        public static bool ValidateSub(GameState state, Sub sub)
         {
             if (sub == null)
                 return false;
@@ -60,7 +60,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Validators
         /// <param name="state">The game state</param>
         /// <param name="outpost">The outpost to validate</param>
         /// <returns>If the outpost is valid</returns>
-        public static bool ValidateOutpost(GameState.GameState state, Outpost outpost)
+        public static bool ValidateOutpost(GameState state, Outpost outpost)
         {
             if (outpost == null)
                 return false;
@@ -88,8 +88,6 @@ namespace Subterfuge.Remake.Core.GameEvents.Validators
         public static bool ValidateSpecialist(Specialist specialist)
         {
             if (specialist.GetOwner() == null)
-                return false;
-            if (specialist.GetPriority() <= 0)
                 return false;
             return true;
         }

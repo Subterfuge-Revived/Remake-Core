@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Components;
-using Subterfuge.Remake.Core.Config;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.Entities.Specialists;
 using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.Generation;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Resources.Producers;
 using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core
@@ -52,7 +51,7 @@ namespace Subterfuge.Remake.Core
             SeededRandom = new SeededRandom();
             
             // Creates a new game state and makes a time machine to reference the state
-            GameState.GameState state = new GameState.GameState(gameConfiguration.PlayersInLobby.Select(it => new Player(it)).ToList());
+            GameState state = new GameState(gameConfiguration.PlayersInLobby.Select(it => new Player(it)).ToList());
             TimeMachine = new TimeMachine(state);
 
             // Creates the map generator with a random seed

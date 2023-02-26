@@ -1,6 +1,7 @@
 ﻿using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Components;
-using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.Entities.Components;
+using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
 
@@ -8,36 +9,59 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
     public class Infiltrator : Specialist
     {
-        public Infiltrator(Player owner, Priority priority) : base(owner, priority)
+        public Infiltrator(Player owner) : base(owner, false)
         {
         }
 
         public override void ArriveAt(IEntity entity)
         {
-            entity.GetComponent<PositionManager>().OnPreCombat += OnPreCombat;
-            if (GetLevel() >= 2)
+            if (!_isCaptured)
             {
-                entity.GetComponent<PositionManager>().OnPostCombat += OnPostCombat;
+                entity.GetComponent<PositionManager>().OnPreCombat += OnPreCombat;
+                if (GetLevel() >= 2)
+                {
+                    entity.GetComponent<PositionManager>().OnPostCombat += OnPostCombat;
+                }
             }
         }
 
         public override void LeaveLocation(IEntity entity)
         {
-            entity.GetComponent<PositionManager>().OnPreCombat -= OnPreCombat;
-            if (GetLevel() >= 2)
+            if (!_isCaptured)
             {
-                entity.GetComponent<PositionManager>().OnPostCombat -= OnPostCombat;
+                entity.GetComponent<PositionManager>().OnPreCombat -= OnPreCombat;
+                if (GetLevel() >= 2)
+                {
+                    entity.GetComponent<PositionManager>().OnPostCombat -= OnPostCombat;
+                }
             }
         }
 
-        public override SpecialistIds GetSpecialistId()
+        public override void OnCaptured(IEntity captureLocation)
         {
-            return SpecialistIds.Infiltrator;
+            captureLocation.GetComponent<PositionManager>().OnPreCombat -= OnPreCombat;
+            if (GetLevel() >= 2)
+            {
+                captureLocation.GetComponent<PositionManager>().OnPostCombat -= OnPostCombat;
+            }
+        }
+
+        public override SpecialistTypeId GetSpecialistId()
+        {
+            return SpecialistTypeId.Infiltrator;
         }
         
         private void OnPreCombat(object positionManager, OnPreCombatEventArgs preCombatEventArgs)
         {
-            // TODO: Figure out combat effects.
+            var friendlyEntity = preCombatEventArgs.CombatEvent.GetEntityOwnedBy(_owner);
+            var enemyEntity = preCombatEventArgs.CombatEvent.GetEnemyEntity(_owner);
+            
+            preCombatEventArgs.CombatEvent.AddEffectToCombat(new SpecialistShieldEffect(
+                preCombatEventArgs.CombatEvent,
+                friendlyEntity,
+                0,
+                GetShieldDelta(enemyEntity)
+            ));
         }
 
         private void OnPostCombat(object positionManager, PostCombatEventArgs postCombatEventArgs)
@@ -46,27 +70,53 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             {
                 if (GetLevel() >= 2)
                 {
-                    if (postCombatEventArgs.WinningPlayer.PlayerInstance == _owner.PlayerInstance && postCombatEventArgs.WasOutpostCaptured)
+                    var winningEntity = postCombatEventArgs.CombatResolution.Winner;
+                    var losingEntity = postCombatEventArgs.CombatResolution.Loser;
+                    if (Equals(winningEntity.GetComponent<DrillerCarrier>().GetOwner(), _owner) && losingEntity is Outpost)
                     {
-                        RestoreLostShields(postCombatEventArgs.SurvivingEntity);
+                        RestoreLostShields(losingEntity);
+                    }
+                }
+            }
+            else
+            {
+                if (GetLevel() >= 2)
+                {
+                    var winningEntity = postCombatEventArgs.CombatResolution.Winner;
+                    var losingEntity = postCombatEventArgs.CombatResolution.Loser;
+                    if (Equals(winningEntity.GetComponent<DrillerCarrier>().GetOwner(), _owner) && losingEntity is Outpost)
+                    {
+                        UndoShieldRestore(losingEntity);
                     }
                 }
             }
         }
 
-        private void RestoreLostShields(IEntity RestoreLocation)
+        private void RestoreLostShields(IEntity restoreLocation)
         {
-            var shieldManager = RestoreLocation.GetComponent<ShieldManager>();
+            var shieldManager = restoreLocation.GetComponent<ShieldManager>();
             var capacity = shieldManager.GetShieldCapacity();
-            if (GetLevel() == 2)
+            if (GetLevel() >= 2)
             {
-                shieldManager.SetShields((int)(capacity * 0.50));
+                shieldManager.SetShields(capacity);
             }
+        }
 
-            if (GetLevel() == 3)
+        private void UndoShieldRestore(IEntity restoreLocation)
+        {
+            var shieldManager = restoreLocation.GetComponent<ShieldManager>();
+            shieldManager.SetShields(0);
+        }
+
+        private int GetShieldDelta(IEntity targetLocation)
+        {
+            return _level switch
             {
-                shieldManager.SetShields((int)(capacity * 0.75));
-            }
+                1 => 15,
+                2 => 20,
+                3 => targetLocation.GetComponent<ShieldManager>().GetShields(),
+                _ => 0
+            };
         }
     }
 }

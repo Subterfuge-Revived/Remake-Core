@@ -1,5 +1,4 @@
 ﻿using System;
-using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.Entities.Specialists;
@@ -43,11 +42,13 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
     public class OnAddSpecialistEventArgs
     {
         public Specialist AddedSpecialist { get; set; }
+        public IEntity AddedTo { get; set; }
     }
 
     public class OnRemoveSpecialistEventArgs
     {
         public Specialist RemovedSpecialist { get; set; }
+        public IEntity RemovedFrom { get; set; }
     }
 
     public class OnSpecialistCapacityChangeEventArgs

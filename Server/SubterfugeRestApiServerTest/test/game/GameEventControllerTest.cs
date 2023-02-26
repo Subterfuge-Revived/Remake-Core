@@ -622,23 +622,23 @@ public class GameEventControllerTest
                     WatchtowerWeight = 0.33f,
                 }
             },
-            CreatorSpecialistDeck = new List<SpecialistIds>()
+            CreatorSpecialistDeck = new List<SpecialistTypeId>()
             {
-                SpecialistIds.Advisor,
-                SpecialistIds.Amnesiac,
-                SpecialistIds.Assasin,
-                SpecialistIds.Automation,
-                SpecialistIds.Dispatcher,
-                SpecialistIds.Economist,
-                SpecialistIds.Enforcer,
-                SpecialistIds.Engineer,
-                SpecialistIds.Escort,
-                SpecialistIds.Foreman,
-                SpecialistIds.Helmsman,
-                SpecialistIds.Hypnotist,
-                SpecialistIds.Icicle,
-                SpecialistIds.Industrialist,
-                SpecialistIds.Infiltrator
+                SpecialistTypeId.Advisor,
+                SpecialistTypeId.Amnesiac,
+                SpecialistTypeId.Assasin,
+                SpecialistTypeId.Automation,
+                SpecialistTypeId.Dispatcher,
+                SpecialistTypeId.Economist,
+                SpecialistTypeId.Enforcer,
+                SpecialistTypeId.Engineer,
+                SpecialistTypeId.Escort,
+                SpecialistTypeId.Foreman,
+                SpecialistTypeId.Helmsman,
+                SpecialistTypeId.Hypnotist,
+                SpecialistTypeId.Icicle,
+                SpecialistTypeId.Industrialist,
+                SpecialistTypeId.Infiltrator
             }
         };
     }

@@ -12,14 +12,14 @@ namespace Subterfuge.Remake.Core.Timing
         private List<GameEvent> eventQueue = new List<GameEvent>();
 
         // Current representation of the game state
-        private GameState.GameState _gameState;
+        private GameState _gameState;
 
         /// <summary>
         /// Creates a new instance of the TimeMachine. You will likely never need to call this as this is created in the
         /// `Game` object when the game is created.
         /// </summary>
         /// <param name="state">The initial GameState</param>
-        public TimeMachine(GameState.GameState state)
+        public TimeMachine(GameState state)
         {
             _gameState = state;
         }
@@ -28,7 +28,7 @@ namespace Subterfuge.Remake.Core.Timing
         /// Get the time machine's current state
         /// </summary>
         /// <returns>The GameState at the current time of the TimeMachine</returns>
-        public GameState.GameState GetState()
+        public GameState GetState()
         {
             return this._gameState;
         }

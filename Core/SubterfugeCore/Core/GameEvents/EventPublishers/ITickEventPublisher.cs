@@ -13,7 +13,7 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
     public class OnTickEventArgs
     {
         public GameTick CurrentTick { get; set; }
-        public GameState.GameState CurrentState { get; set; }
+        public GameState CurrentState { get; set; }
         public TimeMachineDirection Direction { get; set; }
     }
 
@@ -27,7 +27,7 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
     {
         public GameEvent GameEvent { get; set; }
         public GameTick CurrentTick { get; set; }
-        public GameState.GameState CurrentState { get; set; }
+        public GameState CurrentState { get; set; }
         public TimeMachineDirection Direction { get; set; }
     }
 }

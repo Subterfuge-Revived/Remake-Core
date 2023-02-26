@@ -1,6 +1,4 @@
-using Subterfuge.Remake.Core.Timing;
-
-namespace Subterfuge.Remake.Core.Config
+namespace Subterfuge.Remake.Core
 {
     /// <summary>
     /// A Collection of Constants like player base stats etc.

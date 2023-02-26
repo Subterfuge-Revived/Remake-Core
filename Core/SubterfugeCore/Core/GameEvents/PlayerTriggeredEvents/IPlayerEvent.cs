@@ -5,8 +5,8 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 {
     public interface IPlayerEvent
     {
-        bool BackwardAction(TimeMachine timeMachine, GameState.GameState state);
-        bool ForwardAction(TimeMachine timeMachine, GameState.GameState state);
+        bool BackwardAction(TimeMachine timeMachine, GameState state);
+        bool ForwardAction(TimeMachine timeMachine, GameState state);
         GameEventData GetEventData();
         bool WasEventSuccessful();
     }

@@ -4,11 +4,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core;
-using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.Entities.Specialists.Specialists;
 using Subterfuge.Remake.Core.GameEvents.Base;
-using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
@@ -279,8 +279,13 @@ namespace Subterfuge.Remake.Test
                 _game.TimeMachine.Advance(1);
             }
 
+            Assert.AreEqual(0, _game.TimeMachine.GetState().GetSubList().Count);
             Assert.AreEqual(outpost1.GetComponent<DrillerCarrier>().GetOwner(), outpost2.GetComponent<DrillerCarrier>().GetOwner());
-            Assert.AreEqual(Math.Abs(outpostTwoInitial - outpostOneInitial), outpost2.GetComponent<DrillerCarrier>().GetDrillerCount());
+            
+            // Awkwarddd the outpost generates some shields in the process of the sub travelling.
+            // Delta of 1 for the 1 shield that got generated.
+            var shieldsGenerated = 1;
+            Assert.AreEqual(Math.Abs((outpostTwoInitial + shieldsGenerated) - outpostOneInitial), outpost2.GetComponent<DrillerCarrier>().GetDrillerCount());
         }
     }
 }

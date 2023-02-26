@@ -1,9 +1,7 @@
-﻿using System;
-using Subterfuge.Remake.Core.Config;
-using Subterfuge.Remake.Core.Players.Currency;
+﻿using Subterfuge.Remake.Core.Players.Currency;
 using Subterfuge.Remake.Core.Timing;
 
-namespace Subterfuge.Remake.Core.Components
+namespace Subterfuge.Remake.Core.Resources.Producers
 {
     public class CurrencyProducer : ResourceProducer
     {
@@ -42,7 +40,7 @@ namespace Subterfuge.Remake.Core.Components
                 });
         }
 
-        public override int GetNextProductionAmount(GameState.GameState state)
+        public override int GetNextProductionAmount(GameState state)
         {
             return BaseValuePerProduction;
         }

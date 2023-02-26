@@ -1,30 +1,25 @@
 ﻿using System.Collections.Generic;
-using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.GameEvents.Base;
-using Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat.CombatEvents;
+using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
+using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatResolve;
 using Subterfuge.Remake.Core.GameEvents.Validators;
+using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
 
-namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
+namespace Subterfuge.Remake.Core.GameEvents.Combat
 {
     /// <summary>
     /// CombatEvent. It is considered a 'combat' if you arrive at any outpost, even your own.
     /// </summary>
     public class CombatEvent : NaturalGameEvent
     {
-        
-        /// <summary>
-        /// One of the two combat participants
-        /// </summary>
-        private readonly IEntity _combatant1;
-        
-        /// <summary>
-        /// One of the two combat participants
-        /// </summary>
-        private readonly IEntity _combatant2;
+        public readonly IEntity _combatant1;
+        public readonly IEntity _combatant2;
 
         public List<NaturalGameEvent> CombatEventList = new List<NaturalGameEvent>();
+        private readonly CombatResolveEvent _combatResolveEvent;
 
         /// <summary>
         /// Constructor for the combat event
@@ -36,26 +31,11 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
-            
-            // Determine additional events that should be triggered for this particular combat.
-            if (IsFriendlyCombat())
-            {
-                this.CombatEventList.Add(new FriendlySubArrive(_combatant1, _combatant2, base.GetOccursAt()));
-            } else
-            {
-                // Note: Other combat effects will get added to the list of game events for this event through the PreCombat event listener!
-                
-                // Add the base driller and shield combat events.
-                CombatEventList.Add(new NaturalDrillerCombatEffect());
-                CombatEventList.Add(new NaturalShieldCombatEffect());
-            }
+            _combatResolveEvent = new CombatResolveEvent(tick, combatant1, combatant2, this);
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            // Sort the combat event list by priority.
-            
-            CombatEventList.Sort();
             if (!Validator.ValidateICombatable(state, _combatant1) || !Validator.ValidateICombatable(state, _combatant2))
             {
                 this.EventSuccess = false;
@@ -63,34 +43,48 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
             }
 
             // Sort the list in order of priority.
-            // Default order is ascending so reverse it after.
             CombatEventList.Sort();
-            CombatEventList.Reverse();
-            CombatEventList.ForEach(action => action.ForwardAction(timeMachine, state));
+            CombatEventList.ForEach(action =>
+            {
+                if (action is SpecialistNeutralizeEffect)
+                {
+                    // Don't do any of the other combat effects in the list.
+                    return;
+                }
+                action.ForwardAction(timeMachine, state);
+            });
+
+            _combatResolveEvent.ForwardAction(timeMachine, state);
+            
             this.EventSuccess = true;
             return true;
         }
 
-        private bool IsFriendlyCombat()
+        public bool IsFriendlyCombat()
         {
-            return _combatant1.GetComponent<DrillerCarrier>().GetOwner() ==
-                   _combatant2.GetComponent<DrillerCarrier>().GetOwner();
+            return Equals(_combatant1.GetComponent<DrillerCarrier>().GetOwner(), _combatant2.GetComponent<DrillerCarrier>().GetOwner());
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             if (EventSuccess)
             {
+                _combatResolveEvent.BackwardAction(timeMachine, state);
+                
                 CombatEventList.Sort();
-                CombatEventList.ForEach(action => action.BackwardAction(timeMachine, state));
+                CombatEventList.Reverse();
+                CombatEventList.ForEach(action =>
+                {
+                    if (action is SpecialistNeutralizeEffect)
+                    {
+                        // Don't do any of the other combat effects in the list.
+                        return;
+                    }
+                    action.BackwardAction(timeMachine, state);
+                });
             }
 
             return this.EventSuccess;
-        }
-
-        public override Priority GetPriority()
-        {
-            return Priority.NaturalPriority9;
         }
 
         public override bool WasEventSuccessful()
@@ -101,6 +95,39 @@ namespace Subterfuge.Remake.Core.GameEvents.NaturalGameEvents.combat
         public void AddEffectToCombat(NaturalGameEvent combatEffect)
         {
             CombatEventList.Add(combatEffect);
+        }
+
+        public IEntity? GetEntityOwnedBy(Player player)
+        {
+            if (Equals(_combatant1.GetComponent<DrillerCarrier>().GetOwner(), player))
+            {
+                return _combatant1;
+            }
+            if (Equals(_combatant2.GetComponent<DrillerCarrier>().GetOwner(), player))
+            {
+                return _combatant2;
+            }
+
+            return null;
+        }
+        
+        public IEntity? GetEnemyEntity(Player player)
+        {
+            if (Equals(_combatant1.GetComponent<DrillerCarrier>().GetOwner(), player))
+            {
+                return _combatant2;
+            }
+            if (Equals(_combatant2.GetComponent<DrillerCarrier>().GetOwner(), player))
+            {
+                return _combatant1;
+            }
+
+            return null;
+        }
+
+        public CombatResolution GetCombatResolution()
+        {
+            return _combatResolveEvent.CombatResolution;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Subterfuge.Remake.Core.Components;
+﻿using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;

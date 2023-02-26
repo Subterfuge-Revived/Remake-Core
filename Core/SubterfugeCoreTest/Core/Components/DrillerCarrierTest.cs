@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Components;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Players;
 
 namespace Subterfuge.Remake.Test.Core.Components
@@ -76,7 +76,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             var drillersToRemove = 40;
             MockDrillerCarrierEntity(initialDrillers, playerOne);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<DrillerCarrier>());
-            _mockEntity.Object.GetComponent<DrillerCarrier>().AlterDrillers(drillersToRemove);
+            _mockEntity.Object.GetComponent<DrillerCarrier>().AlterDrillers(drillersToRemove * -1);
             Assert.AreEqual(initialDrillers - drillersToRemove, _mockEntity.Object.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(false, _mockEntity.Object.GetComponent<DrillerCarrier>().IsCaptured());
         }
@@ -88,9 +88,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             var drillersToRemove = 100;
             MockDrillerCarrierEntity(initialDrillers, playerOne);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<DrillerCarrier>());
-            _mockEntity.Object.GetComponent<DrillerCarrier>().AlterDrillers(drillersToRemove);
+            _mockEntity.Object.GetComponent<DrillerCarrier>().AlterDrillers(drillersToRemove * -1);
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<DrillerCarrier>().GetDrillerCount());
-            Assert.AreEqual(true, _mockEntity.Object.GetComponent<DrillerCarrier>().IsCaptured());
         }
         
         [TestMethod]

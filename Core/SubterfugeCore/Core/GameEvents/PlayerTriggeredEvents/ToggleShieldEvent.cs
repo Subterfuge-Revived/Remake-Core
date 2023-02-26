@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Components;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
@@ -16,7 +16,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
         {
             return JsonConvert.DeserializeObject<ToggleShieldEventData>(Model.GameEventData.SerializedEventData);
         }
-        public override bool ForwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
             ShieldManager shieldManager = state.GetEntity(GetEventData().SourceId).GetComponent<ShieldManager>();
             DrillerCarrier drillerCarrier = state.GetEntity(GetEventData().SourceId).GetComponent<DrillerCarrier>();
@@ -33,7 +33,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             return EventSuccess;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState.GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
             if (EventSuccess)
             {
