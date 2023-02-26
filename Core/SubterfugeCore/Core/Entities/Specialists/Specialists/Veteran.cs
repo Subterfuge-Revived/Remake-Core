@@ -52,16 +52,14 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 
         public int GetEnemyDrillerDelta(IEntity friendly)
         {
-            if(_level == 2)
+            return _level switch
             {
-                return 20;
-            }
-
-            if (_level == 3)
-            {
-                return 20 + (friendly.GetComponent<DrillerCarrier>().GetDrillerCount() / 5);
-            }
-            return 10;
+                0 => 10,
+                1 => 10,
+                2 => 20,
+                3 => 20 + (friendly.GetComponent<DrillerCarrier>().GetDrillerCount() / 5),
+                _ => 10,
+            };
         }
     }
 }

@@ -15,9 +15,9 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
         {
             if (!_isCaptured && entity is Sub)
             {
-                if (Equals(
-                        entity.GetComponent<PositionManager>().GetDestination().GetComponent<DrillerCarrier>()
-                            .GetOwner(), _owner))
+                var destinationOwner = GetEntitysDestinationOwner(entity);
+                    
+                if (Equals(destinationOwner, _owner))
                 {
                     entity.GetComponent<SpeedManager>().DecreaseSpeed(1.5f + (0.5f * _level));
                 }
@@ -31,16 +31,25 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 
         public override void OnCaptured(IEntity captureLocation)
         {
-            // Do nothing.
+            // Slow the sub down if we are on a sub travelling to an outpost we own.
             if (!_isCaptured && captureLocation is Sub)
             {
-                if (Equals(
-                        captureLocation.GetComponent<PositionManager>().GetDestination().GetComponent<DrillerCarrier>()
-                            .GetOwner(), _owner))
+                var captureDestinationOwner = GetEntitysDestinationOwner(captureLocation);
+                
+                if (Equals(captureDestinationOwner, _owner))
                 {
                     captureLocation.GetComponent<SpeedManager>().DecreaseSpeed(1.5f + (0.5f * _level));
                 }
             }
+        }
+
+        private Player GetEntitysDestinationOwner(IEntity sub)
+        {
+            return sub
+                .GetComponent<PositionManager>()
+                .GetDestination()
+                .GetComponent<DrillerCarrier>()
+                .GetOwner();
         }
 
         public override SpecialistTypeId GetSpecialistId()

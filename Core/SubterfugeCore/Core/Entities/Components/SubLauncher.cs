@@ -18,6 +18,8 @@ namespace Subterfuge.Remake.Core.Entities.Components
         
         public event EventHandler<OnSubLaunchEventArgs> OnSubLaunched;
 
+        public bool CanTargetSubs { get; set; } = false;
+
         public SubLauncher(IEntity parent) : base(parent)
         {
             _drillerCarrier = parent.GetComponent<DrillerCarrier>();
@@ -33,6 +35,15 @@ namespace Subterfuge.Remake.Core.Entities.Components
             GameState state = timeMachine.GetState();
             Entity source = state.GetEntity(launchData.SourceId);
             Entity destination = state.GetEntity(launchData.DestinationId);
+
+            if (destination is Sub && CanTargetSubs == false)
+            {
+                if (!CanTargetSubs || !launchData.SpecialistIds.Contains(SpecialistTypeId.Pirate.ToString()))
+                {
+                    // Error. Attempting to target a sub when you cannot target subs or have not brought the pirate with you.
+                    return null;
+                }
+            }
 
             if (destination != null && _drillerCarrier.HasDrillers(launchData.DrillerCount))
             {
@@ -50,6 +61,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
                     Source = source,
                     Direction = TimeMachineDirection.FORWARD
                 });
+                destination.GetComponent<PositionManager>().OnTargeted(launchedSub);
                 
                 return launchedSub;
             }

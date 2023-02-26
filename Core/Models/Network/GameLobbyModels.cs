@@ -161,6 +161,8 @@ namespace Subterfuge.Remake.Api.Network
         Double_Agent = 34,
         Industrialist = 35,
         Breeder = 36,
+        SignalJammer = 37,
+        Bolster = 38,
         
         // Heroes in the 1000 range
         Queen = 1001,
