@@ -8,6 +8,7 @@ namespace Subterfuge.Remake.Core.Resources.Producers
     public class DrillerProducer : ResourceProducer
     {
         private IEntity ProduceAt;
+        public bool IgnoresDrillerCapacity { get; set; } = false;
         public DrillerProducer(
             IEntity produceAt,
             TimeMachine timeMachine
@@ -41,7 +42,14 @@ namespace Subterfuge.Remake.Core.Resources.Producers
             {
                 return 0;
             }
-            return Math.Min(state.GetExtraDrillerCapcity(ProduceAt.GetComponent<DrillerCarrier>().GetOwner()), BaseValuePerProduction);
+
+            if (IgnoresDrillerCapacity)
+            {
+                return BaseValuePerProduction;
+            }
+
+            var playerExtraDrillerCapacity = Math.Max(0, state.GetExtraDrillerCapacity(owner));
+            return Math.Min(playerExtraDrillerCapacity, BaseValuePerProduction);
         }
     }
 }

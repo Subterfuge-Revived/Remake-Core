@@ -278,7 +278,17 @@ namespace Subterfuge.Remake.Core.Entities.Components
             return _source;
         }
 
+        public void OnTargeted(IEntity targetedBy)
+        {
+            OnLocationTargeted?.Invoke(this, new OnLocationTargetedEventArgs()
+            {
+                Destination = Parent,
+                TargetedBy = targetedBy,
+            });
+        }
+
         public event EventHandler<OnPreCombatEventArgs>? OnPreCombat;
         public event EventHandler<PostCombatEventArgs>? OnPostCombat;
+        public event EventHandler<OnLocationTargetedEventArgs>? OnLocationTargeted;
     }
 }

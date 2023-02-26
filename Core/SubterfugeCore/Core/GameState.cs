@@ -158,7 +158,7 @@ namespace Subterfuge.Remake.Core
         /// <param name="player">player</param>
         /// <returns>The amount of extra drillers the player can have.
         /// If it returns 0 or less, the player is out of electricity. </returns>
-        int GetExtraDrillerCapcity(Player player);
+        int GetExtraDrillerCapacity(Player player);
 
         /// <summary>
         /// Determines whether a position on the map is visible to the
@@ -541,7 +541,7 @@ namespace Subterfuge.Remake.Core
         /// <param name="player">player</param>
         /// <returns>The amount of extra drillers the player can have.
         /// If it returns 0 or less, the player is out of electricity. </returns>
-        public int GetExtraDrillerCapcity(Player player)
+        public int GetExtraDrillerCapacity(Player player)
         {
             return GetPlayerDrillerCapacity(player) - GetPlayerDrillerCount(player);
         }

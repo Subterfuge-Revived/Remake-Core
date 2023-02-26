@@ -64,6 +64,11 @@ namespace Subterfuge.Remake.Core.Entities.Components
             });
         }
 
+        public void AlterShieldCapacity(int delta)
+        {
+            _shieldCapacity = Math.Max(0, _shieldCapacity + delta);
+        }
+
         public int RemoveShields(int shieldsToRemove)
         {
             var previousValue = _shields;

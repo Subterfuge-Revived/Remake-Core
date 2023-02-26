@@ -10,6 +10,7 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
     {
         event EventHandler<OnPreCombatEventArgs> OnPreCombat;
         event EventHandler<PostCombatEventArgs> OnPostCombat;
+        event EventHandler<OnLocationTargetedEventArgs> OnLocationTargeted;
     }
 
     public class OnPreCombatEventArgs
@@ -24,5 +25,11 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
         public TimeMachineDirection Direction { get; set; }
         public GameState CurrentState { get; set; }
         public CombatResolution CombatResolution { get; set; }
+    }
+
+    public class OnLocationTargetedEventArgs
+    {
+        public IEntity TargetedBy { get; set; }
+        public IEntity Destination { get; set; }
     }
 }

@@ -79,6 +79,14 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <param name="isCaptured">Sets the specialist captured state</param>
         public void SetCaptured(bool isCaptured)
         {
+            if (isCaptured)
+            {
+                OnCaptured();
+            }
+            else
+            {
+                OnUncaptured();
+            }
             this._isCaptured = isCaptured;
         }
 
@@ -109,6 +117,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         public abstract void ArriveAt(IEntity entity);
         public abstract void LeaveLocation(IEntity entity);
         public abstract void OnCaptured(IEntity captureLocation);
+        public abstract void OnUncaptured(IEntity captureLocation);
         public abstract SpecialistTypeId GetSpecialistId();
     }
 }

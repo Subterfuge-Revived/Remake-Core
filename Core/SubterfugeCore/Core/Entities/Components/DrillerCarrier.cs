@@ -99,11 +99,22 @@ namespace Subterfuge.Remake.Core.Entities.Components
             return _isDestroyed;
         }
 
-        public void Destroy()
+        /// <summary>
+        /// Destroys the outpost.
+        /// </summary>
+        /// <returns>The number of drillers lost.</returns>
+        public int Destroy()
         {
             _isDestroyed = true;
+            var drillersDestroyed = _drillers;
             _drillers = 0;
+            return drillersDestroyed;
         }
-        
+
+        public void UndoDestroy(int drillersToRestore)
+        {
+            _isDestroyed = false;
+            _drillers = drillersToRestore;
+        }
     }
 }

@@ -23,6 +23,8 @@ namespace Subterfuge.Remake.Core.Resources.Producers
 	    /// </summary>
 	    protected int BaseValuePerProduction;
 
+	    private bool _isPaused = false;
+
 	    private List<ProductionEventArgs> _productionEvents = new List<ProductionEventArgs>();
 
 	    public ResourceProducer(
@@ -36,6 +38,11 @@ namespace Subterfuge.Remake.Core.Resources.Producers
             
             timeMachine.OnTick += ProductionTickListener;
         }
+
+	    public void SetPaused(bool isPaused)
+	    {
+		    _isPaused = isPaused;
+	    }
 
 	    public void ChangeAmountProducedPerCycle(int delta)
 	    {
