@@ -1,4 +1,4 @@
-﻿using Subterfuge.Remake.Api.Network;
+﻿/*using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.GameEvents.Base;
@@ -47,7 +47,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             }
         }
 
-        public override void OnCaptured(IEntity captureLocation)
+        public override void OnCapturedEvent(IEntity captureLocation)
         {
             _currentDrillerProducer.DrillerProducer.OnResourceProduced -= ProduceMore;
             if (_level == 3)
@@ -76,4 +76,4 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             };
         }
     }
-}
+}*/

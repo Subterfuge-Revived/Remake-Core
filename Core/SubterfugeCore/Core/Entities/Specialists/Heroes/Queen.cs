@@ -1,6 +1,10 @@
-﻿using Subterfuge.Remake.Api.Network;
+﻿/*using System;
+using System.Collections.Generic;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.Combat;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
@@ -27,7 +31,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
             }
         }
 
-        public override void OnCaptured(IEntity captureLocation)
+        public override void OnCapturedEvent(IEntity captureLocation)
         {
             // Check for princesses to take over.
             // Otherwise, kill player.
@@ -38,5 +42,20 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
         {
             return SpecialistTypeId.Queen;
         }
+
+        public override void SpecialistTransferEvent(object? sender, OnSpecialistTransferEventArgs eventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnCapturedEvent(object? sender, OnSpecialistsCapturedEventArgs eventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<NaturalGameEvent> CreateEffects(object? sender, EventArgs subscribedEvent)
+        {
+            throw new NotImplementedException();
+        }
     }
-}
+}*/

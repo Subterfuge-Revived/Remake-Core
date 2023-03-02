@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.DotNet.PlatformAbstractions;
+using Newtonsoft.Json;
 using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.Players;
@@ -9,7 +11,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
     public abstract class PlayerTriggeredEvent : GameEvent
     {
         protected readonly GameRoomEvent Model;
-        protected PlayerTriggeredEvent(GameRoomEvent model)
+        protected PlayerTriggeredEvent(GameRoomEvent model) : base(new GameTick(model.GameEventData.OccursAtTick), Priority.PlayerIssuedCommand)
         {
             this.Model = model;
         }
@@ -17,11 +19,6 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
         public Player IssuedBy()
         {
             return new Player(Model.IssuedBy);
-        }
-
-        public override GameTick GetOccursAt()
-        {
-            return new GameTick(Model.GameEventData.OccursAtTick);
         }
 
         public DateTime GetUnixTimeIssued()
@@ -34,11 +31,6 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             return Model.Id;
         }
 
-        public override Priority GetPriority()
-        {
-            return Priority.PlayerIssuedCommand;
-        }
-
         protected GameRoomEvent GetBaseGameEventModel()
         {
             return new GameRoomEvent()
@@ -48,6 +40,27 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
                 TimeIssued = Model.TimeIssued,
                 GameEventData = Model.GameEventData
             };
+        }
+
+        public override bool Equals(object other)
+        {
+            PlayerTriggeredEvent asEvent = other as PlayerTriggeredEvent;
+            if (asEvent == null)
+                return false;
+
+            return asEvent.OccursAt == this.OccursAt &&
+                   asEvent.IssuedBy().PlayerInstance.Equals(this.IssuedBy().PlayerInstance) &&
+                   asEvent.GetBaseGameEventModel().Id == this.GetBaseGameEventModel().Id;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashBuilder = new HashCodeCombiner();
+            hashBuilder.Add(IssuedBy().PlayerInstance);
+            hashBuilder.Add(OccursAt);
+            hashBuilder.Add(Priority);
+            hashBuilder.Add(GetBaseGameEventModel().Id);
+            return hashBuilder.GetHashCode();
         }
     }
 }

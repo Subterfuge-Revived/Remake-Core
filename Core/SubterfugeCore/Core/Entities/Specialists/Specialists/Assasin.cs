@@ -1,5 +1,7 @@
-﻿using Subterfuge.Remake.Api.Network;
+﻿/*using System.Collections.Generic;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
+using Subterfuge.Remake.Core.GameEvents.Combat;
 using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
@@ -28,7 +30,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             }
         }
 
-        public override void OnCaptured(IEntity captureLocation)
+        public override void OnCapturedEvent(IEntity captureLocation)
         {
             captureLocation.GetComponent<PositionManager>().OnPreCombat -= KillSpecialistPreCombat;
         }
@@ -36,6 +38,21 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
         public override SpecialistTypeId GetSpecialistId()
         {
             return SpecialistTypeId.Assasin;
+        }
+
+        public override void SpecialistTransferEvent(object? sender, OnSpecialistTransferEventArgs eventArgs)
+        {
+            eventArgs.AddedTo.GetComponent<PositionManager>().OnPreCombat += OnEvent;
+        }
+
+        protected override List<NaturalGameEvent> ForwardEffects(object? sender, DirectionalEventArgs subscribedEvent)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override List<NaturalGameEvent> CaptureEffects(object? sender, OnSpecialistsCapturedEventArgs capturedEvent)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void KillSpecialistPreCombat(object? sender, OnPreCombatEventArgs combatArgs)
@@ -51,4 +68,4 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             ));
         }
     }
-}
+}*/

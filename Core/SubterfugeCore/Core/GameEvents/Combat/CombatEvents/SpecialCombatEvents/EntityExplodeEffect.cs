@@ -7,7 +7,7 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class EntityExplodeEffect : NaturalGameEvent
+    public class EntityExplodeEffect : PositionalGameEvent
     {
         
         private IEntity _entityExploding;
@@ -19,7 +19,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             GameTick occursAt,
             IEntity entityExploding,
             GameState currentState
-        ) : base(occursAt, Priority.SPECIALIST_EXPLODE)
+        ) : base(occursAt, Priority.SPECIALIST_EXPLODE, entityExploding)
         {
             _entityExploding = entityExploding;
             _state = currentState;

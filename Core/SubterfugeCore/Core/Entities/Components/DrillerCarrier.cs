@@ -44,7 +44,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
         {
             var initialAmount = _drillers;
             _drillers = Math.Max(0, _drillers + delta);
-            return initialAmount - _drillers;
+            return _drillers - initialAmount;
         }
 
         /// <summary>

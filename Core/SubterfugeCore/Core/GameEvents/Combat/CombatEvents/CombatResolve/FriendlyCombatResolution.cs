@@ -21,7 +21,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             GameTick occursAt,
             IEntity combatant1,
             IEntity combatant2
-        ) : base(occursAt, CombatType.FRIENDLY)
+        ) : base(occursAt, CombatType.FRIENDLY, combatant1)
         {
             _sub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
             _outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);

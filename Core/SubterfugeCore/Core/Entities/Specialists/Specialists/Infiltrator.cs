@@ -1,4 +1,4 @@
-﻿using Subterfuge.Remake.Api.Network;
+﻿/*using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
@@ -37,7 +37,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             }
         }
 
-        public override void OnCaptured(IEntity captureLocation)
+        public override void OnCapturedEvent(IEntity captureLocation)
         {
             captureLocation.GetComponent<PositionManager>().OnPreCombat -= OnPreCombat;
             if (GetLevel() >= 2)
@@ -119,4 +119,4 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             };
         }
     }
-}
+}*/

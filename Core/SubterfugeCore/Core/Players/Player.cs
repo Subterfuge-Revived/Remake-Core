@@ -94,9 +94,10 @@ namespace Subterfuge.Remake.Core.Players
         /// Increases or decreases the amount of neptunium the player has. Pass a negative value for neptunium to decease.
         /// </summary>
         /// <param name="neptunium">The value to change _neptunium by</param>
-        public void AlterNeptunium(int neptunium)
+        public int AlterNeptunium(int neptunium)
         {
             this._neptunium += neptunium;
+            return neptunium;
         }
 
         public int GetNeptunium()

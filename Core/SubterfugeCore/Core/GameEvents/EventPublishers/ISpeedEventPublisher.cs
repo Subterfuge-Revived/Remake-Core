@@ -8,7 +8,7 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
         event EventHandler<OnSpeedChangedEventArgs> OnSpeedChanged;
     }
     
-    public class OnSpeedChangedEventArgs : System.EventArgs
+    public class OnSpeedChangedEventArgs : DirectionalEventArgs
     {
         public float PreviousSpeed { get; set; }
         public float NewSpeed { get; set; }

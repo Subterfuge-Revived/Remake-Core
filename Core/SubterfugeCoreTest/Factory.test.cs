@@ -5,6 +5,7 @@ using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
 
@@ -51,36 +52,47 @@ namespace Subterfuge.Remake.Test
 				.GetPlayerOutposts(player)
 				.Count(it => it.GetOutpostType() == OutpostType.Factory);
 
-			var drillerProducer = _f.GetComponent<DrillerProductionComponent>();
+			var drillerProducer = _f.GetComponent<DrillerProducer>().Producer;
+			ProductionEventArgs eventArgs = null;
+			drillerProducer.OnResourceProduced += (sender, productionEvent) =>
+			{
+				eventArgs = productionEvent;
+			};
 			
 			Assert.IsNotNull(drillerProducer);
 			Assert.IsTrue(totalDrillers < drillerCap);
-			_tm.GoTo(drillerProducer.DrillerProducer.GetNextProductionTick());
-
-			var amountBeingProduced = drillerProducer.DrillerProducer.GetNextProductionAmount(_game.TimeMachine.GetState());
+			_tm.GoTo(drillerProducer.GetNextProductionTick());
 			
-			Assert.AreEqual(totalDrillers + (amountBeingProduced * playerFactoryCount), _game.TimeMachine.GetState().GetPlayerDrillerCount(player));
+			Assert.AreEqual(totalDrillers + (eventArgs.ValueProduced * playerFactoryCount), _game.TimeMachine.GetState().GetPlayerDrillerCount(player));
 		}
 
 		[TestMethod]
 		public void AddDrillers()
 		{
 			int startingDrillers = _f.GetComponent<DrillerCarrier>().GetDrillerCount();
-			var drillerProducer = _f.GetComponent<DrillerProductionComponent>();
-			_tm.GoTo(drillerProducer.DrillerProducer.GetNextProductionTick());
+			
+			var drillerProducer = _f.GetComponent<DrillerProducer>();
+			ProductionEventArgs eventArgs = null;
+			drillerProducer.Producer.OnResourceProduced += (sender, productionEvent) =>
+			{
+				eventArgs = productionEvent;
+			};
+			
+			_tm.GoTo(drillerProducer.Producer.GetNextProductionTick());
 			int endingDrillers = _f.GetComponent<DrillerCarrier>().GetDrillerCount();
-			Assert.AreEqual(endingDrillers - startingDrillers, Constants.BaseFactoryProductionAmount);
+			Assert.AreEqual(endingDrillers - startingDrillers, eventArgs.ValueProduced);
 		}
 
 		[TestMethod]
 		public void FiveDrillerProductions()
 		{
 			int startingDrillers = _f.GetComponent<DrillerCarrier>().GetDrillerCount();
-			var drillerProducer = _f.GetComponent<DrillerProductionComponent>();
+			var drillerProducer = _f.GetComponent<DrillerProducer>();
+
 			int lastDrillerCount = 0;
 			for (int i = 0; i < 5; i++)
 			{
-				_tm.GoTo(drillerProducer.DrillerProducer.GetNextProductionTick());
+				_tm.GoTo(drillerProducer.Producer.GetNextProductionTick());
 				var player = _f.GetComponent<DrillerCarrier>().GetOwner();
 				var totalDrillers = _game.TimeMachine.GetState().GetPlayerDrillerCount(player);
 				var drillerCap = _game.TimeMachine.GetState().GetPlayerDrillerCapacity(player);
@@ -101,9 +113,9 @@ namespace Subterfuge.Remake.Test
 		public void RewindProduction()
 		{
 			int startingDrillers = _f.GetComponent<DrillerCarrier>().GetDrillerCount();
-			var drillerProducer = _f.GetComponent<DrillerProductionComponent>();
-			_tm.Advance(drillerProducer.DrillerProducer.GetTicksPerProductionCycle());
-			_tm.Rewind(drillerProducer.DrillerProducer.GetTicksPerProductionCycle());
+			var drillerProducer = _f.GetComponent<DrillerProducer>().Producer;
+			_tm.Advance(drillerProducer.GetTicksPerProductionCycle());
+			_tm.GoTo(new GameTick(0));
 			Assert.AreEqual(_f.GetComponent<DrillerCarrier>().GetDrillerCount(), startingDrillers);
 		}
 

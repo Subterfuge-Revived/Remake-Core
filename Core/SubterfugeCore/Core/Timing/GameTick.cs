@@ -20,9 +20,10 @@ namespace Subterfuge.Remake.Core.Timing
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            GameTick asTick = obj as GameTick;
+            if (asTick == null)
+                return false;
+            
             return Equals((GameTick) obj);
         }
 

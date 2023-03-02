@@ -1,4 +1,4 @@
-﻿using Subterfuge.Remake.Api.Network;
+﻿/*using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.Players;
@@ -29,7 +29,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             // Do nothing.
         }
 
-        public override void OnCaptured(IEntity captureLocation)
+        public override void OnCapturedEvent(IEntity captureLocation)
         {
             // Slow the sub down if we are on a sub travelling to an outpost we own.
             if (!_isCaptured && captureLocation is Sub)
@@ -57,4 +57,4 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             return SpecialistTypeId.Smuggler;
         }
     }
-}
+}*/

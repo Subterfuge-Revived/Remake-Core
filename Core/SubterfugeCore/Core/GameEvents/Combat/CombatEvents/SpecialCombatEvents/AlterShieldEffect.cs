@@ -5,31 +5,30 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class SpecialistSlowEffect : NaturalGameEvent
+    public class AlterShieldEffect : PositionalGameEvent
     {
-        
-        private IEntity _enemy;
-        private float _slowBy;
-        
-        public SpecialistSlowEffect(
-            GameTick occursAt,
-            IEntity enemy,
-            float slowBy
-        ) : base(occursAt, Priority.SPECIALIST_SLOW_EFFECT)
+        private IEntity _location;
+
+        private int _shieldDelta;
+        public AlterShieldEffect(
+            CombatEvent combatEvent,
+            IEntity location,
+            int shieldDelta
+        ) : base(combatEvent.OccursAt, Priority.SPECIALIST_SHIELD_EFFECT, location)
         {
-            _enemy = enemy;
-            _slowBy = slowBy;
+            _location = location;
+            _shieldDelta = shieldDelta;
         }
 
         public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            _enemy.GetComponent<SpeedManager>().DecreaseSpeed(_slowBy);
+            _shieldDelta = _location.GetComponent<ShieldManager>().AlterShields(_shieldDelta);
             return true;
         }
 
         public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
-            _enemy.GetComponent<SpeedManager>().IncreaseSpeed(_slowBy);
+            _shieldDelta = _location.GetComponent<ShieldManager>().AlterShields(-1 * _shieldDelta);
             return true;
         }
 

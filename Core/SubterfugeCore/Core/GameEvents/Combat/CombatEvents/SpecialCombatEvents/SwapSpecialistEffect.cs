@@ -4,12 +4,18 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class SpecialistSwapSpecialistsEffect : NaturalGameEvent
+    public class SwapSpecialistEffect : PositionalGameEvent
     {
         private IEntity _combatant1;
         private IEntity _combatant2;
-        public SpecialistSwapSpecialistsEffect(GameTick occursAt) : base(occursAt, Priority.SPECIALIST_SWAP_SPECIALISTS_EFFECT)
+        public SwapSpecialistEffect(
+            GameTick occursAt,
+            IEntity entityOne,
+            IEntity entityTwo
+        ) : base(occursAt, Priority.SPECIALIST_SWAP_SPECIALISTS_EFFECT, entityOne)
         {
+            _combatant1 = entityOne;
+            _combatant2 = entityTwo;
         }
 
         public override bool ForwardAction(TimeMachine timeMachine, GameState state)

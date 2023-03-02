@@ -1,4 +1,4 @@
-﻿using Subterfuge.Remake.Api.Network;
+﻿/*using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
@@ -30,7 +30,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             }
         }
 
-        public override void OnCaptured(IEntity captureLocation)
+        public override void OnCapturedEvent(IEntity captureLocation)
         {
             captureLocation.GetComponent<ShieldRegenerationComponent>().ShieldRegenerator.ChangeTicksPerProductionCycle( Constants.BASE_SHIELD_REGENERATION_TICKS / 2);
             captureLocation.GetComponent<PositionManager>().OnPostCombat -= OnPostCombat;
@@ -69,4 +69,4 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             }
         }
     }
-}
+}*/

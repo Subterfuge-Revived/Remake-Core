@@ -10,24 +10,16 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
         event EventHandler<OnGameEventTriggeredEventArgs> OnGameEvent;
     }
 
-    public class OnTickEventArgs
+    public class OnTickEventArgs: DirectionalEventArgs
     {
         public GameTick CurrentTick { get; set; }
         public GameState CurrentState { get; set; }
-        public TimeMachineDirection Direction { get; set; }
     }
 
-    public enum TimeMachineDirection
-    {
-        FORWARD = 1,
-        REVERSE = 2,
-    }
-
-    public class OnGameEventTriggeredEventArgs
+    public class OnGameEventTriggeredEventArgs: DirectionalEventArgs
     {
         public GameEvent GameEvent { get; set; }
         public GameTick CurrentTick { get; set; }
         public GameState CurrentState { get; set; }
-        public TimeMachineDirection Direction { get; set; }
     }
 }

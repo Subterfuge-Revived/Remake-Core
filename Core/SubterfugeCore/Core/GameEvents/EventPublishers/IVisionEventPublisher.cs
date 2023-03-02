@@ -11,20 +11,20 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
         event EventHandler<OnEntityLeaveVisionRangeEventArgs> OnEntityLeaveVisionRange;
     }
     
-    public class OnVisionRangeChangeEventArgs : System.EventArgs
+    public class OnVisionRangeChangeEventArgs : DirectionalEventArgs
     {
         public float PreviousVisionRange { get; set; }
         public float NewVisionRange { get; set; }
         public VisionManager VisionManager { get; set; }
     }
 
-    public class OnEntityEnterVisionRangeEventArgs : System.EventArgs
+    public class OnEntityEnterVisionRangeEventArgs : DirectionalEventArgs
     {
         public IEntity EntityInVision { get; set; }
         public VisionManager VisionManager { get; set; }
     }
     
-    public class OnEntityLeaveVisionRangeEventArgs : System.EventArgs
+    public class OnEntityLeaveVisionRangeEventArgs : DirectionalEventArgs
     {
         public IEntity EntityLeavingVision { get; set; }
         public VisionManager VisionManager { get; set; }

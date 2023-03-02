@@ -13,12 +13,12 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat
     /// <summary>
     /// CombatEvent. It is considered a 'combat' if you arrive at any outpost, even your own.
     /// </summary>
-    public class CombatEvent : NaturalGameEvent
+    public class CombatEvent : PositionalGameEvent
     {
         public readonly IEntity _combatant1;
         public readonly IEntity _combatant2;
 
-        public List<NaturalGameEvent> CombatEventList = new List<NaturalGameEvent>();
+        public List<PositionalGameEvent> CombatEventList = new List<PositionalGameEvent>();
         private readonly CombatResolveEvent _combatResolveEvent;
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat
         /// <param name="combatant1">The first combatant</param>
         /// <param name="combatant2">The second combatant</param>
         /// <param name="tick">The tick the combat occurs</param>
-        public CombatEvent(IEntity combatant1, IEntity combatant2, GameTick tick) : base(tick, Priority.NaturalPriority9)
+        public CombatEvent(IEntity combatant1, IEntity combatant2, GameTick tick) : base(tick, Priority.NaturalPriority9, combatant1)
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
@@ -46,7 +46,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat
             CombatEventList.Sort();
             CombatEventList.ForEach(action =>
             {
-                if (action is SpecialistNeutralizeEffect)
+                if (action is NeutralizeSpecialistEffects)
                 {
                     // Don't do any of the other combat effects in the list.
                     return;
@@ -75,7 +75,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat
                 CombatEventList.Reverse();
                 CombatEventList.ForEach(action =>
                 {
-                    if (action is SpecialistNeutralizeEffect)
+                    if (action is NeutralizeSpecialistEffects)
                     {
                         // Don't do any of the other combat effects in the list.
                         return;
@@ -92,7 +92,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat
             return this.EventSuccess;
         }
 
-        public void AddEffectToCombat(NaturalGameEvent combatEffect)
+        public void AddEffectToCombat(PositionalGameEvent combatEffect)
         {
             CombatEventList.Add(combatEffect);
         }

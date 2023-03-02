@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.Combat;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
+using PositionalGameEvent = Subterfuge.Remake.Core.GameEvents.Combat.PositionalGameEvent;
 
 namespace Subterfuge.Remake.Core.Timing
 {
@@ -39,7 +41,25 @@ namespace Subterfuge.Remake.Core.Timing
         /// <param name="gameEvent">The game event to add to the Queue</param>
         public void AddEvent(GameEvent gameEvent)
         {
-            eventQueue.Add(gameEvent);
+            if (!eventQueue.Contains(gameEvent))
+            {
+                eventQueue.Add(gameEvent);
+            }
+        }
+        
+        /// <summary>
+        /// Adds an event to the future event queue
+        /// </summary>
+        /// <param name="gameEvent">The game event to add to the Queue</param>
+        public void AddEvents(List<GameEvent> gameEvents)
+        {
+            gameEvents.ForEach(eventToAdd =>
+            {
+                if (!eventQueue.Contains(eventToAdd))
+                {
+                    eventQueue.Add(eventToAdd);
+                }
+            });
         }
 
         /// <summary>
@@ -48,7 +68,6 @@ namespace Subterfuge.Remake.Core.Timing
         /// <param name="gameEvent">The GameEvent to remove from the queue</param>
         public void RemoveEvent(GameEvent gameEvent)
         {
-            
             eventQueue.Remove(gameEvent);
         }
 
@@ -73,9 +92,18 @@ namespace Subterfuge.Remake.Core.Timing
                 {
                     this._gameState.CurrentTick = this._gameState.CurrentTick.Rewind(1);
                 }
+                
+                // Trigger "OnTick" to allow listeners to generate in-game events.
+                // This is mainly useful for resource producers.
+                this.OnTick?.Invoke(this, new OnTickEventArgs()
+                {
+                    Direction = direction,
+                    CurrentState = this._gameState,
+                    CurrentTick = this._gameState.CurrentTick,
+                });
 
                 eventQueue
-                    .Where(it => it.GetOccursAt() == this._gameState.CurrentTick)
+                    .Where(it => it.OccursAt == this._gameState.CurrentTick)
                     .ToList()
                     .ForEach(it =>
                     {
@@ -96,13 +124,6 @@ namespace Subterfuge.Remake.Core.Timing
                             GameEvent = it,
                         });
                     });
-
-                this.OnTick?.Invoke(this, new OnTickEventArgs()
-                {
-                    Direction = direction,
-                    CurrentState = this._gameState,
-                    CurrentTick = this._gameState.CurrentTick,
-                });
             }
         }
 
@@ -122,7 +143,7 @@ namespace Subterfuge.Remake.Core.Timing
         /// <param name="eventOfInterest">The GameEvent to jump to</param>
         public void GoTo(GameEvent eventOfInterest)
         {
-            this.GoTo(eventOfInterest.GetOccursAt());
+            this.GoTo(eventOfInterest.OccursAt);
         }
         
         /// <summary>
@@ -152,8 +173,16 @@ namespace Subterfuge.Remake.Core.Timing
         public List<GameEvent> GetQueuedEvents()
         {
             return eventQueue
-                .Where(it => it.GetOccursAt() > GetCurrentTick())
+                .Where(it => it.OccursAt > GetCurrentTick())
                 .ToList();
+        }
+        
+        public List<T> GetFutureEventsOf<T>() where T : GameEvent
+        {
+            return eventQueue
+                .OfType<T>()
+                .Where(it => it.OccursAt > GetCurrentTick())
+                .ToList<T>();
         }
         
         /// <summary>
@@ -163,7 +192,7 @@ namespace Subterfuge.Remake.Core.Timing
         public List<GameEvent> GetPastEvents()
         {
             return eventQueue
-                .Where(it => it.GetOccursAt() <= GetCurrentTick())
+                .Where(it => it.OccursAt <= GetCurrentTick())
                 .ToList();
         }
 

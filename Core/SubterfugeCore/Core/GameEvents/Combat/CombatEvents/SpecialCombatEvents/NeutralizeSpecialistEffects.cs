@@ -4,12 +4,15 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class SpecialistNeutralizeEffect : NaturalGameEvent
+    public class NeutralizeSpecialistEffects : PositionalGameEvent
     {
         
         private IEntity _combatant1;
         private IEntity _combatant2;
-        public SpecialistNeutralizeEffect(GameTick occursAt) : base(occursAt, Priority.SPECIALIST_NEUTRALIZE_SPECIALIST_EFFECTS)
+        public NeutralizeSpecialistEffects(
+            GameTick occursAt,
+            IEntity source
+        ) : base(occursAt, Priority.SPECIALIST_NEUTRALIZE_SPECIALIST_EFFECTS, source)
         {
         }
 

@@ -9,12 +9,11 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
         event EventHandler<OnSubLaunchEventArgs> OnSubLaunched;
     }
     
-    public class OnSubLaunchEventArgs : System.EventArgs
+    public class OnSubLaunchEventArgs : DirectionalEventArgs
     {
         public LaunchEvent LaunchEvent { get; set; }
         public IEntity Source { get; set; }
         public IEntity Destination { get; set; }
         public Sub LaunchedSub { get; set; }
-        public TimeMachineDirection Direction { get; set; }
     }
 }

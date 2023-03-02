@@ -4,7 +4,7 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatResolve
 {
-    public abstract class CombatResolution : NaturalGameEvent
+    public abstract class CombatResolution : PositionalGameEvent
     {
         public IEntity Winner { get; set; }
         public IEntity Loser { get; set; }
@@ -13,8 +13,9 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatResolve
         
         protected CombatResolution(
             GameTick occursAt,
-            CombatType combatType
-        ) : base(occursAt, Priority.COMBAT_RESOLVE)
+            CombatType combatType,
+            IEntity location
+        ) : base(occursAt, Priority.COMBAT_RESOLVE, location)
         {
             _combatType = combatType;
         }

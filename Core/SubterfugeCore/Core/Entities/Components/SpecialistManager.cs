@@ -4,6 +4,7 @@ using System.Linq;
 using Subterfuge.Remake.Core.Entities.Specialists;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Components
 {
@@ -23,12 +24,9 @@ namespace Subterfuge.Remake.Core.Entities.Components
         List<Specialist> _specialists = new List<Specialist>();
 
         public event EventHandler<OnSpecialistHireEventArgs>? OnSpecialistHire;
-        public event EventHandler<OnSpecialistsCapturedEventArgs>? OnCaptured;
-        public event EventHandler<OnSpecialistsCapturedEventArgs>? OnUncaptured;
+        public event EventHandler<OnSpecialistsCapturedEventArgs>? OnSpecialistCapture;
         public event EventHandler<OnSpecialistPromotionEventArgs>? OnSpecialistPromotion;
-        public event EventHandler<OnAddSpecialistEventArgs>? OnSpecialistArrive;
-        public event EventHandler<OnRemoveSpecialistEventArgs>? OnSpecialistLeave;
-        public event EventHandler<OnSpecialistCapacityChangeEventArgs>? OnSpecialistCapacityChange;
+        public event EventHandler<OnSpecialistTransferEventArgs>? OnSpecialistTransfer;
         
 
         /// <summary>
@@ -64,7 +62,6 @@ namespace Subterfuge.Remake.Core.Entities.Components
             if (_specialists.Count < _capacity)
             {
                 _specialists.Add(specialist);
-                specialist.ArriveAt(Parent);
                 OnSpecialistHire?.Invoke(this, new OnSpecialistHireEventArgs()
                 {
                     HiredSpecialist = specialist,
@@ -84,11 +81,11 @@ namespace Subterfuge.Remake.Core.Entities.Components
             if (_specialists.Count < _capacity)
             {
                 _specialists.Add(specialist);
-                specialist.ArriveAt(Parent);
-                OnSpecialistArrive?.Invoke(this, new OnAddSpecialistEventArgs()
+                OnSpecialistTransfer?.Invoke(this, new OnSpecialistTransferEventArgs()
                 {
-                    AddedSpecialist = specialist,
-                    AddedTo = Parent,
+                    specialist = specialist,
+                    AddedTo = this.Parent,
+                    RemovedFrom = null,
                 });
                 return true;
             }
@@ -108,11 +105,11 @@ namespace Subterfuge.Remake.Core.Entities.Components
                 {
                     addedSpecialists++;
                     _specialists.Add(s);
-                    s.ArriveAt(Parent);
-                    OnSpecialistArrive?.Invoke(this, new OnAddSpecialistEventArgs()
+                    OnSpecialistTransfer?.Invoke(this, new OnSpecialistTransferEventArgs()
                     {
-                        AddedSpecialist = s,
-                        AddedTo = Parent,
+                        specialist = s,
+                        AddedTo = this.Parent,
+                        RemovedFrom = null,
                     });
                 }
             }
@@ -130,10 +127,11 @@ namespace Subterfuge.Remake.Core.Entities.Components
             {
                 _specialists.Remove(specialist);
                 specialist.LeaveLocation(Parent);
-                OnSpecialistLeave?.Invoke(this, new OnRemoveSpecialistEventArgs()
+                OnSpecialistTransfer?.Invoke(this, new OnSpecialistTransferEventArgs()
                 {
-                    RemovedSpecialist = specialist,
-                    RemovedFrom = Parent,
+                    specialist = specialist,
+                    AddedTo = this.Parent,
+                    RemovedFrom = null,
                 });
                 return true;
             }
@@ -152,12 +150,14 @@ namespace Subterfuge.Remake.Core.Entities.Components
                 if (_specialists.Contains(s))
                 {
                     removedSpecialists++;
+                    
                     _specialists.Remove(s);
                     s.LeaveLocation(Parent);
-                    OnSpecialistLeave?.Invoke(this, new OnRemoveSpecialistEventArgs()
+                    OnSpecialistTransfer?.Invoke(this, new OnSpecialistTransferEventArgs()
                     {
-                        RemovedSpecialist = s,
-                        RemovedFrom = Parent,
+                        specialist = s,
+                        AddedTo = this.Parent,
+                        RemovedFrom = null,
                     });
                 }
             }
@@ -182,10 +182,6 @@ namespace Subterfuge.Remake.Core.Entities.Components
         {
             var initialCapacity = _capacity;
             _capacity = Math.Max(0, _capacity + delta);
-            OnSpecialistCapacityChange?.Invoke(this, new OnSpecialistCapacityChangeEventArgs()
-            {
-                CapacityDelta = _capacity - initialCapacity
-            });
         }
 
         
@@ -231,23 +227,22 @@ namespace Subterfuge.Remake.Core.Entities.Components
 
             return false;
         }
-        
-        /// <summary>
-        /// Sets all of the specialists within this specialist manager to be captured.
-        /// </summary>
-        public void CaptureAll()
+
+        public void CaptureAllForward(TimeMachine timeMachine, IEntity captureLocation)
         {
             foreach(Specialist s in _specialists)
             {
                 s.SetCaptured(true);
-                s.OnCaptured(Parent);
             }
-            OnCaptured?.Invoke(this, new OnSpecialistsCapturedEventArgs()
+            
+            OnSpecialistCapture?.Invoke(this, new OnSpecialistsCapturedEventArgs()
             {
-                CaptureLocation = Parent,
+                Direction = TimeMachineDirection.FORWARD,
+                Location = captureLocation,
+                TimeMachine = timeMachine,
             });
         }
-        
+
         /// <summary>
         /// Sets all of the specialists within this specialist manager to be captured.
         /// </summary>
@@ -268,10 +263,6 @@ namespace Subterfuge.Remake.Core.Entities.Components
             {
                 s.SetCaptured(false);
             }
-            OnUncaptured?.Invoke(this, new OnSpecialistsCapturedEventArgs()
-            {
-                CaptureLocation = Parent,
-            });
         }
         
         /// <summary>

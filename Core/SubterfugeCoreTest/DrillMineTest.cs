@@ -7,10 +7,8 @@ using Subterfuge.Remake.Core;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
-using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.Players;
-using Subterfuge.Remake.Core.Resources.Producers;
 using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Test
@@ -160,23 +158,31 @@ namespace Subterfuge.Remake.Test
 			DrillMineEvent drillMine = new DrillMineEvent(_model1);
 			_tm.AddEvent(drillMine);
 			_tm.Advance(10);
-			MineProducer mineProducer = drillMine.CreatedMine.GetComponent<MineProductionComponent>().MineProducer;
-			_tm.GoTo(mineProducer.GetNextProductionTick());
+			NeptuniumProducer resourceProducer = drillMine.CreatedMine.GetComponent<NeptuniumProducer>();
+			_tm.GoTo(resourceProducer.Producer.GetNextProductionTick());
 			Assert.AreEqual(12, _o1.GetComponent<DrillerCarrier>().GetOwner().GetNeptunium());
 		}
 
 		[TestMethod]
 		public void RewindTest()
 		{
-			_o1.GetComponent<DrillerCarrier>().AlterDrillers(50);
+			var drillerCarrier = _o1.GetComponent<DrillerCarrier>();
+			drillerCarrier.AlterDrillers(50);
+			var initialDrillers = drillerCarrier.GetDrillerCount();
+			
 			DrillMineEvent drillMine = new DrillMineEvent(_model1);
 			_tm.AddEvent(drillMine);
-			_tm.Advance(10 + 1440 / (int)GameTick.MinutesPerTick);
-			_tm.Rewind(10 + 1440 / (int)GameTick.MinutesPerTick);
+			_tm.GoTo(drillMine.OccursAt);
+			
+			NeptuniumProducer resourceProducer = drillMine.CreatedMine.GetComponent<NeptuniumProducer>();
+			_tm.GoTo(resourceProducer.Producer.GetNextProductionTick());
+			
+			// Rewind to before the mine was drilled
+			_tm.GoTo(drillMine.OccursAt.Rewind(5));
 			Assert.IsTrue(_tm.GetState().GetOutposts().Contains(_o1));
 			Assert.AreEqual(0, _p.GetNeptunium());
-			Assert.AreEqual(0, _tm.GetCurrentTick().GetTick());
-			Assert.AreEqual(Constants.InitialDrillersPerOutpost + 62, _o1.GetComponent<DrillerCarrier>().GetDrillerCount());
+			Assert.AreEqual(5, _tm.GetCurrentTick().GetTick());
+			Assert.AreEqual(initialDrillers, _o1.GetComponent<DrillerCarrier>().GetDrillerCount());
 		}
 	}
 }

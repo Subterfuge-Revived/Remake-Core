@@ -1,4 +1,4 @@
-﻿using Subterfuge.Remake.Api.Network;
+﻿/*using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Players;
 
@@ -26,7 +26,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             }
         }
 
-        public override void OnCaptured(IEntity captureLocation)
+        public override void OnCapturedEvent(IEntity captureLocation)
         {
             if (!Equals(captureLocation.GetComponent<DrillerCarrier>().GetOwner(), _owner))
             {
@@ -44,4 +44,4 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             return SpecialistTypeId.Sapper;
         }
     }
-}
+}*/

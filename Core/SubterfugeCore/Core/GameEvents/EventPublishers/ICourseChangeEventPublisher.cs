@@ -8,7 +8,7 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
         event EventHandler<OnCourseChangeEventArgs> OnCourseChange;
     }
 
-    public class OnCourseChangeEventArgs
+    public class OnCourseChangeEventArgs: DirectionalEventArgs
     {
         public Sub Sub { get; set; }
         public IEntity OriginalDestination { get; set; }

@@ -1,5 +1,4 @@
 ﻿using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Entities.Specialists.Heroes;
 using Subterfuge.Remake.Core.Entities.Specialists.Specialists;
 using Subterfuge.Remake.Core.Players;
 
@@ -11,11 +10,11 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         {
             switch (specialistTypeId)
             {
-                case SpecialistTypeId.Queen:
-                    return new Queen(owner);
+                /*case SpecialistTypeId.Queen:
+                    return new Queen(owner);*/
                 case SpecialistTypeId.Advisor:
                     return new Advisor(owner);
-                case SpecialistTypeId.Foreman:
+                /*case SpecialistTypeId.Foreman:
                     return new Foreman(owner);
                 case SpecialistTypeId.Helmsman:
                     return new Helmsman(owner);
@@ -24,7 +23,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
                 case SpecialistTypeId.Smuggler:
                     return new Smuggler(owner);
                 case SpecialistTypeId.Veteran:
-                    return new Veteran(owner);
+                    return new Veteran(owner);*/
                 default:
                     return null;
             }
