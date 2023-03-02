@@ -5,16 +5,16 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class SpecialistSubRedirectEffect : NaturalGameEvent
+    public class RedirectEntityEffect : PositionalGameEvent
     {
         private IEntity _enemy;
 
         private IEntity _originalDestination;
         
-        public SpecialistSubRedirectEffect(
+        public RedirectEntityEffect(
             GameTick occursAt,
             IEntity enemy
-        ) : base(occursAt, Priority.SPECIALIST_SUB_REDIRECT)
+        ) : base(occursAt, Priority.SPECIALIST_SUB_REDIRECT, enemy)
         {
             _enemy = enemy;
         }

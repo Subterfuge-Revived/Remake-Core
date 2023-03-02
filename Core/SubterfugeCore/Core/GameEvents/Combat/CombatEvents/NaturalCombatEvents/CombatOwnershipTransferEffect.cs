@@ -10,7 +10,7 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class OwnershipTransferEffect : NaturalGameEvent
+    public class CombatOwnershipTransferEffect : PositionalGameEvent
     {
         // Ownership transfer only applies to sub-to-outpost combat.
         private readonly Sub _sub;
@@ -23,11 +23,11 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         private List<Specialist> specialistsTransferred;
         private int drillersTransferred;
 
-        public OwnershipTransferEffect(
+        public CombatOwnershipTransferEffect(
             GameTick occursAt,
             IEntity combatant1,
             IEntity combatant2
-        ) : base(occursAt, Priority.COMBAT_RESOLVE)
+        ) : base(occursAt, Priority.COMBAT_RESOLVE, combatant1)
         {
             _combatType = DetermineCombatType(combatant1, combatant2);
             

@@ -205,7 +205,7 @@ namespace Subterfuge.Remake.Test
             Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             outpost.GetComponent<ShieldManager>().SetShields(10);
             int initialShields = outpost.GetComponent<ShieldManager>().GetShields();
-            outpost.GetComponent<ShieldManager>().RemoveShields(5);
+            outpost.GetComponent<ShieldManager>().AlterShields(-5);
             Assert.AreEqual(initialShields - 5, outpost.GetComponent<ShieldManager>().GetShields());
         }
         
@@ -214,7 +214,7 @@ namespace Subterfuge.Remake.Test
         {
             Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             int initialShield = outpost.GetComponent<ShieldManager>().GetShields();
-            outpost.GetComponent<ShieldManager>().AddShield(1);
+            outpost.GetComponent<ShieldManager>().AlterShields(1);
             Assert.AreEqual(initialShield + 1, outpost.GetComponent<ShieldManager>().GetShields());
         }
         
@@ -232,7 +232,7 @@ namespace Subterfuge.Remake.Test
             Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             outpost.GetComponent<ShieldManager>().SetShieldCapacity(100);
             outpost.GetComponent<ShieldManager>().SetShields(5);
-            outpost.GetComponent<ShieldManager>().AddShield(100);
+            outpost.GetComponent<ShieldManager>().AlterShields(100);
             
             Assert.AreEqual(outpost.GetComponent<ShieldManager>().GetShieldCapacity(), outpost.GetComponent<ShieldManager>().GetShields());
             
@@ -245,7 +245,7 @@ namespace Subterfuge.Remake.Test
         {
             Outpost outpost = new Mine("0", new RftVector(_map, 0, 0), _playersInGame[0], _timeMachine);
             outpost.GetComponent<ShieldManager>().SetShields(10);
-            outpost.GetComponent<ShieldManager>().RemoveShields(15);
+            outpost.GetComponent<ShieldManager>().AlterShields(-15);
             Assert.AreEqual(0, outpost.GetComponent<ShieldManager>().GetShields());
         }
 

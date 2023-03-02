@@ -1,4 +1,4 @@
-﻿using Subterfuge.Remake.Api.Network;
+﻿/*using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
@@ -36,7 +36,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             }
         }
 
-        public override void OnCaptured(IEntity captureLocation)
+        public override void OnCapturedEvent(IEntity captureLocation)
         {
             captureLocation.GetComponent<SubLauncher>().CanTargetSubs = false;
             if (captureLocation is Sub)
@@ -73,4 +73,4 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             };
         }
     }
-}
+}*/

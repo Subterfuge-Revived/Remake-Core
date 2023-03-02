@@ -5,7 +5,7 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class SpecialistDrillerEffect : NaturalGameEvent
+    public class AlterDrillerEffect : PositionalGameEvent
     {
         private IEntity _friendly;
         private IEntity _enemy;
@@ -13,12 +13,12 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         private int _friendlyDrillerDelta;
         private int _enemyDrillerDelta;
         
-        public SpecialistDrillerEffect(
+        public AlterDrillerEffect(
             CombatEvent combatEvent,
             IEntity friendly,
             int friendlyDrillerDelta,
             int enemyDrillerDelta
-        ) : base(combatEvent.GetOccursAt(), Priority.SPECIALIST_DRILLER_EFFECT)
+        ) : base(combatEvent.OccursAt, Priority.SPECIALIST_DRILLER_EFFECT, friendly)
         {
             _friendly = friendly;
             _enemy = combatEvent._combatant1 == _friendly ? combatEvent._combatant2 : combatEvent._combatant1;

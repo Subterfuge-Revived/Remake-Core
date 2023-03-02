@@ -12,40 +12,40 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         private Sub _sub1;
         private Sub _sub2;
 
-        private readonly NaturalDrillerCombatEffect _drillerCombat;
-        private readonly NaturalShieldCombatEffect _shieldCombat;
-        private readonly SpecialistCaptureEffect _specialistCapture;
-        private readonly RemoveLostCombatantsEffect _removeLostCombatants;
+        private readonly CombatDrillersEffect _drillerCombatDrillers;
+        private readonly CombatShieldEffect _shield;
+        private readonly CombatSpecialistCaptureEffect _combatSpecialistCapture;
+        private readonly CombatRemoveEmptyEntitiesEffect _combatRemoveEmptyEntities;
         
         public SubToSubResolution(
             GameTick occursAt,
             IEntity combatant1,
             IEntity combatant2
-        ) : base(occursAt, CombatType.SUB_TO_SUB)
+        ) : base(occursAt, CombatType.SUB_TO_SUB, combatant1)
         {
             _sub1 = combatant1 as Sub;
             _sub2 = combatant2 as Sub;
-            _drillerCombat = new NaturalDrillerCombatEffect(occursAt, _sub1, _sub2);
-            _shieldCombat = new NaturalShieldCombatEffect(occursAt, _sub1, _sub2);
-            _specialistCapture = new SpecialistCaptureEffect(occursAt, _sub1, _sub2);
-            _removeLostCombatants = new RemoveLostCombatantsEffect(occursAt, _sub1, _sub2, this);
+            _drillerCombatDrillers = new CombatDrillersEffect(occursAt, _sub1, _sub2);
+            _shield = new CombatShieldEffect(occursAt, _sub1, _sub2);
+            _combatSpecialistCapture = new CombatSpecialistCaptureEffect(occursAt, _sub1, _sub2);
+            _combatRemoveEmptyEntities = new CombatRemoveEmptyEntitiesEffect(occursAt, _sub1, _sub2, this);
         }
 
         public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            _shieldCombat.ForwardAction(timeMachine, state);
-            _drillerCombat.ForwardAction(timeMachine, state);
-            _specialistCapture.ForwardAction(timeMachine, state);
-            _removeLostCombatants.ForwardAction(timeMachine, state);
+            _shield.ForwardAction(timeMachine, state);
+            _drillerCombatDrillers.ForwardAction(timeMachine, state);
+            _combatSpecialistCapture.ForwardAction(timeMachine, state);
+            _combatRemoveEmptyEntities.ForwardAction(timeMachine, state);
             return true;
         }
 
         public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
-            _removeLostCombatants.BackwardAction(timeMachine, state);
-            _specialistCapture.BackwardAction(timeMachine, state);
-            _drillerCombat.BackwardAction(timeMachine, state);
-            _shieldCombat.BackwardAction(timeMachine, state);
+            _combatRemoveEmptyEntities.BackwardAction(timeMachine, state);
+            _combatSpecialistCapture.BackwardAction(timeMachine, state);
+            _drillerCombatDrillers.BackwardAction(timeMachine, state);
+            _shield.BackwardAction(timeMachine, state);
             return true;
         }
 

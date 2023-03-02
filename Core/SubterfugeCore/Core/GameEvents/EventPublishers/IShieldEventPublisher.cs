@@ -5,29 +5,24 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
 {
     public interface IShieldEventPublisher
     {
-        event EventHandler<OnShieldEnableEventArgs> OnShieldEnable;
-        event EventHandler<OnShieldDisableEventArgs> OnShieldDisable;
+        event EventHandler<OnToggleShieldEventArgs> OnToggleShield;
         event EventHandler<OnShieldCapacityChangeEventArgs> OnShieldCapacityChange;
         event EventHandler<OnShieldValueChangeEventArgs> OnShieldValueChange;
     }
     
-    public class OnShieldEnableEventArgs : System.EventArgs
+    public class OnToggleShieldEventArgs : DirectionalEventArgs
     {
         public ShieldManager ShieldManager { get; set; }
+        public bool isEnabled { get; set; }
     }
     
-    public class OnShieldDisableEventArgs : System.EventArgs
-    {
-        public ShieldManager ShieldManager { get; set; }
-    }
-    
-    public class OnShieldCapacityChangeEventArgs : System.EventArgs
+    public class OnShieldCapacityChangeEventArgs : DirectionalEventArgs
     {
         public int CapacityDelta { get; set; }
         public ShieldManager ShieldManager { get; set; }
     }
     
-    public class OnShieldValueChangeEventArgs : System.EventArgs
+    public class OnShieldValueChangeEventArgs : DirectionalEventArgs
     {
         public int ShieldDelta { get; set; }
         public ShieldManager ShieldManager { get; set; }

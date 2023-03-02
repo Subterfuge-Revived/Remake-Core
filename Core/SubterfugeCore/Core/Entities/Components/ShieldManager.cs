@@ -21,8 +21,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
         int _shieldCapacity;
 
         
-        public event EventHandler<OnShieldEnableEventArgs> OnShieldEnable;
-        public event EventHandler<OnShieldDisableEventArgs> OnShieldDisable;
+        public event EventHandler<OnToggleShieldEventArgs> OnToggleShield;
         public event EventHandler<OnShieldCapacityChangeEventArgs> OnShieldCapacityChange;
         public event EventHandler<OnShieldValueChangeEventArgs> OnShieldValueChange;
         
@@ -69,56 +68,32 @@ namespace Subterfuge.Remake.Core.Entities.Components
             _shieldCapacity = Math.Max(0, _shieldCapacity + delta);
         }
 
-        public int RemoveShields(int shieldsToRemove)
+        public int AlterShields(int shieldDelta)
         {
-            var previousValue = _shields;
-            this._shields = Math.Max(0, this._shields - shieldsToRemove);
+            var initial = _shields;
+            _shields = Math.Max(0, Math.Min(this._shieldCapacity, this._shields + shieldDelta));
             
             OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
             {
-                ShieldDelta = this._shields - previousValue,
+                ShieldDelta = this._shields - initial,
                 ShieldManager = this,
             });
 
-            return this._shields - previousValue;
+            return this._shields - initial;
         }
 
         public void ToggleShield()
         {
             this._shieldActive = !this._shieldActive;
-            if (_shieldActive)
+            OnToggleShield?.Invoke(this, new OnToggleShieldEventArgs()
             {
-                OnShieldEnable?.Invoke(this, new OnShieldEnableEventArgs()
-                {
-                    ShieldManager = this
-                });
-            }
-            else
-            {
-                OnShieldDisable?.Invoke(this, new OnShieldDisableEventArgs()
-                {
-                    ShieldManager = this
-                });
-            }
+                ShieldManager = this
+            });
         }
 
         public bool IsShieldActive()
         {
             return this._shieldActive;
-        }
-
-        public int AddShield(int shields)
-        {
-            var previousValue = _shields;
-            this._shields = Math.Min(this._shieldCapacity, this._shields + shields);
-            
-            OnShieldValueChange?.Invoke(this, new OnShieldValueChangeEventArgs()
-            {
-                ShieldDelta = this._shields - previousValue,
-                ShieldManager = this,
-            });
-            
-            return this._shields - previousValue;
         }
 
         public int GetShieldCapacity()

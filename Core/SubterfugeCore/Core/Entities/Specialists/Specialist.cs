@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.Combat;
+using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists
@@ -39,8 +44,10 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <param name="name">The name of the specialist</param>
         /// <param name="priority">The specialist priority</param>
         /// <param name="owner">The player that owns the specialist</param>
-        public Specialist(Player owner, bool isHero)
-        {
+        public Specialist(
+            Player owner,
+            bool isHero
+        ) {
             _owner = owner;
             IsHero = isHero;
         }
@@ -79,14 +86,6 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <param name="isCaptured">Sets the specialist captured state</param>
         public void SetCaptured(bool isCaptured)
         {
-            if (isCaptured)
-            {
-                OnCaptured();
-            }
-            else
-            {
-                OnUncaptured();
-            }
             this._isCaptured = isCaptured;
         }
 
@@ -113,11 +112,17 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         {
             _level--;
         }
-        
-        public abstract void ArriveAt(IEntity entity);
-        public abstract void LeaveLocation(IEntity entity);
-        public abstract void OnCaptured(IEntity captureLocation);
-        public abstract void OnUncaptured(IEntity captureLocation);
+
+        public void TriggerForwardEffect(object? sender, DirectionalEventArgs subscribedEvent)
+        {
+            subscribedEvent.TimeMachine.AddEvents(ForwardEffects(sender, subscribedEvent));
+        }
+
+        public abstract void ArriveAtLocation(IEntity location);
+        public abstract void LeaveLocation(IEntity location);
+
         public abstract SpecialistTypeId GetSpecialistId();
+        protected abstract List<GameEvent> ForwardEffects(object? sender, DirectionalEventArgs subscribedEvent);
+        protected abstract List<GameEvent> CaptureEffects(object? sender, OnSpecialistsCapturedEventArgs capturedEvent);
     }
 }

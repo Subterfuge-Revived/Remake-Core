@@ -3,7 +3,9 @@
     public enum Priority
     {
         PlayerIssuedCommand = 100,
-        NaturalPriority9 = 90,
+        NaturalPriority9 = 99,
+        
+        RESOURCE_PRODUCTION = 90,
         
         // Combat priorities applied by specialists
         SPECIALIST_EXPLODE = 89,

@@ -99,7 +99,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialShieldCapacity, _mockEntity.Object.GetComponent<ShieldManager>().GetShieldCapacity());
 
             var shieldsToRemove = 40;
-            _mockEntity.Object.GetComponent<ShieldManager>().RemoveShields(shieldsToRemove);
+            _mockEntity.Object.GetComponent<ShieldManager>().AlterShields(-1 * shieldsToRemove);
             Assert.AreEqual(initialShields - shieldsToRemove, _mockEntity.Object.GetComponent<ShieldManager>().GetShields());
         }
         
@@ -114,7 +114,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialShieldCapacity, _mockEntity.Object.GetComponent<ShieldManager>().GetShieldCapacity());
 
             var shieldsToRemove = initialShields + 40;
-            _mockEntity.Object.GetComponent<ShieldManager>().RemoveShields(shieldsToRemove);
+            _mockEntity.Object.GetComponent<ShieldManager>().AlterShields(-1 * shieldsToRemove);
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<ShieldManager>().GetShields());
         }
         
@@ -168,7 +168,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialShieldCapacity, _mockEntity.Object.GetComponent<ShieldManager>().GetShieldCapacity());
 
             var shieldsToAdd = 10;
-            _mockEntity.Object.GetComponent<ShieldManager>().AddShield(shieldsToAdd);
+            _mockEntity.Object.GetComponent<ShieldManager>().AlterShields(shieldsToAdd);
             Assert.AreEqual(initialShields + shieldsToAdd, _mockEntity.Object.GetComponent<ShieldManager>().GetShields());
         }
         
@@ -183,7 +183,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialShieldCapacity, _mockEntity.Object.GetComponent<ShieldManager>().GetShieldCapacity());
 
             var shieldsToAdd = initialShieldCapacity * 2;
-            _mockEntity.Object.GetComponent<ShieldManager>().AddShield(shieldsToAdd);
+            _mockEntity.Object.GetComponent<ShieldManager>().AlterShields(shieldsToAdd);
             Assert.AreEqual(initialShieldCapacity, _mockEntity.Object.GetComponent<ShieldManager>().GetShields());
         }
         
@@ -229,7 +229,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialShieldCapacity, _mockEntity.Object.GetComponent<ShieldManager>().GetShieldCapacity());
 
             var shieldsToAdd = initialShieldCapacity * 2;
-            _mockEntity.Object.GetComponent<ShieldManager>().AddShield(shieldsToAdd);
+            _mockEntity.Object.GetComponent<ShieldManager>().AlterShields(shieldsToAdd);
             Assert.AreEqual(initialShieldCapacity, _mockEntity.Object.GetComponent<ShieldManager>().GetShields());
 
             var newShieldCapacity = initialShieldCapacity * 2;
@@ -238,7 +238,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(initialShieldCapacity, _mockEntity.Object.GetComponent<ShieldManager>().GetShields());
             
             shieldsToAdd = 10;
-            _mockEntity.Object.GetComponent<ShieldManager>().AddShield(shieldsToAdd);
+            _mockEntity.Object.GetComponent<ShieldManager>().AlterShields(shieldsToAdd);
             Assert.AreEqual(initialShieldCapacity + shieldsToAdd, _mockEntity.Object.GetComponent<ShieldManager>().GetShields());
         }
         
@@ -253,17 +253,17 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.IsTrue(_mockEntity.Object.GetComponent<ShieldManager>().IsShieldActive());
 
             var eventFired = false;
-            OnShieldDisableEventArgs disableArgs = null;
-            _mockEntity.Object.GetComponent<ShieldManager>().OnShieldDisable += (sender, args) => {
+            OnToggleShieldEventArgs toggleArgs = null;
+            _mockEntity.Object.GetComponent<ShieldManager>().OnToggleShield += (sender, args) => {
                 eventFired = true;
-                disableArgs = args;
+                toggleArgs = args;
             };
             
             _mockEntity.Object.GetComponent<ShieldManager>().ToggleShield();
             Assert.IsFalse(_mockEntity.Object.GetComponent<ShieldManager>().IsShieldActive());
             Assert.IsTrue(eventFired);
-            Assert.IsNotNull(disableArgs);
-            Assert.AreEqual(disableArgs.ShieldManager, _mockEntity.Object.GetComponent<ShieldManager>());
+            Assert.IsNotNull(toggleArgs);
+            Assert.AreEqual(toggleArgs.ShieldManager, _mockEntity.Object.GetComponent<ShieldManager>());
         }
         
         [TestMethod]
@@ -276,16 +276,16 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.IsTrue(_mockEntity.Object.GetComponent<ShieldManager>().IsShieldActive());
 
             var disableEventFired = false;
-            OnShieldDisableEventArgs disableArgs = null;
-            _mockEntity.Object.GetComponent<ShieldManager>().OnShieldDisable += (sender, args) =>
+            OnToggleShieldEventArgs disableArgs = null;
+            _mockEntity.Object.GetComponent<ShieldManager>().OnToggleShield += (sender, args) =>
             {
                 disableEventFired = true;
                 disableArgs = args;
             };
             
             var enableEventFired = false;
-            OnShieldEnableEventArgs enableArgs = null;
-            _mockEntity.Object.GetComponent<ShieldManager>().OnShieldEnable += (sender, args) =>
+            OnToggleShieldEventArgs enableArgs = null;
+            _mockEntity.Object.GetComponent<ShieldManager>().OnToggleShield += (sender, args) =>
             {
                 enableEventFired = true;
                 enableArgs = args;
@@ -339,7 +339,7 @@ namespace Subterfuge.Remake.Test.Core.Components
                 eventFired = true;
                 valueChangeArgs = args;
             };
-            _mockEntity.Object.GetComponent<ShieldManager>().AddShield(10);
+            _mockEntity.Object.GetComponent<ShieldManager>().AlterShields(10);
             
             Assert.IsTrue(eventFired);
             Assert.IsNotNull(valueChangeArgs);
@@ -362,7 +362,7 @@ namespace Subterfuge.Remake.Test.Core.Components
                 eventFired = true;
                 valueChangeArgs = args;
             };
-            _mockEntity.Object.GetComponent<ShieldManager>().RemoveShields(10);
+            _mockEntity.Object.GetComponent<ShieldManager>().AlterShields(-1 * 10);
             
             Assert.IsTrue(eventFired);
             Assert.IsNotNull(valueChangeArgs);

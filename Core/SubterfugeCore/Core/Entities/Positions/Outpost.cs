@@ -1,4 +1,5 @@
 ﻿using Subterfuge.Remake.Core.Entities.Components;
+using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
@@ -33,14 +34,14 @@ namespace Subterfuge.Remake.Core.Entities.Positions
             AddComponent(new ShieldManager(this, Constants.InitialMaxShieldsPerOutpost));
             AddComponent(new SubLauncher(this));
             AddComponent(new VisionManager(this, visionRadius));
-            AddComponent(new ShieldRegenerationComponent(this, timeMachine));
+            AddComponent(new ShieldProducer(this, timeMachine));
         }
 
         /// <summary>
         /// Outpost constructor; should only be used when it is necessary to change the type of an outpost (i.e. when converting an outpost to a mine)
         /// </summary>
         /// <param name="o">The outpost to copy components from</param>
-        public Outpost(Outpost o)
+        public Outpost(Outpost o, TimeMachine timeMachine)
         {
             AddComponent(o.GetComponent<DrillerCarrier>());
             AddComponent(o.GetComponent<SpeedManager>());
@@ -50,7 +51,7 @@ namespace Subterfuge.Remake.Core.Entities.Positions
             AddComponent(o.GetComponent<ShieldManager>());
             AddComponent(o.GetComponent<SubLauncher>());
             AddComponent(o.GetComponent<VisionManager>());
-            AddComponent(o.GetComponent<ShieldRegenerationComponent>());
+            AddComponent(new ShieldProducer(this, timeMachine));
         }
 
         /// <summary>

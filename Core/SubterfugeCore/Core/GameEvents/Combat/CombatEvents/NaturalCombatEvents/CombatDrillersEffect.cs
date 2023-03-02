@@ -5,7 +5,7 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class NaturalDrillerCombatEffect : NaturalGameEvent
+    public class CombatDrillersEffect : PositionalGameEvent
     {
         private readonly IEntity _combatant1;
         private readonly IEntity _combatant2;
@@ -13,11 +13,11 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         private int _preCombatDrillers1;
         private int _preCombatDrillers2;
         
-        public NaturalDrillerCombatEffect(
+        public CombatDrillersEffect(
             GameTick occursAt,
             IEntity combatant1,
             IEntity combatant2
-        ) : base(occursAt, Priority.DRILLER_COMBAT)
+        ) : base(occursAt, Priority.DRILLER_COMBAT, combatant1)
         {
             _combatant1 = combatant1;
             _combatant2 = combatant2;

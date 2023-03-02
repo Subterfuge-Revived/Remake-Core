@@ -6,18 +6,18 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class RemoveLostCombatantsEffect : NaturalGameEvent
+    public class CombatRemoveEmptyEntitiesEffect : PositionalGameEvent
     {
         private readonly IEntity _combatant1;
         private readonly IEntity _combatant2;
         private readonly CombatResolution _combatResolution;
 
-        public RemoveLostCombatantsEffect(
+        public CombatRemoveEmptyEntitiesEffect(
             GameTick occursAt,
             IEntity combatant1,
             IEntity combatant2,
             CombatResolution combatResolution
-        ) : base(occursAt, Priority.COMBAT_RESOLVE)
+        ) : base(occursAt, Priority.COMBAT_RESOLVE, combatant1)
         {
             _combatant1 = combatant1;
             _combatant2 = combatant2;

@@ -37,7 +37,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 
             var specialist = this.IssuedBy().SpecialistPool.HireSpecialist(hireEvent.SpecialistTypeIdHired);
             hireLocation.GetComponent<SpecialistManager>()
-                .AddFriendlySpecialist(specialist);
+                .HireSpecialist(specialist);
 
             HiredSpecialist = specialist;
             HiredAt = hireLocation;

@@ -4,12 +4,16 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class SpecialistStealEffect : NaturalGameEvent
+    public class StealDrillerEffect : PositionalGameEvent
     {
         
-        private IEntity _combatant1;
-        private IEntity _combatant2;
-        public SpecialistStealEffect(GameTick occursAt) : base(occursAt, Priority.SPECIALIST_STEAL_EFFECT)
+        private IEntity _friendly;
+        private IEntity _stealFrom;
+        public StealDrillerEffect(
+            GameTick occursAt,
+            IEntity friendly,
+            IEntity stealFrom
+        ) : base(occursAt, Priority.SPECIALIST_STEAL_EFFECT, friendly)
         {
         }
 

@@ -1,4 +1,5 @@
 ﻿using Subterfuge.Remake.Core.Entities.Components;
+using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;
@@ -31,7 +32,7 @@ namespace Subterfuge.Remake.Core.Entities.Positions
 			Player outpostOwner,
 			TimeMachine timeMachine
 		) : base(id, outpostStartPosition, timeMachine, outpostOwner) {
-			AddComponent(new MineProductionComponent(this, timeMachine));
+			AddComponent(new NeptuniumProducer(this, timeMachine));
 		}
 
 		/// <summary>
@@ -41,8 +42,8 @@ namespace Subterfuge.Remake.Core.Entities.Positions
 		public Mine(
 			Outpost o,
 			TimeMachine timeMachine
-		) : base(o) {
-			AddComponent(new MineProductionComponent(this, timeMachine));
+		) : base(o, timeMachine) {
+			AddComponent(new NeptuniumProducer(this, timeMachine));
 		}
 
 		public override OutpostType GetOutpostType()

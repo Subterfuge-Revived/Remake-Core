@@ -1,5 +1,6 @@
 ﻿using System;
 using Subterfuge.Remake.Core.Entities;
+using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
 using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
@@ -9,11 +10,12 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
         event EventHandler<ProductionEventArgs> OnResourceProduced;
     }
 
-    public class ProductionEventArgs
+    public class ProductionEventArgs: DirectionalEventArgs
     {
         public int ValueProduced { get; set; }
         public GameTick NextProduction { get; set; }
         public GameTick TickProducedAt { get; set; }
-        public TimeMachineDirection Direction { get; set; }
+        public ResourceProductionEvent ProductionEvent { get; set; }
+        public ProducedResourceType ProducedResourceType { get; set; }
     }
 }

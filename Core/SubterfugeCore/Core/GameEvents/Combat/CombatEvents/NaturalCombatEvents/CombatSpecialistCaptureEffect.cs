@@ -7,41 +7,41 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class SpecialistCaptureEffect : NaturalGameEvent
+    public class CombatSpecialistCaptureEffect : PositionalGameEvent
     {
-        private IEntity _combatant1;
-        private IEntity _combatant2;
+        public readonly IEntity Combatant1;
+        public readonly IEntity Combatant2;
 
         private List<Specialist> combatant1Specialists;
         private List<Specialist> combatant2Specialists;
         private IEntity? winner;
         
-        public SpecialistCaptureEffect(
+        public CombatSpecialistCaptureEffect(
             GameTick occursAt,
             IEntity combatant1,
             IEntity combatant2
-        ) : base(occursAt, Priority.COMBAT_RESOLVE)
+        ) : base(occursAt, Priority.COMBAT_RESOLVE, combatant1)
         {
-            _combatant1 = combatant1;
-            _combatant2 = combatant2;
+            Combatant1 = combatant1;
+            Combatant2 = combatant2;
         }
 
         public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            combatant1Specialists = _combatant1.GetComponent<SpecialistManager>().GetSpecialists();
-            combatant2Specialists = _combatant2.GetComponent<SpecialistManager>().GetSpecialists();
+            combatant1Specialists = Combatant1.GetComponent<SpecialistManager>().GetSpecialists();
+            combatant2Specialists = Combatant2.GetComponent<SpecialistManager>().GetSpecialists();
 
             winner = GetWinner();
             if (winner != null)
             {
-                var loser = winner == _combatant1 ? _combatant2 : _combatant1;
-                loser.GetComponent<SpecialistManager>().CaptureAll();
+                var loser = winner == Combatant1 ? Combatant2 : Combatant1;
+                loser.GetComponent<SpecialistManager>().CaptureAllForward(timeMachine, loser);
             }
             else
             {
                 // If no winner, all specialists die.
-                _combatant1.GetComponent<SpecialistManager>().KillAll();
-                _combatant2.GetComponent<SpecialistManager>().KillAll();
+                Combatant1.GetComponent<SpecialistManager>().KillAll();
+                Combatant2.GetComponent<SpecialistManager>().KillAll();
             }
 
             return true;
@@ -51,13 +51,13 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         {
             if (winner != null)
             {
-                var loser = winner == _combatant1 ? _combatant2 : _combatant1;
+                var loser = winner == Combatant1 ? Combatant2 : Combatant1;
                 loser.GetComponent<SpecialistManager>().UncaptureAll();
             }
             else
             {
-                _combatant1.GetComponent<SpecialistManager>().AddFriendlySpecialists(combatant1Specialists);
-                _combatant2.GetComponent<SpecialistManager>().AddFriendlySpecialists(combatant2Specialists);
+                Combatant1.GetComponent<SpecialistManager>().AddFriendlySpecialists(combatant1Specialists);
+                Combatant2.GetComponent<SpecialistManager>().AddFriendlySpecialists(combatant2Specialists);
             }
 
             return true;
@@ -70,8 +70,8 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 
         private IEntity? GetWinner()
         {
-            var combatantOneDrillerCount = _combatant1.GetComponent<DrillerCarrier>().GetDrillerCount();
-            var combatantTwoDrillerCount = _combatant2.GetComponent<DrillerCarrier>().GetDrillerCount();
+            var combatantOneDrillerCount = Combatant1.GetComponent<DrillerCarrier>().GetDrillerCount();
+            var combatantTwoDrillerCount = Combatant2.GetComponent<DrillerCarrier>().GetDrillerCount();
             if (combatantOneDrillerCount <= 0 && combatantTwoDrillerCount <= 0)
             {
                 return null;
@@ -79,10 +79,10 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 
             if (combatantOneDrillerCount <= 0)
             {
-                return _combatant2;
+                return Combatant2;
             }
 
-            return combatantTwoDrillerCount <= 0 ? _combatant1 : null;
+            return combatantTwoDrillerCount <= 0 ? Combatant1 : null;
         }
     }
 }

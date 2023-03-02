@@ -4,13 +4,16 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class SpecialistDemoteEffect : NaturalGameEvent
+    public class DemoteSpecialistsEffect : PositionalGameEvent
     {
         
         private IEntity _combatant1;
-        private IEntity _combatant2;
-        public SpecialistDemoteEffect(GameTick occursAt) : base(occursAt, Priority.SPECIALIST_DEMOTE_EFFECT)
+        public DemoteSpecialistsEffect(
+            GameTick occursAt,
+            IEntity demoteSpecialistsAtEntity
+        ) : base(occursAt, Priority.SPECIALIST_DEMOTE_EFFECT, demoteSpecialistsAtEntity)
         {
+            _combatant1 = demoteSpecialistsAtEntity;
         }
 
         public override bool ForwardAction(TimeMachine timeMachine, GameState state)

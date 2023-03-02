@@ -7,7 +7,7 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class CombatResolveEvent : NaturalGameEvent
+    public class CombatResolveEvent : PositionalGameEvent
     {
         private readonly IEntity _combatant1;
         private readonly IEntity _combatant2;
@@ -20,7 +20,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             IEntity combatant1,
             IEntity combatant2,
             CombatEvent combatEvent
-        ) : base(occursAt, Priority.COMBAT_RESOLVE)
+        ) : base(occursAt, Priority.COMBAT_RESOLVE, combatant1)
         {
             _combatant1 = combatant1;
             _combatant2 = combatant2;
@@ -32,13 +32,13 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             switch (DetermineCombatType())
             {
                 case CombatType.FRIENDLY:
-                    CombatResolution = new FriendlyCombatResolution(base.GetOccursAt(), _combatant1, _combatant2);
+                    CombatResolution = new FriendlyCombatResolution(OccursAt, _combatant1, _combatant2);
                     break;
                 case CombatType.SUB_TO_SUB:
-                    CombatResolution = new SubToSubResolution(base.GetOccursAt(), _combatant1, _combatant2);
+                    CombatResolution = new SubToSubResolution(OccursAt, _combatant1, _combatant2);
                     break;
                 case CombatType.SUB_TO_OUTPOST:
-                    CombatResolution = new SubToOutpostResolution(base.GetOccursAt(), _combatant1, _combatant2);
+                    CombatResolution = new SubToOutpostResolution(OccursAt, _combatant1, _combatant2);
                     break;
                 default:
                     break;

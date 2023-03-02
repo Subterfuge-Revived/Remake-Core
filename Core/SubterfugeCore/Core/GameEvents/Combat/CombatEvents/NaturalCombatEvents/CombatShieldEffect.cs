@@ -6,7 +6,7 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
-    public class NaturalShieldCombatEffect : NaturalGameEvent
+    public class CombatShieldEffect : PositionalGameEvent
     {
         private readonly IEntity _combatant1;
         private readonly IEntity _combatant2;
@@ -16,11 +16,11 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         private int _preCombatDrillers1;
         private int _preCombatDrillers2;
         
-        public NaturalShieldCombatEffect(
+        public CombatShieldEffect(
             GameTick occursAt,
             IEntity combatant1,
             IEntity combatant2
-        ) : base(occursAt, Priority.SHIELD_COMBAT)
+        ) : base(occursAt, Priority.SHIELD_COMBAT, combatant1)
         {
             _combatant1 = combatant1;
             _combatant2 = combatant2;
@@ -40,10 +40,10 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             
             // Effect shields and driller counts
             _combatant2.GetComponent<DrillerCarrier>().AlterDrillers(shieldDamage1 * -1);
-            _combatant1.GetComponent<ShieldManager>().RemoveShields(shieldDamage1);
+            _combatant1.GetComponent<ShieldManager>().AlterShields(shieldDamage1 * -1);
             
             _combatant1.GetComponent<DrillerCarrier>().AlterDrillers(shieldDamage2 * -1);
-            _combatant2.GetComponent<ShieldManager>().RemoveShields(shieldDamage2);
+            _combatant2.GetComponent<ShieldManager>().AlterShields(shieldDamage2 * -1);
             return true;
         }
 

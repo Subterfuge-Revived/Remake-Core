@@ -12,6 +12,13 @@ namespace Subterfuge.Remake.Core.GameEvents.Base
         /// If the event was successfully triggered
         /// </summary>
         protected bool EventSuccess;
+        
+        /// <summary>
+        /// Sets the tick when this event occurs.
+        /// </summary>
+        public GameTick OccursAt { get; }
+        
+        public Priority Priority { get; }
 
         /// <summary>
         /// This function will be executed when determing the game's state for the time machine.
@@ -27,22 +34,19 @@ namespace Subterfuge.Remake.Core.GameEvents.Base
         public abstract bool BackwardAction(TimeMachine timeMachine, GameState state);
 
         /// <summary>
-        /// Get the tick the game event occurs at
-        /// </summary>
-        /// <returns>The tick the game event occurs at.</returns>
-        public abstract GameTick GetOccursAt();
-        
-        /// <summary>
         /// Get the id of this game event.
         /// </summary>
         /// <returns>The id of this game event.</returns>
         public abstract string GetEventId();
-        
-        /// <summary>
-        /// Get the tick the game event occurs at
-        /// </summary>
-        /// <returns>The tick the game event occurs at.</returns>
-        public abstract Priority GetPriority();
+
+        public GameEvent(
+            GameTick occursAt,
+            Priority priority
+        )
+        {
+            this.OccursAt = occursAt;
+            this.Priority = priority;
+        }
 
         /// <summary>
         /// Comparison override for the priority queue sorting
@@ -55,27 +59,41 @@ namespace Subterfuge.Remake.Core.GameEvents.Base
             // -1 = this event occurs first.
             GameEvent comparedEvent = obj as GameEvent;
             if (comparedEvent == null) return 1;
-            if (this.GetOccursAt() > comparedEvent.GetOccursAt())
+            
+            if (this.OccursAt > comparedEvent.OccursAt)
             {
                 return 1;
             }
-            if (this.GetOccursAt() < comparedEvent.GetOccursAt())
+            if (this.OccursAt < comparedEvent.OccursAt)
             {
                 return -1;
             }
             
-            if (GetPriority() > comparedEvent.GetPriority())
+            if (Priority > comparedEvent.Priority)
             {
                 return -1;
             }
             
-            if (GetPriority() < comparedEvent.GetPriority())
+            if (Priority < comparedEvent.Priority)
             {
                 return 1;
             }
             
             // Do further comparison. The game events should NEVER be the same!
             return String.Compare(GetEventId(), comparedEvent.GetEventId(), StringComparison.Ordinal);
+        }
+
+        public abstract override bool Equals(Object other);
+        public abstract override int  GetHashCode();
+        
+        public static bool operator ==(GameEvent? left, GameEvent? right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(GameEvent? left, GameEvent? right)
+        {
+            return !Equals(left, right);
         }
 
         public abstract bool WasEventSuccessful();

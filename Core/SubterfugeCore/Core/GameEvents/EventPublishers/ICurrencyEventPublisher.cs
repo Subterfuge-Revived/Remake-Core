@@ -9,13 +9,13 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
         private event EventHandler<SpendCurrencyEventArgs> OnSpendCurrency;
     }
 
-    public class GainCurrencyEventArgs
+    public class GainCurrencyEventArgs: DirectionalEventArgs
     {
         public Player PlayerGainingCurrency { get; set; }
         public int AmountGained { get; set; }
     }
 
-    public class SpendCurrencyEventArgs
+    public class SpendCurrencyEventArgs: DirectionalEventArgs
     {
         public Player PlayerSpendingCurrency { get; set; }
         public int AmountSpent { get; set; }

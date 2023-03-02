@@ -13,44 +13,44 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         private Sub _sub;
         private Outpost _outpost;
 
-        private readonly NaturalDrillerCombatEffect _drillerCombat;
-        private readonly NaturalShieldCombatEffect _shieldCombat;
-        private readonly SpecialistCaptureEffect _specialistCapture;
-        private readonly OwnershipTransferEffect _ownershipTransfer;
-        private readonly RemoveLostCombatantsEffect _removeLostCombatants;
+        private readonly CombatDrillersEffect _drillerCombatDrillers;
+        private readonly CombatShieldEffect _shield;
+        private readonly CombatSpecialistCaptureEffect _combatSpecialistCapture;
+        private readonly CombatOwnershipTransferEffect _combatOwnershipTransfer;
+        private readonly CombatRemoveEmptyEntitiesEffect _combatRemoveEmptyEntities;
         
         public SubToOutpostResolution(
             GameTick occursAt,
             IEntity combatant1,
             IEntity combatant2
-        ) : base(occursAt, CombatType.SUB_TO_OUTPOST)
+        ) : base(occursAt, CombatType.SUB_TO_OUTPOST, combatant1)
         {
             _sub = (Sub)(combatant1 is Sub ? combatant1 : combatant2);
             _outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);
-            _drillerCombat = new NaturalDrillerCombatEffect(occursAt, _sub, _outpost);
-            _shieldCombat = new NaturalShieldCombatEffect(occursAt, _sub, _outpost);
-            _specialistCapture = new SpecialistCaptureEffect(occursAt, _sub, _outpost);
-            _ownershipTransfer = new OwnershipTransferEffect(occursAt, _sub, _outpost);
-            _removeLostCombatants = new RemoveLostCombatantsEffect(occursAt, _sub, _outpost, this);
+            _drillerCombatDrillers = new CombatDrillersEffect(occursAt, _sub, _outpost);
+            _shield = new CombatShieldEffect(occursAt, _sub, _outpost);
+            _combatSpecialistCapture = new CombatSpecialistCaptureEffect(occursAt, _sub, _outpost);
+            _combatOwnershipTransfer = new CombatOwnershipTransferEffect(occursAt, _sub, _outpost);
+            _combatRemoveEmptyEntities = new CombatRemoveEmptyEntitiesEffect(occursAt, _sub, _outpost, this);
         }
 
         public override bool ForwardAction(TimeMachine timeMachine, GameState state)
         {
-            _shieldCombat.ForwardAction(timeMachine, state);
-            _drillerCombat.ForwardAction(timeMachine, state);
-            _specialistCapture.ForwardAction(timeMachine, state);
-            _ownershipTransfer.ForwardAction(timeMachine, state);
-            _removeLostCombatants.ForwardAction(timeMachine, state);
+            _shield.ForwardAction(timeMachine, state);
+            _drillerCombatDrillers.ForwardAction(timeMachine, state);
+            _combatSpecialistCapture.ForwardAction(timeMachine, state);
+            _combatOwnershipTransfer.ForwardAction(timeMachine, state);
+            _combatRemoveEmptyEntities.ForwardAction(timeMachine, state);
             return true;
         }
 
         public override bool BackwardAction(TimeMachine timeMachine, GameState state)
         {
-            _removeLostCombatants.BackwardAction(timeMachine, state);
-            _ownershipTransfer.BackwardAction(timeMachine, state);
-            _specialistCapture.BackwardAction(timeMachine, state);
-            _drillerCombat.BackwardAction(timeMachine, state);
-            _shieldCombat.BackwardAction(timeMachine, state);
+            _combatRemoveEmptyEntities.BackwardAction(timeMachine, state);
+            _combatOwnershipTransfer.BackwardAction(timeMachine, state);
+            _combatSpecialistCapture.BackwardAction(timeMachine, state);
+            _drillerCombatDrillers.BackwardAction(timeMachine, state);
+            _shield.BackwardAction(timeMachine, state);
             return true;
         }
 

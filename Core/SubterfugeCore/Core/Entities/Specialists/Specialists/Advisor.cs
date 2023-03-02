@@ -1,5 +1,11 @@
-﻿using Subterfuge.Remake.Api.Network;
+﻿using System;
+using System.Collections.Generic;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
+using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.Combat;
+using Subterfuge.Remake.Core.GameEvents.EventPublishers;
+using Subterfuge.Remake.Core.GameEvents.SpecialistEvents;
 using Subterfuge.Remake.Core.Players;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
@@ -9,26 +15,41 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
         public Advisor(Player owner) : base(owner, false)
         {
         }
+        
 
-        public override void ArriveAt(IEntity entity)
+        protected override List<GameEvent> ForwardEffects(object? sender, DirectionalEventArgs subscribedEvent)
         {
-            if (!_isCaptured)
+            OnSpecialistTransferEventArgs transferEvent = subscribedEvent as OnSpecialistTransferEventArgs; 
+            return new List<GameEvent>()
             {
-                entity.GetComponent<SpecialistManager>().AlterCapacity(1);
-            }
+                new SpecialistCapacityChangeEvent(
+                    subscribedEvent.TimeMachine.GetCurrentTick(),
+                    transferEvent.AddedTo,
+                    1
+                )
+            };
         }
 
-        public override void LeaveLocation(IEntity entity)
-        {
-            if (!_isCaptured)
+        protected override List<GameEvent> CaptureEffects(object? sender, OnSpecialistsCapturedEventArgs subscribedEvent)
+        { 
+            return new List<GameEvent>()
             {
-                entity.GetComponent<SpecialistManager>().AlterCapacity(-1);
-            }
+                new SpecialistCapacityChangeEvent(
+                    subscribedEvent.TimeMachine.GetCurrentTick(),
+                    subscribedEvent.Location,
+                    -1
+                )
+            };
         }
 
-        public override void OnCaptured(IEntity captureLocation)
+        public override void ArriveAtLocation(IEntity location)
         {
-            captureLocation.GetComponent<SpecialistManager>().AlterCapacity(-1);
+            location.GetComponent<SpecialistManager>().OnSpecialistTransfer += TriggerForwardEffect;
+        }
+
+        public override void LeaveLocation(IEntity location)
+        {
+            location.GetComponent<SpecialistManager>().OnSpecialistTransfer -= TriggerForwardEffect;
         }
 
         public override SpecialistTypeId GetSpecialistId()

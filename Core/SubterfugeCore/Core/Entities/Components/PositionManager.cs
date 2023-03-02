@@ -133,7 +133,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
             if (onTick.Direction == TimeMachineDirection.REVERSE)
             {
                 localCombatEvents
-                    .Where(it => it.GetOccursAt() == onTick.CurrentTick.Advance(1))
+                    .Where(it => it.OccursAt == onTick.CurrentTick.Advance(1))
                     .ToList()
                     .ForEach(it =>
                     {

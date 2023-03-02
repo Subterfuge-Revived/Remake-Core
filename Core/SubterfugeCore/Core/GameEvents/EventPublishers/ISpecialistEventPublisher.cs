@@ -8,51 +8,32 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
     public interface ISpecialistEventPublisher
     {
         event EventHandler<OnSpecialistHireEventArgs> OnSpecialistHire;
-        event EventHandler<OnSpecialistsCapturedEventArgs> OnCaptured;
+        event EventHandler<OnSpecialistsCapturedEventArgs> OnSpecialistCapture;
         event EventHandler<OnSpecialistPromotionEventArgs> OnSpecialistPromotion;
-        event EventHandler<OnAddSpecialistEventArgs> OnSpecialistArrive;
-        event EventHandler<OnRemoveSpecialistEventArgs> OnSpecialistLeave;
-        event EventHandler<OnSpecialistCapacityChangeEventArgs> OnSpecialistCapacityChange;
+        event EventHandler<OnSpecialistTransferEventArgs> OnSpecialistTransfer;
     }
 
-    public class OnSpecialistHireEventArgs
+    public class OnSpecialistHireEventArgs : DirectionalEventArgs
     {
         public Specialist HiredSpecialist { get; set; }
         public IEntity HireLocation { get; set; }
     }
 
-    public class OnSpecialistsCapturedEventArgs
+    public class OnSpecialistsCapturedEventArgs: DirectionalEventArgs
     {
-        public IEntity CaptureLocation { get; set; }
-    }
-    
-    public class OnSpecialistUncaptureEventArgs
-    {
-        public Specialist Specialist { get; set; }
-        public IEntity CapturedFrom { get; set; }
-        public IEntity Destination { get; set; }
+        public IEntity Location { get; set; }
     }
 
-    public class OnSpecialistPromotionEventArgs
+    public class OnSpecialistPromotionEventArgs: DirectionalEventArgs
     {
         public Specialist PromotedTo { get; set; }
         public IEntity Location { get; set; }
     }
     
-    public class OnAddSpecialistEventArgs
+    public class OnSpecialistTransferEventArgs: DirectionalEventArgs
     {
-        public Specialist AddedSpecialist { get; set; }
+        public Specialist specialist { get; set; }
         public IEntity AddedTo { get; set; }
-    }
-
-    public class OnRemoveSpecialistEventArgs
-    {
-        public Specialist RemovedSpecialist { get; set; }
-        public IEntity RemovedFrom { get; set; }
-    }
-
-    public class OnSpecialistCapacityChangeEventArgs
-    {
-        public int CapacityDelta { get; set; }
+        public IEntity? RemovedFrom { get; set; }
     }
 }

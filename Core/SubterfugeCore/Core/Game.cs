@@ -2,12 +2,11 @@
 using System.Linq;
 using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Positions;
-using Subterfuge.Remake.Core.Entities.Specialists;
 using Subterfuge.Remake.Core.GameEvents.Base;
+using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.Generation;
 using Subterfuge.Remake.Core.Players;
-using Subterfuge.Remake.Core.Resources.Producers;
 using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core
@@ -38,8 +37,6 @@ namespace Subterfuge.Remake.Core
         /// </summary>
         public static GameConfiguration GameConfiguration;
 
-        private CurrencyProducer CurrencyProducer;
-
         /// <summary>
         /// Creates a new game using the provided GameConfiguration. Calling this constructor will trigger
         /// map generation and generate the map based on the GameConfiguration that was passed into the game.
@@ -63,8 +60,8 @@ namespace Subterfuge.Remake.Core
             // Add the outposts to the map
             state.GetOutposts().AddRange(generatedOutposts);
             
-            // Populate the specialist pool
-            CurrencyProducer = new CurrencyProducer(TimeMachine);
+            // Create a global currency event.
+            GlobalCurrencyProductionEvent.SpawnNewCurrencyEvent(TimeMachine);
         }
 
         public void LoadGameEvents(List<GameRoomEvent> gameEvents)
