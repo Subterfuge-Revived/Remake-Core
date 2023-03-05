@@ -17,6 +17,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
         {
             if (!this._isCaptured)
             {
+                entity.GetComponent<SpecialistManager>().AllowHireFromLocation();
                 entity.GetComponent<ShieldManager>().AlterShieldCapacity(shieldDelta);
             }
         }
@@ -26,6 +27,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
             
             if (!this._isCaptured)
             {
+                entity.GetComponent<SpecialistManager>().DisallowHireFromLocation();
                 entity.GetComponent<ShieldManager>().AlterShieldCapacity(shieldDelta * -1);
             }
         }
@@ -34,6 +36,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
         {
             // TODO: Check for princesses to take over.
             // Otherwise, kill player.
+            entity.GetComponent<SpecialistManager>().DisallowHireFromLocation();
             entity.GetComponent<DrillerCarrier>().GetOwner().SetEliminated(true);
         }
 
