@@ -1,41 +1,40 @@
-﻿/*using System;
-using System.Collections.Generic;
-using Subterfuge.Remake.Api.Network;
+﻿using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
-using Subterfuge.Remake.Core.GameEvents.Base;
-using Subterfuge.Remake.Core.GameEvents.Combat;
-using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
 {
     public class Queen: Specialist
     {
+        private int shieldDelta = 25;
+        
         public Queen(Player owner) : base(owner, true)
         {
         }
 
-        public override void ArriveAt(IEntity entity)
+        public override void ArriveAtLocation(IEntity entity, TimeMachine timeMachine)
         {
             if (!this._isCaptured)
             {
-                entity.GetComponent<ShieldManager>().AddShield(25);
+                entity.GetComponent<ShieldManager>().AlterShieldCapacity(shieldDelta);
             }
         }
 
-        public override void LeaveLocation(IEntity entity)
+        public override void LeaveLocation(IEntity entity, TimeMachine timeMachine)
         {
+            
             if (!this._isCaptured)
             {
-                entity.GetComponent<ShieldManager>().RemoveShields(25);
+                entity.GetComponent<ShieldManager>().AlterShieldCapacity(shieldDelta * -1);
             }
         }
 
-        public override void OnCapturedEvent(IEntity captureLocation)
+        public override void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine)
         {
-            // Check for princesses to take over.
+            // TODO: Check for princesses to take over.
             // Otherwise, kill player.
-            captureLocation.GetComponent<DrillerCarrier>().GetOwner().SetEliminated(true);
+            entity.GetComponent<DrillerCarrier>().GetOwner().SetEliminated(true);
         }
 
         public override SpecialistTypeId GetSpecialistId()
@@ -43,19 +42,9 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
             return SpecialistTypeId.Queen;
         }
 
-        public override void SpecialistTransferEvent(object? sender, OnSpecialistTransferEventArgs eventArgs)
+        public override string GetDescription()
         {
-            throw new NotImplementedException();
-        }
-
-        public override void OnCapturedEvent(object? sender, OnSpecialistsCapturedEventArgs eventArgs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override List<NaturalGameEvent> CreateEffects(object? sender, EventArgs subscribedEvent)
-        {
-            throw new NotImplementedException();
+            return $"Adds ${shieldDelta} shields to the Queen's Location. If the Queen dies, the owner is eliminated.";
         }
     }
-}*/
+}

@@ -11,13 +11,13 @@ namespace Subterfuge.Remake.Core.GameEvents.SpecialistEvents
         {
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             this.EventSuccess = true;
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             return true;
         }
@@ -33,7 +33,7 @@ namespace Subterfuge.Remake.Core.GameEvents.SpecialistEvents
             if (other == null)
                 return false;
 
-            return asEvent.OccursAt == this.OccursAt;
+            return Equals(asEvent?.OccursAt, OccursAt);
         }
 
         public override int GetHashCode()

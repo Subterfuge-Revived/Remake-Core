@@ -1,17 +1,21 @@
-﻿/*using Subterfuge.Remake.Api.Network;
+﻿using System.Collections.Generic;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
     public class SignalJammer : Specialist
     {
+        private List<float> SpeedReductionPerLevel = new List<float>() { 0.10f, 0.20f, 0.30f };
+        
         public SignalJammer(Player owner) : base(owner, false)
         {
         }
 
-        public override void ArriveAt(IEntity entity)
+        public override void ArriveAtLocation(IEntity entity, TimeMachine timeMachine)
         {
             if (!_isCaptured)
             {
@@ -19,7 +23,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             }
         }
 
-        public override void LeaveLocation(IEntity entity)
+        public override void LeaveLocation(IEntity entity, TimeMachine timeMachine)
         {
             if (!_isCaptured)
             {
@@ -27,9 +31,9 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             }
         }
 
-        public override void OnCapturedEvent(IEntity captureLocation)
+        public override void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine)
         {
-            captureLocation.GetComponent<PositionManager>().OnLocationTargeted -= OnTargetedBySub;
+            entity.GetComponent<PositionManager>().OnLocationTargeted -= OnTargetedBySub;
         }
 
         public override SpecialistTypeId GetSpecialistId()
@@ -37,9 +41,14 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             return SpecialistTypeId.SignalJammer;
         }
 
+        public override string GetDescription()
+        {
+            return $"When the Signal Jammer's location is targeted by an enemy, the enemy is slowed by {SpeedReductionPerLevel}.";
+        }
+
         public void OnTargetedBySub(object? sender, OnLocationTargetedEventArgs eventArgs)
         {
             eventArgs.TargetedBy.GetComponent<SpeedManager>().DecreaseSpeed(0.15f * _level);
         }
     }
-}*/
+}

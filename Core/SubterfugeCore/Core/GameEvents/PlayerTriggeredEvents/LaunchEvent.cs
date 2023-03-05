@@ -34,11 +34,11 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
         /// <summary>
         /// Performs the backwards event
         /// </summary>
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             if (this.EventSuccess)
             {
-                state.GetEntity(GetEventData().SourceId).GetComponent<SubLauncher>().UndoLaunch(state, this);
+                timeMachine.GetState().GetEntity(GetEventData().SourceId).GetComponent<SubLauncher>().UndoLaunch(timeMachine, this);
             }
             return this.EventSuccess;
         }
@@ -56,9 +56,9 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
         /// <summary>
         /// Performs the forward event
         /// </summary>
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
-            this._launchedSub = state.GetEntity(GetEventData().SourceId).GetComponent<SubLauncher>().LaunchSub(timeMachine, this);
+            this._launchedSub = timeMachine.GetState().GetEntity(GetEventData().SourceId).GetComponent<SubLauncher>().LaunchSub(timeMachine, this);
             
             
             if (_launchedSub != null && !_launchedSub.GetComponent<DrillerCarrier>().GetOwner().IsEliminated())

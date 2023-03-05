@@ -1,37 +1,55 @@
-﻿/*using Subterfuge.Remake.Api.Network;
+﻿using System.Collections.Generic;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
     public class Tinkerer : Specialist
     {
+        private List<int> DecreasedProductionTicks = new List<int>()
+        {
+            0,
+            Constants.TicksPerProduction / 10, // 10%
+            Constants.TicksPerProduction / 5 // 20%
+        }; 
+        
         public Tinkerer(Player owner, bool isHero) : base(owner, isHero)
         {
         }
 
-        public override void ArriveAt(IEntity entity)
+        public override void ArriveAtLocation(IEntity entity, TimeMachine timeMachine)
         {
+            
             if (!_isCaptured)
             {
-                entity.GetComponent<DrillerProductionComponent>().DrillerProducer.IgnoresDrillerCapacity = true;
-                entity.GetComponent<DrillerProductionComponent>().DrillerProducer.ChangeTicksPerProductionCycle(-1 * GetDecreasedProductionTicks());
+                entity.GetComponent<DrillerProducer>().Producer.IgnoresCapacity = true;
+                entity.GetComponent<DrillerProducer>().Producer.ChangeTicksPerProductionCycle(-1 * DecreasedProductionTicks[_level]);
             }
         }
 
-        public override void LeaveLocation(IEntity entity)
+        public override void LeaveLocation(IEntity entity, TimeMachine timeMachine)
         {
             if (!_isCaptured)
             {
-                entity.GetComponent<DrillerProductionComponent>().DrillerProducer.IgnoresDrillerCapacity = false;
-                entity.GetComponent<DrillerProductionComponent>().DrillerProducer.ChangeTicksPerProductionCycle(GetDecreasedProductionTicks());
+                entity.GetComponent<DrillerProducer>().Producer.IgnoresCapacity = false;
+                entity.GetComponent<DrillerProducer>().Producer.ChangeTicksPerProductionCycle(DecreasedProductionTicks[_level]);
             }
         }
 
-        public override void OnCapturedEvent(IEntity captureLocation)
+        public override void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine)
         {
-            captureLocation.GetComponent<DrillerProductionComponent>().DrillerProducer.IgnoresDrillerCapacity = false;
-            captureLocation.GetComponent<DrillerProductionComponent>().DrillerProducer.ChangeTicksPerProductionCycle(GetDecreasedProductionTicks());
+            if (isCaptured)
+            {
+                entity.GetComponent<DrillerProducer>().Producer.IgnoresCapacity = false;
+                entity.GetComponent<DrillerProducer>().Producer.ChangeTicksPerProductionCycle(DecreasedProductionTicks[_level]);
+            }
+            else
+            {
+                entity.GetComponent<DrillerProducer>().Producer.IgnoresCapacity = true;
+                entity.GetComponent<DrillerProducer>().Producer.ChangeTicksPerProductionCycle(DecreasedProductionTicks[_level]);
+            }
         }
 
         public override SpecialistTypeId GetSpecialistId()
@@ -39,15 +57,10 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             return SpecialistTypeId.Tinkerer;
         }
 
-        public int GetDecreasedProductionTicks()
+        public override string GetDescription()
         {
-            return _level switch
-            {
-                0 => 0,
-                1 => Constants.TicksPerProduction / 10, // Increase by 10%
-                2 => Constants.TicksPerProduction / 5, // Increase by 20%
-                _ => 0,
-            };
+            return $"The factory where the Tinkerer is stationed is allowed th exceed the driller cap. " +
+                   $"Increases driller production rate by {DecreasedProductionTicks} ticks.";
         }
     }
-}*/
+}

@@ -15,6 +15,11 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
         {
             this.Model = model;
         }
+        
+        protected PlayerTriggeredEvent(GameRoomEvent model, Priority overridePriority) : base(new GameTick(model.GameEventData.OccursAtTick), overridePriority)
+        {
+            this.Model = model;
+        }
 
         public Player IssuedBy()
         {

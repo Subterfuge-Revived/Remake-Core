@@ -50,7 +50,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
             {
                 currentHireIndex++;
                 _hiredSpecialists.Add(specialistTypeId);
-                return SpecialistFactory.CreateSpecialist(specialistTypeId, _player);
+                return SpecialistFactory.CreateSpecialist(specialistTypeId, _player.SpecialistPool.currentHireIndex, _player);
             }
             return null;
         }

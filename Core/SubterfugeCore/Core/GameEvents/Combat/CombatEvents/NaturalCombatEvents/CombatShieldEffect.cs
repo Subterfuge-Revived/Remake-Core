@@ -26,7 +26,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             _combatant2 = combatant2;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             _preCombatDrillers1 = _combatant1.GetComponent<DrillerCarrier>().GetDrillerCount();
             _preCombatDrillers2 = _combatant2.GetComponent<DrillerCarrier>().GetDrillerCount();
@@ -47,7 +47,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             _combatant1.GetComponent<DrillerCarrier>().SetDrillerCount(_preCombatDrillers1);
             _combatant2.GetComponent<DrillerCarrier>().SetDrillerCount(_preCombatDrillers2);

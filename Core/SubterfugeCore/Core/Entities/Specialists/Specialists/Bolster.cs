@@ -1,6 +1,7 @@
-﻿/*using Subterfuge.Remake.Api.Network;
+﻿using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
@@ -10,7 +11,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
         {
         }
 
-        public override void ArriveAt(IEntity entity)
+        public override void ArriveAtLocation(IEntity entity, TimeMachine timeMachine)
         {
             if (!_isCaptured)
             {
@@ -18,7 +19,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             }
         }
 
-        public override void LeaveLocation(IEntity entity)
+        public override void LeaveLocation(IEntity entity, TimeMachine timeMachine)
         {
             if (!_isCaptured)
             {
@@ -26,14 +27,19 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             }
         }
 
-        public override void OnCapturedEvent(IEntity captureLocation)
+        public override void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine)
         {
-            captureLocation.GetComponent<SpecialistManager>().GetSpecialists().ForEach(it => it.UndoPromote());
+            entity.GetComponent<SpecialistManager>().GetSpecialists().ForEach(it => it.UndoPromote());
         }
 
         public override SpecialistTypeId GetSpecialistId()
         {
             return SpecialistTypeId.Bolster;
         }
+
+        public override string GetDescription()
+        {
+            return $"All specialists at Bolster's location are promoted by 1 level.";
+        }
     }
-}*/
+}

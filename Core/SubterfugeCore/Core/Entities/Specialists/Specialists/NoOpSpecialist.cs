@@ -5,6 +5,7 @@ using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.GameEvents.Combat;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
@@ -16,14 +17,16 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
         {
         }
 
-        public override void ArriveAtLocation(IEntity location)
+        public override void ArriveAtLocation(IEntity entity, TimeMachine timeMachine)
         {
-            return;
         }
 
-        public override void LeaveLocation(IEntity location)
+        public override void LeaveLocation(IEntity entity, TimeMachine timeMachine)
         {
-            return;
+        }
+
+        public override void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine)
+        {
         }
 
         public override SpecialistTypeId GetSpecialistId()
@@ -31,14 +34,9 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             return SpecialistTypeId.Advisor;
         }
 
-        protected override List<GameEvent> ForwardEffects(object? sender, DirectionalEventArgs subscribedEvent)
+        public override string GetDescription()
         {
-            return new List<GameEvent>();
-        }
-
-        protected override List<GameEvent> CaptureEffects(object? sender, OnSpecialistsCapturedEventArgs capturedEvent)
-        {
-            return new List<GameEvent>();
+            return $"Does nothing";
         }
     }
 }

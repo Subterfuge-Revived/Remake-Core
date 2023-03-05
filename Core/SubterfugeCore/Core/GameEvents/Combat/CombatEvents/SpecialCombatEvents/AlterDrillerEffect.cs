@@ -26,14 +26,14 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             _enemyDrillerDelta = enemyDrillerDelta;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             _friendlyDrillerDelta = _friendly.GetComponent<DrillerCarrier>().AlterDrillers(_friendlyDrillerDelta);
             _enemyDrillerDelta = _enemy.GetComponent<DrillerCarrier>().AlterDrillers(_enemyDrillerDelta);
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             _friendlyDrillerDelta = _friendly.GetComponent<DrillerCarrier>().AlterDrillers(_friendlyDrillerDelta * -1);
             _enemyDrillerDelta = _enemy.GetComponent<DrillerCarrier>().AlterDrillers(_enemyDrillerDelta * -1);

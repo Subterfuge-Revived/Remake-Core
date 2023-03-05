@@ -21,16 +21,16 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             _killSpecialistsAt = killSpecialistsAt;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             killedSpecialists = _killSpecialistsAt.GetComponent<SpecialistManager>().GetSpecialists();
             _killSpecialistsAt.GetComponent<SpecialistManager>().KillAll();
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
-            _killSpecialistsAt.GetComponent<SpecialistManager>().AddFriendlySpecialists(killedSpecialists);
+            _killSpecialistsAt.GetComponent<SpecialistManager>().ReviveAll(killedSpecialists);
             return true;
         }
 

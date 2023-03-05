@@ -16,12 +16,12 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         {
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             throw new System.NotImplementedException();
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             throw new System.NotImplementedException();
         }

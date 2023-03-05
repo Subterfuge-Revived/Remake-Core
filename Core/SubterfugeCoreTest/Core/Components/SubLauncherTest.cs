@@ -97,7 +97,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(destination, launchedSub.GetComponent<PositionManager>().GetDestination());
             Assert.AreEqual(launchEventData.DrillerCount, launchedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(initialOwner, launchedSub.GetComponent<DrillerCarrier>().GetOwner());
-            Assert.AreEqual(0, launchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, launchedSub.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
         }
 
         [TestMethod]
@@ -160,15 +160,15 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(launchEventData.DrillerCount, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(initialOwner, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetOwner());
             Assert.AreEqual(initialDrillerCount - launchEvent.GetEventData().DrillerCount, source.GetComponent<DrillerCarrier>().GetDrillerCount());
-            Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
-            source.GetComponent<SubLauncher>().UndoLaunch(_timeMachine.GetState(), launchEvent);
+            source.GetComponent<SubLauncher>().UndoLaunch(_timeMachine, launchEvent);
             
             // Verify the sub that was launched, is removed from the state, and the outposts have their original driller counts.
             Assert.IsNotNull(undoSubLaunch);
             Assert.AreEqual(initialDrillerCount, source.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(initialOwner, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetOwner());
-            Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
         }
         
         // Event Handler Tests
@@ -220,7 +220,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(destination, sub.GetComponent<PositionManager>().GetDestination());
             Assert.AreEqual(launchEventData.DrillerCount, sub.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(initialOwner, sub.GetComponent<DrillerCarrier>().GetOwner());
-            Assert.AreEqual(0, sub.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, sub.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             // Verify event data
             Assert.IsNotNull(subLaunchEventData);
@@ -230,7 +230,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(launchEventData.DrillerCount,
                 subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(initialOwner, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetOwner());
-            Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
         }
 
 
@@ -288,7 +288,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.AreEqual(destination, launchedSub.GetComponent<PositionManager>().GetDestination());
             Assert.AreEqual(launchEventData.DrillerCount, launchedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(initialOwner, launchedSub.GetComponent<DrillerCarrier>().GetOwner());
-            Assert.AreEqual(0, launchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, launchedSub.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             
             // Verify event data
             Assert.IsNotNull(subLaunchEventData);
@@ -297,9 +297,9 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.IsNotNull(subLaunchEventData.LaunchedSub);
             Assert.AreEqual(launchEventData.DrillerCount, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(initialOwner, subLaunchEventData.LaunchedSub.GetComponent<DrillerCarrier>().GetOwner());
-            Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, subLaunchEventData.LaunchedSub.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             
-            source.GetComponent<SubLauncher>().UndoLaunch(mockGameState.Object, launchEvent);
+            source.GetComponent<SubLauncher>().UndoLaunch(_timeMachine, launchEvent);
             
             // Verify the sub that was launched is removed from the state
             // Verify event data

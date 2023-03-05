@@ -188,12 +188,12 @@ namespace Subterfuge.Remake.Test
             });
             
             int initialDrillers = _outpost.GetComponent<DrillerCarrier>().GetDrillerCount();
-            launchEvent.ForwardAction(game.TimeMachine, game.TimeMachine.GetState());
+            launchEvent.ForwardAction(game.TimeMachine);
             
             Assert.AreEqual(initialDrillers - 10, _outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(1, game.TimeMachine.GetState().GetSubList().Count);
             
-            launchEvent.BackwardAction(game.TimeMachine, game.TimeMachine.GetState());
+            launchEvent.BackwardAction(game.TimeMachine);
             
             Assert.AreEqual(initialDrillers, _outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(0, game.TimeMachine.GetState().GetSubList().Count);

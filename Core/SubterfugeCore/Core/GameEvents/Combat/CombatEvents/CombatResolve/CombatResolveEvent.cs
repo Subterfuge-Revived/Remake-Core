@@ -27,7 +27,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             _combatEvent = combatEvent;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             switch (DetermineCombatType())
             {
@@ -44,12 +44,12 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
                     break;
             }
 
-            return CombatResolution.ForwardAction(timeMachine, state);
+            return CombatResolution.ForwardAction(timeMachine);
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
-            return CombatResolution.BackwardAction(timeMachine, state);
+            return CombatResolution.BackwardAction(timeMachine);
         }
 
         public override bool WasEventSuccessful()

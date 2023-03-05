@@ -1,64 +1,72 @@
-﻿/*using Subterfuge.Remake.Api.Network;
+﻿using System.Collections.Generic;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
-using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
     public class Foreman : Specialist
     {
-        private DrillerProductionComponent _currentDrillerProducer;
-        
+
+        public List<int> ExtraDrillersPerLevel = new List<int>() { 4, 6, 6 };
+
+        public List<int> TickReductionPerLevel = new List<int>()
+        {
+            0,
+            0,
+            Constants.TicksPerProduction / 4
+        };
+
         public Foreman(Player owner) : base(owner, false)
         {
         }
 
-        public override void ArriveAt(IEntity entity)
-        {
-            if (!_isCaptured)
-            {
-                if (entity is Factory)
-                {
-                    _currentDrillerProducer = entity.GetComponent<DrillerProductionComponent>();
-                    _currentDrillerProducer.DrillerProducer.OnResourceProduced += ProduceMore;
-
-                    if (_level == 3)
-                    {
-                        _currentDrillerProducer.DrillerProducer.ChangeTicksPerProductionCycle(-1 * Constants.TicksPerProduction / 4);
-                    }
-                }
-            }
-        }
-
-        public override void LeaveLocation(IEntity entity)
-        {
-            if (!_isCaptured)
-            {
-                if (entity is Factory)
-                {
-                    entity.GetComponent<DrillerProductionComponent>().DrillerProducer.OnResourceProduced -= ProduceMore;
-                    if (_level == 3)
-                    {
-                        entity.GetComponent<DrillerProductionComponent>().DrillerProducer.ChangeTicksPerProductionCycle(Constants.TicksPerProduction / 4);
-                    }
-                }
-            }
-        }
-
-        public override void OnCapturedEvent(IEntity captureLocation)
-        {
-            _currentDrillerProducer.DrillerProducer.OnResourceProduced -= ProduceMore;
-            if (_level == 3)
-            {
-                _currentDrillerProducer.DrillerProducer.ChangeTicksPerProductionCycle(Constants.TicksPerProduction / 4);
-            }
-        }
-
         private void ProduceMore(object? sender, ProductionEventArgs productionEventArgs)
         {
-            _currentDrillerProducer.Parent.GetComponent<DrillerCarrier>().AlterDrillers(GetDrillerDelta());
+            productionEventArgs.ProductionEvent.ValueProduced += ExtraDrillersPerLevel[_level];
+        }
+
+        public override void ArriveAtLocation(IEntity entity, TimeMachine timeMachine)
+        {
+            if (!_isCaptured)
+            {
+                if (entity is Factory)
+                {
+                    entity.GetComponent<DrillerProducer>().Producer.OnResourceProduced += ProduceMore;
+
+                    if (_level == 3)
+                    {
+                        entity.GetComponent<DrillerProducer>().Producer.ChangeTicksPerProductionCycle(-1 * TickReductionPerLevel[_level]);
+                    }
+                }
+            }
+        }
+
+        public override void LeaveLocation(IEntity entity, TimeMachine timeMachine)
+        {
+            if (!_isCaptured)
+            {
+                if (entity is Factory)
+                {
+                    entity.GetComponent<DrillerProducer>().Producer.OnResourceProduced -= ProduceMore;
+                    if (_level == 3)
+                    {
+                        entity.GetComponent<DrillerProducer>().Producer.ChangeTicksPerProductionCycle(TickReductionPerLevel[_level]);
+                    }
+                }
+            }
+        }
+
+        public override void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine)
+        {
+            entity.GetComponent<DrillerProducer>().Producer.OnResourceProduced -= ProduceMore;
+            if (_level == 3)
+            {
+                entity.GetComponent<DrillerProducer>().Producer.ChangeTicksPerProductionCycle(TickReductionPerLevel[_level]);
+            }
         }
 
         public override SpecialistTypeId GetSpecialistId()
@@ -66,14 +74,10 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             return SpecialistTypeId.Foreman;
         }
 
-        public int GetDrillerDelta()
+        public override string GetDescription()
         {
-            return _level switch
-            {
-                1 => 4,
-                2 => 6,
-                _ => 4
-            };
+            return $"Produces an additional {ExtraDrillersPerLevel} drillers while at a factory." +
+                   $"Decreases production by {TickReductionPerLevel} ticks while at a factory.";
         }
     }
-}*/
+}

@@ -295,7 +295,7 @@ namespace Subterfuge.Remake.Core.Generation
                                 o.GetComponent<DrillerCarrier>().SetOwner(_players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
                             if (!queenGenerated)
                             {
-                                o.GetComponent<SpecialistManager>().AddFriendlySpecialist(CreateQueen(o.GetComponent<DrillerCarrier>().GetOwner()));
+                                o.GetComponent<SpecialistManager>().HireSpecialist(SpecialistFactory.CreateSpecialist(SpecialistTypeId.Queen, 0, o.GetComponent<DrillerCarrier>().GetOwner()), _timeMachine);
                                 queenGenerated = true;
                             }
                         }
@@ -320,11 +320,6 @@ namespace Subterfuge.Remake.Core.Generation
 
             // Return a list of the generated outposts.
             return this._outposts;
-        }
-
-        private Specialist CreateQueen(Player player)
-        {
-            return SpecialistFactory.CreateSpecialist(SpecialistTypeId.Queen, player);
         }
 
         /// <summary>

@@ -12,7 +12,6 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
 
     public class ProductionEventArgs: DirectionalEventArgs
     {
-        public int ValueProduced { get; set; }
         public GameTick NextProduction { get; set; }
         public GameTick TickProducedAt { get; set; }
         public ResourceProductionEvent ProductionEvent { get; set; }

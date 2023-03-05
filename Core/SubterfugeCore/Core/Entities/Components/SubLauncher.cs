@@ -49,7 +49,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
             {
                 _drillerCarrier.AlterDrillers(launchData.DrillerCount * -1);
                 Sub launchedSub = new Sub(launchEvent.GetEventId(), source, destination, state.GetCurrentTick(), launchData.DrillerCount, this._drillerCarrier.GetOwner(), timeMachine);
-                this._specialistManager.TransferSpecialistsById(launchedSub.GetComponent<SpecialistManager>(), launchData.SpecialistIds.ToList());
+                this._specialistManager.TransferSpecialistsById(launchedSub.GetComponent<SpecialistManager>(), launchData.SpecialistIds.ToList(), timeMachine);
                 state.AddSub(launchedSub);
                 launchEvent.SetLaunchedSub(launchedSub);
                 
@@ -69,7 +69,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
             return null;
         }
 
-        public void UndoLaunch(IGameState state, LaunchEvent launchEvent)
+        public void UndoLaunch(TimeMachine timeMachine, LaunchEvent launchEvent)
         {
             // Determine any specialist effects if a specialist left the sub.
             LaunchEventData launchData = launchEvent.GetEventData();
@@ -78,8 +78,8 @@ namespace Subterfuge.Remake.Core.Entities.Components
             if (launchedSub != null)
             {
                 _drillerCarrier.AlterDrillers(launchData.DrillerCount);
-                launchedSub.GetComponent<SpecialistManager>().TransferSpecialistsTo(_specialistManager);
-                state.RemoveSub(launchEvent.GetActiveSub());
+                launchedSub.GetComponent<SpecialistManager>().TransferSpecialistsTo(_specialistManager, timeMachine);
+                timeMachine.GetState().RemoveSub(launchEvent.GetActiveSub());
                 
                 OnSubLaunched?.Invoke(this, new OnSubLaunchEventArgs()
                 {
@@ -91,6 +91,5 @@ namespace Subterfuge.Remake.Core.Entities.Components
                 
             }
         }
-
     }
 }

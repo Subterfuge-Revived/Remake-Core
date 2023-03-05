@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.Entities.Specialists;
@@ -32,7 +33,7 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
     
     public class OnSpecialistTransferEventArgs: DirectionalEventArgs
     {
-        public Specialist specialist { get; set; }
+        public List<Specialist> specialist { get; set; }
         public IEntity AddedTo { get; set; }
         public IEntity? RemovedFrom { get; set; }
     }

@@ -3,12 +3,14 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subterfuge.Remake.Api.Network;
+using Subterfuge.Remake.Core;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Specialists;
 using Subterfuge.Remake.Core.Entities.Specialists.Specialists;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Test.Core.Components
 {
@@ -20,14 +22,20 @@ namespace Subterfuge.Remake.Test.Core.Components
 
         private Player playerOne = new Player(new SimpleUser() { Id = "1" });
         private Player playerTwo = new Player(new SimpleUser() { Id = "2" });
+        
+        private List<Player> players;
+        private TimeMachine _timeMachine;
 
         private void MockSpecialistManagerEntity(
             int specialistCapacity = 3
         )
         {
             _mockEntity = new Mock<IEntity>();
+            var specialistManager = new SpecialistManager(_mockEntity.Object, specialistCapacity);
+            specialistManager.AllowHireFromLocation();
+            
             _mockEntity.Setup(it => it.GetComponent<SpecialistManager>())
-                .Returns(new SpecialistManager(_mockEntity.Object, specialistCapacity));
+                .Returns(specialistManager);
         }
 
         private void MockSecondSpecialistManagerEntity(
@@ -35,11 +43,21 @@ namespace Subterfuge.Remake.Test.Core.Components
         )
         {
             _mockSecondEntity = new Mock<IEntity>();
+            var specialistManager = new SpecialistManager(_mockSecondEntity.Object, specialistCapacity);
+            specialistManager.AllowHireFromLocation();
             _mockSecondEntity.Setup(it => it.GetComponent<SpecialistManager>())
-                .Returns(new SpecialistManager(_mockSecondEntity.Object, specialistCapacity));
+                .Returns(specialistManager);
         }
 
-
+        [TestInitialize]
+        public void Setup()
+        {
+            players = new List<Player>()
+            {
+                new Player(new SimpleUser() { Id = "1" })
+            };
+            _timeMachine = new TimeMachine(new GameState(players));
+        }
 
         [TestMethod]
         public void CanInitializeSpecialistManager()
@@ -64,7 +82,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Count);
         }
         
@@ -75,7 +93,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.AreEqual(true, _mockEntity.Object.GetComponent<SpecialistManager>().CanAddSpecialists());
         }
         
@@ -86,7 +104,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.AreEqual(false, _mockEntity.Object.GetComponent<SpecialistManager>().CanAddSpecialists());
         }
         
@@ -97,13 +115,13 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialist = new NoOpSpecialist(playerOne);
-            bool result = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialist(specialist);
+            bool result = _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialist, _timeMachine);
             Assert.IsTrue(result);
             
-            Assert.AreEqual(1, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(1, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialist));
         }
         
@@ -114,13 +132,13 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialist = new NoOpSpecialist(playerOne);
-            bool result = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialist(specialist);
+            bool result = _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialist, _timeMachine);
             Assert.IsFalse(result);
             
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialist));
         }
         
@@ -131,7 +149,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialistOne = new NoOpSpecialist(playerOne);
             var specialistTwo = new NoOpSpecialist(playerTwo);
@@ -139,11 +157,11 @@ namespace Subterfuge.Remake.Test.Core.Components
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
             specialists.Add(specialistTwo);
+
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistOne, _timeMachine);
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistTwo, _timeMachine);
             
-            int addedSpecs = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialists(specialists);
-            Assert.AreEqual(2, addedSpecs);
-            
-            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
         }
@@ -155,7 +173,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialistOne = new NoOpSpecialist(playerOne);
             var specialistTwo = new NoOpSpecialist(playerTwo);
@@ -163,50 +181,34 @@ namespace Subterfuge.Remake.Test.Core.Components
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
             specialists.Add(specialistTwo);
+
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistOne, _timeMachine);
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistTwo, _timeMachine);
             
-            int addedSpecs = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialists(specialists);
-            Assert.AreEqual(1, addedSpecs);
-            
-            Assert.AreEqual(1, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(1, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
         }
-        
-        [TestMethod]
-        public void CanRemoveASpecialistAfterItHasBeenAdded()
-        {
-            var initialCapacity = 1;
-            MockSpecialistManagerEntity(initialCapacity);
-            Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
-            Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
 
-            var specialist = new NoOpSpecialist(playerOne);
-            bool addResult = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialist(specialist);
-            Assert.IsTrue(addResult);
-            
-            Assert.AreEqual(1, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
-            Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialist));
-            
-            bool removeResult = _mockEntity.Object.GetComponent<SpecialistManager>().RemoveFriendlySpecialist(specialist);
-            Assert.IsTrue(removeResult);
-            
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
-            Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialist));
-        }
-        
         [TestMethod]
         public void CannotRemoveASpecialistIfNotInCarrier()
         {
             var initialCapacity = 1;
             MockSpecialistManagerEntity(initialCapacity);
+            MockSecondSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             
             var specialist = new NoOpSpecialist(playerOne);
-            bool removeResult = _mockEntity.Object.GetComponent<SpecialistManager>().RemoveFriendlySpecialist(specialist);
-            Assert.IsFalse(removeResult);
+            bool removeResult = _mockEntity.Object.GetComponent<SpecialistManager>().TransferSpecialistsById(
+                _mockSecondEntity.Object.GetComponent<SpecialistManager>(), 
+                new List<string>() { specialist.GetId() },
+                _timeMachine
+            );
+            Assert.IsTrue(removeResult);
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
+            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
         }
         
         [TestMethod]
@@ -216,7 +218,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialistOne = new NoOpSpecialist(playerOne);
             var specialistTwo = new NoOpSpecialist(playerTwo);
@@ -224,17 +226,16 @@ namespace Subterfuge.Remake.Test.Core.Components
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
             specialists.Add(specialistTwo);
+
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistOne, _timeMachine);
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistTwo, _timeMachine);
             
-            int addedSpecs = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialists(specialists);
-            Assert.AreEqual(2, addedSpecs);
-            
-            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
             
-            int removedSpecialists = _mockEntity.Object.GetComponent<SpecialistManager>().RemoveFriendlySpecialists(specialists);
-            Assert.AreEqual(2, removedSpecialists);
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            _mockEntity.Object.GetComponent<SpecialistManager>().KillAll();
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
         }
@@ -246,7 +247,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialistOne = new NoOpSpecialist(playerOne);
             var specialistTwo = new NoOpSpecialist(playerTwo);
@@ -255,16 +256,15 @@ namespace Subterfuge.Remake.Test.Core.Components
             specialists.Add(specialistOne);
             specialists.Add(specialistTwo);
             
-            bool addOperation = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialist(specialistOne);
+            bool addOperation = _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistOne, _timeMachine);
             Assert.AreEqual(true, addOperation);
             
-            Assert.AreEqual(1, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(1, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
             
-            int removedSpecialists = _mockEntity.Object.GetComponent<SpecialistManager>().RemoveFriendlySpecialists(specialists);
-            Assert.AreEqual(1, removedSpecialists);
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            _mockEntity.Object.GetComponent<SpecialistManager>().KillAll();
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
         }
@@ -292,8 +292,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.IsNotNull(_mockSecondEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(initialCapacity, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
-            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
+            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialistOne = new NoOpSpecialist(playerOne);
             var specialistTwo = new NoOpSpecialist(playerTwo);
@@ -301,22 +301,22 @@ namespace Subterfuge.Remake.Test.Core.Components
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
             specialists.Add(specialistTwo);
+
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistOne, _timeMachine);
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistTwo, _timeMachine);
             
-            int addedSpecs = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialists(specialists);
-            Assert.AreEqual(2, addedSpecs);
-            
-            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
 
             var transferResult = _mockEntity.Object.GetComponent<SpecialistManager>()
-                .TransferSpecialistsTo(_mockSecondEntity.Object.GetComponent<SpecialistManager>());
+                .TransferSpecialistsTo(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), _timeMachine);
             
             Assert.IsTrue(transferResult);
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
-            Assert.AreEqual(2, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
         }
@@ -331,8 +331,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.IsNotNull(_mockSecondEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
-            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
+            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialistOne = new NoOpSpecialist(playerOne);
             var specialistTwo = new NoOpSpecialist(playerTwo);
@@ -340,22 +340,22 @@ namespace Subterfuge.Remake.Test.Core.Components
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
             specialists.Add(specialistTwo);
+
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistOne, _timeMachine);
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistTwo, _timeMachine);
             
-            int addedSpecs = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialists(specialists);
-            Assert.AreEqual(2, addedSpecs);
-            
-            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
 
             var transferResult = _mockEntity.Object.GetComponent<SpecialistManager>()
-                .TransferSpecialistsTo(_mockSecondEntity.Object.GetComponent<SpecialistManager>());
+                .TransferSpecialistsTo(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), _timeMachine);
             
             Assert.IsFalse(transferResult);
-            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsFalse(_mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsFalse(_mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
-            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
         }
@@ -370,8 +370,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.IsNotNull(_mockSecondEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(initialCapacity, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
-            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
+            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialistOne = new NoOpSpecialist(playerOne);
             var specialistTwo = new NoOpSpecialist(playerTwo);
@@ -380,23 +380,23 @@ namespace Subterfuge.Remake.Test.Core.Components
             specialists.Add(specialistOne);
             specialists.Add(specialistTwo);
             
-            int addedSpecs = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialists(specialists);
-            Assert.AreEqual(2, addedSpecs);
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistOne, _timeMachine);
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistTwo, _timeMachine);
             
-            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
 
             var listOfIds = specialists.Select(it => it.GetId()).ToList();
 
             var transferResult = _mockEntity.Object.GetComponent<SpecialistManager>()
-                .TransferSpecialistsById(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), listOfIds);
+                .TransferSpecialistsById(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), listOfIds, _timeMachine);
             
             Assert.IsTrue(transferResult);
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
-            Assert.AreEqual(2, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
         }
@@ -411,8 +411,8 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.IsNotNull(_mockSecondEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
             Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
-            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
+            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialistOne = new NoOpSpecialist(playerOne);
             var specialistTwo = new NoOpSpecialist(playerTwo);
@@ -420,24 +420,24 @@ namespace Subterfuge.Remake.Test.Core.Components
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
             specialists.Add(specialistTwo);
+
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistOne, _timeMachine);
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistTwo, _timeMachine);
             
-            int addedSpecs = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialists(specialists);
-            Assert.AreEqual(2, addedSpecs);
-            
-            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
 
             var listOfIds = specialists.Select(it => it.GetId()).ToList();
 
             var transferResult = _mockEntity.Object.GetComponent<SpecialistManager>()
-                .TransferSpecialistsById(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), listOfIds);
+                .TransferSpecialistsById(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), listOfIds, _timeMachine);
             
             Assert.IsFalse(transferResult);
-            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockSecondEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsFalse(_mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsFalse(_mockSecondEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
-            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
         }
@@ -449,19 +449,15 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialistOne = new NoOpSpecialist(playerOne);
             var specialistTwo = new NoOpSpecialist(playerTwo);
+
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistOne, _timeMachine);
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistTwo, _timeMachine);
             
-            var specialists = new List<Specialist>();
-            specialists.Add(specialistOne);
-            specialists.Add(specialistTwo);
-            
-            int addedSpecs = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialists(specialists);
-            Assert.AreEqual(2, addedSpecs);
-            
-            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
             
@@ -477,19 +473,15 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             
             var specialistOne = new NoOpSpecialist(playerOne);
             var specialistTwo = new NoOpSpecialist(playerTwo);
+
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistOne, _timeMachine);
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistTwo, _timeMachine);
             
-            var specialists = new List<Specialist>();
-            specialists.Add(specialistOne);
-            specialists.Add(specialistTwo);
-            
-            int addedSpecs = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialists(specialists);
-            Assert.AreEqual(2, addedSpecs);
-            
-            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
         }
@@ -501,7 +493,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             MockSpecialistManagerEntity(initialCapacity);
             Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
             Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
 
             var specialistOne = new NoOpSpecialist(playerOne);
             var specialistTwo = new NoOpSpecialist(playerTwo);
@@ -509,11 +501,11 @@ namespace Subterfuge.Remake.Test.Core.Components
             var specialists = new List<Specialist>();
             specialists.Add(specialistOne);
             specialists.Add(specialistTwo);
+
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistOne, _timeMachine);
+            _mockEntity.Object.GetComponent<SpecialistManager>().HireSpecialist(specialistTwo, _timeMachine);
             
-            int addedSpecs = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialists(specialists);
-            Assert.AreEqual(2, addedSpecs);
-            
-            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
+            Assert.AreEqual(2, _mockEntity.Object.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount());
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
 
@@ -521,69 +513,6 @@ namespace Subterfuge.Remake.Test.Core.Components
                 _mockEntity.Object.GetComponent<SpecialistManager>().GetPlayerSpecialists(playerOne);
             Assert.AreEqual(1, playerOneSpecs.Count);
             Assert.IsTrue(playerOneSpecs.Contains(specialistOne));
-        }
-        
-        
-        // Event Handler Tests
-        [TestMethod]
-        public void AddingASpecialistTriggersTheOnSpecialistArriveEvent()
-        {
-            var initialCapacity = 1;
-            MockSpecialistManagerEntity(initialCapacity);
-            Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
-            Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
-
-            var specialist = new NoOpSpecialist(playerOne);
-
-            OnSpecialistTransferEventArgs addSpecArgs = null;
-            _mockEntity.Object.GetComponent<SpecialistManager>().OnSpecialistTransfer += (sender, args) =>
-            {
-                addSpecArgs = args;
-            };
-            
-            bool result = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialist(specialist);
-            Assert.IsTrue(result);
-            Assert.AreEqual(1, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
-            Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialist));
-            
-            Assert.IsNotNull(addSpecArgs);
-            Assert.AreEqual(specialist , addSpecArgs.specialist);
-            Assert.AreEqual(_mockEntity.Object, addSpecArgs.AddedTo);
-        }
-        
-        [TestMethod]
-        public void RemovingASpecialistTriggersTheOnRemoveSpecialistEvent()
-        {
-            var initialCapacity = 1;
-            MockSpecialistManagerEntity(initialCapacity);
-            Assert.IsNotNull(_mockEntity.Object.GetComponent<SpecialistManager>());
-            Assert.AreEqual(initialCapacity, _mockEntity.Object.GetComponent<SpecialistManager>().GetCapacity());
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
-
-            var specialist = new NoOpSpecialist(playerOne);
-            bool addResult = _mockEntity.Object.GetComponent<SpecialistManager>().AddFriendlySpecialist(specialist);
-            Assert.IsTrue(addResult);
-            
-            Assert.AreEqual(1, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
-            Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialist));
-            
-            
-            OnSpecialistTransferEventArgs removeSpecArgs = null;
-            _mockEntity.Object.GetComponent<SpecialistManager>().OnSpecialistTransfer += (sender, args) =>
-            {
-                removeSpecArgs = args;
-            };
-            
-            bool removeResult = _mockEntity.Object.GetComponent<SpecialistManager>().RemoveFriendlySpecialist(specialist);
-            Assert.IsTrue(removeResult);
-            
-            Assert.AreEqual(0, _mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialistCount());
-            Assert.IsFalse(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialist));
-            
-            Assert.IsNotNull(removeSpecArgs);
-            Assert.AreEqual(specialist , removeSpecArgs.specialist);
-            Assert.AreEqual(_mockEntity.Object, removeSpecArgs.RemovedFrom);
         }
     }
 }

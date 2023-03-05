@@ -15,6 +15,8 @@ namespace Subterfuge.Remake.Core.Entities.Components
         private TimeMachine _timeMachine;
         private IEntity _productionLocation;
         
+        public bool IgnoresCapacity { get; set; }
+        
         public ResourceProducer(
             IEntity productionLocation,
             TimeMachine timeMachine,
@@ -43,6 +45,11 @@ namespace Subterfuge.Remake.Core.Entities.Components
 		    _nextValueToProduce = Math.Max(0, _nextValueToProduce + delta);
 	    }
 
+	    public int GetAmountProducedPerCycle()
+	    {
+		    return _nextValueToProduce;
+	    }
+
 	    public void ChangeTicksPerProductionCycle(int delta)
 	    {
 		    _ticksPerProductionCycle = Math.Max(0, _ticksPerProductionCycle + delta);
@@ -59,16 +66,23 @@ namespace Subterfuge.Remake.Core.Entities.Components
 	    }
 
         private void ProductionTickListener(object sender, OnTickEventArgs tickEventArgs)
-		{
-			if (tickEventArgs.Direction == TimeMachineDirection.FORWARD)
+        {
+	        if (tickEventArgs.Direction == TimeMachineDirection.FORWARD)
 			{
+				if (_isPaused)
+				{
+					_nextProductionTick = _nextProductionTick.Advance(1);
+					return;
+				}
+				
 				if (_nextProductionTick == tickEventArgs.CurrentTick)
 				{
 					var resourceProduction = new ResourceProductionEvent(
 						tickEventArgs.CurrentTick,
 						locationProducedAt: _productionLocation,
 						producedType: _typeToProduce,
-						_nextValueToProduce
+						_nextValueToProduce,
+						IgnoresCapacity
 					);
 					
 					_timeMachine.AddEvent(resourceProduction);
@@ -77,16 +91,24 @@ namespace Subterfuge.Remake.Core.Entities.Components
 					{
 						TickProducedAt = tickEventArgs.CurrentTick,
 						Direction = tickEventArgs.Direction,
-						ValueProduced = _nextValueToProduce,
 						NextProduction = _nextProductionTick,
 						ProducedResourceType = _typeToProduce,
 						TimeMachine = _timeMachine,
+						ProductionEvent = resourceProduction
 					};
 					
 					_nextProductionTick = _nextProductionTick.Advance(_ticksPerProductionCycle);
 					OnResourceProduced?.Invoke(this, productionEvent);
 				}
 			}
+	        else
+	        {
+		        if (_isPaused)
+		        {
+			        _nextProductionTick = _nextProductionTick.Rewind(1);
+			        return;
+		        }
+	        }
 		}
 
         public event EventHandler<ProductionEventArgs>? OnResourceProduced;

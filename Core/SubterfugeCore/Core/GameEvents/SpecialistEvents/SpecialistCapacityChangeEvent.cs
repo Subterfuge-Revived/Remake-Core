@@ -9,28 +9,28 @@ namespace Subterfuge.Remake.Core.GameEvents.SpecialistEvents
 {
     public class SpecialistCapacityChangeEvent : PositionalGameEvent
     {
-        private IEntity _locationToApply;
+        private IEntity _expectedWinLocationToApply;
         private int _delta;
         
         public SpecialistCapacityChangeEvent(
             GameTick occursAt,
-            IEntity location,
+            IEntity expectedWinLocation,
             int delta
-        ) : base(occursAt, Priority.NaturalPriority9, location)
+        ) : base(occursAt, Priority.SPECIALIST_CAPCITY_CHANGE, expectedWinLocation)
         {
-            _locationToApply = location;
+            _expectedWinLocationToApply = expectedWinLocation;
             _delta = delta;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
-            _locationToApply.GetComponent<SpecialistManager>().AlterCapacity(_delta);
+            _expectedWinLocationToApply.GetComponent<SpecialistManager>().AlterCapacity(_delta);
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
-            _locationToApply.GetComponent<SpecialistManager>().AlterCapacity(_delta * -1);
+            _expectedWinLocationToApply.GetComponent<SpecialistManager>().AlterCapacity(_delta * -1);
             return true;
         }
 

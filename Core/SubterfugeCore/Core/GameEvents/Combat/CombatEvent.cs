@@ -27,20 +27,23 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat
         /// <param name="combatant1">The first combatant</param>
         /// <param name="combatant2">The second combatant</param>
         /// <param name="tick">The tick the combat occurs</param>
-        public CombatEvent(IEntity combatant1, IEntity combatant2, GameTick tick) : base(tick, Priority.NaturalPriority9, combatant1)
+        public CombatEvent(IEntity combatant1, IEntity combatant2, GameTick tick) : base(tick, Priority.COMBAT_EVENT, combatant1)
         {
             this._combatant1 = combatant1;
             this._combatant2 = combatant2;
             _combatResolveEvent = new CombatResolveEvent(tick, combatant1, combatant2, this);
+            CombatEventList.Add(_combatResolveEvent);
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
-            if (!Validator.ValidateICombatable(state, _combatant1) || !Validator.ValidateICombatable(state, _combatant2))
+            if (!Validator.ValidateICombatable(timeMachine.GetState(), _combatant1) || !Validator.ValidateICombatable(timeMachine.GetState(), _combatant2))
             {
                 this.EventSuccess = false;
                 return false;
             }
+
+            var skipUnnaturalEvents = false;
 
             // Sort the list in order of priority.
             CombatEventList.Sort();
@@ -48,16 +51,26 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat
             {
                 if (action is NeutralizeSpecialistEffects)
                 {
-                    // Don't do any of the other combat effects in the list.
-                    return;
+                    skipUnnaturalEvents = true;
                 }
-                action.ForwardAction(timeMachine, state);
+
+                if (skipUnnaturalEvents && IsEventUnnatural(action))
+                {
+                    // NoOp
+                }
+                else
+                {
+                    action.ForwardAction(timeMachine);
+                }
             });
 
-            _combatResolveEvent.ForwardAction(timeMachine, state);
-            
             this.EventSuccess = true;
             return true;
+        }
+
+        private bool IsEventUnnatural(GameEvent gameEvent)
+        {
+            return PriorityExtensions.NaturalEvents().Contains(gameEvent.Priority);
         }
 
         public bool IsFriendlyCombat()
@@ -65,22 +78,31 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat
             return Equals(_combatant1.GetComponent<DrillerCarrier>().GetOwner(), _combatant2.GetComponent<DrillerCarrier>().GetOwner());
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             if (EventSuccess)
             {
-                _combatResolveEvent.BackwardAction(timeMachine, state);
+                _combatResolveEvent.BackwardAction(timeMachine);
+
+                var skipUnnaturalEvents = false;
                 
                 CombatEventList.Sort();
                 CombatEventList.Reverse();
                 CombatEventList.ForEach(action =>
                 {
+                    if (skipUnnaturalEvents && IsEventUnnatural(action))
+                    {
+                        // NoOp
+                    }
+                    else
+                    {
+                        action.BackwardAction(timeMachine);
+                    }
+                    
                     if (action is NeutralizeSpecialistEffects)
                     {
-                        // Don't do any of the other combat effects in the list.
-                        return;
+                        skipUnnaturalEvents = true;
                     }
-                    action.BackwardAction(timeMachine, state);
                 });
             }
 

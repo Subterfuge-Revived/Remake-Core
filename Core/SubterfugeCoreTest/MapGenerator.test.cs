@@ -146,7 +146,7 @@ namespace Subterfuge.Remake.Test
             foreach (Outpost outpost in generatedOutposts)
             {
                 // Ignore dormant outposts
-                if (outpost.GetComponent<DrillerCarrier>().GetOwner() != null && outpost.GetComponent<SpecialistManager>().GetSpecialistCount() == 1)
+                if (outpost.GetComponent<DrillerCarrier>().GetOwner() != null && outpost.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount() == 1)
                 {
                     if (!queenCounts.ContainsKey(outpost.GetComponent<DrillerCarrier>().GetOwner()))
                         queenCounts.Add(outpost.GetComponent<DrillerCarrier>().GetOwner(), 1);

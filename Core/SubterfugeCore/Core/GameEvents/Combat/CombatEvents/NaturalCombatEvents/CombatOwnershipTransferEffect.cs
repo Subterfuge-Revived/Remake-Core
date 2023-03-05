@@ -38,7 +38,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             }
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             if (_combatType == CombatType.SUB_TO_OUTPOST)
             {
@@ -57,10 +57,10 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
                     // Transfer specialists
                     specialistsTransferred = _sub.GetComponent<SpecialistManager>().GetSpecialists(); 
                     _sub.GetComponent<SpecialistManager>()
-                        .TransferSpecialistsTo(_outpost.GetComponent<SpecialistManager>());
+                        .TransferSpecialistsTo(_outpost.GetComponent<SpecialistManager>(), timeMachine);
                     
                     // Remove the sub from the state.
-                    state.RemoveSub(_sub);
+                    timeMachine.GetState().RemoveSub(_sub);
                 }
                 else
                 {
@@ -69,28 +69,28 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
                     // Transfer specialists
                     specialistsTransferred = _sub.GetComponent<SpecialistManager>().GetSpecialists(); 
                     _sub.GetComponent<SpecialistManager>()
-                        .TransferSpecialistsTo(_outpost.GetComponent<SpecialistManager>());
+                        .TransferSpecialistsTo(_outpost.GetComponent<SpecialistManager>(), timeMachine);
                     
                     // Remove the sub from the state.
-                    state.RemoveSub(_sub);
+                    timeMachine.GetState().RemoveSub(_sub);
                 }
             }
 
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             if (_combatType == CombatType.SUB_TO_OUTPOST)
             {
                 if (_winner is Sub)
                 {
                     // Add the sub back.
-                    state.AddSub(_sub);
+                    timeMachine.GetState().AddSub(_sub);
                     
                     // Put specialists back on the sub.
                     _outpost.GetComponent<SpecialistManager>()
-                        .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), specialistsTransferred.Select(it => it.GetId()).ToList());
+                        .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), specialistsTransferred.Select(it => it.GetId()).ToList(), timeMachine);
                     
                     // Put drillers back on the sub.
                     _sub.GetComponent<DrillerCarrier>().AlterDrillers(drillersTransferred);
@@ -102,11 +102,11 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
                 else
                 {
                     // Add the sub back.
-                    state.AddSub(_sub);
+                    timeMachine.GetState().AddSub(_sub);
                     
                     // Put specialists back on the sub.
                     _outpost.GetComponent<SpecialistManager>()
-                        .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), specialistsTransferred.Select(it => it.GetId()).ToList());
+                        .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), specialistsTransferred.Select(it => it.GetId()).ToList(), timeMachine);
                 }
             }
 

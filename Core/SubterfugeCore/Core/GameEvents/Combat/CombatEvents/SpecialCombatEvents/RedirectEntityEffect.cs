@@ -19,7 +19,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             _enemy = enemy;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             _originalDestination = _enemy.GetComponent<PositionManager>().GetDestination();
             var _source = _enemy.GetComponent<PositionManager>().GetSource();
@@ -27,7 +27,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             _enemy.GetComponent<PositionManager>().SetDestination(_originalDestination);
             return true;

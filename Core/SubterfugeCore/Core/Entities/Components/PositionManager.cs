@@ -108,24 +108,16 @@ namespace Subterfuge.Remake.Core.Entities.Components
                         var combat = new CombatEvent(this.Parent, entityToFight,
                             timeMachine.GetCurrentTick());
                         
-                        // Allow any listenint specialists to modify the combat object.
-                        OnPreCombat?.Invoke(this, new OnPreCombatEventArgs()
+                        // Allow any listening specialists to modify the combat object.
+                        OnRegisterCombatEffects?.Invoke(this, new OnRegisterCombatEventArgs()
                         {
                             Direction = onTick.Direction,
                             CurrentState = timeMachine.GetState(),
                             CombatEvent = combat,
                         });
                         
-                        combat.ForwardAction(timeMachine, timeMachine.GetState());
+                        combat.ForwardAction(timeMachine);
                         localCombatEvents.Add(combat);
-                        
-                        // Notify of a completed combat.
-                        OnPostCombat?.Invoke(this, new PostCombatEventArgs()
-                        {
-                            Direction = onTick.Direction,
-                            CombatResolution = combat.GetCombatResolution(),
-                            CurrentState = timeMachine.GetState()
-                        });
                     }
                 });
             
@@ -137,7 +129,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
                     .ToList()
                     .ForEach(it =>
                     {
-                        it.BackwardAction(timeMachine, timeMachine.GetState());
+                        it.BackwardAction(timeMachine);
                         localCombatEvents.Remove(it);
                     });
             }
@@ -287,8 +279,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
             });
         }
 
-        public event EventHandler<OnPreCombatEventArgs>? OnPreCombat;
-        public event EventHandler<PostCombatEventArgs>? OnPostCombat;
+        public event EventHandler<OnRegisterCombatEventArgs>? OnRegisterCombatEffects;
         public event EventHandler<OnLocationTargetedEventArgs>? OnLocationTargeted;
     }
 }

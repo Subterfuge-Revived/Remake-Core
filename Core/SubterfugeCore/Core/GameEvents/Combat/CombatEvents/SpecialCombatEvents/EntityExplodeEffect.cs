@@ -25,7 +25,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             _state = currentState;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             entitiesDestroyed = _state.EntitesInRange(Constants.BaseSubVisionRadius,
                 _entityExploding.GetComponent<PositionManager>().CurrentLocation);
@@ -35,7 +35,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             {
                 if (e is Sub)
                 {
-                    state.RemoveSub(e as Sub);
+                    timeMachine.GetState().RemoveSub(e as Sub);
                 }
                 else
                 {
@@ -46,13 +46,13 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             foreach(IEntity e in entitiesDestroyed)
             {
                 if (e is Sub)
                 {
-                    state.AddSub(e as Sub);
+                    timeMachine.GetState().AddSub(e as Sub);
                 }
                 else
                 {

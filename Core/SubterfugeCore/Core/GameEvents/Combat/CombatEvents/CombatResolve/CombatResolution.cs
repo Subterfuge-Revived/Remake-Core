@@ -14,8 +14,8 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatResolve
         protected CombatResolution(
             GameTick occursAt,
             CombatType combatType,
-            IEntity location
-        ) : base(occursAt, Priority.COMBAT_RESOLVE, location)
+            IEntity expectedWinLocation
+        ) : base(occursAt, Priority.COMBAT_RESOLVE, expectedWinLocation)
         {
             _combatType = combatType;
         }

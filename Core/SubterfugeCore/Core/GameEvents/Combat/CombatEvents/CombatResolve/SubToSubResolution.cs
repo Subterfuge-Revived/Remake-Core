@@ -31,21 +31,21 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             _combatRemoveEmptyEntities = new CombatRemoveEmptyEntitiesEffect(occursAt, _sub1, _sub2, this);
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
-            _shield.ForwardAction(timeMachine, state);
-            _drillerCombatDrillers.ForwardAction(timeMachine, state);
-            _combatSpecialistCapture.ForwardAction(timeMachine, state);
-            _combatRemoveEmptyEntities.ForwardAction(timeMachine, state);
+            _shield.ForwardAction(timeMachine);
+            _drillerCombatDrillers.ForwardAction(timeMachine);
+            _combatSpecialistCapture.ForwardAction(timeMachine);
+            _combatRemoveEmptyEntities.ForwardAction(timeMachine);
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
-            _combatRemoveEmptyEntities.BackwardAction(timeMachine, state);
-            _combatSpecialistCapture.BackwardAction(timeMachine, state);
-            _drillerCombatDrillers.BackwardAction(timeMachine, state);
-            _shield.BackwardAction(timeMachine, state);
+            _combatRemoveEmptyEntities.BackwardAction(timeMachine);
+            _combatSpecialistCapture.BackwardAction(timeMachine);
+            _drillerCombatDrillers.BackwardAction(timeMachine);
+            _shield.BackwardAction(timeMachine);
             return true;
         }
 

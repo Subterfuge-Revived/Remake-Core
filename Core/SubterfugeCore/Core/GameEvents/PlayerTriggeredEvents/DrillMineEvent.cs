@@ -21,8 +21,9 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 			return JsonConvert.DeserializeObject<DrillMineEventData>(Model.GameEventData.SerializedEventData);
 		}
 
-		public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+		public override bool ForwardAction(TimeMachine timeMachine)
 		{
+			var state = timeMachine.GetState();
 			Entity drillLocation = state.GetEntity(GetEventData().SourceId);
 			if (drillLocation != null && drillLocation is Outpost && !(drillLocation is Mine) && !((Outpost)drillLocation).GetComponent<DrillerCarrier>().IsDestroyed())
 			{
@@ -46,12 +47,12 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 			return EventSuccess;
 		}
 
-		public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+		public override bool BackwardAction(TimeMachine timeMachine)
 		{
 			if (EventSuccess)
 			{
 				var drillerCarrier = CreatedMine.GetComponent<DrillerCarrier>();
-				state.ReplaceOutpost(CreatedMine, OriginalOutpost);
+				timeMachine.GetState().ReplaceOutpost(CreatedMine, OriginalOutpost);
 				drillerCarrier.GetOwner().AlterMinesDrilled(-1);
 				drillerCarrier.AlterDrillers(drillerCarrier.GetOwner().GetRequiredDrillersToMine());
 			}
