@@ -19,6 +19,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
         {
             if (!_isCaptured)
             {
+                entity.GetComponent<SpecialistManager>().AllowHireFromLocation();
                 entity.GetComponent<SpecialistManager>().CanLoadCapturedSpecialists = true;
                 entity.GetComponent<DrillerProducer>().Producer.OnResourceProduced += ProducePerCapturedSpecialist;
             }
@@ -28,6 +29,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
         {
             if (!_isCaptured)
             {
+                entity.GetComponent<SpecialistManager>().DisallowHireFromLocation();
                 entity.GetComponent<SpecialistManager>().CanLoadCapturedSpecialists = false;
                 entity.GetComponent<DrillerProducer>().Producer.OnResourceProduced -= ProducePerCapturedSpecialist;
             }
@@ -35,6 +37,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 
         public override void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine)
         {
+            entity.GetComponent<SpecialistManager>().DisallowHireFromLocation();
             entity.GetComponent<SpecialistManager>().CanLoadCapturedSpecialists = false;
             entity.GetComponent<DrillerProducer>().Producer.OnResourceProduced -= ProducePerCapturedSpecialist;
             // Kill player.
