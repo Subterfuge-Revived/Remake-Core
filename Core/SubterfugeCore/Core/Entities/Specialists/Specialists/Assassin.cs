@@ -7,9 +7,9 @@ using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
-    public class Assasin : Specialist
+    public class Assassin : Specialist
     {
-        public Assasin(Player owner) : base(owner, false)
+        public Assassin(Player owner) : base(owner, false)
         {
         }
 
