@@ -1,0 +1,654 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class RftVector
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class RftVector
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Subterfuge.Remake.Core.Topologies.RftVector">
+  
+  
+  <h1 id="Subterfuge_Remake_Core_Topologies_RftVector" data-uid="Subterfuge.Remake.Core.Topologies.RftVector" class="text-break">Class RftVector
+  </h1>
+  <div class="markdown level0 summary"><p>A Vector in a Rectangular Flat Torus (Rft) map. (x,y) is in
+(-map.width/2, map.width/2] x (-map.height/2, map.height/2]</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">RftVector</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Subterfuge.Remake.Core.Topologies.html">Subterfuge.Remake.Core.Topologies</a></h6>
+  <h6><strong>Assembly</strong>: SubterfugeCore.dll</h6>
+  <h5 id="Subterfuge_Remake_Core_Topologies_RftVector_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class RftVector : object</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector__ctor_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.#ctor*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector__ctor_Subterfuge_Remake_Core_Topologies_Rft_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.#ctor(Subterfuge.Remake.Core.Topologies.Rft)">RftVector(Rft)</h4>
+  <div class="markdown level1 summary"><p>Constructs a new RftVector with coords (0, 0).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RftVector(Rft map)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.Rft.html">Rft</a></td>
+        <td><span class="parametername">map</span></td>
+        <td><p>The map to wrap RftVectors by</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector__ctor_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.#ctor*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector__ctor_Subterfuge_Remake_Core_Topologies_Rft_System_Single_System_Single_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.#ctor(Subterfuge.Remake.Core.Topologies.Rft,System.Single,System.Single)">RftVector(Rft, Single, Single)</h4>
+  <div class="markdown level1 summary"><p>Constructs a new RftVector with coords (x, y) modulo map dimensions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RftVector(Rft map, float x, float y)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.Rft.html">Rft</a></td>
+        <td><span class="parametername">map</span></td>
+        <td><p>The Base RFT map size</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">x</span></td>
+        <td><p>The x position</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">y</span></td>
+        <td><p>The y position</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector__ctor_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.#ctor*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector__ctor_Subterfuge_Remake_Core_Topologies_Rft_Vector2_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.#ctor(Subterfuge.Remake.Core.Topologies.Rft,Vector2)">RftVector(Rft, Vector2)</h4>
+  <div class="markdown level1 summary"><p>Constructs a new RftVector with coords (v.x, v.y) modulo map dimensions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RftVector(Rft map, Vector2 v)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.Rft.html">Rft</a></td>
+        <td><span class="parametername">map</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Vector2</span></td>
+        <td><span class="parametername">v</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector__ctor_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.#ctor*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector__ctor_System_Single_System_Single_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.#ctor(System.Single,System.Single)">RftVector(Single, Single)</h4>
+  <div class="markdown level1 summary"><p>Create an instance of an RftVector with coords (x, y)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RftVector(float x, float y)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">x</span></td>
+        <td><p>The x position</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">y</span></td>
+        <td><p>The y position</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector_Map" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.Map">Map</h4>
+  <div class="markdown level1 summary"><p>The map that the vector resides in. An RftVector only makes sense in the context of a Rft map.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Rft Map</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.Rft.html">Rft</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector_X_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.X*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector_X" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.X">X</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float X { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector_Y_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.Y*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector_Y" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.Y">Y</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Y { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector_Length_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.Length*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector_Length" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.Length">Length()</h4>
+  <div class="markdown level1 summary"><p>Returns float: the magnitude of the RftVector as if it were a Vector2.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Length()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector_Normalize_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.Normalize*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector_Normalize" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.Normalize">Normalize()</h4>
+  <div class="markdown level1 summary"><p>Returns Vector2: the RftVector normalized to have magnitude 1. (0, 0) normalized will return (1, 0).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RftVector Normalize()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector_ToVector2_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.ToVector2*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector_ToVector2" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.ToVector2">ToVector2()</h4>
+  <div class="markdown level1 summary"><p>Returns a Vector2 from the RftVector</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector2 ToVector2()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Vector2</span></td>
+        <td><p>A Vector2 representing the RftVector</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="operators">Operators
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector_op_Addition_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.op_Addition*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector_op_Addition_Subterfuge_Remake_Core_Topologies_RftVector_Subterfuge_Remake_Core_Topologies_RftVector_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.op_Addition(Subterfuge.Remake.Core.Topologies.RftVector,Subterfuge.Remake.Core.Topologies.RftVector)">Addition(RftVector, RftVector)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RftVector operator +(RftVector a, RftVector b)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td><span class="parametername">b</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector_op_Multiply_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.op_Multiply*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector_op_Multiply_Subterfuge_Remake_Core_Topologies_RftVector_System_Single_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.op_Multiply(Subterfuge.Remake.Core.Topologies.RftVector,System.Single)">Multiply(RftVector, Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RftVector operator *(RftVector a, float scaleBy)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">scaleBy</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector_op_Subtraction_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.op_Subtraction*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector_op_Subtraction_Subterfuge_Remake_Core_Topologies_RftVector_Subterfuge_Remake_Core_Topologies_RftVector_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.op_Subtraction(Subterfuge.Remake.Core.Topologies.RftVector,Subterfuge.Remake.Core.Topologies.RftVector)">Subtraction(RftVector, RftVector)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RftVector operator -(RftVector a, RftVector b)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td><span class="parametername">b</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector_op_UnaryNegation_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.op_UnaryNegation*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector_op_UnaryNegation_Subterfuge_Remake_Core_Topologies_RftVector_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.op_UnaryNegation(Subterfuge.Remake.Core.Topologies.RftVector)">UnaryNegation(RftVector)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RftVector operator -(RftVector a)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Topologies_RftVector_op_UnaryPlus_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.op_UnaryPlus*"></a>
+  <h4 id="Subterfuge_Remake_Core_Topologies_RftVector_op_UnaryPlus_Subterfuge_Remake_Core_Topologies_RftVector_" data-uid="Subterfuge.Remake.Core.Topologies.RftVector.op_UnaryPlus(Subterfuge.Remake.Core.Topologies.RftVector)">UnaryPlus(RftVector)</h4>
+  <div class="markdown level1 summary"><p>No args: returns 3x3 lattice centered at origin. 8 args: returns sufficient lattice to cover viewport.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RftVector operator +(RftVector a)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

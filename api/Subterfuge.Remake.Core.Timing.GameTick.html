@@ -1,0 +1,930 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class GameTick
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class GameTick
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Subterfuge.Remake.Core.Timing.GameTick">
+  
+  
+  <h1 id="Subterfuge_Remake_Core_Timing_GameTick" data-uid="Subterfuge.Remake.Core.Timing.GameTick" class="text-break">Class GameTick
+  </h1>
+  <div class="markdown level0 summary"><p>GameTick class to more easily go to and from the current DateTime/TimeStamp to in-game ticks</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">GameTick</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Subterfuge.Remake.Core.Timing.html">Subterfuge.Remake.Core.Timing</a></h6>
+  <h6><strong>Assembly</strong>: SubterfugeCore.dll</h6>
+  <h5 id="Subterfuge_Remake_Core_Timing_GameTick_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class GameTick : object</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick__ctor_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.#ctor*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick__ctor" data-uid="Subterfuge.Remake.Core.Timing.GameTick.#ctor">GameTick()</h4>
+  <div class="markdown level1 summary"><p>Generic GameTick constructor. Sets tick 0 at the current time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick()</code></pre>
+  </div>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick__ctor_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.#ctor*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick__ctor_DateTime_DateTime_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.#ctor(DateTime,DateTime)">GameTick(DateTime, DateTime)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick(DateTime startTime, DateTime currentTime)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">DateTime</span></td>
+        <td><span class="parametername">startTime</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">DateTime</span></td>
+        <td><span class="parametername">currentTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick__ctor_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.#ctor*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick__ctor_System_Int32_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.#ctor(System.Int32)">GameTick(Int32)</h4>
+  <div class="markdown level1 summary"><p>GameTick constructor. Requires a DateTime and an integer tick number</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick(int tickNumber)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">tickNumber</span></td>
+        <td><p>The integer number of the tick</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_MinutesPerTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.MinutesPerTick*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_MinutesPerTick" data-uid="Subterfuge.Remake.Core.Timing.GameTick.MinutesPerTick">MinutesPerTick</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double MinutesPerTick { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_Advance_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.Advance*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_Advance_System_Int32_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.Advance(System.Int32)">Advance(Int32)</h4>
+  <div class="markdown level1 summary"><p>Returns a gametick that is a set number of ticks in the future</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick Advance(int ticks)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ticks</span></td>
+        <td><p>The number of ticks in the future</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><p>A GameTick in the future</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_Equals_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.Equals*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_Equals_System_Object_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.Equals(System.Object)">Equals(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object obj)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_fromGameConfiguration_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.fromGameConfiguration*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_fromGameConfiguration_Subterfuge_Remake_Api_Network_GameConfiguration_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.fromGameConfiguration(Subterfuge.Remake.Api.Network.GameConfiguration)">fromGameConfiguration(GameConfiguration)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static GameTick fromGameConfiguration(GameConfiguration config)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Subterfuge.Remake.Api.Network.GameConfiguration</span></td>
+        <td><span class="parametername">config</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_GetDate_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.GetDate*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_GetDate_DateTime_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.GetDate(DateTime)">GetDate(DateTime)</h4>
+  <div class="markdown level1 summary"><p>Returns the DateTime that the tick started at</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTime GetDate(DateTime startTime)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">DateTime</span></td>
+        <td><span class="parametername">startTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">DateTime</span></td>
+        <td><p>the tick's start DateTime</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_GetHashCode_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.GetHashCode*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_GetHashCode" data-uid="Subterfuge.Remake.Core.Timing.GameTick.GetHashCode">GetHashCode()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_GetNextTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.GetNextTick*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_GetNextTick" data-uid="Subterfuge.Remake.Core.Timing.GameTick.GetNextTick">GetNextTick()</h4>
+  <div class="markdown level1 summary"><p>Gets the next GameTick</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick GetNextTick()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><p>The next GameTick</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_GetPreviousTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.GetPreviousTick*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_GetPreviousTick" data-uid="Subterfuge.Remake.Core.Timing.GameTick.GetPreviousTick">GetPreviousTick()</h4>
+  <div class="markdown level1 summary"><p>Gets the previous GameTick</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick GetPreviousTick()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><p>The previous GameTick</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_GetTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.GetTick*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_GetTick" data-uid="Subterfuge.Remake.Core.Timing.GameTick.GetTick">GetTick()</h4>
+  <div class="markdown level1 summary"><p>Returns the tick number</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetTick()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>Tick number</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_Rewind_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.Rewind*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_Rewind_System_Int32_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.Rewind(System.Int32)">Rewind(Int32)</h4>
+  <div class="markdown level1 summary"><p>Returns a gametick that is a set number of ticks in the past</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick Rewind(int ticks)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ticks</span></td>
+        <td><p>The number of ticks in the past</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><p>A GameTick in the past</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="operators">Operators
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_op_Addition_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_Addition*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_op_Addition_Subterfuge_Remake_Core_Timing_GameTick_Subterfuge_Remake_Core_Timing_GameTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_Addition(Subterfuge.Remake.Core.Timing.GameTick,Subterfuge.Remake.Core.Timing.GameTick)">Addition(GameTick, GameTick)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int operator +(GameTick firstArg, GameTick secondArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">firstArg</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">secondArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_op_Equality_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_Equality*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_op_Equality_Subterfuge_Remake_Core_Timing_GameTick_Subterfuge_Remake_Core_Timing_GameTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_Equality(Subterfuge.Remake.Core.Timing.GameTick,Subterfuge.Remake.Core.Timing.GameTick)">Equality(GameTick, GameTick)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator ==(GameTick firstArg, GameTick secondArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">firstArg</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">secondArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_op_GreaterThan_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_GreaterThan*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_op_GreaterThan_Subterfuge_Remake_Core_Timing_GameTick_Subterfuge_Remake_Core_Timing_GameTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_GreaterThan(Subterfuge.Remake.Core.Timing.GameTick,Subterfuge.Remake.Core.Timing.GameTick)">GreaterThan(GameTick, GameTick)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator&gt;(GameTick firstArg, GameTick secondArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">firstArg</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">secondArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_op_GreaterThanOrEqual_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_GreaterThanOrEqual*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_op_GreaterThanOrEqual_Subterfuge_Remake_Core_Timing_GameTick_Subterfuge_Remake_Core_Timing_GameTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_GreaterThanOrEqual(Subterfuge.Remake.Core.Timing.GameTick,Subterfuge.Remake.Core.Timing.GameTick)">GreaterThanOrEqual(GameTick, GameTick)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator &gt;=(GameTick firstArg, GameTick secondArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">firstArg</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">secondArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_op_Inequality_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_Inequality*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_op_Inequality_Subterfuge_Remake_Core_Timing_GameTick_Subterfuge_Remake_Core_Timing_GameTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_Inequality(Subterfuge.Remake.Core.Timing.GameTick,Subterfuge.Remake.Core.Timing.GameTick)">Inequality(GameTick, GameTick)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator !=(GameTick firstArg, GameTick secondArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">firstArg</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">secondArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_op_LessThan_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_LessThan*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_op_LessThan_Subterfuge_Remake_Core_Timing_GameTick_Subterfuge_Remake_Core_Timing_GameTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_LessThan(Subterfuge.Remake.Core.Timing.GameTick,Subterfuge.Remake.Core.Timing.GameTick)">LessThan(GameTick, GameTick)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator &lt;(GameTick firstArg, GameTick secondArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">firstArg</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">secondArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_op_LessThanOrEqual_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_LessThanOrEqual*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_op_LessThanOrEqual_Subterfuge_Remake_Core_Timing_GameTick_Subterfuge_Remake_Core_Timing_GameTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_LessThanOrEqual(Subterfuge.Remake.Core.Timing.GameTick,Subterfuge.Remake.Core.Timing.GameTick)">LessThanOrEqual(GameTick, GameTick)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator &lt;=(GameTick firstArg, GameTick secondArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">firstArg</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">secondArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_GameTick_op_Subtraction_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_Subtraction*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_GameTick_op_Subtraction_Subterfuge_Remake_Core_Timing_GameTick_Subterfuge_Remake_Core_Timing_GameTick_" data-uid="Subterfuge.Remake.Core.Timing.GameTick.op_Subtraction(Subterfuge.Remake.Core.Timing.GameTick,Subterfuge.Remake.Core.Timing.GameTick)">Subtraction(GameTick, GameTick)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int operator -(GameTick firstArg, GameTick secondArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">firstArg</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">secondArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

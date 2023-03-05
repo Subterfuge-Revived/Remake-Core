@@ -1,0 +1,2147 @@
+{
+  "homepages": [],
+  "source_base_path": "/__w/Remake-Core/Remake-Core/Core/SubterfugeCore",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Constants.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Constants.html",
+          "hash": "wb09QecTg7DVOLv/2y9y+g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.ComponentDoesNotExistException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.ComponentDoesNotExistException.html",
+          "hash": "V67cQaMoDe7xpnt0b0+E4Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.DrillerCarrier.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.DrillerCarrier.html",
+          "hash": "7bup2xT85/9/sBMR43dWeQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.DrillerProducer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.DrillerProducer.html",
+          "hash": "grPOhSYAUFVWjGXZc27eGA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.EntityComponent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.EntityComponent.html",
+          "hash": "wBxPM68xBtP1VFJoRGuB5A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.IdentityManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.IdentityManager.html",
+          "hash": "HnQak6yRHkwDbgxzGIelvA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.NeptuniumProducer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.NeptuniumProducer.html",
+          "hash": "SLOPNaHlMNnkz/oyrAkKTA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.PositionManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.PositionManager.html",
+          "hash": "cbaxB3ZnuEPNCBTpo9784g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.ResourceProducer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.ResourceProducer.html",
+          "hash": "u0C/0Tos3Ixr6cu8lyQUFA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.ShieldManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.ShieldManager.html",
+          "hash": "Ktc2aLY3iESFveCDbUd62A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.ShieldProducer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.ShieldProducer.html",
+          "hash": "3b7MrOQIP1DTI4EzINUE+w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.SpecialistManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.SpecialistManager.html",
+          "hash": "0mKuAtoOTjksChYR2wySLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.SpeedManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.SpeedManager.html",
+          "hash": "rcHp1cFURKW2R+69vOS+hg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.SubLauncher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.SubLauncher.html",
+          "hash": "AVdk+AcliSCnQ3CXJMb5OQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.VisionManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.VisionManager.html",
+          "hash": "U8K8tq/0plpIFuiZ/91b/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Components.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Components.html",
+          "hash": "KHtmPxdXky0dQztpEDFoYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Entity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Entity.html",
+          "hash": "gmPok90HFskUYRRUoHDM9A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.IEntity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.IEntity.html",
+          "hash": "pS2Br0hcMAJvOenaNrT0kQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.Factory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.Factory.html",
+          "hash": "vMRIsGBNEKxvsSqTcrjnoA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.Generator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.Generator.html",
+          "hash": "Svzvk6THKlrG8tkSTbo2dA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.Mine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.Mine.html",
+          "hash": "EGNE9/zt+Kc+XTEqVVKe6w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.Outpost.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.Outpost.html",
+          "hash": "LymHGL3miSG7XTmblSrAfQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.OutpostFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.OutpostFactory.html",
+          "hash": "EwgMZHwBQHF/w6O2atR6SA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.OutpostType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.OutpostType.html",
+          "hash": "C5kz/CAnCcurM7+2LjIyCA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.Watchtower.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.Watchtower.html",
+          "hash": "s+NjF9vwL6u3Xy4U/K6AYw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Positions.html",
+          "hash": "4EZzpHbhDab8AfVmB/Vhqw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Heroes.Queen.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Heroes.Queen.html",
+          "hash": "Bb7d169XJaFNPQFQBKNwIQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Heroes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Heroes.html",
+          "hash": "U0liuNkb40iXAdRt/WT9iQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialist.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialist.html",
+          "hash": "EaCi4Z0vlrI+w300k8xBPw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.SpecialistFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.SpecialistFactory.html",
+          "hash": "SdrHI1ehOcwg4x0i1yrNaA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.SpecialistPool.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.SpecialistPool.html",
+          "hash": "H7uVLLLg0JCnoaFqqrpsww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Advisor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Advisor.html",
+          "hash": "d23ztnmet7OopR6qz8YVaA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Assassin.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Assassin.html",
+          "hash": "P610Z2fDuBSqzoU1cSZH5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Bolster.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Bolster.html",
+          "hash": "Ok5n4ThFdsQQWdrV0rvFzg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Escort.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Escort.html",
+          "hash": "UwfL1YrhaKzw/TzOzin38Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Foreman.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Foreman.html",
+          "hash": "r/m2bk84X6D40YM3kEPXdw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Helmsman.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Helmsman.html",
+          "hash": "opz71of7KgE1iJ2CgTlefg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Infiltrator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Infiltrator.html",
+          "hash": "UuWbV4rLxK9lnQTR2v8qEQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Inspector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Inspector.html",
+          "hash": "pBEft8f6aMgwyzYZoIchNA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Martyr.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Martyr.html",
+          "hash": "JiDrR/bi243AYmEJKxzBAA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.NoOpSpecialist.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.NoOpSpecialist.html",
+          "hash": "4hG0jM8uyvl0JYq6nf4+Vg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Pirate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Pirate.html",
+          "hash": "4M9Zknwq5NpFk/OjlcaSDQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Saboteur.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Saboteur.html",
+          "hash": "MeS95KnL20Ut1xD8o9XH3g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Sapper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Sapper.html",
+          "hash": "EJuK5LhqrVI5c5kbbAwmbA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Scrutineer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Scrutineer.html",
+          "hash": "PpLm5quQndviJ/40CT0i5Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.SignalJammer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.SignalJammer.html",
+          "hash": "XPT6kIDvm2kiTcXINpUvvQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Smuggler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Smuggler.html",
+          "hash": "cSlyJowdvMsvJuSEFlGpbg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Theif.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Theif.html",
+          "hash": "3/3V5TE0D+iQ3/hLOU7m6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Tinkerer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Tinkerer.html",
+          "hash": "DKr/AtHSkl8VqjOHiLK8Zw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Veteran.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Veteran.html",
+          "hash": "quRj2HeOT0kYC7Vpn5+uHw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Warden.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.Warden.html",
+          "hash": "HrrinID5D4xAsO/hKVEYaQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.Specialists.html",
+          "hash": "VUXuB8AOUzKHRvnAApsfbw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Specialists.html",
+          "hash": "AGQKIBOBTiXg7Lh5d6p0Ig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.Sub.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.Sub.html",
+          "hash": "mudLWl1vhWg12WNxZACn7A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Entities.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Entities.html",
+          "hash": "nm1j3rJHIOwv+YOb6594FQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Game.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Game.html",
+          "hash": "tAX7aIQ0WPAnQnOzKI6E6A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.GameEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.GameEvent.html",
+          "hash": "mSsM7R8Nk47e2pGwRHaWtQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.GameEventFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.GameEventFactory.html",
+          "hash": "qiLYCOuAf4l57KdN/r9fzw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.IReversible.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.IReversible.html",
+          "hash": "k4CUqU4YRWjzS16fqHbjYw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.Priority.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.Priority.html",
+          "hash": "i0CQtjimTQ6G8WplBYPipQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.PriorityExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.PriorityExtensions.html",
+          "hash": "Ua+6D1gFSx8WwOeKzhAm+Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Base.html",
+          "hash": "n7F2AnlBqhzN4XuGfnZT1Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvent.html",
+          "hash": "Ez9BVz0cvrDazNFU43cFcQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.AlterDrillerEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.AlterDrillerEffect.html",
+          "hash": "Pv8vKrGJnSOePkB6GMxQ/g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.AlterShieldEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.AlterShieldEffect.html",
+          "hash": "/gIcXUIB3ZDl0mKrcUSZlg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatDrillersEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatDrillersEffect.html",
+          "hash": "iMi1BKFub7cE7UdW7CeBcw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatOwnershipTransferEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatOwnershipTransferEffect.html",
+          "hash": "mBt5Q2cy1zRJaIrUxiu+ig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatRemoveEmptyEntitiesEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatRemoveEmptyEntitiesEffect.html",
+          "hash": "hqIFIb1WQSTaOtZp+pmUtA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatResolve.CombatResolution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatResolve.CombatResolution.html",
+          "hash": "kDRC9V2Qf+MdO3M7ix7wQg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatResolve.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatResolve.html",
+          "hash": "5sPLmNS4CiTr16NHM6IEbA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatResolveEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatResolveEvent.html",
+          "hash": "B55XDBGM8Q6rpvej7aznQw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatShieldEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatShieldEffect.html",
+          "hash": "BTa9UJVHIaeUGgBtz7Wg6A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatSpecialistCaptureEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.CombatSpecialistCaptureEffect.html",
+          "hash": "FEpmT8A1YaKSNRATM6hYBA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.DemoteSpecialistsEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.DemoteSpecialistsEffect.html",
+          "hash": "Gru4iyuW3R2zcyfevw4k7A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.EntityExplodeEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.EntityExplodeEffect.html",
+          "hash": "n0b9VbmcmrV5b/sYFMNDmw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.FriendlyCombatResolution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.FriendlyCombatResolution.html",
+          "hash": "QsSpn/Plw1nxtIJdcNb7hQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.GlobalCurrencyProductionEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.GlobalCurrencyProductionEvent.html",
+          "hash": "MFlCc++2+aqROedRqbAUKw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.KillSpecialistsEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.KillSpecialistsEffect.html",
+          "hash": "46xE9E1o7iZ7sNUNe3TIfQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.NeutralizeSpecialistEffects.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.NeutralizeSpecialistEffects.html",
+          "hash": "E/k2U3udOBjc5mQX2ENIGw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.ProducedResourceType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.ProducedResourceType.html",
+          "hash": "XkDTJyDJ7w9Bq16zyiiFlg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.RedirectEntityEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.RedirectEntityEffect.html",
+          "hash": "z2mXzWUz94WlBmURHkVJKg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.RegenerateShieldPostCombatEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.RegenerateShieldPostCombatEffect.html",
+          "hash": "GixotDJQ2VO1hupE0Gi6Zw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.ResourceProductionEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.ResourceProductionEvent.html",
+          "hash": "Yidy58TpSPZRWVebfRuIRw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.SlowTargetEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.SlowTargetEffect.html",
+          "hash": "sZ4RsqEQAs8rsWKuByP2Rw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.StealDrillerEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.StealDrillerEffect.html",
+          "hash": "IHBdWt4HgSdsg3jAJeyGfw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.SubToOutpostResolution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.SubToOutpostResolution.html",
+          "hash": "esM1RvhQZLWgpqa5lGMJTQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.SubToSubResolution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.SubToSubResolution.html",
+          "hash": "WG4CJcsnhMJP9t0Zrlw8ag=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.SwapSpecialistEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.SwapSpecialistEffect.html",
+          "hash": "1aSkHlTR8HyL+VEP/fiUSQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents.html",
+          "hash": "M+iDi2bwnp/pCGyGnNzqLg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.PositionalGameEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.PositionalGameEvent.html",
+          "hash": "EDC3JUSaql8B6BKfHKZdug=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Combat.html",
+          "hash": "S+pNeRHHSLbnbFEpyWQrqg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.DirectionalEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.DirectionalEventArgs.html",
+          "hash": "T18DjMpEr1IDM+ZlnrORig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.GainCurrencyEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.GainCurrencyEventArgs.html",
+          "hash": "W67iYhQm7l3e8nuxaq128g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ICombatEventPublisher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ICombatEventPublisher.html",
+          "hash": "fcXA6jjM3tLAVpRDuLQIeA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ICourseChangeEventPublisher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ICourseChangeEventPublisher.html",
+          "hash": "fkpkLBGlLJRN1oY1ME5BeA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ICurrencyEventPublisher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ICurrencyEventPublisher.html",
+          "hash": "bL0oXTX0r0x8DU39j350uA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.IResourceProductionEventPublisher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.IResourceProductionEventPublisher.html",
+          "hash": "6UWtx7g3Jwv4V5AsEAciCA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.IReversibleEventHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.IReversibleEventHandler.html",
+          "hash": "2zvDHRZx5MJRPTz3EHrgSg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.IShieldEventPublisher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.IShieldEventPublisher.html",
+          "hash": "6AC/RaXsAZgH2xp04bHvRA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ISpecialistEventPublisher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ISpecialistEventPublisher.html",
+          "hash": "+NlAyQRX5iRl951fwGbSFg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ISpeedEventPublisher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ISpeedEventPublisher.html",
+          "hash": "SnCHyPtra0KLg1kJyq4elw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ISubLaunchEventPublisher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ISubLaunchEventPublisher.html",
+          "hash": "GhfyVTPPm/n++HHeNopSYw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ITickEventPublisher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ITickEventPublisher.html",
+          "hash": "7kHcYl9TVNNrzxVIhODkkQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.IVisionEventPublisher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.IVisionEventPublisher.html",
+          "hash": "Tnk8zww9JwzrHXTewDWTEg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnCourseChangeEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnCourseChangeEventArgs.html",
+          "hash": "BwYphwoPY3HUVMaKTmhFHA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnEntityEnterVisionRangeEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnEntityEnterVisionRangeEventArgs.html",
+          "hash": "475LhoNp6CZ39v0wQqEkbg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnEntityLeaveVisionRangeEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnEntityLeaveVisionRangeEventArgs.html",
+          "hash": "1A6J1MC+/WvSQAtQZUdU3A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnGameEventTriggeredEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnGameEventTriggeredEventArgs.html",
+          "hash": "78civEXhpdiNz+x30jtPTQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnLocationTargetedEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnLocationTargetedEventArgs.html",
+          "hash": "5AZ9vXpQX99mU9esEBxI8w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnRegisterCombatEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnRegisterCombatEventArgs.html",
+          "hash": "a6BYaR+BWSvSs0UxZtljeA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnShieldCapacityChangeEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnShieldCapacityChangeEventArgs.html",
+          "hash": "bpcQI7pNv/LQt3keqeXGqA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnShieldValueChangeEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnShieldValueChangeEventArgs.html",
+          "hash": "AJrXgcicoIiLOiQbHRilWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistHireEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistHireEventArgs.html",
+          "hash": "S/7pEXP8gdOV15/Hmcca2A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistPromotionEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistPromotionEventArgs.html",
+          "hash": "Lb8kXM/5WYwA1ms2CMgCNQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistTransferEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistTransferEventArgs.html",
+          "hash": "+mzgArkwU9SVRUXin4Eftw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistsCapturedEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistsCapturedEventArgs.html",
+          "hash": "ZXkZaCDnCqALprCIG5saLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpeedChangedEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpeedChangedEventArgs.html",
+          "hash": "RAqVUXSzACrIXWFQ7HEHhQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSubLaunchEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSubLaunchEventArgs.html",
+          "hash": "YX/ibVbKupklL+PW0CWELw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnTickEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnTickEventArgs.html",
+          "hash": "oGzY57eMg1EezK8WudUTBg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnToggleShieldEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnToggleShieldEventArgs.html",
+          "hash": "j7uX/tjWd41EAQtWlW7HJQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnVisionRangeChangeEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.OnVisionRangeChangeEventArgs.html",
+          "hash": "xTlihDsd5ScaHXuvd6VXoA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ProductionEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.ProductionEventArgs.html",
+          "hash": "cil0pGSmxjpo8uaY/RxSoQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.SpendCurrencyEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.SpendCurrencyEventArgs.html",
+          "hash": "7ax10w9a5j4dP02qLYx+EA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.TimeMachineDirection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.TimeMachineDirection.html",
+          "hash": "XWgTW969zbZtTT4kMIe2bQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.EventPublishers.html",
+          "hash": "zj1txrmWY3fIseeZxaPuPw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.DrillMineEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.DrillMineEvent.html",
+          "hash": "D+0Bcr2EX43bxM+nqGe5UA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.GameEndEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.GameEndEvent.html",
+          "hash": "1gSptqMIMgcYepWmcPdQPg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.HireSpecialistEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.HireSpecialistEvent.html",
+          "hash": "ncXdyNiJD6BCek9I07CmgA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.LaunchEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.LaunchEvent.html",
+          "hash": "qt84uT9rH02Pq1OUrwNjPw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.PauseGameEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.PauseGameEvent.html",
+          "hash": "RaK87O+GK+vSaHhOWZ/6Ng=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.PlayerLeaveGameEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.PlayerLeaveGameEvent.html",
+          "hash": "+/LYzTjpS3mummEyVp19UA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.PlayerTriggeredEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.PlayerTriggeredEvent.html",
+          "hash": "dKhiHWeQlYnx0JGpXURTTw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.PromoteSpecialistEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.PromoteSpecialistEvent.html",
+          "hash": "UMM8H06/4H+XHlni/ewE2g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.ToggleShieldEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.ToggleShieldEvent.html",
+          "hash": "uTKvHlGpJRAaKiTnwISUag=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.UnpauseGameEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.UnpauseGameEvent.html",
+          "hash": "NOAwqB8jmmmisakbVf+24Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents.html",
+          "hash": "CF6ahqTVBMccZAE8eDSdWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.SpecialistEvents.NoOpGameEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.SpecialistEvents.NoOpGameEvent.html",
+          "hash": "hvd/b/VCCZP1ahfTrVZAkg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.SpecialistEvents.SpecialistCapacityChangeEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.SpecialistEvents.SpecialistCapacityChangeEvent.html",
+          "hash": "BP/3hXLsHuM9wbQN5iNRLw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.SpecialistEvents.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.SpecialistEvents.html",
+          "hash": "8VIyeQbr9KfJLaHqZL8Dpg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Validators.Validator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Validators.Validator.html",
+          "hash": "KAmTHHlC+Q1weOjq5BB9Dw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameEvents.Validators.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameEvents.Validators.html",
+          "hash": "4TCRwCr+rCcsCa9P41WR6w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.GameState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.GameState.html",
+          "hash": "n/F7XKk1uNMvhrWNCuuzBg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Generation.IdGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Generation.IdGenerator.html",
+          "hash": "rO+htLGZbHrNmcGYmcvpbg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Generation.MapGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Generation.MapGenerator.html",
+          "hash": "6BevgVACp4x2h2aMurV7UQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Generation.NameGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Generation.NameGenerator.html",
+          "hash": "zK3VzIUAFAC8Coi6HQ7JLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Generation.OutpostPerPlayerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Generation.OutpostPerPlayerException.html",
+          "hash": "+8vwvr9aqi0jY36wHLc5kA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Generation.OutpostTypeException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Generation.OutpostTypeException.html",
+          "hash": "a0ux3tAYl4JD4e+P/nskzg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Generation.PlayerCountException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Generation.PlayerCountException.html",
+          "hash": "h/fsrxzE67OZ2IbWH5XgMQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Generation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Generation.html",
+          "hash": "el4hHPTRdUi+Gd+i017aww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.IGameState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.IGameState.html",
+          "hash": "L1s5alrsdvKuQfZCNgnJ7Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Players.Currency.CurrencyManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Players.Currency.CurrencyManager.html",
+          "hash": "INhFVlqbPIhIJyy3Ch2frA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Players.Currency.CurrencyType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Players.Currency.CurrencyType.html",
+          "hash": "AwFNt4HDsNWgVDDu6tZAQg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Players.Currency.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Players.Currency.html",
+          "hash": "Ix8o3gFF8uJd5iGg3tWi6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Players.Player.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Players.Player.html",
+          "hash": "Lpfd+q9UADu8kyt5hwbxxQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Players.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Players.html",
+          "hash": "op3P0ERcefQ55A0QewtH1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Timing.GameTick.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Timing.GameTick.html",
+          "hash": "8oOC6UY/2P58oN8KAqQs0A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Timing.SeededRandom.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Timing.SeededRandom.html",
+          "hash": "mfQLdsvADKAxipsXAfnQjg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Timing.TimeMachine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Timing.TimeMachine.html",
+          "hash": "l6vi7qgJqftMbGiyckGGsw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Timing.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Timing.html",
+          "hash": "WsVR6k8fSwRsWcpGzUbmkg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Topologies.Rft.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Topologies.Rft.html",
+          "hash": "xjKdhOFMDFo4YLPaHxSyig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Topologies.RftVector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Topologies.RftVector.html",
+          "hash": "9IStgh115M+tLxiL02Gofw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.Topologies.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.Topologies.html",
+          "hash": "AnfQPp9Nnea5azOiIQZVqA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Subterfuge.Remake.Core.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Subterfuge.Remake.Core.html",
+          "hash": "ngCOElXZL+Y0cAKgiKFuBg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "goxY2G0daAzrkJZvNCwVYA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/Timing.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Timing.html",
+          "hash": "48E0DfMYPIJtPz3OP9Tadw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/backend.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/backend.html",
+          "hash": "wD+OFuczXtbvY7vn9Xi4KQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/clientConnections.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/clientConnections.html",
+          "hash": "W+CnnC8PwQUY7D1zURId1w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "ZYil340zJyT4EoD/aOfcIw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/mapWrapping.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/mapWrapping.html",
+          "hash": "aVRmiitesS7EsYHyqygb8g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/modifyingServerInterface.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/modifyingServerInterface.html",
+          "hash": "cbuDKfYO+iTYOEeVgKEMIg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "kEVMlKPnKQm79opJnH0jqw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/updatingUnity.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/updatingUnity.html",
+          "hash": "fGVWNgH0ZwMh3eof/VAExQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "2NZ30DWdNtKCHgj3Vj6xvg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "SFFEGJlgL6pv9e1WibhcnQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 8,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 172,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

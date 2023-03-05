@@ -1,0 +1,1227 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class GameState
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class GameState
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Subterfuge.Remake.Core.GameState">
+  
+  
+  <h1 id="Subterfuge_Remake_Core_GameState" data-uid="Subterfuge.Remake.Core.GameState" class="text-break">Class GameState
+  </h1>
+  <div class="markdown level0 summary"><p>This class holds only the nessecary information that is needed to render the map at any given point in time.
+This class contains a list of all subs, outposts, and players in the game. Get an instance of this class by
+using <code>Game.timeMachine.getState()</code> to get the current state of the game.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">GameState</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Subterfuge.Remake.Core.IGameState.html">IGameState</a></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Subterfuge.Remake.Core.html">Subterfuge.Remake.Core</a></h6>
+  <h6><strong>Assembly</strong>: SubterfugeCore.dll</h6>
+  <h5 id="Subterfuge_Remake_Core_GameState_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class GameState : object, IGameState</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState__ctor_" data-uid="Subterfuge.Remake.Core.GameState.#ctor*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState__ctor_List_Subterfuge_Remake_Core_Players_Player__" data-uid="Subterfuge.Remake.Core.GameState.#ctor(List{Subterfuge.Remake.Core.Players.Player})">GameState(List&lt;Player&gt;)</h4>
+  <div class="markdown level1 summary"><p>Constructs a new instance of a GameState to represent the game.
+Generally, the <code>Game</code> and <code>TimeMachine</code> objects will handle the creation and management of the GameState
+you will likely never need to use this constructor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameState(List&lt;Player&gt; playersInGame)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a>&gt;</td>
+        <td><span class="parametername">playersInGame</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState__ctor_" data-uid="Subterfuge.Remake.Core.GameState.#ctor*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState__ctor_Subterfuge_Remake_Api_Network_GameConfiguration_" data-uid="Subterfuge.Remake.Core.GameState.#ctor(Subterfuge.Remake.Api.Network.GameConfiguration)">GameState(GameConfiguration)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameState(GameConfiguration gameConfig)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Subterfuge.Remake.Api.Network.GameConfiguration</span></td>
+        <td><span class="parametername">gameConfig</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="Subterfuge_Remake_Core_GameState_CurrentTick" data-uid="Subterfuge.Remake.Core.GameState.CurrentTick">CurrentTick</h4>
+  <div class="markdown level1 summary"><p>The current game tick</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick CurrentTick</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_AddOutpost_" data-uid="Subterfuge.Remake.Core.GameState.AddOutpost*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_AddOutpost_Subterfuge_Remake_Core_Entities_Positions_Outpost_" data-uid="Subterfuge.Remake.Core.GameState.AddOutpost(Subterfuge.Remake.Core.Entities.Positions.Outpost)">AddOutpost(Outpost)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddOutpost(Outpost outpost)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Positions.Outpost.html">Outpost</a></td>
+        <td><span class="parametername">outpost</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_AddSub_" data-uid="Subterfuge.Remake.Core.GameState.AddSub*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_AddSub_Subterfuge_Remake_Core_Entities_Sub_" data-uid="Subterfuge.Remake.Core.GameState.AddSub(Subterfuge.Remake.Core.Entities.Sub)">AddSub(Sub)</h4>
+  <div class="markdown level1 summary"><p>Launches a sub (or brings a sub back into the game if reversing). Adding the sub to the active sub list</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddSub(Sub sub)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Sub.html">Sub</a></td>
+        <td><span class="parametername">sub</span></td>
+        <td><p>The sub to add to the GameState</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_EntitesInRange_" data-uid="Subterfuge.Remake.Core.GameState.EntitesInRange*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_EntitesInRange_System_Single_Subterfuge_Remake_Core_Topologies_RftVector_" data-uid="Subterfuge.Remake.Core.GameState.EntitesInRange(System.Single,Subterfuge.Remake.Core.Topologies.RftVector)">EntitesInRange(Single, RftVector)</h4>
+  <div class="markdown level1 summary"><p>Gets a list of all entities within range of a particular location</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;IEntity&gt; EntitesInRange(float range, RftVector pos)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">range</span></td>
+        <td><p>The range to search</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Topologies.RftVector.html">RftVector</a></td>
+        <td><span class="parametername">pos</span></td>
+        <td><p>The position to check</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.IEntity.html">IEntity</a>&gt;</td>
+        <td><p>A list of entities in range of the position</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetAllGameObjects_" data-uid="Subterfuge.Remake.Core.GameState.GetAllGameObjects*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetAllGameObjects" data-uid="Subterfuge.Remake.Core.GameState.GetAllGameObjects">GetAllGameObjects()</h4>
+  <div class="markdown level1 summary"><p>Gets a list of all game objects</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;IEntity&gt; GetAllGameObjects()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.IEntity.html">IEntity</a>&gt;</td>
+        <td><p>A list of all game objects.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetAllSpecialists_" data-uid="Subterfuge.Remake.Core.GameState.GetAllSpecialists*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetAllSpecialists" data-uid="Subterfuge.Remake.Core.GameState.GetAllSpecialists">GetAllSpecialists()</h4>
+  <div class="markdown level1 summary"><p>Gets a list of all specilists in the game</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Specialist&gt; GetAllSpecialists()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.Specialists.Specialist.html">Specialist</a>&gt;</td>
+        <td><p>A list of all specliasts in the game</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetCurrentTick_" data-uid="Subterfuge.Remake.Core.GameState.GetCurrentTick*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetCurrentTick" data-uid="Subterfuge.Remake.Core.GameState.GetCurrentTick">GetCurrentTick()</h4>
+  <div class="markdown level1 summary"><p>Gets the GameTick that this GameState object is representing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick GetCurrentTick()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><p>The GameTick that the GameState represents.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetEntity_" data-uid="Subterfuge.Remake.Core.GameState.GetEntity*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetEntity_System_String_" data-uid="Subterfuge.Remake.Core.GameState.GetEntity(System.String)">GetEntity(String)</h4>
+  <div class="markdown level1 summary"><p>Gets an entity by its ID</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Entity GetEntity(string id)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">id</span></td>
+        <td><p>The ID of the outpost you want to obtain.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Entity.html">Entity</a></td>
+        <td><p>The outpost matching the input Guid. Null if no results.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetExtraDrillerCapacity_" data-uid="Subterfuge.Remake.Core.GameState.GetExtraDrillerCapacity*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetExtraDrillerCapacity_Subterfuge_Remake_Core_Players_Player_" data-uid="Subterfuge.Remake.Core.GameState.GetExtraDrillerCapacity(Subterfuge.Remake.Core.Players.Player)">GetExtraDrillerCapacity(Player)</h4>
+  <div class="markdown level1 summary"><p>Determines how many extra drillers the specified player's electrical
+can support.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetExtraDrillerCapacity(Player player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a></td>
+        <td><span class="parametername">player</span></td>
+        <td><p>player</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>The amount of extra drillers the player can have.
+If it returns 0 or less, the player is out of electricity.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetOutposts_" data-uid="Subterfuge.Remake.Core.GameState.GetOutposts*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetOutposts" data-uid="Subterfuge.Remake.Core.GameState.GetOutposts">GetOutposts()</h4>
+  <div class="markdown level1 summary"><p>Returns a list of all outposts in the game</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Outpost&gt; GetOutposts()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.Positions.Outpost.html">Outpost</a>&gt;</td>
+        <td><p>A list of all outposts</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetPlayerDrillerCapacity_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerDrillerCapacity*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetPlayerDrillerCapacity_Subterfuge_Remake_Core_Players_Player_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerDrillerCapacity(Subterfuge.Remake.Core.Players.Player)">GetPlayerDrillerCapacity(Player)</h4>
+  <div class="markdown level1 summary"><p>Determines the player's driller capacity</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetPlayerDrillerCapacity(Player player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a></td>
+        <td><span class="parametername">player</span></td>
+        <td><p>player</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>The player's driller capacity</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetPlayerDrillerCount_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerDrillerCount*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetPlayerDrillerCount_Subterfuge_Remake_Core_Players_Player_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerDrillerCount(Subterfuge.Remake.Core.Players.Player)">GetPlayerDrillerCount(Player)</h4>
+  <div class="markdown level1 summary"><p>Gets the player's driller count</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetPlayerDrillerCount(Player player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a></td>
+        <td><span class="parametername">player</span></td>
+        <td><p>The player's driller count</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetPlayerOutposts_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerOutposts*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetPlayerOutposts_Subterfuge_Remake_Core_Players_Player_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerOutposts(Subterfuge.Remake.Core.Players.Player)">GetPlayerOutposts(Player)</h4>
+  <div class="markdown level1 summary"><p>Get a list of the specific player's outposts</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Outpost&gt; GetPlayerOutposts(Player player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a></td>
+        <td><span class="parametername">player</span></td>
+        <td><p>The player to get the outposts of</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.Positions.Outpost.html">Outpost</a>&gt;</td>
+        <td><p>A list of the player's controlled outposts</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetPlayers_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayers*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetPlayers" data-uid="Subterfuge.Remake.Core.GameState.GetPlayers">GetPlayers()</h4>
+  <div class="markdown level1 summary"><p>Returns a list of all the players in the game</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Player&gt; GetPlayers()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a>&gt;</td>
+        <td><p>A list of all players</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetPlayerSpecialists_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerSpecialists*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetPlayerSpecialists_Subterfuge_Remake_Core_Players_Player_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerSpecialists(Subterfuge.Remake.Core.Players.Player)">GetPlayerSpecialists(Player)</h4>
+  <div class="markdown level1 summary"><p>Gets a list of a player's speciliasts</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Specialist&gt; GetPlayerSpecialists(Player player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a></td>
+        <td><span class="parametername">player</span></td>
+        <td><p>The player to get specialists for</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.Specialists.Specialist.html">Specialist</a>&gt;</td>
+        <td><p>A list of the player's specialists</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetPlayerSubs_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerSubs*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetPlayerSubs_Subterfuge_Remake_Core_Players_Player_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerSubs(Subterfuge.Remake.Core.Players.Player)">GetPlayerSubs(Player)</h4>
+  <div class="markdown level1 summary"><p>Get a list of the specific player's subs</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Sub&gt; GetPlayerSubs(Player player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a></td>
+        <td><span class="parametername">player</span></td>
+        <td><p>The player to get the subs of</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.Sub.html">Sub</a>&gt;</td>
+        <td><p>A list of the player's subs</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetPlayerTargetables_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerTargetables*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetPlayerTargetables_Subterfuge_Remake_Core_Players_Player_" data-uid="Subterfuge.Remake.Core.GameState.GetPlayerTargetables(Subterfuge.Remake.Core.Players.Player)">GetPlayerTargetables(Player)</h4>
+  <div class="markdown level1 summary"><p>Gets a list of all ICombatable instances of a particular player.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Entity&gt; GetPlayerTargetables(Player player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a></td>
+        <td><span class="parametername">player</span></td>
+        <td><p>The player to get combatables for</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.Entity.html">Entity</a>&gt;</td>
+        <td><p>The list of the player's property</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetStartTick_" data-uid="Subterfuge.Remake.Core.GameState.GetStartTick*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetStartTick" data-uid="Subterfuge.Remake.Core.GameState.GetStartTick">GetStartTick()</h4>
+  <div class="markdown level1 summary"><p>Gets the game's start time</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick GetStartTick()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><p>The game's start time</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GetSubList_" data-uid="Subterfuge.Remake.Core.GameState.GetSubList*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GetSubList" data-uid="Subterfuge.Remake.Core.GameState.GetSubList">GetSubList()</h4>
+  <div class="markdown level1 summary"><p>Returns a list of all active subs in the game</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Sub&gt; GetSubList()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.Sub.html">Sub</a>&gt;</td>
+        <td><p>A list of the active subs</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_getSubsOnPath_" data-uid="Subterfuge.Remake.Core.GameState.getSubsOnPath*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_getSubsOnPath_Subterfuge_Remake_Core_Entities_Positions_Outpost_Subterfuge_Remake_Core_Entities_Positions_Outpost_" data-uid="Subterfuge.Remake.Core.GameState.getSubsOnPath(Subterfuge.Remake.Core.Entities.Positions.Outpost,Subterfuge.Remake.Core.Entities.Positions.Outpost)">getSubsOnPath(Outpost, Outpost)</h4>
+  <div class="markdown level1 summary"><p>Determine all subs that are on a path between two outpost desinations</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Sub&gt; getSubsOnPath(Outpost source, Outpost destination)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Positions.Outpost.html">Outpost</a></td>
+        <td><span class="parametername">source</span></td>
+        <td><p>The source outpost</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Positions.Outpost.html">Outpost</a></td>
+        <td><span class="parametername">destination</span></td>
+        <td><p>The destination outpost</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.Sub.html">Sub</a>&gt;</td>
+        <td><p>A list of all subs sailing between the source and destination</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_GoToNextTick_" data-uid="Subterfuge.Remake.Core.GameState.GoToNextTick*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_GoToNextTick" data-uid="Subterfuge.Remake.Core.GameState.GoToNextTick">GoToNextTick()</h4>
+  <div class="markdown level1 summary"><p>Advances the GameState by one tick. IMPORTANT: This does NOT apply any time machine actions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick GoToNextTick()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><p>The next GameTick</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_IsInVisionRange_" data-uid="Subterfuge.Remake.Core.GameState.IsInVisionRange*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_IsInVisionRange_Subterfuge_Remake_Core_Entities_Components_PositionManager_Subterfuge_Remake_Core_Players_Player_" data-uid="Subterfuge.Remake.Core.GameState.IsInVisionRange(Subterfuge.Remake.Core.Entities.Components.PositionManager,Subterfuge.Remake.Core.Players.Player)">IsInVisionRange(PositionManager, Player)</h4>
+  <div class="markdown level1 summary"><p>Determines whether a position on the map is visible to the
+specified player.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsInVisionRange(PositionManager positionManager, Player player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Components.PositionManager.html">PositionManager</a></td>
+        <td><span class="parametername">positionManager</span></td>
+        <td><p>The position manager</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a></td>
+        <td><span class="parametername">player</span></td>
+        <td><p>player</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if the position is visible and false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_OutpostExists_" data-uid="Subterfuge.Remake.Core.GameState.OutpostExists*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_OutpostExists_Subterfuge_Remake_Core_Entities_Positions_Outpost_" data-uid="Subterfuge.Remake.Core.GameState.OutpostExists(Subterfuge.Remake.Core.Entities.Positions.Outpost)">OutpostExists(Outpost)</h4>
+  <div class="markdown level1 summary"><p>Determines if the referenced outpost exists.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool OutpostExists(Outpost outpost)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Positions.Outpost.html">Outpost</a></td>
+        <td><span class="parametername">outpost</span></td>
+        <td><p>The outpost to check</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>If the referenced outpost exists</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_PlayerExists_" data-uid="Subterfuge.Remake.Core.GameState.PlayerExists*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_PlayerExists_Subterfuge_Remake_Core_Players_Player_" data-uid="Subterfuge.Remake.Core.GameState.PlayerExists(Subterfuge.Remake.Core.Players.Player)">PlayerExists(Player)</h4>
+  <div class="markdown level1 summary"><p>Determines if the player is in the game</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool PlayerExists(Player player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a></td>
+        <td><span class="parametername">player</span></td>
+        <td><p>The player to check</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>If the player exists in the game</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_RemoveSub_" data-uid="Subterfuge.Remake.Core.GameState.RemoveSub*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_RemoveSub_Subterfuge_Remake_Core_Entities_Sub_" data-uid="Subterfuge.Remake.Core.GameState.RemoveSub(Subterfuge.Remake.Core.Entities.Sub)">RemoveSub(Sub)</h4>
+  <div class="markdown level1 summary"><p>Revmoes a sub from the list of active subs</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveSub(Sub sub)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Sub.html">Sub</a></td>
+        <td><span class="parametername">sub</span></td>
+        <td><p>The sub to remove from the game</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_ReplaceOutpost_" data-uid="Subterfuge.Remake.Core.GameState.ReplaceOutpost*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_ReplaceOutpost_Subterfuge_Remake_Core_Entities_Positions_Outpost_Subterfuge_Remake_Core_Entities_Positions_Outpost_" data-uid="Subterfuge.Remake.Core.GameState.ReplaceOutpost(Subterfuge.Remake.Core.Entities.Positions.Outpost,Subterfuge.Remake.Core.Entities.Positions.Outpost)">ReplaceOutpost(Outpost, Outpost)</h4>
+  <div class="markdown level1 summary"><p>Replaces an outpost in the game state with another outpost. The two outposts should have the same Outpost-level fields, only differing in subclass.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ReplaceOutpost(Outpost remove, Outpost add)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Positions.Outpost.html">Outpost</a></td>
+        <td><span class="parametername">remove</span></td>
+        <td><p>An outpost in the game state to remove.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Positions.Outpost.html">Outpost</a></td>
+        <td><span class="parametername">add</span></td>
+        <td><p>An outpost not in the game state to add.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if the replacement was successful, and false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_GameState_SubExists_" data-uid="Subterfuge.Remake.Core.GameState.SubExists*"></a>
+  <h4 id="Subterfuge_Remake_Core_GameState_SubExists_Subterfuge_Remake_Core_Entities_Sub_" data-uid="Subterfuge.Remake.Core.GameState.SubExists(Subterfuge.Remake.Core.Entities.Sub)">SubExists(Sub)</h4>
+  <div class="markdown level1 summary"><p>Determines if a given sub exists in the GameState. This method is useful for checking if an event
+is holding a reference to an object that has lost a combat and was removed from the game or if the object
+has survived and is still in the game.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool SubExists(Sub sub)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Sub.html">Sub</a></td>
+        <td><span class="parametername">sub</span></td>
+        <td><p>The sub to check exists</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>if the sub exists in the GameState</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Subterfuge.Remake.Core.IGameState.html">IGameState</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

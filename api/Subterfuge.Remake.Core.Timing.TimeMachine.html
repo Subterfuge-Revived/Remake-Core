@@ -1,0 +1,594 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class TimeMachine
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class TimeMachine
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine">
+  
+  
+  <h1 id="Subterfuge_Remake_Core_Timing_TimeMachine" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine" class="text-break">Class TimeMachine
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">TimeMachine</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Subterfuge.Remake.Core.GameEvents.EventPublishers.ITickEventPublisher.html">ITickEventPublisher</a></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Subterfuge.Remake.Core.Timing.html">Subterfuge.Remake.Core.Timing</a></h6>
+  <h6><strong>Assembly</strong>: SubterfugeCore.dll</h6>
+  <h5 id="Subterfuge_Remake_Core_Timing_TimeMachine_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TimeMachine : object, ITickEventPublisher</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine__ctor_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.#ctor*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine__ctor_Subterfuge_Remake_Core_GameState_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.#ctor(Subterfuge.Remake.Core.GameState)">TimeMachine(GameState)</h4>
+  <div class="markdown level1 summary"><p>Creates a new instance of the TimeMachine. You will likely never need to call this as this is created in the
+<code>Game</code> object when the game is created.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeMachine(GameState state)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.GameState.html">GameState</a></td>
+        <td><span class="parametername">state</span></td>
+        <td><p>The initial GameState</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_AddEvent_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.AddEvent*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_AddEvent_Subterfuge_Remake_Core_GameEvents_Base_GameEvent_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.AddEvent(Subterfuge.Remake.Core.GameEvents.Base.GameEvent)">AddEvent(GameEvent)</h4>
+  <div class="markdown level1 summary"><p>Adds an event to the future event queue</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddEvent(GameEvent gameEvent)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.GameEvents.Base.GameEvent.html">GameEvent</a></td>
+        <td><span class="parametername">gameEvent</span></td>
+        <td><p>The game event to add to the Queue</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_AddEvents_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.AddEvents*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_AddEvents_List_Subterfuge_Remake_Core_GameEvents_Base_GameEvent__" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.AddEvents(List{Subterfuge.Remake.Core.GameEvents.Base.GameEvent})">AddEvents(List&lt;GameEvent&gt;)</h4>
+  <div class="markdown level1 summary"><p>Adds an event to the future event queue</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddEvents(List&lt;GameEvent&gt; gameEvents)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.GameEvents.Base.GameEvent.html">GameEvent</a>&gt;</td>
+        <td><span class="parametername">gameEvents</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_Advance_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.Advance*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_Advance_System_Int32_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.Advance(System.Int32)">Advance(Int32)</h4>
+  <div class="markdown level1 summary"><p>For debugging. Advances the timeMachine by a specified number of ticks.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Advance(int ticks)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ticks</span></td>
+        <td><p>The number of ticks to advance</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_GetCurrentTick_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GetCurrentTick*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_GetCurrentTick" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GetCurrentTick">GetCurrentTick()</h4>
+  <div class="markdown level1 summary"><p>Gets the GameTick that the time machine is currently representing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameTick GetCurrentTick()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><p>The GameTick that the timeMachine is showing</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_GetFutureEventsOf_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GetFutureEventsOf*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_GetFutureEventsOf__1" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GetFutureEventsOf``1">GetFutureEventsOf&lt;T&gt;()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;T&gt; GetFutureEventsOf&lt;T&gt;()
+    where T : GameEvent</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_GetPastEvents_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GetPastEvents*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_GetPastEvents" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GetPastEvents">GetPastEvents()</h4>
+  <div class="markdown level1 summary"><p>Get past events</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;GameEvent&gt; GetPastEvents()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.GameEvents.Base.GameEvent.html">GameEvent</a>&gt;</td>
+        <td><p>A list of the events in the future event queue</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_GetQueuedEvents_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GetQueuedEvents*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_GetQueuedEvents" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GetQueuedEvents">GetQueuedEvents()</h4>
+  <div class="markdown level1 summary"><p>Gets a list of the queued events</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;GameEvent&gt; GetQueuedEvents()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.GameEvents.Base.GameEvent.html">GameEvent</a>&gt;</td>
+        <td><p>A list of the events in the future event queue</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_GetState_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GetState*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_GetState" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GetState">GetState()</h4>
+  <div class="markdown level1 summary"><p>Get the time machine's current state</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameState GetState()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.GameState.html">GameState</a></td>
+        <td><p>The GameState at the current time of the TimeMachine</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_GoTo_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GoTo*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_GoTo_Subterfuge_Remake_Core_GameEvents_Base_GameEvent_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GoTo(Subterfuge.Remake.Core.GameEvents.Base.GameEvent)">GoTo(GameEvent)</h4>
+  <div class="markdown level1 summary"><p>Jumps to a specific GameEvent</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void GoTo(GameEvent eventOfInterest)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.GameEvents.Base.GameEvent.html">GameEvent</a></td>
+        <td><span class="parametername">eventOfInterest</span></td>
+        <td><p>The GameEvent to jump to</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_GoTo_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GoTo*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_GoTo_Subterfuge_Remake_Core_Timing_GameTick_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.GoTo(Subterfuge.Remake.Core.Timing.GameTick)">GoTo(GameTick)</h4>
+  <div class="markdown level1 summary"><p>Jumps to a specific GameTick</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void GoTo(GameTick tick)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.GameTick.html">GameTick</a></td>
+        <td><span class="parametername">tick</span></td>
+        <td><p>The GameTick to jump to</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_RemoveEvent_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.RemoveEvent*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_RemoveEvent_Subterfuge_Remake_Core_GameEvents_Base_GameEvent_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.RemoveEvent(Subterfuge.Remake.Core.GameEvents.Base.GameEvent)">RemoveEvent(GameEvent)</h4>
+  <div class="markdown level1 summary"><p>Removes a GameEvent from the game.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveEvent(GameEvent gameEvent)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.GameEvents.Base.GameEvent.html">GameEvent</a></td>
+        <td><span class="parametername">gameEvent</span></td>
+        <td><p>The GameEvent to remove from the queue</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_Rewind_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.Rewind*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_Rewind_System_Int32_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.Rewind(System.Int32)">Rewind(Int32)</h4>
+  <div class="markdown level1 summary"><p>For debugging. Rewinds the timeMachine by a specified number of ticks.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Rewind(int ticks)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ticks</span></td>
+        <td><p>The number of ticks to rewind</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Timing_TimeMachine_TogglePause_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.TogglePause*"></a>
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_TogglePause_System_Boolean_" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.TogglePause(System.Boolean)">TogglePause(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void TogglePause(bool isPaused)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">isPaused</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="events">Events
+  </h3>
+  
+  
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_OnGameEvent" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.OnGameEvent">OnGameEvent</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;OnGameEventTriggeredEventArgs&gt;? OnGameEvent</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">EventHandler</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.GameEvents.EventPublishers.OnGameEventTriggeredEventArgs.html">OnGameEventTriggeredEventArgs</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="Subterfuge_Remake_Core_Timing_TimeMachine_OnTick" data-uid="Subterfuge.Remake.Core.Timing.TimeMachine.OnTick">OnTick</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;OnTickEventArgs&gt;? OnTick</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">EventHandler</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.GameEvents.EventPublishers.OnTickEventArgs.html">OnTickEventArgs</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Subterfuge.Remake.Core.GameEvents.EventPublishers.ITickEventPublisher.html">ITickEventPublisher</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

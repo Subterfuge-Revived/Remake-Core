@@ -1,0 +1,927 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class SpecialistManager
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class SpecialistManager
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager">
+  
+  
+  <h1 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager" class="text-break">Class SpecialistManager
+  </h1>
+  <div class="markdown level0 summary"><p>Specialist management class to facilitate adding and removing specialists from ISpecialistCarrier classes.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Subterfuge.Remake.Core.Entities.Components.EntityComponent.html">EntityComponent</a></div>
+    <div class="level2"><span class="xref">SpecialistManager</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Subterfuge.Remake.Core.GameEvents.EventPublishers.ISpecialistEventPublisher.html">ISpecialistEventPublisher</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Subterfuge.Remake.Core.Entities.Components.EntityComponent.html#Subterfuge_Remake_Core_Entities_Components_EntityComponent_Parent">EntityComponent.Parent</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Subterfuge.Remake.Core.Entities.Components.html">Subterfuge.Remake.Core.Entities.Components</a></h6>
+  <h6><strong>Assembly</strong>: SubterfugeCore.dll</h6>
+  <h5 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class SpecialistManager : EntityComponent, ISpecialistEventPublisher</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager__ctor_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.#ctor*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager__ctor_Subterfuge_Remake_Core_Entities_IEntity_System_Int32_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.#ctor(Subterfuge.Remake.Core.Entities.IEntity,System.Int32)">SpecialistManager(IEntity, Int32)</h4>
+  <div class="markdown level1 summary"><p>Constructor with a specific capacity</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SpecialistManager(IEntity parent, int capacity = 3)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.IEntity.html">IEntity</a></td>
+        <td><span class="parametername">parent</span></td>
+        <td><p>The parent entity</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">capacity</span></td>
+        <td><p>The capacity of the manager</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_CanLoadCapturedSpecialists_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.CanLoadCapturedSpecialists*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_CanLoadCapturedSpecialists" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.CanLoadCapturedSpecialists">CanLoadCapturedSpecialists</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CanLoadCapturedSpecialists { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_AllowHireFromLocation_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.AllowHireFromLocation*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_AllowHireFromLocation" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.AllowHireFromLocation">AllowHireFromLocation()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AllowHireFromLocation()</code></pre>
+  </div>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_AlterCapacity_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.AlterCapacity*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_AlterCapacity_System_Int32_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.AlterCapacity(System.Int32)">AlterCapacity(Int32)</h4>
+  <div class="markdown level1 summary"><p>Sets the capacity</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int AlterCapacity(int delta)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">delta</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_CanAddSpecialist_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.CanAddSpecialist*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_CanAddSpecialist_Subterfuge_Remake_Core_Entities_Specialists_Specialist_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.CanAddSpecialist(Subterfuge.Remake.Core.Entities.Specialists.Specialist)">CanAddSpecialist(Specialist)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CanAddSpecialist(Specialist specialist)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Specialists.Specialist.html">Specialist</a></td>
+        <td><span class="parametername">specialist</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_CanAddSpecialists_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.CanAddSpecialists*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_CanAddSpecialists_System_Int32_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.CanAddSpecialists(System.Int32)">CanAddSpecialists(Int32)</h4>
+  <div class="markdown level1 summary"><p>Determines if a specialist can be added to this location</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CanAddSpecialists(int specsToAdd = 1)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">specsToAdd</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>If a specialist can be added</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_CaptureAllForward_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.CaptureAllForward*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_CaptureAllForward_Subterfuge_Remake_Core_Timing_TimeMachine_Subterfuge_Remake_Core_Entities_IEntity_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.CaptureAllForward(Subterfuge.Remake.Core.Timing.TimeMachine,Subterfuge.Remake.Core.Entities.IEntity)">CaptureAllForward(TimeMachine, IEntity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CaptureAllForward(TimeMachine timeMachine, IEntity captureLocation)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.TimeMachine.html">TimeMachine</a></td>
+        <td><span class="parametername">timeMachine</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.IEntity.html">IEntity</a></td>
+        <td><span class="parametername">captureLocation</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_DisallowHireFromLocation_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.DisallowHireFromLocation*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_DisallowHireFromLocation" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.DisallowHireFromLocation">DisallowHireFromLocation()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DisallowHireFromLocation()</code></pre>
+  </div>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetCapacity_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetCapacity*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetCapacity" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetCapacity">GetCapacity()</h4>
+  <div class="markdown level1 summary"><p>Get the capacity</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetCapacity()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>The capacity of specialists</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetCapturedSpecialistCount_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetCapturedSpecialistCount*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetCapturedSpecialistCount" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetCapturedSpecialistCount">GetCapturedSpecialistCount()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetCapturedSpecialistCount()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetPlayerSpecialists_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetPlayerSpecialists*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetPlayerSpecialists_Subterfuge_Remake_Core_Players_Player_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetPlayerSpecialists(Subterfuge.Remake.Core.Players.Player)">GetPlayerSpecialists(Player)</h4>
+  <div class="markdown level1 summary"><p>Gets all of the specialists belonging to a specific player.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Specialist&gt; GetPlayerSpecialists(Player player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Players.Player.html">Player</a></td>
+        <td><span class="parametername">player</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.Specialists.Specialist.html">Specialist</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetSpecialists_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetSpecialists*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetSpecialists" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetSpecialists">GetSpecialists()</h4>
+  <div class="markdown level1 summary"><p>Gets a list of the held specialists</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Specialist&gt; GetSpecialists()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.Specialists.Specialist.html">Specialist</a>&gt;</td>
+        <td><p>A list of the held specialists</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetTotalSpecialistCount_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetTotalSpecialistCount*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetTotalSpecialistCount" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetTotalSpecialistCount">GetTotalSpecialistCount()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetTotalSpecialistCount()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetUncapturedSpecialistCount_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetUncapturedSpecialistCount*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_GetUncapturedSpecialistCount" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.GetUncapturedSpecialistCount">GetUncapturedSpecialistCount()</h4>
+  <div class="markdown level1 summary"><p>Returns the current number of specialists</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetUncapturedSpecialistCount()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>The current number of specialists</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_HireSpecialist_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.HireSpecialist*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_HireSpecialist_Subterfuge_Remake_Core_Entities_Specialists_Specialist_Subterfuge_Remake_Core_Timing_TimeMachine_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.HireSpecialist(Subterfuge.Remake.Core.Entities.Specialists.Specialist,Subterfuge.Remake.Core.Timing.TimeMachine)">HireSpecialist(Specialist, TimeMachine)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool HireSpecialist(Specialist specialist, TimeMachine timeMachine)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Specialists.Specialist.html">Specialist</a></td>
+        <td><span class="parametername">specialist</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.TimeMachine.html">TimeMachine</a></td>
+        <td><span class="parametername">timeMachine</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_KillAll_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.KillAll*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_KillAll" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.KillAll">KillAll()</h4>
+  <div class="markdown level1 summary"><p>Sets all of the specialists within this specialist manager to be captured.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void KillAll()</code></pre>
+  </div>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_ReviveAll_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.ReviveAll*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_ReviveAll_List_Subterfuge_Remake_Core_Entities_Specialists_Specialist__" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.ReviveAll(List{Subterfuge.Remake.Core.Entities.Specialists.Specialist})">ReviveAll(List&lt;Specialist&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ReviveAll(List&lt;Specialist&gt; killedSpecialists)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.Entities.Specialists.Specialist.html">Specialist</a>&gt;</td>
+        <td><span class="parametername">killedSpecialists</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_TransferSpecialistsById_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.TransferSpecialistsById*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_TransferSpecialistsById_Subterfuge_Remake_Core_Entities_Components_SpecialistManager_List_System_String__Subterfuge_Remake_Core_Timing_TimeMachine_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.TransferSpecialistsById(Subterfuge.Remake.Core.Entities.Components.SpecialistManager,List{System.String},Subterfuge.Remake.Core.Timing.TimeMachine)">TransferSpecialistsById(SpecialistManager, List&lt;String&gt;, TimeMachine)</h4>
+  <div class="markdown level1 summary"><p>Transfers all of the specialists from this specialist manager to the target specialist manager.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TransferSpecialistsById(SpecialistManager destinationSpecialistManager, List&lt;string&gt; specialistIds, TimeMachine timeMachine)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.html">SpecialistManager</a></td>
+        <td><span class="parametername">destinationSpecialistManager</span></td>
+        <td><p>Specialist manager to transfer subs to</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">List</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="parametername">specialistIds</span></td>
+        <td><p>List of specialist Ids to transfer</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.TimeMachine.html">TimeMachine</a></td>
+        <td><span class="parametername">timeMachine</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_TransferSpecialistsTo_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.TransferSpecialistsTo*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_TransferSpecialistsTo_Subterfuge_Remake_Core_Entities_Components_SpecialistManager_Subterfuge_Remake_Core_Timing_TimeMachine_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.TransferSpecialistsTo(Subterfuge.Remake.Core.Entities.Components.SpecialistManager,Subterfuge.Remake.Core.Timing.TimeMachine)">TransferSpecialistsTo(SpecialistManager, TimeMachine)</h4>
+  <div class="markdown level1 summary"><p>Transfers all of the specialists from this specialist manager to the target specialist manager.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TransferSpecialistsTo(SpecialistManager specialistManager, TimeMachine timeMachine)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.html">SpecialistManager</a></td>
+        <td><span class="parametername">specialistManager</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.TimeMachine.html">TimeMachine</a></td>
+        <td><span class="parametername">timeMachine</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_UncaptureAll_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.UncaptureAll*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_UncaptureAll_Subterfuge_Remake_Core_Timing_TimeMachine_Subterfuge_Remake_Core_Entities_IEntity_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.UncaptureAll(Subterfuge.Remake.Core.Timing.TimeMachine,Subterfuge.Remake.Core.Entities.IEntity)">UncaptureAll(TimeMachine, IEntity)</h4>
+  <div class="markdown level1 summary"><p>Uncaptures all of the specialists within this specialist manager.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UncaptureAll(TimeMachine timeMachine, IEntity captureLocation)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.TimeMachine.html">TimeMachine</a></td>
+        <td><span class="parametername">timeMachine</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.IEntity.html">IEntity</a></td>
+        <td><span class="parametername">captureLocation</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_UndoHireSpecialist_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.UndoHireSpecialist*"></a>
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_UndoHireSpecialist_Subterfuge_Remake_Core_Entities_Specialists_Specialist_Subterfuge_Remake_Core_Timing_TimeMachine_" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.UndoHireSpecialist(Subterfuge.Remake.Core.Entities.Specialists.Specialist,Subterfuge.Remake.Core.Timing.TimeMachine)">UndoHireSpecialist(Specialist, TimeMachine)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool UndoHireSpecialist(Specialist specialist, TimeMachine timeMachine)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Entities.Specialists.Specialist.html">Specialist</a></td>
+        <td><span class="parametername">specialist</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Subterfuge.Remake.Core.Timing.TimeMachine.html">TimeMachine</a></td>
+        <td><span class="parametername">timeMachine</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="events">Events
+  </h3>
+  
+  
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_OnSpecialistCapture" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.OnSpecialistCapture">OnSpecialistCapture</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;OnSpecialistsCapturedEventArgs&gt;? OnSpecialistCapture</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">EventHandler</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistsCapturedEventArgs.html">OnSpecialistsCapturedEventArgs</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_OnSpecialistHire" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.OnSpecialistHire">OnSpecialistHire</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;OnSpecialistHireEventArgs&gt;? OnSpecialistHire</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">EventHandler</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistHireEventArgs.html">OnSpecialistHireEventArgs</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_OnSpecialistPromotion" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.OnSpecialistPromotion">OnSpecialistPromotion</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;OnSpecialistPromotionEventArgs&gt;? OnSpecialistPromotion</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">EventHandler</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistPromotionEventArgs.html">OnSpecialistPromotionEventArgs</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="Subterfuge_Remake_Core_Entities_Components_SpecialistManager_OnSpecialistTransfer" data-uid="Subterfuge.Remake.Core.Entities.Components.SpecialistManager.OnSpecialistTransfer">OnSpecialistTransfer</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;OnSpecialistTransferEventArgs&gt;? OnSpecialistTransfer</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">EventHandler</span>&lt;<a class="xref" href="Subterfuge.Remake.Core.GameEvents.EventPublishers.OnSpecialistTransferEventArgs.html">OnSpecialistTransferEventArgs</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Subterfuge.Remake.Core.GameEvents.EventPublishers.ISpecialistEventPublisher.html">ISpecialistEventPublisher</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
