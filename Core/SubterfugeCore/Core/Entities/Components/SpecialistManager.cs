@@ -23,6 +23,9 @@ namespace Subterfuge.Remake.Core.Entities.Components
         /// </summary>
         List<Specialist> _specialists = new List<Specialist>();
 
+        public bool CanLoadCapturedSpecialists { get; set; } = false;
+        private int _canHireAtLocation = 0;
+
         public event EventHandler<OnSpecialistHireEventArgs>? OnSpecialistHire;
         public event EventHandler<OnSpecialistsCapturedEventArgs>? OnSpecialistCapture;
         public event EventHandler<OnSpecialistPromotionEventArgs>? OnSpecialistPromotion;
@@ -54,16 +57,43 @@ namespace Subterfuge.Remake.Core.Entities.Components
         /// <returns>If a specialist can be added</returns>
         public bool CanAddSpecialists(int specsToAdd = 1)
         {
-            return (_specialists.Count + specsToAdd) <= _capacity;
+            return GetUncapturedSpecialistCount() + specsToAdd <= _capacity;
         }
 
-        public bool HireSpecialist(Specialist specialist)
+        public bool CanAddSpecialist(Specialist specialist)
         {
-            if (_specialists.Count < _capacity)
+            if (GetUncapturedSpecialistCount() < _capacity)
+                return false;
+
+            if (Parent is Sub && specialist.IsCaptured() && !CanLoadCapturedSpecialists)
+                return false;
+
+            return true;
+        }
+
+        public void AllowHireFromLocation()
+        {
+            _canHireAtLocation++;
+        }
+
+        public void DisallowHireFromLocation()
+        {
+            _canHireAtLocation--;
+        }
+
+        public bool HireSpecialist(Specialist specialist, TimeMachine timeMachine)
+        {
+            if (_canHireAtLocation == 0)
+                return false;
+            
+            if (GetUncapturedSpecialistCount() < _capacity)
             {
                 _specialists.Add(specialist);
+                // Must register event listener before triggering other events.
+                specialist.ArriveAtLocation(Parent, timeMachine);
                 OnSpecialistHire?.Invoke(this, new OnSpecialistHireEventArgs()
                 {
+                    Direction = TimeMachineDirection.FORWARD,
                     HiredSpecialist = specialist,
                     HireLocation = Parent,
                 });
@@ -72,97 +102,18 @@ namespace Subterfuge.Remake.Core.Entities.Components
             return false;
         }
 
-        /// <summary>
-        /// Adds a specialist to the location
-        /// </summary>
-        /// <param name="specialist">The specialist to add to the location</param>
-        public bool AddFriendlySpecialist(Specialist specialist)
+        public bool UndoHireSpecialist(Specialist specialist, TimeMachine timeMachine)
         {
-            if (_specialists.Count < _capacity)
+            _specialists.Remove(specialist);
+            // Reverse must trigger events before unregistering listeners
+            OnSpecialistHire?.Invoke(this, new OnSpecialistHireEventArgs()
             {
-                _specialists.Add(specialist);
-                OnSpecialistTransfer?.Invoke(this, new OnSpecialistTransferEventArgs()
-                {
-                    specialist = specialist,
-                    AddedTo = this.Parent,
-                    RemovedFrom = null,
-                });
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Adds a list of specialists
-        /// </summary>
-        /// <param name="specialists">A list of specialists to add</param>
-        public int AddFriendlySpecialists(List<Specialist> specialists)
-        {
-            var addedSpecialists = 0;
-            foreach(Specialist s in specialists)
-            {
-                if(_specialists.Count < _capacity)
-                {
-                    addedSpecialists++;
-                    _specialists.Add(s);
-                    OnSpecialistTransfer?.Invoke(this, new OnSpecialistTransferEventArgs()
-                    {
-                        specialist = s,
-                        AddedTo = this.Parent,
-                        RemovedFrom = null,
-                    });
-                }
-            }
-
-            return addedSpecialists;
-        }
-
-        /// <summary>
-        /// Removes a specialist
-        /// </summary>
-        /// <param name="specialist">The specialist to remove</param>
-        public bool RemoveFriendlySpecialist(Specialist specialist)
-        {
-            if (_specialists.Contains(specialist))
-            {
-                _specialists.Remove(specialist);
-                specialist.LeaveLocation(Parent);
-                OnSpecialistTransfer?.Invoke(this, new OnSpecialistTransferEventArgs()
-                {
-                    specialist = specialist,
-                    AddedTo = this.Parent,
-                    RemovedFrom = null,
-                });
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Removes a list of specialsits
-        /// </summary>
-        /// <param name="specialists">The list of specialists to remove</param>
-        public int RemoveFriendlySpecialists(List<Specialist> specialists)
-        {
-            var removedSpecialists = 0;
-            foreach(Specialist s in specialists)
-            {
-                if (_specialists.Contains(s))
-                {
-                    removedSpecialists++;
-                    
-                    _specialists.Remove(s);
-                    s.LeaveLocation(Parent);
-                    OnSpecialistTransfer?.Invoke(this, new OnSpecialistTransferEventArgs()
-                    {
-                        specialist = s,
-                        AddedTo = this.Parent,
-                        RemovedFrom = null,
-                    });
-                }
-            }
-
-            return removedSpecialists;
+                Direction = TimeMachineDirection.REVERSE,
+                HiredSpecialist = specialist,
+                HireLocation = Parent,
+            });
+            specialist.LeaveLocation(Parent, timeMachine);
+            return true;
         }
 
         /// <summary>
@@ -178,10 +129,11 @@ namespace Subterfuge.Remake.Core.Entities.Components
         /// Sets the capacity
         /// </summary>
         /// <param name="capacity">The capacity to set</param>
-        public void AlterCapacity(int delta)
+        public int AlterCapacity(int delta)
         {
             var initialCapacity = _capacity;
             _capacity = Math.Max(0, _capacity + delta);
+            return _capacity - initialCapacity;
         }
 
         
@@ -189,22 +141,47 @@ namespace Subterfuge.Remake.Core.Entities.Components
         /// Returns the current number of specialists
         /// </summary>
         /// <returns>The current number of specialists</returns>
-        public int GetSpecialistCount()
+        public int GetUncapturedSpecialistCount()
+        {
+            return _specialists.Where(it => !it.IsCaptured()).ToList().Count;
+        }
+
+        public int GetTotalSpecialistCount()
         {
             return _specialists.Count;
+        }
+
+        public int GetCapturedSpecialistCount()
+        {
+            return _specialists.Where(it => it.IsCaptured()).ToList().Count;
         }
 
         /// <summary>
         /// Transfers all of the specialists from this specialist manager to the target specialist manager.
         /// </summary>
         /// <param name="specialistManager"></param>
-        public bool TransferSpecialistsTo(SpecialistManager specialistManager)
+        public bool TransferSpecialistsTo(SpecialistManager specialistManager, TimeMachine timeMachine)
         {
             if (specialistManager.CanAddSpecialists(this._specialists.Count))
             {
                 List<Specialist> toRemove = new List<Specialist>(_specialists);
-                RemoveFriendlySpecialists(toRemove);
-                specialistManager.AddFriendlySpecialists(toRemove);
+                _specialists.Clear();
+                specialistManager._specialists.AddRange(toRemove);
+                
+                toRemove.ForEach(spec =>
+                {
+                    spec.LeaveLocation(Parent, timeMachine);
+                    spec.ArriveAtLocation(specialistManager.Parent, timeMachine);
+                });
+                
+                OnSpecialistTransfer?.Invoke(this , new OnSpecialistTransferEventArgs()
+                {
+                    AddedTo = specialistManager.Parent,
+                    Direction = TimeMachineDirection.FORWARD,
+                    RemovedFrom = this.Parent,
+                    specialist = toRemove,
+                });
+                
                 return true;
             }
             return false;
@@ -215,13 +192,29 @@ namespace Subterfuge.Remake.Core.Entities.Components
         /// </summary>
         /// <param name="destinationSpecialistManager">Specialist manager to transfer subs to</param>
         /// <param name="specialistIds">List of specialist Ids to transfer</param>
-        public bool TransferSpecialistsById(SpecialistManager destinationSpecialistManager, List<string> specialistIds)
+        public bool TransferSpecialistsById(SpecialistManager destinationSpecialistManager, List<string> specialistIds, TimeMachine timeMachine)
         {
             var specialistsMatchingId = _specialists.Where(it => specialistIds.Contains(it.GetId())).ToList();
             if (destinationSpecialistManager.CanAddSpecialists(specialistsMatchingId.Count))
             {
-                RemoveFriendlySpecialists(specialistsMatchingId);
-                destinationSpecialistManager.AddFriendlySpecialists(specialistsMatchingId);
+                List<Specialist> toRemove = new List<Specialist>(_specialists);
+                _specialists.RemoveAll(it => specialistIds.Contains(it.GetId()));
+                destinationSpecialistManager._specialists.AddRange(toRemove);
+                
+                toRemove.ForEach(spec =>
+                {
+                    spec.LeaveLocation(Parent, timeMachine);
+                    spec.ArriveAtLocation(destinationSpecialistManager.Parent, timeMachine);
+                });
+                
+                OnSpecialistTransfer?.Invoke(this , new OnSpecialistTransferEventArgs()
+                {
+                    AddedTo = destinationSpecialistManager.Parent,
+                    Direction = TimeMachineDirection.FORWARD,
+                    RemovedFrom = this.Parent,
+                    specialist = toRemove,
+                });
+                
                 return true;
             }
 
@@ -232,7 +225,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
         {
             foreach(Specialist s in _specialists)
             {
-                s.SetCaptured(true);
+                s.SetCaptured(true, timeMachine, captureLocation);
             }
             
             OnSpecialistCapture?.Invoke(this, new OnSpecialistsCapturedEventArgs()
@@ -248,20 +241,22 @@ namespace Subterfuge.Remake.Core.Entities.Components
         /// </summary>
         public void KillAll()
         {
-            foreach(Specialist s in _specialists)
-            {
-                this._specialists.Remove(s);
-            }
+            _specialists.Clear();
+        }
+
+        public void ReviveAll(List<Specialist> killedSpecialists)
+        {
+            _specialists.AddRange(killedSpecialists);
         }
 
         /// <summary>
         /// Uncaptures all of the specialists within this specialist manager.
         /// </summary>
-        public void UncaptureAll()
+        public void UncaptureAll(TimeMachine timeMachine, IEntity captureLocation)
         {
             foreach(Specialist s in _specialists)
             {
-                s.SetCaptured(false);
+                s.SetCaptured(false, timeMachine, captureLocation);
             }
         }
         
@@ -275,7 +270,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
             List<Specialist> playerSpecs = new List<Specialist>();
             foreach(Specialist s in _specialists)
             {
-                if (s.GetOwner() == player)
+                if (Equals(s.GetOwner(), player))
                 {
                     playerSpecs.Add(s);
                 }

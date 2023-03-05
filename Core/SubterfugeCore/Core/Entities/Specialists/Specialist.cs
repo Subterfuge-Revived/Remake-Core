@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Subterfuge.Remake.Api.Network;
-using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.GameEvents.Base;
-using Subterfuge.Remake.Core.GameEvents.Combat;
-using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists
 {
@@ -83,10 +81,15 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         /// <summary>
         /// Captures the specialist
         /// </summary>
-        /// <param name="isCaptured">Sets the specialist captured state</param>
-        public void SetCaptured(bool isCaptured)
-        {
+        /// <param name="timeMachine"></param>
+        /// <param name="captureLocation"></param>
+        public void SetCaptured(
+            bool isCaptured,
+            TimeMachine timeMachine,
+            IEntity captureLocation
+        ) {
             this._isCaptured = isCaptured;
+            OnCapture(isCaptured, captureLocation, timeMachine);
         }
 
         /// <summary>
@@ -113,16 +116,12 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
             _level--;
         }
 
-        public void TriggerForwardEffect(object? sender, DirectionalEventArgs subscribedEvent)
-        {
-            subscribedEvent.TimeMachine.AddEvents(ForwardEffects(sender, subscribedEvent));
-        }
-
-        public abstract void ArriveAtLocation(IEntity location);
-        public abstract void LeaveLocation(IEntity location);
+        public abstract void ArriveAtLocation(IEntity entity, TimeMachine timeMachine);
+        public abstract void LeaveLocation(IEntity entity, TimeMachine timeMachine);
+        public abstract void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine);
 
         public abstract SpecialistTypeId GetSpecialistId();
-        protected abstract List<GameEvent> ForwardEffects(object? sender, DirectionalEventArgs subscribedEvent);
-        protected abstract List<GameEvent> CaptureEffects(object? sender, OnSpecialistsCapturedEventArgs capturedEvent);
+
+        public abstract String GetDescription();
     }
 }

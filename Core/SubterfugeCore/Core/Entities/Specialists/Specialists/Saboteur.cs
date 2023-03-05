@@ -1,36 +1,40 @@
-﻿/*using Subterfuge.Remake.Api.Network;
+﻿using System.Collections.Generic;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
     public class Saboteur : Specialist
     {
+        public List<float> slowPercent = new List<float>() { 0, 0.1f, 0.2f };
+        
         public Saboteur(Player owner) : base(owner, false)
         {
         }
-
-        public override void ArriveAt(IEntity entity)
+        public override void ArriveAtLocation(IEntity entity, TimeMachine timeMachine)
         {
+            
             if (!_isCaptured)
             {
-                entity.GetComponent<PositionManager>().OnPreCombat += RedirectOnCombat;
+                entity.GetComponent<PositionManager>().OnRegisterCombatEffects += RedirectOnCombatEffects;
             }
         }
 
-        public override void LeaveLocation(IEntity entity)
+        public override void LeaveLocation(IEntity entity, TimeMachine timeMachine)
         {
             if (!_isCaptured)
             {
-                entity.GetComponent<PositionManager>().OnPreCombat -= RedirectOnCombat;
+                entity.GetComponent<PositionManager>().OnRegisterCombatEffects -= RedirectOnCombatEffects;
             }
         }
 
-        public override void OnCapturedEvent(IEntity captureLocation)
+        public override void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine)
         {
-            captureLocation.GetComponent<PositionManager>().OnPreCombat -= RedirectOnCombat;
+            entity.GetComponent<PositionManager>().OnRegisterCombatEffects -= RedirectOnCombatEffects;
         }
 
         public override SpecialistTypeId GetSpecialistId()
@@ -38,31 +42,25 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             return SpecialistTypeId.Saboteur;
         }
 
-        public void RedirectOnCombat(object? sender, OnPreCombatEventArgs combatArgs)
+        public override string GetDescription()
+        {
+            return $"Redirects enemy subs on combat. Slows redirected subs by {slowPercent} units.";
+        }
+
+        public void RedirectOnCombatEffects(object? sender, OnRegisterCombatEventArgs combatArgs)
         {
             var enemyEntity = combatArgs.CombatEvent.GetEnemyEntity(_owner);
             
-            combatArgs.CombatEvent.AddEffectToCombat(new SpecialistSubRedirectEffect(
-                combatArgs.CombatEvent.GetOccursAt(),
+            combatArgs.CombatEvent.AddEffectToCombat(new RedirectEntityEffect(
+                combatArgs.CombatEvent.OccursAt,
                 enemyEntity
             ));
             
-            combatArgs.CombatEvent.AddEffectToCombat(new SpecialistSlowEffect(
-                combatArgs.CombatEvent.GetOccursAt(),
+            combatArgs.CombatEvent.AddEffectToCombat(new SlowTargetEffect(
+                combatArgs.CombatEvent.OccursAt,
                 enemyEntity,
-                GetSlowAmount()
+                slowPercent[_level]
             ));
         }
-
-        public float GetSlowAmount()
-        {
-            return _level switch
-            {
-                0 => 0,
-                1 => 0,
-                2 => 0.1f,
-                3 => 0.2f,
-            };
-        }
     }
-}*/
+}

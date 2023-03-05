@@ -24,11 +24,11 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             return JsonConvert.DeserializeObject<HireSpecialistEventData>(Model.GameEventData.SerializedEventData);
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             HireSpecialistEventData hireEvent = GetEventData();
             
-            var hireLocation = state.GetEntity(hireEvent.HireLocation);
+            var hireLocation = timeMachine.GetState().GetEntity(hireEvent.HireLocation);
             if (hireLocation == null)
             {
                 EventSuccess = false;
@@ -37,7 +37,7 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
 
             var specialist = this.IssuedBy().SpecialistPool.HireSpecialist(hireEvent.SpecialistTypeIdHired);
             hireLocation.GetComponent<SpecialistManager>()
-                .HireSpecialist(specialist);
+                .HireSpecialist(specialist, timeMachine);
 
             HiredSpecialist = specialist;
             HiredAt = hireLocation;
@@ -46,12 +46,11 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             return EventSuccess;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             if (EventSuccess)
             {
-                HiredAt.GetComponent<SpecialistManager>()
-                    .RemoveFriendlySpecialist(HiredSpecialist);
+                HiredAt.GetComponent<SpecialistManager>().UndoHireSpecialist(HiredSpecialist, timeMachine);
                 
                 this.IssuedBy()
                     .SpecialistPool

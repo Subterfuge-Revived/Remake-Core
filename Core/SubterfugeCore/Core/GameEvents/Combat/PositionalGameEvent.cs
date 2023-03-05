@@ -8,11 +8,11 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat
 {
     public abstract class PositionalGameEvent : GameEvent
     {
-        private readonly IEntity PrimaryLocation;
+        private readonly IEntity _expectedRegenerationLocation;
         
-        protected PositionalGameEvent(GameTick occursAt, Priority priority, IEntity primaryLocation) : base(occursAt, priority)
+        protected PositionalGameEvent(GameTick occursAt, Priority priority, IEntity expectedRegenerationLocation) : base(occursAt, priority)
         {
-            PrimaryLocation = primaryLocation;
+            _expectedRegenerationLocation = expectedRegenerationLocation;
         }
 
         public override string GetEventId()
@@ -28,13 +28,13 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat
 
             return asEvent.OccursAt == this.OccursAt &&
                    asEvent.Priority == this.Priority &&
-                   asEvent.PrimaryLocation == this.PrimaryLocation;
+                   asEvent._expectedRegenerationLocation == this._expectedRegenerationLocation;
         }
 
         public override int GetHashCode()
         {
             var hashBuilder = new HashCodeCombiner();
-            hashBuilder.Add(PrimaryLocation);
+            hashBuilder.Add(_expectedRegenerationLocation);
             hashBuilder.Add(OccursAt);
             hashBuilder.Add(Priority);
             return hashBuilder.GetHashCode();

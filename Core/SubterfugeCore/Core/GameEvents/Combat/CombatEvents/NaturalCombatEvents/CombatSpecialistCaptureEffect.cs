@@ -26,7 +26,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             Combatant2 = combatant2;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             combatant1Specialists = Combatant1.GetComponent<SpecialistManager>().GetSpecialists();
             combatant2Specialists = Combatant2.GetComponent<SpecialistManager>().GetSpecialists();
@@ -47,17 +47,17 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             if (winner != null)
             {
                 var loser = winner == Combatant1 ? Combatant2 : Combatant1;
-                loser.GetComponent<SpecialistManager>().UncaptureAll();
+                loser.GetComponent<SpecialistManager>().UncaptureAll(timeMachine, loser);
             }
             else
             {
-                Combatant1.GetComponent<SpecialistManager>().AddFriendlySpecialists(combatant1Specialists);
-                Combatant2.GetComponent<SpecialistManager>().AddFriendlySpecialists(combatant2Specialists);
+                Combatant1.GetComponent<SpecialistManager>().ReviveAll(combatant1Specialists);
+                Combatant2.GetComponent<SpecialistManager>().ReviveAll(combatant2Specialists);
             }
 
             return true;

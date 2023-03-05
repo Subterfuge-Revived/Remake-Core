@@ -1,9 +1,10 @@
-﻿/*using Subterfuge.Remake.Api.Network;
+﻿using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
@@ -12,100 +13,56 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
         public Infiltrator(Player owner) : base(owner, false)
         {
         }
-
-        public override void ArriveAt(IEntity entity)
+        public override void ArriveAtLocation(IEntity entity, TimeMachine timeMachine)
         {
             if (!_isCaptured)
             {
-                entity.GetComponent<PositionManager>().OnPreCombat += OnPreCombat;
-                if (GetLevel() >= 2)
-                {
-                    entity.GetComponent<PositionManager>().OnPostCombat += OnPostCombat;
-                }
+                entity.GetComponent<PositionManager>().OnRegisterCombatEffects += OnRegisterCombatEffects;
             }
         }
 
-        public override void LeaveLocation(IEntity entity)
+        public override void LeaveLocation(IEntity entity, TimeMachine timeMachine)
         {
             if (!_isCaptured)
             {
-                entity.GetComponent<PositionManager>().OnPreCombat -= OnPreCombat;
-                if (GetLevel() >= 2)
-                {
-                    entity.GetComponent<PositionManager>().OnPostCombat -= OnPostCombat;
-                }
+                entity.GetComponent<PositionManager>().OnRegisterCombatEffects -= OnRegisterCombatEffects;
             }
         }
 
-        public override void OnCapturedEvent(IEntity captureLocation)
+        public override void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine)
         {
-            captureLocation.GetComponent<PositionManager>().OnPreCombat -= OnPreCombat;
-            if (GetLevel() >= 2)
-            {
-                captureLocation.GetComponent<PositionManager>().OnPostCombat -= OnPostCombat;
-            }
+            entity.GetComponent<PositionManager>().OnRegisterCombatEffects -= OnRegisterCombatEffects;
         }
 
         public override SpecialistTypeId GetSpecialistId()
         {
             return SpecialistTypeId.Infiltrator;
         }
-        
-        private void OnPreCombat(object positionManager, OnPreCombatEventArgs preCombatEventArgs)
+
+        public override string GetDescription()
         {
-            var friendlyEntity = preCombatEventArgs.CombatEvent.GetEntityOwnedBy(_owner);
-            var enemyEntity = preCombatEventArgs.CombatEvent.GetEnemyEntity(_owner);
+            return $"When participating in combat, the Infiltrator destroys {{15, 20, All}} enemy shields.";
+        }
+
+        private void OnRegisterCombatEffects(object positionManager, OnRegisterCombatEventArgs registerCombatEventArgs)
+        {
+            var friendlyEntity = registerCombatEventArgs.CombatEvent.GetEntityOwnedBy(_owner);
+            var enemyEntity = registerCombatEventArgs.CombatEvent.GetEnemyEntity(_owner);
             
-            preCombatEventArgs.CombatEvent.AddEffectToCombat(new SpecialistShieldEffect(
-                preCombatEventArgs.CombatEvent,
+            registerCombatEventArgs.CombatEvent.AddEffectToCombat(new AlterShieldEffect(
+                registerCombatEventArgs.CombatEvent,
                 friendlyEntity,
-                0,
                 GetShieldDelta(enemyEntity)
             ));
-        }
 
-        private void OnPostCombat(object positionManager, PostCombatEventArgs postCombatEventArgs)
-        {
-            if (postCombatEventArgs.Direction == TimeMachineDirection.FORWARD)
-            {
-                if (GetLevel() >= 2)
-                {
-                    var winningEntity = postCombatEventArgs.CombatResolution.Winner;
-                    var losingEntity = postCombatEventArgs.CombatResolution.Loser;
-                    if (Equals(winningEntity.GetComponent<DrillerCarrier>().GetOwner(), _owner) && losingEntity is Outpost)
-                    {
-                        RestoreLostShields(losingEntity);
-                    }
-                }
-            }
-            else
-            {
-                if (GetLevel() >= 2)
-                {
-                    var winningEntity = postCombatEventArgs.CombatResolution.Winner;
-                    var losingEntity = postCombatEventArgs.CombatResolution.Loser;
-                    if (Equals(winningEntity.GetComponent<DrillerCarrier>().GetOwner(), _owner) && losingEntity is Outpost)
-                    {
-                        UndoShieldRestore(losingEntity);
-                    }
-                }
-            }
-        }
-
-        private void RestoreLostShields(IEntity restoreLocation)
-        {
-            var shieldManager = restoreLocation.GetComponent<ShieldManager>();
-            var capacity = shieldManager.GetShieldCapacity();
             if (GetLevel() >= 2)
             {
-                shieldManager.SetShields(capacity);
+                registerCombatEventArgs.CombatEvent.AddEffectToCombat(new RegenerateShieldPostCombatEffect(
+                    registerCombatEventArgs.CombatEvent,
+                    _owner,
+                    1.0f
+                ));
             }
-        }
-
-        private void UndoShieldRestore(IEntity restoreLocation)
-        {
-            var shieldManager = restoreLocation.GetComponent<ShieldManager>();
-            shieldManager.SetShields(0);
         }
 
         private int GetShieldDelta(IEntity targetLocation)
@@ -113,10 +70,10 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             return _level switch
             {
                 1 => 15,
-                2 => 20,
+                2 => 25,
                 3 => targetLocation.GetComponent<ShieldManager>().GetShields(),
                 _ => 0
             };
         }
     }
-}*/
+}

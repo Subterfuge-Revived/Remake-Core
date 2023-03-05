@@ -1,72 +1,67 @@
-﻿/*using Subterfuge.Remake.Api.Network;
+﻿using System.Collections.Generic;
+using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
-using Subterfuge.Remake.Core.Entities.Positions;
+using Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
     public class Scrutineer : Specialist
     {
+
+        public List<int> TickReductionPerLevel = new List<int>() { Constants.BASE_SHIELD_REGENERATION_TICKS / 4, Constants.BASE_SHIELD_REGENERATION_TICKS / 2, Constants.BASE_SHIELD_REGENERATION_TICKS / 2 };
+        
         public Scrutineer(Player owner) : base(owner, false)
         {
         }
 
-        public override void ArriveAt(IEntity entity)
+        public override void ArriveAtLocation(IEntity entity, TimeMachine timeMachine)
         {
             if (!_isCaptured)
             {
-                entity.GetComponent<ShieldRegenerationComponent>().ShieldRegenerator.ChangeTicksPerProductionCycle(-1 * Constants.BASE_SHIELD_REGENERATION_TICKS / 2);
-                entity.GetComponent<PositionManager>().OnPostCombat += OnPostCombat;
+                entity.GetComponent<ShieldProducer>().Producer.ChangeTicksPerProductionCycle(TickReductionPerLevel[_level]);
+                entity.GetComponent<PositionManager>().OnRegisterCombatEffects += RegisterPostCombatShieldRegeneration;
             }
         }
 
-        public override void LeaveLocation(IEntity entity)
+        public override void LeaveLocation(IEntity entity, TimeMachine timeMachine)
         {
             if (!_isCaptured)
             {
-                entity.GetComponent<ShieldRegenerationComponent>().ShieldRegenerator.ChangeTicksPerProductionCycle( Constants.BASE_SHIELD_REGENERATION_TICKS / 2);
-                entity.GetComponent<PositionManager>().OnPostCombat -= OnPostCombat;
+                entity.GetComponent<ShieldProducer>().Producer.ChangeTicksPerProductionCycle( TickReductionPerLevel[_level]);
+                entity.GetComponent<PositionManager>().OnRegisterCombatEffects -= RegisterPostCombatShieldRegeneration;
             }
         }
 
-        public override void OnCapturedEvent(IEntity captureLocation)
+        public override void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine)
         {
-            captureLocation.GetComponent<ShieldRegenerationComponent>().ShieldRegenerator.ChangeTicksPerProductionCycle( Constants.BASE_SHIELD_REGENERATION_TICKS / 2);
-            captureLocation.GetComponent<PositionManager>().OnPostCombat -= OnPostCombat;
+            entity.GetComponent<ShieldProducer>().Producer.ChangeTicksPerProductionCycle( TickReductionPerLevel[_level]);
+            entity.GetComponent<PositionManager>().OnRegisterCombatEffects -= RegisterPostCombatShieldRegeneration;
         }
 
         public override SpecialistTypeId GetSpecialistId()
         {
             return SpecialistTypeId.Scrutineer;
         }
-        
-        private void OnPostCombat(object positionManager, PostCombatEventArgs postCombatEventArgs)
+
+        public override string GetDescription()
         {
-            if (postCombatEventArgs.Direction == TimeMachineDirection.FORWARD)
+            return $"Reduces the shield regeneration rate by {TickReductionPerLevel} ticks." +
+                   $"Regenerates all shields after a successful combat.";
+        }
+
+        private void RegisterPostCombatShieldRegeneration(object positionManager, OnRegisterCombatEventArgs postCombatEventArgs)
+        {
+            if (GetLevel() >= 3)
             {
-                if (GetLevel() >= 3)
-                {
-                    var winningEntity = postCombatEventArgs.CombatResolution.Winner;
-                    if (Equals(winningEntity.GetComponent<DrillerCarrier>().GetOwner(), _owner) && winningEntity is Outpost)
-                    {
-                        winningEntity.GetComponent<ShieldManager>().SetShields(winningEntity.GetComponent<ShieldManager>().GetShieldCapacity());
-                    }
-                }
-            }
-            else
-            {
-                if (GetLevel() >= 3)
-                {
-                    var winningEntity = postCombatEventArgs.CombatResolution.Winner;
-                    if (Equals(winningEntity.GetComponent<DrillerCarrier>().GetOwner(), _owner) && winningEntity is Outpost)
-                    {
-                        // TODO: This is not quite accurate yet.... Figure out a way to undo this...
-                        // Need a better way to enforce some forward/backward events
-                        winningEntity.GetComponent<ShieldManager>().SetShields(9999);
-                    }
-                }
+                postCombatEventArgs.CombatEvent.AddEffectToCombat(new RegenerateShieldPostCombatEffect(
+                    postCombatEventArgs.CombatEvent,
+                    _owner,
+                    1.0f
+                ));
             }
         }
     }
-}*/
+}

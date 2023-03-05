@@ -63,7 +63,7 @@ namespace Subterfuge.Remake.Test
 			Assert.IsTrue(totalDrillers < drillerCap);
 			_tm.GoTo(drillerProducer.GetNextProductionTick());
 			
-			Assert.AreEqual(totalDrillers + (eventArgs.ValueProduced * playerFactoryCount), _game.TimeMachine.GetState().GetPlayerDrillerCount(player));
+			Assert.AreEqual(totalDrillers + (eventArgs.ProductionEvent.ValueProduced * playerFactoryCount), _game.TimeMachine.GetState().GetPlayerDrillerCount(player));
 		}
 
 		[TestMethod]
@@ -80,7 +80,7 @@ namespace Subterfuge.Remake.Test
 			
 			_tm.GoTo(drillerProducer.Producer.GetNextProductionTick());
 			int endingDrillers = _f.GetComponent<DrillerCarrier>().GetDrillerCount();
-			Assert.AreEqual(endingDrillers - startingDrillers, eventArgs.ValueProduced);
+			Assert.AreEqual(endingDrillers - startingDrillers, eventArgs.ProductionEvent.ValueProduced);
 		}
 
 		[TestMethod]

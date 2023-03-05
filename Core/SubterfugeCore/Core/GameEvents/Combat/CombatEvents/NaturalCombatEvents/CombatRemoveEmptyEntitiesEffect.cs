@@ -24,7 +24,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             _combatResolution = combatResolution;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             if (_combatant1.GetComponent<DrillerCarrier>().GetDrillerCount() <= 0 &&
                 _combatant2.GetComponent<DrillerCarrier>().GetDrillerCount() <= 0)
@@ -36,13 +36,13 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             {
                 if (_combatant1 is Sub sub1 && sub1.GetComponent<DrillerCarrier>().GetDrillerCount() <= 0)
                 {
-                    state.RemoveSub(sub1);
+                    timeMachine.GetState().RemoveSub(sub1);
                     _combatResolution.Winner = _combatant2;
                     _combatResolution.Loser = _combatant1;
                 }
                 if (_combatant2 is Sub sub2 && sub2.GetComponent<DrillerCarrier>().GetDrillerCount() <= 0)
                 {
-                    state.RemoveSub(sub2);
+                    timeMachine.GetState().RemoveSub(sub2);
                     _combatResolution.Winner = _combatant1;
                     _combatResolution.Loser = _combatant2;
                 }
@@ -51,15 +51,15 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
-            if (_combatant1 is Sub sub1 && !state.SubExists(sub1))
+            if (_combatant1 is Sub sub1 && !timeMachine.GetState().SubExists(sub1))
             {
-                state.AddSub(sub1);
+                timeMachine.GetState().AddSub(sub1);
             }
-            if (_combatant2 is Sub sub2 && !state.SubExists(sub2))
+            if (_combatant2 is Sub sub2 && !timeMachine.GetState().SubExists(sub2))
             {
-                state.AddSub(sub2);
+                timeMachine.GetState().AddSub(sub2);
             }
 
             return true;

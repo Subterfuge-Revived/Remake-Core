@@ -1,9 +1,15 @@
-﻿namespace Subterfuge.Remake.Core.GameEvents.Base
+﻿using System.Collections.Generic;
+
+namespace Subterfuge.Remake.Core.GameEvents.Base
 {
     public enum Priority
     {
+        PAUSE_EVENT = 1000,
+        UNPAUSE_EVENT = 999,
+        
         PlayerIssuedCommand = 100,
-        NaturalPriority9 = 99,
+        SPECIALIST_CAPCITY_CHANGE = 99,
+        COMBAT_EVENT = 98,
         
         RESOURCE_PRODUCTION = 90,
         
@@ -27,5 +33,24 @@
         // At this event, the combat is done.
         // Friendly combats immediately jump to this stage.
         COMBAT_RESOLVE = 0,
+        
+        // Actions to apply after the combat has been completed.
+        POST_COMBAT = -1,
     }
+
+    public static class PriorityExtensions
+    {
+        public static List<Priority> NaturalEvents()
+        {
+            return new List<Priority>()
+            {
+                Priority.COMBAT_EVENT,
+                Priority.COMBAT_RESOLVE,
+                Priority.SHIELD_COMBAT,
+                Priority.DRILLER_COMBAT,
+                Priority.RESOURCE_PRODUCTION
+            };
+        }
+    }
+    
 }

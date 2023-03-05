@@ -16,10 +16,10 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
         {
             return JsonConvert.DeserializeObject<ToggleShieldEventData>(Model.GameEventData.SerializedEventData);
         }
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
-            ShieldManager shieldManager = state.GetEntity(GetEventData().SourceId).GetComponent<ShieldManager>();
-            DrillerCarrier drillerCarrier = state.GetEntity(GetEventData().SourceId).GetComponent<DrillerCarrier>();
+            ShieldManager shieldManager = timeMachine.GetState().GetEntity(GetEventData().SourceId).GetComponent<ShieldManager>();
+            DrillerCarrier drillerCarrier = timeMachine.GetState().GetEntity(GetEventData().SourceId).GetComponent<DrillerCarrier>();
             if (shieldManager != null && !drillerCarrier.GetOwner().IsEliminated())
             {
                 shieldManager.ToggleShield();
@@ -33,11 +33,11 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             return EventSuccess;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             if (EventSuccess)
             {
-                ShieldManager shieldManager = state.GetEntity(GetEventData().SourceId).GetComponent<ShieldManager>();
+                ShieldManager shieldManager = timeMachine.GetState().GetEntity(GetEventData().SourceId).GetComponent<ShieldManager>();
                 shieldManager.ToggleShield();
             }
             return EventSuccess;

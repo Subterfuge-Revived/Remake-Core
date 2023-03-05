@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Subterfuge.Remake.Core.GameEvents.Base;
-using Subterfuge.Remake.Core.GameEvents.Combat;
 using Subterfuge.Remake.Core.GameEvents.EventPublishers;
-using PositionalGameEvent = Subterfuge.Remake.Core.GameEvents.Combat.PositionalGameEvent;
+using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 
 namespace Subterfuge.Remake.Core.Timing
 {
@@ -15,6 +14,8 @@ namespace Subterfuge.Remake.Core.Timing
 
         // Current representation of the game state
         private GameState _gameState;
+
+        private bool IsPaused = false;
 
         /// <summary>
         /// Creates a new instance of the TimeMachine. You will likely never need to call this as this is created in the
@@ -88,19 +89,35 @@ namespace Subterfuge.Remake.Core.Timing
                 {
                     this._gameState.CurrentTick = this._gameState.CurrentTick.Advance(1);
                 }
+                
+                if (IsPaused)
+                {
+                    var nonAdminEvents = eventQueue
+                        .Where(it => !(it is UnpauseGameEvent) && !(it is PauseGameEvent))
+                        .ToList();
+                    
+                    if (direction == TimeMachineDirection.FORWARD)
+                    {
+                        // Make all events in the future get shoved 1 tick forward (except Unpause events)
+                        nonAdminEvents.ForEach(it => it.OccursAt = it.OccursAt.Advance(1));
+                    }
+                    else
+                    {
+                        // Make all events in the future get shoved 1 tick forward (except Unpause events)
+                        nonAdminEvents.ForEach(it => it.OccursAt = it.OccursAt.Rewind(1));
+                    }
+                }
                 else
                 {
-                    this._gameState.CurrentTick = this._gameState.CurrentTick.Rewind(1);
+                    // Trigger "OnTick" to allow listeners to generate in-game events.
+                    // This is mainly useful for resource producers.
+                    this.OnTick?.Invoke(this, new OnTickEventArgs()
+                    {
+                        Direction = direction,
+                        CurrentState = this._gameState,
+                        CurrentTick = this._gameState.CurrentTick,
+                    }); 
                 }
-                
-                // Trigger "OnTick" to allow listeners to generate in-game events.
-                // This is mainly useful for resource producers.
-                this.OnTick?.Invoke(this, new OnTickEventArgs()
-                {
-                    Direction = direction,
-                    CurrentState = this._gameState,
-                    CurrentTick = this._gameState.CurrentTick,
-                });
 
                 eventQueue
                     .Where(it => it.OccursAt == this._gameState.CurrentTick)
@@ -109,11 +126,11 @@ namespace Subterfuge.Remake.Core.Timing
                     {
                         if (direction == TimeMachineDirection.FORWARD)
                         {
-                            it.ForwardAction(this, _gameState);
+                            it.ForwardAction(this);
                         }
                         else
                         {
-                            it.BackwardAction(this, _gameState);
+                            it.BackwardAction(this);
                         }
                         
                         this.OnGameEvent?.Invoke(this, new OnGameEventTriggeredEventArgs()
@@ -124,6 +141,13 @@ namespace Subterfuge.Remake.Core.Timing
                             GameEvent = it,
                         });
                     });
+                
+                if (direction == TimeMachineDirection.REVERSE)
+                {
+                    // Remove non-player triggered events from the queue when going in reverse.
+                    eventQueue.RemoveAll(it => it.OccursAt == this._gameState.CurrentTick && !(it is PlayerTriggeredEvent));
+                    this._gameState.CurrentTick = this._gameState.CurrentTick.Rewind(1);
+                }
             }
         }
 
@@ -194,6 +218,11 @@ namespace Subterfuge.Remake.Core.Timing
             return eventQueue
                 .Where(it => it.OccursAt <= GetCurrentTick())
                 .ToList();
+        }
+
+        public void TogglePause(bool isPaused)
+        {
+            this.IsPaused = isPaused;
         }
 
         public event EventHandler<OnTickEventArgs>? OnTick;

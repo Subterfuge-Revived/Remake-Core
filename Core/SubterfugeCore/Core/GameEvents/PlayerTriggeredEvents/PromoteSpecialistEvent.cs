@@ -15,12 +15,12 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             return JsonConvert.DeserializeObject<PromoteSpecialistEventData>(Model.GameEventData.SerializedEventData);
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             throw new System.NotImplementedException();
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             throw new System.NotImplementedException();
         }

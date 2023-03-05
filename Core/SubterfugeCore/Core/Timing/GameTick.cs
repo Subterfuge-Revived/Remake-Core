@@ -13,18 +13,13 @@ namespace Subterfuge.Remake.Core.Timing
             return _tickNumber;
         }
 
-        protected bool Equals(GameTick other)
-        {
-            return _tickNumber == other._tickNumber;
-        }
-
         public override bool Equals(object obj)
         {
-            GameTick asTick = obj as GameTick;
-            if (asTick == null)
+            GameTick? asTick = obj as GameTick;
+            if (asTick is null)
                 return false;
-            
-            return Equals((GameTick) obj);
+
+            return _tickNumber == asTick._tickNumber;
         }
 
         public static double MinutesPerTick { get; set; }= 15.0;
@@ -155,12 +150,12 @@ namespace Subterfuge.Remake.Core.Timing
             return firstArg.GetTick() <= secondArg.GetTick();
         }
         
-        public static bool operator ==(GameTick firstArg, GameTick secondArg)
+        public static bool operator ==(GameTick? firstArg, GameTick secondArg)
         {
             return firstArg.GetTick() == secondArg.GetTick();
         }
         
-        public static bool operator !=(GameTick firstArg, GameTick secondArg)
+        public static bool operator !=(GameTick? firstArg, GameTick secondArg)
         {
             return firstArg.GetTick() != secondArg.GetTick();
         }

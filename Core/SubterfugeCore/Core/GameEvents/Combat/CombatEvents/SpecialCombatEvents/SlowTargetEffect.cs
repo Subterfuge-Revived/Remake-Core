@@ -21,13 +21,13 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             _slowBy = slowBy;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             _enemy.GetComponent<SpeedManager>().DecreaseSpeed(_slowBy);
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             _enemy.GetComponent<SpeedManager>().IncreaseSpeed(_slowBy);
             return true;

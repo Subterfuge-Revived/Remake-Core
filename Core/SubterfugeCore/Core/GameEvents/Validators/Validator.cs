@@ -45,9 +45,9 @@ namespace Subterfuge.Remake.Core.GameEvents.Validators
                 return false;
             if (sub.GetComponent<SpecialistManager>() == null)
                 return false;
-            if (sub.GetComponent<SpecialistManager>().GetSpecialistCount() < 0)
+            if (sub.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount() < 0)
                 return false;
-            if (sub.GetComponent<SpecialistManager>().GetSpecialistCount() > sub.GetComponent<SpecialistManager>().GetCapacity())
+            if (sub.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount() > sub.GetComponent<SpecialistManager>().GetCapacity())
                 return false;
             if (sub.GetComponent<DrillerCarrier>().GetOwner() != null && !state.PlayerExists(sub.GetComponent<DrillerCarrier>().GetOwner()))
                 return false;
@@ -70,9 +70,9 @@ namespace Subterfuge.Remake.Core.GameEvents.Validators
                 return false;
             if (outpost.GetComponent<SpecialistManager>() == null)
                 return false;
-            if (outpost.GetComponent<SpecialistManager>().GetSpecialistCount() < 0)
+            if (outpost.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount() < 0)
                 return false;
-            if (outpost.GetComponent<SpecialistManager>().GetSpecialistCount() > outpost.GetComponent<SpecialistManager>().GetCapacity())
+            if (outpost.GetComponent<SpecialistManager>().GetUncapturedSpecialistCount() > outpost.GetComponent<SpecialistManager>().GetCapacity())
                 return false;
             if (outpost.GetComponent<DrillerCarrier>().GetOwner() != null && !state.PlayerExists(outpost.GetComponent<DrillerCarrier>().GetOwner()))
                 return false;

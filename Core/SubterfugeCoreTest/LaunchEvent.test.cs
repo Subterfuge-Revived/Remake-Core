@@ -84,7 +84,7 @@ namespace Subterfuge.Remake.Test
                 },
                 Id = "a",
             });
-            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine));
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
@@ -121,12 +121,12 @@ namespace Subterfuge.Remake.Test
                 },
                 Id = "a",
             });
-            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine));
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
             Assert.AreEqual(outpostOneInitial - 1, outpost1.GetComponent<DrillerCarrier>().GetDrillerCount());
-            Assert.AreEqual(true, launch.BackwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch.BackwardAction(_game.TimeMachine));
             Assert.AreEqual(outpostOneInitial, outpost1.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(outpostTwoInitial, outpost2.GetComponent<DrillerCarrier>().GetDrillerCount());
             Assert.AreEqual(0, _game.TimeMachine.GetState().GetSubList().Count);
@@ -161,7 +161,7 @@ namespace Subterfuge.Remake.Test
                 },
                 Id = "a",
             });
-            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch.ForwardAction(_game.TimeMachine));
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
@@ -221,8 +221,8 @@ namespace Subterfuge.Remake.Test
                 Id = "a",
             });
             
-            Assert.AreEqual(true, launch1.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
-            Assert.AreEqual(true, launch2.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch1.ForwardAction(_game.TimeMachine));
+            Assert.AreEqual(true, launch2.ForwardAction(_game.TimeMachine));
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(2, _game.TimeMachine.GetState().GetSubList().Count);
@@ -261,7 +261,7 @@ namespace Subterfuge.Remake.Test
                 Id = "a",
                 IssuedBy = _game.TimeMachine.GetState().GetPlayers()[0].PlayerInstance
             });
-            Assert.AreEqual(true, launch1.ForwardAction(_game.TimeMachine, _game.TimeMachine.GetState()));
+            Assert.AreEqual(true, launch1.ForwardAction(_game.TimeMachine));
             
             // Ensure the sub was launched, outpost lost drillers, etc.
             Assert.AreEqual(1, _game.TimeMachine.GetState().GetSubList().Count);
@@ -269,7 +269,7 @@ namespace Subterfuge.Remake.Test
             
             // Go to the combat.
             var combatHappened = false;
-            _game.TimeMachine.GetState().GetSubList()[0].GetComponent<PositionManager>().OnPostCombat += (PositionManager, postCombatEvent) =>
+            _game.TimeMachine.GetState().GetSubList()[0].GetComponent<PositionManager>().OnRegisterCombatEffects += (PositionManager, postCombatEvent) =>
             {
                 combatHappened = true;
             };

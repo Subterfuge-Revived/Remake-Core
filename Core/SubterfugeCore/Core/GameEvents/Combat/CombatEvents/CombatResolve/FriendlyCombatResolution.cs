@@ -27,24 +27,24 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             _outpost = (Outpost)(combatant1 is Outpost ? combatant1 : combatant2);
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             _drillersTransferred = _sub.GetComponent<DrillerCarrier>().GetDrillerCount();
             _specialistsTransferred = _sub.GetComponent<SpecialistManager>().GetSpecialists();
             
             _outpost.GetComponent<DrillerCarrier>().AlterDrillers(_drillersTransferred);
             _sub.GetComponent<DrillerCarrier>().AlterDrillers(_drillersTransferred * -1);
-            _sub.GetComponent<SpecialistManager>().TransferSpecialistsTo(_outpost.GetComponent<SpecialistManager>());
-            state.RemoveSub(_sub);
+            _sub.GetComponent<SpecialistManager>().TransferSpecialistsTo(_outpost.GetComponent<SpecialistManager>(), timeMachine);
+            timeMachine.GetState().RemoveSub(_sub);
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             _outpost.GetComponent<DrillerCarrier>().AlterDrillers(_drillersTransferred * -1);
             _outpost.GetComponent<SpecialistManager>()
-                .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), _specialistsTransferred.Select(it => it.GetId()).ToList());
-            state.AddSub(_sub);
+                .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), _specialistsTransferred.Select(it => it.GetId()).ToList(), timeMachine);
+            timeMachine.GetState().AddSub(_sub);
             return true;
         }
 

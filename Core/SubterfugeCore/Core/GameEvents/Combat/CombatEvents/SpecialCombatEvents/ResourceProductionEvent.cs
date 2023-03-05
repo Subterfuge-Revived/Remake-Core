@@ -1,4 +1,5 @@
-﻿using Microsoft.DotNet.PlatformAbstractions;
+﻿using System;
+using Microsoft.DotNet.PlatformAbstractions;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.GameEvents.Base;
@@ -8,52 +9,54 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 {
     public class ResourceProductionEvent : PositionalGameEvent
     {
-        private readonly IEntity _productionLocation;
+        public readonly IEntity ProductionLocation;
+        public bool _ignoresCapacity = false;
         public ProducedResourceType ResourceType { get; }
-        private int _valueToProduce;
+        public int ValueProduced;
         
         public ResourceProductionEvent(
             GameTick occursAt,
             IEntity locationProducedAt,
             ProducedResourceType producedType,
-            int valueToProduce
+            int valueProduced,
+            bool ignoresCapacity
         ) : base(occursAt, Priority.RESOURCE_PRODUCTION, locationProducedAt)
         {
-            _productionLocation = locationProducedAt;
+            ProductionLocation = locationProducedAt;
             ResourceType = producedType;
-            _valueToProduce = valueToProduce;
+            ValueProduced = valueProduced;
         }
 
-        public override bool ForwardAction(TimeMachine timeMachine, GameState state)
+        public override bool ForwardAction(TimeMachine timeMachine)
         {
             switch (ResourceType)
             {
                 case ProducedResourceType.Driller:
-                    _valueToProduce = _productionLocation.GetComponent<DrillerCarrier>().AlterDrillers(GetNextProductionAmount(state));
+                    ValueProduced = ProductionLocation.GetComponent<DrillerCarrier>().AlterDrillers(GetNextProductionAmount(timeMachine.GetState()));
                     break;
                 case ProducedResourceType.Neptunium:
-                    _valueToProduce = _productionLocation.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(GetNextProductionAmount(state));
+                    ValueProduced = ProductionLocation.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(GetNextProductionAmount(timeMachine.GetState()));
                     break;
                 case ProducedResourceType.Shield:
-                    _valueToProduce = _productionLocation.GetComponent<ShieldManager>().AlterShields(GetNextProductionAmount(state));
+                    ValueProduced = ProductionLocation.GetComponent<ShieldManager>().AlterShields(GetNextProductionAmount(timeMachine.GetState()));
                     break;
             }
 
             return true;
         }
 
-        public override bool BackwardAction(TimeMachine timeMachine, GameState state)
+        public override bool BackwardAction(TimeMachine timeMachine)
         {
             switch (ResourceType)
             {
                 case ProducedResourceType.Driller:
-                    _productionLocation.GetComponent<DrillerCarrier>().AlterDrillers(-1 * _valueToProduce);
+                    ProductionLocation.GetComponent<DrillerCarrier>().AlterDrillers(-1 * ValueProduced);
                     break;
                 case ProducedResourceType.Neptunium:
-                    _productionLocation.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(-1 * _valueToProduce);
+                    ProductionLocation.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(-1 * ValueProduced);
                     break;
                 case ProducedResourceType.Shield:
-                    _productionLocation.GetComponent<ShieldManager>().AlterShields(-1 * _valueToProduce);
+                    ProductionLocation.GetComponent<ShieldManager>().AlterShields(-1 * ValueProduced);
                     break;
             }
             return true;
@@ -66,8 +69,8 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 
         public int GetNextProductionAmount(GameState state)
         {
-            var owner = _productionLocation.GetComponent<DrillerCarrier>().GetOwner();
-            if (_productionLocation.GetComponent<DrillerCarrier>().IsDestroyed() || (owner != null && owner.IsEliminated()))
+            var owner = ProductionLocation.GetComponent<DrillerCarrier>().GetOwner();
+            if (ProductionLocation.GetComponent<DrillerCarrier>().IsDestroyed() || (owner != null && owner.IsEliminated()))
             {
                 return 0;
             }
@@ -75,13 +78,21 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             switch (ResourceType)
             {
                 case ProducedResourceType.Driller:
-                    return _valueToProduce;
+                    var extraDrillerCapacity = state.GetExtraDrillerCapacity(owner);
+
+                    if (!_ignoresCapacity)
+                    {
+                        // Get the min of the extra capacity vs. production count.
+                        return Math.Min(Math.Max(0, extraDrillerCapacity), ValueProduced);
+                    }
+                    
+                    return ValueProduced;
                 case ProducedResourceType.Neptunium:
-                    return state.GetPlayerOutposts(_productionLocation.GetComponent<DrillerCarrier>().GetOwner()).Count;
+                    return state.GetPlayerOutposts(ProductionLocation.GetComponent<DrillerCarrier>().GetOwner()).Count;
                 case ProducedResourceType.Shield:
-                    return _valueToProduce;
+                    return ValueProduced;
                 default:
-                    return _valueToProduce;
+                    return ValueProduced;
             }
         }
         
@@ -93,7 +104,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 
             return asEvent.OccursAt == this.OccursAt &&
                    asEvent.Priority == this.Priority &&
-                   asEvent._productionLocation == this._productionLocation &&
+                   asEvent.ProductionLocation == this.ProductionLocation &&
                    asEvent.ResourceType == this.ResourceType;
         }
 
@@ -102,7 +113,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             var hashBuilder = new HashCodeCombiner();
             hashBuilder.Add(OccursAt);
             hashBuilder.Add(Priority);
-            hashBuilder.Add(_productionLocation);
+            hashBuilder.Add(ProductionLocation);
             hashBuilder.Add(ResourceType);
             return hashBuilder.GetHashCode();
         }

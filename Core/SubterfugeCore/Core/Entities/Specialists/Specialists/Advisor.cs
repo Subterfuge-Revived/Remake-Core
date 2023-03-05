@@ -1,60 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Subterfuge.Remake.Api.Network;
 using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.GameEvents.Base;
-using Subterfuge.Remake.Core.GameEvents.Combat;
-using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.GameEvents.SpecialistEvents;
 using Subterfuge.Remake.Core.Players;
+using Subterfuge.Remake.Core.Timing;
 
 namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 {
     public class Advisor : Specialist
     {
+        private List<int> capacityIncreaseDelta = new List<int>() { 1, 2, 2 };
+        
         public Advisor(Player owner) : base(owner, false)
         {
         }
-        
 
-        protected override List<GameEvent> ForwardEffects(object? sender, DirectionalEventArgs subscribedEvent)
+        public override void ArriveAtLocation(IEntity location, TimeMachine timeMachine)
         {
-            OnSpecialistTransferEventArgs transferEvent = subscribedEvent as OnSpecialistTransferEventArgs; 
-            return new List<GameEvent>()
+            if (!_isCaptured)
             {
-                new SpecialistCapacityChangeEvent(
-                    subscribedEvent.TimeMachine.GetCurrentTick(),
-                    transferEvent.AddedTo,
-                    1
-                )
-            };
+                location.GetComponent<SpecialistManager>().AllowHireFromLocation();
+                location.GetComponent<SpecialistManager>().AlterCapacity(capacityIncreaseDelta[_level]);
+            }
         }
 
-        protected override List<GameEvent> CaptureEffects(object? sender, OnSpecialistsCapturedEventArgs subscribedEvent)
-        { 
-            return new List<GameEvent>()
+        public override void LeaveLocation(IEntity location, TimeMachine timeMachine)
+        {
+            // Don't care if captured, when leaving should always alter spec capacity at friendly locations.
+            if (Equals(location.GetComponent<DrillerCarrier>().GetOwner(), _owner))
             {
-                new SpecialistCapacityChangeEvent(
-                    subscribedEvent.TimeMachine.GetCurrentTick(),
-                    subscribedEvent.Location,
-                    -1
-                )
-            };
+                location.GetComponent<SpecialistManager>().DisallowHireFromLocation();
+                location.GetComponent<SpecialistManager>().AlterCapacity(capacityIncreaseDelta[_level] * -1);
+            }
         }
 
-        public override void ArriveAtLocation(IEntity location)
+        public override void OnCapture(bool isCaptured, IEntity entity, TimeMachine timeMachine)
         {
-            location.GetComponent<SpecialistManager>().OnSpecialistTransfer += TriggerForwardEffect;
-        }
-
-        public override void LeaveLocation(IEntity location)
-        {
-            location.GetComponent<SpecialistManager>().OnSpecialistTransfer -= TriggerForwardEffect;
+            entity.GetComponent<SpecialistManager>().DisallowHireFromLocation();
         }
 
         public override SpecialistTypeId GetSpecialistId()
         {
             return SpecialistTypeId.Advisor;
+        }
+
+        public override string GetDescription()
+        {
+            return $"Allows hiring specialists from the Advisor's location." +
+                   $"Carry {capacityIncreaseDelta} additional specialists with the Advisor.";
         }
     }
 }

@@ -8,21 +8,14 @@ namespace Subterfuge.Remake.Core.GameEvents.EventPublishers
 {
     public interface ICombatEventPublisher
     {
-        event EventHandler<OnPreCombatEventArgs> OnPreCombat;
-        event EventHandler<PostCombatEventArgs> OnPostCombat;
+        event EventHandler<OnRegisterCombatEventArgs> OnRegisterCombatEffects;
         event EventHandler<OnLocationTargetedEventArgs> OnLocationTargeted;
     }
 
-    public class OnPreCombatEventArgs: DirectionalEventArgs
+    public class OnRegisterCombatEventArgs: DirectionalEventArgs
     {
         public GameState CurrentState { get; set; }
         public CombatEvent CombatEvent { get; set; }
-    }
-
-    public class PostCombatEventArgs: DirectionalEventArgs
-    {
-        public GameState CurrentState { get; set; }
-        public CombatResolution CombatResolution { get; set; }
     }
 
     public class OnLocationTargetedEventArgs: DirectionalEventArgs
