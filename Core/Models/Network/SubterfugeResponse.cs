@@ -7,7 +7,7 @@ namespace Subterfuge.Remake.Api.Network
     {
         public ResponseStatus ResponseDetail;
         public T data;
-
+        
         public void Get(Action<T> success, Action<ResponseStatus> failure)
         {
             if (ResponseDetail.IsSuccess)
@@ -17,6 +17,18 @@ namespace Subterfuge.Remake.Api.Network
             else
             {
                 failure(ResponseDetail);
+            }
+        }
+        
+        public TResponse Get<TResponse>(Func<T, TResponse> success, Func<ResponseStatus, TResponse> failure)
+        {
+            if (ResponseDetail.IsSuccess)
+            {
+                return success(data);
+            }
+            else
+            {
+                return failure(ResponseDetail);
             }
         }
 

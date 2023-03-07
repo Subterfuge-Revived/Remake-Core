@@ -5,6 +5,9 @@
     <Nullable>enable</Nullable>
     <RootNamespace>Subterfuge.Remake</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
+	<AssemblyVersion>1.0.0</AssemblyVersion>
+	<FileVersion>1.0.0</FileVersion>
+	<NeutralLanguage>en-CA</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,26 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Core\GameEvents\Base\GameEvent.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="GameServer\GameEvents\Base\GameEventType.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Core\Entities\Sub.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Core\Game.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Core\Timing\GameTick.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="3.1.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.6.0-preview5.19224.8" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>

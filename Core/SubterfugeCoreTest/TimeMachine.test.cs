@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Subterfuge.Remake.Api.Network;
@@ -11,13 +9,11 @@ using Subterfuge.Remake.Core.Entities.Components;
 using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.GameEvents.Combat;
-using Subterfuge.Remake.Core.GameEvents.EventPublishers;
 using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.GameEvents.SpecialistEvents;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
 using Subterfuge.Remake.Core.Topologies;
-using PositionalGameEvent = Subterfuge.Remake.Core.GameEvents.Combat.PositionalGameEvent;
 
 namespace Subterfuge.Remake.Test
 {
