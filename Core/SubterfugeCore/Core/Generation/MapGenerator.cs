@@ -292,7 +292,11 @@ namespace Subterfuge.Remake.Core.Generation
                         foreach (Outpost o in translatedOutposts)
                         {
                             if (o.GetComponent<DrillerCarrier>().GetOwner() != null)
-                                o.GetComponent<DrillerCarrier>().SetOwner(_players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
+                            {
+                                o.GetComponent<DrillerCarrier>()
+                                    .SetOwner(_players[(widthCounter - 1) * 2 + (heightCounter - 1)]);
+                            }
+
                             if (!queenGenerated)
                             {
                                 o.GetComponent<SpecialistManager>().HireSpecialist(SpecialistFactory.CreateSpecialist(SpecialistTypeId.Queen, 0, o.GetComponent<DrillerCarrier>().GetOwner()), _timeMachine);

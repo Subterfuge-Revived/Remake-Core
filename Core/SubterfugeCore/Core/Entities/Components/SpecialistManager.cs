@@ -83,7 +83,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
 
         public bool HireSpecialist(Specialist specialist, TimeMachine timeMachine)
         {
-            if (_canHireAtLocation == 0)
+            if (_canHireAtLocation == 0 && !specialist.IsHero)
                 return false;
             
             if (GetUncapturedSpecialistCount() < _capacity)
