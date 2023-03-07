@@ -36,15 +36,9 @@ namespace Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents
             return Model.Id;
         }
 
-        protected GameRoomEvent GetBaseGameEventModel()
+        public GameRoomEvent GetBaseGameEventModel()
         {
-            return new GameRoomEvent()
-            {
-                Id = GetEventId(),
-                IssuedBy = IssuedBy().PlayerInstance,
-                TimeIssued = Model.TimeIssued,
-                GameEventData = Model.GameEventData
-            };
+            return Model;
         }
 
         public override bool Equals(object other)

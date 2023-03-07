@@ -75,7 +75,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
             LaunchEventData launchData = launchEvent.GetEventData();
 
             Sub launchedSub = launchEvent.GetActiveSub();
-            if (launchedSub != null)
+            if (launchedSub != null && timeMachine.GetState().SubExists(launchedSub))
             {
                 _drillerCarrier.AlterDrillers(launchData.DrillerCount);
                 launchedSub.GetComponent<SpecialistManager>().TransferSpecialistsTo(_specialistManager, timeMachine);
