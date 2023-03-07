@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
-using Microsoft.AspNetCore.WebUtilities;
 using Subterfuge.Remake.Api.Network;
 
 namespace Subterfuge.Remake.Api.Client.controllers.Client;
@@ -85,9 +84,11 @@ public class SubterfugeHttpClient
         {
             var nonNullParams = queryParams
                 .Where(it => it.Value != null)
-                .ToDictionary(it => it.Key, it => it.Value);
+                .ToDictionary(it => it.Key, it => it.Value)
+                .Select(kvPair => kvPair.Key + "=" + kvPair.Value )
+                .ToList();
 
-            queryUrl = QueryHelpers.AddQueryString(baseUrl, nonNullParams);
+            queryUrl = baseUrl + "?" + String.Join("&", nonNullParams);
         }
 
         return queryUrl;
