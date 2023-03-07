@@ -13,6 +13,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         public bool _ignoresCapacity = false;
         public ProducedResourceType ResourceType { get; }
         public int ValueProduced;
+        private ResourceProducer _producerReference;
         
         public ResourceProductionEvent(
             GameTick occursAt,
@@ -67,12 +68,15 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             {
                 case ProducedResourceType.Driller:
                     ProductionLocation.GetComponent<DrillerCarrier>().AlterDrillers(-1 * ValueProduced);
+                    ProductionLocation.GetComponent<DrillerProducer>().Producer.SetNextProductionTick(timeMachine.GetCurrentTick());
                     break;
                 case ProducedResourceType.Neptunium:
                     ProductionLocation.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(-1 * ValueProduced);
+                    ProductionLocation.GetComponent<NeptuniumProducer>().Producer.SetNextProductionTick(timeMachine.GetCurrentTick());
                     break;
                 case ProducedResourceType.Shield:
                     ProductionLocation.GetComponent<ShieldManager>().AlterShields(-1 * ValueProduced);
+                    ProductionLocation.GetComponent<ShieldProducer>().Producer.SetNextProductionTick(timeMachine.GetCurrentTick());
                     break;
             }
             return true;

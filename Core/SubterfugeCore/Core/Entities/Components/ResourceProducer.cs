@@ -7,6 +7,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
 {
     public class ResourceProducer : IResourceProductionEventPublisher
     {
+	    private GameTick _lastProductionTick = null;
         private GameTick _nextProductionTick;
         private int _ticksPerProductionCycle;
         private int _nextValueToProduce;
@@ -84,7 +85,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
 						_nextValueToProduce,
 						IgnoresCapacity
 					);
-					
+					_lastProductionTick = tickEventArgs.CurrentTick;
 					_timeMachine.AddEvent(resourceProduction);
 
 					var productionEvent = new ProductionEventArgs()
@@ -110,6 +111,11 @@ namespace Subterfuge.Remake.Core.Entities.Components
 		        }
 	        }
 		}
+
+        public void SetNextProductionTick(GameTick nextProduction)
+        {
+	        _nextProductionTick = nextProduction;
+        }
 
         public event EventHandler<ProductionEventArgs>? OnResourceProduced;
     }
