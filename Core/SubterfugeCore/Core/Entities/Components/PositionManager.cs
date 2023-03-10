@@ -61,7 +61,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
         /// <param name="onTick">On Tick event args</param>
         private void OnTickCheck(object sender, OnTickEventArgs onTick)
         {
-            if (_destination != null && onTick.CurrentState.EntityExists(_destination))
+            if (_destination != null && onTick.CurrentState.EntityExists(_destination) && onTick.CurrentState.EntityExists(Parent))
             {
                 RftVector direction = GetDirection().Normalize();
 

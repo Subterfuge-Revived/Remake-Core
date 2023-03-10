@@ -35,7 +35,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         public override bool BackwardAction(TimeMachine timeMachine)
         {
             _combatant1.GetComponent<DrillerCarrier>().SetDrillerCount(_preCombatDrillers1);
-            _combatant1.GetComponent<DrillerCarrier>().SetDrillerCount(_preCombatDrillers2);
+            _combatant2.GetComponent<DrillerCarrier>().SetDrillerCount(_preCombatDrillers2);
             return true;
         }
 
