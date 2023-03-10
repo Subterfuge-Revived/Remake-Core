@@ -197,11 +197,10 @@ namespace Subterfuge.Remake.Core.Entities.Components
             var specialistsMatchingId = _specialists.Where(it => specialistIds.Contains(it.GetId())).ToList();
             if (destinationSpecialistManager.CanAddSpecialists(specialistsMatchingId.Count))
             {
-                List<Specialist> toRemove = new List<Specialist>(_specialists);
-                _specialists.RemoveAll(it => specialistIds.Contains(it.GetId()));
-                destinationSpecialistManager._specialists.AddRange(toRemove);
+                _specialists = _specialists.Where(it => !specialistIds.Contains(it.GetId())).ToList();
+                destinationSpecialistManager._specialists.AddRange(specialistsMatchingId);
                 
-                toRemove.ForEach(spec =>
+                specialistsMatchingId.ForEach(spec =>
                 {
                     spec.LeaveLocation(Parent, timeMachine);
                     spec.ArriveAtLocation(destinationSpecialistManager.Parent, timeMachine);
@@ -212,7 +211,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
                     AddedTo = destinationSpecialistManager.Parent,
                     Direction = TimeMachineDirection.FORWARD,
                     RemovedFrom = this.Parent,
-                    specialist = toRemove,
+                    specialist = specialistsMatchingId,
                 });
                 
                 return true;

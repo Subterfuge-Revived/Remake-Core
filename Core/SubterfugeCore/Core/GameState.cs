@@ -438,6 +438,21 @@ namespace Subterfuge.Remake.Core
             return this._outposts.Contains(outpost);
         }
 
+        public bool EntityExists(IEntity entity)
+        {
+            if (entity is Outpost)
+            {
+                return this._outposts.Contains(entity);
+            }
+
+            if (entity is Sub)
+            {
+                return this._activeSubs.Contains(entity);
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Determines if the player is in the game
         /// </summary>
