@@ -58,9 +58,6 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
                     specialistsTransferred = _sub.GetComponent<SpecialistManager>().GetSpecialists(); 
                     _sub.GetComponent<SpecialistManager>()
                         .TransferSpecialistsTo(_outpost.GetComponent<SpecialistManager>(), timeMachine);
-                    
-                    // Remove the sub from the state.
-                    timeMachine.GetState().RemoveSub(_sub);
                 }
                 else
                 {
@@ -70,9 +67,6 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
                     specialistsTransferred = _sub.GetComponent<SpecialistManager>().GetSpecialists(); 
                     _sub.GetComponent<SpecialistManager>()
                         .TransferSpecialistsTo(_outpost.GetComponent<SpecialistManager>(), timeMachine);
-                    
-                    // Remove the sub from the state.
-                    timeMachine.GetState().RemoveSub(_sub);
                 }
             }
 
@@ -85,9 +79,6 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             {
                 if (_winner is Sub)
                 {
-                    // Add the sub back.
-                    timeMachine.GetState().AddSub(_sub);
-                    
                     // Put specialists back on the sub.
                     _outpost.GetComponent<SpecialistManager>()
                         .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), specialistsTransferred.Select(it => it.GetId()).ToList(), timeMachine);
@@ -101,9 +92,6 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
                 }
                 else
                 {
-                    // Add the sub back.
-                    timeMachine.GetState().AddSub(_sub);
-                    
                     // Put specialists back on the sub.
                     _outpost.GetComponent<SpecialistManager>()
                         .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), specialistsTransferred.Select(it => it.GetId()).ToList(), timeMachine);
