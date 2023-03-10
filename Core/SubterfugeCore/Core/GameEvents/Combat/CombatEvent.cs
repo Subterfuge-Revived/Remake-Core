@@ -82,8 +82,6 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat
         {
             if (EventSuccess)
             {
-                _combatResolveEvent.BackwardAction(timeMachine);
-
                 var skipUnnaturalEvents = false;
                 
                 CombatEventList.Sort();
