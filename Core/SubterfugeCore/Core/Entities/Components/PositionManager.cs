@@ -61,7 +61,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
         /// <param name="onTick">On Tick event args</param>
         private void OnTickCheck(object sender, OnTickEventArgs onTick)
         {
-            if (_destination != null)
+            if (_destination != null && onTick.CurrentState.EntityExists(_destination))
             {
                 RftVector direction = GetDirection().Normalize();
 
@@ -92,7 +92,7 @@ namespace Subterfuge.Remake.Core.Entities.Components
                 {
                     // If the sub has just launched, ignore it's source.
                     // Otherwise, it could be returning to the source.
-                    if (onTick.CurrentTick.GetTick() - this.GetSpawnTick().GetTick() > 2)
+                    if (onTick.CurrentTick.GetTick() - this.GetSpawnTick().GetTick() < 2)
                     {
                         return entity != _source;
                     }
