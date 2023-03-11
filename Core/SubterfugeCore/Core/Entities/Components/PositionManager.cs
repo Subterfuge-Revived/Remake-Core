@@ -61,24 +61,23 @@ namespace Subterfuge.Remake.Core.Entities.Components
         /// <param name="onTick">On Tick event args</param>
         private void OnTickCheck(object sender, OnTickEventArgs onTick)
         {
-            if (_destination != null && onTick.CurrentState.EntityExists(_destination) && onTick.CurrentState.EntityExists(Parent))
+            RftVector direction = GetDirection().Normalize();
+            
+            if (_destination != null)
             {
-                RftVector direction = GetDirection().Normalize();
-
                 if (onTick.Direction == TimeMachineDirection.FORWARD)
                 {
                     this.CurrentLocation += (direction * _speedManager.GetSpeed());
+                    // Check for combat events.
+                    if (Parent is Sub && onTick.CurrentState.EntityExists(_destination) && onTick.CurrentState.EntityExists(Parent))
+                    {
+                        CheckCombat(sender as TimeMachine, onTick);
+                    }
                 }
                 else
                 {
                     this.CurrentLocation -= (direction * _speedManager.GetSpeed());
                 }
-            }
-            
-            // Check for combat events.
-            if (Parent is Sub)
-            {
-                CheckCombat(sender as TimeMachine, onTick);
             }
         }
 
@@ -116,23 +115,10 @@ namespace Subterfuge.Remake.Core.Entities.Components
                             CombatEvent = combat,
                         });
                         
-                        combat.ForwardAction(timeMachine);
+                        timeMachine.AddEvent(combat);
                         localCombatEvents.Add(combat);
                     }
                 });
-            
-            // Also check to undo events...
-            if (onTick.Direction == TimeMachineDirection.REVERSE)
-            {
-                localCombatEvents
-                    .Where(it => it.OccursAt == onTick.CurrentTick.Advance(1))
-                    .ToList()
-                    .ForEach(it =>
-                    {
-                        it.BackwardAction(timeMachine);
-                        localCombatEvents.Remove(it);
-                    });
-            }
         }
 
         /// <summary>
