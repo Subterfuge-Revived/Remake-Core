@@ -13,7 +13,7 @@ jobs:
   # This workflow contains a single job called "build"
   unitTest:
     # The type of runner that the job will run on
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     # The container image to pull
     container: mcr.microsoft.com/dotnet/sdk:7.0
 
@@ -29,7 +29,7 @@ jobs:
       run: dotnet test "Core/SubterfugeCoreTest/SubterfugeCoreTest.csproj"
   # A step to build docfx documents using a differnt container with docfx installed
   gen-docs:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     container: erothejoker/docker-docfx:latest
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
