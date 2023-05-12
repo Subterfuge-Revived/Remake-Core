@@ -284,7 +284,7 @@ namespace Subterfuge.Remake.Test
             
             // Awkwarddd the outpost generates some shields in the process of the sub travelling.
             // Delta of 1 for the 1 shield that got generated.
-            var shieldsGenerated = 0;
+            var shieldsGenerated = 1;
             Assert.AreEqual(Math.Abs((outpostTwoInitial + shieldsGenerated) - outpostOneInitial), outpost2.GetComponent<DrillerCarrier>().GetDrillerCount());
         }
     }
