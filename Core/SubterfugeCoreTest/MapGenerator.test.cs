@@ -30,6 +30,8 @@ namespace Subterfuge.Remake.Test
         public void Setup()
         {
             _timeMachine = new TimeMachine(new GameState(players));
+            GameConfiguration config = new TestUtils().GetDefaultGameConfiguration(players);
+            new Game(config);
         }
 
         [TestMethod]
