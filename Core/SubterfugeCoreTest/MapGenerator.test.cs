@@ -166,7 +166,7 @@ namespace Subterfuge.Remake.Test
             MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
             List<Outpost> generatedOutposts = generator.GenerateMap();
 
-            // Advance the time forward 100 ticks to allow time for shield generation
+            // Advance the time forward until next shield production
             _timeMachine.Advance(Constants.BASE_SHIELD_REGENERATION_TICKS);
 
             // Check that each unowned outpost has not generated shields
