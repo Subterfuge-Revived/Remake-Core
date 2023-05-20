@@ -167,7 +167,7 @@ namespace Subterfuge.Remake.Test
             List<Outpost> generatedOutposts = generator.GenerateMap();
 
             // Advance the time forward 100 ticks to allow time for shield generation
-            _timeMachine.Advance(100);
+            _timeMachine.Advance(Constants.BASE_SHIELD_REGENERATION_TICKS);
 
             // Check that each unowned outpost has not generated shields
             foreach (Outpost outpost in generatedOutposts.Where(x => x.GetComponent<DrillerCarrier>().GetOwner() == null))
@@ -191,8 +191,8 @@ namespace Subterfuge.Remake.Test
             MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
             List<Outpost> generatedOutposts = generator.GenerateMap();
 
-            // Advance the time forward 100 ticks to allow time for driller production
-            _timeMachine.Advance(100);
+            // Advance the time forward until next production
+            _timeMachine.Advance(Constants.TicksPerProduction);
 
             // Check that each unowned outpost has not produced drillers
             foreach (Outpost outpost in generatedOutposts.Where(x => x.GetComponent<DrillerCarrier>().GetOwner() == null))
