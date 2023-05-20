@@ -32,13 +32,29 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             switch (ResourceType)
             {
                 case ProducedResourceType.Driller:
-                    ValueProduced = ProductionLocation.GetComponent<DrillerCarrier>().AlterDrillers(GetNextProductionAmount(timeMachine.GetState()));
+                    // Ensure unowned outposts do not produce drillers
+                    if (ProductionLocation.GetComponent<DrillerCarrier>().GetOwner() == null)
+                    {
+                        ValueProduced = 0;
+                    }
+                    else
+                    {
+                        ValueProduced = ProductionLocation.GetComponent<DrillerCarrier>().AlterDrillers(GetNextProductionAmount(timeMachine.GetState()));
+                    }
                     break;
                 case ProducedResourceType.Neptunium:
                     ValueProduced = ProductionLocation.GetComponent<DrillerCarrier>().GetOwner().AlterNeptunium(GetNextProductionAmount(timeMachine.GetState()));
                     break;
                 case ProducedResourceType.Shield:
-                    ValueProduced = ProductionLocation.GetComponent<ShieldManager>().AlterShields(GetNextProductionAmount(timeMachine.GetState()));
+                    // Ensure unowned outposts do not produce shields
+                    if (ProductionLocation.GetComponent<DrillerCarrier>().GetOwner() == null)
+                    {
+                        ValueProduced = 0;
+                    }
+                    else
+                    {
+                        ValueProduced = ProductionLocation.GetComponent<ShieldManager>().AlterShields(GetNextProductionAmount(timeMachine.GetState()));
+                    }
                     break;
             }
 

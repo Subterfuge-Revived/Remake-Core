@@ -128,7 +128,79 @@ namespace Subterfuge.Remake.Test
                 Assert.AreEqual(config.MapConfiguration.OutpostsPerPlayer, keyValuePair.Value);   
             }
         }
-        
+
+        [TestMethod]
+        public void UnownedOutpostsHaveNoDrillers()
+        {
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
+            Assert.IsNotNull(config);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
+            config.MapConfiguration.Seed = rand.Next();
+            config.MapConfiguration.DormantsPerPlayer = 3;
+            config.MapConfiguration.MaximumOutpostDistance = 100;
+            config.MapConfiguration.MinimumOutpostDistance = 5;
+            config.MapConfiguration.OutpostsPerPlayer = 7;
+
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            List<Outpost> generatedOutposts = generator.GenerateMap();
+
+            // Loop through all unowned outpost and verify that the driller count is 0 for each
+            foreach (Outpost outpost in generatedOutposts.Where(x => x.GetComponent<DrillerCarrier>().GetOwner() == null))
+            {
+                Assert.AreEqual(0, outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
+            }
+        }
+
+        [TestMethod]
+        public void UnownedOutpostsHaveNoShieldGeneration()
+        {
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
+            Assert.IsNotNull(config);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
+            config.MapConfiguration.Seed = rand.Next();
+            config.MapConfiguration.DormantsPerPlayer = 3;
+            config.MapConfiguration.MaximumOutpostDistance = 100;
+            config.MapConfiguration.MinimumOutpostDistance = 5;
+            config.MapConfiguration.OutpostsPerPlayer = 7;
+
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            List<Outpost> generatedOutposts = generator.GenerateMap();
+
+            // Advance the time forward 100 ticks to allow time for shield generation
+            _timeMachine.Advance(100);
+
+            // Check that each unowned outpost has not generated shields
+            foreach (Outpost outpost in generatedOutposts.Where(x => x.GetComponent<DrillerCarrier>().GetOwner() == null))
+            {
+                Assert.AreEqual(0, outpost.GetComponent<ShieldManager>().GetShields());
+            }
+        }
+
+        [TestMethod]
+        public void UnownedOutpostsHaveNoDrillerProduction()
+        {
+            GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
+            Assert.IsNotNull(config);
+            Random rand = new Random(DateTime.UtcNow.Millisecond);
+            config.MapConfiguration.Seed = rand.Next();
+            config.MapConfiguration.DormantsPerPlayer = 3;
+            config.MapConfiguration.MaximumOutpostDistance = 100;
+            config.MapConfiguration.MinimumOutpostDistance = 5;
+            config.MapConfiguration.OutpostsPerPlayer = 7;
+
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            List<Outpost> generatedOutposts = generator.GenerateMap();
+
+            // Advance the time forward 100 ticks to allow time for driller production
+            _timeMachine.Advance(100);
+
+            // Check that each unowned outpost has not produced drillers
+            foreach (Outpost outpost in generatedOutposts.Where(x => x.GetComponent<DrillerCarrier>().GetOwner() == null))
+            {
+                Assert.AreEqual(0, outpost.GetComponent<DrillerCarrier>().GetDrillerCount());
+            }
+        }
+
         [TestMethod]
         public void AllPlayersHaveAQueen()
         {
