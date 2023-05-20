@@ -26,7 +26,10 @@ namespace Subterfuge.Remake.Core.Entities.Positions
             Player outpostOwner = null,
             float visionRadius = Constants.BaseOutpostVisionRadius
         ) {
-            AddComponent(new DrillerCarrier(this, Constants.InitialDrillersPerOutpost, outpostOwner));
+            // Ensure unowned outposts start with 0 dillers
+            int initialDrillers = outpostOwner != null ? Constants.InitialDrillersPerOutpost : 0;
+
+            AddComponent(new DrillerCarrier(this, initialDrillers, outpostOwner));
             AddComponent(new SpeedManager(this, 0.0f));
             AddComponent(new PositionManager(this, outpostStartPosition, new GameTick(), timeMachine));
             AddComponent(new SpecialistManager(this, 100));
