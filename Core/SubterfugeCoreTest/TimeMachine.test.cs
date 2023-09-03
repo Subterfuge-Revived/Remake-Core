@@ -27,7 +27,7 @@ namespace Subterfuge.Remake.Test
         [TestInitialize]
         public void Setup()
         {
-            _game = new Game(testUtils.GetDefaultGameConfiguration(new List<Player> { player }));
+            _game = Game.FromGameConfiguration(testUtils.GetDefaultGameConfiguration(new List<Player> { player }));
 
         }
 

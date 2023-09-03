@@ -24,7 +24,7 @@ namespace Subterfuge.Remake.Test
             _tickNumber = 0;
             _tick = new GameTick(_tickNumber);
             GameConfiguration config = testUtils.GetDefaultGameConfiguration(new List<Player>{ new Player(new SimpleUser() { Id = "1" }) });
-            new Game(config);
+            Game.FromGameConfiguration(config);
         }
 
         [TestMethod]

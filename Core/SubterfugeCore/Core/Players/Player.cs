@@ -59,18 +59,6 @@ namespace Subterfuge.Remake.Core.Players
             this._isEliminated = false;
             this.CurrencyManager = new CurrencyManager();
         }
-        
-        public Player(
-            SimpleUser playerInstance,
-            List<SpecialistTypeId> specialistPool
-        ) {
-            this.PlayerInstance = playerInstance;
-            this._numMinesBuilt = 0;
-            this._neptunium = 0;
-            this._isEliminated = false;
-            this.CurrencyManager = new CurrencyManager();
-            this.SpecialistPool = new SpecialistPool(this, Game.SeededRandom, specialistPool);
-        }
 
         /// <summary>
         /// Gets the player's id

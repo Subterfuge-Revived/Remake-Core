@@ -32,7 +32,7 @@ namespace Subterfuge.Remake.Test
         public void Setup()
         {
             GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
-            _game = new Game(config);
+            _game = Game.FromGameConfiguration(config);
         }
 
         [TestMethod]
