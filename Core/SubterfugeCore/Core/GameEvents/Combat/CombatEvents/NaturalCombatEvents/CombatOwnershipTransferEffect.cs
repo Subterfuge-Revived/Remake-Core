@@ -81,7 +81,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
                 {
                     // Put specialists back on the sub.
                     _outpost.GetComponent<SpecialistManager>()
-                        .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), specialistsTransferred.Select(it => it.GetId()).ToList(), timeMachine);
+                        .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), specialistsTransferred.Select(it => it.GetSpecialistId().ToString()).ToList(), timeMachine);
                     
                     // Put drillers back on the sub.
                     _sub.GetComponent<DrillerCarrier>().AlterDrillers(drillersTransferred);
@@ -94,7 +94,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
                 {
                     // Put specialists back on the sub.
                     _outpost.GetComponent<SpecialistManager>()
-                        .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), specialistsTransferred.Select(it => it.GetId()).ToList(), timeMachine);
+                        .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), specialistsTransferred.Select(it => it.GetSpecialistId().ToString()).ToList(), timeMachine);
                 }
             }
 
@@ -112,8 +112,8 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
             var outpostDrillerCount = _outpost.GetComponent<DrillerCarrier>().GetDrillerCount();
             if (subDrillerCount <= 0 && outpostDrillerCount <= 0)
             {
-                // Attacker wins in the case of a tie
-                return _sub;
+                // Defender wins in the case of a tie
+                return _outpost;
             }
 
             if (subDrillerCount <= 0)

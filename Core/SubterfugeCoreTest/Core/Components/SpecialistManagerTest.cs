@@ -203,7 +203,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             var specialist = new NoOpSpecialist(playerOne);
             bool removeResult = _mockEntity.Object.GetComponent<SpecialistManager>().TransferSpecialistsById(
                 _mockSecondEntity.Object.GetComponent<SpecialistManager>(), 
-                new List<string>() { specialist.GetId() },
+                new List<string>() { specialist.GetSpecialistId().ToString() },
                 _timeMachine
             );
             Assert.IsTrue(removeResult);
@@ -387,7 +387,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
 
-            var listOfIds = specialists.Select(it => it.GetId()).ToList();
+            var listOfIds = specialists.Select(it => it.GetSpecialistId().ToString()).ToList();
 
             var transferResult = _mockEntity.Object.GetComponent<SpecialistManager>()
                 .TransferSpecialistsById(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), listOfIds, _timeMachine);
@@ -428,7 +428,7 @@ namespace Subterfuge.Remake.Test.Core.Components
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistOne));
             Assert.IsTrue(_mockEntity.Object.GetComponent<SpecialistManager>().GetSpecialists().Contains(specialistTwo));
 
-            var listOfIds = specialists.Select(it => it.GetId()).ToList();
+            var listOfIds = specialists.Select(it => it.GetSpecialistId().ToString()).ToList();
 
             var transferResult = _mockEntity.Object.GetComponent<SpecialistManager>()
                 .TransferSpecialistsById(_mockSecondEntity.Object.GetComponent<SpecialistManager>(), listOfIds, _timeMachine);

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Subterfuge.Remake.Core.Entities;
 using Subterfuge.Remake.Core.Entities.Components;
-using Subterfuge.Remake.Core.Entities.Positions;
 using Subterfuge.Remake.Core.GameEvents.Base;
 using Subterfuge.Remake.Core.Timing;
 
@@ -13,8 +13,8 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         private IEntity _entityExploding;
         private GameState _state;
 
-        private List<IEntity> entitiesDestroyed;
-        
+        private Dictionary<IEntity, EntityData> EntitiesBeforeExplosion;
+
         public EntityExplodeEffect(
             GameTick occursAt,
             IEntity entityExploding,
@@ -27,19 +27,26 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 
         public override bool ForwardAction(TimeMachine timeMachine)
         {
-            entitiesDestroyed = _state.EntitesInRange(Constants.BaseSubVisionRadius,
-                _entityExploding.GetComponent<PositionManager>().CurrentLocation);
+            EntitiesBeforeExplosion = _state.EntitesInRange(Constants.BaseSubVisionRadius,
+                _entityExploding.GetComponent<PositionManager>().CurrentLocation)
+                .ToDictionary(entity => entity, entity => new EntityData()
+                {
+                    DrillerCount = entity.GetComponent<DrillerCarrier>().GetDrillerCount(),
+                    ShieldCount = entity.GetComponent<ShieldManager>().GetShields(),
+                    Specialists = entity.GetComponent<SpecialistManager>().GetSpecialists().ConvertAll(spec => spec.GetSpecialistId())
+                });
             
             // Remove all of the entities from the game state.
-            foreach(IEntity e in entitiesDestroyed)
+            foreach(KeyValuePair<IEntity, EntityData> e in EntitiesBeforeExplosion)
             {
-                if (e is Sub)
+                if (e.Key is Sub)
                 {
-                    timeMachine.GetState().RemoveSub(e as Sub);
+                    timeMachine.GetState().RemoveSub(e.Key as Sub);
                 }
                 else
                 {
-                    e.GetComponent<DrillerCarrier>().Destroy();
+                    e.Key.GetComponent<DrillerCarrier>().SetDrillerCount(0);
+                    e.Key.GetComponent<DrillerCarrier>().Destroy();
                 }
             }
 
@@ -48,16 +55,16 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
 
         public override bool BackwardAction(TimeMachine timeMachine)
         {
-            foreach(IEntity e in entitiesDestroyed)
+            foreach(KeyValuePair<IEntity, EntityData> e in EntitiesBeforeExplosion)
             {
-                if (e is Sub)
+                if (e.Key is Sub)
                 {
-                    timeMachine.GetState().AddSub(e as Sub);
+                    timeMachine.GetState().AddSub(e.Key as Sub);
                 }
                 else
                 {
-                    // TODO: This is not perfect... Need to ensure that we can "redo" a destroy event somehow.
-                    e.GetComponent<DrillerCarrier>().UndoDestroy(10);
+                    e.Key.GetComponent<DrillerCarrier>().UndoDestroy(e.Value.DrillerCount);
+                    e.Key.GetComponent<ShieldManager>().SetShields(e.Value.ShieldCount);
                 }
             }
 

@@ -15,7 +15,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 
         public override void ArriveAtLocation(IEntity entity, TimeMachine timeMachine)
         {
-            if (_isCaptured)
+            if (!_isCaptured)
             {
                 entity.GetComponent<PositionManager>().OnRegisterCombatEffects += ExplodeOnCombatEffects;
             }
@@ -23,7 +23,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
 
         public override void LeaveLocation(IEntity entity, TimeMachine timeMachine)
         {
-            if (_isCaptured)
+            if (!_isCaptured)
             {
                 entity.GetComponent<PositionManager>().OnRegisterCombatEffects -= ExplodeOnCombatEffects;
             }

@@ -51,8 +51,8 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             combatEventArgs.CombatEvent.AddEffectToCombat(new AlterDrillerEffect(
                 combatEventArgs.CombatEvent,
                 friendlyEntity,
-                (int)(enemyCarrier.GetDrillerCount() * _stealPerLevel[_level]),
-                (int)(enemyCarrier.GetDrillerCount() * _stealPerLevel[_level] * -1)
+                (int)(enemyCarrier.GetDrillerCount() * _stealPerLevel[_level - 1]),
+                (int)(enemyCarrier.GetDrillerCount() * _stealPerLevel[_level - 1] * -1)
             ));
         }
 

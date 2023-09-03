@@ -28,6 +28,10 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
                     return new Smuggler(owner);
                 case SpecialistTypeId.Veteran:
                     return new Veteran(owner);
+                case SpecialistTypeId.Martyr:
+                    return new Martyr(owner);
+                case SpecialistTypeId.Theif:
+                    return new Theif(owner);
                 default:
                     return null;
             }

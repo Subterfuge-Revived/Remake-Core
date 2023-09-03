@@ -115,6 +115,14 @@ namespace Subterfuge.Remake.Core.Entities.Components
                             CombatEvent = combat,
                         });
                         
+                        // Also include any defensive combat events
+                        entityToFight.GetComponent<PositionManager>().OnRegisterCombatEffects?.Invoke(this, new OnRegisterCombatEventArgs()
+                        {
+                            Direction = onTick.Direction,
+                            CurrentState = timeMachine.GetState(),
+                            CombatEvent = combat,
+                        });
+                        
                         timeMachine.AddEvent(combat);
                         localCombatEvents.Add(combat);
                     }

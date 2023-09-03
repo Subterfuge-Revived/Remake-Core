@@ -7,7 +7,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
 {
     public class Queen: Specialist
     {
-        private int shieldDelta = 25;
+        public static int SHIELD_PROVIDED = 25;
         
         public Queen(Player owner) : base(owner, true)
         {
@@ -18,7 +18,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
             if (!this._isCaptured)
             {
                 entity.GetComponent<SpecialistManager>().AllowHireFromLocation();
-                entity.GetComponent<ShieldManager>().AlterShieldCapacity(shieldDelta);
+                entity.GetComponent<ShieldManager>().AlterShieldCapacity(SHIELD_PROVIDED);
             }
         }
 
@@ -28,7 +28,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
             if (!this._isCaptured)
             {
                 entity.GetComponent<SpecialistManager>().DisallowHireFromLocation();
-                entity.GetComponent<ShieldManager>().AlterShieldCapacity(shieldDelta * -1);
+                entity.GetComponent<ShieldManager>().AlterShieldCapacity(SHIELD_PROVIDED * -1);
             }
         }
 
@@ -47,7 +47,7 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Heroes
 
         public override string GetDescription()
         {
-            return $"Adds ${shieldDelta} shields to the Queen's Location. If the Queen dies, the owner is eliminated.";
+            return $"Adds ${SHIELD_PROVIDED} shields to the Queen's Location. If the Queen dies, the owner is eliminated.";
         }
     }
 }

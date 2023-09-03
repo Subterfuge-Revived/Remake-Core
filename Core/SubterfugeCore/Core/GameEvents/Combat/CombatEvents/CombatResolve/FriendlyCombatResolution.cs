@@ -43,7 +43,7 @@ namespace Subterfuge.Remake.Core.GameEvents.Combat.CombatEvents
         {
             _outpost.GetComponent<DrillerCarrier>().AlterDrillers(_drillersTransferred * -1);
             _outpost.GetComponent<SpecialistManager>()
-                .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), _specialistsTransferred.Select(it => it.GetId()).ToList(), timeMachine);
+                .TransferSpecialistsById(_sub.GetComponent<SpecialistManager>(), _specialistsTransferred.Select(it => it.GetSpecialistId().ToString()).ToList(), timeMachine);
             timeMachine.GetState().AddSub(_sub);
             return true;
         }

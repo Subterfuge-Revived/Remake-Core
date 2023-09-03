@@ -14,12 +14,6 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
     public abstract class Specialist
     {
         /// <summary>
-        /// The name of the specialist
-        /// </summary>
-        /// TODO: Generate the id from a known seed.
-        private readonly string _specialistId = Guid.NewGuid().ToString();
-        
-        /// <summary>
         /// The player who owns the specialist
         /// </summary>
         protected Player _owner;
@@ -48,16 +42,6 @@ namespace Subterfuge.Remake.Core.Entities.Specialists
         ) {
             _owner = owner;
             IsHero = isHero;
-        }
-
-        /// <summary>
-        /// Returns the specialist id.
-        /// </summary>
-        /// <returns>The specialist's id</returns>
-        public string GetId()
-        {
-            // TODO: Do something else here.
-            return GetSpecialistId().ToString();
         }
 
         /// <summary>

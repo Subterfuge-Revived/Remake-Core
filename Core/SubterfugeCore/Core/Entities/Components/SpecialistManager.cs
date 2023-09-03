@@ -194,10 +194,10 @@ namespace Subterfuge.Remake.Core.Entities.Components
         /// <param name="specialistIds">List of specialist Ids to transfer</param>
         public bool TransferSpecialistsById(SpecialistManager destinationSpecialistManager, List<string> specialistIds, TimeMachine timeMachine)
         {
-            var specialistsMatchingId = _specialists.Where(it => specialistIds.Contains(it.GetId())).ToList();
+            var specialistsMatchingId = _specialists.Where(it => specialistIds.Contains(it.GetSpecialistId().ToString())).ToList();
             if (destinationSpecialistManager.CanAddSpecialists(specialistsMatchingId.Count))
             {
-                _specialists = _specialists.Where(it => !specialistIds.Contains(it.GetId())).ToList();
+                _specialists = _specialists.Where(it => !specialistIds.Contains(it.GetSpecialistId().ToString())).ToList();
                 destinationSpecialistManager._specialists.AddRange(specialistsMatchingId);
                 
                 specialistsMatchingId.ForEach(spec =>
