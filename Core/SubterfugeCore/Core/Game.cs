@@ -52,6 +52,11 @@ namespace Subterfuge.Remake.Core
         private Game()
         {
             GameConfiguration = new GameConfiguration();
+            GameConfiguration.PlayersInLobby = new List<User>()
+            {
+                new SimpleUser() { Id = "1", Username = "Test1" }.ToUser(),
+                new SimpleUser() { Id = "2", Username = "Test1" }.ToUser(),
+            };
             SetupGameFromConfiguration(GameConfiguration, false);
         }
 

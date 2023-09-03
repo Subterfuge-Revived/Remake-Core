@@ -26,7 +26,7 @@ namespace Subterfuge.Remake.Api.Network
         public DateTime TimeCreated { get; set; } = DateTime.UtcNow;
         public DateTime TimeStarted { get; set; } = DateTime.UtcNow;
         public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
-        public List<User> PlayersInLobby { get; set; } = new List<User>() { new SimpleUser() { Id = "1", Username = "Test1"}.ToUser(), new SimpleUser(){ Id = "2", Username = "Test2"}.ToUser() };
+        public List<User> PlayersInLobby { get; set; } = new List<User>() { };
 
         public Dictionary<string, List<SpecialistTypeId>> PlayerSpecialistDecks { get; set; } =
             new Dictionary<string, List<SpecialistTypeId>>();

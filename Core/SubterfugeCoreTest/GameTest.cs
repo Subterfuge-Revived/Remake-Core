@@ -38,6 +38,7 @@ namespace Subterfuge.Remake.Test
 		public void GameCanLoadFromConfiguration()
 		{
 			GameConfiguration config = new GameConfiguration();
+			config.PlayersInLobby = new List<User>() { new SimpleUser() { Id = "1", Username = "Test" }.ToUser() };
 			Game game = Game.FromGameConfiguration(config);
 			Assert.AreEqual(game.TimeMachine.GetState().GetPlayers().Count, config.PlayersInLobby.Count);
 		}
@@ -46,6 +47,7 @@ namespace Subterfuge.Remake.Test
 		public void GameCreatedFromConfigGeneratesMap()
 		{
 			GameConfiguration config = new GameConfiguration();
+			config.PlayersInLobby = new List<User>() { new SimpleUser() { Id = "1", Username = "Test" }.ToUser() };
 			Game game = Game.FromGameConfiguration(config);
 			Assert.AreEqual(game.TimeMachine.GetState().GetPlayers().Count, config.PlayersInLobby.Count);
 			Assert.IsTrue(game.TimeMachine.GetState().GetOutposts().Count > 0);
