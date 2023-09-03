@@ -51,8 +51,8 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
             
             registerCombatEventArgs.CombatEvent.AddEffectToCombat(new AlterShieldEffect(
                 registerCombatEventArgs.CombatEvent,
-                friendlyEntity,
-                GetShieldDelta(enemyEntity)
+                enemyEntity,
+                GetShieldDelta(enemyEntity) * -1
             ));
 
             if (GetLevel() >= 2)

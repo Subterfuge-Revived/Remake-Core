@@ -53,13 +53,13 @@ namespace Subterfuge.Remake.Core.Entities.Specialists.Specialists
         {
             var friendlyEntity = eventArgs.CombatEvent.GetEntityOwnedBy(_owner);
             var friendlyDrillers = friendlyEntity.GetComponent<DrillerCarrier>().GetDrillerCount();
-            var extraDrillers = (int)(ExtraDrillersPerLevel[_level] * friendlyDrillers);
+            var extraDrillers = (int)(ExtraDrillersPerLevel[_level - 1] * friendlyDrillers);
             
             eventArgs.CombatEvent.AddEffectToCombat(new AlterDrillerEffect(
                 eventArgs.CombatEvent,
                 friendlyEntity,
                 0,
-                -1 * (drillersPerLevel[_level] + extraDrillers)
+                -1 * (drillersPerLevel[_level - 1] + extraDrillers)
             ));
         }
     }
