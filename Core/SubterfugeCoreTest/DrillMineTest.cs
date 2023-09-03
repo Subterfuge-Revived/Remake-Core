@@ -35,7 +35,7 @@ namespace Subterfuge.Remake.Test
 			};
 			GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
 			config.MapConfiguration.OutpostsPerPlayer = 12;
-			_game = new Game(config);
+			_game = Game.FromGameConfiguration(config);
 			_tm = _game.TimeMachine;
 			_o1 = _tm.GetState().GetPlayerOutposts(_p)[0];
 			_o2 = _tm.GetState().GetPlayerOutposts(_p)[1];

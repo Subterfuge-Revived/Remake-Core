@@ -137,7 +137,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanLaunchSubs()
         {
-            Game game = new Game(_testUtils.GetDefaultGameConfiguration(_playersInGame));
+            Game game = Game.FromGameConfiguration(_testUtils.GetDefaultGameConfiguration(_playersInGame));
             game.TimeMachine.GetState().GetOutposts().Add(_outpost);
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 
@@ -167,7 +167,7 @@ namespace Subterfuge.Remake.Test
         [TestMethod]
         public void CanUndoSubLaunch()
         {
-            Game game = new Game(_testUtils.GetDefaultGameConfiguration(_playersInGame));
+            Game game = Game.FromGameConfiguration(_testUtils.GetDefaultGameConfiguration(_playersInGame));
             game.TimeMachine.GetState().GetOutposts().Add(_outpost);
             game.TimeMachine.GetState().GetOutposts().Add(_outpost2);
 

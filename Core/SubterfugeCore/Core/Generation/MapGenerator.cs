@@ -34,6 +34,8 @@ namespace Subterfuge.Remake.Core.Generation
         /// </summary>
         private readonly MapConfiguration _mapConfiguration;
 
+        private readonly SeededRandom _random;
+
         /// <summary>
         /// Id Generator for outposts.
         /// </summary>
@@ -51,11 +53,13 @@ namespace Subterfuge.Remake.Core.Generation
         public MapGenerator(
             MapConfiguration mapConfiguration,
             List<Player> players,
-            TimeMachine timeMachine
+            TimeMachine timeMachine,
+            SeededRandom random
         ) {
-            this._players = players;
-            this._mapConfiguration = mapConfiguration;
+            _players = players;
+            _mapConfiguration = mapConfiguration;
             _timeMachine = timeMachine;
+            _random = random;
             
             if (players.Count <= 0)
             {
@@ -67,7 +71,7 @@ namespace Subterfuge.Remake.Core.Generation
                 throw new OutpostPerPlayerException("outpostsPerPlayer must be greater than or equal to one.");
             }
 
-            this._nameGenerator = new NameGenerator(Game.SeededRandom);
+            this._nameGenerator = new NameGenerator(_random);
 
             // Set the map size.
             int halfPlayers = (int)(Math.Floor(players.Count / 2.0));
@@ -84,7 +88,7 @@ namespace Subterfuge.Remake.Core.Generation
         private List<Outpost> TranslateOutposts(List<Outpost> outposts, RftVector translation)
         {
             // Generate a random rotation of 0/90/180/270 so the map doesn't appear to be tiled.
-            double rotation = Game.SeededRandom.NextRand(0, 3) * Math.PI / 2;
+            double rotation = _random.NextRand(0, 3) * Math.PI / 2;
 
             // List to store the newly translated outposts
             List<Outpost> translatedOutposts = new List<Outpost>();
@@ -141,8 +145,8 @@ namespace Subterfuge.Remake.Core.Generation
             while (playerOutposts.Count < _mapConfiguration.OutpostsPerPlayer + _mapConfiguration.DormantsPerPlayer)
             {
                 // calculate the new outposts location within allowable radius
-                var distance = Game.SeededRandom.NextDouble() * (_mapConfiguration.MaximumOutpostDistance - _mapConfiguration.MinimumOutpostDistance) + _mapConfiguration.MinimumOutpostDistance;
-                var direction = Game.SeededRandom.NextDouble() * Math.PI * 2;
+                var distance = _random.NextDouble() * (_mapConfiguration.MaximumOutpostDistance - _mapConfiguration.MinimumOutpostDistance) + _mapConfiguration.MinimumOutpostDistance;
+                var direction = _random.NextDouble() * Math.PI * 2;
 
                 // Determine the type of outpost that is generated
                 OutpostType[] validTypes =
@@ -151,7 +155,7 @@ namespace Subterfuge.Remake.Core.Generation
                     OutpostType.Generator,
                     OutpostType.Watchtower,
                 };
-                OutpostType type = validTypes[Game.SeededRandom.NextRand(0, 3)];
+                OutpostType type = validTypes[_random.NextRand(0, 3)];
 
                 //convert distance & direction into vector X and Y
                 var x = Convert.ToInt32(Math.Cos(direction) * distance);

@@ -8,6 +8,7 @@ using Subterfuge.Remake.Core.GameEvents.PlayerTriggeredEvents;
 using Subterfuge.Remake.Core.Generation;
 using Subterfuge.Remake.Core.Players;
 using Subterfuge.Remake.Core.Timing;
+using Subterfuge.Remake.Core.Topologies;
 
 namespace Subterfuge.Remake.Core
 {
@@ -30,38 +31,76 @@ namespace Subterfuge.Remake.Core
         /// The random number generated used for all randomly selected events within the game.
         /// This includes things like outpost generation and specialist pool randomization.
         /// </summary>
-        public static SeededRandom SeededRandom;
+        public SeededRandom SeededRandom;
 
         /// <summary>
         /// Current Game configuration
         /// </summary>
-        public static GameConfiguration GameConfiguration;
+        public GameConfiguration GameConfiguration;
+
+        public static Game FromGameConfiguration(GameConfiguration gameConfiguration)
+        {
+            return new Game(gameConfiguration);
+        }
+
+        public static Game Bare()
+        {
+            RftVector.Map = new Rft(1000, 1000);
+            return new Game();
+        }
+
+        private Game()
+        {
+            GameConfiguration = new GameConfiguration();
+            SetupGameFromConfiguration(GameConfiguration, false);
+        }
 
         /// <summary>
         /// Creates a new game using the provided GameConfiguration. Calling this constructor will trigger
         /// map generation and generate the map based on the GameConfiguration that was passed into the game.
         /// </summary>
         /// <param name="gameConfiguration">Settings that determine how the game should be configured during generation.</param>
-        public Game(GameConfiguration gameConfiguration)
+        private Game(GameConfiguration gameConfiguration)
+        {
+            SetupGameFromConfiguration(gameConfiguration, true);
+        }
+
+        private void SetupGameFromConfiguration(GameConfiguration gameConfiguration, bool shouldGenerateMap = true)
         {
             GameConfiguration = gameConfiguration;
-            SeededRandom = new SeededRandom();
+            SeededRandom = new SeededRandom(gameConfiguration.MapConfiguration.Seed);
             
             // Creates a new game state and makes a time machine to reference the state
             GameState state = new GameState(gameConfiguration.PlayersInLobby.Select(it => new Player(it)).ToList());
             TimeMachine = new TimeMachine(state);
-
-            // Creates the map generator with a random seed
-            MapGenerator mapGenerator = new MapGenerator(gameConfiguration.MapConfiguration, state.GetPlayers(), TimeMachine);
-            
-            // Generate the map
-            List<Outpost> generatedOutposts = mapGenerator.GenerateMap();
-
-            // Add the outposts to the map
-            state.GetOutposts().AddRange(generatedOutposts);
             
             // Create a global currency event.
             GlobalCurrencyProductionEvent.SpawnNewCurrencyEvent(TimeMachine);
+
+            GenerateMap(shouldGenerateMap);
+            
+            // Create a global currency event.
+            GlobalCurrencyProductionEvent.SpawnNewCurrencyEvent(TimeMachine); 
+        }
+
+        private void GenerateMap(bool shouldGenerate)
+        {
+            if (shouldGenerate)
+            {
+                // Creates the map generator with a random seed
+                MapGenerator mapGenerator = new MapGenerator(
+                    GameConfiguration.MapConfiguration,
+                    TimeMachine.GetState().GetPlayers(),
+                    TimeMachine,
+                    SeededRandom
+                );
+            
+                // Generate the map
+                List<Outpost> generatedOutposts = mapGenerator.GenerateMap();
+
+                // Add the outposts to the map
+                TimeMachine.GetState().GetOutposts().AddRange(generatedOutposts);
+            }
         }
 
         public void LoadGameEvents(List<GameRoomEvent> gameEvents)

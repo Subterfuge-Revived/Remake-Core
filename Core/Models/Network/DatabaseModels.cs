@@ -26,8 +26,8 @@ namespace Subterfuge.Remake.Api.Network
 
     public class SimpleUser
     {
-        public string Id { get; set; }
-        public string Username { get; set; }
+        public string Id { get; set; } = "Debug";
+        public string Username { get; set; } = "Debug";
 
         public User ToUser()
         {

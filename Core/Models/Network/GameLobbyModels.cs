@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Subterfuge.Remake.Api.Network
 {
@@ -13,19 +14,22 @@ namespace Subterfuge.Remake.Api.Network
         Expired = 5,
     }
     
-    public class GameConfiguration {
-        public string Id { get; set; }
-        public RoomStatus RoomStatus { get; set; }
-        public User Creator { get; set; }
-        public GameSettings GameSettings { get; set; }
-        public MapConfiguration MapConfiguration { get; set; }
-        public string RoomName { get; set; }
+    public class GameConfiguration
+    {
+        public string Id { get; set; } = "Debug";
+        public RoomStatus RoomStatus { get; set; } = RoomStatus.Ongoing;
+        public User Creator { get; set; } = new SimpleUser().ToUser();
+        public GameSettings GameSettings { get; set; } = new GameSettings();
+        public MapConfiguration MapConfiguration { get; set; } = new MapConfiguration();
+        public string RoomName { get; set; } = "Default";
         public GameVersion GameVersion { get; set; } = GameVersion.ALPHA01;
-        public DateTime TimeCreated { get; set; }
-        public DateTime TimeStarted { get; set; }
+        public DateTime TimeCreated { get; set; } = DateTime.UtcNow;
+        public DateTime TimeStarted { get; set; } = DateTime.UtcNow;
         public DateTime ExpiresAt { get; set; } = DateTime.MaxValue;
-        public List<User> PlayersInLobby { get; set; }
-        public Dictionary<string, List<SpecialistTypeId>> PlayerSpecialistDecks { get; set; }
+        public List<User> PlayersInLobby { get; set; } = new List<User>() { new SimpleUser() { Id = "1", Username = "Test1"}.ToUser(), new SimpleUser(){ Id = "2", Username = "Test2"}.ToUser() };
+
+        public Dictionary<string, List<SpecialistTypeId>> PlayerSpecialistDecks { get; set; } =
+            new Dictionary<string, List<SpecialistTypeId>>();
     }
     
     public enum GameVersion
@@ -36,29 +40,29 @@ namespace Subterfuge.Remake.Api.Network
 
     public class GameSettings
     {
-        public double MinutesPerTick { get; set; }
-        public Goal Goal { get; set; }
-        public Boolean IsRanked { get; set; }
-        public Boolean IsAnonymous { get; set; }
-        public Boolean IsPrivate { get; set; }
-        public int MaxPlayers { get; set; }
+        public double MinutesPerTick { get; set; } = 10;
+        public Goal Goal { get; set; } = Goal.Domination;
+        public Boolean IsRanked { get; set; } = false;
+        public Boolean IsAnonymous { get; set; } = true;
+        public Boolean IsPrivate { get; set; } = false;
+        public int MaxPlayers { get; set; } = 2;
     }
 
     public class MapConfiguration
     {
-        public int Seed { get; set; }
-        public int OutpostsPerPlayer { get; set; }
-        public int MinimumOutpostDistance { get; set; }
-        public int MaximumOutpostDistance { get; set; }
-        public int DormantsPerPlayer { get; set; }
-        public OutpostDistribution OutpostDistribution { get; set; }
+        public int Seed { get; set; } = 1234;
+        public int OutpostsPerPlayer { get; set; } = 1;
+        public int MinimumOutpostDistance { get; set; } = 50;
+        public int MaximumOutpostDistance { get; set; } = 200;
+        public int DormantsPerPlayer { get; set; } = 4;
+        public OutpostDistribution OutpostDistribution { get; set; } = new OutpostDistribution();
     }
 
     public class OutpostDistribution
     {
-        public float GeneratorWeight { get; set; }
-        public float FactoryWeight { get; set; }
-        public float WatchtowerWeight { get; set; }
+        public float GeneratorWeight { get; set; } = 0.45f;
+        public float FactoryWeight { get; set; } = 0.45f;
+        public float WatchtowerWeight { get; set; } = 0.1f;
     }
 
     public enum Goal

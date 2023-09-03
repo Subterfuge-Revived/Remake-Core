@@ -17,6 +17,7 @@ namespace Subterfuge.Remake.Test
     {
         private readonly TestUtils _testUtils = new TestUtils();
         private TimeMachine _timeMachine;
+        private SeededRandom random = new SeededRandom(1234);
         
         List<Player> players = new List<Player>
         {
@@ -31,7 +32,7 @@ namespace Subterfuge.Remake.Test
         {
             _timeMachine = new TimeMachine(new GameState(players));
             GameConfiguration config = new TestUtils().GetDefaultGameConfiguration(players);
-            new Game(config);
+            Game.FromGameConfiguration(config);
         }
 
         [TestMethod]
@@ -47,7 +48,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 5;
             config.MapConfiguration.OutpostsPerPlayer = 7;
 
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             Assert.IsNotNull(generator);
         }
 
@@ -63,7 +64,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 5;
             config.MapConfiguration.OutpostsPerPlayer = 7;
             
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
             Assert.AreEqual(config.PlayersInLobby.Count * (config.MapConfiguration.OutpostsPerPlayer + config.MapConfiguration.DormantsPerPlayer), generatedOutposts.Count);
         }
@@ -80,7 +81,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 5;
             config.MapConfiguration.OutpostsPerPlayer = 7;
             
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
 
             List<Player> playersGenerated = new List<Player>();
@@ -106,7 +107,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 5;
             config.MapConfiguration.OutpostsPerPlayer = 7;
             
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
 
             Dictionary<Player, int> outpostCounts = new Dictionary<Player, int>();
@@ -141,7 +142,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 5;
             config.MapConfiguration.OutpostsPerPlayer = 7;
 
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
 
             // Loop through all unowned outpost and verify that the driller count is 0 for each
@@ -163,7 +164,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 5;
             config.MapConfiguration.OutpostsPerPlayer = 7;
 
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
 
             // Advance the time forward until next shield production
@@ -188,7 +189,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 5;
             config.MapConfiguration.OutpostsPerPlayer = 7;
 
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
 
             // Advance the time forward until next production
@@ -213,7 +214,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 5;
             config.MapConfiguration.OutpostsPerPlayer = 7;
             
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
 
             Dictionary<Player, int> queenCounts = new Dictionary<Player, int>();
@@ -248,7 +249,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 0;
             config.MapConfiguration.OutpostsPerPlayer = 7;
             
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
             
             // Ensure all 7 outposts were generated on top of each other.
@@ -274,7 +275,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 0;
             config.MapConfiguration.OutpostsPerPlayer = 7;
             
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
             
             // Ensure all 7 outposts were generated on top of each other.
@@ -288,7 +289,7 @@ namespace Subterfuge.Remake.Test
         {
             List<Player> players = new List<Player>();
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
-            new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             
         }
         
@@ -299,7 +300,7 @@ namespace Subterfuge.Remake.Test
             // List<Player> players = new List<Player> { new Player("1") };
             GameConfiguration config = _testUtils.GetDefaultGameConfiguration(players);
             config.MapConfiguration.OutpostsPerPlayer = 0;
-            new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             
         }
         
@@ -317,7 +318,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 0;
             config.MapConfiguration.OutpostsPerPlayer = 1;
             
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
             
             // Ensure all 7 outposts were generated
@@ -347,7 +348,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 1;
             config.MapConfiguration.OutpostsPerPlayer = 2;
             
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
             
             // Ensure the distance between outposts is over 199.
@@ -372,7 +373,7 @@ namespace Subterfuge.Remake.Test
             config.MapConfiguration.MinimumOutpostDistance = 20;
             config.MapConfiguration.OutpostsPerPlayer = 3;
             
-            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine);
+            MapGenerator generator = new MapGenerator(config.MapConfiguration, players, _timeMachine, random);
             List<Outpost> generatedOutposts = generator.GenerateMap();
             
             Assert.AreEqual(generatedOutposts.Select(x => x.GetComponent<IdentityManager>().GetName()).Distinct().Count(), generatedOutposts.Count);   

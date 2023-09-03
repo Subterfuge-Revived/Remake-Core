@@ -29,7 +29,7 @@ namespace Subterfuge.Remake.Test
 		{
 			GameConfiguration config = testUtils.GetDefaultGameConfiguration(players);
 			config.MapConfiguration.OutpostsPerPlayer = 10;
-			_game = new Game(config);
+			_game = Game.FromGameConfiguration(config);
 			_tm = _game.TimeMachine;
 			foreach (Outpost o in _tm.GetState().GetPlayerOutposts(players[0]))
 			{
